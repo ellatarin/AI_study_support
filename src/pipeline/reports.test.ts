@@ -123,7 +123,7 @@ const manifest: Manifest = makeManifest({
 				completionTokens: 2400,
 				callCount: 12,
 				costUsd: null,
-				costResolutionError: "the generation endpoint timed out",
+				unknownCostReason: "the generation endpoint timed out",
 			},
 		}),
 		transcription: completedEntry({

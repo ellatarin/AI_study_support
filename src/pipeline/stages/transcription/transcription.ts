@@ -252,9 +252,9 @@ async function priceAudio({
 		const seconds = await readDurationSeconds(audioPath);
 		return { costUsd: (seconds / SECONDS_PER_HOUR) * costPerAudioHourUsd };
 	} catch (error: unknown) {
-		const costResolutionError = `Audio duration lookup failed: ${errorMessage(error)}`;
-		logger.warn({ audioPath, err: error }, costResolutionError);
-		return { costUsd: null, costResolutionError };
+		const unknownCostReason = `Audio duration lookup failed: ${errorMessage(error)}`;
+		logger.warn({ audioPath, err: error }, unknownCostReason);
+		return { costUsd: null, unknownCostReason };
 	}
 }
 

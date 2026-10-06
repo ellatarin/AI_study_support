@@ -79,7 +79,7 @@ describe("createPipelineRunReporter", () => {
 				completionTokens: 0,
 				callCount: 1,
 				costUsd: null,
-				costResolutionError: "lookup timed out",
+				unknownCostReason: "lookup timed out",
 			},
 		});
 

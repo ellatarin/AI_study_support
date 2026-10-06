@@ -357,7 +357,7 @@ function replyCost({
 	if (hasProviderError) {
 		return { costUsd: 0 };
 	}
-	return { costUsd: null, costResolutionError: "Reply carried no numeric usage.cost" };
+	return { costUsd: null, unknownCostReason: "Reply carried no numeric usage.cost" };
 }
 
 /**
@@ -480,7 +480,7 @@ async function sendOnce(
  * its {@link StageCost}. Token counts and the dollar cost are both read from the
  * reply's `usage`, where OpenRouter prices every call. A reply that carries no
  * usable cost does not fail the call — it yields `costUsd: null` with a
- * `costResolutionError` (technical-design.md §6, §7).
+ * `unknownCostReason` (technical-design.md §6, §7).
  *
  * A model call whose reply the SDK accepted but which carries a provider error
  * in place of an answer is sent again, up to three sends, pausing two seconds and then

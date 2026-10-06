@@ -95,7 +95,7 @@ export type StageStatus = "pending" | "running" | "complete" | "failed" | "skipp
  * What establishing a call's cost came to.
  *
  * A discriminated union on `costUsd`: a resolved cost carries a number; one that
- * could not be established carries `null` together with the `costResolutionError`
+ * could not be established carries `null` together with the `unknownCostReason`
  * explaining why.
  * Never zero for an unestablished cost, and never simply absent — a cost that
  * could not be established is reported as unknown (NFR-2.2).
@@ -107,7 +107,7 @@ export type StageStatus = "pending" | "running" | "complete" | "failed" | "skipp
  */
 export type CostResolution =
 	| { readonly costUsd: number }
-	| { readonly costUsd: null; readonly costResolutionError: string };
+	| { readonly costUsd: null; readonly unknownCostReason: string };
 
 /**
  * Token counts and resolved cost for the billable calls a stage made.
@@ -710,7 +710,7 @@ export type RunType = "normal" | "error-recovery" | "experiment";
  *
  * It is also the only one of the two shapes that can describe a stage making no
  * billable calls at all. `StageCost`'s `costUsd: null` arm requires a
- * `costResolutionError`, and a stage that never called anything had no lookup
+ * `unknownCostReason`, and a stage that never called anything had no lookup
  * fail — so unifying the two would mean inventing a reason where there is none.
  */
 export type RunLogCost = {

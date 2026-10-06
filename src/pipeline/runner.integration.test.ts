@@ -436,7 +436,7 @@ describe("PipelineRunner integration", () => {
 		});
 
 		it("should record the unresolved cost and its reason when a stage's cost could not be established", async () => {
-			const costResolutionError = "the generation endpoint timed out";
+			const unknownCostReason = "the generation endpoint timed out";
 			const stage = makeStubStage({
 				stageId: "audio-extraction",
 				run: async () => ({
@@ -446,7 +446,7 @@ describe("PipelineRunner integration", () => {
 						completionTokens: 20,
 						callCount: 1,
 						costUsd: null,
-						costResolutionError,
+						unknownCostReason,
 					},
 					filesWritten: [],
 				}),
@@ -463,7 +463,7 @@ describe("PipelineRunner integration", () => {
 				completionTokens: 20,
 				callCount: 1,
 				costUsd: null,
-				costResolutionError,
+				unknownCostReason,
 			});
 			// The run log records the unresolved cost but not why: `RunLogCost` is the
 			// amount and the call count, and the reason stays on the stage entry.

@@ -49,7 +49,7 @@ describe("accumulateCost", () => {
 			incoming: {
 				...INCOMING_CALL,
 				costUsd: null,
-				costResolutionError: "cost lookup timed out",
+				unknownCostReason: "cost lookup timed out",
 			},
 			expectedError: "cost lookup timed out",
 		},
@@ -58,7 +58,7 @@ describe("accumulateCost", () => {
 			current: {
 				...RUNNING_TOTAL,
 				costUsd: null,
-				costResolutionError: "generation lookup returned 503",
+				unknownCostReason: "generation lookup returned 503",
 			},
 			incoming: { ...INCOMING_CALL, costUsd: 0.03 },
 			expectedError: "generation lookup returned 503",
@@ -68,12 +68,12 @@ describe("accumulateCost", () => {
 			current: {
 				...RUNNING_TOTAL,
 				costUsd: null,
-				costResolutionError: "slide 3 lookup failed",
+				unknownCostReason: "slide 3 lookup failed",
 			},
 			incoming: {
 				...INCOMING_CALL,
 				costUsd: null,
-				costResolutionError: "slide 7 lookup failed",
+				unknownCostReason: "slide 7 lookup failed",
 			},
 			expectedError: "slide 3 lookup failed; slide 7 lookup failed",
 		},
@@ -82,12 +82,12 @@ describe("accumulateCost", () => {
 			current: {
 				...RUNNING_TOTAL,
 				costUsd: null,
-				costResolutionError: "slide 3 lookup failed; reply carried no cost",
+				unknownCostReason: "slide 3 lookup failed; reply carried no cost",
 			},
 			incoming: {
 				...INCOMING_CALL,
 				costUsd: null,
-				costResolutionError: "reply carried no cost",
+				unknownCostReason: "reply carried no cost",
 			},
 			expectedError: "slide 3 lookup failed; reply carried no cost",
 		},
@@ -98,7 +98,7 @@ describe("accumulateCost", () => {
 	}) => {
 		const result = accumulateCost({ current, incoming });
 
-		expect(result).toEqual({ ...FOLDED, costUsd: null, costResolutionError: expectedError });
+		expect(result).toEqual({ ...FOLDED, costUsd: null, unknownCostReason: expectedError });
 	});
 
 	it("should take the incoming cost as it is when nothing has been counted yet", () => {

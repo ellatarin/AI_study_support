@@ -55,15 +55,15 @@ export function accumulateCost({
 
 	if (current.costUsd === null || incoming.costUsd === null) {
 		const errors = [
-			current.costUsd === null ? current.costResolutionError : null,
-			incoming.costUsd === null ? incoming.costResolutionError : null,
+			current.costUsd === null ? current.unknownCostReason : null,
+			incoming.costUsd === null ? incoming.unknownCostReason : null,
 		]
 			.filter((message): message is string => message !== null)
 			.flatMap((message) => message.split(REASON_SEPARATOR));
 		return {
 			...base,
 			costUsd: null,
-			costResolutionError: [...new Set(errors)].join(REASON_SEPARATOR),
+			unknownCostReason: [...new Set(errors)].join(REASON_SEPARATOR),
 		};
 	}
 	return { ...base, costUsd: current.costUsd + incoming.costUsd };

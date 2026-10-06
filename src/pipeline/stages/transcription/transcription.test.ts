@@ -233,7 +233,7 @@ describe("createTranscriptionStage", () => {
 		});
 	});
 
-	it("should record a null cost with costResolutionError when the audio duration cannot be read", async () => {
+	it("should record a null cost with unknownCostReason when the audio duration cannot be read", async () => {
 		stubDurationFailure("ffprobe could not read the container");
 		interceptScribeUpload();
 
@@ -241,7 +241,7 @@ describe("createTranscriptionStage", () => {
 
 		expect(result.cost).toMatchObject({ callCount: 1, costUsd: null });
 		expect(result.cost).toHaveProperty(
-			"costResolutionError",
+			"unknownCostReason",
 			expect.stringContaining("ffprobe could not read the container"),
 		);
 	});
@@ -281,10 +281,7 @@ describe("createTranscriptionStage", () => {
 
 		const result = await runStage(contextWith());
 
-		expect(result.cost).toHaveProperty(
-			"costResolutionError",
-			expect.stringContaining("no duration"),
-		);
+		expect(result.cost).toHaveProperty("unknownCostReason", expect.stringContaining("no duration"));
 	});
 
 	it("should still write the transcript when the audio duration cannot be read", async () => {

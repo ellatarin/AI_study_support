@@ -395,7 +395,7 @@ A stage's context is assembled before its own entry is marked `running`, so the 
 
 - `StageResult.cost` is `null` for stages that make no billable calls (audio-extraction, pdf-generation).
 - `StageResult.filesWritten` holds paths relative to `workspaceRoot`, and MAY escape upward with `..` (e.g. pdf-generation writes to `../../Final output/`) but MUST resolve under `moduleRoot` — enforced by §4.4.
-- `StageCost` is discriminated on `costUsd`: a resolved cost is a `number`; a failed lookup is `null` paired with a `costResolutionError` (see §7).
+- `StageCost` is discriminated on `costUsd`: a resolved cost is a `number`; a failed lookup is `null` paired with an `unknownCostReason` (see §7).
 - `StageResult.identityChanges` holds the lecture-identity fields the stage decided — `lectureTitle`, `aiDerivedTitle`, `baseName` — for the runner to write. Absent and `{}` both mean the stage decided nothing; only `transcript-structuring` ever decides anything. `baseName` is the lecture's canonical base name recorded in the manifest, not the runner's handle on the workspace — the runner locates that itself (§4.7).
 - `lectureTitle` is always non-null — seeded by `source-normalisation`, possibly overwritten by `transcript-structuring` (see §3.2, `transcript-structuring`).
 
@@ -1838,9 +1838,9 @@ Each prefix is matched literally, so one carrying a pattern character means itse
 
 OpenRouter prices every reply in the reply itself: `response.usage.cost` is the call's cost in US dollars, beside `usage.prompt_tokens` and `usage.completion_tokens`. `callModel` reads all three from the reply, so its return value already includes the call's `StageCost`, and **no stage is ever marked `complete` with a cost still to arrive**. The pipeline makes no second request for the price. OpenRouter's `/generation` endpoint also reports it, but its record appears only 10–18 seconds after the reply (measured 2026-09-30), and asking sooner is answered "not found".
 
-If a reply carries no numeric `usage.cost`, the call and the stage still succeed — cost telemetry MUST NOT gate pipeline progress. The manifest and run-log entries record `cost.costUsd = null` along with `cost.costResolutionError` describing why; when a stage's calls go unpriced for the same reason, the reason is recorded once. Tokens and `callCount` are always populated regardless.
+If a reply carries no numeric `usage.cost`, the call and the stage still succeed — cost telemetry MUST NOT gate pipeline progress. The manifest and run-log entries record `cost.costUsd = null` along with `cost.unknownCostReason` describing why; when a stage's calls go unpriced for the same reason, the reason is recorded once. Tokens and `callCount` are always populated regardless.
 
-ElevenLabs returns no price with a transcript, so `transcription` derives transcription cost from the audio's duration (read with `ffprobe`) multiplied by the configured `elevenLabs.costPerAudioHourUsd` (§6). The result is recorded as a normal `StageCost` with `callCount: 1` and zero token counts — Scribe is billed by audio duration, not tokens. If the duration cannot be read, the stage still succeeds and records `costUsd: null` with `costResolutionError`, exactly as an unpriced OpenRouter reply does: cost telemetry MUST NOT gate pipeline progress.
+ElevenLabs returns no price with a transcript, so `transcription` derives transcription cost from the audio's duration (read with `ffprobe`) multiplied by the configured `elevenLabs.costPerAudioHourUsd` (§6). The result is recorded as a normal `StageCost` with `callCount: 1` and zero token counts — Scribe is billed by audio duration, not tokens. If the duration cannot be read, the stage still succeeds and records `costUsd: null` with `unknownCostReason`, exactly as an unpriced OpenRouter reply does: cost telemetry MUST NOT gate pipeline progress.
 
 ### Currency
 

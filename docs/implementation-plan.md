@@ -371,7 +371,7 @@ Stages — unit tests (mock ffmpeg and ffprobe via `vi.mock`; mock ElevenLabs vi
 - `should fail before uploading when ELEVENLABS_API_KEY is $label`
 - `should strip the provider prefix when sending the model ID to ElevenLabs`
 - `should record cost from audio duration and the configured rate when transcription completes`
-- `should record a null cost with costResolutionError when the audio duration cannot be read`
+- `should record a null cost with unknownCostReason when the audio duration cannot be read`
 
 Shared stage helper — integration tests (real filesystem). Every case about a finished stage runs
 twice, once for each of the two statuses that mean the output is on disk (**TD §4.2**), so that the

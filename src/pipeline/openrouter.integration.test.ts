@@ -363,7 +363,7 @@ describe("callModel", () => {
 		expect(result.cost).toMatchObject({
 			callCount: 1,
 			costUsd: null,
-			costResolutionError: expect.stringContaining("usage.cost"),
+			unknownCostReason: expect.stringContaining("usage.cost"),
 		});
 	});
 
