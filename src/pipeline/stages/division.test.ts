@@ -61,6 +61,12 @@ describe("placeCuts", () => {
 		});
 	});
 
+	it("should leave the cut where it is when moving it back would leave the previous subtopic empty", () => {
+		expect(
+			placeCuts({ text: TEXT, startWords: ["Welcome", "So the first", "the first thing"] }),
+		).toEqual({ cuts: [0, at("So the first"), at("the first thing")] });
+	});
+
 	it("should search forward from the previous cut when the start words also appear earlier", () => {
 		const secondMention = TEXT.indexOf("the membrane", at("the membrane") + 1);
 		expect(

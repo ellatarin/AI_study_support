@@ -210,12 +210,14 @@ function foldedIndex({ text }: { readonly text: string }): {
 /**
  * Moves a cut back to the start of its sentence, when the model dropped one or two
  * connectives there. The cut moves only when the text before the connectives ends
- * a sentence. So "lipids and proteins" keeps its cut at "proteins".
+ * a sentence. So "lipids and proteins" keeps its cut at "proteins". The cut does
+ * not move when only connectives are between it and the previous cut, because
+ * the previous subtopic would then have no text.
  *
  * @param args - The text, the cut, and the limit.
  * @param args.text - The transcript.
  * @param args.cut - The position where the start words were found.
- * @param args.notBefore - The previous cut. The cut never moves back past it.
+ * @param args.notBefore - The previous cut. The cut never moves back onto it.
  * @returns The cut, moved back over any connectives at the start of its sentence.
  */
 function overLeadingConnectives({
@@ -246,7 +248,10 @@ function overLeadingConnectives({
 		}
 		position = begin;
 		const before = text.slice(notBefore, begin).trimEnd();
-		if (before === "" || /[.?!]["')\]]?$/u.test(before)) {
+		if (before === "") {
+			return cut;
+		}
+		if (/[.?!]["')\]]?$/u.test(before)) {
 			return position;
 		}
 	}
