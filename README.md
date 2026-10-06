@@ -64,7 +64,7 @@ re-run from it or stop after it.
    titling each subtopic in turn: the most precise short description of what it covers, written for a
    science undergraduate. A subtopic that recaps earlier material is titled as a summary, and the
    lecture's closing part as its summary or close. It comes before grouping, which uses these titles.
-8. **`define-topics`.** Groups the subtopics into **topics**, reading them from last to first with their
+8. **`group-into-topics`.** Groups the subtopics into **topics**, reading them from last to first with their
    titles and full text, and judges whether the lecturer's title is meaningful. Five groupings are
    made. The one most of them give is kept. When two groupings are each given by more than one run and
    tie, the one with more topics is kept; otherwise a tie goes to the one closest to a border-by-border
@@ -151,7 +151,7 @@ lecture-notes change-date <date> <new date>
 | `deepen-subtopic-splitting` | Built |
 | `choose-division` | Built |
 | `retitle-subtopics` | Prototype settled; design being updated, not built |
-| `define-topics` | Prototype settled for grouping; design being updated, not built |
+| `group-into-topics` | Prototype settled for grouping; design being updated, not built |
 | `render-slides` | Designed, not built |
 | `read-slides` | Designed, not built |
 | `verify-slides` | Planned |

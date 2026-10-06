@@ -48,7 +48,7 @@
 		"retitle-subtopics": {
 			"modelId": "<REASONING_MODEL>"
 		},
-		"define-topics": {
+		"group-into-topics": {
 			"modelId": "<REASONING_MODEL>",
 			"concurrency": 9,
 			"sendGapSeconds": 0.5

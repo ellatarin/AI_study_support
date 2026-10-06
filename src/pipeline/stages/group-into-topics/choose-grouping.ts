@@ -1,14 +1,14 @@
 /**
  * Choosing the lecture's topics from the grouping runs: the grouping the most
  * runs made, handed on whole from the earliest run that made it
- * (technical-design.md §5, `define-topics`, "The chosen grouping").
+ * (technical-design.md §5, `group-into-topics`, "The chosen grouping").
  */
 
 import { NamedError } from "../../../utils/errors.js";
 import { distanceFromVote, panelVote } from "../panel-vote.js";
 
 /** The stage could not group the lecture's subtopics into topics. */
-export class DefineTopicsError extends NamedError {}
+export class GroupIntoTopicsError extends NamedError {}
 
 /** One topic of a grouping run: its title, why its subtopics belong together, and where it starts. */
 export type Topic = {
@@ -171,7 +171,7 @@ function decidingRule({
  *
  * @param panel - The grouping runs, in run order, and the support a topic start needs in the vote.
  * @returns The chosen run's topics unchanged, and how it was chosen.
- * @throws {DefineTopicsError} When there are no runs to choose from.
+ * @throws {GroupIntoTopicsError} When there are no runs to choose from.
  */
 export function chooseGrouping(panel: GroupingPanel): {
 	readonly topics: readonly Topic[];
@@ -179,7 +179,7 @@ export function chooseGrouping(panel: GroupingPanel): {
 } {
 	const [chosen, runnerUp] = [...groupingsMade(panel)].sort(byPreference);
 	if (chosen === undefined) {
-		throw new DefineTopicsError("A grouping cannot be chosen from no runs");
+		throw new GroupIntoTopicsError("A grouping cannot be chosen from no runs");
 	}
 	return {
 		topics: chosen.topics,

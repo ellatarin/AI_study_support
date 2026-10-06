@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
 	chooseGrouping,
-	DefineTopicsError,
+	GroupIntoTopicsError,
 	type GroupingChoice,
 	type GroupingRun,
 } from "./choose-grouping.js";
@@ -135,7 +135,7 @@ describe("chooseGrouping", () => {
 	});
 
 	it("should fail when there are no runs to choose from", () => {
-		expect(() => chooseGrouping({ runs: [], bar: BAR })).toThrow(DefineTopicsError);
+		expect(() => chooseGrouping({ runs: [], bar: BAR })).toThrow(GroupIntoTopicsError);
 	});
 
 	it.each([

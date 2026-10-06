@@ -1,7 +1,7 @@
 /**
- * The messages `define-topics` sends: the segmentation prototype's `g23`
+ * The messages `group-into-topics` sends: the segmentation prototype's `g23`
  * prompt in the form that shows each subtopic's title, carried over byte for
- * byte, and every retitled subtopic (technical-design.md §5, `define-topics`;
+ * byte, and every retitled subtopic (technical-design.md §5, `group-into-topics`;
  * "Where prompts live").
  *
  * The prompt is not edited here. Its every rule was measured in the prototype
@@ -86,12 +86,12 @@ Reply with a single JSON object and nothing else, in this exact shape:
 
 \`firstSubtopicId\` is the id of the first subtopic in the topic. Topics appear in order, the first begins at subtopic 1, and each topic runs to the subtopic before the next topic's first. Every subtopic therefore belongs to exactly one topic; do not list them individually and do not leave any out.`;
 
-/** The key a subtopic's position is sent under: the prompt's word for it, not ours to choose. */
-const POSITION_KEY = "id";
+/** The key a subtopic id is sent under. The word "id" is the prompt's word, not ours to choose. */
+const SUBTOPIC_ID_KEY = "id";
 
 /**
  * Builds a grouping run's messages: the `g23` prompt, and every subtopic as
- * its position counting from 1, its title under the prompt's word `label`, and
+ * its subtopic id, its title under the prompt's word `label`, and
  * its text with the blank space at each end removed — the prototype's own
  * payload, so the model reads what the prototype's runs read.
  *
@@ -108,7 +108,7 @@ export function buildGroupingMessages({
 		system: G23_PROMPT,
 		user: JSON.stringify({
 			subtopics: [...subtopics.entries()].map(([index, subtopic]) => ({
-				[POSITION_KEY]: index + 1,
+				[SUBTOPIC_ID_KEY]: index + 1,
 				label: subtopic.title,
 				text: subtopic.text.trim(),
 			})),

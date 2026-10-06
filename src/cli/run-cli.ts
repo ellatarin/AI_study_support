@@ -16,7 +16,7 @@ import { deriveTimestampId, PipelineRunner } from "../pipeline/runner.js";
 import { createAudioExtractionStage } from "../pipeline/stages/audio-extraction/audio-extraction.js";
 import { createChooseDivisionStage } from "../pipeline/stages/choose-division/choose-division.js";
 import { createDeepenSubtopicSplittingStage } from "../pipeline/stages/deepen-subtopic-splitting/deepen-subtopic-splitting.js";
-import { createDefineTopicsStage } from "../pipeline/stages/define-topics/define-topics.js";
+import { createGroupIntoTopicsStage } from "../pipeline/stages/group-into-topics/group-into-topics.js";
 import { createInitialSubtopicSplittingStage } from "../pipeline/stages/initial-subtopic-splitting/initial-subtopic-splitting.js";
 import { createRetitleSubtopicsStage } from "../pipeline/stages/retitle-subtopics/retitle-subtopics.js";
 import { createSourceNormalisationStage } from "../pipeline/stages/source-normalisation/source-normalisation.js";
@@ -92,7 +92,7 @@ async function assembleDeps({
 			createDeepenSubtopicSplittingStage({ logger, client }),
 			createChooseDivisionStage({ logger }),
 			createRetitleSubtopicsStage({ logger, client }),
-			createDefineTopicsStage({ logger, client }),
+			createGroupIntoTopicsStage({ logger, client }),
 			createTranscriptStructuringStage({ logger, client }),
 			createTranscriptVerificationStage({ logger, client }),
 		],

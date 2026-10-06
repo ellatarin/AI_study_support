@@ -776,7 +776,7 @@ Integration tests for `callModel` (stubbed OpenRouter):
 
 **Deliverables:**
 
-`src/pipeline/stages/panel-vote.ts` **(TD §5, `choose-division` and `define-topics`)** — `panelVote` and `distanceFromVote`, built here for any panel of runs given as lists of positions, since `define-topics` (Phase 14) breaks its ties with them.
+`src/pipeline/stages/panel-vote.ts` **(TD §5, `choose-division` and `group-into-topics`)** — `panelVote` and `distanceFromVote`, built here for any panel of runs given as lists of positions, since `group-into-topics` (Phase 14) breaks its ties with them.
 
 `src/pipeline/stages/choose-division/` **(TD §5, `choose-division`)** — `chooseDivision`, which groups cuts into cut sites and chooses the run nearest the vote over them, and the stage around it. Added to `lectureStages`, with its `STAGE_IDS` and `STAGE_FILES` entries and cost-report label.
 
@@ -847,19 +847,19 @@ Unit tests for the stage (mock `callModel`):
 
 ---
 
-## Phase 14 — `define-topics`
+## Phase 14 — `group-into-topics`
 
 **Goal:** Group the retitled subtopics into topics by a panel of nine grouping runs and keep the grouping most of them made. Judging the lecture title is not in this phase.
 
 **Deliverables:**
 
-`src/pipeline/stages/define-topics/` **(TD §5, `define-topics`)** — the stage, its prompt module (the prototype's `g23` with titles, byte for byte), and `choose-grouping.ts` with `chooseGrouping`, which breaks its ties with Phase 12's `panelVote` and `distanceFromVote`. Added to `lectureStages` after `retitle-subtopics`, with its `STAGE_IDS` and `STAGE_FILES` entries and cost-report label.
+`src/pipeline/stages/group-into-topics/` **(TD §5, `group-into-topics`)** — the stage, its prompt module (the prototype's `g23` with titles, byte for byte), and `choose-grouping.ts` with `chooseGrouping`, which breaks its ties with Phase 12's `panelVote` and `distanceFromVote`. Added to `lectureStages` after `retitle-subtopics`, with its `STAGE_IDS` and `STAGE_FILES` entries and cost-report label.
 
 The required `grouping` section — `panelSize` and `bar` — in `PipelineConfig`, its validation, the example config and the user's own; the stage's entry in the example config and the user's own, with `concurrency` 9 and `sendGapSeconds` 0.5 **(TD §6)**.
 
-`sendGapSeconds` **(TD §5, "Dividing the transcript", Panel runs; TD §6, "Three settings say how much runs at once")** — accepted on `define-topics` alone; the panel spaces every send the stage makes, refusals resent by `callModel` included, at least that far apart.
+`sendGapSeconds` **(TD §5, "Dividing the transcript", Panel runs; TD §6, "Three settings say how much runs at once")** — accepted on `group-into-topics` alone; the panel spaces every send the stage makes, refusals resent by `callModel` included, at least that far apart.
 
-`define-topics` declares a stage record, `Topics/choice.json`, written with Phase 12's `writeStageOutputWithStageRecord` **(TD §4.5, "How a result was reached is kept beside the result")**.
+`group-into-topics` declares a stage record, `Topics/choice.json`, written with Phase 12's `writeStageOutputWithStageRecord` **(TD §4.5, "How a result was reached is kept beside the result")**.
 
 **Tests:**
 
@@ -874,7 +874,7 @@ Unit tests for `chooseGrouping` (no mocks):
 - `should report the chosen run, its support, the panel size and the rule that decided when $decidedBy decides` — `test.each` across each rule, and a panel whose runs all agree, decided by most runs
 
 Tests for the stage (mock `callModel`; real temp directory, set up by the `useStageReadingDivision` fixture it shares with `retitle-subtopics`):
-- `should send every retitled subtopic as its position, title as label, and text with the blank space at each end removed when each grouping run is made`
+- `should send every retitled subtopic as its subtopic id, title as label, and text with the blank space at each end removed when each grouping run is made`
 - `should resend a grouping run's call when its reply $problem` — `test.each` across no topics, a blank title, a blank `groupedBecause`, no first subtopic, not starting at 1, a start not after the one before, a start past the last subtopic
 - `should write each topic's title, groupedBecause and first subtopic from the chosen run when the stage completes`
 - `should record beside the topics the chosen run, its support and the deciding rule when the stage completes`
@@ -886,11 +886,11 @@ Tests of the stage's sending (fake timers; stubbed OpenRouter rather than a mock
 - `should start no send until the gap has passed since the stage's previous send when sendGapSeconds is set` — first sends, resent bad replies and resent refusals alike
 - `should not space sends when sendGapSeconds is unset`
 
-Unit tests for the config: as Phase 10, for the `grouping` section, the bar exceeding the panel size included; a `sendGapSeconds` row in the `should throw ConfigError when $case` table naming a stage other than `define-topics`; `should keep a fractional sendGapSeconds when define-topics sets it`.
+Unit tests for the config: as Phase 10, for the `grouping` section, the bar exceeding the panel size included; a `sendGapSeconds` row in the `should throw ConfigError when $case` table naming a stage other than `group-into-topics`; `should keep a fractional sendGapSeconds when group-into-topics sets it`.
 
 **Replay against the prototype:** the prototype's saved `g23` runs on each lecture's `r9`-retitled division (4 per lecture) through `chooseGrouping` at bar 3; each result is compared with the grouping `analysis-2026-09-30/choose_panel.py` chooses from the same runs. That script asks "more topics" even when every run differs, which this rule does not, so a lecture whose runs all differ may disagree; each difference is explained, any other fixed.
 
-**Live run:** `retitle-subtopics` and `define-topics` together on one lecture (about $0.51, stated first): the new titles and the chosen topics beside the prototype's, for the user to read.
+**Live run:** `retitle-subtopics` and `group-into-topics` together on one lecture (about $0.51, stated first): the new titles and the chosen topics beside the prototype's, for the user to read.
 
 **Acceptance:** A lecture gains nine grouping runs and a topics file holding the chosen grouping, with a record beside it of which run, its support and the deciding rule; replay agrees or each difference is explained.
 

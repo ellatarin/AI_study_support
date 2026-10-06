@@ -303,7 +303,7 @@ export async function runStagePanel<TRun>({
 /**
  * {@link runStagePanel} for a panel whose every run is one JSON call, the same
  * request each time, resent until its reply is usable: `initial-subtopic-splitting`'s
- * and `define-topics`'.
+ * and `group-into-topics`'.
  *
  * @param args - The stage, its lecture, the panel's size, how to recognise a saved run, and the call each run makes.
  * @param args.stageId - The panel stage; picks its directory, concurrency, model and tuning.

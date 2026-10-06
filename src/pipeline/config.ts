@@ -315,7 +315,7 @@ function requireDivision(value: unknown): PipelineConfig["division"] {
 /**
  * Validates the `grouping` section: the grouping panel's size, and the bar a
  * topic start must reach in the vote that breaks ties (technical-design.md §5,
- * `define-topics`; §6).
+ * `group-into-topics`; §6).
  *
  * @param value - The raw `grouping` section.
  * @returns The validated section.
@@ -350,7 +350,7 @@ const SINGLE_STAGE_SETTINGS = {
 		because: "the one stage whose run makes more than one call",
 	},
 	sendGapSeconds: {
-		readBy: "define-topics",
+		readBy: "group-into-topics",
 		because: "the one stage that spaces its sends",
 	},
 } as const satisfies Readonly<

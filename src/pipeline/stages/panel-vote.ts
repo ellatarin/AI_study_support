@@ -1,8 +1,8 @@
 /**
  * The vote a panel's runs cast, and how far one run stands from it — shared by
  * `choose-division`, which chooses the run nearest the vote, and
- * `define-topics`, which breaks its ties by it (technical-design.md §5,
- * `choose-division` and `define-topics`).
+ * `group-into-topics`, which breaks its ties by it (technical-design.md §5,
+ * `choose-division` and `group-into-topics`).
  *
  * Each run is given as the positions it marks, each at most once: the cut sites
  * a splitting run cuts at, or the subtopics a grouping run starts a topic at.

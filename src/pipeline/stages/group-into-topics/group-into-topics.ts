@@ -1,7 +1,7 @@
 /**
- * `define-topics`: groups the retitled subtopics into topics by a panel of
+ * `group-into-topics`: groups the retitled subtopics into topics by a panel of
  * grouping runs with the prototype's `g23` prompt, and keeps the grouping the
- * most runs made (technical-design.md §5, `define-topics`).
+ * most runs made (technical-design.md §5, `group-into-topics`).
  */
 
 /* jscpd:ignore-start -- the model-calling stages pull in the same pipeline types,
@@ -22,15 +22,15 @@ import { writeStageOutputWithStageRecord } from "../pipeline-stage.js";
 import { readTranscriptAndDivision, type TranscriptAndDivision } from "../stage-input.js";
 import {
 	chooseGrouping,
-	DefineTopicsError,
+	GroupIntoTopicsError,
 	type GroupingRun,
 	type Topic,
 } from "./choose-grouping.js";
-import { buildGroupingMessages } from "./define-topics.prompt.js";
+import { buildGroupingMessages } from "./group-into-topics.prompt.js";
 
 /* jscpd:ignore-end */
 
-const STAGE_ID = "define-topics";
+const STAGE_ID = "group-into-topics";
 
 /** One topic as the `g23` prompt asks for it: its title and reason, and the subtopic it starts at. */
 type ReplyTopic = TitledReplyPart & { readonly firstSubtopicId: number };
@@ -154,7 +154,7 @@ function readGroupingRun(value: unknown): GroupingRun | null {
 }
 
 /** What the stage hands on: the chosen run's topics, in order. */
-type DefineTopicsOutput = { readonly topics: readonly Topic[] };
+type GroupIntoTopicsOutput = { readonly topics: readonly Topic[] };
 
 /**
  * Changes a grouping run, as the model replied, into the run that is saved and
@@ -186,10 +186,10 @@ function asGroupingRun(reply: GroupingReply): GroupingRun {
  * @param args.client - The OpenAI client the calls go through.
  * @returns The chosen topics, what this launch's calls cost, and every file written.
  */
-async function defineTopics(
+async function groupIntoTopics(
 	// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger and the OpenAI client carry mutable properties the rule cannot see past; both are only read from here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
 	args: ModelStageRunArgs<TranscriptAndDivision>,
-): Promise<StageResult<DefineTopicsOutput>> {
+): Promise<StageResult<GroupIntoTopicsOutput>> {
 	const { context } = args;
 	const panel = await makeGroupingRuns(args);
 	const { topics, choice } = chooseGrouping({
@@ -249,19 +249,21 @@ function makeGroupingRuns(
 }
 
 /**
- * Builds the `define-topics` stage from the run's logger and the invocation's
+ * Builds the `group-into-topics` stage from the run's logger and the invocation's
  * OpenAI client. It starts from the transcript and the retitled division, and
- * fails with a {@link DefineTopicsError} when either is missing or unreadable.
+ * fails with a {@link GroupIntoTopicsError} when either is missing or unreadable.
  */
-export const createDefineTopicsStage: ModelStageFactory<TranscriptAndDivision, DefineTopicsOutput> =
-	defineModelStage({
-		stageId: STAGE_ID,
-		getInput: (context) =>
-			readTranscriptAndDivision({
-				context,
-				stageId: "retitle-subtopics",
-				purpose: "group",
-				fail: (message) => new DefineTopicsError(message),
-			}),
-		run: defineTopics,
-	});
+export const createGroupIntoTopicsStage: ModelStageFactory<
+	TranscriptAndDivision,
+	GroupIntoTopicsOutput
+> = defineModelStage({
+	stageId: STAGE_ID,
+	getInput: (context) =>
+		readTranscriptAndDivision({
+			context,
+			stageId: "retitle-subtopics",
+			purpose: "group",
+			fail: (message) => new GroupIntoTopicsError(message),
+		}),
+	run: groupIntoTopics,
+});

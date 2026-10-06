@@ -39,7 +39,7 @@ export const STAGE_IDS = [
 	"deepen-subtopic-splitting",
 	"choose-division",
 	"retitle-subtopics",
-	"define-topics",
+	"group-into-topics",
 	"transcript-structuring",
 	"transcript-verification",
 	"slide-conversion",
@@ -133,7 +133,7 @@ type StageTuning = {
 	readonly callConcurrency?: number;
 	/**
 	 * The least time, in seconds, between the starts of two of the stage's
-	 * sends, resends included. Only `define-topics` reads it; set on any other
+	 * sends, resends included. Only `group-into-topics` reads it; set on any other
 	 * stage it is refused at load (technical-design.md §6).
 	 */
 	readonly sendGapSeconds?: number;
@@ -244,7 +244,7 @@ export type PipelineConfig = {
 	};
 	/**
 	 * How the subtopics are grouped into topics by a panel of grouping runs
-	 * (technical-design.md §5, `define-topics`): the bar is the support a topic
+	 * (technical-design.md §5, `group-into-topics`): the bar is the support a topic
 	 * start needs in the vote that breaks ties.
 	 */
 	readonly grouping: PanelSettings;

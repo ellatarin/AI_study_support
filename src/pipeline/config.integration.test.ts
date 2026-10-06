@@ -354,9 +354,9 @@ describe("loadConfig stage tuning", () => {
 		expect(stage?.modelId).toBe(STRUCTURING_MODEL_ID);
 	});
 
-	it("should keep a fractional sendGapSeconds when define-topics sets it", async () => {
+	it("should keep a fractional sendGapSeconds when group-into-topics sets it", async () => {
 		await writeValidConfig((config) => {
-			configuredStages(config)["define-topics"] = {
+			configuredStages(config)["group-into-topics"] = {
 				modelId: STRUCTURING_MODEL_ID,
 				sendGapSeconds: 0.5,
 			};
@@ -365,7 +365,7 @@ describe("loadConfig stage tuning", () => {
 
 		const loaded = await loadConfig({ projectRoot });
 
-		expect(loaded.stages["define-topics"]?.sendGapSeconds).toBe(0.5);
+		expect(loaded.stages["group-into-topics"]?.sendGapSeconds).toBe(0.5);
 	});
 });
 
@@ -710,7 +710,7 @@ const shapeCases: readonly ShapeCase[] = [
 	},
 	{
 		// Only grouping spaces its sends, so on any other stage it would silently do nothing.
-		name: "sendGapSeconds is set on a stage other than define-topics",
+		name: "sendGapSeconds is set on a stage other than group-into-topics",
 		mutate: (config: Record<string, unknown>) => {
 			structuringStage(config).sendGapSeconds = 0.5;
 		},

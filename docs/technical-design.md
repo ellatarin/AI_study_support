@@ -180,12 +180,12 @@ Lecture 1 - Disease Cell Injury and the Immune System - 2025-10-10/
 │   └── changes.json                           # retitle-subtopics — which titles changed
 │
 ├── Grouping runs/
-│   ├── run-01.json                            # define-topics — one file per grouping run
+│   ├── run-01.json                            # group-into-topics — one file per grouping run
 │   └── ...
 │
 ├── Topics/
-│   ├── topics.json                            # define-topics — the chosen grouping
-│   └── choice.json                            # define-topics — which run, its support, and the rule that decided
+│   ├── topics.json                            # group-into-topics — the chosen grouping
+│   └── choice.json                            # group-into-topics — which run, its support, and the rule that decided
 │
 ├── Structured transcript/
 │   └── structured-transcript.md              # transcript-structuring
@@ -283,7 +283,7 @@ type StageFiles = {
   stageRecord: string | null
 }
 // `stageRecord` is a small JSON file beside `outputFile` saying how the stage reached it — which run a panel chose
-// and why, or which titles changed. choose-division, retitle-subtopics and define-topics declare one
+// and why, or which titles changed. choose-division, retitle-subtopics and group-into-topics declare one
 // (§4.5, "How a result was reached is kept beside the result"). It is recorded in `filesWritten` and cleared
 // with the output, so the two cannot come apart.
 // `markdownVersion` is a second file holding the same content as `outputFile` in a form a person reads, written
@@ -299,7 +299,7 @@ STAGE_FILES = { … } satisfies Readonly<Record<StageId, StageFiles>>
 // splitting run; image-extraction; qa-loop), and for pdf-generation, whose one file lands
 // outside the workspace where a workspace-relative path cannot reach it. slide-conversion produces a set too —
 // one markdown file per slide — but concatenates it into `Slide content/slides.md`, which is the single file
-// the stage after it reads. define-topics works in two directories, `Grouping runs/` and `Topics/`, and its
+// the stage after it reads. group-into-topics works in two directories, `Grouping runs/` and `Topics/`, and its
 // file is `Topics/topics.json`.
 // Declared as the literal it is rather than annotated as the map, so the compiler keeps which stages carry a
 // file; `satisfies` still proves every stage appears, so one added to StageId and forgotten here fails to
@@ -375,7 +375,7 @@ Because all other files inside the workspace use simple names, only the four lec
 | `deepen-subtopic-splitting` | Per-lecture | In each splitting run, divide further every subtopic over the size gate |
 | `choose-division` | Per-lecture | Vote on where the splitting runs divide the transcript, and keep the run nearest the vote; no model call |
 | `retitle-subtopics` | Per-lecture | Give every subtopic of the chosen division a new title from its own text, in one call over the whole lecture |
-| `define-topics` | Per-lecture | Group the retitled subtopics into topics: a panel of grouping runs, and the grouping most of them made |
+| `group-into-topics` | Per-lecture | Group the retitled subtopics into topics: a panel of grouping runs, and the grouping most of them made |
 | `transcript-structuring` | Per-lecture | Determine AI title from transcript; structure transcript into markdown; conditionally rename files if original title was non-descriptive |
 | `transcript-verification` | Per-lecture | Compare the structured transcript against the raw one; report what was lost, underexplained, distorted, or invented. Reports only — never fails a run |
 | `slide-conversion` | Per-lecture | Render PDF slides as images; extract content via vision LLM |
@@ -641,7 +641,7 @@ Each stage entry records `configUsed` — a `StageConfigUsed` capturing the mode
       "cost": { "promptTokens": 15100, "completionTokens": 2400, "costUsd": 0.06, "callCount": 1 },
       "filesWritten": ["Retitled subtopics/subtopics.json", "Retitled subtopics/changes.json"]
     },
-    "define-topics": {
+    "group-into-topics": {
       "status": "complete",
       "completedAt": "...",
       "configUsed": { "modelId": "openai/gpt-6.1-sol-pro", "concurrency": 5, "sendGapSeconds": 0.5 },
@@ -708,7 +708,7 @@ Each stage's `cost` is the only record of what that stage cost, and the manifest
 
 **A stage may record facts of its own in its entry.** `qa-loop` records its iterations and why it stopped. The stage returns them on its `StageResult`, the runner writes them with the `complete` entry, and a `skipped` entry carries them over from the entry it replaces. Each such stage has its own entry type, keyed to its stage id in `ManifestStages`.
 
-**How a result was reached is kept beside the result, not here.** `choose-division`, `retitle-subtopics` and `define-topics` each write a small record next to their output saying how they reached it — which run was chosen and why, or which titles changed (§3.3; §5). The manifest is the run's bookkeeping: whether a stage ran, what it cost, and what it wrote. A record describes the result, so it is written and cleared with the result and listed in `filesWritten` like it, and no skip or re-run can separate the two.
+**How a result was reached is kept beside the result, not here.** `choose-division`, `retitle-subtopics` and `group-into-topics` each write a small record next to their output saying how they reached it — which run was chosen and why, or which titles changed (§3.3; §5). The manifest is the run's bookkeeping: whether a stage ran, what it cost, and what it wrote. A record describes the result, so it is written and cleared with the result and listed in `filesWritten` like it, and no skip or re-run can separate the two.
 
 **`running` status is written before a stage begins.** A crash mid-stage leaves `running` in the manifest, which is treated as `failed` on next launch — the stage re-runs from scratch, except that a panel stage keeps the runs it already saved (§8, "Intra-Stage Resumability").
 
@@ -1101,11 +1101,11 @@ Three stages turn the transcript into subtopics. No single splitting run is reli
 
 The design was settled in the segmentation prototype (`docs/quality/segmentation-prototype/`), which holds the measurements behind every number below. The prompts are the prototype's `s6` and `d13`, carried over word for word. Only what produces the division is carried over: the prototype's rulings, rubrics, scoring and ledgers are how the prompts were tested, stay in the prototype, and appear nowhere in the pipeline.
 
-These three stages, `retitle-subtopics` and `define-topics` (below) run after transcription and before transcript structuring, which is unchanged (§4.1).
+These three stages, `retitle-subtopics` and `group-into-topics` (below) run after transcription and before transcript structuring, which is unchanged (§4.1).
 
 **No check step follows them.** Every other stage where a model transforms content is followed by a separate check (README, "All work is verified with separate models"). These four transform nothing: the model says only where the transcript divides and how subtopics group, and the text is sliced by code, so losslessness is guaranteed rather than checked. What remains to judge — whether a cut or a grouping is well placed — is what the panel settles: a cut survives only where enough runs agree, and a grouping is the one most of the panel made. No checker exists for that judgement, and one would have to be designed and calibrated before its verdict could be trusted.
 
-**Panel runs.** The two splitting stages and `define-topics` each make a panel of independent runs, and share one behaviour around the model call:
+**Panel runs.** The two splitting stages and `group-into-topics` each make a panel of independent runs, and share one behaviour around the model call:
 
 - Runs are made a few at a time, as many at once as the stage's `concurrency` setting (§6) allows; unset, they are made one at a time.
 - Once a run fails, no further run is started. Runs already in flight are let finish, and are saved, before the stage fails, so what they cost is not paid again on relaunch.
@@ -1157,7 +1157,7 @@ Makes no model call. The panel votes on where the transcript divides, and the de
 
 **The vote.** The cuts of all the deepened splitting runs are pooled and sorted by position, and grouped into cut sites: a cut belongs to the current cut site when it lies within one percent of the transcript's length of that site's **first** cut, and otherwise opens a new one. Measuring from the first cut rather than the latest stops a site growing cut by cut until it has swallowed a neighbour. A run cuts at a cut site when any of its cuts lies between the site's first and last cut widened by half a percent of the transcript's length each way, so a cut just outside the site still counts for it, and one cut can count for two sites close together; this is the prototype's rule, kept exactly so the stage chooses what the prototype chose. A cut site's support is the number of runs that cut at it; one with support of at least `bar` is kept. The vote is the set of kept cut sites. It is never written out as a division of its own: it is what the runs are measured against.
 
-**Choosing the run.** Each run's division is read as the set of cut sites it cuts at. Its distance from the vote is the number of cut sites where one of the two cuts and the other does not, and the run with the smallest distance is chosen. A tie goes to the tied run closest to all the others — its distance to each other run's division, summed — and then to the earliest run, so the same panel always yields the same division. `define-topics` chooses its grouping by a rule of its own (below), which uses closeness to the vote only to break a tie; the two stages share the vote and the distance from it — given each run as a set of positions and a bar — and not the chooser.
+**Choosing the run.** Each run's division is read as the set of cut sites it cuts at. Its distance from the vote is the number of cut sites where one of the two cuts and the other does not, and the run with the smallest distance is chosen. A tie goes to the tied run closest to all the others — its distance to each other run's division, summed — and then to the earliest run, so the same panel always yields the same division. `group-into-topics` chooses its grouping by a rule of its own (below), which uses closeness to the vote only to break a tie; the two stages share the vote and the distance from it — given each run as a set of positions and a bar — and not the chooser.
 
 A whole run is one reading of the lecture: every boundary, title and reason in it comes from the same run. The vote alone can put together a division no run made, whose titles would come from different runs. On the prototype's `d13` runs the nearest run is as steady and as accurate as the vote itself: two panels of nine disagree on 3.34 cut sites across the eight lectures against the vote's 3.26, and a panel makes 3.09 errors against the user's rulings against the vote's 3.03 (`docs/quality/segmentation-prototype/AGGREGATION.md`).
 
@@ -1199,7 +1199,7 @@ readTranscriptAndRuns(args: { context; panelStage: "initial-subtopic-splitting" 
 // The transcript and the whole panel an earlier splitting stage saved — what deepening and choose-division start
 // from. A missing run is the error `fail` builds, telling the user to run that stage first.
 readTranscriptAndDivision(args: { context; stageId: StageWithOutputFile; purpose: string; fail }): Promise<TranscriptAndDivision>
-// The transcript and the division an earlier stage wrote — what retitle-subtopics and define-topics start from.
+// The transcript and the division an earlier stage wrote — what retitle-subtopics and group-into-topics start from.
 
 // src/pipeline/stages/division.ts
 splittingPanel(context: StageContext): { panelSize: number; readRun }
@@ -1208,9 +1208,9 @@ splittingPanel(context: StageContext): { panelSize: number; readRun }
 // src/pipeline/stages/panel-runs.ts — shared by the panel stages
 runStagePanel<TRun>(args: { stageId: StageId; context: StageContext; panelSize: number; readRun; makeRun }): Promise<StageResult<{ runs: readonly TRun[] }>>
 // Makes the stage's panel in its own directory at its configured concurrency; a run needing no call reports no cost.
-// The panel's size is the caller's: the splitting stages pass the division's, define-topics the grouping's.
+// The panel's size is the caller's: the splitting stages pass the division's, group-into-topics the grouping's.
 runOneCallPanel<TReply, TRun>(args: { stageId; context; panelSize; readRun; runName: string; request }): Promise<StageResult<{ runs: readonly TRun[] }>>
-// runStagePanel where every run is the same one JSON call: initial-subtopic-splitting and define-topics.
+// runStagePanel where every run is the same one JSON call: initial-subtopic-splitting and group-into-topics.
 sendJsonWithResends<TReply, TKept>(args: JsonReplyRequest<TReply> & { what: string; use }): Promise<UsableJsonReply<TKept>>
 // tryJsonReplyAs, resent until usable: every call the splitting, retitling and grouping stages make.
 readPanel<TRun>(args: { panelSize: number; directory: string; readRun; fail }): Promise<readonly TRun[]>
@@ -1218,7 +1218,7 @@ readPanel<TRun>(args: { panelSize: number; directory: string; readRun; fail }): 
 // Reads back a panel an earlier stage finished; a missing run throws the error `fail` builds.
 panelDirectory(args: { workspaceRoot: string; stageId: StageId }): string
 
-// src/pipeline/stages/panel-vote.ts — shared by choose-division and define-topics
+// src/pipeline/stages/panel-vote.ts — shared by choose-division and group-into-topics
 panelVote(args: { runs: readonly (readonly number[])[]; bar: number }): readonly number[]
 // The positions whose support reaches the bar. Pure: each run as the positions it marks (cut sites, or
 // subtopics starting a topic), in run order.
@@ -1241,7 +1241,7 @@ chooseDivision(args: { text: string; runs: readonly (readonly Subtopic[])[]; bar
 **Input:** `Transcript/transcript.txt`, `Chosen division/subtopics.json`
 **Output:** `Retitled subtopics/subtopics.json`
 
-Gives every subtopic of the chosen division a new title from its own text (CONTEXT.md, "Retitling"). Only titles change: no cut moves, and the transcript is untouched. It runs before `define-topics`, which groups on the new titles (below). Deepening leaves some subtopics with a title written for the larger piece they were cut from (CONTEXT.md, "Inherited title"); rather than find those, every title is replaced, so the whole lecture is titled in one pass to one standard.
+Gives every subtopic of the chosen division a new title from its own text (CONTEXT.md, "Retitling"). Only titles change: no cut moves, and the transcript is untouched. It runs before `group-into-topics`, which groups on the new titles (below). Deepening leaves some subtopics with a title written for the larger piece they were cut from (CONTEXT.md, "Inherited title"); rather than find those, every title is replaced, so the whole lecture is titled in one pass to one standard.
 
 The prompt is the prototype's `r9`, carried over word for word. It asks for the most precise short description of what each subtopic covers, written for a science undergraduate, and for a subtopic that recaps earlier material to be titled as a summary and the lecture's closing part as its summary or close. Its model is set per stage (§6); the prototype's is `openai/gpt-6.1-sol-pro`, sent no reasoning-effort setting, so the provider's default applies. The user judged its titles precise and stable enough across repeated runs to rely on one (`docs/quality/segmentation-prototype/RETITLING-AND-REVERSE-GROUPING.md`).
 
@@ -1255,7 +1255,7 @@ The stage fails when the chosen division's subtopics are missing or unreadable, 
 
 ---
 
-### `define-topics` — grouping subtopics into topics
+### `group-into-topics` — grouping subtopics into topics
 
 **Input:** `Transcript/transcript.txt`, `Retitled subtopics/subtopics.json`
 **Output:** `Grouping runs/run-01.json` … `run-05.json`, `Topics/topics.json`
@@ -1266,7 +1266,7 @@ Grouping sees the new titles, not the chosen run's own. An earlier design groupe
 
 This build groups only. One further job belongs to this stage and is not yet designed: judging whether the lecturer's title is meaningful.
 
-**One grouping run.** The model is sent every retitled subtopic in order, each as its position (counting from 1), its title and its full text, trimmed; the prompt calls a title a `label`, so it is sent under that name. It replies with a list of topics, each a title (the reply's `label`, read as `title`), a one-sentence `groupedBecause`, and the position of its first subtopic, so a topic can only begin where a subtopic does and the text cannot be touched. A reply is valid when it is a JSON object with a non-empty list of topics; every topic has a non-empty title, a non-empty `groupedBecause` and a first subtopic; the first topic starts at subtopic 1; each later start comes after the one before; and no start is past the last subtopic. Together these put every subtopic in exactly one topic. Anything else is a wrong shape and takes the panel's retry (§5, "Dividing the transcript", Panel runs). The finish reason the provider reports is not one of the checks: `openai/gpt-6.1-sol-pro` sometimes reports `error` on a complete reply, and four such `g23` replies are among those the user accepted. Each run is saved with the reply's `label` as `title`, as the chosen topics are written.
+**One grouping run.** The model is sent every retitled subtopic in order, each as its subtopic id, its title and its full text, trimmed; the prompt calls a title a `label`, so it is sent under that name. It replies with a list of topics, each a title (the reply's `label`, read as `title`), a one-sentence `groupedBecause`, and the subtopic id of its first subtopic, so a topic can only begin where a subtopic does and the text cannot be touched. A reply is valid when it is a JSON object with a non-empty list of topics; every topic has a non-empty title, a non-empty `groupedBecause` and a first subtopic; the first topic starts at subtopic 1; each later start comes after the one before; and no start is past the last subtopic. Together these put every subtopic in exactly one topic. Anything else is a wrong shape and takes the panel's retry (§5, "Dividing the transcript", Panel runs). The finish reason the provider reports is not one of the checks: `openai/gpt-6.1-sol-pro` sometimes reports `error` on a complete reply, and four such `g23` replies are among those the user accepted. Each run is saved with the reply's `label` as `title`, as the chosen topics are written.
 
 **Sending.** The nine runs are released together, and every send waits until at least `sendGapSeconds` after the stage's previous send (Panel runs, above). In the prototype, several `openai/gpt-6.1-sol-pro` calls at once were taken to be rate-limited upstream, though no refusal message was kept to show it; spacing the sends keeps first sends and resends from landing together, and a refused send is resent (§6, "A rejection can arrive inside an accepted reply"), so a rate limit costs a pause rather than the stage.
 
@@ -1281,7 +1281,7 @@ The panel is 9 runs and the bar 5, more than half the panel. Some stretches of a
 The stage fails when the retitled subtopics are missing or unreadable, and when a run fails its third send.
 
 ```typescript
-// src/pipeline/stages/define-topics/choose-grouping.ts
+// src/pipeline/stages/group-into-topics/choose-grouping.ts
 type Topic = { title: string; groupedBecause: string; firstSubtopicId: number }
 type GroupingRun = { topics: readonly Topic[] }
 type GroupingChoice = {
@@ -1702,7 +1702,7 @@ A reply that carries the provider's error and an answer as well — a choice who
 
 **A tuning parameter can be left unset out loud.** Every optional field of a stage entry — `temperature`, `maxTokens`, `concurrency`, `callConcurrency`, `sendGapSeconds`, `maxIterations` — may be written as `null`, which means what leaving the key out means: the request carries no such parameter. There are two ways to say it because the choice is worth writing down. Under the routing restriction above, the parameters a request carries decide which endpoints may serve it, and providers differ in what they accept — the same model reached through one provider takes a `temperature` and through another does not. Which tuning a stage sets is therefore part of choosing what can answer it, and a `null` records a deliberate omission beside the tuning that is set, where a missing key reads as an oversight.
 
-**Three settings say how much runs at once.** `batch.concurrency` is how many lectures a batch runs at once (§4.7). A stage's `concurrency` is how many of its runs, slides or images are in flight at once. `callConcurrency` is how many calls one run makes at once, and only `deepen-subtopic-splitting` has one: it is the only stage whose run makes more than one call (§5). Unset, runs and calls are each made one at a time. `sendGapSeconds` is the least time between two of a stage's sends, and only `define-topics` has one (§5, "Dividing the transcript", Panel runs); unset, sends are not spaced. Either setting on any other stage would be read by nothing, so it is a `ConfigError` at startup naming the stage, rather than a setting that silently does nothing.
+**Three settings say how much runs at once.** `batch.concurrency` is how many lectures a batch runs at once (§4.7). A stage's `concurrency` is how many of its runs, slides or images are in flight at once. `callConcurrency` is how many calls one run makes at once, and only `deepen-subtopic-splitting` has one: it is the only stage whose run makes more than one call (§5). Unset, runs and calls are each made one at a time. `sendGapSeconds` is the least time between two of a stage's sends, and only `group-into-topics` has one (§5, "Dividing the transcript", Panel runs); unset, sends are not spaced. Either setting on any other stage would be read by nothing, so it is a `ConfigError` at startup naming the stage, rather than a setting that silently does nothing.
 
 **A stage key names a stage.** Every key of the `stages` section is checked against the stage IDs, and one that names no stage is a `ConfigError` at startup listing the stages it could have named. Configuration reaches a stage by its key alone, so this check is what makes "the stage is configured" and "the config file mentions the stage" the same statement.
 
@@ -1728,7 +1728,7 @@ Each prefix is matched literally, so one carrying a pattern character means itse
 
 **`output.language` is a closed set, and every stage that writes prose obeys it.** The tag is checked at load against `OUTPUT_LANGUAGES`, which maps each tag to the name a prompt calls it by; a tag with no name is refused at startup, listing the ones it could have been. The pairing is the point — "Write in en-GB" is not an instruction a model can follow, so a language cannot be offered in config without wording for the prompts to use. `languageRule` in `src/utils/language.ts` builds that sentence, and every prose stage's prompt includes it rather than wording the rule itself, so the stages cannot drift into instructing the model differently. `transcript-structuring` is the only such stage built; `transcript-verification`, `slide-conversion`, `image-extraction` and `synthesis` join it as they are.
 
-**The division and grouping settings are required sections.** `division` and `grouping` carry the panel sizes, the bars and the size gate (§5, "Dividing the transcript" and `define-topics`). Like every other section they must be present, and a missing or mistyped field is a `ConfigError` at startup. Neither bar may exceed its section's panel size, since nothing could then be kept. Each is a whole number of at least 1.
+**The division and grouping settings are required sections.** `division` and `grouping` carry the panel sizes, the bars and the size gate (§5, "Dividing the transcript" and `group-into-topics`). Like every other section they must be present, and a missing or mistyped field is a `ConfigError` at startup. Neither bar may exceed its section's panel size, since nothing could then be kept. Each is a whole number of at least 1.
 
 **So is the batch section.** `batch.concurrency` is how many lectures `batch` runs at once, a whole number of at least 1, and `--concurrency N` overrides it for one command (§4.7). It is required rather than defaulted so the file says how wide a batch runs; the example sets 1.
 
@@ -1773,7 +1773,7 @@ Each prefix is matched literally, so one carrying a pattern character means itse
     "retitle-subtopics": {
       "modelId": "<REASONING_MODEL>"              // called once per lecture with every subtopic's text
     },
-    "define-topics": {
+    "group-into-topics": {
       "modelId": "<REASONING_MODEL>",             // called once per grouping run with every subtopic's title and text
       "concurrency": 9,
       "sendGapSeconds": 0.5                       // least time between two sends, resends included
@@ -2039,7 +2039,7 @@ Items 4 and 5 split one job in two, because the two audiences need different thi
 
 ### Intra-Stage Resumability
 
-**Panel stages.** `initial-subtopic-splitting`, `deepen-subtopic-splitting` and `define-topics` save each run to its own file the moment it is complete. On restart after a `failed` or interrupted stage, the runs already saved are read back and only the missing ones are made; the stage is marked `complete` once every run in the panel is present and its result is written (§5, "Dividing the transcript", Panel runs). A reset with `--from-stage` still clears the stage's directories, runs included.
+**Panel stages.** `initial-subtopic-splitting`, `deepen-subtopic-splitting` and `group-into-topics` save each run to its own file the moment it is complete. On restart after a `failed` or interrupted stage, the runs already saved are read back and only the missing ones are made; the stage is marked `complete` once every run in the panel is present and its result is written (§5, "Dividing the transcript", Panel runs). A reset with `--from-stage` still clears the stage's directories, runs included.
 
 **Slide Conversion.** Each slide's extracted markdown is written to `Slide content/raw/slide-{003d}.md` immediately after its API call completes. On restart after a `failed` stage, the runner checks for each per-slide file before making its API call — already-processed slides are skipped. The stage is only marked `complete` once all slides have been assembled into `Slide content/slides.md`.
 
@@ -2099,9 +2099,9 @@ src/
 │       ├── initial-subtopic-splitting/  # stage module and its s6 prompt module
 │       ├── deepen-subtopic-splitting/   # stage module and its d13 prompt module
 │       ├── choose-division/          # no model call, no prompt
-│       ├── panel-vote.ts             # The vote and the distance from it — shared by choose-division and define-topics
+│       ├── panel-vote.ts             # The vote and the distance from it — shared by choose-division and group-into-topics
 │       ├── retitle-subtopics/        # stage module and its r9 prompt module
-│       ├── define-topics/            # stage module, its g23 prompt module, choose-grouping.ts
+│       ├── group-into-topics/            # stage module, its g23 prompt module, choose-grouping.ts
 │       ├── transcript-structuring/   # stage module and its prompt module
 │       ├── transcript-verification/  # stage module, prompt module and the verification report Markdown
 │       ├── slide-conversion/         # PDF render + per-slide vision LLM

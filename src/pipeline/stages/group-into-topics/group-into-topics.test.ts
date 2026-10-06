@@ -25,8 +25,8 @@ import {
 } from "../../layout.js";
 import { callModel } from "../../openrouter.js";
 import { ResendsExhaustedError } from "../panel-runs.js";
-import { DefineTopicsError } from "./choose-grouping.js";
-import { createDefineTopicsStage } from "./define-topics.js";
+import { GroupIntoTopicsError } from "./choose-grouping.js";
+import { createGroupIntoTopicsStage } from "./group-into-topics.js";
 
 // Only the call is stubbed; everything else the module exports stays real.
 vi.mock(import("../../openrouter.js"), async (importOriginal) => ({
@@ -37,7 +37,7 @@ vi.mock(import("../../openrouter.js"), async (importOriginal) => ({
 const modelCallMock = callModel as unknown as Mock;
 /* jscpd:ignore-end */
 
-const STAGE_ID = "define-topics";
+const STAGE_ID = "group-into-topics";
 
 /** A grouping reply holding `topics`, each as the prompt asks for it. */
 function replyOf(...topics: readonly Readonly<Record<string, unknown>>[]): string {
@@ -70,11 +70,11 @@ const GOOD_TOPICS = [OPENING_TOPIC, SUBJECT_TOPIC].map(
 	}),
 );
 
-describe("createDefineTopicsStage", () => {
+describe("createGroupIntoTopicsStage", () => {
 	const { config, workspaceRoot, run } = useStageReadingDivision({
 		stageId: STAGE_ID,
 		readsFrom: "retitle-subtopics",
-		factory: createDefineTopicsStage,
+		factory: createGroupIntoTopicsStage,
 		stubReply: () =>
 			modelCallMock.mockResolvedValue({ content: GOOD_REPLY, cost: stubbedCallCost }),
 	});
@@ -83,7 +83,7 @@ describe("createDefineTopicsStage", () => {
 	const runPath = (runNumber: number): string =>
 		savedRunPath({ workspaceRoot: workspaceRoot(), stageId: STAGE_ID, runNumber });
 
-	it("should send every retitled subtopic as its position, title as label, and text with the blank space at each end removed when each grouping run is made", async () => {
+	it("should send every retitled subtopic as its subtopic id, title as label, and text with the blank space at each end removed when each grouping run is made", async () => {
 		await run();
 
 		const sent = modelCallMock.mock.calls.map((call) => sentUserMessage([call]));
@@ -173,7 +173,7 @@ describe("createDefineTopicsStage", () => {
 
 		const error = await captureError(run());
 
-		expect(error).toBeInstanceOf(DefineTopicsError);
+		expect(error).toBeInstanceOf(GroupIntoTopicsError);
 		expect(error.message).toContain(retitled);
 		expect(modelCallMock).not.toHaveBeenCalled();
 	});

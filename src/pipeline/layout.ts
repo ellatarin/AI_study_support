@@ -470,7 +470,7 @@ export const STAGE_FILES = {
 		...writesInto({ directory: "Retitled subtopics", file: "subtopics.json" }),
 		stageRecord: "changes.json",
 	},
-	"define-topics": {
+	"group-into-topics": {
 		...savesRunsThenWritesInto({
 			runsDirectory: "Grouping runs",
 			directory: "Topics",

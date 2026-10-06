@@ -13,9 +13,9 @@ import {
 	stubOpenRouterApi,
 	useStageReadingDivision,
 } from "../../fixtures.js";
-import { createDefineTopicsStage } from "./define-topics.js";
+import { createGroupIntoTopicsStage } from "./group-into-topics.js";
 
-const STAGE_ID = "define-topics";
+const STAGE_ID = "group-into-topics";
 
 /** A usable grouping of the two-subtopic division: the whole lecture as one topic. */
 const USABLE_ANSWER = JSON.stringify({
@@ -56,11 +56,11 @@ function stubSendsArrivingAt(
 	return arrivals;
 }
 
-describe("define-topics sending", () => {
+describe("group-into-topics sending", () => {
 	const { config, workspaceRoot } = useStageReadingDivision({
 		stageId: STAGE_ID,
 		readsFrom: "retitle-subtopics",
-		factory: createDefineTopicsStage,
+		factory: createGroupIntoTopicsStage,
 		// The network is stubbed per test, not the model call.
 		stubReply: () => undefined,
 	});
@@ -79,7 +79,7 @@ describe("define-topics sending", () => {
 	function runWith(stageConfig: PipelineConfig): ReturnType<typeof driveModelStage> {
 		return settleThroughPauses(
 			driveModelStage({
-				factory: createDefineTopicsStage,
+				factory: createGroupIntoTopicsStage,
 				config: stageConfig,
 				workspaceRoot: workspaceRoot(),
 				logger: makeStubLogger().logger,
