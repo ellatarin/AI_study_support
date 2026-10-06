@@ -105,9 +105,8 @@ describe("runCli", () => {
 		expect(out.join("")).toContain(testLecture.date);
 	});
 
-	// The suite never changes directory, so this fails if the debug log is placed
-	// relative to wherever the process happens to be running — which would
-	// scatter a user's debug logs across whatever directory they invoked from.
+	// The suite does not change the working directory. So this test fails when the
+	// debug log path is relative to the working directory and not to the project root.
 	it("should write the debug log under the project root when a command runs", async () => {
 		await writeConfig([moduleRoot]);
 

@@ -15,8 +15,8 @@ function parse(argv: readonly string[]): CliCommand {
 }
 
 /**
- * Parsing is synchronous, so the rejection helper the async modules use does not
- * apply: this captures the throw directly and fails loudly if there was none.
+ * Returns the error that parsing throws, and fails the test when parsing throws
+ * none. `captureError` takes a promise, and parsing is synchronous.
  */
 function usageError(argv: readonly string[]): Error {
 	try {
@@ -38,10 +38,10 @@ describe("parseCliArgs", () => {
 			expect(parse(argv)).toEqual({ command: "help" });
 		});
 
-		// The command words are written out here, not taken from the table the usage
-		// text is rendered from: what this asserts is the vocabulary a user types, and
-		// reading it off that table would check the renderer against its own input.
-		// The same call as the expected paths in files.test.ts.
+		// The command words are written here, and not taken from the table that makes
+		// the usage text. Words from that table would test the usage text against its
+		// own input. workspace-paths.integration.test.ts writes its expected paths for
+		// the same reason.
 		it.each([
 			"run",
 			"batch",
@@ -112,7 +112,8 @@ describe("parseCliArgs", () => {
 	});
 
 	describe("batch", () => {
-		// No --concurrency typed: the command takes the config's, which the parser cannot see.
+		// With no --concurrency, the `concurrency` field is null. The command later uses
+		// the config's `batch.concurrency`, which the parser cannot read.
 		it("should target every configured module when no module is named", () => {
 			expect(parse(["batch"])).toEqual({
 				command: "batch",
@@ -208,8 +209,8 @@ describe("parseCliArgs", () => {
 	});
 
 	describe("invalid invocations", () => {
-		// Rejections gather here rather than under the command each names, as the
-		// flag tables below already do: what they have in common is the outcome.
+		// These cases are here, and not under the command that each names, because
+		// they share the result: a usage error. The flag tables below do the same.
 		it.each([
 			{
 				scenario: "batch is given more than one module",
@@ -244,8 +245,8 @@ describe("parseCliArgs", () => {
 			expect(error.message).toContain(names);
 		});
 
-		// Its own case, because this message has to name both the flag and the value
-		// it was given — one row asserting one substring could not say that.
+		// This test is apart from the table above, because the message must name the
+		// flag and its value. A row of that table checks for one piece of text only.
 		it.each([
 			"--from-stage",
 			"--to-stage",
@@ -306,7 +307,7 @@ describe("parseCliArgs", () => {
 		});
 
 		it.each([
-			// --concurrency counts lectures running at once, and only batch runs more than one.
+			// --concurrency is the number of lectures that run at once. Only batch runs more than one.
 			{ flag: "--concurrency", argv: ["run", testLecture.date, "--concurrency", "4"] },
 			{ flag: "--date", argv: ["run", testLecture.date, "--date", otherLecture.date] },
 			{ flag: "--module", argv: ["batch", "--module", otherModuleRoot] },

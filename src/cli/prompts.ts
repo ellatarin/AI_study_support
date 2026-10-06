@@ -1,11 +1,10 @@
 /**
- * The CLI's terminal prompts.
- *
- * Every question the pipeline asks is asked here. `source-normalisation` takes a
- * {@link ConfirmPrompt} rather than reaching for stdin itself, and the runner
- * returns date matches rather than choosing between them, so the only code that
- * touches the terminal is this module — which is what lets both be driven by
- * stubs under test (technical-design.md §4.7, §5).
+ * This module asks the user every question that the pipeline asks, in the
+ * terminal. No other code reads from the terminal. Normalisation gets a
+ * {@link ConfirmPrompt}, and the runner returns the lectures that a date names
+ * without a choice. So a test can give normalisation a stub {@link ConfirmPrompt},
+ * and a test of the runner needs no prompt (technical-design.md §4.7,
+ * "CLI Structure").
  */
 
 import { basename } from "node:path";
@@ -14,35 +13,31 @@ import type { ConfirmPrompt } from "../pipeline/stages/source-normalisation/orph
 import type { LectureMatch } from "../types/pipeline.js";
 import type { LecturePicker, SingleLecturePicker } from "./commands.js";
 
-/** The choice values standing for "every match" and "none of them". */
+/** The choice values for "every lecture" and "no lecture". */
 const ALL_MATCHES = "all-matches";
 const CANCEL = "cancel";
 
-/** What a choice stands for where one lecture is being picked. */
+/** A choice value in the picker for one lecture. */
 type SingleChoice = LectureMatch | typeof CANCEL;
 
-/** The same, where several may be picked at once. */
+/** A choice value in the picker for several lectures. */
 type MultipleChoice = SingleChoice | typeof ALL_MATCHES;
 
-/** The way out of either picker, offered last in both. */
+/** The "Cancel" choice. Both pickers show it last. */
 const CANCEL_CHOICE = { name: "Cancel", value: CANCEL } as const;
 
-/**
- * What both pickers open with. Each adds the question its own answer shape asks,
- * which is the only part of the two that differs.
- */
+/** The first sentence of both pickers. Each picker adds its own question. */
 const SEVERAL_LECTURES = "Several lectures share that date.";
 
 /**
- * One choice per lecture, labelled by module, number, and title, and carrying
- * the lecture itself as its value.
+ * Makes one choice for each lecture. The label gives the module, the lecture
+ * number and the lecture title.
  *
- * The lecture rather than its position, so that reading an answer back is not a
- * second lookup into the list the choices were built from — a lookup whose index
- * is in range by construction and which nothing but an assertion could say so.
+ * The value is the lecture, not its index in the list. An index would need a
+ * look-up in the list, and only a type assertion could say that the index is in range.
  *
- * @param matches - The lectures sharing the requested date.
- * @returns The choices to offer.
+ * @param matches - The lectures that have the date.
+ * @returns The choices.
  */
 function lectureChoices(
 	matches: readonly LectureMatch[],
@@ -54,26 +49,23 @@ function lectureChoices(
 }
 
 /**
- * Asks the user to approve an action, defaulting to declining so that pressing
- * enter never destroys anything.
+ * Asks the user to approve an action. The default answer is no, so the Enter
+ * key alone never deletes anything.
  *
- * @param args - The question to ask.
- * @param args.message - The question, phrased so both answers are meaningful.
- * @returns The user's answer.
+ * @param args - The question.
+ * @param args.message - A question that "yes" and "no" can both answer.
+ * @returns `true` when the user approves.
  */
 export const confirmPrompt: ConfirmPrompt = ({ message }) => confirm({ message, default: false });
 
 /**
- * Asks which of several same-dated lectures to act on.
+ * Asks the user which lectures with the same date to act on. Two modules can
+ * have a lecture on the same date. "All matches" chooses every lecture, and
+ * "Cancel" chooses none (technical-design.md §4.7, "`resolveLecturesByDate`").
  *
- * Lecture dates are unique within a module but may collide across them, so a
- * date can name more than one lecture. Each is labelled by module, number, and
- * title; "All matches" takes every one and "Cancel" takes none
- * (technical-design.md §4.7).
- *
- * @param args - The lectures to choose between.
- * @param args.matches - The lectures sharing the requested date.
- * @returns The chosen lectures, empty when the user cancels or chooses none.
+ * @param args - The lectures.
+ * @param args.matches - The lectures that have the date.
+ * @returns The chosen lectures, or an empty list when the user cancels or chooses none.
  */
 export const selectLectureMatches: LecturePicker = async ({ matches }) => {
 	const chosen = await checkbox<MultipleChoice>({
@@ -94,15 +86,13 @@ export const selectLectureMatches: LecturePicker = async ({ matches }) => {
 };
 
 /**
- * Asks which one of several same-dated lectures to act on.
+ * Asks the user which one lecture with the same date to act on. The identity
+ * changes use this picker, because each acts on one lecture only. So it has no
+ * "All matches" (technical-design.md §4.7, "An identity change acts on exactly
+ * one lecture").
  *
- * Used where acting on several at once would be meaningless rather than merely
- * bulk: renaming is the case — one new title applied to two lectures in
- * different modules is never what "rename the lecture on the 10th" means. So
- * this prompt offers no "All matches" (technical-design.md §4.7).
- *
- * @param args - The lectures to choose between.
- * @param args.matches - The lectures sharing the requested date.
+ * @param args - The lectures.
+ * @param args.matches - The lectures that have the date.
  * @returns The chosen lecture, or `null` when the user cancels.
  */
 export const selectLectureMatch: SingleLecturePicker = async ({ matches }) => {

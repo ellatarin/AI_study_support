@@ -1,13 +1,10 @@
 /**
- * The filesystem half of the identity-change commands — `rename`, `delete`,
- * and `change-date`.
+ * The changes to the manifest and the lecture files that `rename`, `delete` and
+ * `change-date` make.
  *
- * A lecture's identity is spread across four places: its video recording, its
- * slide deck, its pipeline workspace, and its finished PDF. Editing any of them by
- * hand desynchronises the manifest from the filesystem, so these commands are
- * the only supported way to change it. Each makes its change and leaves the
- * module in a state `source-normalisation` can finish — renumbering, and renaming anything the
- * change made stale (technical-design.md §4.7).
+ * Each function makes its change. Then normalisation finishes the work. It
+ * renumbers the lectures, and it renames the lecture files that the change made
+ * out of date (technical-design.md §4.7, "Identity-change commands").
  */
 
 import { rm } from "node:fs/promises";
@@ -24,19 +21,23 @@ import { errorMessage, NamedError } from "../utils/errors.js";
 import { filenameSafe } from "../utils/naming.js";
 
 /**
- * Thrown when a lecture's identity cannot be changed: an unusable new title, a
- * lecture whose sources are missing, or a target date whose files already exist.
- * The command makes no change when it throws (technical-design.md §8).
+ * The error for an identity change that cannot be made. The causes are:
+ * - a title that cannot be a file name
+ * - a missing video recording or slide deck
+ * - a new date that a source file already has.
+ *
+ * When this error comes, the manifest and every lecture file are as they were.
  */
 export class LectureIdentityError extends NamedError {}
 
 /**
- * Opens a lecture for change: where its files live, and what its manifest
- * currently says about it. Every change needs both.
+ * Gets the module directories and the manifest of a lecture.
  *
- * @param match - The lecture, as resolved from its date.
+ * @param match - The lecture that the lecture date named.
  * @returns The lecture's module directories and its manifest.
- * @throws Rethrows the filesystem error when the manifest cannot be read.
+ * @throws {import("../pipeline/manifest.js").ManifestUnreadableError} When the manifest is missing or cannot be read.
+ * @throws {import("../pipeline/manifest.js").ManifestNotJsonError} When the manifest is not JSON.
+ * @throws {import("../pipeline/manifest.js").ManifestShapeError} When the manifest describes no lecture.
  */
 async function openLecture(match: LectureMatch): Promise<{
 	readonly dirs: ModuleDirs;
@@ -49,20 +50,17 @@ async function openLecture(match: LectureMatch): Promise<{
 }
 
 /**
- * Sets a lecture's title to one the user chose.
+ * Writes a user title to the manifest, as `userTitle` and as `lectureTitle`. A
+ * user title outranks the other titles, and nothing overwrites it.
  *
- * The title is recorded as `userTitle`, which outranks both the provisional
- * title and any title `transcript-structuring` derives, so it survives every later
- * run. Only the manifest changes here: the renaming of the video recording, slide deck,
- * workspace, and PDF falls out of the `source-normalisation` pass the command runs
- * afterwards, which is the same code path that names them in the first place
- * (technical-design.md §5, `source-normalisation`).
+ * It changes only the manifest. The normalisation after it renames the lecture
+ * files (technical-design.md §4.7, "Identity-change commands").
  *
  * @param args - The lecture and its new title.
- * @param args.workspaceRoot - Absolute path to the lecture's workspace.
- * @param args.title - The title the user chose.
- * @returns A promise that resolves once the manifest records the new title.
- * @throws {LectureIdentityError} When the title has no characters usable in a filename.
+ * @param args.workspaceRoot - The absolute path of the lecture's workspace.
+ * @param args.title - The user title.
+ * @returns A promise that resolves when the manifest holds the new title.
+ * @throws {LectureIdentityError} When the title has no characters that a file name can use.
  */
 export async function renameLecture({
 	workspaceRoot,
@@ -88,18 +86,17 @@ export async function renameLecture({
 }
 
 /**
- * Removes a lecture entirely: its video recording and slide deck, its workspace and
- * everything the pipeline produced in it, and its finished PDF.
+ * Deletes all the lecture files of a lecture: its video recording, its slide
+ * deck, its notes PDF and its workspace. It does not ask the user. The command
+ * asks first.
  *
- * Deleting the sources as well as the workspace is what keeps the module
- * consistent — a workspace left without sources is an orphaned workspace `source-normalisation` would stop
- * to ask about, and sources left without a workspace would simply be normalised
- * back into one. The renumbering of the lectures that follow falls out of the
- * `source-normalisation` pass the command runs afterwards (technical-design.md §4.7, §5).
+ * The function deletes the source pair and the workspace together, so
+ * normalisation finds no orphaned workspace. The normalisation after it renumbers the later lectures
+ * (technical-design.md §4.7, "Identity-change commands").
  *
- * @param args - The lecture to remove.
- * @param args.match - The lecture, as resolved from its date.
- * @returns A promise that resolves once every trace of the lecture is gone.
+ * @param args - The lecture.
+ * @param args.match - The lecture that the lecture date named.
+ * @returns A promise that resolves when the lecture files are deleted.
  */
 export async function deleteLecture({ match }: { readonly match: LectureMatch }): Promise<void> {
 	const {
@@ -113,11 +110,11 @@ export async function deleteLecture({ match }: { readonly match: LectureMatch })
 }
 
 /**
- * Insists a lecture still has both its sources before its date is changed: a
- * lecture without both is not one `source-normalisation` produced, and moving half of it would
- * leave the module in a state normalisation would reject.
+ * Checks that a lecture still has its source pair before its date changes. A
+ * move of only half the pair would leave a video recording or a slide deck with
+ * no match on its date. Normalisation would then stop.
  *
- * @param args - Where to look and for which lecture.
+ * @param args - The directories and the lecture.
  * @param args.dirs - The module's directories.
  * @param args.lectureDate - The lecture's current date.
  * @returns Nothing.
@@ -140,18 +137,17 @@ async function assertSourcePairPresent({
 }
 
 /**
- * Fails when a source file already sits on the date being moved to, so a change
- * can never overwrite another lecture's sources (technical-design.md §4.7).
+ * Refuses a new date that a source file already has, so the move cannot
+ * overwrite another lecture (technical-design.md §4.7, "Identity-change commands").
  *
- * The video recording and slide deck directories are the whole check. A lecture's date lives in
- * its source filenames, so a date another lecture holds is a date one of those
- * two directories already carries.
+ * It checks only the video recording and slide deck directories. A lecture's
+ * date is in the names of its source files, so a date in use is in one of them.
  *
- * @param args - The destination to check.
+ * @param args - The directories and the new date.
  * @param args.dirs - The module's directories.
- * @param args.newLectureDate - The date being moved to.
+ * @param args.newLectureDate - The new date.
  * @returns Nothing.
- * @throws {LectureIdentityError} When a video recording or slide deck already carries that date.
+ * @throws {LectureIdentityError} When a video recording or slide deck already has that date.
  */
 async function assertDateIsFree({
 	dirs,
@@ -171,19 +167,18 @@ async function assertDateIsFree({
 }
 
 /**
- * Moves a lecture to another date: its video recording and slide deck, its workspace,
- * its finished PDF, and the date recorded in its manifest.
+ * Moves a lecture to a new date. It writes the new date and base name to the
+ * manifest, and renames the lecture files to that base name.
  *
- * The files are given the name `source-normalisation` would give them at the new
- * date, so the `source-normalisation` pass the command runs afterwards has only the renumbering left to do —
- * and will rename them again if the new date changes the lecture's number
- * (technical-design.md §4.7, §5).
+ * The base name is the one that normalisation gives at the new date. So the
+ * normalisation after it has only the renumbering to do (technical-design.md
+ * §4.7, "Identity-change commands").
  *
- * @param args - The lecture and the date to move it to.
- * @param args.match - The lecture, as resolved from its current date.
- * @param args.newLectureDate - The `YYYY-MM-DD` date to move it to.
- * @returns A promise that resolves once the lecture sits at its new date.
- * @throws {LectureIdentityError} When the lecture's sources are missing, or the new date is already taken.
+ * @param args - The lecture and the new date.
+ * @param args.match - The lecture that its current date named.
+ * @param args.newLectureDate - The new `YYYY-MM-DD` date.
+ * @returns A promise that resolves when the lecture is at its new date.
+ * @throws {LectureIdentityError} When the source pair is not complete, or a source file already has the new date.
  */
 export async function changeLectureDate({
 	match,

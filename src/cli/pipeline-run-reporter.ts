@@ -1,11 +1,7 @@
 /**
- * Saying what a pipeline run is doing, while it does it.
- *
- * The runner reports what happens to each stage as it happens; this turns those
- * facts into the lines a user reads. The wording lives here rather than in the
- * runner for the same reason every other block of user-facing text does: showing
- * things to a user is the CLI's job, and the CLI is the layer that owns the
- * stream they go to (technical-design.md §8, §10).
+ * This module writes the stage notices: one line for each event that the runner
+ * reports while a pipeline run continues. The runner gives only the event and its data. The
+ * CLI owns the words and the output stream (technical-design.md §10, "Stage Notices").
  */
 
 import { lectureHeading, type MoneyFormatter, stageLabel } from "../pipeline/reports.js";
@@ -13,28 +9,27 @@ import type { PipelineRunEvent, PipelineRunReporter, StageCost } from "../types/
 import { pluralise } from "../utils/text.js";
 import type { WriteText } from "./commands.js";
 
-/** Marks the line that says a stage has begun. */
+/** The mark of the notice for a stage that started. */
 const STARTED = "▶";
 
-/** Marks the line that says a stage finished the work. */
+/** The mark of the notice for a stage that completed. */
 const COMPLETED = "✔";
 
-/** Marks the line that says a stage had nothing to do. */
+/** The mark of the notice for a stage that was skipped, because its output already stands. */
 const SKIPPED = "−";
 
-/** Marks the line that says a stage failed. */
+/** The mark of the notice for a stage that failed. */
 const FAILED = "✖";
 
 /**
- * What a completed stage spent, as the tail of its notice — the calls it made
- * and what they cost. A stage that makes no billable call has no tail at all,
- * rather than one reading zero: audio extraction and PDF generation buy nothing,
- * and saying so every pipeline run would be noise (technical-design.md §7).
+ * Writes the end of a completed stage's notice: the number of calls and their
+ * cost. A stage with no cost gets no end, not a zero (technical-design.md §10,
+ * "Stage Notices").
  *
- * @param args - The stage's recorded cost and the report's money formatter.
- * @param args.cost - What the stage recorded, or `null` if it charged nothing.
- * @param args.formatMoney - The formatter converting stored dollars for display.
- * @returns The tail, empty when there is nothing to report.
+ * @param args - The cost and the money formatter.
+ * @param args.cost - The stage's cost, or `null` when the stage records no cost.
+ * @param args.formatMoney - Shows a stored dollar figure.
+ * @returns The end of the notice, or an empty string when there is no cost.
  */
 function spendTail({
 	cost,
@@ -50,12 +45,12 @@ function spendTail({
 }
 
 /**
- * The line one event is written as.
+ * Writes the notice for one event.
  *
- * @param args - The event and the report's money formatter.
- * @param args.event - What happened.
- * @param args.formatMoney - The formatter converting stored dollars for display.
- * @returns The line, newline included.
+ * @param args - The event and the money formatter.
+ * @param args.event - The event from the runner.
+ * @param args.formatMoney - Shows a stored dollar figure.
+ * @returns The notice, with its line end.
  */
 function noticeFor({
 	event,
@@ -65,8 +60,8 @@ function noticeFor({
 	readonly formatMoney: MoneyFormatter;
 }): string {
 	if (event.event === "lecture-started") {
-		// A blank line above, because a batch writes one of these between lectures
-		// and the eye needs the break to see where one lecture's pipeline run ends.
+		// The blank line above the heading shows where one lecture's notices stop
+		// and the next lecture's start, in a batch.
 		return `\n${lectureHeading({ manifest: event.manifest })}\n`;
 	}
 	const label = stageLabel({ stageId: event.stageId });
@@ -79,19 +74,19 @@ function noticeFor({
 	if (event.event === "stage-completed") {
 		return `${COMPLETED} ${label}${spendTail({ cost: event.cost, formatMoney })}\n`;
 	}
-	// The message and the pointer to the debug log follow the pipeline run summary (§8).
-	// This line exists so a stage announced as started is not left hanging.
+	// The error message comes after the run summary (technical-design.md §10). This
+	// line only closes the "started" notice.
 	return `${FAILED} ${label} — failed\n`;
 }
 
 /**
- * Builds the reporter the runner tells its events to, writing each as a line to
- * the CLI's own output stream.
+ * Makes the reporter that the runner gives its events to. The reporter writes
+ * one notice for each event.
  *
- * @param args - Where the notices go, and how their money is shown.
+ * @param args - The output stream and the money formatter.
  * @param args.write - The CLI's output stream.
- * @param args.formatMoney - Renders a stored dollar figure; the same one the summaries use.
- * @returns The reporter to hand the runner.
+ * @param args.formatMoney - Shows a stored dollar figure. The run summaries use the same formatter.
+ * @returns The reporter for the runner.
  */
 export function createPipelineRunReporter({
 	write,

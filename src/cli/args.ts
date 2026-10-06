@@ -1,11 +1,10 @@
 /**
- * Parsing the command line into a {@link CliCommand}.
+ * This module parses and checks the command line, and makes a {@link CliCommand}.
+ * It does not run the command, so a test can check a command without a runner, a filesystem
+ * or a terminal (technical-design.md §4.7, "CLI Structure").
  *
- * Argument handling is kept apart from doing the work so a command's shape can
- * be verified without a runner, a filesystem, or a terminal. Parsing uses
- * `node:util`'s `parseArgs` rather than a CLI framework: the surface is six
- * commands and a handful of flags, which the platform already covers
- * (technical-design.md §4.7).
+ * It uses `parseArgs` from `node:util` and not a CLI library. Six commands and
+ * a small set of flags need nothing more.
  */
 
 import { parseArgs } from "node:util";
@@ -21,33 +20,31 @@ import {
 } from "../utils/stage-id.js";
 
 /**
- * Thrown when a command line cannot be understood: an unknown command or option,
- * a missing or malformed argument, or a flag value outside its permitted range.
- * Distinguished from a runtime failure so the CLI can answer with usage rather
- * than a stack trace (technical-design.md §8).
+ * The error for a command line that the CLI cannot use. The cause is an unknown
+ * command or flag, a missing or bad argument, or a flag value out of range. The
+ * CLI prints the usage text after this error (technical-design.md §8).
  */
 export class CliUsageError extends NamedError {}
 
 /**
- * A parsed, validated invocation. Discriminated on `command` so each variant
- * carries exactly the arguments that command takes and no others
- * (technical-design.md §4.7).
+ * A command line, parsed and checked. Each command holds only the arguments that
+ * it takes (technical-design.md §4.7).
  */
 export type CliCommand =
 	| { readonly command: "run"; readonly lectureDate: string; readonly options: PipelineRunOptions }
 	| {
 			readonly command: "batch";
-			/** The single module to process, or `null` for every configured module. */
+			/** The one module to run, or `null` for every configured module. */
 			readonly moduleRoot: string | null;
 			readonly options: PipelineRunOptions;
-			/** How many lectures to run at once, from `--concurrency`; `null` takes the config's `batch.concurrency`. */
+			/** The number of lectures to run at once, from `--concurrency`. `null` means the config's `batch.concurrency`. */
 			readonly concurrency: number | null;
 	  }
 	| {
 			readonly command: "cost-report";
-			/** Narrows the report to one date, or `null` for every lecture. */
+			/** The one lecture date to report on, or `null` for every lecture. */
 			readonly lectureDate: string | null;
-			/** Narrows the report to one module, or `null` for every configured module. */
+			/** The one module to report on, or `null` for every configured module. */
 			readonly moduleRoot: string | null;
 	  }
 	| { readonly command: "rename"; readonly lectureDate: string; readonly title: string }
@@ -59,7 +56,7 @@ export type CliCommand =
 	  }
 	| { readonly command: "help" };
 
-/** The flags every command draws from; each command consumes the ones it documents. */
+/** Every flag of the CLI, for `parseArgs`. Each command accepts only some of them. */
 const OPTION_SPEC = {
 	"from-stage": { type: "string" },
 	"to-stage": { type: "string" },
@@ -70,7 +67,7 @@ const OPTION_SPEC = {
 	help: { type: "boolean", short: "h" },
 } as const;
 
-/** The parsed flag values, before per-command validation. */
+/** The flag values, before the command checks them. */
 type ParsedFlags = {
 	readonly "from-stage"?: string;
 	readonly "to-stage"?: string;
@@ -81,24 +78,21 @@ type ParsedFlags = {
 	readonly help?: boolean;
 };
 
-/** The flag names a command can declare, matching the keys of {@link OPTION_SPEC}. */
+/** The name of a flag that a command can accept. `help` is not one, because every command accepts it. */
 type FlagName = Exclude<keyof ParsedFlags, "help">;
 
-/** How one flag is written on a usage line, and what it does. */
+/** One flag as the usage text shows it. */
 type FlagSpec = {
-	/** The flag with its argument, as a usage line and the options list both write it. */
+	/** The flag and its argument, as the usage lines and the options list write it. */
 	readonly form: string;
-	/** The one-line description in the usage text's options list. */
+	/** The line that describes the flag in the options list. */
 	readonly summary: string;
 };
 
 /**
- * Every flag the CLI offers, described once.
- *
- * Both halves of the usage text are rendered from this: a command's usage line
- * names the flags that command declares, and the options list explains each of
- * them. Written out at each of those, `--module` was `<moduleRoot>` on one line
- * and `<path>` on the other.
+ * Every flag of the CLI, with its usage form and description. The usage lines
+ * and the options list both use this table, so the two always write a flag the
+ * same way.
  */
 const FLAG_SPECS: Readonly<Record<FlagName, FlagSpec>> = {
 	"from-stage": {
@@ -128,12 +122,12 @@ const FLAG_SPECS: Readonly<Record<FlagName, FlagSpec>> = {
 };
 
 /**
- * Returns a validated lecture date, or fails with the command's usage line.
+ * Checks a lecture date from the command line.
  *
- * @param args - The value and the context to report it in.
- * @param args.value - The candidate date, or `undefined` when it was omitted.
- * @param args.usage - The command's usage line, shown when the date is unusable.
- * @returns The validated `YYYY-MM-DD` date.
+ * @param args - The date and the usage line.
+ * @param args.value - The date as typed, or `undefined` when none was given.
+ * @param args.usage - The command's usage line, for the error message.
+ * @returns The `YYYY-MM-DD` date.
  * @throws {CliUsageError} When the date is missing or is not a real calendar date.
  */
 function requireDate({
@@ -153,13 +147,13 @@ function requireDate({
 }
 
 /**
- * Returns the new title a `rename` was given, or fails with its usage line.
+ * Gets the new title from a `rename` command line.
  *
- * @param args - The invocation to read it from.
+ * @param args - The arguments and the usage line.
  * @param args.positionals - The command's positional arguments.
- * @param args.usage - The command's usage line, shown when no title was given.
- * @returns The trimmed title.
- * @throws {CliUsageError} When the title is missing or is only whitespace.
+ * @param args.usage - The command's usage line, for the error message.
+ * @returns The title, with the spaces at each end removed.
+ * @throws {CliUsageError} When the title is missing or is only white space.
  */
 function requireTitle({
 	positionals,
@@ -176,14 +170,14 @@ function requireTitle({
 }
 
 /**
- * Fails when a command was given more positional arguments than it takes.
+ * Refuses a command line with more positional arguments than the command takes.
  *
- * @param args - The positionals and the limit for this command.
+ * @param args - The arguments and the limit.
  * @param args.positionals - The command's positional arguments.
- * @param args.limit - How many the command accepts.
- * @param args.usage - The command's usage line, shown when the limit is exceeded.
+ * @param args.limit - The largest number of positional arguments the command takes.
+ * @param args.usage - The command's usage line, for the error message.
  * @returns Nothing.
- * @throws {CliUsageError} When more positionals were supplied than the command takes.
+ * @throws {CliUsageError} When there are more positional arguments than the limit.
  */
 function rejectExtraPositionals({
 	positionals,
@@ -200,17 +194,14 @@ function rejectExtraPositionals({
 }
 
 /**
- * Validates a flag that names a stage against the stages that actually exist.
+ * Checks that a stage flag names a stage that exists. `--from-stage` and
+ * `--to-stage` both use this function, so the two accept the same stage ids.
  *
- * Both stage flags are validated here rather than each for itself, so that
- * `--from-stage` and `--to-stage` cannot come to disagree about what a stage
- * name is; each reports itself by its own name in the message.
- *
- * @param args - The flag and what it was given.
- * @param args.value - The flag's value, or `undefined` when it was not given.
- * @param args.flag - The flag as written, quoted back in the error.
- * @returns The stage id, or `undefined` when the flag was absent.
- * @throws {CliUsageError} When the value names no known stage.
+ * @param args - The flag and its value.
+ * @param args.value - The flag's value, or `undefined` when the flag was not given.
+ * @param args.flag - The flag as written, for the error message.
+ * @returns The stage id, or `undefined` when the flag was not given.
+ * @throws {CliUsageError} When the value names no stage.
  */
 function parseStageFlag({
 	value,
@@ -229,11 +220,11 @@ function parseStageFlag({
 }
 
 /**
- * Validates `--concurrency` as a whole number of lectures to process at once.
+ * Checks `--concurrency`, the number of lectures that a batch runs at once.
  *
- * @param value - The flag's value, or `undefined` when it was not given.
- * @returns The concurrency, or `null` when the flag was absent and the config's is to be used.
- * @throws {CliUsageError} When the value is not a positive whole number.
+ * @param value - The flag's value, or `undefined` when the flag was not given.
+ * @returns The number, or `null` when the flag was not given and the config's `batch.concurrency` applies.
+ * @throws {CliUsageError} When the value is not a whole number of 1 or more.
  */
 function parseConcurrency(value: string | undefined): number | null {
 	if (value === undefined) {
@@ -247,13 +238,13 @@ function parseConcurrency(value: string | undefined): number | null {
 }
 
 /**
- * Collects the run flags a `run` invocation carried, resolving each against the
- * default it falls back to so the options say what will happen rather than what
- * was typed.
+ * Makes the pipeline run options from the flags of `run` or `batch`. When
+ * `--continue-on-error` is not given, `onStageFailure` gets its default value.
+ * So the options always hold the `onStageFailure` value that the pipeline run uses.
  *
- * @param flags - The parsed flag values.
- * @returns The options for one pipeline run.
- * @throws {CliUsageError} When either stage flag is invalid, or when the two are given out of pipeline order.
+ * @param flags - The flag values.
+ * @returns The options for each pipeline run.
+ * @throws {CliUsageError} When a stage flag names no stage, or the two stage flags are out of pipeline order.
  */
 function toPipelineRunOptions(flags: ParsedFlags): PipelineRunOptions {
 	const fromStage = parseStageFlag({ value: flags["from-stage"], flag: "--from-stage" });
@@ -278,12 +269,12 @@ function toPipelineRunOptions(flags: ParsedFlags): PipelineRunOptions {
 }
 
 /**
- * Splits the command line into its command word, remaining positionals, and
- * flags, translating `parseArgs`'s own complaints into usage errors.
+ * Splits the command line into positional arguments and flags. An error from
+ * `parseArgs` becomes a {@link CliUsageError}.
  *
  * @param argv - The arguments after the program name.
- * @returns The parsed positionals and flags.
- * @throws {CliUsageError} When an option is unknown or is missing its value.
+ * @returns The positional arguments, the command word first, and the flag values.
+ * @throws {CliUsageError} When a flag is unknown or has no value.
  */
 function splitArgv(argv: readonly string[]): {
 	readonly positionals: readonly string[];
@@ -301,57 +292,48 @@ function splitArgv(argv: readonly string[]): {
 	}
 }
 
-/** What a command's builder is handed, once the invocation has passed its spec. */
+/** The input of a command's `build` function, after the checks against its {@link CommandSpec}. */
 type CommandInput = {
-	/** The positional arguments that followed the command word. */
+	/** The positional arguments after the command word. */
 	readonly positionals: readonly string[];
-	/** The parsed flag values. */
 	readonly flags: ParsedFlags;
-	/** The command's invocation form, quoted back when an argument does not fit. */
+	/** The command's usage line, for an error message. */
 	readonly usage: string;
 	/**
-	 * The lecture date the command addresses, from its first positional. Taken on
-	 * demand rather than supplied, because `batch` and `cost-report` address no one
-	 * lecture and would fail on a date they never asked for.
+	 * Gets and checks the lecture date in the first positional argument. It is a
+	 * function because `batch` and `cost-report` take no lecture date, and a check
+	 * that always ran would fail for them.
 	 */
 	readonly lectureDate: () => string;
 };
 
-/** What a command looks like: how it is written, what it accepts, and what it builds. */
+/** One command: its usage, the arguments it accepts, and how to build it. */
 type CommandSpec = {
-	/** The positional arguments, as they follow the command word on a usage line. */
+	/** The positional arguments, as the usage line writes them after the command word. */
 	readonly positionals: string;
-	/** How many positional arguments the command accepts. */
+	/** The largest number of positional arguments the command accepts. */
 	readonly maxPositionals: number;
-	/** The flags this command acts on; any other is a usage error rather than a silent no-op. */
+	/** The flags that the command accepts. Any other flag is a usage error, so it is never ignored. */
 	readonly flags: readonly FlagName[];
-	/** The one-line description in the usage text's command list. */
+	/** The line that describes the command in the usage text. */
 	readonly summary: string;
-	/** Builds the parsed command from an invocation already checked against this spec. */
+	/** Builds the {@link CliCommand} from a command line that passed the checks. */
 	readonly build: (input: CommandInput) => CliCommand;
 };
 
 /**
- * The word a user types to choose a command.
- *
- * Derived from {@link CliCommand} rather than listed, so the words and the
- * commands they name cannot drift apart. `help` is excluded because it is
- * answered before any command is looked up — it has to work in a project that is
- * not yet configured — so it has no spec and no usage line of its own.
+ * The word that a user types to choose a command. It comes from {@link CliCommand},
+ * so a command word cannot be in one type and not in the other. `help` is not one. The parser answers `help` before
+ * it looks for a command, so `help` has no {@link CommandSpec}.
  */
 type CommandName = Exclude<CliCommand, { readonly command: "help" }>["command"];
 
 /**
- * Every command the CLI offers, described once.
+ * Every command of the CLI. The usage text comes from this table, and the parser
+ * calls the command's `build` from it.
  *
- * The usage text is rendered from this and so is each command's own usage line,
- * and `build` is what the parser dispatches to — so a command is written down in
- * one place rather than in a usage line, a spec, and a cascade of command words
- * that nothing cross-checked against either.
- *
- * Keyed by {@link CommandName} rather than by `string`, so a command added to
- * {@link CliCommand} and forgotten here fails to compile. Keyed loosely, the
- * omission was a usage error a user met at the terminal.
+ * The key type is {@link CommandName}, not `string`. So a command that is added to
+ * {@link CliCommand} and not to this table is a compile error.
  */
 const COMMAND_SPECS: Readonly<Record<CommandName, CommandSpec>> = {
 	run: {
@@ -423,13 +405,13 @@ const COMMAND_SPECS: Readonly<Record<CommandName, CommandSpec>> = {
 };
 
 /**
- * How a command is written out in full: the command word, whatever positional
- * arguments it takes, then each flag it declares.
+ * Writes a command's usage line: the command word, its positional arguments,
+ * then each flag it accepts.
  *
- * @param args - The command to write out.
+ * @param args - The command.
  * @param args.command - The command word.
- * @param args.spec - Its specification.
- * @returns The invocation form, without the program name.
+ * @param args.spec - The command's {@link CommandSpec}.
+ * @returns The usage line, without the program name.
  */
 function invocationForm({
 	command,
@@ -442,18 +424,14 @@ function invocationForm({
 	return [command, spec.positionals, ...flagForms].filter((part) => part !== "").join(" ");
 }
 
-/** Spaces between the widest label in a usage-text list and the descriptions. */
+/** The number of spaces between the longest label in a usage-text list and its description. */
 const LABEL_GAP = 3;
 
 /**
- * Whether a word the user typed names one of the CLI's commands.
+ * Tells whether a word names a command. It is a type guard, so that the caller
+ * can then use the word as a key of {@link COMMAND_SPECS}.
  *
- * A type guard rather than a boolean, so the caller that has checked can index
- * {@link COMMAND_SPECS} with it — which is what the table's tighter key requires,
- * and what makes an unknown word a usage error at the one place a command is
- * read rather than a missing entry discovered later.
- *
- * @param value - The word to test.
+ * @param value - The word that the user typed.
  * @returns `true` when the word is a key of {@link COMMAND_SPECS}.
  */
 function isCommandName(value: string): value is CommandName {
@@ -461,11 +439,11 @@ function isCommandName(value: string): value is CommandName {
 }
 
 /**
- * One list in the usage text: a label per line with its description, indented
- * and padded so the descriptions line up under each other.
+ * Writes one list of the usage text: one label on each line, then its
+ * description. The descriptions start in the same column.
  *
- * @param entries - The labels and what each of them means.
- * @returns The rendered lines.
+ * @param entries - The labels and their descriptions.
+ * @returns The lines of the list.
  */
 function describedLines(
 	entries: readonly { readonly label: string; readonly summary: string }[],
@@ -474,7 +452,7 @@ function describedLines(
 	return entries.map((entry) => `  ${entry.label.padEnd(width)}${entry.summary}`).join("\n");
 }
 
-/** The usage text printed for `--help` and after any usage error. */
+/** The usage text. The CLI prints it for `--help` and after a usage error. */
 export const USAGE = `lecture-notes — turn lecture recordings and slides into study notes
 
 Usage:
@@ -500,20 +478,17 @@ Dates are ISO 8601 (YYYY-MM-DD). A date matching lectures in several modules
 prompts for which of them to act on.`;
 
 /**
- * Fails when a command was given a flag it does not act on.
+ * Refuses a flag that the command does not accept. `parseArgs` accepts every flag
+ * after every command, so without this check the command would ignore the flag
+ * (technical-design.md §4.7, "Flags belong to commands").
  *
- * The flags are declared once for the whole CLI, so `parseArgs` accepts any of
- * them after any command. Without this check the surplus ones would be parsed
- * and then quietly ignored — `run --concurrency 4` would run one lecture and say
- * nothing about the request to run four.
- *
- * @param args - The invocation to check.
+ * @param args - The command line to check.
  * @param args.command - The command word.
- * @param args.flags - The parsed flag values.
- * @param args.spec - The command's specification.
- * @param args.usage - The command's invocation form, quoted back with the complaint.
+ * @param args.flags - The flag values.
+ * @param args.spec - The command's {@link CommandSpec}.
+ * @param args.usage - The command's usage line, for the error message.
  * @returns Nothing.
- * @throws {CliUsageError} When a flag outside the command's own set was supplied.
+ * @throws {CliUsageError} When a flag is not one that the command accepts.
  */
 function rejectForeignFlags({
 	command,
@@ -541,16 +516,15 @@ function rejectForeignFlags({
 }
 
 /**
- * Checks an invocation against its command's spec and hands it to that command
- * to build.
+ * Checks a command line against the command's {@link CommandSpec}, then builds the command.
  *
- * @param args - The command and the rest of the invocation.
+ * @param args - The command and the rest of the command line.
  * @param args.command - The command word.
- * @param args.spec - The command's specification, already looked up.
- * @param args.positionals - The positional arguments that followed the command word.
- * @param args.flags - The parsed flag values.
- * @returns The parsed command.
- * @throws {CliUsageError} When the command's arguments are missing, surplus, or malformed.
+ * @param args.spec - The command's {@link CommandSpec}.
+ * @param args.positionals - The positional arguments after the command word.
+ * @param args.flags - The flag values.
+ * @returns The command.
+ * @throws {CliUsageError} When an argument is missing, extra or bad.
  */
 function buildCommand({
 	command,
@@ -575,17 +549,16 @@ function buildCommand({
 }
 
 /**
- * Parses a command line into the command it invokes.
+ * Parses a command line into a {@link CliCommand}.
  *
- * An empty command line, `--help`, or `-h` anywhere in it asks for usage; every
- * other invocation is validated in full — the command must exist, its positional
- * arguments must be present and well formed, and every flag value must be within
- * range — so a command reaching the dispatcher is already known to be sound.
+ * An empty command line gives `help`. So does `--help` or `-h` at any place in it.
+ * The parser checks every other command line in full before it returns
+ * (technical-design.md §4.7, "CLI Structure").
  *
- * @param args - The invocation to parse.
- * @param args.argv - The arguments following the program name (`process.argv.slice(2)`).
- * @returns The parsed command.
- * @throws {CliUsageError} When the invocation cannot be understood.
+ * @param args - The command line.
+ * @param args.argv - The arguments after the program name (`process.argv.slice(2)`).
+ * @returns The command.
+ * @throws {CliUsageError} When the CLI cannot use the command line.
  * @example
  * parseCliArgs({ argv: ["run", "2025-10-10", "--from-stage", "transcription"] });
  */

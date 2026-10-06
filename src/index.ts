@@ -1,11 +1,10 @@
 /**
- * The `lecture-notes` entry point, run by `bin/lecture-notes` (and directly as
- * `pnpm exec tsx src/index.ts <command>` during development).
+ * The entry point of `lecture-notes`. `bin/lecture-notes` runs it with
+ * `pnpm exec tsx src/index.ts`.
  *
- * It does only what cannot be done anywhere else: load the environment, hand the
- * command line to {@link runCli}, and set the exit code. Everything else —
- * parsing, assembly, and the commands themselves — lives under `src/cli/` where
- * it can be tested (technical-design.md §4.7).
+ * It loads the environment variables from `.env`, gives the command line to {@link runCli} and sets
+ * the exit code. All other CLI code is in `src/cli/`, where a test can run it
+ * (technical-design.md §4.7, "CLI Structure").
  */
 
 import "dotenv/config";

@@ -1,12 +1,12 @@
 /**
- * Carrying out a parsed {@link CliCommand}.
+ * This module does the work of a parsed {@link CliCommand}. It finds the
+ * lectures that a lecture date names, and asks the user which lecture to act on.
+ * It asks the user to approve a reset or a deletion. It calls the runner and
+ * writes the result.
  *
- * This is the layer between a validated command line and the pipeline: it turns
- * a date into the lecture or lectures it names, asks the questions that need
- * asking, calls the runner, and prints what happened. Everything it depends on
- * — the runner, the prompts, and where output goes — is injected, so each
- * command's behaviour can be checked without running a pipeline or a terminal
- * (technical-design.md §4.7).
+ * The module gets the runner, the prompts and the output stream as {@link CliDeps}. So a
+ * test can check a command without a pipeline or a terminal (technical-design.md
+ * §4.7, "CLI Structure").
  */
 
 import { moduleName } from "../pipeline/layout.js";
@@ -30,7 +30,7 @@ import { pluralise } from "../utils/text.js";
 import type { CliCommand } from "./args.js";
 import { changeLectureDate, deleteLecture, renameLecture } from "./lecture-identity.js";
 
-/** The runner operations the commands drive. */
+/** The names of the runner methods that the commands call. */
 type RunnerOperation =
 	| "normaliseSources"
 	| "runLecture"
@@ -40,103 +40,85 @@ type RunnerOperation =
 	| "countLectures";
 
 /**
- * The runner surface the commands drive. Declared structurally so a test can
- * stand in a stub without constructing a real {@link PipelineRunner} and its
- * stages.
+ * The runner methods that the commands call. A test can give a stub of this type
+ * in place of a real {@link PipelineRunner} and its stages.
  *
- * Mapped rather than `Pick`ed: `Pick` copies the class's *method* signatures,
- * and a type carrying methods is not deeply readonly, so every function taking
- * {@link CliDeps} was reported by `prefer-readonly-parameter-types`. A mapped
- * type yields readonly properties whose type is the same function, which is
- * what an injected dependency is.
+ * It is a mapped type and not a `Pick`. `Pick` keeps the class's methods, and a
+ * type with methods is not deeply readonly. Then the lint rule
+ * `prefer-readonly-parameter-types` reports every function that takes
+ * {@link CliDeps}. A mapped type gives readonly properties that hold the same
+ * functions.
  */
 export type PipelineRunnerFacade = {
 	readonly [TOperation in RunnerOperation]: PipelineRunner[TOperation];
 };
 
 /**
- * What a picker is handed: the lectures a date turned out to name.
+ * The input of a picker: the lectures that one lecture date names.
  *
- * Declared here rather than in `prompts.ts` for the same reason `ConfirmPrompt`
- * is declared by the stage that asks it: the layer with a question to ask states
- * its shape, and the terminal module implements it.
+ * It is declared here, not in `prompts.ts`. The module that asks a question
+ * declares the type of that question. The terminal module, `prompts.ts`,
+ * implements that type. `ConfirmPrompt`
+ * follows the same rule.
  */
 export type MatchQuery = { readonly matches: readonly LectureMatch[] };
 
 /**
- * Settles a date that names several lectures, returning those to act on and an
- * empty list when the user cancels. Which picker a command uses depends on
- * whether acting on several at once means anything for it.
+ * Asks the user which of several lectures to act on. It returns the chosen
+ * lectures, or an empty list when the user cancels.
  */
 export type LecturePicker = (args: MatchQuery) => Promise<readonly LectureMatch[]>;
 
-/**
- * The same, where acting on several at once would be meaningless: one lecture,
- * or `null` when the user cancels.
- */
+/** Asks the user which one of several lectures to act on. It returns `null` when the user cancels. */
 export type SingleLecturePicker = (args: MatchQuery) => Promise<LectureMatch | null>;
 
-/** Where user-facing text goes: one line of output, already terminated. */
+/** Writes text that the user reads. The text has its own line ends. */
 export type WriteText = (text: string) => void;
 
-/** Everything a command needs from the world outside it. */
+/** Everything that a command uses from outside this module. */
 export type CliDeps = {
-	/** The pipeline runner the commands drive. */
 	readonly runner: PipelineRunnerFacade;
-	/** Every module named in the configuration, used when a command names none. */
+	/** Every module in the configuration. A command that names no module uses all of them. */
 	readonly moduleRoots: readonly string[];
-	/** How many lectures the configuration says a batch runs at once, used when `--concurrency` is not given. */
+	/** The config's `batch.concurrency`. A batch uses it when `--concurrency` is not given. */
 	readonly batchConcurrency: number;
-	/**
-	 * Renders a stored dollar figure for display. Built once where the CLI is
-	 * assembled, so every block of output it writes shows money the same way.
-	 */
+	/** Shows a stored dollar figure. The CLI makes one formatter, so all the CLI's output shows money the same way. */
 	readonly formatMoney: MoneyFormatter;
-	/** Asks which lectures to act on when a date matches several. */
+	/** The picker for `run` and `cost-report`, which can act on several lectures. */
 	readonly selectMatches: LecturePicker;
-	/** Asks which single lecture to act on, where acting on several would be meaningless. */
+	/** The picker for an identity change, which acts on one lecture only. */
 	readonly selectMatch: SingleLecturePicker;
-	/** Asks the user to approve an irreversible action. */
+	/** Asks the user to approve an action that cannot be undone. */
 	readonly confirm: ConfirmPrompt;
-	/** Where this invocation is writing its debug log, for pointing the user at it. */
+	/** The path of this invocation's debug log. A failure message gives it to the user. */
 	readonly debugLogPath: string;
-	/** Where user-facing output goes. */
+	/** Writes the output that the user reads. */
 	readonly write: WriteText;
 };
 
-/** The exit code for a command that did everything the user asked for. */
+/** The exit code for a command that did all that the user asked. */
 export const EXIT_SUCCESS = 0;
-/** The exit code for anything the user asked for that could not be done. */
+/** The exit code for a command that could not do what the user asked. */
 export const EXIT_FAILURE = 1;
 
-/**
- * What every command is handed: the invocation to carry out, and the world to
- * carry it out against.
- *
- * @typeParam TCommand - The command variant being carried out.
- */
 type CommandArgs<TCommand> = { readonly command: TCommand; readonly deps: CliDeps };
 
-/** What the two halves of reporting a finished lecture are handed. */
+/** The input of {@link printRunSummary} and {@link reportFailures}. */
 type LectureReport = { readonly deps: CliDeps; readonly summary: PipelineRunSummary };
 
 /**
- * The lectures an action is handed: at least one, because a date naming none is
- * reported before any action runs.
+ * The lectures that an action gets. There is always at least one, because a
+ * lecture date that names no lecture stops before the action.
  */
 type ChosenLectures = readonly [LectureMatch, ...LectureMatch[]];
 
 /**
- * The picker every identity change uses: exactly one lecture, or none.
- *
- * `rename`, `delete`, and `change-date` each name a single lecture (FR-6.7), so
- * a date that turns out to name several is a question to settle rather than a
- * licence to act on all of them — one new title cannot belong to two lectures,
- * and neither a deletion nor a re-dating is something to do twice on the
- * strength of one command (technical-design.md §4.7).
+ * Makes the picker for the identity changes. It gives one lecture, or none when
+ * the user cancels. Each identity change acts on one lecture only (FR-6.7,
+ * technical-design.md §4.7, "An identity change acts on exactly one lecture").
  *
  * @param deps - The command dependencies.
- * @returns A picker yielding at most one lecture.
+ * @returns A picker that gives at most one lecture.
  */
 function chooseOneLecture(deps: CliDeps): LecturePicker {
 	return async ({ matches }) => {
@@ -146,23 +128,21 @@ function chooseOneLecture(deps: CliDeps): LecturePicker {
 }
 
 /**
- * Runs an action against the lectures a date names.
+ * Finds the lectures that a lecture date names, and runs an action on them.
+ * Every command that takes a lecture date starts here.
  *
- * Every command that takes a date shares this preamble: the date is resolved
- * across the modules in scope, a date matching several lectures is put to the
- * user, and only then does the command act. A date naming nothing is a failure —
- * the user asked for something that is not there — while a user who cancels the
- * choice has not failed at anything, so neither reaches the action
- * (technical-design.md §4.7).
+ * When several lectures have the date, the picker asks the user which. A date
+ * that names no lecture is a failure. A cancelled choice is a success. Neither
+ * reaches the action (technical-design.md §4.7, "Exit codes").
  *
- * @param args - The resolution inputs and what to do with the result.
+ * @param args - The search and the action.
  * @param args.deps - The command dependencies.
- * @param args.lectureDate - The date the command was given.
- * @param args.act - What to do with the resolved lectures.
- * @param args.choose - Which picker settles a date matching several lectures.
- * @param args.moduleRoot - The module the command narrowed to, or `null` to search every configured one.
- * @param args.alsoTry - The second remedy to offer when the date matches nothing.
- * @returns The action's exit code, or the code for an unmatched or cancelled choice.
+ * @param args.lectureDate - The lecture date from the command line.
+ * @param args.act - The action on the chosen lectures.
+ * @param args.choose - The picker for a date that names several lectures.
+ * @param args.moduleRoot - The one module to search, or `null` for every configured module.
+ * @param args.alsoTry - The second remedy that the message gives when no lecture has the date.
+ * @returns The action's exit code, or the exit code for no match or a cancelled choice.
  */
 async function withResolvedLectures({
 	deps,
@@ -190,9 +170,9 @@ async function withResolvedLectures({
 		return EXIT_FAILURE;
 	}
 	const chosen = matches.length === 1 ? matches : await choose({ matches });
-	// Destructured rather than length-tested, because taking the head is what
-	// narrows: `[first, ...rest]` *is* the non-empty tuple, so an action working on
-	// exactly one lecture can take the first without a second emptiness check.
+	// The code uses a destructure, and not a length test, because only the
+	// destructure narrows the type. `[first, ...rest]` is a non-empty tuple, so an action can take the
+	// first lecture without a second check.
 	const [first, ...rest] = chosen;
 	if (first === undefined) {
 		return EXIT_SUCCESS;
@@ -201,12 +181,13 @@ async function withResolvedLectures({
 }
 
 /**
- * The modules a command covers: the one it named, or every configured module.
+ * Gives the modules that a command acts on: the one that it named, or every
+ * configured module.
  *
- * @param args - The scope inputs.
- * @param args.moduleRoot - The module the command named, or `null` for all of them.
+ * @param args - The module and the dependencies.
+ * @param args.moduleRoot - The module that the command named, or `null` for every module.
  * @param args.deps - The command dependencies.
- * @returns The modules to act on.
+ * @returns The modules.
  */
 function scopedModuleRoots({
 	moduleRoot,
@@ -219,23 +200,24 @@ function scopedModuleRoots({
 }
 
 /**
- * Where a lecture search looked, as the "nothing matched" message names it, so
- * a user who narrowed the search with `--module` is not told the whole
- * configuration was read.
+ * Names the modules that a search looked in, for a message that says nothing was
+ * found. With `--module`, the message names that one module and not the whole
+ * configuration.
  *
- * @param args - The scope inputs.
- * @param args.moduleRoot - The module the command named, or `null` for all of them.
- * @returns The phrase naming what was searched.
+ * @param args - The module.
+ * @param args.moduleRoot - The module that the command named, or `null` for every module.
+ * @returns The words that name the modules.
  */
 function searchScope({ moduleRoot }: { readonly moduleRoot: string | null }): string {
 	return moduleRoot === null ? "in the configured modules" : `in ${moduleName({ moduleRoot })}`;
 }
 
 /**
- * How every command but `cost-report` resolves a date: across the whole
- * configuration, since none of them takes `--module`; and where the date names
- * no lecture, offering to add its sources, because a run over them would bring
- * the lecture into being.
+ * The search settings of every command except `cost-report`. These commands take
+ * no `--module`, so they search every configured module. When no lecture has the
+ * date, the message tells the user to add the video and slides of the lecture on
+ * that date. The next pipeline run
+ * then makes the lecture.
  */
 const ACROSS_EVERY_MODULE = {
 	moduleRoot: null,
@@ -243,21 +225,19 @@ const ACROSS_EVERY_MODULE = {
 } as const;
 
 /**
- * No second remedy, for a command that only reads what has already run.
- * `cost-report` offers none: running the pipeline would spend money rather than
- * uncover the spending the report could not find.
+ * The empty second remedy of `cost-report`. A pipeline run would spend money,
+ * and it would not find the spending that the report did not find.
  */
 const NO_SECOND_REMEDY = "";
 
 /**
- * Prints the end-of-run summary for one lecture, reading the manifest the run
- * has just finished writing for each stage's model, tokens, and cost
- * (technical-design.md §7).
+ * Writes the run summary of one pipeline run, then its failures. Each stage's
+ * model, tokens and cost come from the manifest (technical-design.md §7, "End-of-Run Summary").
  *
- * @param args - The summary inputs.
+ * @param args - The dependencies and the pipeline run.
  * @param args.deps - The command dependencies.
- * @param args.summary - The lecture's run summary.
- * @returns A promise that resolves once the summary is written.
+ * @param args.summary - The pipeline run summary from the runner.
+ * @returns A promise that resolves when the output is written.
  */
 async function printRunSummary({ deps, summary }: LectureReport): Promise<void> {
 	const manifest = await readManifest({ workspaceRoot: summary.workspaceRoot });
@@ -272,16 +252,12 @@ async function printRunSummary({ deps, summary }: LectureReport): Promise<void> 
 }
 
 /**
- * Names each stage that failed, with the error recorded for it, and points at
- * the debug log for the stack behind it.
+ * Writes each failed stage with its error message, then the path of the debug
+ * log, which holds the stack (technical-design.md §8, "Stage Failure Protocol").
  *
- * Without this a failure reads as a summary row with no cost against it and no
- * reason given — the message is in the manifest and the run log, but the user
- * should not have to open either to learn what went wrong (technical-design.md §8).
- *
- * @param args - The report inputs.
+ * @param args - The dependencies and the pipeline run.
  * @param args.deps - The command dependencies.
- * @param args.summary - The lecture's run summary.
+ * @param args.summary - The pipeline run summary from the runner.
  * @returns Nothing.
  */
 function reportFailures({ deps, summary }: LectureReport): void {
@@ -298,13 +274,14 @@ function reportFailures({ deps, summary }: LectureReport): void {
 }
 
 /**
- * Runs each of the given lectures in turn, printing a summary for each.
+ * Runs the chosen lectures one after another, and writes the run summary of
+ * each. With `--from-stage`, it first asks the user to approve the reset.
  *
- * @param args - The run inputs.
+ * @param args - The lectures and the options.
  * @param args.deps - The command dependencies.
  * @param args.matches - The lectures to run.
- * @param args.options - The run options from the command line.
- * @returns The failure exit code when any lecture failed, otherwise success.
+ * @param args.options - The pipeline run options from the command line.
+ * @returns The failure exit code when a pipeline run failed, otherwise the success exit code.
  */
 async function runLectures({
 	deps,
@@ -336,12 +313,12 @@ async function runLectures({
 }
 
 /**
- * Runs one lecture by date. Sources are normalised first, so a lecture whose
- * video and slides were only just added has a workspace to run
- * (technical-design.md §4.7, §5).
+ * Does the `run` command. Normalisation goes first, so a lecture with a new
+ * source pair has a workspace to run (technical-design.md §4.7, "`run <date>`
+ * normalises first").
  *
- * @param args - The command inputs.
- * @param args.command - The parsed `run` command.
+ * @param args - The command and the dependencies.
+ * @param args.command - The `run` command.
  * @param args.deps - The command dependencies.
  * @returns The exit code.
  */
@@ -360,10 +337,11 @@ async function runCommand({
 }
 
 /**
- * Runs every lecture in one module, or in every configured module.
+ * Does the `batch` command: runs every lecture in one module, or in every
+ * configured module.
  *
- * @param args - The command inputs.
- * @param args.command - The parsed `batch` command.
+ * @param args - The command and the dependencies.
+ * @param args.command - The `batch` command.
  * @param args.deps - The command dependencies.
  * @returns The exit code.
  */
@@ -375,8 +353,8 @@ async function batchCommand({
 	const proceed = await confirmReset({
 		deps,
 		fromStage: command.options.fromStage,
-		// Normalised first, so a lecture whose sources were only just added is one
-		// of the lectures counted — the batch is about to run it either way.
+		// Normalisation goes first, so the count includes a lecture with a new source
+		// pair (technical-design.md §4.7, "Counting a batch's scope").
 		countLectures: async () => {
 			await deps.runner.normaliseSources({ moduleRoots });
 			return deps.runner.countLectures({ moduleRoots });
@@ -397,23 +375,18 @@ async function batchCommand({
 }
 
 /**
- * Reports on the given modules: one rendered report per lecture, each followed
- * by a blank line as every other block of CLI output is.
+ * Gets the cost reports from the runner and writes them, one for each lecture.
+ * Both forms of `cost-report`, with and without a lecture date, end here.
  *
- * Both routes into the report end here — the whole configuration, and the
- * lectures a date resolved to — so what a report covers is asked for and written
- * in one place rather than at each of them.
+ * When there is no lecture to report on, it writes a message that says so
+ * (technical-design.md §7, "Cost Report Command").
  *
- * Where the scope holds no lecture there is no report to write, and this says so
- * instead: nothing spent is an answer, and printing nothing at all could not be
- * told from a command that failed to look (technical-design.md §7).
- *
- * @param args - What to report on and where to write it.
- * @param args.deps - The command dependencies, carrying the runner and the output stream.
+ * @param args - The modules, the options and the dependencies.
+ * @param args.deps - The command dependencies.
  * @param args.moduleRoots - The modules to report on.
- * @param args.options - What narrows the report, e.g. the date the user gave.
- * @param args.moduleRoot - The module the command named, or `null` for all of them.
- * @returns A promise that resolves once the report has been written.
+ * @param args.options - The report options, such as the lecture date.
+ * @param args.moduleRoot - The module that the command named, or `null` for every module.
+ * @returns A promise that resolves when the output is written.
  */
 async function reportCosts({
 	deps,
@@ -439,12 +412,13 @@ async function reportCosts({
 }
 
 /**
- * Prints the cost report, narrowed to a module or a date when either was given.
- * A date matching several modules is resolved the same way `run` resolves one,
- * and the report then covers exactly the lectures chosen (technical-design.md §7).
+ * Does the `cost-report` command, for one module or one lecture date when the
+ * command names one. When several lectures have the date, the user chooses with
+ * the same picker as `run`. The report then covers only the chosen lectures
+ * (technical-design.md §7, "Cost Report Command").
  *
- * @param args - The command inputs.
- * @param args.command - The parsed `cost-report` command.
+ * @param args - The command and the dependencies.
+ * @param args.command - The `cost-report` command.
  * @param args.deps - The command dependencies.
  * @returns The exit code.
  */
@@ -481,36 +455,29 @@ async function costReportCommand({
 }
 
 /**
- * The question asked before a lecture is destroyed, naming what is being lost.
+ * Writes the question that `delete` asks. It names the lecture and the lecture files that go.
  *
- * @param lectureMatch - The lecture about to be deleted.
- * @returns The question to put to the user.
+ * @param lectureMatch - The lecture to delete.
+ * @returns The question.
  */
 function deletionPrompt(lectureMatch: LectureMatch): string {
 	return `Permanently delete Lecture ${lectureMatch.lectureNumber} "${lectureMatch.lectureTitle}" — its video, slides, workspace, and final output? This cannot be undone.`;
 }
 
 /**
- * Asks before a re-run discards finished work, and says so when it is refused.
+ * Asks the user to approve a reset, and gives the number of lectures that lose
+ * work (NFR-4.3). When the user declines, nothing runs, and the output says so
+ * (technical-design.md §4.7, "The reset is confirmed before anything is deleted").
  *
- * `--from-stage` deletes the nominated stage's output and every later stage's,
- * for every lecture the command covers. How many that is never appears in what
- * the user typed: a date can match lectures in several modules, and a batch
- * covers every lecture in every configured module. So the count leads the
- * question, which is what makes it worth reading (NFR-4.3). Refusing runs
- * nothing at all, rather than running without the reset.
+ * It asks nothing when there is no `--from-stage`, or when the count is zero. It
+ * gets the count only when there is a `--from-stage`. The count for a batch
+ * costs a normalisation and a scan of the batch's modules.
  *
- * A run that nominates no stage destroys nothing and is never questioned; nor is
- * one with no lectures to act on, since there is nothing to delete.
- *
- * The count is taken lazily because establishing it costs a scan of every
- * configured module, which an ordinary run must not pay for.
- *
- * @param args - What the run would clear.
+ * @param args - The reset and the count.
  * @param args.deps - The command dependencies.
- * @param args.fromStage - The stage the run restarts from; `undefined` for an ordinary run.
- * @param args.countLectures - Establishes how many lectures the run covers.
- * @returns Whether to go ahead.
+ * @param args.fromStage - The stage from `--from-stage`, or `undefined` when there is no reset.
+ * @param args.countLectures - Gets the number of lectures that the command covers.
+ * @returns `true` when the command can continue.
  */
 async function confirmReset({
 	deps,
@@ -538,15 +505,16 @@ async function confirmReset({
 }
 
 /**
- * Applies an identity change to the chosen lecture, then re-runs `source-normalisation` over
- * its module so numbering and file names catch up (technical-design.md §4.7).
- * A change the user declines leaves the module alone, so nothing is normalised.
+ * Makes an identity change to the chosen lecture, then normalises its module.
+ * Normalisation renumbers the lectures and gives the lecture files their base
+ * names (technical-design.md §4.7, "Identity-change commands"). When the user
+ * declines the change, there is no normalisation.
  *
- * @param args - The identity-change inputs.
- * @param args.command - The parsed identity-change command.
+ * @param args - The identity change.
+ * @param args.command - The identity-change command.
  * @param args.deps - The command dependencies.
  * @param args.lectureMatch - The lecture to change.
- * @returns The success exit code once the change and any renormalisation are done.
+ * @returns The success exit code.
  */
 async function changeLectureIdentity({
 	command,
@@ -559,13 +527,8 @@ async function changeLectureIdentity({
 	return EXIT_SUCCESS;
 }
 
-/**
- * The identity-change commands, which share a shape: resolve the date, apply
- * the change, then renormalise (technical-design.md §4.7).
- */
 type IdentityChangeCommand = Extract<CliCommand, { command: "rename" | "delete" | "change-date" }>;
 
-/** The lecture an identity change is being made to, and the change to make. */
 type IdentityChangeTarget = {
 	readonly command: IdentityChangeCommand;
 	readonly deps: CliDeps;
@@ -573,14 +536,14 @@ type IdentityChangeTarget = {
 };
 
 /**
- * Applies one lecture's identity change, asking first where the change destroys
- * work.
+ * Makes one identity change. Only `delete` asks the user first, because only
+ * `delete` destroys work.
  *
- * @param args - The change inputs.
- * @param args.command - The parsed identity-change command.
+ * @param args - The identity change.
+ * @param args.command - The identity-change command.
  * @param args.deps - The command dependencies.
  * @param args.lectureMatch - The lecture to change.
- * @returns Whether the change was made; `false` when the user declined it.
+ * @returns `true` when the change was made, and `false` when the user declined it.
  */
 async function applyIdentityChange({
 	command,
@@ -607,10 +570,10 @@ async function applyIdentityChange({
 }
 
 /**
- * Runs an identity-change command against the single lecture its date names.
+ * Does an identity-change command on the one lecture that its lecture date names.
  *
- * @param args - The command inputs.
- * @param args.command - The parsed identity-change command.
+ * @param args - The command and the dependencies.
+ * @param args.command - The identity-change command.
  * @param args.deps - The command dependencies.
  * @returns The exit code.
  */
@@ -628,19 +591,18 @@ function identityChangeCommand({
 }
 
 /**
- * A command that does pipeline work. `help` is not among them: it is answered
- * before the configuration is even read, so that a misconfigured project can
- * still ask what the commands are.
+ * Every command except `help`. The CLI answers `help` before it reads the
+ * configuration, so `help` needs no {@link CliDeps} (technical-design.md §4.7).
  */
 export type RunnableCliCommand = Exclude<CliCommand, { command: "help" }>;
 
 /**
- * Carries out a parsed command and reports how the process should exit.
+ * Does a parsed command and gives the exit code.
  *
- * @param args - The dispatch inputs.
- * @param args.command - The command to carry out.
- * @param args.deps - Everything the command needs from outside itself.
- * @returns The process exit code: `0` when the command did what was asked, `1` when it could not.
+ * @param args - The command and the dependencies.
+ * @param args.command - The command.
+ * @param args.deps - Everything that the command uses from outside this module.
+ * @returns The exit code: `0` when the command did what the user asked, and `1` when it could not.
  * @throws {import("./lecture-identity.js").LectureIdentityError} When an identity change cannot be made.
  * @example
  * const code = await executeCommand({ command: parseCliArgs({ argv }), deps });

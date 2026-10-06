@@ -33,28 +33,24 @@ import {
 	type RunnableCliCommand,
 } from "./commands.js";
 
-// The pounds figure asserted below was worked out by hand at the fixtures' rate,
-// which is deliberately not `currency.gbpPerUsd` — taking it from config would
-// fail the assertion on an unrelated config edit and blame the formatter. That
-// rate, and the formatter built from it, live in the fixtures: this suite had a
-// second copy of the same number for the same stated reason.
+// The pounds figure below is worked out by hand at the fixtures' rate,
+// `GBP_PER_USD` in `fixtures.ts`. That constant gives the reason for the rate.
 
-// A stage with work both before and after it, so a reset from here is worth
-// warning about. Which stage it is does not matter — only that it is named back.
+// A stage with stages before it and after it, for the reset cases. Any such
+// stage will do. The tests check only that the question names it.
 const RESET_FROM = "synthesis";
 
-// What the user is told when they turn a reset down. Written out rather than
-// imported: the point is that this wording reaches them, and taking it from the
-// code that prints it would assert nothing.
+// The message for a declined reset. It is written here and not imported, because
+// the test checks the words that the user reads.
 const NOTHING_WAS_RUN = "Nothing was run";
 
-// Where this invocation put its debug log. Any path will do — what is under test
-// is that the CLI tells the user the one it was given.
+// The debug log path of this invocation. Any path will do. The tests check that
+// the CLI gives the user the path that it got.
 const DEBUG_LOG_PATH = join("/tmp", "project", "debug-logs", `${testTimestampId}-debug.log`);
 
-// How many lectures the configuration says a batch runs at once. Not the
-// example's 1: that is also the runner's own default, so a batch taking it could
-// not be told from one that ignored the config.
+// The config's batch.concurrency. It is not the example config's 1, because 1 is
+// also the runner's default. With 1, the test would pass even for a batch that
+// ignored the config.
 const CONFIGURED_BATCH_CONCURRENCY = 4;
 
 describe("executeCommand", () => {
@@ -105,7 +101,7 @@ describe("executeCommand", () => {
 		};
 	}
 
-	/** Records one finished transcription, so a cost report has something to show. */
+	/** Writes a manifest with one completed transcription, so a cost report has a row. */
 	async function writeLectureManifest(workspace: string, baseName?: string): Promise<void> {
 		await writeManifest({
 			workspaceRoot: workspace,
@@ -122,7 +118,7 @@ describe("executeCommand", () => {
 		});
 	}
 
-	/** A second workspace in the same module, for the multi-match cases. */
+	/** Makes a second workspace in the same module, for the cases where a date names several lectures. */
 	async function makeLectureWorkspace(baseName: string): Promise<string> {
 		const workspace = workspaceRootFor({ moduleRoot, baseName });
 		await writeLectureManifest(workspace, baseName);
@@ -130,13 +126,12 @@ describe("executeCommand", () => {
 	}
 
 	/**
-	 * A second configured module. Only ever a path in `moduleRoots` — nothing is
-	 * laid out under it — so it is derived rather than stored.
+	 * Gives a second configured module. It is only a path in `moduleRoots`, with
+	 * no folders in it, so a function gives it and no variable holds it.
 	 *
-	 * Not `otherModuleRoot`: `fixtures.ts` exports that name for a synthetic path
-	 * no suite writes to, and this one lives under the temporary tree. Two
-	 * different values under one name is how a test comes to assert against a
-	 * directory it never made.
+	 * It is not named `otherModuleRoot`. `fixtures.ts` uses that name for a path
+	 * outside the temporary folder that no suite writes to. One name for two paths
+	 * could make a test check a folder that it never made.
 	 */
 	function secondModuleRoot(): string {
 		return join(tempDir, otherModuleName);
@@ -162,20 +157,19 @@ describe("executeCommand", () => {
 		return written.join("");
 	}
 
-	/** The wording of the last question the user was asked. */
+	/** Gives the words of the last question that the user was asked. */
 	function asked(): string {
 		return confirm.mock.calls.at(-1)?.[0].message ?? "";
 	}
 
 	/**
-	 * The answer to the reset question settles the same two things whichever
-	 * route asked it — approving does the work, declining does none of it and
-	 * says so — so the rule is stated here and applied to the runner call each
-	 * route makes.
+	 * Adds the two tests of the reset question that `run` and `batch` share. After
+	 * an approval, the command calls its runner method. After a decline, the
+	 * command does not call that method, and it writes that nothing was run.
 	 *
-	 * @param args - The route under test.
-	 * @param args.resetCommand - The command carrying the `--from-stage` option.
-	 * @param args.runsThrough - The runner call that route makes when it goes ahead.
+	 * @param args - The command under test.
+	 * @param args.resetCommand - The command with `--from-stage`.
+	 * @param args.runsThrough - Gives the runner method that the command calls when it continues.
 	 */
 	function itHonoursTheResetAnswer({
 		resetCommand,
@@ -202,17 +196,17 @@ describe("executeCommand", () => {
 		});
 	}
 
-	/** Carries a command out against freshly built dependencies, as the CLI does. */
+	/** Does a command with new dependencies, as the CLI does. */
 	function invoke(command: RunnableCliCommand): Promise<number> {
 		return executeCommand({ command, deps: deps() });
 	}
 
-	/** Puts the runner in the state every unmatched-date case shares: the date names nothing. */
+	/** Makes the runner find no lecture for the date. */
 	function noLectureCarriesTheDate(): void {
 		runner.resolveLecturesByDate.mockResolvedValue([]);
 	}
 
-	/** A second lecture sharing the first one's date, for the multi-match cases. */
+	/** Makes a second lecture with the same date as the first, for the cases where a date names several lectures. */
 	async function makeSecondLecture(): Promise<LectureMatch> {
 		return {
 			moduleRoot,
@@ -223,8 +217,8 @@ describe("executeCommand", () => {
 	}
 
 	beforeEach(async () => {
-		// The whole module tree, including the source video and slide the delete
-		// and change-date commands move, comes from the shared fixture.
+		// The shared fixture makes the module folders, with the video recording and
+		// slide deck that delete and change-date act on.
 		({ tempDir, moduleRoot, workspaceRoot } = await makeLectureTree({ prefix: "commands-" }));
 		await writeLectureManifest(workspaceRoot);
 		match = {
@@ -287,8 +281,8 @@ describe("executeCommand", () => {
 		});
 
 		it("should pass the run options through when flags were given", async () => {
-			// Any options that are not the default will do: what is under test is that
-			// the dispatcher hands the runner what it was given, whatever that is.
+			// Any options other than the default will do. The test checks that the
+			// runner gets the options that the command got.
 			const flagged = { fromStage: "transcription", onStageFailure: "continue" } as const;
 
 			await invoke({ ...runCommand, options: flagged });
@@ -327,8 +321,8 @@ describe("executeCommand", () => {
 			await invoke(runCommand);
 
 			expect(printed()).toContain("Transcription failed: ELEVENLABS_API_KEY is not set");
-			// The path itself, not the bare directory name: the log does not sit
-			// anywhere the user can guess from the workspace paths printed above it.
+			// The test checks the full path, not only the folder name. The user cannot find the debug
+			// log from the workspace paths in the output.
 			expect(printed()).toContain(DEBUG_LOG_PATH);
 		});
 
@@ -394,8 +388,8 @@ describe("executeCommand", () => {
 				expect(asked()).toContain("1 lecture");
 			});
 
-			// The count is what the user is being asked about, so it has to follow the
-			// choice they just made rather than the matches the date turned up.
+			// The count is the number of lectures that the user chose, not the number
+			// that the date names.
 			it("should count every lecture chosen when the date matches several", async () => {
 				const other = await makeSecondLecture();
 				runner.resolveLecturesByDate.mockResolvedValue([match, other]);
@@ -419,7 +413,7 @@ describe("executeCommand", () => {
 			concurrency: null,
 		} as const;
 
-		/** What the runner is asked to do by a batch with no flags beyond the one under test. */
+		/** The options that the runner gets from a batch with no flags beyond the one under test. */
 		const configuredBatchOptions = {
 			...DEFAULT_PIPELINE_RUN_OPTIONS,
 			concurrency: CONFIGURED_BATCH_CONCURRENCY,
@@ -503,8 +497,8 @@ describe("executeCommand", () => {
 				runner.countLectures.mockResolvedValue(12);
 			});
 
-			// The number is the whole point of asking: nothing the user typed says how
-			// many lectures a batch covers.
+			// The question must give the number, because the batch command line does
+			// not show how many lectures the batch covers.
 			it("should name the stage and how many lectures lose work when asking", async () => {
 				await invoke(resetCommand);
 
@@ -512,8 +506,7 @@ describe("executeCommand", () => {
 				expect(asked()).toContain("12 lectures");
 			});
 
-			// Sources are normalised first, so a lecture whose video and slides were
-			// only just added is one of the lectures counted.
+			// Normalisation goes first, so the count includes a lecture with a new source pair.
 			it("should count the lectures the batch covers after normalising when asking", async () => {
 				await invoke(resetCommand);
 
@@ -546,10 +539,8 @@ describe("executeCommand", () => {
 			});
 		});
 
-		// The runner renders reports and hands them back; showing them is the CLI's
-		// job, and it does it through the same injected stream as every other block
-		// of output — which is what makes this assertable without intercepting the
-		// process's own stdout.
+		// The runner returns the reports, and the CLI writes them to its output
+		// stream. So the test reads them from that stream, and not from stdout.
 		it("should write every report it was given when the runner returns them", async () => {
 			runner.costReport.mockResolvedValue(["FIRST REPORT", "SECOND REPORT"]);
 
@@ -565,8 +556,8 @@ describe("executeCommand", () => {
 			expect(runner.costReport).toHaveBeenCalledWith({ moduleRoots: [moduleRoot], options: {} });
 		});
 
-		// Nothing spent is an answer. Printing nothing at all cannot be told from a
-		// command that failed to look, or from a mistyped --module.
+		// "Nothing spent" is an answer. With no output, the user could not tell it
+		// from a command that did not look, or from a wrong --module.
 		it("should say there is nothing to report and succeed when no lecture has run", async () => {
 			runner.costReport.mockResolvedValue([]);
 
@@ -741,7 +732,7 @@ describe("executeCommand", () => {
 			const code = await invoke(changeCommand);
 
 			expect(code).toBe(0);
-			// The same lecture, renamed for its new date by the pipeline's own rule.
+			// The pipeline's own function gives the base name at the new date.
 			const movedBaseName = baseNameForLecture({
 				lectureNumber: testLecture.number,
 				title: testLecture.title,
@@ -780,8 +771,8 @@ describe("executeCommand", () => {
 
 			await invoke(command);
 
-			// Each of these names a single lecture (FR-6.7), so a shared date is a
-			// question to settle rather than licence to act on both.
+			// Each identity change acts on one lecture only (FR-6.7). So the user
+			// chooses one of the lectures with the date.
 			expect(selectMatches).not.toHaveBeenCalled();
 			expect(selectMatch).toHaveBeenCalledWith({ matches: [match, other] });
 			expect(runner.normaliseSources).toHaveBeenCalledWith({ moduleRoots: [moduleRoot] });

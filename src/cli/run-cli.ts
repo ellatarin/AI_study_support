@@ -1,11 +1,11 @@
 /**
- * The CLI's composition root: it assembles the runner, the stages, the logger,
- * and the prompts, hands them to the command layer, and turns whatever comes
- * back — an exit code or a typed error — into how the process should exit.
+ * The CLI's composition root. It makes the runner, the stages, the debug logger
+ * and the prompts, and gives them to the commands. It turns the result, an exit
+ * code or an error, into the process's exit code.
  *
- * Assembly lives here rather than in `src/index.ts` so that everything except
- * the process itself can be exercised: `runCli` takes the arguments, the project
- * root, and both output streams (technical-design.md §4.7, §8).
+ * This code is here and not in `src/index.ts`, so a test can run all of it. A
+ * test gives `runCli` the arguments, the project root and both output streams
+ * (technical-design.md §4.7, "CLI Structure", and §8, "The CLI Boundary").
  */
 
 import { loadConfig } from "../pipeline/config.js";
@@ -36,23 +36,23 @@ import {
 import { createPipelineRunReporter } from "./pipeline-run-reporter.js";
 import { confirmPrompt, selectLectureMatch, selectLectureMatches } from "./prompts.js";
 
-/** Where the CLI's two streams of output go; replaced wholesale under test. */
+/** The CLI's two output streams. A test gives its own. */
 type CliOutput = {
-	/** Receives everything the user asked to see. */
+	/** Writes the output that the user asked for. */
 	readonly write: WriteText;
-	/** Receives anything that went wrong. */
+	/** Writes the message of an error that stops the invocation. */
 	readonly writeError: WriteText;
 };
 
 /**
- * Builds the dependencies a command runs against: the configured runner, the
- * stages in pipeline order, and the prompts.
+ * Makes the {@link CliDeps} from the configuration: the runner with its stages,
+ * the prompts and the output stream.
  *
- * @param args - The assembly inputs.
- * @param args.projectRoot - The directory holding `pipeline-config.json`.
- * @param args.write - Where user-facing output goes.
- * @returns The assembled command dependencies.
- * @throws {import("../pipeline/config.js").ConfigError} When the configuration cannot be read or is invalid.
+ * @param args - The project root and the output stream.
+ * @param args.projectRoot - The folder that holds `pipeline-config.json`.
+ * @param args.write - Writes the output that the user reads.
+ * @returns The command dependencies.
+ * @throws {import("../pipeline/config.js").ConfigError} When the configuration cannot be read or is not valid.
  */
 async function assembleDeps({
 	projectRoot,
@@ -67,15 +67,14 @@ async function assembleDeps({
 		invocationId: deriveTimestampId({ instant: new Date() }),
 	});
 	const logger = createDebugLogger({ debugLogFile });
-	// One client for the invocation, provided from here for the reason the logger
-	// is: a stage is handed what it needs rather than reaching for a shared one,
-	// so nothing in the pipeline holds state outliving a run. It is a provider
-	// rather than a client because constructing one needs the API key, and the
-	// commands that touch no model must keep working without one.
+	// The invocation has one client. Each stage gets it from here, as it gets the
+	// logger, so no module of the pipeline holds a client. It is a provider, not a
+	// client, because a client needs the API key. A command that makes no model
+	// call must work without the key.
 	const client = createOpenRouterClientProvider({ openRouter: config.openRouter });
-	// One formatter for everything the CLI writes — the live stage notices and
-	// the summaries that follow them — so the rate is read once rather than
-	// carried to each place that shows a figure.
+	// One formatter shows the money in all the CLI's output, the stage notices and
+	// the summaries.
+	// So the exchange rate is read once, and not given to each place that shows money.
 	const formatMoney = createMoneyFormatter({ gbpPerUsd: config.currency.gbpPerUsd });
 	const runner = new PipelineRunner({
 		config,
@@ -84,7 +83,8 @@ async function assembleDeps({
 			confirm: confirmPrompt,
 			modulePrefixes: config.naming.modulePrefixes,
 		}),
-		// Pipeline order; each further stage joins this list as it is built.
+		// The runner runs these stages in this order, so the list is in pipeline order.
+		// A stage that is not built yet is not in the list.
 		lectureStages: [
 			createAudioExtractionStage({ logger }),
 			createTranscriptionStage({ logger }),
@@ -113,11 +113,11 @@ async function assembleDeps({
 }
 
 /**
- * Reports a failure as a sentence rather than a stack trace, adding the usage
- * text when the command line itself was the problem.
+ * Writes the message of an error, with no stack. After a {@link CliUsageError},
+ * it also writes the usage text.
  *
- * @param args - What went wrong and where to say so.
- * @param args.error - The caught failure.
+ * @param args - The error and the output streams.
+ * @param args.error - The caught error.
  * @param args.output - The CLI's output streams.
  * @returns The failure exit code.
  */
@@ -136,21 +136,19 @@ function reportFailure({
 }
 
 /**
- * Runs the CLI end to end: parses the command line, assembles the pipeline, and
- * carries the command out.
+ * Does one invocation: parses the command line, makes the pipeline and does the
+ * command.
  *
- * `--help` is answered before the configuration is read, so the commands can be
- * discovered in a project that is not yet configured. Every typed failure —
- * a misused command line, an unreadable config, a stage error, a corrupt
- * manifest — is reported as a message and a non-zero exit code rather than an
- * unhandled rejection (technical-design.md §8).
+ * It answers `--help` before it reads the configuration, so `--help` works in a
+ * project with no configuration. One catch takes every error. The error becomes
+ * a message and the exit code `1` (technical-design.md §8, "The CLI Boundary").
  *
- * @param args - The invocation inputs.
- * @param args.argv - The arguments following the program name.
- * @param args.projectRoot - The directory holding `pipeline-config.json`; defaults to the working directory.
- * @param args.write - Where user-facing output goes; defaults to stdout.
- * @param args.writeError - Where failures are reported; defaults to stderr.
- * @returns The process exit code.
+ * @param args - The invocation.
+ * @param args.argv - The arguments after the program name.
+ * @param args.projectRoot - The folder that holds `pipeline-config.json`. The default is the working directory.
+ * @param args.write - Writes the output that the user reads. The default is stdout.
+ * @param args.writeError - Writes error messages. The default is stderr.
+ * @returns The exit code.
  * @example
  * process.exitCode = await runCli({ argv: process.argv.slice(2) });
  */

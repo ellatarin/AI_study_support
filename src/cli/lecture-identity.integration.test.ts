@@ -48,8 +48,8 @@ describe("lecture identity commands", () => {
 
 	describe("renameLecture", () => {
 		it.each([
-			// The user's title wins the precedence, so it is recorded as both their own
-			// and the effective one; the provisional title is history and stays put.
+			// A user title outranks the other titles, so it is also the lecture title.
+			// The provisional title does not change.
 			{ field: "userTitle" as const, expected: testUserTitle },
 			{ field: "lectureTitle" as const, expected: testUserTitle },
 			{ field: "provisionalTitle" as const, expected: testLecture.title },
@@ -79,8 +79,8 @@ describe("lecture identity commands", () => {
 	});
 
 	describe("deleteLecture", () => {
-		// Thunks, because every path here is built from state the enclosing
-		// beforeEach assigns, long after this table is read.
+		// Each path is a function, because the paths come from values that
+		// beforeEach sets after vitest reads this table.
 		it.each([
 			{
 				what: "the source video",
@@ -113,19 +113,19 @@ describe("lecture identity commands", () => {
 	});
 
 	describe("changeLectureDate", () => {
-		// The name `source-normalisation` would give this lecture at its new date, derived rather
-		// than written out so the expectation follows the naming rule.
+		// The base name that normalisation gives this lecture at its new date. The
+		// naming function makes it, so the test follows the naming rule.
 		const MOVED_BASE_NAME = baseNameForLecture({
 			lectureNumber: testLecture.number,
 			title: testLecture.title,
 			lectureDate: changedDate,
 		});
 
-		/** Where that folder sits, once the module the lecture is in is known. */
+		/** Gives the workspace path at the new date. It is a function, because `match` is set in beforeEach. */
 		const movedWorkspaceRoot = (): string =>
 			workspaceRootFor({ moduleRoot: match.moduleRoot, baseName: MOVED_BASE_NAME });
 
-		/** The act every case here performs: move the lecture onto {@link changedDate}. */
+		/** Moves the lecture to {@link changedDate}. Every test in this block does this. */
 		function changeDate(): Promise<void> {
 			return changeLectureDate({ match, newLectureDate: changedDate });
 		}
@@ -138,9 +138,8 @@ describe("lecture identity commands", () => {
 			expect(manifest.baseName).toBe(MOVED_BASE_NAME);
 		});
 
-		// Each of the four things a lecture is on disk moves, and the name it left
-		// stops existing. The workspace is checked through a file inside it, which
-		// is what shows the contents moved rather than just the folder.
+		// Each of the four lecture files moves, and its old name is gone. The test
+		// checks the workspace through a file in it, to show that the contents moved too.
 		it.each([
 			{
 				what: "the source video",
