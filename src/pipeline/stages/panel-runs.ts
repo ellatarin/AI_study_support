@@ -1,7 +1,7 @@
 /**
- * What the panel stages share around the model call: resending a reply that
- * came back unusable, and making a panel of runs that survives failure and
- * a later invocation (technical-design.md §5, "Dividing the transcript", Panel runs).
+ * This module holds what the panel stages share around the model call. It resends
+ * an unusable reply. It makes a panel whose saved runs survive a failure and a later
+ * invocation. See technical-design.md §5, "Dividing the transcript", Panel runs.
  */
 
 import { join, relative } from "node:path";
@@ -16,41 +16,39 @@ import { configuredStage } from "../../utils/stage-config.js";
 import { type StageInWorkspace, stageDirectoryPaths } from "../layout.js";
 import { type JsonReplyOutcome, tryJsonReplyAs, type UsableJsonReply } from "./model-stage.js";
 
-/** A call still unusable after its last send. Names what was sent and why the last send failed. */
+/** A call whose reply is still unusable after its last send. The message names the call and the last reason. */
 export class ResendsExhaustedError extends NamedError {}
 
 /**
- * A saved run an earlier invocation left that is not JSON or not a run. Every
- * saved run is written whole or not at all (technical-design.md §4.3), so one that
- * cannot be read was changed by something outside the pipeline, and is reported
- * rather than silently made again.
+ * A saved run that is not JSON or not a run. A saved run is written whole or not
+ * at all, so an unreadable one was changed outside the pipeline. The pipeline
+ * reports it and does not make it again (technical-design.md §5, "Dividing the
+ * transcript", Panel runs).
  */
 export class SavedRunUnreadableError extends NamedError {}
 
 /**
- * Sends one call until its reply is usable, up to three sends, pausing two
- * seconds and then four between them. Every send's cost is counted, failed ones
- * included, because each was billed.
+ * Sends one call until its reply is usable: up to three sends, with a pause of two
+ * seconds and then four between them. The cost of every send is counted, because
+ * every send is billed.
  *
- * Only an unusable reply is resent — empty, not JSON, the wrong shape. An error
- * thrown by the call itself passes straight through: the SDK has already
- * retried what is worth retrying at the HTTP level, a provider's refusal has
- * already been resent by the completion call (technical-design.md §6, §8), and
- * the rest, such as a prompt too long for the model, would fail the same way again.
+ * Only an unusable reply is resent. An error that the call throws is not resent.
+ * The OpenAI client and the model call already resend a failed call that can
+ * succeed when it is sent again. See technical-design.md §5, "Dividing the
+ * transcript", Panel runs, and §6, §8.
  *
- * Every unusable reply is logged as a warning naming the call, which send it
- * was and why, so how often a model's replies are unusable, and in what way,
- * can be read back from the run's log even when a later send succeeds.
+ * Each unusable reply is logged as a warning with the call, the send number and
+ * the reason (technical-design.md §5, "Dividing the transcript", Panel runs).
  *
- * @param args - The call, what to call it, and where to log.
+ * @param args - The call, its name, and the logger.
  * @param args.send - Makes the call once.
- * @param args.what - Names the call in the log and in a failure, e.g. "run 3".
- * @param args.logger - The stage's logger, on which each unusable reply is recorded.
- * @returns The usable reply and what every send cost together.
- * @throws {ResendsExhaustedError} When the third send is still unusable.
- * @typeParam TReply - The reply the call expects back.
+ * @param args.what - The name of the call in the log and in a failure, such as "run 3".
+ * @param args.logger - The logger of the stage.
+ * @returns The usable reply, and the cost of all the sends.
+ * @throws {ResendsExhaustedError} When the reply of the third send is still unusable.
+ * @typeParam TReply - The reply that the call expects.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger carries mutable properties the rule cannot see past; it is only logged to here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger type has mutable properties that the rule sees. This code only logs to it. CLAUDE.md allows a mutable type where a library requires one.
 export async function sendWithResends<TReply>({
 	send,
 	what,
@@ -72,18 +70,18 @@ export async function sendWithResends<TReply>({
 }
 
 /**
- * Asks the model for a JSON reply on a stage's behalf, resending it until the
- * reply is usable: {@link sendWithResends} over {@link tryJsonReplyAs}, which is
- * what every call the splitting, retitling and grouping stages make comes down to.
+ * Asks the model for a JSON reply for a stage, and resends the call until the reply
+ * is usable: {@link sendWithResends} over {@link tryJsonReplyAs}. Every call of the
+ * splitting, retitling and grouping stages uses it.
  *
- * @param args - What to ask and what to make of the reply, as for {@link tryJsonReplyAs}, and what to call it.
- * @param args.what - Names the call in the log and in a failure, e.g. "Grouping run 3".
- * @returns What the stage keeps from the usable reply, and what every send cost together.
- * @throws {ResendsExhaustedError} When the third send is still unusable.
- * @typeParam TReply - The reply the stage expects back.
- * @typeParam TKept - What the stage makes of it.
+ * @param args - The request and the use of the reply, as for {@link tryJsonReplyAs}, and the name of the call.
+ * @param args.what - The name of the call in the log and in a failure, such as "Grouping run 3".
+ * @returns The value that the stage keeps from the usable reply, and the cost of all the sends.
+ * @throws {ResendsExhaustedError} When the reply of the third send is still unusable.
+ * @typeParam TReply - The reply that the stage expects.
+ * @typeParam TKept - The value that the stage keeps from the reply.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- the message-param, pino Logger and OpenAI client types are library types that are not deeply readonly (CLAUDE.md permits dropping readonly where a library requires mutable types)
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- the message-param, pino Logger and OpenAI client types are library types that are not deeply readonly. CLAUDE.md allows a mutable type where a library requires one.
 export function sendJsonWithResends<TReply, TKept>({
 	what,
 	...request
@@ -94,30 +92,25 @@ export function sendJsonWithResends<TReply, TKept>({
 }
 
 /**
- * Where a panel's runs are saved and how to recognise one: what both making a
- * panel and reading a finished one need to know.
+ * The size and the folder of a panel's saved runs, and the reader of one saved run.
  *
- * @typeParam TRun - What a run holds.
+ * @typeParam TRun - The contents of one run.
  */
 type SavedPanel<TRun> = {
-	/** How many runs the panel holds. */
 	readonly panelSize: number;
-	/** Where the saved runs are written. */
 	readonly directory: string;
-	/**
-	 * Reads a value parsed back from a saved run as a run, keeping only what a
-	 * run holds, or gives `null` when it is not one.
-	 */
+	/** Reads a parsed saved run as a run, or gives `null` when it is not one. */
 	readonly readRun: (value: unknown) => TRun | null;
 };
 
 /**
- * The directory a panel stage saves its runs in: the one directory it works in.
+ * The folder in which a panel stage saves its runs: the first folder that the
+ * stage owns. It is the workspace when the stage owns no folder.
  *
- * @param args - The workspace and the panel stage.
- * @param args.workspaceRoot - Absolute path to the lecture workspace.
+ * @param args - The workspace, and the panel stage.
+ * @param args.workspaceRoot - The absolute path of the lecture's workspace.
  * @param args.stageId - The panel stage.
- * @returns The directory's absolute path.
+ * @returns The absolute path of the folder.
  */
 export function panelDirectory({ workspaceRoot, stageId }: StageInWorkspace): string {
 	const [directory = workspaceRoot] = stageDirectoryPaths({ workspaceRoot, stageId });
@@ -125,13 +118,13 @@ export function panelDirectory({ workspaceRoot, stageId }: StageInWorkspace): st
 }
 
 /**
- * The files a panel's runs are saved to, in run order: numbered from 1 and
- * padded to two digits so they list in that order.
+ * The paths of a panel's saved runs, in run order. The numbers count from 1 and
+ * have two digits, so the files list in run order.
  *
- * @param args - Where the panel saves, and how many runs it holds.
- * @param args.directory - The panel's directory.
- * @param args.panelSize - How many runs the panel holds.
- * @returns Each saved run's absolute path.
+ * @param args - The folder of the panel, and its size.
+ * @param args.directory - The folder of the panel.
+ * @param args.panelSize - The number of runs in the panel.
+ * @returns The absolute path of each saved run.
  */
 function savedRunPaths({
 	directory,
@@ -143,14 +136,14 @@ function savedRunPaths({
 }
 
 /**
- * The run an earlier invocation saved at `path`, or `null` when there is none.
+ * Reads the saved run at `path`.
  *
- * @param args - The file, and what counts as a run.
- * @param args.path - The saved run's path.
+ * @param args - The file, and the reader of a run.
+ * @param args.path - The path of the saved run.
  * @param args.readRun - Reads a parsed value as a run.
  * @returns The saved run, or `null` when no file is there.
  * @throws {SavedRunUnreadableError} When a file is there but holds no readable run.
- * @typeParam TRun - What a run holds.
+ * @typeParam TRun - The contents of one run.
  */
 async function readSavedRun<TRun>({
 	path,
@@ -169,24 +162,25 @@ async function readSavedRun<TRun>({
 }
 
 /**
- * Makes a panel of independent runs, a few at a time, saving each to its own
- * file the moment it completes. A later invocation reads back the runs already saved
- * and makes only the missing ones, so a crash or a failed run loses only the
- * runs in flight, and nothing already paid for is paid for again. The panel is
- * all or nothing: a run that fails fails the panel, and no partial panel is
- * ever returned (technical-design.md §5, "Dividing the transcript", Panel runs).
+ * Makes a panel of independent runs, a few at a time, and saves each run to its own
+ * file when it completes. The runs that an earlier invocation saved are read back,
+ * and only the missing runs are made. So a crash loses only the runs in flight.
  *
- * @param args - The panel's size and home, and how to make and recognise a run.
- * @param args.panelSize - How many runs the panel holds.
- * @param args.concurrency - The most runs in flight at once; unset means one at a time.
- * @param args.directory - Where the saved runs are written; it must already exist.
- * @param args.readRun - Reads a value parsed back from a saved run as a run.
- * @param args.makeRun - Makes one run, given its number counting from 1, with
- *   what its calls cost — `null` for a run that needed none.
- * @returns Every run in run order, the cost of the runs made by this invocation —
- *   `null` when none of them made a call — and the saved runs' paths.
- * @throws {SavedRunUnreadableError} When a saved run left by an earlier invocation holds no readable run.
- * @typeParam TRun - What a run holds.
+ * When a run fails, no further run starts. The runs in flight finish and are saved,
+ * and then the panel fails. The panel never gives only some of its runs
+ * (technical-design.md §5, "Dividing the transcript", Panel runs).
+ *
+ * @param args - The size and the folder of the panel, and how to make and read a run.
+ * @param args.panelSize - The number of runs in the panel.
+ * @param args.concurrency - The most runs in flight at the same time. Unset means one at a time.
+ * @param args.directory - The folder for the saved runs. It must already exist.
+ * @param args.readRun - Reads a parsed saved run as a run.
+ * @param args.makeRun - Makes one run, given its number from 1. It also gives the
+ *   cost of the run's calls, or `null` for a run that made no call.
+ * @returns Every run in run order, the cost of the runs that this invocation made,
+ *   and the paths of the saved runs. The cost is `null` when no run made a call.
+ * @throws {SavedRunUnreadableError} When a saved run holds no readable run.
+ * @typeParam TRun - The contents of one run.
  */
 export async function runPanel<TRun>({
 	panelSize,
@@ -226,20 +220,19 @@ export async function runPanel<TRun>({
 }
 
 /**
- * Reads back a panel an earlier stage finished, every run in run order. A stage
- * that goes on from a panel needs all of it, because a missing run changes what
- * the vote or the modal grouping means (technical-design.md §5, "Dividing the
- * transcript", Panel runs).
+ * Reads back every run of a panel that an earlier stage made, in run order. A stage
+ * that uses a panel needs all of its runs, because a missing run changes the vote
+ * (technical-design.md §5, "Dividing the transcript", Panel runs).
  *
- * @param args - Where the panel was saved, its size, what counts as a run, and how to fail.
- * @param args.panelSize - How many runs the panel holds.
- * @param args.directory - Where the saved runs were written.
- * @param args.readRun - Reads a value parsed back from a saved run as a run.
- * @param args.fail - Builds the reading stage's own error from a message.
+ * @param args - The size and the folder of the panel, the reader of a run, and the error to raise.
+ * @param args.panelSize - The number of runs in the panel.
+ * @param args.directory - The folder of the saved runs.
+ * @param args.readRun - Reads a parsed saved run as a run.
+ * @param args.fail - Builds the error of the reading stage from a message.
  * @returns Every run, in run order.
- * @throws The error `fail` builds, naming the file, when a run is missing.
+ * @throws The error that `fail` builds, with the path, when a run is missing.
  * @throws {SavedRunUnreadableError} When a saved run holds no readable run.
- * @typeParam TRun - What a run holds.
+ * @typeParam TRun - The contents of one run.
  */
 export async function readPanel<TRun>({
 	panelSize,
@@ -259,20 +252,19 @@ export async function readPanel<TRun>({
 }
 
 /**
- * Makes a stage's panel in the stage's own directory, with as many runs in
- * flight as the stage's `concurrency` allows, and reports it as the stage's
- * result: every run, what this invocation's calls cost, and the saved runs'
- * workspace-relative paths.
+ * Makes the panel of a stage in the stage's folder, with as many runs in flight as
+ * the stage's `concurrency` allows. The stage result holds every run, the cost of
+ * this invocation's calls, and the workspace-relative paths of the saved runs.
  *
- * @param args - The stage, its lecture, the panel's size, and how to make and recognise a run.
- * @param args.stageId - The panel stage; picks its directory and its concurrency.
- * @param args.context - The current lecture run context.
- * @param args.panelSize - How many runs the panel holds.
- * @param args.readRun - Reads a value parsed back from a saved run as a run.
- * @param args.makeRun - Makes one run, given its number counting from 1.
- * @returns The stage's result, holding every run in run order.
- * @throws {SavedRunUnreadableError} When a saved run left by an earlier invocation holds no readable run.
- * @typeParam TRun - What a run holds.
+ * @param args - The stage, the stage context, the panel size, and how to make and read a run.
+ * @param args.stageId - The panel stage. It sets the folder and the concurrency.
+ * @param args.context - The stage context of the current lecture.
+ * @param args.panelSize - The number of runs in the panel.
+ * @param args.readRun - Reads a parsed saved run as a run.
+ * @param args.makeRun - Makes one run, given its number from 1.
+ * @returns The stage result, with every run in run order.
+ * @throws {SavedRunUnreadableError} When a saved run holds no readable run.
+ * @typeParam TRun - The contents of one run.
  */
 export async function runStagePanel<TRun>({
 	stageId,
@@ -301,22 +293,22 @@ export async function runStagePanel<TRun>({
 }
 
 /**
- * {@link runStagePanel} for a panel whose every run is one JSON call, the same
- * request each time, resent until its reply is usable: `initial-subtopic-splitting`'s
- * and `group-into-topics`'.
+ * {@link runStagePanel} for a panel in which each run is one JSON call with the
+ * same request, resent until its reply is usable. `initial-subtopic-splitting`
+ * and `group-into-topics` use it.
  *
- * @param args - The stage, its lecture, the panel's size, how to recognise a saved run, and the call each run makes.
- * @param args.stageId - The panel stage; picks its directory, concurrency, model and tuning.
- * @param args.context - The current lecture run context.
- * @param args.panelSize - How many runs the panel holds.
- * @param args.readRun - Reads a value parsed back from a saved run as a run.
- * @param args.runName - Names each run in the log and in a failure, before its number, e.g. "Grouping run".
- * @param args.request - The call each run makes, as for {@link tryJsonReplyAs}, its `use` turning the reply into the run.
- * @returns The stage's result, holding every run in run order.
- * @throws {SavedRunUnreadableError} When a saved run left by an earlier invocation holds no readable run.
- * @throws {ResendsExhaustedError} When a run's third send is still unusable.
- * @typeParam TReply - The reply each call expects back.
- * @typeParam TRun - What a run holds.
+ * @param args - The stage, the stage context, the panel size, the reader of a saved run, and the call of each run.
+ * @param args.stageId - The panel stage. It sets the folder, the concurrency, the model and the tuning.
+ * @param args.context - The stage context of the current lecture.
+ * @param args.panelSize - The number of runs in the panel.
+ * @param args.readRun - Reads a parsed saved run as a run.
+ * @param args.runName - The name of each run in the log and in a failure, before its number, such as "Grouping run".
+ * @param args.request - The call of each run, as for {@link tryJsonReplyAs}. Its `use` makes the run from the reply.
+ * @returns The stage result, with every run in run order.
+ * @throws {SavedRunUnreadableError} When a saved run holds no readable run.
+ * @throws {ResendsExhaustedError} When the reply of a run's third send is still unusable.
+ * @typeParam TReply - The reply that each call expects.
+ * @typeParam TRun - The contents of one run.
  */
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- as for sendJsonWithResends: the request carries library types that are not deeply readonly
 export function runOneCallPanel<TReply, TRun>({

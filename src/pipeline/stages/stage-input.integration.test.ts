@@ -14,17 +14,17 @@ import {
 import { stageOutputPath } from "../layout.js";
 import { readStageText, readTranscript, readTranscriptAndRuns } from "./stage-input.js";
 
-/** The error the reading stage raises, standing in for any stage's own. */
+/** The error of the reading stage. It takes the place of the error that each stage defines. */
 class ReadingStageError extends NamedError {}
 
 describe("readStageText", () => {
 	const workspace = useTranscribedWorkspace({ prefix: "stage-input-" });
 
-	/** The transcript's path in the current test's workspace. */
+	/** The path of the transcript in the workspace of the test. */
 	const transcriptPath = (): string =>
 		stageOutputPath({ workspaceRoot: workspace().workspaceRoot, stageId: "transcription" });
 
-	/** Reads the transcript as a stage dividing it would. */
+	/** Reads the transcript as a stage that divides it does. */
 	function read(): Promise<string> {
 		return readStageText({
 			context: makeStageContext({ workspaceRoot: workspace().workspaceRoot }),
@@ -55,7 +55,7 @@ describe("readStageText", () => {
 describe("readTranscript", () => {
 	const workspace = useTranscribedWorkspace({ prefix: "transcript-input-" });
 
-	/** Reads the transcript as a division stage would. */
+	/** Reads the transcript as a division stage does. */
 	function read(): Promise<string> {
 		return readTranscript({
 			context: makeStageContext({ workspaceRoot: workspace().workspaceRoot }),
@@ -84,7 +84,7 @@ describe("readTranscriptAndRuns", () => {
 	const context = (): ReturnType<typeof makeStageContext> =>
 		makeStageContext({ workspaceRoot: workspace().workspaceRoot });
 
-	/** Leaves the first `count` runs of the initial splitting panel on disk. */
+	/** Saves the first `count` runs of the splitting panel before deepening. */
 	function seedSplittingRunsBeforeDeepening(count: number): Promise<void> {
 		return seedSavedRuns({
 			workspaceRoot: workspace().workspaceRoot,
@@ -94,7 +94,7 @@ describe("readTranscriptAndRuns", () => {
 		});
 	}
 
-	/** Reads the transcript and the initial splitting panel, as deepening does. */
+	/** Reads the transcript and the splitting panel before deepening, as deepening does. */
 	function read(): ReturnType<typeof readTranscriptAndRuns> {
 		return readTranscriptAndRuns({
 			context: context(),

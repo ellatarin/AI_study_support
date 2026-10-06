@@ -1,20 +1,21 @@
 /**
- * The vote a panel's runs cast, and how far one run stands from it — shared by
- * `choose-division`, which chooses the run nearest the vote, and
- * `group-into-topics`, which breaks its ties by it (technical-design.md §5,
- * `choose-division` and `group-into-topics`).
+ * The vote of a panel's runs, and the distance of one run from it.
+ * `choose-division` chooses the run nearest the vote. `group-into-topics` breaks
+ * its ties with the distance from the vote (technical-design.md §5, `choose-division` and `group-into-topics`).
  *
- * Each run is given as the positions it marks, each at most once: the cut sites
- * a splitting run cuts at, or the subtopics a grouping run starts a topic at.
+ * Each run is given as the positions that it marks. For a splitting run, these
+ * are the cut sites where it cuts. For a grouping run, these are the subtopics
+ * where it starts a topic. A run must give each position only once, because a
+ * repeated position counts twice.
  */
 
 /**
- * The positions the panel keeps: those at least `bar` of its runs mark.
+ * The positions that the panel keeps: those that at least `bar` of its runs mark.
  *
- * @param args - The panel's runs, and the support a position needs.
- * @param args.runs - Each run as the positions it marks.
- * @param args.bar - How many runs must mark a position for it to be kept.
- * @returns The kept positions, in the order first marked.
+ * @param args - The runs of the panel, and the bar.
+ * @param args.runs - Each run, as the positions that it marks.
+ * @param args.bar - The number of runs that must mark a position to keep it.
+ * @returns The kept positions, in the order that they are first marked.
  */
 export function panelVote({
 	runs,
@@ -31,12 +32,12 @@ export function panelVote({
 }
 
 /**
- * How far a run stands from the vote, or from another run: the positions one of
- * the two marks and the other does not.
+ * The distance of a run from the vote, or from another run. It is the number of
+ * positions that one of the two marks and the other does not.
  *
- * @param args - The run, and what it is measured against.
- * @param args.run - The positions the run marks.
- * @param args.vote - The positions it is measured against.
+ * @param args - The run, and the positions to measure it against.
+ * @param args.run - The positions that the run marks.
+ * @param args.vote - The positions to measure the run against.
  * @returns The number of positions where the two disagree.
  */
 export function distanceFromVote({

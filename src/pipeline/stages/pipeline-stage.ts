@@ -31,18 +31,12 @@ import {
 } from "../workspace-paths.js";
 
 /**
- * Whether one recorded `filesWritten` entry still exists, resolved through the
- * module-boundary check first.
+ * Tells whether one `filesWritten` entry is still on disk. An entry that cannot be
+ * resolved counts as absent, because deleting an output often deletes its folder
+ * too (technical-design.md §4.2).
  *
- * A path that cannot be resolved at all counts as absent rather than as an
- * error: deleting a stage's output usually takes its containing directory too,
- * which leaves `resolveManifestPath` with no parent to resolve. That is exactly
- * the "output was manually deleted" case, which must re-run the stage rather
- * than abort the run. A boundary violation is a different matter — a corrupt
- * manifest reaching outside the module tree is always raised.
- *
- * @param query - The recorded entry and the roots that bound it.
- * @returns `true` when the entry resolves and exists on disk.
+ * @param query - The entry, and the roots that bound it.
+ * @returns `true` when the entry resolves and is on disk.
  * @throws {ManifestPathError} If the entry resolves outside `moduleRoot`.
  */
 async function recordedFileExists(query: ManifestPathQuery): Promise<boolean> {
@@ -57,26 +51,19 @@ async function recordedFileExists(query: ManifestPathQuery): Promise<boolean> {
 }
 
 /**
- * The shared idempotency check every per-lecture stage uses for
- * `PipelineStage.isComplete`: the stage is complete only when its manifest entry
- * is a completed one — `complete` or `skipped` — AND every file it recorded in
- * `filesWritten` is still on disk. A completed stage whose output was deleted
- * therefore re-runs automatically (technical-design.md §4.2).
+ * The `isComplete` check of every per-lecture stage. A stage is complete when its
+ * stage entry is `complete` or `skipped` and every file in its `filesWritten` is on
+ * disk. So a completed stage whose output was deleted runs again
+ * (technical-design.md §4.2).
  *
- * Both statuses count because the runner writes `skipped` over `complete` the
- * moment it honours this check, so accepting only `complete` would make every
- * third run repeat the billable work (§4.2, stage status semantics).
+ * The manifest is untrusted input, so each entry is first resolved by
+ * {@link resolveManifestPath} (technical-design.md §4.4).
  *
- * The manifest is untrusted input, so each recorded entry is resolved through
- * {@link resolveManifestPath} before it is touched — an entry that points outside
- * the module tree is rejected rather than silently probed (technical-design.md
- * §4.4).
- *
- * @param args - The check inputs.
- * @param args.context - The current lecture run context.
- * @param args.stageId - The stage whose manifest entry and outputs to verify.
- * @returns `true` when the stage is complete and all its outputs exist.
- * @throws {ManifestPathError} If a recorded path resolves outside `moduleRoot`.
+ * @param args - The stage context, and the stage.
+ * @param args.context - The stage context of the current lecture.
+ * @param args.stageId - The stage to check.
+ * @returns `true` when the stage is a completed stage.
+ * @throws {ManifestPathError} If an entry resolves outside `moduleRoot`.
  */
 export async function isStageComplete({
 	context,
@@ -103,19 +90,13 @@ export async function isStageComplete({
 }
 
 /**
- * Creates every directory the stage owns and clears any `.tmp` files a previous
- * crashed run left in them, so a stage begins against directories that exist and
- * hold nothing partial (technical-design.md §4.3).
+ * Creates every folder that {@link stageDirectoryPaths} gives for the stage, and
+ * deletes the `.tmp` files that a crash left in them (technical-design.md §4.3).
  *
- * Asked of {@link stageDirectoryPaths} rather than derived from the stage's
- * output file, so a stage owning several directories — or one outside the
- * workspace, as `pdf-generation` does — is prepared as completely as a stage
- * owning a single one.
- *
- * @param args - The workspace and the stage.
- * @param args.workspaceRoot - Absolute path to the lecture workspace.
- * @param args.stageId - The stage whose directories to prepare.
- * @returns A promise that resolves once every directory exists and is clear.
+ * @param args - The workspace, and the stage.
+ * @param args.workspaceRoot - The absolute path of the lecture's workspace.
+ * @param args.stageId - The stage whose folders to prepare.
+ * @returns A promise that resolves when every folder is there and holds no `.tmp` file.
  */
 async function prepareStageDirectories({
 	workspaceRoot,
@@ -130,61 +111,44 @@ async function prepareStageDirectories({
 	}
 }
 
-/** Where a stage's single output ended up, and the entry `filesWritten` records for it. */
+/** The output file that a writer put in place. */
 type RecordedStageOutput = {
-	/** The absolute path the file was written to. */
+	/** The absolute path of the output file. */
 	readonly path: string;
-	/** The workspace-relative entry naming that file. */
+	/** The workspace-relative entries of every file written. */
 	readonly filesWritten: readonly string[];
 };
 
-/**
- * Whose single output is being put in place: the stage that owns it, and the
- * lecture it belongs to. Named because all three writers below are addressed by
- * this same pair and differ only in what they add to it.
- */
+/** A stage that writes one output file, and the lecture's workspace. */
 type StageOutputTarget = {
-	/** The stage whose output this is; only a stage that writes one file. */
 	readonly stageId: StageWithOutputFile;
-	/** Absolute path to the lecture workspace. */
+	/** The absolute path of the lecture's workspace. */
 	readonly workspaceRoot: string;
 };
 
 /**
- * The two ways a stage's single output reaches disk: content the stage holds,
- * and content a subprocess produces into the `.tmp` sibling. A stage supplies
- * one or the other, never both and never neither, so they are a union rather
- * than two optional fields (CLAUDE.md § TypeScript).
+ * The source of an output file: text that the stage holds, or a producer that
+ * writes the `.tmp` file, such as ffmpeg (technical-design.md §4.2, §4.3).
  */
 type StageOutputSource =
 	| {
-			/** The text to write. */
 			readonly content: string;
 	  }
 	| {
-			/** Creates the file at the `.tmp` path it is given. */
+			/** Creates the file at the `.tmp` path that it gets. */
 			readonly produce: ProduceFile;
 	  };
 
 /**
- * Writes the single file a stage owns and names it as `filesWritten` records it.
+ * Writes the one output file of a stage, and gives its `filesWritten` entry. The
+ * path and the entry come from the same stage id, so the entry always names the
+ * file just written (technical-design.md §4.2, §4.3, §4.5).
  *
- * Putting the output in place and recording that it was written are one act with
- * two halves, and a stage doing the halves for itself could record a path it had
- * not written to. Both are derived here from the same stage id, so a
- * `filesWritten` entry always names the file that was just put there
- * (technical-design.md §4.3, §4.5).
- *
- * Where the bytes come from is the one thing that varies and the reason this
- * takes a {@link StageOutputSource}: `audio-extraction` has ffmpeg write the audio track,
- * so its output is produced rather than handed over, and it would otherwise have
- * to name the file at one end and record it at the other.
- *
- * @param args - The stage, the workspace, and where the bytes come from.
- * @param args.stageId - The stage whose output this is; only a stage that writes one file.
- * @param args.workspaceRoot - Absolute path to the lecture workspace.
- * @returns The absolute path written, and the `filesWritten` naming it.
- * @throws Rethrows whatever a producer raised, after removing the partial `.tmp` file.
+ * @param args - The stage, the workspace, and the text or the producer.
+ * @param args.stageId - The stage. It must write one output file.
+ * @param args.workspaceRoot - The absolute path of the lecture's workspace.
+ * @returns The absolute path of the output file, and its `filesWritten` entry.
+ * @throws The error of the producer, after the partial `.tmp` file is deleted.
  * @example
  * await writeStageOutput({ stageId, workspaceRoot, content: markdown });
  * await writeStageOutput({ stageId, workspaceRoot, produce: (tmp) => extractTo(tmp) });
@@ -200,26 +164,19 @@ export async function writeStageOutput(
 }
 
 /**
- * Writes the file a stage owns and the Markdown version of it, and names both as
- * `filesWritten` records them (technical-design.md §3.3, §4.5).
+ * Writes the output file of a stage and the Markdown version of it, and gives the
+ * `filesWritten` entries of both (technical-design.md §3.3, §4.2, §4.5).
  *
- * The same act as {@link writeStageOutput} for a stage that writes a Markdown
- * version of its output: the Markdown version is derived from what has just been
- * written rather than fetched or asked for again, so the two files say the same
- * thing by construction.
+ * This is a separate function, not an optional argument, so that its `stageId`
+ * accepts only a stage with a Markdown version. Deleting either file makes the stage run
+ * again.
  *
- * A separate function rather than an optional argument, because the parameter
- * type is what ties supplying a Markdown version to a stage that declares one: a
- * stage with none cannot be named here, and one that has one cannot forget to
- * write it. Both entries are recorded, so deleting either file re-runs the
- * stage (§4.2).
- *
- * @param args - The stage, the workspace, and both files' contents.
- * @param args.stageId - The stage whose output this is; only a stage that writes a Markdown version.
- * @param args.workspaceRoot - Absolute path to the lecture workspace.
- * @param args.content - The output file's text.
- * @param args.markdownVersion - The Markdown version of that output, for a person to read.
- * @returns The absolute path of the output, and the `filesWritten` naming both files.
+ * @param args - The stage, the workspace, and the text of both files.
+ * @param args.stageId - The stage. It must write a Markdown version.
+ * @param args.workspaceRoot - The absolute path of the lecture's workspace.
+ * @param args.content - The text of the output file.
+ * @param args.markdownVersion - The Markdown version of the output, for a person to read.
+ * @returns The absolute path of the output file, and the `filesWritten` entries of both files.
  * @example
  * await writeStageOutputWithMarkdownVersion({ stageId, workspaceRoot, content: json, markdownVersion: markdown });
  */
@@ -238,18 +195,17 @@ export function writeStageOutputWithMarkdownVersion({
 }
 
 /**
- * Writes the file a stage owns and the stage record beside it of how the stage
- * reached it, and names both as `filesWritten` records them (technical-design.md
- * §3.3, §4.5). The stage record is written with the output rather than into the
- * manifest, so it is replaced, and cleared, with the output it describes. Both
- * are JSON, as every stage keeping a stage record writes it, so both are given as values.
+ * Writes the output file of a stage and its stage record beside it, both as JSON,
+ * and gives the `filesWritten` entries of both. The stage record is a file and not
+ * a part of the manifest, so it is replaced and deleted with the output
+ * (technical-design.md §3.3, §4.5).
  *
- * @param args - The stage, the workspace, the output and its stage record.
- * @param args.stageId - The stage whose output this is; only a stage that keeps a stage record.
- * @param args.workspaceRoot - Absolute path to the lecture workspace.
+ * @param args - The stage, the workspace, the output, and its stage record.
+ * @param args.stageId - The stage. It must keep a stage record.
+ * @param args.workspaceRoot - The absolute path of the lecture's workspace.
  * @param args.value - The output, written as JSON.
- * @param args.stageRecord - How the stage reached the output, written as JSON.
- * @returns The absolute path of the output, and the `filesWritten` naming both files.
+ * @param args.stageRecord - The stage record: how the stage reached the output, written as JSON.
+ * @returns The absolute path of the output file, and the `filesWritten` entries of both files.
  */
 export function writeStageOutputWithStageRecord({
 	value,
@@ -270,21 +226,20 @@ export function writeStageOutputWithStageRecord({
 	});
 }
 
-/** A stage's single output and the text to put in it: what every writer here is given. */
 type StageOutputWrite = StageOutputTarget & { readonly content: string };
 
 /**
- * Writes a stage's output and one further file beside it, and names both as
- * `filesWritten` records them: what writing a Markdown version and writing a
- * stage record have in common.
+ * Writes the output file of a stage and one more file beside it, and gives the
+ * `filesWritten` entries of both. The Markdown version and the stage record are
+ * written through it.
  *
  * @param args - The output, and the file beside it.
- * @param args.output - The stage, the workspace, and the output file's text.
- * @param args.beside - The further file.
- * @param args.beside.path - Where it goes, as an absolute path.
- * @param args.beside.entry - Its `filesWritten` entry.
- * @param args.beside.content - Its text.
- * @returns The absolute path of the output, and the `filesWritten` naming both files.
+ * @param args.output - The stage, the workspace, and the text of the output file.
+ * @param args.beside - The file beside the output.
+ * @param args.beside.path - The absolute path of the file.
+ * @param args.beside.entry - The `filesWritten` entry of the file.
+ * @param args.beside.content - The text of the file.
+ * @returns The absolute path of the output file, and the `filesWritten` entries of both files.
  */
 async function writeStageOutputBeside({
 	output,
@@ -299,39 +254,27 @@ async function writeStageOutputBeside({
 }
 
 /**
- * Assembles a per-lecture {@link PipelineStage} from the two parts that actually
- * differ between stages — how it gathers its input and what it does — and wires
- * the shared `isComplete` for the given stage id.
+ * Builds a per-lecture {@link PipelineStage} from the two parts that differ from
+ * stage to stage: how it gets its input, and what it does (technical-design.md §4.2).
  *
- * Three things every stage would otherwise repeat are done here instead. The
- * idempotency check is the same check against the stage's own manifest entry
- * (technical-design.md §4.2). The stage's output directories are created and
- * cleared of `.tmp` leftovers before `run` begins (§4.3), which every stage
- * writing output needs and none of them should state for itself. And the run's
- * logger is bound **here**, so `run` receives a logger already stamping the stage
- * and the lecture — `{ stage, module, lectureNumber, lectureDate }` — and no stage
- * writes `.child()` for itself (§10). The stage is bound once, at construction;
- * the lecture on each run, because a batch runs one stage object for several
- * lectures at once.
+ * The factory adds these to every stage:
+ * - the shared `isComplete` check, for the stage id
+ * - before `run` starts, the stage's folders are created and their `.tmp` files deleted (§4.3)
+ * - `run` gets a logger that adds the stage and the lecture to each entry (§10).
  *
- * Binding here is why `logger` appears on this factory's `run` and not on
- * {@link PipelineStage.run}: the runner calls a stage with the input and the
- * context, exactly as before, and never carries a logger through the contract to
- * do it.
+ * The logger is a parameter of this factory and not of {@link PipelineStage.run},
+ * so the runner never passes a logger through the stage contract (§4.2).
  *
- * Building stages through here is what guarantees they cannot drift apart,
- * quietly skip a step, or log against the wrong stage.
- *
- * @param args - The stage's identity, dependencies, and behaviour.
- * @param args.stageId - The stage this implements.
- * @param args.logger - The run's logger, bound to this stage before `run` sees it.
- * @param args.getInput - Gathers and validates the stage's input.
- * @param args.run - Executes the stage, against prepared directories and a bound logger.
- * @returns The assembled pipeline stage.
- * @typeParam TInput - The input `getInput` produces and `run` consumes.
- * @typeParam TOutput - The output `run` produces.
+ * @param args - The stage id, the logger, and the behaviour of the stage.
+ * @param args.stageId - The stage that this builds.
+ * @param args.logger - The logger of the invocation. The factory adds the stage and the lecture to it.
+ * @param args.getInput - Gets and checks the input of the stage.
+ * @param args.run - Does the work of the stage, with its folders prepared.
+ * @returns The pipeline stage.
+ * @typeParam TInput - The input that `getInput` gives and `run` takes.
+ * @typeParam TOutput - The output that `run` gives.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger carries mutable properties the rule cannot see past; it is only read from here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger type has mutable properties that the rule sees. This code only reads the logger. CLAUDE.md allows a mutable type where a library requires one.
 export function createPipelineStage<TInput, TOutput>({
 	stageId,
 	logger,
@@ -341,7 +284,7 @@ export function createPipelineStage<TInput, TOutput>({
 	readonly stageId: StageId;
 	readonly logger: Logger;
 	readonly getInput: (context: StageContext) => Promise<TInput>;
-	// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- reported again for the callback's own parameter; same pino Logger, same reason as above
+	// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- the rule reports the pino Logger again in the parameter of the callback. pino's Logger type has mutable properties that the rule sees. This code only reads the logger.
 	readonly run: (args: {
 		readonly input: TInput;
 		readonly context: StageContext;
@@ -355,9 +298,8 @@ export function createPipelineStage<TInput, TOutput>({
 		getInput,
 		run: async ({ input, context }) => {
 			await prepareStageDirectories({ workspaceRoot: context.workspaceRoot, stageId });
-			// Bound per run, not per stage: one stage object serves every lecture of a
-			// batch, and lectures run concurrently, so a line is only attributable if it
-			// names its lecture.
+			// The lecture is added at each call of `run`, because a batch runs one stage
+			// object for several lectures at the same time (technical-design.md §10).
 			const lectureLogger = stageLogger.child({
 				module: basename(context.moduleRoot),
 				lectureNumber: context.lectureNumber,

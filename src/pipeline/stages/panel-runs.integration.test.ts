@@ -12,20 +12,16 @@ import {
 } from "../fixtures.js";
 import { readPanel, runPanel, SavedRunUnreadableError } from "./panel-runs.js";
 
-/**
- * What these tests' runs hold: only the number of the run that made them. The
- * panel machinery never looks inside a run, so a run needs to hold nothing more
- * for these tests to see which run landed where.
- */
+/** A test run. It holds only its run number, because the panel code never reads inside a run. */
 type NumberedRun = { readonly madeBy: number };
 
-/** Reads a saved value back as a numbered run, or `null` when it holds no run number. */
+/** Reads a saved value as a numbered run, or gives `null` when it has no run number. */
 function readNumberedRun(value: unknown): NumberedRun | null {
 	const madeBy = (value as NumberedRun | null)?.madeBy;
 	return typeof madeBy === "number" ? { madeBy } : null;
 }
 
-/** What making run `runNumber` produces: the run, at the cost of one stubbed call. */
+/** The run that has the number `runNumber`, at the cost of one stubbed call. */
 function numberedRun({ runNumber }: { readonly runNumber: number }): {
 	run: NumberedRun;
 	cost: StageCost;
@@ -33,7 +29,7 @@ function numberedRun({ runNumber }: { readonly runNumber: number }): {
 	return { run: { madeBy: runNumber }, cost: stubbedCallCost };
 }
 
-/** A run maker that records which runs it was asked for, in the order asked. */
+/** A run maker that records the runs that it was asked for, in order. */
 function numberedRunMaker(): ReturnType<
 	typeof vi.fn<
 		(args: { readonly runNumber: number }) => Promise<{ run: NumberedRun; cost: StageCost | null }>
@@ -46,7 +42,7 @@ function numberedRunMaker(): ReturnType<
 
 const directory = useTempDir({ prefix: "panel-" });
 
-/** Writes a file into the panel's directory as an earlier invocation would have left it. */
+/** Writes a file into the folder of the panel, as an earlier invocation left it. */
 function leaveBehind({
 	name,
 	contents,
@@ -58,7 +54,7 @@ function leaveBehind({
 }
 
 describe("runPanel", () => {
-	/** Runs a panel of `panelSize` numbered runs in the test's directory. */
+	/** Makes a panel of `panelSize` numbered runs in the folder of the test. */
 	function panelOf({
 		panelSize,
 		makeRun,
@@ -158,10 +154,10 @@ describe("runPanel", () => {
 });
 
 describe("readPanel", () => {
-	/** The error a caller of these tests builds for a missing run. */
+	/** The error that the caller builds for a missing run in these tests. */
 	class MissingRunError extends Error {}
 
-	/** Reads a panel of `panelSize` numbered runs from the test's directory. */
+	/** Reads a panel of `panelSize` numbered runs from the folder of the test. */
 	function readingPanel({
 		panelSize,
 	}: {
@@ -175,7 +171,7 @@ describe("readPanel", () => {
 		});
 	}
 
-	/** Saves the numbered run `runNumber` as a finished panel would have. */
+	/** Saves the numbered run `runNumber`, as a finished panel does. */
 	function save(runNumber: number): Promise<void> {
 		return leaveBehind({
 			name: `run-0${runNumber}.json`,

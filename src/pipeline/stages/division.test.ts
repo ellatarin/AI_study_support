@@ -11,15 +11,17 @@ import {
 	sliceSubtopics,
 } from "./division.js";
 
-// A short transcript with each case the cutting has to handle: plain start words,
-// start words after a dropped "So" and a dropped "Right so", a connective that does
-// not open its sentence, and a phrase ("the membrane") said twice.
+// A short transcript with each case that the cutting must handle:
+// - plain start words
+// - start words after a dropped "So", and after a dropped "Right so"
+// - a connective that does not start its sentence
+// - a phrase ("the membrane") that occurs two times.
 const TEXT =
 	"Welcome to the lecture. Today we cover cells. " +
 	"So the first thing is the membrane. It is made of lipids and proteins sit in it. " +
 	"Right so we move on to transport across the membrane. That is all for today.";
 
-/** Where `phrase` begins in TEXT, found independently of the code under test. */
+/** The position of `phrase` in TEXT, found without the code under test. */
 function at(phrase: string): number {
 	return TEXT.indexOf(phrase);
 }
@@ -100,7 +102,7 @@ describe("sliceSubtopics", () => {
 });
 
 describe("assertLossless", () => {
-	/** A first subtopic ending at character 10, which the second must start from. */
+	/** A first subtopic that ends at character 10. The second subtopic must start there. */
 	const FIRST: Subtopic = { start: 0, end: 10, title: "a", reason: "" };
 
 	it.each([

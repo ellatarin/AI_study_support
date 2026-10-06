@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { distanceFromVote, panelVote } from "./panel-vote.js";
 
 describe("panelVote", () => {
-	// Position 1 is marked by three runs, 2 by two, 3 by one.
+	// Three runs mark position 1. Two runs mark position 2. One run marks position 3.
 	const runs = [[1, 2, 3], [1, 2], [1]];
 
 	it.each([

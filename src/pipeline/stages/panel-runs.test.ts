@@ -21,7 +21,7 @@ const PROSE: JsonReplyOutcome<typeof REPLY> = {
 	cost: stubbedCallCost,
 };
 
-/** A send that answers with each outcome in turn, one per call. */
+/** A send that gives each outcome in turn, one for each call. */
 function sendAnswering(
 	...outcomes: readonly JsonReplyOutcome<typeof REPLY>[]
 ): ReturnType<typeof vi.fn<() => Promise<JsonReplyOutcome<typeof REPLY>>>> {
@@ -43,7 +43,7 @@ describe("sendWithResends", () => {
 		vi.useRealTimers();
 	});
 
-	/** Sends `send` as `what`, logging to the test's stub logger. */
+	/** Sends `send` with the name `what`, and logs to the stub logger of the test. */
 	function resending({
 		send,
 		what = "run 1",
@@ -54,15 +54,15 @@ describe("sendWithResends", () => {
 		return sendWithResends({ send, what, logger: logged().logger });
 	}
 
-	/** Sends through the pauses, which the fake clock runs straight through. */
+	/** Waits for the sends to end. The fake clock runs through the pauses. */
 	async function settle<TResult>(pending: Promise<TResult>): Promise<TResult> {
 		await vi.runAllTimersAsync();
 		return pending;
 	}
 
 	/**
-	 * The error a send ends in, caught before the clock runs: a rejection that
-	 * happens while nothing is yet waiting on it is reported as unhandled.
+	 * The error that a send ends in. It is caught before the clock runs, because a
+	 * rejection that nothing waits on is reported as unhandled.
 	 */
 	async function failureOf(pending: Promise<unknown>): Promise<Error> {
 		const caught = captureError(pending);

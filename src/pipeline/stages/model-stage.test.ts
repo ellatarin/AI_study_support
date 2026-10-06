@@ -1,8 +1,8 @@
-/* jscpd:ignore-start -- sibling stage suites import the same fixtures and mock the
-   same module, so their preambles match line for line. Neither half can move:
-   imports cannot be shared and barrel files are forbidden (CLAUDE.md, File
-   Organisation), and vi.mock is hoisted, so it must sit in the file that mocks.
-   Only the preamble is exempt; the suite below is checked as normal. */
+/* jscpd:ignore-start -- the stage suites import the same fixtures and mock the
+   same module, so their first lines are the same. The imports cannot be shared,
+   because CLAUDE.md forbids barrel files (File Organisation). vi.mock is hoisted,
+   so it must be in the file that mocks. Only these lines are exempt. jscpd checks
+   the suite below as normal. */
 import type { Mock } from "vitest";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
@@ -21,7 +21,7 @@ import {
 	tryJsonReplyAs,
 } from "./model-stage.js";
 
-// Only the call is stubbed; everything else the module exports stays real.
+// Only the model call is a stub. Everything else that the module exports is real.
 vi.mock(import("../openrouter.js"), async (importOriginal) => ({
 	...(await importOriginal()),
 	callModel: vi.fn(),
@@ -32,7 +32,7 @@ const modelCallMock = callModel as unknown as Mock;
 
 const STAGE_ID = "transcript-verification";
 
-/** The reply the tests document: an object carrying a greeting. */
+/** The documented reply of the tests: an object with a greeting. */
 type Greeting = { readonly greeting: string };
 
 const logged = useStubLogger();
@@ -42,7 +42,7 @@ beforeEach(() => {
 	vi.clearAllMocks();
 });
 
-/** A request for a greeting, with the model answering `content`. */
+/** A request for a greeting. The model replies with `content`. */
 function greetingRequest(content: string): JsonReplyRequest<Greeting> {
 	modelCallMock.mockResolvedValue({ content, cost: stubbedCallCost });
 	return {
@@ -68,7 +68,7 @@ describe("promptMessages", () => {
 });
 
 describe("tryJsonReplyAs", () => {
-	/** Asks for a greeting and keeps its length, refusing an empty greeting. */
+	/** Asks for a greeting and keeps its length. An empty greeting is unusable. */
 	function askForLength(content: string): ReturnType<typeof tryJsonReplyAs<Greeting, number>> {
 		return tryJsonReplyAs<Greeting, number>({
 			...greetingRequest(content),
@@ -96,7 +96,7 @@ describe("tryJsonReplyAs", () => {
 });
 
 describe("tryJsonReply", () => {
-	/** Asks for a greeting, with the model answering `content`. */
+	/** Asks for a greeting. The model replies with `content`. */
 	function ask(content: string): ReturnType<typeof tryJsonReply<Greeting>> {
 		return tryJsonReply(greetingRequest(content));
 	}

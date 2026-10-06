@@ -30,13 +30,11 @@ import {
 	writeStageOutputWithMarkdownVersion,
 } from "./pipeline-stage.js";
 
-// Any stage with a single output file would do; `audio-extraction`'s is the simplest.
+// The tests need a stage with one output file. The output of `audio-extraction` is the simplest.
 const STAGE_ID = "audio-extraction";
 
-// The two statuses of a completed stage. `skipped` is what the
-// runner writes over `complete` on the second run, so every case below that
-// holds for one must hold for the other or a third run pays for the work again
-// (technical-design.md §4.2).
+// The two statuses of a completed stage. Each case must hold for both, because the
+// runner writes `skipped` over `complete` (technical-design.md §4.2).
 const COMPLETED_STATUSES = [{ status: "complete" }, { status: "skipped" }] as const;
 
 describe("isStageComplete", () => {
@@ -57,17 +55,16 @@ describe("isStageComplete", () => {
 	}
 
 	/**
-	 * The lecture context after the stage completes, for the workspace under
-	 * test.
+	 * The stage context after the stage completes, for the workspace of the test.
 	 *
-	 * @param status - Which of the two completed statuses the entry carries.
+	 * @param status - The completed status of the stage entry.
 	 * @returns The stage context.
 	 */
 	function contextAfterStageCompletes(status: "complete" | "skipped"): StageContext {
 		return contextWithOutput({ workspaceRoot, stageId: STAGE_ID, status });
 	}
 
-	/** Where the chosen stage is required to leave its output. */
+	/** The path of the output file of the test stage. */
 	function outputPath(): string {
 		return stageOutputPath({ workspaceRoot, stageId: STAGE_ID });
 	}
@@ -154,7 +151,7 @@ describe("createPipelineStage", () => {
 		await rm(moduleRoot, { recursive: true, force: true });
 	});
 
-	/** The one directory the chosen stage owns. */
+	/** The one folder that the test stage owns. */
 	function stageDir(): string {
 		const [directory] = stageDirectoryPaths({ workspaceRoot, stageId: STAGE_ID });
 		if (directory === undefined) {
@@ -164,11 +161,10 @@ describe("createPipelineStage", () => {
 	}
 
 	/**
-	 * Builds a stage and runs it. The stage keeps the logger and the lecture
-	 * context that it receives. It also lists the files in its folder when it
-	 * starts.
+	 * Builds a stage and runs it. The stage keeps the logger and the stage context
+	 * that it gets. It also lists the files in its folder when it starts.
 	 *
-	 * @returns The logger, the lecture context and the list of files.
+	 * @returns The logger, the stage context and the list of files.
 	 */
 	async function runStageAndReturnWhatItReceived(): Promise<{
 		readonly logger: Logger;
@@ -235,14 +231,12 @@ describe("createPipelineStage", () => {
 	});
 });
 
-// The two ways a stage's single output reaches disk: content it holds, and
-// content a subprocess produces. Both answer with the entry `filesWritten`
-// records, and the point of both is that the entry names the file that was just
-// put in place — which is what these assert, by resolving the entry the way the
-// next run's completeness check resolves it rather than by rebuilding the path
-// (technical-design.md §4.3, §4.5).
-// The one stage that writes a Markdown version of its output as well as the output
-// (technical-design.md §3.3). Provisional, like the Markdown version itself.
+// The tests below check that a writer gives the `filesWritten` entry of the file it
+// just wrote. They resolve the entry as the `isComplete` check does, and do not
+// build the path again (technical-design.md §4.2, §4.3, §4.5).
+
+// The one stage that writes a Markdown version of its output (technical-design.md §3.3).
+// The Markdown version is temporary.
 const MARKDOWN_VERSION_STAGE = "transcript-verification";
 
 describe("recording what a stage wrote", () => {
@@ -261,11 +255,11 @@ describe("recording what a stage wrote", () => {
 	});
 
 	/**
-	 * Where a returned `filesWritten` entry points, resolved against the
-	 * workspace as the completeness check resolves it.
+	 * The path that a `filesWritten` entry names, resolved against the workspace as
+	 * the `isComplete` check resolves it.
 	 *
-	 * @param filesWritten - The entries the writer handed back.
-	 * @returns The absolute path the single entry names.
+	 * @param filesWritten - The entries that the writer gave.
+	 * @returns The absolute path that the one entry names.
 	 */
 	function recordedPath(filesWritten: readonly string[]): string {
 		const [entry] = filesWritten;

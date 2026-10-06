@@ -1,11 +1,11 @@
 /**
- * Cutting a transcript into subtopics at the places a model named, shared by
- * the three division stages (technical-design.md §5, "Dividing the transcript").
+ * The cutting of a transcript into subtopics at the start words that a model
+ * gives. The division stages and `retitle-subtopics` use it
+ * (technical-design.md §5, "Dividing the transcript").
  *
- * The model never returns text, only the start words of each subtopic. Every
- * subtopic is sliced from the transcript itself, so a division reproduces the
- * transcript exactly whatever the model wrote — and {@link assertLossless}
- * checks that it does before anything is saved.
+ * The model never returns text. Each subtopic is sliced from the transcript, so a
+ * division always reproduces the transcript. {@link assertLossless} checks that the
+ * division reproduces the transcript before the division is saved.
  */
 
 import type { StageContext } from "../../types/pipeline.js";
@@ -20,16 +20,15 @@ export type Subtopic = {
 	readonly reason: string;
 };
 
-/** The title and reason of a subtopic, as they are saved. */
 type TitleAndReason = Pick<Subtopic, "title" | "reason">;
 
 /**
  * The text of one subtopic: its span of the transcript.
  *
  * @param args - The transcript, and the subtopic.
- * @param args.text - The transcript the subtopic's span indexes into.
- * @param args.subtopic - The subtopic, or anything carrying its span.
- * @returns The subtopic's text.
+ * @param args.text - The transcript that the span indexes into.
+ * @param args.subtopic - The subtopic, or anything with its span.
+ * @returns The text of the subtopic.
  */
 export function subtopicText({
 	text,
@@ -42,10 +41,10 @@ export function subtopicText({
 }
 
 /**
- * One part of a model's reply. The part is a subtopic in a splitting reply and
- * a topic in a grouping reply. It holds a title and a reason. The prompts call
- * the title `label` and the reason `groupedBecause`. The prompts are copied
- * from the prototype without change, so the reply uses these keys.
+ * One part of a model's reply: a subtopic in a splitting reply, or a topic in a
+ * grouping reply. The prompts call the title `label` and the reason
+ * `groupedBecause`. The prompts are copied from the prototype without change, so
+ * the reply uses these keys.
  */
 export type TitledReplyPart = {
 	readonly label: string;
@@ -53,10 +52,10 @@ export type TitledReplyPart = {
 };
 
 /**
- * Whether a value in a parsed reply carries a part's title and reason.
+ * Tells whether a value in a parsed reply has a title and a reason.
  *
- * @param value - One entry of the reply's list.
- * @returns `true` when it is an object carrying both strings.
+ * @param value - One entry of the list in the reply.
+ * @returns `true` when the value is an object whose `label` and `groupedBecause` are strings.
  */
 export function isTitledReplyPart(
 	value: unknown,
@@ -73,10 +72,10 @@ export function isTitledReplyPart(
 export type ReplySubtopic = TitledReplyPart & { readonly startsWith: string };
 
 /**
- * Whether a value in a parsed reply is a reply subtopic.
+ * Tells whether a value in a parsed reply is a reply subtopic.
  *
- * @param value - One entry of the reply's list.
- * @returns `true` when it carries its three strings.
+ * @param value - One entry of the list in the reply.
+ * @returns `true` when the value has `label`, `groupedBecause` and `startsWith` as strings.
  */
 export function isReplySubtopic(value: unknown): value is ReplySubtopic {
 	return isTitledReplyPart(value) && typeof value.startsWith === "string";
@@ -85,8 +84,8 @@ export function isReplySubtopic(value: unknown): value is ReplySubtopic {
 /**
  * Takes the title and reason from a reply subtopic. `label` becomes `title`,
  * and `groupedBecause` becomes `reason`.
- * The code uses these names because they are easier to read. The prompt keeps
- * its own words.
+ * The code uses `title` and `reason` because they are easier to read. The prompt
+ * keeps `label` and `groupedBecause`.
  *
  * @param reply - One subtopic or cut in the model's reply.
  * @param reply.label - The title.
@@ -98,11 +97,11 @@ export function replyTitleAndReason({ label, groupedBecause }: ReplySubtopic): T
 }
 
 /**
- * One entry of a run file read as a subtopic, keeping only what a subtopic
- * holds.
+ * Reads one entry of a saved division as a subtopic, and keeps only what a
+ * subtopic holds.
  *
- * @param value - One entry of the parsed run file.
- * @returns The subtopic, or `null` when the entry lacks its span, title or reason.
+ * @param value - One entry of the parsed division.
+ * @returns The subtopic, or `null` when the entry does not have its span, title or reason.
  */
 function readSubtopic(value: unknown): Subtopic | null {
 	if (
@@ -118,10 +117,11 @@ function readSubtopic(value: unknown): Subtopic | null {
 }
 
 /**
- * Reads a value parsed back from a run file as a division: a list of subtopics.
+ * Reads a parsed value as a division: a list of subtopics. A saved run, and a
+ * division that a stage wrote as its output, are both read with it.
  *
- * @param value - The parsed run file.
- * @returns The subtopics, or `null` when it is not a list or any entry is not a subtopic.
+ * @param value - The parsed file.
+ * @returns The subtopics, or `null` when the value is not a list or an entry is not a subtopic.
  */
 export function readDivision(value: unknown): readonly Subtopic[] | null {
 	if (!Array.isArray(value)) {
@@ -132,12 +132,12 @@ export function readDivision(value: unknown): readonly Subtopic[] | null {
 }
 
 /**
- * How a splitting panel is sized and its saved runs read back: the same for the
- * two stages that make one and the stage that reads one, so they cannot come
- * to disagree about what a splitting panel holds.
+ * The size of a splitting panel, and the reader of its saved runs. The stages
+ * that make a splitting panel and the stages that read one all use it, so they
+ * agree about what a splitting panel holds.
  *
- * @param context - The current lecture run context, whose `division` section sizes the panel.
- * @returns The panel's size, and the reader for its run files.
+ * @param context - The stage context. Its `subtopicSplitting` section sets the panel size.
+ * @returns The panel size, and the reader of its saved runs.
  */
 export function splittingPanel(context: StageContext): {
 	readonly panelSize: number;
@@ -146,13 +146,14 @@ export function splittingPanel(context: StageContext): {
 	return { panelSize: context.config.subtopicSplitting.panelSize, readRun: readDivision };
 }
 
-/** A division whose subtopics do not join back into the transcript. Always a bug. */
+/** A division whose subtopics do not join back into the transcript. Such a division always comes from a bug. */
 export class DivisionNotLosslessError extends NamedError {}
 
 /**
- * Words the lecturer hinges one subtopic to the next with, and which the model
- * sometimes leaves off the start words it returns. Measured in the prototype: 12 of
- * 565 cuts, every one a bare "So".
+ * Words that join one subtopic to the next at the start of a sentence. The model
+ * sometimes leaves them off the start words. In the prototype's `d7` runs, a
+ * dropped connective occurred at 12 of 565 cuts, each a bare "So"
+ * (docs/quality/segmentation-prototype/cut-blocks.mts).
  */
 const CONNECTIVES: ReadonlySet<string> = new Set([
 	"so",
@@ -166,28 +167,29 @@ const CONNECTIVES: ReadonlySet<string> = new Set([
 	"then",
 ]);
 
-/** How many connectives in a row may be taken back into the subtopic they open. */
+/** The most connectives in a row that a cut can move back over. */
 const MAX_CONNECTIVE_WORDS = 2;
 
 /**
- * Whether a character is whitespace. Past either end of the text there is no
- * character, which counts as not whitespace.
+ * Tells whether a character is whitespace. A position past either end of the
+ * text has no character. A missing character counts as not whitespace.
  *
  * @param character - The character, or `undefined` past either end of the text.
- * @returns Whether it is whitespace.
+ * @returns `true` when it is whitespace.
  */
 function isSpace(character: string | undefined): boolean {
 	return /\s/u.test(character ?? "");
 }
 
 /**
- * A whitespace-free, lower-cased view of the text, with a map from each position
- * in it back to the original. Searching this view finds start words whose case or
- * spacing the model tidied; the cut is then made in the original.
+ * A view of the text in lower case and without whitespace, with a map from each
+ * position in it back to the original. A search of this view finds start words
+ * whose case or spacing the model changed. The cut is then made in the original
+ * (technical-design.md §5, "Finding the start words").
  *
  * @param args - The text to index.
  * @param args.text - The transcript.
- * @returns The folded text, and each folded position's origin.
+ * @returns The folded text, and the original position of each folded position.
  */
 function foldedIndex({ text }: { readonly text: string }): {
 	readonly folded: string;
@@ -206,16 +208,15 @@ function foldedIndex({ text }: { readonly text: string }): {
 }
 
 /**
- * Where the sentence a cut lands inside begins, when the model dropped one or
- * two connectives that open it. Only connectives that open a sentence are taken
- * back — the text before them must end a sentence — so "lipids and proteins"
- * keeps its cut at "proteins".
+ * Moves a cut back to the start of its sentence, when the model dropped one or two
+ * connectives there. The cut moves only when the text before the connectives ends
+ * a sentence. So "lipids and proteins" keeps its cut at "proteins".
  *
- * @param args - The text, the cut, and how far back it may go.
+ * @param args - The text, the cut, and the limit.
  * @param args.text - The transcript.
- * @param args.cut - Where the located start words begin.
- * @param args.notBefore - The previous cut, which this one may never reach.
- * @returns The cut, moved back over any connectives that open its sentence.
+ * @param args.cut - The position where the start words were found.
+ * @param args.notBefore - The previous cut. The cut never moves back past it.
+ * @returns The cut, moved back over any connectives at the start of its sentence.
  */
 function overLeadingConnectives({
 	text,
@@ -253,15 +254,15 @@ function overLeadingConnectives({
 }
 
 /**
- * Finds where each subtopic begins. The first always begins at the start of the
- * text, whatever its start words; each later subtopic's start words are searched
- * for with case and whitespace ignored, forward from the previous cut. Start
- * words that cannot be found are reported, never guessed at.
+ * Finds the start of each subtopic. The first subtopic always starts at the start
+ * of the text, whatever its start words. The start words of each later subtopic
+ * are searched for forward from the previous cut, with case and whitespace
+ * ignored. Start words that are not found are reported, never guessed.
  *
- * @param args - The text, and each subtopic's start words in order.
- * @param args.text - The transcript being divided.
- * @param args.startWords - Every subtopic's start words, the first included.
- * @returns Each subtopic's start position, or the first start words that could not be placed.
+ * @param args - The text, and the start words of each subtopic in order.
+ * @param args.text - The transcript to divide.
+ * @param args.startWords - The start words of every subtopic, the first included.
+ * @returns The start position of each subtopic, or the first start words that were not found.
  */
 export function placeCuts({
 	text,
@@ -287,14 +288,14 @@ export function placeCuts({
 }
 
 /**
- * Cuts the text at the given positions into subtopics carrying the model's
- * titles and reasons, in order.
+ * Cuts the text at the given positions into subtopics, in order, with the titles
+ * and reasons from the model.
  *
- * @param args - The text, where each subtopic starts, and each subtopic's title and reason.
- * @param args.text - The transcript being divided.
- * @param args.cuts - Each subtopic's start position, as {@link placeCuts} returned them.
- * @param args.titled - Each subtopic's title and reason, in the same order.
- * @returns The subtopics, the last running to the end of the text.
+ * @param args - The text, the start of each subtopic, and the title and reason of each subtopic.
+ * @param args.text - The transcript to divide.
+ * @param args.cuts - The start position of each subtopic, as {@link placeCuts} gave them.
+ * @param args.titled - The title and reason of each subtopic, in the same order.
+ * @returns The subtopics. The last one runs to the end of the text.
  */
 export function sliceSubtopics({
 	text,
@@ -315,13 +316,13 @@ export function sliceSubtopics({
 
 /**
  * Checks that the subtopics, joined in order, are the text character for
- * character: they start at 0, each starts where the one before ended, and the
- * last ends at the end.
+ * character. The first starts at 0, each starts where the one before ended, and
+ * the last ends at the end of the text.
  *
  * @param args - The text, and its division.
  * @param args.text - The transcript that was divided.
  * @param args.subtopics - The division to check.
- * @throws {DivisionNotLosslessError} When any character is missing or repeated.
+ * @throws {DivisionNotLosslessError} When a character is missing or repeated.
  */
 export function assertLossless({
 	text,
