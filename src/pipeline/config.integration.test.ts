@@ -103,7 +103,7 @@ function sectionCorrupter(
 
 const openRouterSection = sectionCorrupter("openRouter");
 const elevenLabsSection = sectionCorrupter("elevenLabs");
-const outputSection = sectionCorrupter("output");
+const finalOutputSection = sectionCorrupter("finalOutput");
 const namingSection = sectionCorrupter("naming");
 
 /**
@@ -659,31 +659,31 @@ const shapeCases: readonly ShapeCase[] = [
 		},
 		match: /modulePrefixes/,
 	},
-	missingKeyCase("output"),
+	missingKeyCase("finalOutput"),
 	{
-		name: "output.language is not a string",
+		name: "finalOutput.language is not a string",
 		mutate: (config: Record<string, unknown>) => {
-			config.output = outputSection({ language: 1 });
+			config.finalOutput = finalOutputSection({ language: 1 });
 		},
 		match: /language/,
 	},
 	{
-		name: "output.language names no language the pipeline can write",
+		name: "finalOutput.language names no language the pipeline can write",
 		mutate: (config: Record<string, unknown>) => {
-			config.output = outputSection({ language: "en-AU" });
+			config.finalOutput = finalOutputSection({ language: "en-AU" });
 		},
 		match: /en-AU/,
 	},
 	{
-		name: "output.pandocEngine is not a string",
+		name: "finalOutput.pandocEngine is not a string",
 		mutate: (config: Record<string, unknown>) => {
-			config.output = outputSection({ pandocEngine: 9 });
+			config.finalOutput = finalOutputSection({ pandocEngine: 9 });
 		},
 		match: /pandocEngine/,
 	},
-	missingKeyCase("division"),
+	missingKeyCase("subtopicSplitting"),
 	...countFieldCases({
-		sectionName: "division",
+		sectionName: "subtopicSplitting",
 		cases: [
 			{ field: "panelSize", value: "9", problem: "not a number" },
 			{ field: "panelSize", value: 2.5, problem: "not a whole number" },
@@ -716,7 +716,7 @@ const shapeCases: readonly ShapeCase[] = [
 		},
 		match: /stages\.transcript-structuring\.sendGapSeconds/,
 	},
-	barExceedsPanelCase("division"),
+	barExceedsPanelCase("subtopicSplitting"),
 	missingKeyCase("grouping"),
 	...countFieldCases({
 		sectionName: "grouping",

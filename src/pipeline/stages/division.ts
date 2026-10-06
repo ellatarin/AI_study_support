@@ -143,7 +143,7 @@ export function splittingPanel(context: StageContext): {
 	readonly panelSize: number;
 	readonly readRun: typeof readDivision;
 } {
-	return { panelSize: context.config.division.panelSize, readRun: readDivision };
+	return { panelSize: context.config.subtopicSplitting.panelSize, readRun: readDivision };
 }
 
 /** A division whose subtopics do not join back into the transcript. Always a bug. */

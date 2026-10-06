@@ -17,7 +17,7 @@ import { ChooseDivisionError, createChooseDivisionStage } from "./choose-divisio
 const STAGE_ID = "choose-division";
 // The stage calls no model, so it needs no stage entry of its own.
 const config = makeConfig();
-const PANEL_SIZE = config.division.panelSize;
+const PANEL_SIZE = config.subtopicSplitting.panelSize;
 
 describe("choose-division", () => {
 	const logged = useStubLogger();

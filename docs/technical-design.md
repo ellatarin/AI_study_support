@@ -1342,7 +1342,7 @@ The same LLM call produces the structured markdown. The LLM:
 - Converts spoken mathematics to LaTeX where detectable
 - Marks Q&A sections as `> **Q&A:**` blockquote
 - Does not add content not present in the transcript
-- Writes in the configured `output.language` (§6)
+- Writes in the configured `finalOutput.language` (§6)
 
 The last rule governs how the transcript's words are spelled, and the rule above it governs which words are there. Speech carries no spelling: the transcript's spelling is the transcriber's, and `transcription` cannot influence it — ElevenLabs' `languageCode` takes an ISO-639-1 or ISO-639-3 code, neither of which can express a regional variant, so `eng` names English and nothing more. An LLM call is therefore the first point in the pipeline at which the output's language can be chosen at all, and `transcript-structuring` is the first such call. The rule is worded by `languageRule` (§6) rather than written into this prompt, so that every prose stage instructs the model identically.
 
@@ -1720,15 +1720,15 @@ Both halves of a model ID are read through `splitModelId` in `src/utils/model-id
 
 Unlike OpenRouter's, this base URL carries no path — the SDK appends the versioned route itself — so `speechToText` is named alongside it in `transcription.ts` rather than being built by the pipeline, for the same reason `completions` is named in `OPENROUTER_PATHS`: so a test intercepting the call does not have to know the route independently of the code under test.
 
-**The spoken language is configuration, and it is not `output.language`.** `elevenLabs.languageCode` is the language Scribe is told to expect in the audio; `output.language` is the language the notes are written in (§6, Output). They are deliberately separate fields: a lecture delivered in one language may want notes in another, and collapsing them would make that impossible to express. They also take different forms — Scribe wants an ISO-639-3 code (`eng`), while the notes language is a BCP-47 tag carrying a regional spelling convention (`en-GB`) — so neither can be derived from the other without losing something.
+**The spoken language is configuration, and it is not `finalOutput.language`.** `elevenLabs.languageCode` is the language Scribe is told to expect in the audio; `finalOutput.language` is the language the notes are written in (§6, Output). They are deliberately separate fields: a lecture delivered in one language may want notes in another, and collapsing them would make that impossible to express. They also take different forms — Scribe wants an ISO-639-3 code (`eng`), while the notes language is a BCP-47 tag carrying a regional spelling convention (`en-GB`) — so neither can be derived from the other without losing something.
 
 **Module prefixes are configuration because a prefix describes a module, not this codebase.** Lecturers put the module at the front of a recording's filename, which is noise in a title: the module is already the folder the lecture sits in. `naming.modulePrefixes` lists what to strip, and it is a list rather than one value for two reasons — the pipeline is pointed at several modules at once, and **one module may be written more than one way**. A lecturer abbreviates it in some filenames (`BOD_Cell injury`) and writes it out in others (`Biology of Disease - Cell injury`), so both forms are listed. Matching ignores case for the same reason: how a filename happens to write a module says nothing about whether it is one. A prefix absent from the list survives into the workspace folder name and the final PDF for every lecture that carries it.
 
 Each prefix is matched literally, so one carrying a pattern character means itself; a blank prefix is refused at load, since it would otherwise match any run of underscores or spaces and take apart every title the run produces. A listed prefix is what makes the strip safe: the module names are known, where the shape of a prefix is not — an opening acronym belongs to the subject (`DNA_replication`), and a module written out in full has no shape to match at all.
 
-**`output.language` is a closed set, and every stage that writes prose obeys it.** The tag is checked at load against `OUTPUT_LANGUAGES`, which maps each tag to the name a prompt calls it by; a tag with no name is refused at startup, listing the ones it could have been. The pairing is the point — "Write in en-GB" is not an instruction a model can follow, so a language cannot be offered in config without wording for the prompts to use. `languageRule` in `src/utils/language.ts` builds that sentence, and every prose stage's prompt includes it rather than wording the rule itself, so the stages cannot drift into instructing the model differently. `transcript-structuring` is the only such stage built; `transcript-verification`, `slide-conversion`, `image-extraction` and `synthesis` join it as they are.
+**`finalOutput.language` is a closed set, and every stage that writes prose obeys it.** The tag is checked at load against `OUTPUT_LANGUAGES`, which maps each tag to the name a prompt calls it by; a tag with no name is refused at startup, listing the ones it could have been. The pairing is the point — "Write in en-GB" is not an instruction a model can follow, so a language cannot be offered in config without wording for the prompts to use. `languageRule` in `src/utils/language.ts` builds that sentence, and every prose stage's prompt includes it rather than wording the rule itself, so the stages cannot drift into instructing the model differently. `transcript-structuring` is the only such stage built; `transcript-verification`, `slide-conversion`, `image-extraction` and `synthesis` join it as they are.
 
-**The division and grouping settings are required sections.** `division` and `grouping` carry the panel sizes, the bars and the size gate (§5, "Dividing the transcript" and `group-into-topics`). Like every other section they must be present, and a missing or mistyped field is a `ConfigError` at startup. Neither bar may exceed its section's panel size, since nothing could then be kept. Each is a whole number of at least 1.
+**The subtopic splitting and grouping settings are required sections.** `subtopicSplitting` and `grouping` carry the panel sizes, the bars and the size gate (§5, "Dividing the transcript" and `group-into-topics`). Like every other section they must be present, and a missing or mistyped field is a `ConfigError` at startup. Neither bar may exceed its section's panel size, since nothing could then be kept. Each is a whole number of at least 1.
 
 **So is the batch section.** `batch.concurrency` is how many lectures `batch` runs at once, a whole number of at least 1, and `--concurrency N` overrides it for one command (§4.7). It is required rather than defaulted so the file says how wide a batch runs; the example sets 1.
 
@@ -1748,7 +1748,7 @@ Each prefix is matched literally, so one carrying a pattern character means itse
   },
   "elevenLabs": {
     "baseUrl": "https://api.elevenlabs.io",  // every ElevenLabs call is made against this; use your account's residency host
-    "languageCode": "eng",             // language SPOKEN in the lectures (ISO-639-3); not output.language below
+    "languageCode": "eng",             // language SPOKEN in the lectures (ISO-639-3); not finalOutput.language below
     "costPerAudioHourUsd": 0.22        // Scribe v2 list price; set from your current ElevenLabs plan
   },
   "currency": {
@@ -1807,7 +1807,7 @@ Each prefix is matched literally, so one carrying a pattern character means itse
       "maxIterations": 3
     }
   },
-  "division": {
+  "subtopicSplitting": {
     "panelSize": 18,                   // splitting runs per lecture
     "bar": 9,                          // runs a cut site needs to be kept
     "sizeGateWords": 600               // a subtopic over this many words is deepened
@@ -1824,7 +1824,7 @@ Each prefix is matched literally, so one carrying a pattern character means itse
     // abbreviated and written out, and matching ignores case (§3.2)
     "modulePrefixes": ["BOD", "Biology of Disease", "ANA"]
   },
-  "output": {
+  "finalOutput": {
     "language": "en-GB",               // language the NOTES are written in (en-GB | en-US); not elevenLabs.languageCode above
     "pandocEngine": "xelatex"
   }

@@ -20,7 +20,7 @@
 	"naming": {
 		"modulePrefixes": ["BOD", "Biology of Disease", "ANA"]
 	},
-	"division": {
+	"subtopicSplitting": {
 		"panelSize": 18,
 		"bar": 9,
 		"sizeGateWords": 600
@@ -87,7 +87,7 @@
 			"maxIterations": 3
 		}
 	},
-	"output": {
+	"finalOutput": {
 		"language": "en-GB",
 		"pandocEngine": "xelatex"
 	}

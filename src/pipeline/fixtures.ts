@@ -556,7 +556,7 @@ export function configuringStage({
 	const config = makeConfig();
 	return {
 		...config,
-		output: language === undefined ? config.output : { ...config.output, language },
+		finalOutput: language === undefined ? config.finalOutput : { ...config.finalOutput, language },
 		stages: { [stageId]: openRouterStageConfig({ stageId }) },
 	};
 }

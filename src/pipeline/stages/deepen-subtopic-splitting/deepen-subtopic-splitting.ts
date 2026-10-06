@@ -197,7 +197,7 @@ async function deepenSubtopic({
 	readonly cost: StageCost | null;
 }> {
 	const passage = subtopicText({ text: transcript, subtopic });
-	if (countWords(passage) <= context.config.division.sizeGateWords) {
+	if (countWords(passage) <= context.config.subtopicSplitting.sizeGateWords) {
 		return { pieces: [subtopic], cost: null };
 	}
 	const sent = await sendJsonWithResends({

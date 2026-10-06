@@ -50,7 +50,7 @@ const modelCallMock = callModel as unknown as Mock;
 const STAGE_ID = "deepen-subtopic-splitting";
 
 /** How many runs the example config's panel holds. */
-const PANEL_SIZE = configuringStage({ stageId: STAGE_ID }).division.panelSize;
+const PANEL_SIZE = configuringStage({ stageId: STAGE_ID }).subtopicSplitting.panelSize;
 
 /** What the user message puts before the subtopic it sends. */
 const SECTION_HEADING = "Section:\n";
@@ -182,7 +182,7 @@ describe("createDeepenSubtopicSplittingStage", () => {
 			factory: createDeepenSubtopicSplittingStage,
 			config: {
 				...configured,
-				division: { ...configured.division, sizeGateWords },
+				subtopicSplitting: { ...configured.subtopicSplitting, sizeGateWords },
 				stages: { [STAGE_ID]: { ...openRouterStageConfig({ stageId: STAGE_ID }), ...tuning } },
 			},
 			workspaceRoot: workspaceRoot(),

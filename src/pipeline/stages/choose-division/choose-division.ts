@@ -223,7 +223,7 @@ export function createChooseDivisionStage({
 			const { subtopics, choice } = chooseDivision({
 				text: input.transcript,
 				runs: input.runs,
-				bar: context.config.division.bar,
+				bar: context.config.subtopicSplitting.bar,
 			});
 			return writeDivisionWithStageRecord({
 				stageId: STAGE_ID,

@@ -61,7 +61,7 @@ function splitReply({ secondStartWords }: { readonly secondStartWords: string })
 const GOOD_REPLY = splitReply({ secondStartWords: transcriptSecondStartWords });
 
 /** How many runs the example config's panel holds. */
-const PANEL_SIZE = configuringStage({ stageId: STAGE_ID }).division.panelSize;
+const PANEL_SIZE = configuringStage({ stageId: STAGE_ID }).subtopicSplitting.panelSize;
 
 describe("createInitialSubtopicSplittingStage", () => {
 	const workspace = useTranscribedWorkspace({ prefix: "initial-splitting-" });

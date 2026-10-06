@@ -295,20 +295,20 @@ function requirePanel({
 }
 
 /**
- * Validates the `division` section: the splitting panel's size, the bar a cut
+ * Validates the `subtopicSplitting` section: the splitting panel's size, the bar a cut
  * site must reach, and the size gate for deepening (technical-design.md §6).
  *
- * @param value - The raw `division` section.
+ * @param value - The raw `subtopicSplitting` section.
  * @returns The validated section.
  * @throws {ConfigError} If the section is not an object, a field is not a whole
  *   number of at least 1, or the bar exceeds the panel size.
  */
-function requireDivision(value: unknown): PipelineConfig["division"] {
-	const label = "division";
-	const division = requireSection({ value, label });
+function requireSubtopicSplitting(value: unknown): PipelineConfig["subtopicSplitting"] {
+	const label = "subtopicSplitting";
+	const subtopicSplitting = requireSection({ value, label });
 	return {
-		...requirePanel({ section: division, label }),
-		sizeGateWords: division.count("sizeGateWords"),
+		...requirePanel({ section: subtopicSplitting, label }),
+		sizeGateWords: subtopicSplitting.count("sizeGateWords"),
 	};
 }
 
@@ -439,7 +439,7 @@ function requireStages(value: unknown): PipelineConfig["stages"] {
 }
 
 /**
- * Validates the `output` section: which language the prose stages write, and
+ * Validates the `finalOutput` section: which language the prose stages write, and
  * which engine renders the PDF.
  *
  * The language is checked against the set the pipeline has prompt wording for,
@@ -448,19 +448,21 @@ function requireStages(value: unknown): PipelineConfig["stages"] {
  * sign of it would be notes in the wrong language — so it is refused at startup,
  * naming the languages it could have been (technical-design.md §6).
  *
- * @param value - The raw `output` section.
+ * @param value - The raw `finalOutput` section.
  * @returns The validated section.
  * @throws {ConfigError} If the section is not an object, either field is missing or mistyped, or the language is one the pipeline cannot write.
  */
-function requireOutput(value: unknown): PipelineConfig["output"] {
-	const output = requireSection({ value, label: "output" });
-	const language = output.string("language");
+function requireFinalOutput(value: unknown): PipelineConfig["finalOutput"] {
+	const finalOutput = requireSection({ value, label: "finalOutput" });
+	const language = finalOutput.string("language");
 	if (!isOutputLanguage(language)) {
-		throw new ConfigError(unknownLanguageMessage({ subject: `output.language "${language}"` }));
+		throw new ConfigError(
+			unknownLanguageMessage({ subject: `finalOutput.language "${language}"` }),
+		);
 	}
 	return {
 		language,
-		pandocEngine: output.string("pandocEngine"),
+		pandocEngine: finalOutput.string("pandocEngine"),
 	};
 }
 
@@ -488,11 +490,11 @@ export function parseConfig(raw: unknown): PipelineConfig {
 		},
 		modelIdCheck: requireModelIdCheck(root.modelIdCheck),
 		naming: requireNaming(root.naming),
-		division: requireDivision(root.division),
+		subtopicSplitting: requireSubtopicSplitting(root.subtopicSplitting),
 		grouping: requireGrouping(root.grouping),
 		batch: requireBatch(root.batch),
 		stages: requireStages(root.stages),
-		output: requireOutput(root.output),
+		finalOutput: requireFinalOutput(root.finalOutput),
 	};
 }
 

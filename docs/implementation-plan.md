@@ -588,7 +588,7 @@ Clearing a stage's run files under `--from-stage` is the runner's reset of the s
 
 The stage set gains `initial-subtopic-splitting` after `transcription` in `STAGE_IDS`, with its `STAGE_FILES` entry and cost-report label **(TD §3.3, §4.1)**; each later division phase adds its own stage the same way, after the one before. Old manifests need no migration, since a missing entry reads as not yet run.
 
-The required `division` section — `panelSize`, `bar`, `sizeGateWords` — in `PipelineConfig`, its validation, `pipeline-config.example.json` and the user's own `pipeline-config.json`; the stage's entry in the example config **(TD §6)**.
+The required `subtopicSplitting` section — `panelSize`, `bar`, `sizeGateWords` — in `PipelineConfig`, its validation, `pipeline-config.example.json` and the user's own `pipeline-config.json`; the stage's entry in the example config **(TD §6)**.
 
 **Tests:**
 

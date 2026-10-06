@@ -201,7 +201,7 @@ export type PipelineConfig = {
 		readonly baseUrl: string;
 		/**
 		 * The language spoken in the lectures, as the ISO-639-3 code Scribe expects
-		 * (`eng`). Deliberately not {@link PipelineConfig.output.language}, which is
+		 * (`eng`). Deliberately not {@link PipelineConfig.finalOutput.language}, which is
 		 * the language the *notes* are written in: a lecture delivered in one
 		 * language may want notes in another, and the two take different forms
 		 * anyway (technical-design.md §6).
@@ -238,7 +238,7 @@ export type PipelineConfig = {
 	 * How the transcript is divided into subtopics by a panel of splitting runs
 	 * (technical-design.md §5, "Dividing the transcript").
 	 */
-	readonly division: PanelSettings & {
+	readonly subtopicSplitting: PanelSettings & {
 		/** The word count above which a subtopic is sent for deepening. */
 		readonly sizeGateWords: number;
 	};
@@ -268,7 +268,7 @@ export type PipelineConfig = {
 		readonly modulePrefixes: readonly string[];
 	};
 	readonly stages: Readonly<Partial<Record<StageId, StageConfig>>>;
-	readonly output: {
+	readonly finalOutput: {
 		/**
 		 * The language every stage that produces prose is told to write in. A
 		 * regional variant, because that is the part a lecturer notices: the

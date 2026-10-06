@@ -104,7 +104,7 @@ describe("readTranscriptAndRuns", () => {
 	}
 
 	it("should return the transcript and every run of the panel when the panel is complete", async () => {
-		const { panelSize } = context().config.division;
+		const { panelSize } = context().config.subtopicSplitting;
 		await seedSplittingRunsBeforeDeepening(panelSize);
 		expect(await read()).toStrictEqual({
 			transcript: transcriptText,
