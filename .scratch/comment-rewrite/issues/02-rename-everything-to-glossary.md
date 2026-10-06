@@ -184,3 +184,8 @@ Two things any folder or file rename must also fix: each manifest's `filesWritte
 - C5: `TextMatch`, `DateMatch` and `TimePeriod` as ruled. `testRunSpan` becomes `testTimePeriod`, because batch summaries use it too. `cutSiteSpans` becomes `cutSites`.
 - C5: the two digit date helpers merge into one, `digitDateMatches`, which takes a list of formats. The patterns are named by digit count: `EIGHT_DIGIT_DATE`, `SIX_DIGIT_DATE`, with `fromEightDigits` and `fromSixDigits`. Each pattern and its reader is a `DigitDateFormat`. `parseDateSpans` becomes `chronoDateMatches`.
 - C6: the glossary entry **Item** becomes **Lecture file**, to match `renameLectureFiles`. "Item" goes on its _Avoid_ list, and comments, test titles and the technical design say "lecture file". So `items` in the concurrency helper clashes with nothing and stays. Its comments say "run", not "task in flight". `groupBy` in the reports module takes `members`, because `rows` there already means formatted table rows.
+
+2026-10-06, the user's rulings on C7 and C8:
+
+- C7: `POSITION_KEY` becomes `SUBTOPIC_ID_KEY`. Its value `"id"` is the prompt's word and stays. The retitling comments and test titles say "subtopic id", not "position". New glossary entry **Subtopic id**, with "position" on its _Avoid_ list. The stored key `changed[].position` is renamed in S7, not here.
+- C8: the name `sourceFile` is not correct. These helpers also act on the final output folder, and a notes PDF is not a source file. The names are `findLectureFileByDate`, `removeLectureFileByDate`, `LectureFileQuery` and `sharedLectureFileDirs`. "ByDate" says how the file is found: by the last date in its name, not by the whole name. The `DatedFile` type in source normalisation stays, because it is only ever a source file.
