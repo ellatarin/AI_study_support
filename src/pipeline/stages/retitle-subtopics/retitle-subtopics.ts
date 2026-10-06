@@ -99,8 +99,7 @@ type TitleChanges = {
 	readonly subtopics: number;
 	readonly titlesChanged: number;
 	readonly changed: readonly {
-		/** The subtopic id. */
-		readonly position: number;
+		readonly subtopicId: number;
 		readonly oldTitle: string;
 		readonly newTitle: string;
 	}[];
@@ -117,7 +116,7 @@ function titleChanges(retitlings: readonly Retitling[]): TitleChanges {
 	const changed = [...retitlings.entries()].flatMap(([index, { subtopic, newTitle }]) =>
 		newTitle === subtopic.title
 			? []
-			: [{ position: index + 1, oldTitle: subtopic.title, newTitle }],
+			: [{ subtopicId: index + 1, oldTitle: subtopic.title, newTitle }],
 	);
 	return { subtopics: retitlings.length, titlesChanged: changed.length, changed };
 }

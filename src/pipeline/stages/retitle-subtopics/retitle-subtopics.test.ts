@@ -186,7 +186,7 @@ describe("createRetitleSubtopicsStage", () => {
 		).toStrictEqual({
 			subtopics: 2,
 			titlesChanged: 1,
-			changed: [{ position: 2, oldTitle: second?.title, newTitle: NEW_TITLES[1] }],
+			changed: [{ subtopicId: 2, oldTitle: second?.title, newTitle: NEW_TITLES[1] }],
 		});
 		expect(result.filesWritten).toStrictEqual([
 			"Retitled subtopics/subtopics.json",
