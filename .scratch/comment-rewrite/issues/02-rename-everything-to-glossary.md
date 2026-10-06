@@ -119,7 +119,7 @@ Real data: `pipeline-config.json` at the repo root; module Biology of Disease ha
 | S14 | temp suffix `.stage0-tmp` | exists only mid-rename | `.normalisation-tmp` | none |
 | S15 | config `output`, `division`, `completionMaxRetries` | config file | `finalOutput`, `subtopicSplitting`, `completionMaxResends` | `pipeline-config.json`, the example config |
 | S16 | debug-log keys and messages | debug logs | follow the code names; old debug logs are left as history | none fixed |
-| S17 | `promptTokens`, `completionTokens` | stored token counts | `sentTokens`, `replyTokens` | 8 manifests |
+| S17 | `promptTokens`, `completionTokens` | stored token counts | **stays** (ruled 2026-10-06) | — |
 
 The table as first written, before the rulings:
 
@@ -226,3 +226,7 @@ Two things any folder or file rename must also fix: each manifest's `filesWritte
 
 - S5: the workspace folder `runs/` becomes `Run logs/`, to match the other workspace folders.
 - S8: `Video files` becomes `Video recordings` and `Lecture slides` becomes `Slide decks`, to match the glossary. `Final output` stays.
+
+2026-10-06, the user's ruling on S17, which reverses the token count ruling:
+
+- `promptTokens` and `completionTokens` stay, in code and on disk. They are the provider's own counts (`prompt_tokens`, `completion_tokens`), copied one to one, and the terms are standard and easy to understand.
