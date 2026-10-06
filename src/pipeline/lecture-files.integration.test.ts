@@ -4,7 +4,11 @@ import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { pathExists } from "../utils/files.js";
 import { aiDerivedLecture, makeLectureTree, otherLecture, testLecture } from "./fixtures.js";
 import { type ModuleDirs, workspaceRootFor } from "./layout.js";
-import { findDatedFile, removeDatedFile, renameLectureFiles } from "./lecture-files.js";
+import {
+	findLectureFileByDate,
+	removeLectureFileByDate,
+	renameLectureFiles,
+} from "./lecture-files.js";
 import { manifestPath } from "./manifest.js";
 
 describe("lecture files", () => {
@@ -37,9 +41,9 @@ describe("lecture files", () => {
 		await rm(tempDir, { recursive: true, force: true });
 	});
 
-	describe("findDatedFile", () => {
+	describe("findLectureFileByDate", () => {
 		it("should return the file carrying the lecture date when the directory holds one", async () => {
-			const found = await findDatedFile({
+			const found = await findLectureFileByDate({
 				dir: dirs.videoRecording,
 				lectureDate: testLecture.date,
 			});
@@ -48,7 +52,10 @@ describe("lecture files", () => {
 		});
 
 		it("should return null when no file carries the lecture date", async () => {
-			const found = await findDatedFile({ dir: dirs.videoRecording, lectureDate: "2025-11-21" });
+			const found = await findLectureFileByDate({
+				dir: dirs.videoRecording,
+				lectureDate: "2025-11-21",
+			});
 
 			expect(found).toBeNull();
 		});
@@ -60,13 +67,13 @@ describe("lecture files", () => {
 			const named = `Lecture 4 - Cohort 01-02-2019 Results - ${lectureDate}.mp4`;
 			await writeFile(join(dirs.videoRecording, named), "");
 
-			const found = await findDatedFile({ dir: dirs.videoRecording, lectureDate });
+			const found = await findLectureFileByDate({ dir: dirs.videoRecording, lectureDate });
 
 			expect(found).toBe(named);
 		});
 
 		it("should return null when the directory does not exist", async () => {
-			const found = await findDatedFile({
+			const found = await findLectureFileByDate({
 				dir: join(tempDir, "no-such-directory"),
 				lectureDate: testLecture.date,
 			});
@@ -75,7 +82,7 @@ describe("lecture files", () => {
 		});
 	});
 
-	describe("removeDatedFile", () => {
+	describe("removeLectureFileByDate", () => {
 		beforeEach(async () => {
 			await writeFile(join(dirs.videoRecording, otherLecture.videoRecordingFile), "video");
 		});
@@ -87,7 +94,7 @@ describe("lecture files", () => {
 			lectureDate,
 			remains,
 		}) => {
-			await removeDatedFile({ dir: dirs.videoRecording, lectureDate });
+			await removeLectureFileByDate({ dir: dirs.videoRecording, lectureDate });
 
 			expect(await pathExists(join(dirs.videoRecording, testLecture.videoRecordingFile))).toBe(
 				remains,

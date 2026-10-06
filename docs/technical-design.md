@@ -259,7 +259,7 @@ moduleRootOf(args: { workspaceRoot: string }): string
 moduleName(args: { moduleRoot: string }): string
 // What a module is called when it is shown to the user: its directory leaf, since a module has no name beyond
 // the folder it is. Read by the batch summary's module column and by the CLI's "nothing matched" message.
-datedFileDirs(args: { dirs: ModuleDirs }): readonly string[]
+sharedLectureFileDirs(args: { dirs: ModuleDirs }): readonly string[]
 // The three directories holding a file of the lecture's own — video, slides, finished PDF — and so the three a
 // lecture is addressed in by its date (§4.7). `processing` is excluded because a workspace is a folder named
 // after the lecture rather than a file. Walked by `renameLectureFiles`, by `delete`, and by the fixtures.
@@ -904,13 +904,13 @@ baseNameForLecture(args: { lectureNumber: number; title: string; lectureDate: st
 // Both callers that move a lecture hold it in that form, so the conversion is made here rather than at each:
 // the string must be read as *local* midnight, matching how `formatDateISO` writes one, or the base name
 // lands a day early west of Greenwich.
-findDatedFile(args: { dir: string; lectureDate: string }): Promise<string | null>
+findLectureFileByDate(args: { dir: string; lectureDate: string }): Promise<string | null>
 // The one file in a directory whose name carries this date. Sources are addressed by date rather than by
 // name because a lecture's name changes with its number and title, while its date is what identifies it (§3.2).
 // The *last* date in the name is the one compared: these directories hold names source-normalisation has normalised, and
 // `lectureBaseName` puts the title before the date, so a title naming a date of its own — a cohort, a study,
 // a historical event — precedes the lecture's own.
-removeDatedFile(args: { dir: string; lectureDate: string }): Promise<void>
+removeLectureFileByDate(args: { dir: string; lectureDate: string }): Promise<void>
 // Removes the one file in a directory carrying this date, where there is one. Used by `delete` across all
 // three of a lecture's directories, and by `--from-stage` for the PDF in the module-wide `Final output/`.
 // Neither may sweep the directory it clears from: all three hold every lecture in the module.

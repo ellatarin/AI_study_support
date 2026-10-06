@@ -33,10 +33,10 @@ import type {
 import { createSendGate, type SendGate } from "../utils/send-gate.js";
 import { parseConfig } from "./config.js";
 import {
-	datedFileDirs,
 	type ModuleDirs,
 	moduleDirs,
 	type StageWithOutputFile,
+	sharedLectureFileDirs,
 	stageOutputEntry,
 	stageOutputPath,
 	workspaceRootFor,
@@ -1234,7 +1234,7 @@ export async function makeLectureTree({ prefix }: { readonly prefix: string }): 
 	const dirs = moduleDirs({ moduleRoot });
 	const workspaceRoot = workspaceRootFor({ moduleRoot, baseName: testLecture.baseName });
 
-	for (const dir of [...datedFileDirs({ dirs }), workspaceRoot]) {
+	for (const dir of [...sharedLectureFileDirs({ dirs }), workspaceRoot]) {
 		await mkdir(dir, { recursive: true });
 	}
 	await writeFile(join(dirs.videoRecording, testLecture.videoRecordingFile), "video");

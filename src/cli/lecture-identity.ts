@@ -11,11 +11,11 @@
  */
 
 import { rm } from "node:fs/promises";
-import { datedFileDirs, type ModuleDirs, moduleDirs } from "../pipeline/layout.js";
+import { type ModuleDirs, moduleDirs, sharedLectureFileDirs } from "../pipeline/layout.js";
 import {
 	baseNameForLecture,
-	findDatedFile,
-	removeDatedFile,
+	findLectureFileByDate,
+	removeLectureFileByDate,
 	renameLectureFiles,
 } from "../pipeline/lecture-files.js";
 import { patchManifest, readManifest } from "../pipeline/manifest.js";
@@ -106,8 +106,8 @@ export async function deleteLecture({ match }: { readonly match: LectureMatch })
 		dirs,
 		manifest: { lectureDate },
 	} = await openLecture(match);
-	for (const dir of datedFileDirs({ dirs })) {
-		await removeDatedFile({ dir, lectureDate });
+	for (const dir of sharedLectureFileDirs({ dirs })) {
+		await removeLectureFileByDate({ dir, lectureDate });
 	}
 	await rm(match.workspaceRoot, { recursive: true, force: true });
 }
@@ -130,8 +130,8 @@ async function assertSourcePairPresent({
 	readonly dirs: ModuleDirs;
 	readonly lectureDate: string;
 }): Promise<void> {
-	const videoRecording = await findDatedFile({ dir: dirs.videoRecording, lectureDate });
-	const slideDeck = await findDatedFile({ dir: dirs.slideDeck, lectureDate });
+	const videoRecording = await findLectureFileByDate({ dir: dirs.videoRecording, lectureDate });
+	const slideDeck = await findLectureFileByDate({ dir: dirs.slideDeck, lectureDate });
 	if (videoRecording === null || slideDeck === null) {
 		throw new LectureIdentityError(
 			`The lecture on ${lectureDate} has no ${videoRecording === null ? "video recording" : "slide deck"}, so its date cannot be changed. Restore the file and try again.`,
@@ -161,7 +161,7 @@ async function assertDateIsFree({
 	readonly newLectureDate: string;
 }): Promise<void> {
 	for (const dir of [dirs.videoRecording, dirs.slideDeck]) {
-		const occupant = await findDatedFile({ dir, lectureDate: newLectureDate });
+		const occupant = await findLectureFileByDate({ dir, lectureDate: newLectureDate });
 		if (occupant !== null) {
 			throw new LectureIdentityError(
 				`"${occupant}" already carries the date ${newLectureDate}. Move or delete that lecture first.`,

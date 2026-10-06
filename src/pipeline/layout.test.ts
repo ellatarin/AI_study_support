@@ -3,7 +3,6 @@ import { describe, expect, it } from "vitest";
 import { STAGE_IDS } from "../types/pipeline.js";
 import { testLecture, testModuleName, testModuleRoot, testRunId } from "./fixtures.js";
 import {
-	datedFileDirs,
 	debugLogPath,
 	MANIFEST_FILE,
 	moduleDirs,
@@ -15,6 +14,7 @@ import {
 	STAGE_FILES,
 	type StageWithMarkdownVersion,
 	type StageWithOutputFile,
+	sharedLectureFileDirs,
 	stageDirectoryPaths,
 	stageMarkdownVersionEntry,
 	stageMarkdownVersionPath,
@@ -47,9 +47,9 @@ describe("moduleDirs", () => {
 	});
 });
 
-describe("datedFileDirs", () => {
+describe("sharedLectureFileDirs", () => {
 	it("should give the directories a lecture's own files sit in when a module is given", () => {
-		expect(datedFileDirs({ dirs: moduleDirs({ moduleRoot: MODULE_ROOT }) })).toStrictEqual([
+		expect(sharedLectureFileDirs({ dirs: moduleDirs({ moduleRoot: MODULE_ROOT }) })).toStrictEqual([
 			VIDEO_DIR,
 			SLIDE_DIR,
 			FINAL_OUTPUT_DIR,

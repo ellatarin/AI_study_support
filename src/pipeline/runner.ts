@@ -44,7 +44,7 @@ import { isRecord } from "../utils/record.js";
 import { configuredStage } from "../utils/stage-config.js";
 import { isStageAfter } from "../utils/stage-id.js";
 import { moduleDirs, resolveStageOutput, runsDirPath, type StageInWorkspace } from "./layout.js";
-import { removeDatedFile } from "./lecture-files.js";
+import { removeLectureFileByDate } from "./lecture-files.js";
 import { patchManifest, readManifest, readManifestSafe, writeManifest } from "./manifest.js";
 import { createMoneyFormatter, formatCostReport } from "./reports.js";
 import {
@@ -535,7 +535,7 @@ async function deleteStageOutput({
 }: StageInWorkspace & { readonly lectureDate: string }): Promise<void> {
 	const output = resolveStageOutput({ workspaceRoot, stageId });
 	if (output.root === "module") {
-		await removeDatedFile({ dir: output.directory, lectureDate });
+		await removeLectureFileByDate({ dir: output.directory, lectureDate });
 		return;
 	}
 	for (const path of output.directories) {

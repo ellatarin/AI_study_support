@@ -72,7 +72,7 @@ export function moduleDirs({ moduleRoot }: { readonly moduleRoot: string }): Mod
  * @param args.dirs - The module's four directories.
  * @returns The three directories, in video recording, slide deck, final output order.
  */
-export function datedFileDirs({ dirs }: { readonly dirs: ModuleDirs }): readonly string[] {
+export function sharedLectureFileDirs({ dirs }: { readonly dirs: ModuleDirs }): readonly string[] {
 	return [dirs.videoRecording, dirs.slideDeck, dirs.finalOutput];
 }
 

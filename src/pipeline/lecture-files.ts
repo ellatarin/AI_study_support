@@ -12,7 +12,7 @@
  * Three of those four sit in directories shared with every other lecture in the
  * module, so anything acting on one lecture there addresses it by the date its
  * filename carries rather than by sweeping the directory. That is what
- * {@link findDatedFile} and {@link removeDatedFile} are for.
+ * {@link findLectureFileByDate} and {@link removeLectureFileByDate} are for.
  *
  * It sits under `src/pipeline/` rather than beside the CLI commands that first
  * needed it because a stage may not import from the CLI layer.
@@ -25,7 +25,7 @@ import { dirname, extname, join } from "node:path";
 import { extractDates, formatDateISO } from "../utils/date.js";
 import { listFileNames } from "../utils/files.js";
 import { lectureBaseName } from "../utils/naming.js";
-import { datedFileDirs, type ModuleDirs } from "./layout.js";
+import { type ModuleDirs, sharedLectureFileDirs } from "./layout.js";
 
 /**
  * The canonical base name for a lecture sitting on an ISO date.
@@ -65,7 +65,7 @@ export function baseNameForLecture({
  * Looking one up and removing it ask the same question of the same pair, so the
  * pair is named rather than written at both.
  */
-type DatedFileQuery = {
+type LectureFileQuery = {
 	/** The directory to scan; a directory that does not exist holds none. */
 	readonly dir: string;
 	/** The `YYYY-MM-DD` date the lecture's file carries. */
@@ -89,7 +89,10 @@ type DatedFileQuery = {
  * @param args.lectureDate - The `YYYY-MM-DD` date to match.
  * @returns The matching file name, or `null` when the directory holds none.
  */
-export async function findDatedFile({ dir, lectureDate }: DatedFileQuery): Promise<string | null> {
+export async function findLectureFileByDate({
+	dir,
+	lectureDate,
+}: LectureFileQuery): Promise<string | null> {
 	for (const name of await listFileNames(dir)) {
 		const date = extractDates(name).at(-1);
 		if (date !== undefined && formatDateISO(date) === lectureDate) {
@@ -119,8 +122,11 @@ export async function findDatedFile({ dir, lectureDate }: DatedFileQuery): Promi
  * @param args.lectureDate - The `YYYY-MM-DD` date identifying it.
  * @returns A promise that resolves once the file is gone, or at once when the directory holds none.
  */
-export async function removeDatedFile({ dir, lectureDate }: DatedFileQuery): Promise<void> {
-	const name = await findDatedFile({ dir, lectureDate });
+export async function removeLectureFileByDate({
+	dir,
+	lectureDate,
+}: LectureFileQuery): Promise<void> {
+	const name = await findLectureFileByDate({ dir, lectureDate });
 	if (name === null) {
 		return;
 	}
@@ -178,8 +184,8 @@ export async function renameLectureFiles({
 	readonly lectureDate: string;
 	readonly baseName: string;
 }): Promise<string> {
-	for (const dir of datedFileDirs({ dirs })) {
-		await renameToBase({ dir, name: await findDatedFile({ dir, lectureDate }), baseName });
+	for (const dir of sharedLectureFileDirs({ dirs })) {
+		await renameToBase({ dir, name: await findLectureFileByDate({ dir, lectureDate }), baseName });
 	}
 	const movedTo = join(dirname(workspaceRoot), baseName);
 	await rename(workspaceRoot, movedTo);
