@@ -34,7 +34,7 @@ import type { Lecture } from "./lecture-resolution.js";
  * *complete* lecture file mid-move rather than a partial one, and §4.3's sweep of
  * leftover partial output would delete it (technical-design.md §4.3).
  */
-const TEMP_SUFFIX = ".stage0-tmp";
+const TEMP_SUFFIX = ".normalisation-tmp";
 
 /** A single planned rename within one directory. */
 export type RenameOp = { readonly dir: string; readonly source: string; readonly target: string };

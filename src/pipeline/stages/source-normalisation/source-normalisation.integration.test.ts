@@ -38,7 +38,7 @@ import {
 // on-disk state a crash mid-rename leaves, so taking it from the stage would
 // assert the convention against itself. It stays here because nothing else
 // arranges that state.
-const TEMP_SUFFIX = ".stage0-tmp";
+const TEMP_SUFFIX = ".normalisation-tmp";
 
 /** A slide deck on a date that has no video recording. */
 const UNMATCHED_SLIDE_DECK = `${cellInjurySources.date} Unmatched deck.pdf`;
