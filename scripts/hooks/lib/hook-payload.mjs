@@ -10,11 +10,21 @@
  *   flag saying the payload could not be parsed.
  */
 export async function readCommandFromStdin() {
+	const payload = await readPayloadFromStdin();
+	if (payload === null) return { parsed: false };
+	return { parsed: true, command: String(payload?.tool_input?.command ?? "") };
+}
+
+/**
+ * Reads a Claude Code hook payload from stdin.
+ *
+ * @returns {Promise<any>} The parsed payload, or null when stdin is not JSON.
+ */
+export async function readPayloadFromStdin() {
 	try {
-		const payload = JSON.parse(await readStdin());
-		return { parsed: true, command: String(payload?.tool_input?.command ?? "") };
+		return JSON.parse(await readStdin());
 	} catch {
-		return { parsed: false };
+		return null;
 	}
 }
 

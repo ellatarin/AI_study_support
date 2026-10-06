@@ -7,11 +7,24 @@
           {
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR/scripts/hooks/post-edit-biome\""
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR/scripts/hooks/post-edit-ste-lint\""
           }
         ]
       }
     ],
     "PreToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR/scripts/hooks/require-ste-skill\""
+          }
+        ]
+      },
       {
         "matcher": "Bash",
         "hooks": [

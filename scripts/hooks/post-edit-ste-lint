@@ -1,0 +1,55 @@
+#!/usr/bin/env node
+/*
+ * PostToolUse hook for Edit, MultiEdit and Write.
+ *
+ * The hook runs the asd-ste100 linter on the prose that an edit wrote. It
+ * checks each comment paragraph or Markdown block that holds a written line.
+ * A hard breach goes back to the session as feedback. The edit stays on disk.
+ *
+ * When the linter cannot run, the hook says so. A silent failure would look
+ * the same as clean prose.
+ */
+
+import { spawnSync } from "node:child_process";
+import fs from "node:fs";
+import { readPayloadFromStdin } from "./lib/hook-payload.mjs";
+import {
+	changedParagraphs,
+	formatHardFindings,
+	isProseFile,
+	lintInput,
+	STE_LINTER_PATH,
+} from "./lib/ste-prose.mjs";
+
+const payload = await readPayloadFromStdin();
+if (payload === null) {
+	process.exit(0);
+}
+
+const filePath = String(payload?.tool_input?.file_path ?? "");
+if (!isProseFile(filePath) || !fs.existsSync(filePath)) {
+	process.exit(0);
+}
+
+const fileText = fs.readFileSync(filePath, "utf8");
+const paragraphs = changedParagraphs({ filePath, fileText, toolInput: payload.tool_input ?? {} });
+if (paragraphs.length === 0) {
+	process.exit(0);
+}
+
+const { text, sourceLines } = lintInput(paragraphs);
+const linter = spawnSync("python3", [STE_LINTER_PATH, "--json"], { input: text, encoding: "utf8" });
+
+let findings;
+try {
+	findings = JSON.parse(linter.stdout).violations;
+} catch {
+	process.stderr.write(`STE lint did not run on ${filePath}: ${linter.error?.message ?? linter.stderr}\n`);
+	process.exit(2);
+}
+
+const report = formatHardFindings({ filePath, findings, sourceLines });
+if (report !== null) {
+	process.stderr.write(`${report}\n`);
+	process.exit(2);
+}

@@ -1,0 +1,53 @@
+#!/usr/bin/env node
+/*
+ * PreToolUse hook for Edit, MultiEdit and Write.
+ *
+ * The hook blocks an edit that writes comments or Markdown prose until the
+ * session loads the asd-ste100 skill. An edit that writes code alone goes
+ * through. The skill loads once for each session.
+ *
+ * An unreadable payload lets the edit through, as the other blockers do. An
+ * unreadable session record blocks the edit, because then nothing shows that
+ * the skill loaded.
+ */
+
+import fs from "node:fs";
+import { readPayloadFromStdin } from "./lib/hook-payload.mjs";
+import { OVERRIDE_HINT } from "./lib/search-guidance.mjs";
+import { transcriptLoadsSkill } from "./lib/skill-load.mjs";
+import { STE_SKILL_NAME, writesProse } from "./lib/ste-prose.mjs";
+import { acceptOverride } from "./lib/tool-override.mjs";
+
+const payload = await readPayloadFromStdin();
+if (payload === null) {
+	process.exit(0);
+}
+
+const filePath = String(payload?.tool_input?.file_path ?? "");
+if (!writesProse({ filePath, toolInput: payload.tool_input ?? {} })) {
+	process.exit(0);
+}
+
+let transcriptText = "";
+try {
+	transcriptText = fs.readFileSync(String(payload.transcript_path), "utf8");
+} catch {
+	transcriptText = "";
+}
+if (transcriptLoadsSkill({ transcriptText, skillName: STE_SKILL_NAME })) {
+	process.exit(0);
+}
+
+if (acceptOverride()) {
+	process.exit(0);
+}
+
+const message = [
+	`BLOCKED: this edit writes comments or prose, and this session has not loaded the ${STE_SKILL_NAME} skill.`,
+	`Load it with the Skill tool (skill: "${STE_SKILL_NAME}"), then make the edit again.`,
+	"",
+	OVERRIDE_HINT,
+].join("\n");
+
+process.stderr.write(`${message}\n`);
+process.exit(2);
