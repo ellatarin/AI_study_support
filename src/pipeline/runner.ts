@@ -43,7 +43,7 @@ import { createStageLogger } from "../utils/logger.js";
 import { isRecord } from "../utils/record.js";
 import { configuredStage } from "../utils/stage-config.js";
 import { isStageAfter } from "../utils/stage-id.js";
-import { moduleDirs, resolveStageOutput, runsDirPath, type StageInWorkspace } from "./layout.js";
+import { moduleDirs, resolveStageOutput, runLogsDirPath, type StageInWorkspace } from "./layout.js";
 import { removeLectureFileByDate } from "./lecture-files.js";
 import { patchManifest, readManifest, readManifestSafe, writeManifest } from "./manifest.js";
 import { createMoneyFormatter, formatCostReport } from "./reports.js";
@@ -626,15 +626,15 @@ async function writeRunLog({
 	readonly workspaceRoot: string;
 	readonly runLog: RunLog;
 }): Promise<void> {
-	const runsDir = runsDirPath({ workspaceRoot });
+	const runsDir = runLogsDirPath({ workspaceRoot });
 	await mkdir(runsDir, { recursive: true });
 	await writeJsonAtomic({ path: join(runsDir, `${runLog.pipelineRunId}.json`), value: runLog });
 }
 
 /**
- * Whether a parsed file from `runs/` is a run log.
+ * Whether a parsed file from `Run logs/` is a run log.
  *
- * `runs/` is scanned rather than indexed, so whatever lands in it is offered to
+ * `Run logs/` is scanned rather than indexed, so whatever lands in it is offered to
  * this reader, and parsing as JSON is not the same as being a run. Shallow for
  * the reason the manifest reader's own guard is: it checks what every consumer reads —
  * the id a run is filed under, and the stage map the cost report iterates — and
@@ -649,7 +649,7 @@ function isRunLog(value: unknown): value is RunLog {
 }
 
 async function readRunLogs(workspaceRoot: string): Promise<readonly RunLog[]> {
-	const runsDir = runsDirPath({ workspaceRoot });
+	const runsDir = runLogsDirPath({ workspaceRoot });
 	const runLogs: RunLog[] = [];
 	for (const entry of await readDirSafe(runsDir)) {
 		if (!entry.isFile()) {

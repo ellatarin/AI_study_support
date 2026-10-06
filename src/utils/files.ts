@@ -16,7 +16,7 @@ import { join } from "node:path";
 /**
  * Reads a directory's entries with file-type info, returning `[]` when the
  * directory does not exist. Wraps `readdir` so callers can scan optional
- * directories (a workspace's `runs/`, a module's `Final output/`) without a
+ * directories (a workspace's `Run logs/`, a module's `Final output/`) without a
  * try/catch at every call site.
  *
  * @param dir - Absolute path to the directory to read.
@@ -221,7 +221,7 @@ export async function produceFileAtomic({
  *
  * The read half of {@link writeJsonAtomic}, and it answers with a value rather
  * than a throw for the same reason the directory reads below do: both callers
- * are scanning speculatively — the runner over whatever `runs/` happens to hold,
+ * are scanning speculatively — the runner over whatever `Run logs/` happens to hold,
  * the manifest reader over a folder that may not be a lecture — and neither has
  * anything to say about a file it cannot read beyond skipping it.
  *

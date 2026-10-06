@@ -30,7 +30,7 @@ describe("logger", () => {
 			// The whole path is a parameter, so the debug log lands where the caller
 			// says rather than relative to the working directory, and the directory it
 			// names is created rather than having to exist.
-			const debugLogFile = join(tempDir(), "runs", "2025-10-10T09-00-00-000Z-debug.log");
+			const debugLogFile = join(tempDir(), "debug-logs", "2025-10-10T09-00-00-000Z-debug.log");
 
 			const logger = createDebugLogger({ debugLogFile });
 			logger.info("pipeline started");

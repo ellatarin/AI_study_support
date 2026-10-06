@@ -8,7 +8,7 @@ import {
 	testLecture,
 	testModuleName,
 } from "../pipeline/fixtures.js";
-import { moduleDirs, RUNS_DIR } from "../pipeline/layout.js";
+import { DEBUG_LOGS_DIR, moduleDirs } from "../pipeline/layout.js";
 import { CONFIG_FILENAME } from "../types/pipeline.js";
 import { listFileNames } from "../utils/files.js";
 import { runCli } from "./run-cli.js";
@@ -113,7 +113,7 @@ describe("runCli", () => {
 
 		await invoke(["run", testLecture.date]);
 
-		const fileNames = await listFileNames(join(projectRoot, RUNS_DIR));
+		const fileNames = await listFileNames(join(projectRoot, DEBUG_LOGS_DIR));
 		expect(fileNames.filter((name) => name.endsWith("-debug.log"))).toHaveLength(1);
 	});
 });

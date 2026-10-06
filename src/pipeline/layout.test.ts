@@ -3,14 +3,15 @@ import { describe, expect, it } from "vitest";
 import { STAGE_IDS } from "../types/pipeline.js";
 import { testLecture, testModuleName, testModuleRoot, testTimestampId } from "./fixtures.js";
 import {
+	DEBUG_LOGS_DIR,
 	debugLogPath,
 	MANIFEST_FILE,
 	moduleDirs,
 	moduleName,
 	moduleRootOf,
-	RUNS_DIR,
+	RUN_LOGS_DIR,
 	resolveStageOutput,
-	runsDirPath,
+	runLogsDirPath,
 	STAGE_FILES,
 	type StageWithMarkdownVersion,
 	type StageWithOutputFile,
@@ -57,9 +58,11 @@ describe("sharedLectureFileDirs", () => {
 	});
 });
 
-describe("runsDirPath", () => {
+describe("runLogsDirPath", () => {
 	it("should resolve the run logs under the workspace when a workspace is given", () => {
-		expect(runsDirPath({ workspaceRoot: WORKSPACE_ROOT })).toBe(join(WORKSPACE_ROOT, "runs"));
+		expect(runLogsDirPath({ workspaceRoot: WORKSPACE_ROOT })).toBe(
+			join(WORKSPACE_ROOT, "Run logs"),
+		);
 	});
 });
 
@@ -68,7 +71,7 @@ describe("debugLogPath", () => {
 	// log and may run many lectures, so no single workspace could hold it.
 	it("should place the invocation's debug log under the project root when an invocation is identified", () => {
 		expect(debugLogPath({ projectRoot: MODULE_ROOT, invocationId: testTimestampId })).toBe(
-			join(MODULE_ROOT, "runs", `${testTimestampId}-debug.log`),
+			join(MODULE_ROOT, "debug-logs", `${testTimestampId}-debug.log`),
 		);
 	});
 });
@@ -283,7 +286,8 @@ describe("stageMarkdownCopyPath", () => {
 describe("workspace filenames", () => {
 	it.each([
 		{ name: "MANIFEST_FILE", value: MANIFEST_FILE, expected: "manifest.json" },
-		{ name: "RUNS_DIR", value: RUNS_DIR, expected: "runs" },
+		{ name: "RUN_LOGS_DIR", value: RUN_LOGS_DIR, expected: "Run logs" },
+		{ name: "DEBUG_LOGS_DIR", value: DEBUG_LOGS_DIR, expected: "debug-logs" },
 	])("should declare $name once when the layout is read", ({ value, expected }) => {
 		expect(value).toBe(expected);
 	});

@@ -754,7 +754,7 @@ type TimePeriod = {
 };
 
 /**
- * A single append-only run log written to `runs/<timestamp>.json`. Records the
+ * A single append-only run log written to `Run logs/<timestamp>.json`. Records the
  * complete financial audit trail for one pipeline invocation, including failed
  * attempts (technical-design.md §4.6).
  */

@@ -50,7 +50,7 @@ const NOTHING_WAS_RUN = "Nothing was run";
 
 // Where this invocation put its debug log. Any path will do — what is under test
 // is that the CLI tells the user the one it was given.
-const DEBUG_LOG_PATH = join("/tmp", "project", "runs", `${testTimestampId}-debug.log`);
+const DEBUG_LOG_PATH = join("/tmp", "project", "debug-logs", `${testTimestampId}-debug.log`);
 
 // How many lectures the configuration says a batch runs at once. Not the
 // example's 1: that is also the runner's own default, so a batch taking it could

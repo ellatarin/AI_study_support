@@ -24,8 +24,11 @@ const FINAL_OUTPUT_DIR = "Final output";
 /** The lecture manifest's filename within a workspace. */
 export const MANIFEST_FILE = "manifest.json";
 
-/** The per-invocation run logs and debug log directory. */
-export const RUNS_DIR = "runs";
+/** The folder in a workspace that holds the lecture's run logs. */
+export const RUN_LOGS_DIR = "Run logs";
+
+/** The folder at the project root that holds the debug logs, one for each invocation. */
+export const DEBUG_LOGS_DIR = "debug-logs";
 
 /**
  * The four directories a module's lecture files are spread across
@@ -88,8 +91,8 @@ export function sharedLectureFileDirs({ dirs }: { readonly dirs: ModuleDirs }): 
  * @param args.workspaceRoot - Absolute path to the lecture workspace.
  * @returns The absolute path to that workspace's run logs.
  */
-export function runsDirPath({ workspaceRoot }: { readonly workspaceRoot: string }): string {
-	return join(workspaceRoot, RUNS_DIR);
+export function runLogsDirPath({ workspaceRoot }: { readonly workspaceRoot: string }): string {
+	return join(workspaceRoot, RUN_LOGS_DIR);
 }
 
 /**
@@ -114,7 +117,7 @@ export function debugLogPath({
 	readonly projectRoot: string;
 	readonly invocationId: string;
 }): string {
-	return join(projectRoot, RUNS_DIR, `${invocationId}-debug.log`);
+	return join(projectRoot, DEBUG_LOGS_DIR, `${invocationId}-debug.log`);
 }
 
 /**

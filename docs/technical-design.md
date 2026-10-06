@@ -227,7 +227,7 @@ The directory is named for the stage that fills it: it holds `qa-loop`'s quality
 
 #### The layout has one owner
 
-Every name in the two trees above — the module's four directories, each stage's workspace directory and the file it writes, `runs/`, and `manifest.json` — is declared once, in `src/pipeline/layout.ts`. Nothing else states a directory or filename as a literal.
+Every name in the two trees above — the module's four directories, each stage's workspace directory and the file it writes, `Run logs/`, and `manifest.json` — is declared once, in `src/pipeline/layout.ts`. Nothing else states a directory or filename as a literal.
 
 One owner matters here because each of these names is relied on by two parties at once, and a name changed for one has to reach the other:
 
@@ -240,12 +240,13 @@ One owner matters here because each of these names is relied on by two parties a
 type ModuleDirs = { video: string; slide: string; processing: string; finalOutput: string }
 moduleDirs(args: { moduleRoot: string }): ModuleDirs      // the module layout of §3.1, stated once
 MANIFEST_FILE: string                                     // "manifest.json"
-RUNS_DIR: string                                          // "runs"
-runsDirPath(args: { workspaceRoot: string }): string
+RUN_LOGS_DIR: string                                      // "Run logs"
+DEBUG_LOGS_DIR: string                                    // "debug-logs", at the project root
+runLogsDirPath(args: { workspaceRoot: string }): string
 // That directory within one workspace. The runner writes a log into it and reads every log back out of it,
 // and the suites look for what it wrote, so the three address it through one name rather than rebuilding it.
 debugLogPath(args: { projectRoot: string; invocationId: string }): string
-// One invocation's debug log, at <projectRoot>/runs/<invocationId>-debug.log. Anchored to the project because an
+// One invocation's debug log, at <projectRoot>/debug-logs/<invocationId>-debug.log. Anchored to the project because an
 // invocation is wider than a pipeline run — a batch spans every configured module, and source-normalisation's work happens
 // before any lecture is chosen — and because a relative path would follow the directory the user invoked
 // from (§10).
@@ -484,7 +485,7 @@ produceFileAtomic(args: { path: string; produce: ProduceFile }): Promise<void>
 // the general form: the caller creates the file at the .tmp path it is given
 readJsonSafe(path: string): Promise<unknown>
 // The read half: the parsed value, or null when the file is missing, unreadable, or not JSON. Answers with a
-// value rather than a throw because both callers scan speculatively — the runner over whatever `runs/` holds,
+// value rather than a throw because both callers scan speculatively — the runner over whatever `Run logs/` holds,
 // `readManifestSafe` over a folder that may not be a lecture. The value is `unknown`: what the file was
 // supposed to hold is the caller's claim, and a parse cannot check it.
 writeJsonAtomic(args: { path: string; value: unknown }): Promise<void>
@@ -495,7 +496,7 @@ cleanTmpFiles(dir: string): Promise<void>                                 // del
 ```
 
 The same module holds the reads, because a pipeline whose directories are created on demand asks about a
-directory that may not be there yet on nearly every path — a workspace with no `runs/`, a module with no
+directory that may not be there yet on nearly every path — a workspace with no `Run logs/`, a module with no
 `Final output/`, a lecture with no PDF. Each answers with an ordinary value rather than a throw, so no caller
 wraps a listing in a try/catch:
 
@@ -713,11 +714,11 @@ Each stage's `cost` is the only record of what that stage cost, and the manifest
 
 ### 4.6 Run Logs
 
-Every pipeline invocation creates a new log file in `runs/` named by ISO timestamp (e.g. `runs/2025-10-10T09-00-00Z.json`). Run logs are append-only and never modified after creation.
+Every pipeline invocation creates a new log file in `Run logs/` named by ISO timestamp (e.g. `Run logs/2025-10-10T09-00-00Z.json`). Run logs are append-only and never modified after creation.
 
 Each log records which stages were attempted, skipped, or re-run; cost and model per stage; and whether each stage succeeded or failed. This provides a complete financial audit trail including failed attempts and model experiments.
 
-`runs/` is read by scanning it, not from an index, so the cost report is offered every file that sits there — including one the pipeline never wrote, such as a debug log dropped alongside them (§10). Parsing as JSON is not enough to be a run: a file is taken as one only if it carries the `pipelineRunId` it is filed under and the stage map the report iterates. Anything else is skipped, the same judgement `readManifestSafe` makes about a folder that is not a lecture (§4.5).
+`Run logs/` is read by scanning it, not from an index, so the cost report is offered every file that sits there — including one the pipeline never wrote, such as a debug log dropped alongside them (§10). Parsing as JSON is not enough to be a run: a file is taken as one only if it carries the `pipelineRunId` it is filed under and the stage map the report iterates. Anything else is skipped, the same judgement `readManifestSafe` makes about a folder that is not a lecture (§4.5).
 
 ```jsonc
 {
@@ -1853,7 +1854,7 @@ Keeping the conversion at the edge means a stale or corrected rate never invalid
 | Level | Location | What it tracks |
 |---|---|---|
 | Current pipeline | `manifest.json` → each stage's `cost` | What each output currently on disk cost to produce |
-| All-time expenditure | `runs/*.json` | Every API call ever made, including failures and experiments |
+| All-time expenditure | `Run logs/*.json` | Every API call ever made, including failures and experiments |
 
 Both levels are read a stage at a time. Neither stores a figure spanning stages, runs, lectures or modules: a stage's cost is compared against the same stage's cost under a different model, which is the comparison the two levels exist to serve, and a sum across stages answers no question the pipeline is asked (NFR-2.2).
 
@@ -2137,7 +2138,7 @@ Each per-lecture stage factory therefore takes `{ logger }` and passes it to `cr
 
 ### Debug Log File
 
-The pino file transport writes newline-delimited JSON to `<projectRoot>/runs/<timestamp>-debug.log`, the path named by `debugLogPath` (§3.3). This file captures operational detail not stored in the run log:
+The pino file transport writes newline-delimited JSON to `<projectRoot>/debug-logs/<timestamp>-debug.log`, the path named by `debugLogPath` (§3.3). This file captures operational detail not stored in the run log:
 
 - Every billable model call: model, prompt token count, latency ms, and the finish reason the provider reported, or `null` when it reported none. `transcription`'s Scribe upload counts — it is billed by audio duration rather than tokens, so it logs bytes uploaded in place of prompt tokens
 - Rate limit retries: attempt number, back-off delay, error message
