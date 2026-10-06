@@ -491,9 +491,11 @@ readJsonSafe(path: string): Promise<unknown>
 // `readManifestSafe` over a folder that may not be a lecture. The value is `unknown`: what the file was
 // supposed to hold is the caller's claim, and a parse cannot check it.
 writeJsonAtomic(args: { path: string; value: unknown }): Promise<void>
-// the same, for a value serialised as JSON. Every JSON file the pipeline persists — the lecture manifest
-// (§4.5) and the run logs (§4.6) — is read by a human before anything else reads it, so they are indented
-// alike; the indentation is the one part of the format neither writer owns, and is settled here.
+// the same, for a value serialised as JSON. It writes the manifest (§4.5), the run logs (§4.6) and the saved
+// runs of a panel (§5).
+jsonFileContent(value: unknown): string
+// The text of every JSON file that the pipeline writes: indented, with a newline at the end. A person reads
+// these files, so they are indented. writeJsonAtomic and the stage-output writer both use it.
 cleanTmpFiles(dir: string): Promise<void>                                 // deletes any .tmp files in a directory
 ```
 

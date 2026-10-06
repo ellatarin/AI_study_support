@@ -119,8 +119,8 @@ const TMP_SUFFIX = ".tmp";
 const JSON_INDENT = 2;
 
 /**
- * Gives the text of a JSON file that a stage writes: indented, with a newline at
- * the end.
+ * Gives the text of a JSON file that the pipeline writes: indented, with a newline
+ * at the end. A person reads these files, so they are indented.
  *
  * @param value - The value to serialise.
  * @returns The file's text.
@@ -130,9 +130,9 @@ export function jsonFileContent(value: unknown): string {
 }
 
 /**
- * Writes a value as indented JSON, atomically, with no newline at the end. The
- * manifest, the run logs and the saved runs are written with it. A person reads
- * these files, so they are indented (technical-design.md §4.3).
+ * Writes a value as JSON, atomically, in the format of {@link jsonFileContent}.
+ * The manifest, the run logs and the saved runs are written with it
+ * (technical-design.md §4.3).
  *
  * @param args - The destination and the value.
  * @param args.path - The path to write to. The `.tmp` path is this path with the suffix.
@@ -149,7 +149,7 @@ export function writeJsonAtomic({
 	readonly path: string;
 	readonly value: unknown;
 }): Promise<void> {
-	return writeFileAtomic({ path, content: JSON.stringify(value, null, JSON_INDENT) });
+	return writeFileAtomic({ path, content: jsonFileContent(value) });
 }
 
 /**

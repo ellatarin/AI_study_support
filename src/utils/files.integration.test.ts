@@ -41,12 +41,12 @@ describe("files utilities", () => {
 	});
 
 	describe("writeJsonAtomic", () => {
-		it("should write the value as indented JSON when a value is given", async () => {
+		it("should write the value as indented JSON ending in a newline when a value is given", async () => {
 			const target = join(tempDir(), "record.json");
 
 			await writeJsonAtomic({ path: target, value: { version: "1", stages: {} } });
 
-			expect(await readFile(target, "utf8")).toBe('{\n  "version": "1",\n  "stages": {}\n}');
+			expect(await readFile(target, "utf8")).toBe('{\n  "version": "1",\n  "stages": {}\n}\n');
 		});
 	});
 
