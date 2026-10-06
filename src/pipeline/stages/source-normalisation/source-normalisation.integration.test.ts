@@ -26,18 +26,15 @@ import {
 	SourceNormalisationError,
 } from "./source-normalisation.js";
 
-// The raw sources and the base names `source-normalisation` gives them are fixtures. They
-// are still written out rather than derived — this suite tests the naming rule,
-// so deriving them would assert it against itself — but they are written out in
-// one place, because the unit suite over the resolution rules asserts the same
-// names without a directory tree and the two must not disagree. The directories
-// they live in are the layout's business, not this suite's, and come from
-// moduleDirs.
+// The source file names and their base names are written out, not derived,
+// because this suite tests the naming rule. They are fixtures, so this suite and
+// the unit suite of lecture-resolution.ts use the same names. The folders come
+// from moduleDirs.
 //
-// The suffix below is written out for the same reason: these tests arrange the
-// on-disk state a crash mid-rename leaves, so taking it from the stage would
-// assert the convention against itself. It stays here because nothing else
-// arranges that state.
+// The suffix is written out for the same reason. These tests make the files that
+// a stop between the two rename passes leaves. A test that used the stage's own
+// constant would test the `.normalisation-tmp` suffix against itself. No other suite makes these files, so the
+// suffix is not a fixture.
 const TEMP_SUFFIX = ".normalisation-tmp";
 
 /** A slide deck on a date that has no video recording. */
@@ -72,7 +69,7 @@ async function listNames(dir: string): Promise<readonly string[]> {
 	}
 }
 
-/** This suite's folders are workspace roots; naming that once keeps the reads short. */
+/** Reads the manifest in a folder. Each folder in this suite is a workspace root. */
 function readManifestIn(folder: string): Promise<Manifest> {
 	return readManifest({ workspaceRoot: folder });
 }
@@ -108,9 +105,9 @@ describe("createSourceNormalisationStage", () => {
 	});
 
 	/**
-	 * Rebuilds the stage against an empty log. Called again by a test whose arrange
-	 * step already normalised the module, so its assertions see only what the run
-	 * under test logged.
+	 * Builds the stage again with an empty log. A test calls it after its arrange
+	 * step normalised the module. Then its assertions see only the log of the
+	 * normalisation under test.
 	 */
 	function freshStage(): void {
 		logged = makeStubLogger();
@@ -121,7 +118,7 @@ describe("createSourceNormalisationStage", () => {
 		});
 	}
 
-	/** What the stage logged at one level. */
+	/** The entries that the stage logged at one level. */
 	function logsAt(level: LoggedLevel): readonly LoggedEntry[] {
 		return loggedAt({ entries: logged.entries, level });
 	}
@@ -139,21 +136,21 @@ describe("createSourceNormalisationStage", () => {
 		await writeInto(slideDecksDir(moduleRoot), slideDeck);
 	}
 
-	/** Normalises a single new lecture and returns the manifest `source-normalisation` wrote. */
+	/** Normalises one new lecture and returns the manifest that the stage wrote. */
 	async function normaliseNewLecture(): Promise<Manifest> {
 		await writeLecture(cellInjurySources);
 		await stage.normaliseModule({ moduleRoot });
 		return readManifestIn(workspaceRootFor({ moduleRoot, baseName: cellInjuryAsFirst }));
 	}
 
-	/** Normalises a two-lecture module, the starting point for renumbering cases. */
+	/** Normalises a module of two lectures. The renumbering tests start from it. */
 	async function normaliseTwoLectures(): Promise<void> {
 		await writeLecture(cellInjurySources);
 		await writeLecture(vaccinationSources);
 		await stage.normaliseModule({ moduleRoot });
 	}
 
-	/** The module's raw sources: what stands in the video and slide directories. */
+	/** The names in the two source folders of the module. */
 	async function sourceNames(): Promise<{
 		readonly videoRecordings: readonly string[];
 		readonly slideDecks: readonly string[];
@@ -164,7 +161,7 @@ describe("createSourceNormalisationStage", () => {
 		};
 	}
 
-	/** The pair of names `source-normalisation` renames a lecture's sources to. */
+	/** The names that the stage gives to the source pair of a lecture. */
 	function sourcesNamed(baseName: string): {
 		readonly videoRecordings: string[];
 		readonly slideDecks: string[];
@@ -173,13 +170,12 @@ describe("createSourceNormalisationStage", () => {
 	}
 
 	/**
-	 * Runs normalisation and asserts that it aborts: it throws, logs the failure,
-	 * and leaves exactly the given workspaces behind.
+	 * Runs the normalisation and asserts that it aborts: it throws, logs an error,
+	 * and leaves only the given workspaces.
 	 *
-	 * This is the act as well as the assertion, which is why every caller puts it
-	 * in the act position. A rejection cannot be acted on and then asserted
-	 * separately — `expect(...).rejects` is what handles it — so splitting the two
-	 * apart would mean catching the error by hand to re-assert it later.
+	 * This helper is the act and the assertion, so each caller puts it in the act
+	 * position. Only `expect(...).rejects` handles a rejection. To keep the act and
+	 * the assertion apart, a test would have to catch the error by hand.
 	 */
 	async function expectNormalisationToAbort(workspaces: readonly string[]): Promise<void> {
 		await expect(stage.normaliseModule({ moduleRoot })).rejects.toThrow(SourceNormalisationError);
@@ -193,8 +189,9 @@ describe("createSourceNormalisationStage", () => {
 	});
 
 	it("should assign sequential lecture numbers when video recordings are sorted by date", async () => {
-		// Immunity's date written the other way round, so the ordering is decided by
-		// the date the name carries rather than by the form it is written in.
+		// The Immunity name writes its date as `13 Oct 2025`, and the Cell Injury name
+		// writes its date as `2025-10-10`. So the test shows that the order comes from
+		// the date in the name, not from the form of the date.
 		await writeLecture({
 			...immunitySources,
 			videoRecording: "13 Oct 2025 BOD_Immunity to Infection.mp4",
@@ -523,9 +520,9 @@ describe("createSourceNormalisationStage", () => {
 		});
 
 		it("should quote no figure in the orphaned workspace prompt when a lecture's sources are gone", async () => {
-			// What a lecture has cost is the sum of its stages, and stage costs are
-			// not summed (NFR-2.2). `cost-report` still has the per-stage figures for
-			// as long as the workspace stands.
+			// The cost of a lecture is the sum of its stages, and nothing adds stage
+			// costs together (NFR-2.2). `cost-report` gives the cost of each stage
+			// while the workspace exists.
 			await removeSourcePair(cellInjuryAsFirst);
 
 			await stage.normaliseModule({ moduleRoot });

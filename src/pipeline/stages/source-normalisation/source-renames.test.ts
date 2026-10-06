@@ -14,17 +14,15 @@ import { planRenames } from "./source-renames.js";
 const dirs = moduleDirs({ moduleRoot: testModuleRoot });
 
 /**
- * A lecture as the numbering left it, for asking what would be moved.
+ * Builds a lecture as the numbering gives it, for the planning tests. The plan
+ * does not read the lecture number or the provisional title, so they have fixed
+ * values here.
  *
- * Planning reads only a lecture's number-free parts — where its files are now
- * and what they should be called — so the rest is filled in with settled values
- * rather than restated by each test.
- *
- * @param lecture - The parts the plan turns on.
- * @param lecture.baseName - The name every one of the lecture's four lecture files should carry.
- * @param lecture.videoRecordingName - The source video's current name.
- * @param lecture.slideDeckName - The slide deck's current name.
- * @param lecture.lectureDate - The lecture's `YYYY-MM-DD` date.
+ * @param lecture - The parts that the plan reads.
+ * @param lecture.baseName - The target base name of the four lecture files.
+ * @param lecture.videoRecordingName - The current name of the video recording.
+ * @param lecture.slideDeckName - The current name of the slide deck.
+ * @param lecture.lectureDate - The `YYYY-MM-DD` lecture date.
  * @returns The lecture.
  */
 function lectureNamed({
@@ -58,13 +56,13 @@ const vaccination = lectureNamed({
 });
 
 /**
- * What the plan says, as directory-relative moves.
+ * Gives the planned renames as lines of text.
  *
- * @param args - The state to reconcile.
- * @param args.lectures - The target lectures.
+ * @param args - The lectures, and the existing workspaces and PDFs.
+ * @param args.lectures - The lectures with their new numbers.
  * @param args.existingBaseNames - The base names of the existing workspaces, keyed by lecture date.
- * @param args.existingPdfs - Existing `Final output/` PDF names, keyed by lecture date.
- * @returns One `dir/source → target` line per planned move.
+ * @param args.existingPdfs - The names of the PDFs in the final output folder, keyed by lecture date.
+ * @returns One `dir/source → target` line for each planned rename.
  */
 function plannedMoves({
 	lectures,

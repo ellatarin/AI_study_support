@@ -58,12 +58,12 @@ describe("createTranscriptionStage", () => {
 		await rm(moduleRoot, { recursive: true, force: true });
 	});
 
-	/** The audio `audio-extraction` is required to have left, for the workspace under test. */
+	/** The path of the audio that `audio-extraction` must leave, in the workspace under test. */
 	function audioPath(): string {
 		return stageOutputPath({ workspaceRoot, stageId: "audio-extraction" });
 	}
 
-	/** Where this stage is required to leave its transcript. */
+	/** The path where this stage must put its transcript. */
 	function transcriptPath(): string {
 		return stageOutputPath({ workspaceRoot, stageId: "transcription" });
 	}
@@ -106,7 +106,7 @@ describe("createTranscriptionStage", () => {
 		});
 	}
 
-	/** The stage under test, logging into {@link logged}. */
+	/** The stage under test, which logs into {@link logged}. */
 	function makeStage(): ReturnType<typeof createTranscriptionStage> {
 		return createTranscriptionStage({ logger: logged().logger });
 	}
@@ -155,7 +155,7 @@ describe("createTranscriptionStage", () => {
 		const { scope } = interceptScribeUpload();
 
 		await expect(runStage(contextWith({ modelId: null }))).rejects.toThrow(TranscriptionError);
-		// The remedy is an edit to the config file, so the failure has to name it.
+		// The fix is an edit to the config file, so the message must name that file.
 		await expect(runStage(contextWith({ modelId: null }))).rejects.toThrow(CONFIG_FILENAME);
 		expect(scope.isDone()).toBe(false);
 	});
@@ -177,9 +177,8 @@ describe("createTranscriptionStage", () => {
 		},
 		{ sent: "a non-verbatim request", overrides: {}, carries: "no_verbatim" },
 		{
-			// A different language from the example config's, so passing could not
-			// come from the stage having kept a hardcoded default that happens to
-			// match.
+			// This language is not the one in the example config. So a pass cannot
+			// come from a fixed default in the stage that happens to match.
 			sent: "the configured spoken language",
 			overrides: { elevenLabs: { languageCode: "fra" } },
 			carries: "fra",
@@ -228,7 +227,7 @@ describe("createTranscriptionStage", () => {
 			promptTokens: 0,
 			completionTokens: 0,
 			callCount: 1,
-			// The stubbed duration is half an hour, so half the configured hourly rate.
+			// The stub gives a duration of half an hour, so the cost is half the hourly price.
 			costUsd: expect.closeTo(exampleConfig.elevenLabs.costPerAudioHourUsd / 2, 6),
 		});
 	});
@@ -295,8 +294,8 @@ describe("createTranscriptionStage", () => {
 	});
 
 	it("should fail when the response carries no transcript text", async () => {
-		// A well-formed Scribe body with the one field under test removed. `text:
-		// undefined` drops out when nock serialises the reply as JSON.
+		// The response is a correct Scribe body without its `text` field. nock removes
+		// `text: undefined` when it writes the response as JSON.
 		interceptScribeUpload({
 			body: { ...scribeResponseBody({ text: "" }), text: undefined, transcripts: [] },
 		});

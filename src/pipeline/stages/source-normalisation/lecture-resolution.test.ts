@@ -14,21 +14,20 @@ import {
 	toDatedFiles,
 } from "./lecture-resolution.js";
 
-/** The prefix the example module's filenames carry, stripped from a fresh title. */
+/** The module prefix in the file names of the example module. */
 const MODULE_PREFIXES = ["BOD"] as const;
 
 /**
- * The source pairs a listing yields, for the numbering tests.
+ * Gives the source pairs of two listings, for the numbering tests. The source
+ * pairs come from the check, not from the test. A source pair made by hand could
+ * have a date that its two files do not have. The source rule check never makes
+ * such a source pair.
  *
- * Numbering consumes what matching produced, so the source pairs are taken from the
- * matcher rather than hand-built: a hand-built source pair could carry a date its two
- * files do not, which is a state the rules cannot reach.
- *
- * @param args - The source listings.
- * @param args.videoRecordings - The video recording file names.
- * @param args.slideDecks - The slide deck file names.
- * @returns The matched source pairs.
- * @throws Error when the listings do not match, which no numbering test intends.
+ * @param args - The listings.
+ * @param args.videoRecordings - The file names of the video recordings.
+ * @param args.slideDecks - The file names of the slide decks.
+ * @returns The source pairs.
+ * @throws Error when a source rule is broken. No numbering test expects that.
  */
 function matchedSourcePairs({
 	videoRecordings,
@@ -48,13 +47,13 @@ function matchedSourcePairs({
 }
 
 /**
- * The broken rules a listing produces.
+ * Gives the broken rules of two listings.
  *
- * @param args - The source listings.
- * @param args.videoRecordings - The video recording file names.
- * @param args.slideDecks - The slide deck file names.
+ * @param args - The listings.
+ * @param args.videoRecordings - The file names of the video recordings.
+ * @param args.slideDecks - The file names of the slide decks.
  * @returns The broken-rule lines.
- * @throws Error when the listings match, which no source-rule test intends.
+ * @throws Error when no rule is broken. No source rule test expects that.
  */
 function brokenRulesFor({
 	videoRecordings,
@@ -115,10 +114,10 @@ describe("checkSourceRules", () => {
 		]);
 	});
 
-	// Every rule that stops a run, in the order the report puts them: both kinds
-	// of undated file, then both kinds of duplicate date, then both directions
-	// of an unmatched source pair. One table rather than three, because what each case
-	// asks is the same question of a different listing.
+	// Each source rule, in the order of the report. First both kinds of undated
+	// file, then both kinds of shared date, then a missing match in each direction.
+	// One table, not three, because each case checks a different listing for one
+	// expected broken-rule line.
 	it.each([
 		{
 			problem: "a video recording carries no readable date",
@@ -182,11 +181,11 @@ describe("checkSourceRules", () => {
 
 describe("orderLectures", () => {
 	/**
-	 * Numbers a listing, with no lecture already on disk.
+	 * Numbers two listings, with no existing lecture.
 	 *
-	 * @param args - The source listings.
-	 * @param args.videoRecordings - The video file names.
-	 * @param args.slideDecks - The slide file names.
+	 * @param args - The listings.
+	 * @param args.videoRecordings - The file names of the video recordings.
+	 * @param args.slideDecks - The file names of the slide decks.
 	 * @returns The numbered lectures.
 	 */
 	function numberFresh({
@@ -244,9 +243,9 @@ describe("orderLectures", () => {
 		expect(lecture?.provisionalTitle).toBe("Cell Injury");
 	});
 
-	// A lecture of its own, on a date none of the fixtures use: what it shows is
-	// that a filename with nothing left after the noise is stripped still gets a
-	// name, and nothing about it should look tied to the other three.
+	// This lecture has a date that no fixture uses. It shows that a file name with
+	// nothing left after the title extraction removes the date and `Lecture 1` still
+	// gets a base name. Nothing about it should look tied to the other three lectures.
 	it("should name a lecture by its number and date alone when the filename yields no title", () => {
 		const [lecture] = numberFresh({
 			videoRecordings: ["2025-11-07 Lecture 1.mp4"],

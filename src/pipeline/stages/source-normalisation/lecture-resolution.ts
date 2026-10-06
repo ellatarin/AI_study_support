@@ -1,52 +1,42 @@
 /**
- * Turning a module's raw source filenames into numbered lectures.
+ * The rules that turn the file names of a module's sources into numbered
+ * lectures. The input is the names of the video recordings and the slide decks.
+ * The output is each broken source rule, or the lectures in date order, numbered
+ * from 1, each with its title and base name.
  *
- * Two lists of names go in — the video recordings and the slide decks a lecturer dropped
- * into their module — and either every problem that stops the run comes back, or
- * the lectures those names describe: numbered from one in date order, each
- * carrying the title and canonical name it will be renamed to.
- *
- * Nothing here touches the disk, which is the point of it having a home of its
- * own. These are the rules a run is judged by — what counts as a readable date,
- * what counts as a matched source pair, and which lecture is Lecture 1 — and checking
- * one should not mean laying out video recordings in a directory tree.
- *
- * See technical-design.md §3.2 (naming) and §5, `source-normalisation`.
+ * Nothing here reads or writes the disk, so a test can check each rule with two
+ * lists of names (technical-design.md §3.2 and §5, `source-normalisation`).
  */
 
 import type { Manifest } from "../../../types/pipeline.js";
 import { extractDate, formatDateISO } from "../../../utils/date.js";
 import { extractProvisionalTitle, lectureBaseName } from "../../../utils/naming.js";
 
-/** A source file identified only by its name and extracted `YYYY-MM-DD` date. */
+/** A source file: its name and its `YYYY-MM-DD` lecture date. */
 type SourceRef = { readonly name: string; readonly lectureDate: string };
 
-/** A source file that also carries its parsed `Date` (for local-safe formatting). */
+/** A source file with its parsed date. `lectureBaseName` takes the `Date` (technical-design.md §3.2). */
 export type DatedFile = SourceRef & { readonly date: Date };
 
-/** The dated files in one source directory, split from those with no date. */
+/** The files of one source folder: those with a lecture date, and the names of those without one. */
 export type DatedListing = {
 	readonly dated: readonly DatedFile[];
 	readonly undated: readonly string[];
 };
 
-/** A dated video recording and the slide deck sharing its date. */
+/** A video recording and the slide deck of the same lecture date. */
 export type SourcePair = { readonly videoRecording: DatedFile; readonly slideDeckName: string };
 
 /**
- * What checking a module's sources concluded: either the problems that stop the
- * run, or the source pairs the check proved are there.
- *
- * The source pairs are carried out of the check rather than looked up again afterwards.
- * The 1:1 date match is established by the check and nowhere else, so anything
- * that re-derives it from the two listings has to assert an invariant it cannot
- * see — which is what a cast here used to do.
+ * The result of the source rule check: each broken rule, or the source pairs.
+ * The check returns the source pairs because only the check proves the 1:1 date
+ * match. Code that matched the dates again would have to assume that match.
  */
 export type SourceRuleCheck =
 	| { readonly state: "rules-broken"; readonly brokenRules: readonly string[] }
 	| { readonly state: "matched"; readonly sourcePairs: readonly SourcePair[] };
 
-/** A fully-resolved lecture: its number, date, title, and current source names. */
+/** A numbered lecture, with its provisional title, its base name and the current names of its source pair. */
 export type Lecture = {
 	readonly lectureNumber: number;
 	readonly lectureDate: string;
@@ -57,11 +47,10 @@ export type Lecture = {
 };
 
 /**
- * Splits file names into those with a confidently extractable date and those
- * without.
+ * Splits file names into those with a lecture date and those without one.
  *
- * @param names - The source file names to classify.
- * @returns The dated files (with parsed date and ISO string) and the undated names.
+ * @param names - The names of the source files.
+ * @returns The dated files, with the parsed date and the lecture date, and the undated names.
  */
 export function toDatedFiles(names: readonly string[]): DatedListing {
 	const dated: DatedFile[] = [];
@@ -78,10 +67,10 @@ export function toDatedFiles(names: readonly string[]): DatedListing {
 }
 
 /**
- * Finds the ISO dates that appear on more than one file.
+ * Finds the lecture dates that two or more files share.
  *
- * @param files - The dated files to inspect.
- * @returns The ISO dates shared by two or more files.
+ * @param files - The dated files of one kind.
+ * @returns The lecture dates that two or more files share.
  */
 function duplicateLectureDates(files: readonly SourceRef[]): readonly string[] {
 	const seen = new Set<string>();
@@ -97,24 +86,24 @@ function duplicateLectureDates(files: readonly SourceRef[]): readonly string[] {
 }
 
 /**
- * The dates a listing's dateable files carry, for asking what the other side
- * matched.
+ * Collects the lecture dates of the dated files in one source folder.
  *
- * @param listing - One source directory's classified files.
- * @returns The `YYYY-MM-DD` dates present in it.
+ * @param listing - The files of one source folder.
+ * @returns The lecture dates.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- DatedFile carries a parsed Date, whose mutators leave it un-readonly to this rule however it is declared; it is only read here
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- DatedFile holds a parsed Date. A Date has mutator methods, so the rule never accepts it as readonly. This function only reads it.
 function lectureDatesIn(listing: DatedListing): ReadonlySet<string> {
 	return new Set(listing.dated.map((file) => file.lectureDate));
 }
 
 /**
- * The one sentence reporting a source with nothing on the other side to match.
+ * Writes the broken-rule line for a source file that has no match of the other
+ * kind on its lecture date.
  *
- * @param args - Which source is unmatched.
- * @param args.kind - The kind of source that is unmatched.
- * @param args.counterpart - The kind it should have been matched with.
- * @param args.file - The unmatched file.
+ * @param args - The source file without a match.
+ * @param args.kind - The kind of the source file.
+ * @param args.counterpart - The kind of the missing match.
+ * @param args.file - The source file.
  * @returns The broken-rule line.
  */
 function missingCounterpart({
@@ -130,16 +119,16 @@ function missingCounterpart({
 }
 
 /**
- * Checks every source rule that must stop the run — undated files, duplicate
- * dates within video recordings or slide decks, and any video recording or slide deck
- * without a 1:1 date match — and, when they all hold, hands back the source pairs it matched.
+ * Checks the source rules. Each file must have a lecture date. No two files of
+ * one kind may share a date. Each video recording and each slide deck must have a
+ * match on its date. When each rule holds, the result holds the source pairs.
  *
- * @param args - The dated video recording and slide deck listings.
- * @param args.videoRecordings - The classified video recordings.
- * @param args.slideDecks - The classified slide decks.
- * @returns Every broken rule found, or the matched source pairs when there are none.
+ * @param args - The video recordings and the slide decks.
+ * @param args.videoRecordings - The video recordings, split by lecture date.
+ * @param args.slideDecks - The slide decks, split by lecture date.
+ * @returns Each broken rule, or the source pairs when no rule is broken.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- DatedFile carries a parsed Date, whose mutators leave it un-readonly to this rule however it is declared; both listings are only read here
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- DatedFile holds a parsed Date. A Date has mutator methods, so the rule never accepts it as readonly. This function only reads both listings.
 export function checkSourceRules({
 	videoRecordings,
 	slideDecks,
@@ -147,9 +136,8 @@ export function checkSourceRules({
 	readonly videoRecordings: DatedListing;
 	readonly slideDecks: DatedListing;
 }): SourceRuleCheck {
-	// The first two rules hold of both kinds of source, and the report keeps the
-	// rules in order rather than the kinds, so the reader meets every undated
-	// file before the first missing match.
+	// The report gives the broken rules in rule order, not in order of the kind of
+	// file. So a reader sees each undated file before the first missing match.
 	const sides = [
 		{ kind: "video recording", listing: videoRecordings },
 		{ kind: "slide deck", listing: slideDecks },
@@ -167,9 +155,10 @@ export function checkSourceRules({
 		}
 	}
 
-	// The matching rule is written out per side rather than shared, because the
-	// video recording side has something to keep: the slide deck it just found. Its
-	// order is the same as the loops above, every video recording before the first slide deck.
+	// The match rule has one loop for each kind, not one shared loop. The video
+	// recording loop also keeps the slide deck that it finds. The missing-match lines
+	// have the same order as the undated and shared-date lines: each video recording
+	// line before the first slide deck line.
 	const slideDeckNameByDate = new Map(
 		slideDecks.dated.map((slideDeck) => [slideDeck.lectureDate, slideDeck.name] as const),
 	);
@@ -203,19 +192,19 @@ export function checkSourceRules({
 }
 
 /**
- * Orders dated video recordings by date, assigns sequential lecture numbers, and resolves
- * each lecture's title, base name, and matched slide deck. A new lecture's title is
- * freshly extracted from its raw filename; an existing lecture's title is taken
- * from its manifest, so a re-run neither re-parses an already-canonical filename
- * (which would corrupt the title) nor reverts a `transcript-structuring` AI-derived rename.
+ * Sorts the source pairs by lecture date, numbers them from 1, and gives each
+ * lecture its title and base name. A new lecture takes its provisional title
+ * from the file name of its video recording. An existing lecture takes its titles
+ * from its manifest, so a later title change stays (technical-design.md §5,
+ * `source-normalisation`, step 4).
  *
- * @param args - The matched sources, the manifests already on disk, and what counts as a module prefix.
- * @param args.sourcePairs - Each video recording with the slide deck {@link checkSourceRules} matched to it.
- * @param args.existingManifests - Existing lectures' manifests keyed by date, for title continuity.
- * @param args.modulePrefixes - The configured module prefixes, stripped from a freshly extracted title.
+ * @param args - The source pairs, the existing manifests and the module prefixes.
+ * @param args.sourcePairs - The source pairs from {@link checkSourceRules}.
+ * @param args.existingManifests - The manifests of the existing lectures, keyed by lecture date.
+ * @param args.modulePrefixes - The module prefixes to remove from a new provisional title.
  * @returns The lectures in date order, numbered from 1.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- SourcePair carries a parsed Date, and a ReadonlyMap is already the readonly form the rule declines to recognise; both are only read here
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- SourcePair holds a parsed Date, and a ReadonlyMap is readonly, but the rule accepts neither. This function only reads them.
 export function orderLectures({
 	sourcePairs,
 	existingManifests,
@@ -225,10 +214,10 @@ export function orderLectures({
 	readonly existingManifests: ReadonlyMap<string, Manifest>;
 	readonly modulePrefixes: readonly string[];
 }): readonly Lecture[] {
-	// `YYYY-MM-DD` sorts lexicographically into date order, which is why the lecture
-	// dates are what is compared rather than the parsed dates beside them.
+	// A `YYYY-MM-DD` lecture date sorts as text into date order. So the code
+	// compares the lecture dates, not the parsed dates.
 	const ordered = [...sourcePairs].sort(
-		// eslint-disable-next-line max-params -- Array.prototype.sort defines this comparator's signature: two positional arguments
+		// eslint-disable-next-line max-params -- Array.prototype.sort sets the signature of this comparator: two arguments, in order.
 		(left, right) =>
 			left.videoRecording.lectureDate.localeCompare(right.videoRecording.lectureDate),
 	);

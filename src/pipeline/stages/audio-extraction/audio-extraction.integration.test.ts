@@ -19,7 +19,7 @@ import { createAudioExtractionStage } from "./audio-extraction.js";
 
 const FIXTURE_SECONDS = 1;
 
-/** Renders a tiny H.264 + AAC test video, so the suite needs no binary fixture. */
+/** Makes a small H.264 and AAC test video, so the suite needs no binary fixture file. */
 function renderFixtureVideoRecording(outputPath: string): Promise<void> {
 	return renderFixtureMedia({
 		ffmpegArgs: [

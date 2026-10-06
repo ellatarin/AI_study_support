@@ -1,23 +1,12 @@
 /**
- * Moving a module's lectures onto the names their numbering gives them.
+ * The two-pass renames that move the lecture files of a module onto a new
+ * numbering (technical-design.md §5, `source-normalisation`,
+ * 'Collision-safe renaming'). This file holds the two-pass rename and the
+ * completion of interrupted renames, because both must use the same suffix.
  *
- * A lecture is four things on disk — its source video, its slide deck, its
- * pipeline workspace, and its finished PDF — and inserting one lecture shifts
- * every later lecture's number, so a run can be moving many of them onto names
- * other lectures are still using. Everything is therefore moved twice: first
- * onto a temporary name, then off it. Nothing is ever renamed directly onto a
- * name something else still holds.
- *
- * The price of that is a crash between the two passes, which leaves a complete
- * lecture file — possibly the only copy of a lecture's video recording — sitting under a temporary
- * name. Finishing those is the first thing the next run does, and it happens
- * here too, because the two halves only work by agreeing on the suffix.
- *
- * This is not `lecture-files.ts`'s `renameLectureFiles`, which moves **one**
- * lecture onto a new base name in a single pass: one lecture moving on its own
- * cannot collide with anything, so it needs none of this.
- *
- * See technical-design.md §5, `source-normalisation`.
+ * `renameLectureFiles` in `lecture-files.ts` moves one lecture in one pass. It
+ * needs no temporary name, because one lecture that moves alone cannot collide
+ * with another lecture file.
  */
 
 import { rename } from "node:fs/promises";
@@ -28,27 +17,25 @@ import type { ModuleDirs } from "../../layout.js";
 import type { Lecture } from "./lecture-resolution.js";
 
 /**
- * The suffix a lecture file wears between the two passes.
- *
- * Deliberately not the `.tmp` of an atomic write: a `.tmp` here would name a
- * *complete* lecture file mid-move rather than a partial one, and §4.3's sweep of
- * leftover partial output would delete it (technical-design.md §4.3).
+ * The suffix of a lecture file between the two passes. A `.tmp` file is a
+ * partial write that a stage deletes. A lecture file between the two passes is
+ * complete, so its suffix is not `.tmp` (technical-design.md §5,
+ * `source-normalisation`).
  */
 const TEMP_SUFFIX = ".normalisation-tmp";
 
-/** A single planned rename within one directory. */
+/** One planned rename in one folder. */
 export type RenameOp = { readonly dir: string; readonly source: string; readonly target: string };
 
-/** A temporary entry left by an interrupted run, and the name it was moving to. */
+/** A temporary entry from an interrupted rename, and the name that it was moving to. */
 type PendingRename = { readonly dir: string; readonly temp: string; readonly target: string };
 
 /**
- * Finds every temporary entry an interrupted run left across the module's four
- * directories, of whatever kind — a source file, a workspace folder, or a
- * `Final output/` PDF all pass through the same temporary name.
+ * Finds each temporary entry that an interrupted rename left in the four folders
+ * of the module. A source file, a workspace folder and a PDF all use the same suffix.
  *
- * @param dirs - The module's directories.
- * @returns The temporary entries found, each paired with the name it was moving to.
+ * @param dirs - The folders of the module.
+ * @returns Each temporary entry, with the name that it was moving to.
  */
 async function findPendingRenames(dirs: ModuleDirs): Promise<readonly PendingRename[]> {
 	const pending: PendingRename[] = [];
@@ -67,26 +54,20 @@ async function findPendingRenames(dirs: ModuleDirs): Promise<readonly PendingRen
 }
 
 /**
- * Finishes the second pass of a rename an earlier run was interrupted partway
- * through, before anything is read.
+ * Completes the second pass of each interrupted rename, before the stage reads
+ * the source folders. A temporary entry holds a complete lecture file, such as
+ * the only copy of a video recording. So the stage moves it to its target and
+ * does not delete it.
  *
- * A temporary entry holds a *complete* lecture file that has left its old name and not
- * yet reached its new one — the sole copy of a video recording, or a whole lecture
- * workspace — so the run that finds one moves it on to its target rather than
- * treating it as the discardable partial output §4.3 sweeps up. Left in place it
- * is read as a second video recording on its lecture's date, which validation then refuses
- * as a duplicate for as long as it sits there.
+ * If any target name is taken, nothing moves. The result names each blocked
+ * entry, and the caller stops (technical-design.md §5, `source-normalisation`).
  *
- * A target name that is already taken cannot be resolved this way. Nothing is
- * then moved at all — every temporary entry is left exactly where it is, and the
- * blocked ones are named so the caller can abort saying which.
- *
- * @param args - The module's directories and the run logger.
- * @param args.dirs - The module's directories.
- * @param args.logger - The run logger.
- * @returns The problems that stopped it, one line each; empty when every interrupted rename is complete.
+ * @param args - The folders of the module and the logger.
+ * @param args.dirs - The folders of the module.
+ * @param args.logger - The logger of the stage.
+ * @returns One line for each blocked entry. The list is empty when each interrupted rename is complete.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger carries mutable properties the rule cannot see past; it is only logged to here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger has mutable properties that the rule cannot ignore. This function only logs to it. CLAUDE.md permits a mutable type that a library requires.
 export async function completeInterruptedRenames({
 	dirs,
 	logger,
@@ -117,19 +98,15 @@ export async function completeInterruptedRenames({
 }
 
 /**
- * One lecture file's rename, or `null` when there is nothing to do: the lecture
- * file is absent, or it already sits at the name the numbering wants.
+ * Plans the rename of one lecture file. The result is `null` when the lecture
+ * file is absent, or when it already has its target name. Each of the four
+ * lecture files uses this one check.
  *
- * The four things a lecture is spread across each ask this same question, and a
- * fifth would too, so it is asked in one place — the absent case and the
- * already-there case being the same answer is what each of the four was
- * spelling out for itself.
- *
- * @param args - The lecture file and where it should end up.
- * @param args.dir - The directory the lecture file sits in.
- * @param args.source - Its current name, or `undefined` when there is no such lecture file.
- * @param args.target - The name the target numbering gives it.
- * @returns The rename to apply, or `null` when none is needed.
+ * @param args - The lecture file and its target name.
+ * @param args.dir - The folder of the lecture file.
+ * @param args.source - Its current name, or `undefined` when the lecture file is absent.
+ * @param args.target - The name that the new numbering gives it.
+ * @returns The rename, or `null` when no rename is necessary.
  */
 function renameIfMoved({
 	dir,
@@ -147,18 +124,19 @@ function renameIfMoved({
 }
 
 /**
- * Plans every rename needed to bring the module to its target numbering: video
- * recording, matched slide deck, existing workspace folder, and existing `Final output/`
- * PDF. Lecture files already at their target are omitted (so a re-run is a no-op).
+ * Plans each rename for the new numbering: the video recording, the slide deck,
+ * the workspace folder and the PDF of each lecture. A lecture file that already
+ * has its target name gets no rename. So a second normalisation with no change
+ * renames nothing.
  *
- * @param args - The lectures and the directories and existing state to reconcile.
- * @param args.lectures - The target lectures.
- * @param args.dirs - The module's directories.
+ * @param args - The lectures, the folders, and the existing workspaces and PDFs.
+ * @param args.lectures - The lectures with their new numbers.
+ * @param args.dirs - The folders of the module.
  * @param args.existingBaseNames - The base names of the existing workspaces, keyed by lecture date.
- * @param args.existingPdfs - Existing `Final output/` PDF names, keyed by lecture date.
- * @returns The rename operations to apply, collision-safely.
+ * @param args.existingPdfs - The names of the PDFs in the final output folder, keyed by lecture date.
+ * @returns The renames, for {@link applyRenames}.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- a ReadonlyMap is already the readonly form; the rule does not recognise the built-in collection interfaces as deeply readonly, and both maps are only read here
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- a ReadonlyMap is readonly, but the rule does not accept the built-in collection types as readonly. This function only reads both maps.
 export function planRenames({
 	lectures,
 	dirs,
@@ -197,26 +175,24 @@ export function planRenames({
 }
 
 /**
- * Where a lecture file waits between the two passes of a rename: at its target name,
- * under the temporary suffix. Written once because the two passes address it
- * from opposite ends — one renames onto it, the next renames off it — and a
- * crash between them leaves it there for the sweep at the start of the next run
- * to find.
+ * Gives the path of a lecture file between the two passes: its target name with
+ * the temporary suffix. The first pass renames onto this path and the second
+ * pass renames off it. After a stop between the passes,
+ * {@link completeInterruptedRenames} finds the file there.
  *
- * @param operation - The rename being applied.
- * @returns The absolute path the lecture file is staged at.
+ * @param operation - The rename.
+ * @returns The absolute path of the lecture file between the passes.
  */
 function stagingPath(operation: RenameOp): string {
 	return join(operation.dir, `${operation.target}${TEMP_SUFFIX}`);
 }
 
 /**
- * Applies renames in two passes — every source to a temporary name, then every
- * temporary name to its target — so shifting lecture numbers never collide
- * mid-rename.
+ * Applies the renames in two passes. The first pass moves each lecture file to
+ * its temporary name. The second pass moves each one to its target name.
  *
- * @param renames - The rename operations to apply.
- * @returns A promise that resolves once every rename is complete.
+ * @param renames - The renames to apply.
+ * @returns A promise that resolves when each rename is complete.
  */
 export async function applyRenames(renames: readonly RenameOp[]): Promise<void> {
 	for (const operation of renames) {

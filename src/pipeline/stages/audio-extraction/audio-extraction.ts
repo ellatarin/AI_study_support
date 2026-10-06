@@ -9,44 +9,42 @@ import { moduleDirs } from "../../layout.js";
 import { createPipelineStage, writeStageOutput } from "../pipeline-stage.js";
 
 /**
- * Thrown when the lecture's video recording cannot be located unambiguously, or
- * when ffmpeg fails to extract its audio track. Either way no `audio.m4a` is
- * left behind (technical-design.md §5, `audio-extraction`).
+ * The error when the video recording of the lecture is missing or not unique, or
+ * when ffmpeg fails. In each case, no `audio.m4a` stays on disk
+ * (technical-design.md §5, `audio-extraction`).
  */
 export class AudioExtractionError extends NamedError {}
 
-/** The video recording `audio-extraction` extracts audio from. */
+/** The input of `audio-extraction`. */
 export type AudioExtractionInput = {
-	/** Absolute path to the lecture's video recording, whatever container it uses. */
+	/** The absolute path of the video recording of the lecture, in any container. */
 	readonly videoRecordingPath: string;
 };
 
-/** The extracted audio `audio-extraction` produces. */
+/** The output of `audio-extraction`. */
 export type AudioExtractionOutput = {
-	/** Absolute path to the extracted `Audio/audio.m4a`. */
+	/** The absolute path of `Audio/audio.m4a`. */
 	readonly audioPath: string;
 };
 
 const STAGE_ID = "audio-extraction";
 const PROGRESS_FORMAT = "Extracting audio |{bar}| {percentage}%";
 /**
- * The m4a muxer, named explicitly because extraction writes to a `.tmp` sibling
- * (§4.3) and ffmpeg infers the container from the output extension — which
- * `.tmp` defeats.
+ * The m4a muxer. ffmpeg finds the container from the extension of the output,
+ * and the `.tmp` extension prevents that (technical-design.md §4.3).
  */
 const TMP_OUTPUT_FORMAT = "ipod";
 const PERCENT_COMPLETE = 100;
 const PERCENT_BEFORE_END = 99;
 
 /**
- * Locates the lecture's video recording by base name. `source-normalisation` gives the video
- * recording, the slide deck, and the workspace folder the same base name but preserves the
- * original container extension, so the video recording is whichever file in the module's video
- * recordings directory shares the workspace folder's name (technical-design.md §5, `audio-extraction`).
+ * Finds the video recording of the lecture by its base name. The video recording
+ * keeps its own extension. So the stage finds the one file whose name, without
+ * its extension, is the base name (technical-design.md §5, `audio-extraction`).
  *
- * @param context - The current lecture run context.
- * @returns The located video recording.
- * @throws {AudioExtractionError} If no video recording matches, or more than one does.
+ * @param context - The stage context.
+ * @returns The path of the video recording.
+ * @throws {AudioExtractionError} If no video recording matches, or more than one matches.
  */
 async function locateVideoRecording(context: StageContext): Promise<AudioExtractionInput> {
 	const videoRecordingsDir = moduleDirs({ moduleRoot: context.moduleRoot }).videoRecording;
@@ -70,15 +68,15 @@ async function locateVideoRecording(context: StageContext): Promise<AudioExtract
 }
 
 /**
- * Copies the video recording's audio track into `outputPath` without re-encoding, driving a
- * percentage progress bar from ffmpeg's progress events. fluent-ffmpeg spawns
- * with an explicit argv array, so no path is ever interpolated into a shell
- * command (technical-design.md §4.4).
+ * Copies the audio track of the video recording to `outputPath` without
+ * re-encoding. A progress bar shows the percentage that ffmpeg reports.
+ * fluent-ffmpeg gives each argument to the process separately, so no path goes
+ * into a shell command (technical-design.md §4.4).
  *
- * @param args - The extraction paths.
- * @param args.inputPath - Absolute path to the video recording.
- * @param args.outputPath - Absolute path to write the audio track to.
- * @returns A promise that resolves once ffmpeg reports completion.
+ * @param args - The two paths.
+ * @param args.inputPath - The absolute path of the video recording.
+ * @param args.outputPath - The absolute path to write the audio track to.
+ * @returns A promise that resolves when ffmpeg reports that it is done.
  */
 function copyAudioTrack({
 	inputPath,
@@ -87,7 +85,7 @@ function copyAudioTrack({
 	readonly inputPath: string;
 	readonly outputPath: string;
 }): Promise<void> {
-	// eslint-disable-next-line max-params -- Promise executor signature is spec-defined
+	// eslint-disable-next-line max-params -- the language standard sets the signature of the Promise executor.
 	return new Promise((resolve, reject) => {
 		const progressBar = createProgressBar({ format: PROGRESS_FORMAT });
 		progressBar.start(PERCENT_COMPLETE, 0);
@@ -105,7 +103,7 @@ function copyAudioTrack({
 				progressBar.stop();
 				resolve();
 			})
-			// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- fluent-ffmpeg declares the error handler's parameter; it is only rejected with here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
+			// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- fluent-ffmpeg declares the parameter of the error handler. This handler only rejects with it. CLAUDE.md permits a mutable type that a library requires.
 			.on("error", (error: Error) => {
 				progressBar.stop();
 				reject(error);
@@ -115,23 +113,21 @@ function copyAudioTrack({
 }
 
 /**
- * Extracts the audio track into `Audio/audio.m4a`, writing to a `.tmp` sibling
- * and renaming only on success so a killed run never leaves a truncated file a
- * later run would mistake for complete (technical-design.md §4.3).
+ * Extracts the audio track into `Audio/audio.m4a`. It writes a `.tmp` file and
+ * renames it only on success. So a stopped invocation never leaves a part file
+ * that a later pipeline run takes as complete (technical-design.md §4.3).
  *
- * The video recording is logged with the extraction: this stage picks it by base
- * name from whatever the module's video recordings directory holds, so which file was
- * chosen is a decision worth being able to check afterwards
- * (technical-design.md §10).
+ * The debug log records which video recording the stage chose, because the stage
+ * selects it by base name (technical-design.md §10).
  *
- * @param args - The run inputs.
- * @param args.input - The located video recording.
- * @param args.context - The current lecture run context.
- * @param args.logger - The stage's logger, which records the extraction.
- * @returns The extracted audio path, a `null` cost, and the file written.
- * @throws {AudioExtractionError} If ffmpeg fails; the partial `.tmp` is removed first.
+ * @param args - The input, the stage context and the logger.
+ * @param args.input - The video recording.
+ * @param args.context - The stage context.
+ * @param args.logger - The logger that records the extraction.
+ * @returns The path of the audio, a `null` cost, and the file written.
+ * @throws {AudioExtractionError} If ffmpeg fails. The `.tmp` file is deleted first.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger carries mutable properties the rule cannot see past; it is only logged to here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger has mutable properties that the rule cannot ignore. This function only logs to it. CLAUDE.md permits a mutable type that a library requires.
 async function extractAudio({
 	input,
 	context,
@@ -164,7 +160,7 @@ async function extractAudio({
 		"Extracted audio track",
 	);
 
-	// No billable call is made, so this stage records no cost.
+	// The stage makes no billable call, so it records no cost.
 	return {
 		output: { audioPath: written.path },
 		cost: null,
@@ -173,15 +169,15 @@ async function extractAudio({
 }
 
 /**
- * Builds `audio-extraction`, which extracts the lecture's video recording's audio track to
- * `Audio/audio.m4a` with `-acodec copy` — no re-encoding — and retains it for the
+ * Builds the `audio-extraction` stage. It copies the audio track of the video
+ * recording to `Audio/audio.m4a` without re-encoding. The audio stays for the
  * life of the workspace (technical-design.md §5, `audio-extraction`).
  *
- * @param args - The stage's dependencies.
- * @param args.logger - The run's logger; the factory binds it to this stage.
- * @returns The audio-extraction stage.
+ * @param args - The dependencies of the stage.
+ * @param args.logger - The logger. `createPipelineStage` binds it to this stage.
+ * @returns The stage.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger carries mutable properties the rule cannot see past; it is only read from here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger has mutable properties that the rule cannot ignore. This function only reads it. CLAUDE.md permits a mutable type that a library requires.
 export function createAudioExtractionStage({
 	logger,
 }: {

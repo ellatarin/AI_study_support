@@ -1,25 +1,15 @@
 /**
- * The lecture workspaces already on disk, and discarding the ones whose sources
- * have gone.
+ * The existing workspaces of a module, and the deletion of orphaned workspaces.
+ * This is the only code that destroys a user's work for good
+ * (technical-design.md §5, `source-normalisation`, 'Orphaned workspace handling').
  *
- * A workspace records which lecture it belongs to, so a lecture that has been
- * renumbered is still found by the date its manifest carries rather than by the
- * base name it happens to have. When a run finds a workspace whose date has no
- * video recording and slide deck left, the user deleted those sources by hand, and the
- * work already paid for is about to become unreachable.
- *
- * This is the only code in the project that permanently destroys a user's work,
- * so it asks first: once per lecture, then once more for the batch, and it is
- * all or nothing. Declining any one question leaves every workspace where it is.
- * A whole source folder moved by mistake therefore costs nothing, which a
- * "delete the ones you approved" reading would not give.
- *
- * See technical-design.md §5, `source-normalisation`.
+ * The code finds a workspace by the lecture date in its manifest, not by its
+ * base name. So a renumbered lecture is still found.
  */
 
-/* jscpd:ignore-start -- these first lines are character-for-character runner.ts's, because both modules
-   delete files, join paths and log. Nothing here can be extracted: an import is not logic. The duplication
-   floor stays where it is for code that could be. */
+/* jscpd:ignore-start -- jscpd matches these imports with the first four imports of runner.ts, from `rm` on.
+   Both modules delete files, join paths and log. An import is not logic, so nothing here can be extracted.
+   The duplication floor stays where it is for code that can be extracted. */
 import { rm } from "node:fs/promises";
 import { join } from "node:path";
 import type { Logger } from "pino";
@@ -30,38 +20,33 @@ import { moduleDirs, workspaceRootFor } from "../../layout.js";
 import { readManifestSafe } from "../../manifest.js";
 
 /**
- * Asks the user to approve an irreversible action, returning their answer. The
- * CLI backs this with `@inquirer/prompts`; tests stub it. Injected rather than
- * imported so `source-normalisation` never reaches for stdin itself
+ * Asks the user to approve an action that cannot be undone, and returns the
+ * answer. The CLI supplies it, so the stage never reads stdin itself
  * (technical-design.md §5, `source-normalisation`).
  */
 export type ConfirmPrompt = (args: { readonly message: string }) => Promise<boolean>;
 
-/** An existing lecture workspace, discovered by its manifest's date. */
+/** An existing workspace: its base name and its manifest. */
 export type ExistingWorkspace = { readonly baseName: string; readonly manifest: Manifest };
 
 /**
- * What the deletion protocol concluded: every orphaned workspace gone, or the question the
- * user said no to.
- *
- * The refusal is returned rather than thrown so this module owes nothing to the
- * stage that drives it — the stage owns what aborting a run means and says so in
- * its own error.
+ * The result of the deletion confirmation: each orphaned workspace is deleted,
+ * or the user declined a question. The result is returned, not thrown, so the
+ * stage decides what a declined question means (technical-design.md §5,
+ * `source-normalisation`).
  */
 export type OrphanedWorkspaceOutcome =
 	| { readonly state: "deleted" }
 	| { readonly state: "declined"; readonly reason: string };
 
 /**
- * Maps each existing lecture workspace to its base name by reading its
- * manifest's `lectureDate`, so a renumbered lecture can be found by date.
+ * Lists the workspaces of a module, keyed by the lecture date in each manifest.
+ * A folder without a readable manifest is not a workspace, and the stage leaves
+ * it alone.
  *
- * A folder with no readable manifest is not a lecture workspace this run knows
- * about, and is left alone.
- *
- * @param args - The module to look in.
- * @param args.moduleRoot - Absolute path to the module directory.
- * @returns A map of `lectureDate` → existing workspace (base name and manifest).
+ * @param args - The module.
+ * @param args.moduleRoot - The absolute path of the module.
+ * @returns Each existing workspace, keyed by lecture date.
  */
 export async function discoverWorkspaces({
 	moduleRoot,
@@ -82,17 +67,16 @@ export async function discoverWorkspaces({
 }
 
 /**
- * The workspaces whose lecture date no longer has a source pair present. Their
- * sources were deleted directly rather than through the CLI, so
- * `source-normalisation` must ask before discarding the work
- * (technical-design.md §5, `source-normalisation`).
+ * Finds the orphaned workspaces: those whose lecture date has no source pair.
+ * Their sources were deleted directly, not with the CLI (technical-design.md §5,
+ * `source-normalisation`).
  *
- * @param args - The discovered workspaces and the dates still backed by sources.
- * @param args.workspaces - Existing workspaces keyed by lecture date.
- * @param args.presentLectureDates - The lecture dates that still have a video recording and slide deck.
+ * @param args - The existing workspaces and the lecture dates that still have sources.
+ * @param args.workspaces - The existing workspaces, keyed by lecture date.
+ * @param args.presentLectureDates - The lecture dates that still have a video recording and a slide deck.
  * @returns The orphaned workspaces, in date order.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- a ReadonlyMap and a ReadonlySet are already the readonly form; the rule does not recognise the built-in collection interfaces as deeply readonly, and both are only read here
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- a ReadonlyMap and a ReadonlySet are readonly, but the rule does not accept the built-in collection types as readonly. This function only reads them.
 export function findOrphanedWorkspaces({
 	workspaces,
 	presentLectureDates,
@@ -107,23 +91,20 @@ export function findOrphanedWorkspaces({
 }
 
 /**
- * The prompt for one orphaned workspace: which lecture it is, so the user can judge the deletion
- * rather than answer blind.
+ * Builds the question for one orphaned workspace. The question names the lecture
+ * by its number, title and date, so that the user can judge the deletion. The
+ * question gives no cost (technical-design.md §5, `source-normalisation`).
  *
- * It quotes no figure. What a lecture has cost is the sum of its stages, and
- * stage costs are summed nowhere (NFR-2.2); `cost-report` still has the
- * per-stage figures for as long as the workspace stands.
- *
- * @param args - The lecture being asked about.
- * @param args.manifest - The orphaned workspace's manifest.
- * @returns The question put to the user.
+ * @param args - The lecture that the question is about.
+ * @param args.manifest - The manifest of the orphaned workspace.
+ * @returns The question to the user.
  */
 function orphanedWorkspacePrompt({ manifest }: { readonly manifest: Manifest }): string {
 	const title = manifest.lectureTitle === "" ? "(untitled)" : manifest.lectureTitle;
 	return `Lecture ${manifest.lectureNumber} "${title}" (${manifest.lectureDate}) has no video recording or slide deck left. Delete its workspace and any final output?`;
 }
 
-/** Where an orphaned workspace's files live and where its removal is recorded. */
+/** The module, its PDFs and the logger, which each deletion uses. */
 type OrphanedWorkspaceContext = {
 	readonly moduleRoot: string;
 	readonly existingPdfs: ReadonlyMap<string, string>;
@@ -131,17 +112,18 @@ type OrphanedWorkspaceContext = {
 };
 
 /**
- * Deletes one approved orphaned workspace — its folder (manifest included) and its
- * `Final output/` PDF — and records the prior state the deletion destroyed.
+ * Deletes one approved orphaned workspace, with its manifest, and its PDF in the
+ * final output folder. It logs the lecture number, title and date that the
+ * deletion destroyed.
  *
- * @param args - The orphaned workspace and where its files live.
+ * @param args - The orphaned workspace and the locations of its files.
  * @param args.orphanedWorkspace - The orphaned workspace to delete.
- * @param args.moduleRoot - Absolute path to the module directory.
- * @param args.existingPdfs - Existing `Final output/` PDFs keyed by date.
- * @param args.logger - The run logger.
- * @returns A promise that resolves once the workspace and PDF are gone.
+ * @param args.moduleRoot - The absolute path of the module.
+ * @param args.existingPdfs - The PDFs in the final output folder, keyed by lecture date.
+ * @param args.logger - The logger of the stage.
+ * @returns A promise that resolves when the workspace and the PDF are deleted.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- OrphanedWorkspaceContext carries pino's Logger and a ReadonlyMap: the first has mutable properties the rule cannot see past, the second is already the readonly form it declines to recognise (CLAUDE.md permits dropping readonly where a library requires a mutable type)
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- OrphanedWorkspaceContext holds pino's Logger and a ReadonlyMap. The Logger has mutable properties that the rule cannot ignore. The rule does not accept the ReadonlyMap as readonly. CLAUDE.md permits a mutable type that a library requires.
 async function deleteOrphanedWorkspace({
 	orphanedWorkspace,
 	moduleRoot,
@@ -169,21 +151,20 @@ async function deleteOrphanedWorkspace({
 }
 
 /**
- * Runs the direct-deletion guard: asks about each orphaned workspace in turn, then asks once
- * more before acting. Every orphaned workspace must be approved and the final confirmation
- * given, or nothing is deleted at all — a partial "delete some, keep others"
- * outcome is never produced, since a missing batch of sources usually means one
- * mistake rather than several deliberate deletions.
+ * Runs the deletion confirmation. It asks once for each orphaned workspace, then
+ * once for all of them. If the user declines any question, it deletes nothing.
+ * So a source folder that was moved by mistake costs nothing
+ * (technical-design.md §5, `source-normalisation`, 'Orphaned workspace handling').
  *
- * @param args - The orphaned workspaces, their locations, and the injected dependencies.
- * @param args.orphanedWorkspaces - The orphaned workspaces (non-empty).
- * @param args.moduleRoot - Absolute path to the module being normalised.
- * @param args.existingPdfs - Existing `Final output/` PDFs keyed by date.
- * @param args.logger - The run logger.
- * @param args.confirm - The user prompt.
- * @returns Whether every orphaned workspace was deleted, or which question was declined.
+ * @param args - The orphaned workspaces, the locations of their files, and the dependencies.
+ * @param args.orphanedWorkspaces - The orphaned workspaces. There is at least one.
+ * @param args.moduleRoot - The absolute path of the module.
+ * @param args.existingPdfs - The PDFs in the final output folder, keyed by lecture date.
+ * @param args.logger - The logger of the stage.
+ * @param args.confirm - The function that asks the user each question.
+ * @returns `deleted`, or `declined` with the question that the user declined.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- OrphanedWorkspaceContext carries pino's Logger and a ReadonlyMap: the first has mutable properties the rule cannot see past, the second is already the readonly form it declines to recognise (CLAUDE.md permits dropping readonly where a library requires a mutable type)
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- OrphanedWorkspaceContext holds pino's Logger and a ReadonlyMap. The Logger has mutable properties that the rule cannot ignore. The rule does not accept the ReadonlyMap as readonly. CLAUDE.md permits a mutable type that a library requires.
 export async function resolveOrphanedWorkspaces({
 	orphanedWorkspaces,
 	moduleRoot,

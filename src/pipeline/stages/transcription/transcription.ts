@@ -20,46 +20,41 @@ import { stageOutputPath } from "../../layout.js";
 import { createPipelineStage, writeStageOutput } from "../pipeline-stage.js";
 
 /**
- * Thrown when transcription cannot proceed or cannot produce a transcript: the
- * extracted audio is missing, `ELEVENLABS_API_KEY` is unset, the stage has no
- * configured model, or the API returns a response carrying no transcript text.
- * A cost that cannot be established is NOT one of these — cost telemetry never gates pipeline
- * progress (technical-design.md §5, `transcription`; §7).
+ * The error when the extracted audio is missing or `ELEVENLABS_API_KEY` is not
+ * set. It is also the error when the stage has no model in the config, or the
+ * response has no transcript text. An unknown cost is not an error
+ * (technical-design.md §5, `transcription`, and §7).
  */
 export class TranscriptionError extends NamedError {}
 
-/** The extracted audio `transcription` uploads. */
+/** The input of `transcription`. */
 export type TranscriptionInput = {
-	/** Absolute path to `Audio/audio.m4a`. */
+	/** The absolute path of `Audio/audio.m4a`. */
 	readonly audioPath: string;
-	/** The audio's size on disk, used as the upload progress bar's target. */
+	/** The size of the audio in bytes. It is the total of the upload progress bar. */
 	readonly sizeBytes: number;
 };
 
-/** The transcript `transcription` produces. */
+/** The output of `transcription`. */
 export type TranscriptionOutput = {
-	/** Absolute path to the written `Transcript/transcript.txt`. */
+	/** The absolute path of `Transcript/transcript.txt`. */
 	readonly transcriptPath: string;
 };
 
 /**
- * ElevenLabs' endpoints, relative to the configured base URL.
- *
- * `speechToText` is the SDK's own route — the stage never builds it — and is
- * named here only so a test intercepting the upload does not have to know it
- * independently of the code under test, exactly as `OPENROUTER_PATHS` does. Its
- * `v1` is the API version, not the Scribe version: one endpoint serves every
- * Scribe model, and which one runs is decided by `model_id` in the request body
- * (technical-design.md §6).
+ * The ElevenLabs routes, relative to the configured base URL. The SDK builds the
+ * route itself. The route is named here so that a test that intercepts the
+ * upload uses the same route (technical-design.md §6). Its `v1` is the API
+ * version, not the Scribe version (technical-design.md §5, `transcription`).
  */
 export const ELEVENLABS_PATHS = {
 	speechToText: "/v1/speech-to-text",
 } as const;
 
 /**
- * The environment variable holding the ElevenLabs API key. Exported because the
- * suites that stub or unset it must name the same variable the stage reads; the
- * key itself is a secret and never leaves the environment.
+ * The environment variable that holds the ElevenLabs API key. A suite that stubs
+ * or unsets the key uses this name. The key never leaves the environment
+ * (technical-design.md §5, `transcription`).
  */
 export const API_KEY_VARIABLE = "ELEVENLABS_API_KEY";
 
@@ -67,20 +62,20 @@ const STAGE_ID = "transcription";
 const SECONDS_PER_HOUR = 3600;
 
 /**
- * The SDK narrows `modelId` to the Scribe versions it shipped with, but the model
- * is configuration (technical-design.md §6) — a newer Scribe ID must be usable by
- * editing `pipeline-config.json`, not by waiting for an SDK release. Deriving the
- * type here rather than hard-coding it keeps the cast at the call site honest
- * about exactly what is being widened; ElevenLabs rejects an unknown ID itself.
+ * The model IDs that the SDK accepts: the Scribe versions that it shipped with.
+ * The stage widens the configured ID to this type, so a newer Scribe ID needs
+ * only a config edit. ElevenLabs refuses an unknown ID itself
+ * (technical-design.md §5, `transcription`). The type comes from the SDK, so the
+ * cast says exactly what it widens.
  */
 type ScribeModelId = Parameters<ElevenLabsClient["speechToText"]["convert"]>[0]["modelId"];
 
 /**
- * Resolves the extracted audio and its size.
+ * Finds the extracted audio and its size.
  *
- * @param context - The current lecture run context.
- * @returns The audio path and byte size.
- * @throws {TranscriptionError} If `audio-extraction`'s audio is not on disk.
+ * @param context - The stage context.
+ * @returns The path and the size of the audio.
+ * @throws {TranscriptionError} If the audio from `audio-extraction` is not on disk.
  */
 async function locateAudio(context: StageContext): Promise<TranscriptionInput> {
 	const audioPath = stageOutputPath({
@@ -101,7 +96,7 @@ async function locateAudio(context: StageContext): Promise<TranscriptionInput> {
  * Reads the ElevenLabs API key from the environment.
  *
  * @returns The API key.
- * @throws {TranscriptionError} If the variable is unset or empty.
+ * @throws {TranscriptionError} If the variable is not set or is empty.
  */
 function requireApiKey(): string {
 	const apiKey = process.env[API_KEY_VARIABLE];
@@ -112,14 +107,13 @@ function requireApiKey(): string {
 }
 
 /**
- * Resolves the configured model ID and strips its provider prefix. Config holds
- * the provider-qualified `elevenlabs/scribe_v2` because only a qualified ID can
- * be matched by `modelIdCheck.exemptProviders`, but the ElevenLabs API expects
- * the bare `scribe_v2` (technical-design.md §5, `transcription`).
+ * Gives the configured model ID without its provider prefix. The config holds
+ * `elevenlabs/scribe_v2`, but the ElevenLabs API takes `scribe_v2`
+ * (technical-design.md §5, `transcription`).
  *
- * @param context - The current lecture run context.
- * @returns The bare model ID to send to ElevenLabs.
- * @throws {TranscriptionError} If the stage has no configured model.
+ * @param context - The stage context.
+ * @returns The model ID to send to ElevenLabs.
+ * @throws {TranscriptionError} If the stage has no model in the config.
  */
 function resolveModelId(context: StageContext): string {
 	const stageConfig = configuredStage({ config: context.config, stageId: STAGE_ID });
@@ -130,16 +124,17 @@ function resolveModelId(context: StageContext): string {
 }
 
 /**
- * Uploads the audio to ElevenLabs Scribe and returns the transcript text,
- * streaming the file through a byte-progress bar rather than buffering it.
+ * Uploads the audio to ElevenLabs Scribe and returns the transcript text. The
+ * file streams through a progress bar that counts bytes. The stage does not read
+ * the whole file into memory first.
  *
- * @param args - The call inputs.
+ * @param args - The inputs of the upload.
  * @param args.apiKey - The ElevenLabs API key.
- * @param args.modelId - The bare Scribe model ID.
+ * @param args.modelId - The Scribe model ID, without the provider prefix.
  * @param args.input - The audio to upload.
- * @param args.elevenLabs - Where ElevenLabs is and what language to expect, from config.
+ * @param args.elevenLabs - The ElevenLabs settings from the config: the address and the spoken language.
  * @returns The transcript text.
- * @throws {TranscriptionError} If the response carries no transcript text.
+ * @throws {TranscriptionError} If the response has no transcript text.
  */
 async function requestTranscript({
 	apiKey,
@@ -159,13 +154,13 @@ async function requestTranscript({
 			file: createReadStream(input.audioPath).pipe(stream),
 			modelId: modelId as ScribeModelId,
 			languageCode: elevenLabs.languageCode,
-			// Supported only on scribe_v2, so it travels with that model ID.
+			// Only scribe_v2 supports this setting, so it goes with that model ID.
 			noVerbatim: true,
-			// Defaults to true, which writes the transcriber's own notes into the
-			// transcript — "[coughing]", "[lip smacks]", "[audience applauding]".
-			// They are not words the lecturer said, and every later stage has to
-			// treat them as though they were: they are quoted back, summarised, and
-			// counted as content. Off, so the transcript holds speech only.
+			// The default is true. Then the transcript holds the transcriber's own
+			// notes, such as "[coughing]", "[lip smacks]" and "[audience applauding]".
+			// The lecturer did not say them, but each later stage treats them as
+			// content: it quotes, summarises and counts them. So the stage sets this to
+			// false, and the transcript holds speech only.
 			tagAudioEvents: false,
 		});
 		if (!("text" in result)) {
@@ -178,16 +173,16 @@ async function requestTranscript({
 }
 
 /**
- * Reads an audio file's duration in seconds with `ffprobe`.
+ * Reads the duration of an audio file, in seconds, with `ffprobe`.
  *
- * @param audioPath - Absolute path to the audio file.
+ * @param audioPath - The absolute path of the audio file.
  * @returns The duration in seconds.
  * @throws {TranscriptionError} If ffprobe reports no duration for the file.
  */
 function readDurationSeconds(audioPath: string): Promise<number> {
-	// eslint-disable-next-line max-params -- Promise executor signature is spec-defined
+	// eslint-disable-next-line max-params -- the language standard sets the signature of the Promise executor.
 	return new Promise((resolve, reject) => {
-		// eslint-disable-next-line max-params, @typescript-eslint/prefer-readonly-parameter-types -- fluent-ffmpeg fixes ffprobe's callback signature, both its arity and its parameter types; both parameters are only read here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
+		// eslint-disable-next-line max-params, @typescript-eslint/prefer-readonly-parameter-types -- fluent-ffmpeg sets the signature of the ffprobe callback: the number of parameters and their types. This callback only reads both parameters. CLAUDE.md permits a mutable type that a library requires.
 		ffmpeg.ffprobe(audioPath, (error: Error | null, data: FfprobeData) => {
 			if (error) {
 				reject(error);
@@ -203,7 +198,7 @@ function readDurationSeconds(audioPath: string): Promise<number> {
 	});
 }
 
-/** What pricing a transcription needs to know, as both readers below take it. */
+/** The inputs that `deriveCost` and `priceAudio` take. */
 type AudioPricing = {
 	readonly audioPath: string;
 	readonly costPerAudioHourUsd: number;
@@ -211,38 +206,32 @@ type AudioPricing = {
 };
 
 /**
- * What this stage's one upload cost.
- *
- * Scribe bills by audio duration rather than by tokens, so the counts a
- * token-billed stage would carry are all zero here and the call count is the one
- * upload; what the duration came to is {@link priceAudio}'s answer
- * (technical-design.md §7).
+ * Gives the cost of the one upload of this stage. Scribe bills by audio
+ * duration, not by tokens. So the token counts are zero, the call count is 1,
+ * and {@link priceAudio} gives the price (technical-design.md §7).
  *
  * @param args - The pricing inputs, as {@link priceAudio} describes them.
- * @returns The stage's cost.
+ * @returns The cost of the stage.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- AudioPricing carries pino's Logger, which has mutable properties the rule cannot see past; it is only logged to here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- AudioPricing holds pino's Logger, which has mutable properties that the rule cannot ignore. This function only logs to it. CLAUDE.md permits a mutable type that a library requires.
 async function deriveCost(args: AudioPricing): Promise<StageCost> {
 	return { promptTokens: 0, completionTokens: 0, callCount: 1, ...(await priceAudio(args)) };
 }
 
 /**
- * Prices the transcription from the audio's duration, ElevenLabs returning no
- * price with a transcript.
- *
- * A duration that cannot be read yields a `null` cost carrying the reason: the
- * stage still succeeds, because cost telemetry must never gate pipeline progress
- * (technical-design.md §7). The failure is logged as well as recorded, since the
- * run carries on regardless and without a log line the only trace of it is a
- * `null` in a cost report read days later (technical-design.md §10).
+ * Prices the transcription from the duration of the audio, because ElevenLabs
+ * returns no price. If the duration cannot be read, the cost is unknown and the
+ * stage still succeeds (technical-design.md §7). The failure also goes to the
+ * debug log at `warn`. Without that line, its only trace is a `null` in a cost
+ * report (technical-design.md §10).
  *
  * @param args - The pricing inputs.
- * @param args.audioPath - Absolute path to the transcribed audio.
- * @param args.costPerAudioHourUsd - The configured Scribe rate per audio hour.
- * @param args.logger - The stage's logger, which records a failed duration lookup.
- * @returns The cost, or `null` with the reason it could not be read.
+ * @param args.audioPath - The absolute path of the audio.
+ * @param args.costPerAudioHourUsd - The configured Scribe price for each hour of audio.
+ * @param args.logger - The logger that records a failed duration lookup.
+ * @returns The cost, or `null` with the reason that the cost is unknown.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- AudioPricing carries pino's Logger, which has mutable properties the rule cannot see past; it is only logged to here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- AudioPricing holds pino's Logger, which has mutable properties that the rule cannot ignore. This function only logs to it. CLAUDE.md permits a mutable type that a library requires.
 async function priceAudio({
 	audioPath,
 	costPerAudioHourUsd,
@@ -259,21 +248,21 @@ async function priceAudio({
 }
 
 /**
- * Transcribes the extracted audio and writes `Transcript/transcript.txt`
- * atomically. The API key and model are resolved before any upload begins, so a
- * misconfigured run fails without spending (technical-design.md §5, `transcription`).
+ * Transcribes the audio and writes `Transcript/transcript.txt` atomically. The
+ * stage reads the API key and the model before the upload. So a bad config fails
+ * before any spend (technical-design.md §5, `transcription`).
  *
- * The upload is a billable model call, so it is logged like one — the model, the
- * bytes sent, and how long it took (technical-design.md §10).
+ * The upload is a billable call. So the debug log records it like a model call,
+ * with the model, the bytes sent and the latency (technical-design.md §10).
  *
- * @param args - The run inputs.
- * @param args.input - The located audio to upload.
- * @param args.context - The current lecture run context.
- * @param args.logger - The stage's logger, which records the Scribe call.
- * @returns The transcript path, the duration-derived cost, and the file written.
- * @throws {TranscriptionError} If the key or model is missing, or no text is returned.
+ * @param args - The input, the stage context and the logger.
+ * @param args.input - The audio to upload.
+ * @param args.context - The stage context.
+ * @param args.logger - The logger that records the Scribe call.
+ * @returns The transcript path, the cost from the audio duration, and the file written.
+ * @throws {TranscriptionError} If the key or the model is missing, or the response has no text.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger carries mutable properties the rule cannot see past; it is only logged to here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger has mutable properties that the rule cannot ignore. This function only logs to it. CLAUDE.md permits a mutable type that a library requires.
 async function transcribeAudio({
 	input,
 	context,
@@ -316,15 +305,15 @@ async function transcribeAudio({
 }
 
 /**
- * Builds `transcription`, which uploads `Audio/audio.m4a` to ElevenLabs Scribe v2 and
- * writes the returned transcript to `Transcript/transcript.txt`
+ * Builds the `transcription` stage. It uploads `Audio/audio.m4a` to ElevenLabs
+ * Scribe v2 and writes the transcript to `Transcript/transcript.txt`
  * (technical-design.md §5, `transcription`).
  *
- * @param args - The stage's dependencies.
- * @param args.logger - The run's logger; the factory binds it to this stage.
- * @returns The transcription stage.
+ * @param args - The dependencies of the stage.
+ * @param args.logger - The logger. `createPipelineStage` binds it to this stage.
+ * @returns The stage.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger carries mutable properties the rule cannot see past; it is only read from here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger has mutable properties that the rule cannot ignore. This function only reads it. CLAUDE.md permits a mutable type that a library requires.
 export function createTranscriptionStage({
 	logger,
 }: {

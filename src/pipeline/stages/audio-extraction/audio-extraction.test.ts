@@ -22,10 +22,10 @@ vi.mock("fluent-ffmpeg", () => ({ default: vi.fn() }));
 
 const ffmpegMock = vi.mocked(ffmpeg);
 
-/** The listeners a stage registers on the ffmpeg command, keyed by event name. */
+/** The listeners that the stage puts on the ffmpeg command, keyed by event name. */
 type CommandListeners = Record<string, ((value?: unknown) => void) | undefined>;
 
-/** What one `ffmpeg()` invocation was asked to do, captured by the stub. */
+/** The record that the stub keeps of one `ffmpeg()` call. */
 type ExtractionCall = {
 	readonly inputPath: string;
 	outputPath: string;
@@ -34,7 +34,7 @@ type ExtractionCall = {
 	outputFormat: string;
 };
 
-/** Drives a stubbed ffmpeg run to whichever outcome a test needs. */
+/** Makes a stubbed ffmpeg command succeed or fail, as a test needs. */
 type RunBehaviour = (args: {
 	readonly call: ExtractionCall;
 	readonly listeners: CommandListeners;
@@ -120,17 +120,17 @@ describe("createAudioExtractionStage", () => {
 			: contextWithEntry({ workspaceRoot, stageId: "audio-extraction", entry });
 	}
 
-	/** Where the stage is required to leave its audio, for the workspace under test. */
+	/** The path where the stage must put its audio, in the workspace under test. */
 	function audioPath(): string {
 		return stageOutputPath({ workspaceRoot, stageId: "audio-extraction" });
 	}
 
-	/** The directory that audio file sits in. */
+	/** The folder of the audio file that the stage writes. */
 	function audioDir(): string {
 		return dirname(audioPath());
 	}
 
-	/** The ffmpeg invocation the stage recorded, failing when it made none. */
+	/** The ffmpeg call that the stage made. The test fails when the stage made none. */
 	function extractionCall(): ExtractionCall {
 		const [call] = calls;
 		if (call === undefined) {
@@ -143,7 +143,7 @@ describe("createAudioExtractionStage", () => {
 		await writeFile(join(videoRecordingsDir, name), "video bytes");
 	}
 
-	/** The stage under test, logging into {@link logged}. */
+	/** The stage under test, which logs into {@link logged}. */
 	function makeStage(): ReturnType<typeof createAudioExtractionStage> {
 		return createAudioExtractionStage({ logger: logged().logger });
 	}
@@ -243,7 +243,7 @@ describe("createAudioExtractionStage", () => {
 			const call = extractionCall();
 
 			expect(call.outputPath).toBe(`${audioPath()}.tmp`);
-			// The .tmp extension defeats container inference, so the muxer is explicit.
+			// The .tmp extension stops ffmpeg finding the container, so the stage names the muxer.
 			expect(call.outputFormat).toBe("ipod");
 			await expect(access(audioPath())).resolves.toBeUndefined();
 			expect(await readdir(audioDir())).toStrictEqual([basename(audioPath())]);
@@ -260,8 +260,10 @@ describe("createAudioExtractionStage", () => {
 		});
 	});
 
-	// Outside that block deliberately: what these rows arrange is ffmpeg *failing*,
-	// so arming the succeeding stub first and replacing it would say the opposite.
+	// These rows are outside the "ffmpeg succeeds" describe block on purpose. They
+	// make ffmpeg fail. The `beforeEach` of that block sets a stub that succeeds. If
+	// these rows replaced that stub, the name of the block would say the opposite of
+	// what the rows test.
 	it.each([
 		{ label: "an Error", failure: new Error("ffmpeg exited with code 1") },
 		{ label: "a bare string", failure: "ffmpeg exited with code 1" },

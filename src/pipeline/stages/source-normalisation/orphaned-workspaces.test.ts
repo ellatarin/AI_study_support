@@ -7,17 +7,17 @@ import {
 } from "../../fixtures.js";
 import { type ExistingWorkspace, findOrphanedWorkspaces } from "./orphaned-workspaces.js";
 
-// Only the dates matter here: what makes a workspace orphaned is that its date
-// has no sources left, and the order they are put to the user in is date order.
+// Only the dates matter here. A workspace is orphaned when its lecture date has
+// no sources, and the questions to the user are in date order.
 const CELL_INJURY_DATE = cellInjurySources.date;
 const IMMUNITY_DATE = immunitySources.date;
 const VACCINATION_DATE = vaccinationSources.date;
 
 /**
- * The workspaces on disk, keyed by the date each one's manifest records.
+ * Builds the existing workspaces, keyed by the lecture date in each manifest.
  *
- * @param dates - The lecture dates workspaces exist for.
- * @returns The workspaces, as discovery hands them over.
+ * @param dates - The lecture dates that have a workspace.
+ * @returns The workspaces, in the form that `discoverWorkspaces` gives them.
  */
 function workspacesOn(dates: readonly string[]): ReadonlyMap<string, ExistingWorkspace> {
 	return new Map(
@@ -29,11 +29,12 @@ function workspacesOn(dates: readonly string[]): ReadonlyMap<string, ExistingWor
 }
 
 /**
- * The workspaces {@link findOrphanedWorkspaces} would put to the user, in the order it asks.
+ * Gives the base names of the orphaned workspaces that {@link findOrphanedWorkspaces}
+ * finds, in the order of the questions to the user.
  *
- * @param args - The state to compare.
- * @param args.workspaceDates - The dates workspaces exist for.
- * @param args.sourceDates - The dates a video recording and slide deck are still present for.
+ * @param args - The lecture dates to compare.
+ * @param args.workspaceDates - The lecture dates that have a workspace.
+ * @param args.sourceDates - The lecture dates that still have a video recording and a slide deck.
  * @returns The base names of the orphaned workspaces.
  */
 function baseNamesOfOrphanedWorkspaces({

@@ -24,8 +24,8 @@ const FIXTURE_SECONDS = 2;
 const SECONDS_PER_HOUR = 3600;
 
 /**
- * Renders a real AAC-in-m4a fixture, so the stage streams genuine audio bytes and
- * `ffprobe` reads a genuine duration.
+ * Makes a real AAC audio file in an m4a container. So the stage streams real
+ * audio bytes, and `ffprobe` reads a real duration.
  */
 function renderFixtureAudio(outputPath: string): Promise<void> {
 	return renderFixtureMedia({

@@ -1,19 +1,12 @@
 /**
- * `source-normalisation` — normalising a module's raw sources.
+ * The `source-normalisation` stage. The runner runs it once for each module,
+ * before any lecture. It completes interrupted renames, checks the source rules
+ * and asks before it deletes orphaned workspaces. Then it numbers the lectures by
+ * date, renames the lecture files and writes each manifest.
  *
- * The stage the runner drives once per module, before any lecture is processed.
- * It finishes any rename an earlier run was interrupted partway through, checks
- * every source rule that must stop the run, asks before discarding a lecture
- * whose sources have gone, numbers the lectures by date, renames everything onto
- * those numbers, and creates or updates each lecture's manifest.
- *
- * The rules themselves live beside it: what counts as a readable date and which
- * lecture is Lecture 1 in `lecture-resolution.ts`, the two-pass rename engine in
- * `source-renames.ts`, and the deletion-confirmation protocol in
- * `orphaned-workspaces.ts`. What is left here is the order those things happen
- * in, and what aborting means.
- *
- * See technical-design.md §5, `source-normalisation`.
+ * This file holds the order of these steps and what an abort does. The steps are
+ * in `lecture-resolution.ts`, `source-renames.ts` and `orphaned-workspaces.ts`
+ * (technical-design.md §5, `source-normalisation`).
  */
 
 import type { Logger } from "pino";
@@ -39,25 +32,25 @@ import {
 import { applyRenames, completeInterruptedRenames, planRenames } from "./source-renames.js";
 
 /**
- * Thrown when a module's raw sources cannot be normalised: an undated video
- * recording or slide deck, a video recording or slide deck with no 1:1 date match,
- * or a duplicate video recording or slide deck date. Carries every problem found so the CLI can list them; the stage makes no
- * filesystem changes when it throws (technical-design.md §5, `source-normalisation`).
+ * The error when the stage stops for a module. A source rule is broken, an
+ * interrupted rename cannot be completed, or the user declines a deletion. The
+ * message lists each broken rule or blocked rename. Before it throws, the stage
+ * changes no file, except the interrupted renames that it completed first.
  */
 export class SourceNormalisationError extends NamedError {}
 
 /**
- * Aborts the run before anything is applied: logs every problem found at `error`
- * and throws, having made no filesystem change (technical-design.md §5, `source-normalisation`).
+ * Stops the stage before it applies the renames of the new numbering. It logs
+ * each line at `error` and throws.
  *
- * @param args - The abort context.
- * @param args.logger - The run logger.
- * @param args.moduleRoot - The module being normalised.
- * @param args.problems - Every problem found, one human-readable line each.
- * @param args.reason - The class of problem, for the log message.
- * @throws {@link SourceNormalisationError} always — this function never returns.
+ * @param args - The details of the abort.
+ * @param args.logger - The logger of the stage.
+ * @param args.moduleRoot - The module that the stage normalises.
+ * @param args.problems - Each broken rule or blocked rename, one line each.
+ * @param args.reason - The kind of failure, for the log message.
+ * @throws {@link SourceNormalisationError} Always.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger carries mutable properties the rule cannot see past; it is only logged to here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger has mutable properties that the rule cannot ignore. This function only logs to it. CLAUDE.md permits a mutable type that a library requires.
 function abortNormalisation({
 	logger,
 	moduleRoot,
@@ -76,17 +69,16 @@ function abortNormalisation({
 }
 
 /**
- * Aborts orphaned workspace handling: logs why at `error` and throws, having made no
- * filesystem change. Declining any prompt lands here, so a whole source folder
- * moved by mistake costs nothing.
+ * Stops the stage when the user declines a deletion, before anything is deleted.
+ * It logs the reason at `error` and throws.
  *
- * @param args - The abort context.
- * @param args.logger - The run logger.
- * @param args.moduleRoot - The module being normalised.
- * @param args.reason - What the user declined.
- * @throws {@link SourceNormalisationError} always — this function never returns.
+ * @param args - The details of the abort.
+ * @param args.logger - The logger of the stage.
+ * @param args.moduleRoot - The module that the stage normalises.
+ * @param args.reason - The question that the user declined.
+ * @throws {@link SourceNormalisationError} Always.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger carries mutable properties the rule cannot see past; it is only logged to here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger has mutable properties that the rule cannot ignore. This function only logs to it. CLAUDE.md permits a mutable type that a library requires.
 function abortOrphanedWorkspaceHandling({
 	logger,
 	moduleRoot,
@@ -105,11 +97,11 @@ function abortOrphanedWorkspaceHandling({
 }
 
 /**
- * Maps each existing `Final output/` PDF to its date, so a renumbered lecture's
- * PDF can be renamed.
+ * Finds the name of each dated file in the final output folder, so that the PDF
+ * of a renumbered lecture can be renamed.
  *
- * @param finalOutputDirPath - Absolute path to the module's `Final output/`.
- * @returns A map of `lectureDate` → current PDF file name.
+ * @param finalOutputDirPath - The absolute path of the final output folder.
+ * @returns The current file name for each lecture date.
  */
 async function discoverFinalOutput(
 	finalOutputDirPath: string,
@@ -125,15 +117,15 @@ async function discoverFinalOutput(
 }
 
 /**
- * Narrows discovered workspaces to the one field each consumer needs, so neither
- * the numbering nor the renames is handed a whole workspace to pick over.
+ * Keeps one part of each existing workspace. The numbering and the renames each
+ * get only the part that they use.
  *
- * @param args - The workspaces and which of their parts is wanted.
- * @param args.workspaces - Existing workspaces keyed by lecture date.
- * @param args.take - What to keep from each one.
- * @returns The same keys, mapped to what `take` selected.
+ * @param args - The workspaces and the part to keep.
+ * @param args.workspaces - The existing workspaces, keyed by lecture date.
+ * @param args.take - The function that selects the part to keep.
+ * @returns The selected part of each workspace, keyed by lecture date.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- a ReadonlyMap is already the readonly form the rule declines to recognise; it is only read here
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- a ReadonlyMap is readonly, but the rule does not accept it. This function only reads it.
 function projectWorkspaces<TValue>({
 	workspaces,
 	take,
@@ -145,12 +137,12 @@ function projectWorkspaces<TValue>({
 }
 
 /**
- * Builds the initial manifest for a brand-new lecture: identity from this stage,
- * `lectureTitle` seeded to the provisional, `userTitle` and `aiDerivedTitle`
- * null, every stage pending, and zeroed cost.
+ * Builds the first manifest of a new lecture. The lecture title is the
+ * provisional title. The user title and the AI-derived title are `null`. Each
+ * stage is pending (technical-design.md §5, `source-normalisation`, step 6).
  *
- * @param lecture - The resolved lecture.
- * @returns The initial `Manifest`.
+ * @param lecture - The lecture from the numbering.
+ * @returns The first manifest.
  */
 function initialManifest(lecture: Lecture): Manifest {
 	const now = new Date().toISOString();
@@ -171,15 +163,15 @@ function initialManifest(lecture: Lecture): Manifest {
 }
 
 /**
- * Creates a new lecture's workspace and manifest, or updates an existing
- * lecture's `lectureNumber`/`baseName` after renumbering. Leaves an
- * unchanged lecture's manifest untouched.
+ * Creates the workspace and manifest of a new lecture. For an existing lecture,
+ * it changes `lectureNumber` and `baseName` after a renumbering. It does not
+ * write a manifest that has no change.
  *
- * @param args - The lecture, the module it belongs to, and whether it pre-existed.
- * @param args.lecture - The resolved lecture.
- * @param args.moduleRoot - Absolute path to the module directory.
- * @param args.isExisting - Whether a workspace already existed for this date.
- * @returns What happened to the manifest: created, updated, or unchanged.
+ * @param args - The lecture, its module, and whether its workspace exists.
+ * @param args.lecture - The lecture from the numbering.
+ * @param args.moduleRoot - The absolute path of the module.
+ * @param args.isExisting - True when a workspace for this lecture date exists.
+ * @returns The change to the manifest: `created`, `updated` or `unchanged`.
  */
 async function reconcileManifest({
 	lecture,
@@ -210,18 +202,15 @@ async function reconcileManifest({
 }
 
 /**
- * Builds `source-normalisation`, the per-module stage. The returned stage
- * validates a module's raw sources and, when valid, renames them and creates or
- * renumbers lecture workspaces; when invalid it logs every problem and throws
- * without touching the filesystem (technical-design.md §5, `source-normalisation`).
+ * Builds the `source-normalisation` stage (technical-design.md §5, `source-normalisation`).
  *
- * @param args - The stage dependencies.
- * @param args.logger - The pino logger that records every action and any failure.
- * @param args.confirm - The prompt asked before any irreversible deletion.
- * @param args.modulePrefixes - The configured module prefixes, stripped from a filename before it becomes a title.
- * @returns A {@link SourceNormalisationStage} the runner drives once per module.
+ * @param args - The dependencies of the stage.
+ * @param args.logger - The logger that records each action and each failure.
+ * @param args.confirm - The question that the stage asks before a deletion that cannot be undone.
+ * @param args.modulePrefixes - The module prefixes that the stage removes from a filename to get the provisional title.
+ * @returns The stage, which the runner runs once for each module.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger carries mutable properties the rule cannot see past; it is only read from here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger has mutable properties that the rule cannot ignore. This function only reads it. CLAUDE.md permits a mutable type that a library requires.
 export function createSourceNormalisationStage({
 	logger,
 	confirm,
@@ -290,11 +279,9 @@ export function createSourceNormalisationStage({
 			}),
 			modulePrefixes,
 		});
-		// One line per lecture, before anything is renamed: the date read off the
-		// filename, the number that date earned it, and the slide deck it was matched
-		// with. Between them they are the whole answer to "why is this Lecture 3?",
-		// which is otherwise reconstructable only by re-deriving the ordering by hand
-		// (technical-design.md §10).
+		// One debug line for each lecture, before any rename: its lecture date, its
+		// lecture number and its source pair. These lines answer "why is this
+		// Lecture 3?". Without them, a person must do the numbering again by hand.
 		for (const lecture of lectures) {
 			logger.debug(
 				{
