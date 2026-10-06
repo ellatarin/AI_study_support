@@ -34,20 +34,16 @@ import {
 	formatRunSummary,
 } from "./reports.js";
 
-// Three tests below capture a whole rendered report as a snapshot, and they are
-// the sanctioned exception to CLAUDE.md's rule, not a lapse from it. The rule
-// forbids snapshots for behaviour and permits them for serialisation-format
-// regression, and what these three functions produce IS a format: column
-// alignment, padding, section order and headings, all of which exist to be read
-// by a person and none of which any single assertion is watching. Every figure
-// and every word inside them is asserted explicitly by the tests around each
-// snapshot, so the snapshot adds the one thing those cannot — that the layout
-// as a whole did not move. Settled with the owner during the 2026-08-24 review;
-// do not replace them with assertions on the strength of the rule alone.
+// Three tests below keep a whole report as a snapshot. CLAUDE.md allows a
+// snapshot for a format, and these reports are a format: column alignment,
+// padding, section order and headings. The other tests check each figure and
+// each word. The snapshot checks the one thing that they cannot: the layout as a
+// whole. The user agreed to this in the review of 2026-08-24. Do not replace the
+// snapshots with assertions because of the CLAUDE.md snapshot rule alone.
 
-// Slide conversion is the stage these tables are built around: it is the one
-// with a per-call model, a concurrency, and enough calls for its own figure to
-// be worth checking. Every fixture below records the same run of it.
+// Every fixture below records the same pipeline run of slide conversion. It is
+// the stage with a model for each call, a concurrency, and enough calls to make
+// its figures worth a check.
 const SLIDE_CONVERSION_CONFIG: StageConfigUsed = {
 	modelId: "google/gemini-2.5-flash",
 	concurrency: 3,
@@ -68,22 +64,21 @@ const resolved = ({
 	costUsd,
 });
 
-// A model id past any column's width, for the rows that have to survive one.
+// A model id that is wider than every column.
 const OVERLONG_MODEL_ID = "openrouter/an-extravagantly-long-model-identifier";
 
 /**
- * The longest model id technical-design.md §4.5 records, at 27 characters — the
- * one the Model column has to hold without moving the columns after it.
+ * The longest model id in technical-design.md §4.5 (27 characters). The Model
+ * column must hold it and keep the columns after it in place.
  */
 const SYNTHESIS_MODEL_ID = "anthropic/claude-sonnet-4.6";
 
-/** How synthesis failed, wherever this suite has it fail. */
+/** The error of every failed synthesis in this suite. */
 const SYNTHESIS_FAILURE = "synthesis failed";
 
 /**
- * The synthesis row, taking whichever model it is asked about: at its default it
- * carries {@link SYNTHESIS_MODEL_ID}, and the width cases ask for one past any
- * column's width.
+ * The stage entry of a completed synthesis, with {@link SYNTHESIS_MODEL_ID}
+ * unless a test gives a different model.
  */
 function synthesisEntryFor(modelId = SYNTHESIS_MODEL_ID): StageEntry {
 	return completedEntry({
@@ -96,8 +91,8 @@ function synthesisEntryFor(modelId = SYNTHESIS_MODEL_ID): StageEntry {
 const synthesisEntry = synthesisEntryFor();
 
 /**
- * Synthesis as a stage that failed: it names a model, so it keeps a row, and it
- * left no output and recorded no cost, so there is nothing for that row to price.
+ * The stage entry of a failed synthesis. It names a model, so the run summary
+ * gives it a row. It recorded no cost, so the row shows `n/a`.
  */
 const failedSynthesisEntry: StageEntry = {
 	status: "failed",
@@ -112,10 +107,10 @@ const IMAGE_EXTRACTION_MODEL_ID = "openai/gpt-4.1";
 
 const manifest: Manifest = makeManifest({
 	stages: {
-		// Completed, and names no model: it makes no model call, so no table gives
-		// it a row however it finished.
+		// Audio extraction completed and names no model. It makes no model call, so
+		// no table gives it a row.
 		"audio-extraction": completedEntry({ filesWritten: [stageOutputEntry("audio-extraction")] }),
-		// Names a model, and its cost lookup failed: a row, reading n/a.
+		// Image extraction names a model and has an unknown cost. Its row shows n/a.
 		"image-extraction": completedEntry({
 			configUsed: { modelId: IMAGE_EXTRACTION_MODEL_ID },
 			cost: {
@@ -144,21 +139,16 @@ const manifest: Manifest = makeManifest({
 });
 
 /**
- * A run's identity and span, from the two instants that bound it.
+ * Gives the fields that every run log in this suite starts with. The id is made
+ * from the start time, because nothing reads it: the error recovery section
+ * shows a pipeline run by its start time. `toStage` is always `null`. No
+ * pipeline run here is a bounded run, because a bound does not change what the
+ * cost report shows.
  *
- * The id is derived rather than invented per run. Nothing reads it — no
- * assertion, and section 2 shows a run by its start instant — so five ids
- * written by hand were five values claiming to matter, and none of them was even
- * in the form `deriveTimestampId` produces.
- *
- * `toStage` comes with them because no run in this suite is bounded — the cost
- * report reads what a run spent, which a bound does not bear on — so stating it
- * per run log would be the same `null` written five times.
- *
- * @param span - When the run began and ended.
- * @param span.startedAt - The instant the run began; the one section 2 prints.
- * @param span.endedAt - The instant it finished.
- * @returns The fields every run log in this suite opens with.
+ * @param span - When the pipeline run started and ended.
+ * @param span.startedAt - The start time, which the error recovery section shows.
+ * @param span.endedAt - The end time.
+ * @returns The id, the two times and `toStage`.
  */
 function ranFrom({
 	startedAt,
@@ -170,9 +160,9 @@ function ranFrom({
 	return { pipelineRunId: `run-at-${startedAt}`, startedAt, endedAt, toStage: null };
 }
 
-// The original failure, as technical-design.md §7's worked example has it: an
-// ordinary run that no --from-stage preceded, so its run type is
-// `normal`. Section 2 reaches it through the failure, not through the run's type.
+// The first failure, as in the example of technical-design.md §7. The pipeline
+// run had no --from-stage, so its run type is `normal`. The error recovery
+// section shows it because the stage failed.
 const originalFailure: RunLog = {
 	...ranFrom({ startedAt: "2025-10-10T09:00:00.000Z", endedAt: "2025-10-10T09:02:00.000Z" }),
 	triggeredBy: "manual",
@@ -228,7 +218,7 @@ const runLogs: readonly RunLog[] = [
 		runType: "error-recovery",
 		fromStage: "image-extraction",
 		stages: {
-			// null cost → the section-2 "n/a" for the row, and the unresolved wasted total.
+			// An unknown cost, which the error recovery section shows as n/a.
 			"image-extraction": {
 				action: "ran",
 				status: "failed",
@@ -236,7 +226,7 @@ const runLogs: readonly RunLog[] = [
 				cost: { costUsd: null, callCount: 2 },
 				error: "cost lookup timed out",
 			},
-			// non-"ran" entry → the ranStageEntries skip branch.
+			// A stage that did not run, which no section of the cost report shows.
 			"audio-extraction": { action: "skipped" },
 		},
 	},
@@ -246,7 +236,7 @@ const runLogs: readonly RunLog[] = [
 		runType: "experiment",
 		fromStage: "synthesis",
 		stages: {
-			// null cost → the experiment-section "n/a" branch.
+			// An unknown cost, which the experiment section shows as n/a.
 			synthesis: {
 				action: "ran",
 				status: "complete",
@@ -266,8 +256,8 @@ describe("createMoneyFormatter", () => {
 			expected: "£0.740",
 		},
 		{ scenario: "a fractional amount", gbpPerUsd: GBP_PER_USD, usd: 0.042, expected: "£0.031" },
-		// The last two rates are deliberately not the standard one: what they prove
-		// is that the formatter converts at whatever rate it was built with.
+		// The last two rates are not the standard rate. They show that the formatter
+		// converts at the rate that it was made with.
 		{ scenario: "a corrected, higher rate", gbpPerUsd: 0.8, usd: 0.042, expected: "£0.034" },
 		{ scenario: "a rate of parity", gbpPerUsd: 1, usd: 0.042, expected: "£0.042" },
 	])("should convert at the configured rate when given $scenario", ({
@@ -288,34 +278,30 @@ describe("createMoneyFormatter", () => {
 });
 
 /**
- * The report this suite's fixtures produce, with any of them replaced.
+ * Makes the cost report from this suite's fixtures. Most tests change no input
+ * and read one line of the report.
  *
- * Most tests here vary nothing at all and read one line out of the report, so
- * the shared run logs, manifest and rate are stated here rather than at each of
- * them.
- *
- * @param overrides - Whichever inputs this test needs different.
- * @returns The formatted report.
+ * @param overrides - The inputs that a test changes.
+ * @returns The report.
  */
 function costReport(overrides: Partial<Parameters<typeof formatCostReport>[0]> = {}): string {
 	return formatCostReport({ runLogs, manifest, formatMoney: formatTestMoney, ...overrides });
 }
 
 describe("formatCostReport", () => {
-	// The format snapshot; see the note at the top of this file.
+	// The format snapshot. See the note at the top of this file.
 	it("should render the three-section report when given a manifest and run logs", () => {
 		expect(costReport()).toMatchSnapshot();
 	});
 
-	// A report with no flags covers every configured module, so several of these
-	// print one after another with nothing else to tell them apart.
+	// The command can print the reports of many lectures one after another. Only
+	// the heading shows which lecture each report is about.
 	it("should open by naming the lecture when the report is rendered", () => {
 		expect(costReport().startsWith("Lecture 1: Cell Injury (2025-10-10)")).toBe(true);
 	});
 
-	// The table is aligned by padding alone, so a row that has kept its columns is
-	// exactly as wide as the rule above it, and one that has pushed them along is
-	// wider.
+	// Only padding aligns the table. So a row whose columns stay in place is as
+	// wide as the rule, and a row that moves its columns is wider.
 	const widthOf = ({
 		report,
 		rowLabel,
@@ -377,8 +363,8 @@ describe("formatCostReport", () => {
 
 		const report = costReport({ manifest: failedSynthesis });
 
-		// Section 1 prices the outputs that stand on disk, and a failed stage left
-		// none. Its spend is section 2's to report.
+		// The first section shows the cost of the output on disk, and a failed stage
+		// has none. The error recovery section shows its cost.
 		expect(report).not.toMatch(/^Synthesis/m);
 	});
 
@@ -386,15 +372,14 @@ describe("formatCostReport", () => {
 		const report = costReport();
 
 		expect(report).not.toContain("Wasted on failures");
-		// 0.042 + 0.034 + 0.312 USD at 0.74, the total the first section used to
-		// close with.
+		// The sum of the first section: 0.042 + 0.034 + 0.312 USD at 0.74.
 		expect(report).not.toContain("£0.287");
 	});
 
 	it("should render every figure in pounds when the stored figures are in dollars", () => {
 		const report = costReport();
 
-		// 0.312 USD is what synthesis cost; 0.312 * 0.74 = 0.23088.
+		// Synthesis cost 0.312 USD. 0.312 * 0.74 = 0.23088.
 		expect(report).toContain("£0.231");
 		expect(report).not.toContain("$");
 	});
@@ -411,8 +396,9 @@ const ran = (status: "complete" | "failed"): RunLogStageEntry =>
 				cost: { costUsd: null, callCount: 0 },
 			};
 
-// The stages this run touched: two that completed, one that failed, one skipped
-// because its output already existed, and one never reached after the failure.
+// The stage outcomes of one pipeline run. Two stages completed and one failed.
+// One was skipped because its output was on disk. One was not reached after
+// the failure.
 const runOutcomes: readonly PipelineStageOutcome[] = [
 	{ stageId: "audio-extraction", entry: { action: "skipped" } },
 	{ stageId: "transcription", entry: ran("complete") },
@@ -445,10 +431,10 @@ const runSummaryManifest: Manifest = {
 };
 
 /**
- * The summary this suite's run produces, with any of its inputs replaced.
+ * Makes the run summary from this suite's fixtures.
  *
- * @param overrides - Whichever inputs this test needs different.
- * @returns The formatted summary table.
+ * @param overrides - The inputs that a test changes.
+ * @returns The summary table.
  */
 function runSummary(overrides: Partial<Parameters<typeof formatRunSummary>[0]> = {}): string {
 	return formatRunSummary({
@@ -491,10 +477,10 @@ describe("formatRunSummary", () => {
 	it("should render a stage's cost as n/a when the manifest recorded none", () => {
 		const summary = runSummary({ outcomes: [{ stageId: "synthesis", entry: ran("failed") }] });
 
-		// Synthesis names a model and failed before it charged anything, so it keeps
-		// its row and its cost is unknown rather than nothing. The `.` in the model
-		// id goes into the pattern unescaped: it sits between two runs of padding,
-		// where nothing else in the row could stand in for it.
+		// Synthesis names a model and recorded no cost, so it has a row that shows
+		// n/a and not zero. The `.` in the model id is not escaped in the pattern.
+		// It is between two runs of padding, so no other character in the row can
+		// match it.
 		expect(summary).toMatch(
 			new RegExp(`Synthesis\\s+${SYNTHESIS_MODEL_ID}\\s+0\\s+0 /\\s+0\\s+n/a`),
 		);
@@ -516,11 +502,11 @@ describe("formatRunSummary", () => {
 		const summary = runSummary();
 
 		expect(summary).not.toContain("This run");
-		// 1 + 24 calls, and 0.042 + 0.034 USD at 0.74 — what the closing line read.
+		// The sum of the costs: 0.042 + 0.034 USD at 0.74.
 		expect(summary).not.toContain("£0.056");
 	});
 
-	// The format snapshot; see the note at the top of this file.
+	// The format snapshot. See the note at the top of this file.
 	it("should render the whole summary table when given a run's outcomes", () => {
 		expect(runSummary()).toMatchSnapshot();
 	});
@@ -555,8 +541,8 @@ const failedLecture = lecture({
 	overallStatus: "failed",
 });
 
-// A third lecture, in the second module, so the table has a module whose status
-// differs from the first's. Its own identity is not shared.
+// A third lecture, in the second module, so that the two modules have different
+// statuses. Its base name is written here, not taken from a shared fixture.
 const otherModuleLecture = lecture({
 	moduleRoot: otherModuleRoot,
 	baseName: "Lecture 1 - Antigens - 2025-10-11",
@@ -571,10 +557,10 @@ const batch: BatchSummary = {
 };
 
 /**
- * The table this suite's batch produces, with any of its fields replaced.
+ * Makes the batch summary from this suite's batch.
  *
- * @param overrides - Whichever fields of the batch this test needs different.
- * @returns The formatted batch table.
+ * @param overrides - The fields of the batch that a test changes.
+ * @returns The batch summary table.
  */
 function batchSummary(overrides: Partial<BatchSummary> = {}): string {
 	return formatBatchSummary({ batch: { ...batch, ...overrides } });
@@ -594,8 +580,8 @@ describe("formatBatchSummary", () => {
 		expect(summary).toMatch(new RegExp(`${testModuleName}\\s+2\\s+failed`));
 	});
 
-	// The row is the module's own verdict, not the batch's: this batch failed
-	// overall, and this module still reads success because nothing in it failed.
+	// The row shows the module's own status, not the batch's. The batch failed,
+	// but this module shows success because none of its lectures failed.
 	it("should carry a module's own status when none of its lectures failed", () => {
 		const summary = batchSummary();
 
@@ -609,8 +595,8 @@ describe("formatBatchSummary", () => {
 	});
 
 	it("should show no money at all when the batch table is rendered", () => {
-		// What a module or a batch spent is a sum across lectures, and the figures
-		// are kept per stage (NFR-2.2). Each lecture's own summary carries them.
+		// The cost of a module or a batch is a sum across lectures, and costs are
+		// kept for each stage (NFR-2.2). Each lecture's run summary shows them.
 		const summary = batchSummary();
 
 		expect(summary).not.toContain("£");
@@ -618,8 +604,8 @@ describe("formatBatchSummary", () => {
 	});
 
 	it("should keep two modules apart when their directories carry the same name", () => {
-		// A second module of the same name, filed somewhere else — two rows, since
-		// the two hold different lectures.
+		// A second module with the same name, in a different folder. It gets its own
+		// row, because it holds different lectures.
 		const namesake = lecture({
 			moduleRoot: join(otherModuleRoot, testModuleName),
 			baseName: otherLecture.baseName,
@@ -634,7 +620,7 @@ describe("formatBatchSummary", () => {
 		expect(summary).toMatch(new RegExp(`${testModuleName}\\s+1\\s+failed`));
 	});
 
-	// The format snapshot; see the note at the top of this file.
+	// The format snapshot. See the note at the top of this file.
 	it("should render the whole batch table when given a batch summary", () => {
 		expect(batchSummary()).toMatchSnapshot();
 	});

@@ -38,19 +38,18 @@ import {
 const config: PipelineConfig = configuringStage({ stageId: "transcript-structuring" });
 
 /**
- * The sentence OpenRouter sent this account on 2026-08-31 when the upstream
- * provider was overloaded, quoted so the assertions are about a reply that
- * genuinely arrived rather than an invented one.
+ * The words that OpenRouter sent this account on 2026-08-31, when the upstream
+ * provider had too much work. The tests use a real reply, not an invented one.
  */
 const PROVIDER_BUSY_MESSAGE =
 	"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.";
 
-/** A second address, for the case where a run is configured to reach OpenRouter elsewhere. */
+/** A second address of OpenRouter, for a configuration that points elsewhere. */
 const GATEWAY_BASE_URL = "https://gateway.example.test/openrouter/v1";
 
 const messages = [{ role: "user", content: "Structure this transcript." }] as const;
 
-/** What the stubbed model answers. */
+/** The answer of the stubbed model. */
 const ANSWER = "Structured notes.";
 
 function replyBody(overrides: Record<string, unknown> = {}): Record<string, unknown> {
@@ -58,10 +57,10 @@ function replyBody(overrides: Record<string, unknown> = {}): Record<string, unkn
 }
 
 /**
- * The stubbed answer's choices, reporting the given finish reason.
+ * Gives the stubbed answer's choices, with a finish reason.
  *
- * @param finishReason - The finish reason reported, or `null` for none.
- * @returns The `choices` field to override a reply body with.
+ * @param finishReason - The finish reason, or `null` for none.
+ * @returns The `choices` field to put in a reply body.
  */
 function answerFinishing(finishReason: string | null): Record<string, unknown> {
 	const { choices } = openRouterReplyBody({ content: ANSWER, finishReason });
@@ -73,35 +72,34 @@ function mockReply(): nock.Interceptor {
 }
 
 /**
- * Mocks one reply with the well-formed body, with the fields a test
- * is about replaced.
+ * Mocks one reply with a correct body, and with the fields that a test changes.
  *
- * @param overrides - Fields to replace in the reply body; none by default.
+ * @param overrides - The fields to replace in the reply body. The default is none.
  */
 function mockReplyReturning(overrides: Record<string, unknown> = {}): void {
 	mockReply().reply(200, replyBody(overrides));
 }
 
 /**
- * The error field OpenRouter puts in an accepted reply, carrying the provider's sentence.
+ * Gives the `error` field that OpenRouter puts in an accepted reply.
  *
- * @param message - The provider's sentence.
+ * @param message - The provider's words.
  * @returns The reply's `error` field.
  */
 function providerError(message: string): Record<string, unknown> {
 	return { message, code: 503 };
 }
 
-/** The busy provider's error field, to lay over a reply body. */
+/** The busy provider's `error` field, to add to a reply body. */
 const BUSY_ERROR = { error: providerError(PROVIDER_BUSY_MESSAGE) };
 
 /**
- * Mocks the reply a busy provider produces: accepted with HTTP 200, but
- * carrying its own explanation where the choices should be.
+ * Mocks a reply with a provider error: HTTP 200, with an `error` field and no
+ * choices.
  *
- * @param args - What sets this provider error apart; the busy provider's sentence and no usage by default.
- * @param args.message - The provider's sentence.
- * @param args.usage - The usage the provider error reports, if any.
+ * @param args - The provider error. The default is the busy provider's words and no usage.
+ * @param args.message - The provider's words.
+ * @param args.usage - The usage that the reply reports, if any.
  */
 function mockProviderError({
 	message = PROVIDER_BUSY_MESSAGE,
@@ -118,15 +116,15 @@ function mockProviderError({
 
 const logged = useStubLogger();
 
-/** What each warning the call logged carried, in order. */
+/** Gives the payload of each warning that the call logged, in order. */
 function warningsLogged(): readonly unknown[] {
 	return loggedAt({ entries: logged().entries, level: "warn" }).map((entry) => entry.payload);
 }
 
 /**
- * The warning the busy provider's provider error is logged with.
+ * Gives the payload of the warning for the busy provider's error.
  *
- * @param send - Which send failed, counting from 1.
+ * @param send - The number of the failed send, from 1.
  * @returns The warning's payload.
  */
 function providerErrorWarning(send: number): Record<string, unknown> {
@@ -142,25 +140,24 @@ function call(
 		config,
 		responseFormat: "text",
 		logger: logged().logger,
-		// The client is the caller's to provide — there is no shared one to fall
-		// back on — so the default here is the one this suite's config describes,
-		// and a test wanting a different client passes it in `overrides`.
+		// The caller must give the client, because there is no shared client. The
+		// default is the client for this suite's config. A test that needs a
+		// different client gives it in `overrides`.
 		client: openRouterClientFor({ config }),
 		sendGate: unspacedSends,
 		...overrides,
 	});
 }
 
-/** What one model call's request carried, for tests asserting on what was sent. */
+/** The body and the headers of one model call's request. */
 type CapturedRequest = {
 	readonly body: Record<string, unknown>;
 	readonly headers: Record<string, unknown>;
 };
 
 /**
- * Mocks a successful reply that records the request it was sent, then
- * makes the call — the arrange-and-act every test asserting on the outgoing
- * request shares.
+ * Mocks a reply that records the request, and then makes the call. The tests
+ * that check the request use it.
  */
 async function callCapturingRequest(
 	overrides: Record<string, unknown> = {},
@@ -181,11 +178,10 @@ async function callCapturingRequest(
 }
 
 /**
- * Mocks a reply, then makes the call — the arrange-and-act every test
- * about a round trip that the SDK accepts shares.
+ * Mocks an accepted reply, and then makes the call.
  *
- * @param overrides - Fields to replace in the reply body; none by default.
- * @returns What the call resolved with.
+ * @param overrides - The fields to replace in the reply body. The default is none.
+ * @returns The result of the call.
  */
 function callSucceeding(overrides: Record<string, unknown> = {}): ReturnType<typeof call> {
 	mockReplyReturning(overrides);
@@ -203,8 +199,8 @@ afterEach(() => {
 
 describe("createOpenRouterClient", () => {
 	it("should take its baseURL, timeout, and retries from the config when a client is created", () => {
-		// Deliberately unlike the shipped values, so the assertion cannot pass by
-		// coincidence if the client ever went back to hard-coded defaults.
+		// These values are not the values in the example config. So the test fails
+		// if the client uses fixed values.
 		const openRouter = {
 			...exampleConfig.openRouter,
 			completionTimeoutMs: 90_000,
@@ -220,10 +216,9 @@ describe("createOpenRouterClient", () => {
 });
 
 describe("createOpenRouterClientProvider", () => {
-	// Building a client reads the API key and the SDK refuses to build without
-	// one. The provider is therefore made at the composition root but must not
-	// build anything there: `delete`, `rename`, `change-date` and `cost-report`
-	// reach no model, and none of them should need a key to run.
+	// The SDK cannot make a client without the API key. So the provider must not
+	// make a client when the provider is made. `delete`, `rename`, `change-date`
+	// and `cost-report` call no model, and must run without a key.
 	it("should build no client when a provider is made without an API key", () => {
 		vi.stubEnv(OPENROUTER_KEY_VARIABLE, undefined);
 
@@ -249,9 +244,8 @@ describe("callModel", () => {
 		expect(headers.authorization).toBe(`Bearer ${stubbedApiKey}`);
 	});
 
-	// The format asked for and the routing restriction are one decision: a JSON
-	// reply is only obtainable from a provider that honours the parameter, so both
-	// are read off the same request rather than by sending it twice.
+	// The reply format and the routing limit are one decision. Only a provider that
+	// obeys the format can give a JSON reply. So the test checks both in one request.
 	it.each([
 		{
 			responseFormat: "json",
@@ -276,9 +270,9 @@ describe("callModel", () => {
 		expect(body.provider).toEqual(expectedProvider);
 	});
 
-	// Which parameters a request carries is a routing decision under
-	// `require_parameters`, so tuning a stage leaves unset has to be genuinely
-	// absent from the body rather than sent as a null the endpoint filter counts.
+	// With `require_parameters`, the parameters in a request decide which endpoints
+	// can serve it. So tuning that a stage does not set must be absent from the
+	// body. A `null` would count as a parameter (technical-design.md §6).
 	it("should send no tuning parameters at all when the stage configures none", async () => {
 		const untuned: PipelineConfig = {
 			...config,
@@ -291,9 +285,8 @@ describe("callModel", () => {
 		expect(body).not.toHaveProperty("max_tokens");
 	});
 
-	// A call reaches wherever its client points. There is no shared client to be
-	// served by mistake, so this asserts the whole of the rule rather than the
-	// cache-invalidation that used to stand in for it.
+	// A call goes to the address of its client. There is no shared client that a
+	// call could get by mistake.
 	it("should reach the new address when the client is built for a different address", async () => {
 		await callSucceeding();
 		const gateway = openRouterUrlsAt(GATEWAY_BASE_URL);
@@ -327,17 +320,16 @@ describe("callModel", () => {
 		});
 	});
 
-	// OpenRouter prices every reply in its own `usage`, so no second request is
-	// made: its `/generation` record appears only 10–18 seconds after the reply.
+	// OpenRouter gives the cost of every reply in its `usage`, so no second request
+	// is made (technical-design.md §7, "Sources").
 	it("should record the cost and token counts the reply carries when a call completes", async () => {
 		const result = await callSucceeding();
 
 		expect(result.cost).toEqual(stubbedCallCost);
 	});
 
-	// A cost is telemetry: however it arrives, the call still hands back the
-	// model's reply, and the cost is recorded as unknown rather than failing it
-	// (technical-design.md §7).
+	// A cost that is missing or not a number does not fail the call. The call returns the answer, and the
+	// cost is an unknown cost (technical-design.md §7).
 	it.each([
 		{
 			scenario: "the reply's usage carries no cost",
@@ -392,13 +384,12 @@ describe("callModel", () => {
 		expect(error.message).toMatch(/no choices/i);
 	});
 
-	// OpenRouter answers some upstream failures with HTTP 200 and an error object
-	// where the choices should be, so the SDK sees a success and hands the body
-	// back. Such a provider error can be transient, so it is sent again, pausing two
-	// seconds and then four (technical-design.md §6).
+	// OpenRouter can answer with HTTP 200 and an `error` field in place of the
+	// choices. The SDK accepts this reply. The provider error can be temporary, so
+	// the call is sent again after two seconds and then four (technical-design.md §6).
 	describe("when an accepted reply carries the provider's error", () => {
 		beforeEach(() => {
-			// Only the pauses are faked: nock's replies must still arrive on their own.
+			// Only the pauses use fake timers. The nock replies must come in real time.
 			vi.useFakeTimers({ toFake: ["setTimeout"] });
 		});
 
@@ -429,8 +420,8 @@ describe("callModel", () => {
 			expect(error.message).toContain("transcript-structuring");
 		});
 
-		// The error reaches the user only when every send meets a provider error; the
-		// log is where a provider error that a resend got past can still be seen.
+		// The user sees the error only when every send meets a provider error. The
+		// debug log is the only record of a provider error that a later send overcame.
 		it("should log each provider error as a warning with which send it was and the provider's sentence when a resend gets past it", async () => {
 			mockProviderError();
 			mockProviderError();
@@ -488,7 +479,7 @@ describe("callModel", () => {
 			expect(result.cost.callCount).toBe(2);
 		});
 
-		// The answer is kept, so the log is the only place the provider's error survives.
+		// The answer is kept, so the debug log is the only record of the provider's error.
 		it("should log the provider's error as a warning with the finish reason and which send it was when a reply carries an answer as well", async () => {
 			mockProviderError();
 			mockReplyReturning({ ...BUSY_ERROR, ...answerFinishing("error") });
@@ -502,10 +493,10 @@ describe("callModel", () => {
 		});
 	});
 
-	// The guard above only fires when there is an explanation to report. A reply
-	// carrying no explanation still has to name the stage and the model rather
-	// than fail while reaching for a key that is not there — whether it is an
-	// object without choices, or not the object the SDK's type promises at all.
+	// The tests above have a provider error. A reply with no choices and no provider
+	// error must also give an error that names the stage and the model. The call
+	// must give this error for an object with no choices, and for a body that does not have the
+	// SDK's form at all.
 	it.each([
 		{
 			scenario: "carries neither choices nor an error",

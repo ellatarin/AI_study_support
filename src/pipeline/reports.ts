@@ -1,16 +1,9 @@
 /**
- * Turning what a run did into the text a reader sees.
- *
- * The end-of-run summary, the per-lecture cost report and the batch table, and
- * the table engine, stage labels and money formatting the three share
- * (technical-design.md §7).
- *
- * This is presentation, not a utility: it reads manifests, run logs and stage
- * ids, and it knows how a lecture is named and how wide a model column has to
- * be. It sat in `src/utils/` and reached back into the pipeline for its
- * material, which was the tell. The arithmetic it used to sit beside is
- * genuinely a utility and stayed there (`src/utils/cost.ts`), working in stored
- * dollars and knowing nothing about how a figure is shown.
+ * The text that a reader sees about pipeline runs: the run summary, the cost
+ * report and the batch summary. The module also holds the table code, the stage
+ * labels and the money format that the three share. It is in `src/pipeline/`
+ * and not in `src/utils/`, because it reads manifests and run logs
+ * (technical-design.md §7, "Cost and Reporting Modules").
  */
 
 import type {
@@ -30,7 +23,11 @@ import { STAGE_IDS } from "../types/pipeline.js";
 import { moduleName, moduleRootOf } from "./layout.js";
 import { isCompletedEntry, summariseLectures } from "./run-status.js";
 
-/** Human-readable label for each stage, in pipeline order (technical-design.md §4.1). */
+/**
+ * The name that a reader sees for each stage (technical-design.md §4.1). The
+ * reports walk the stages in {@link STAGE_IDS} order, never in the key order of
+ * this map (§4.7, "Pipeline order comes from `STAGE_IDS`").
+ */
 const STAGE_LABELS: Readonly<Record<StageId, string>> = {
 	"source-normalisation": "Source normalisation",
 	"audio-extraction": "Audio extraction",
@@ -49,23 +46,14 @@ const STAGE_LABELS: Readonly<Record<StageId, string>> = {
 	"pdf-generation": "PDF generation",
 };
 
-// Reports walk the stages in STAGE_IDS order, the declared source of truth,
-// rather than in the key order of the label map above — that map is keyed *by*
-// stage, and reading its keys as the pipeline sequence would let a stage added
-// to one map and not another silently reorder or vanish from a report
-// (technical-design.md §4.7).
-
 /**
- * The human-readable name of a stage, as the two summary tables show it: the
- * end-of-run summary and the cost report's current-pipeline section. The
- * report's error-recovery and experiment sections name stages by their raw id
- * instead, as technical-design.md §7's worked examples do.
- *
- * Exported so the CLI names a failed stage the same way those tables do.
+ * Gives the name that a reader sees for a stage. The run summary, the first
+ * section of the cost report and the CLI's messages use it. The other two
+ * sections of the cost report show the stage id, as technical-design.md §7 shows.
  *
  * @param args - The stage to name.
- * @param args.stageId - The stage's canonical id.
- * @returns The stage's display label.
+ * @param args.stageId - The stage's id.
+ * @returns The stage's label.
  */
 export function stageLabel({ stageId }: { readonly stageId: StageId }): string {
 	return STAGE_LABELS[stageId];
@@ -73,42 +61,34 @@ export function stageLabel({ stageId }: { readonly stageId: StageId }): string {
 
 const RULE = "─";
 
-/** A single table cell: its text, column width, and alignment. */
 type Cell = readonly [text: string, width: number, align: "left" | "right"];
 
-/** Width of the cost column, shared by the header, the cells, and the free-form rows. */
+/** The width of the cost column in every table, and in the rows of the experiment section. */
 const COST_WIDTH = 10;
 
 /**
- * Width of the model column, shared by the two tables that carry one. Holds the
- * 27 characters of the longest model id technical-design.md §4.5 records, plus
- * the space that separates it from the column after it.
+ * The width of the model column. It holds the longest model id in
+ * technical-design.md §4.5 (27 characters) and one space after it.
  */
 const MODEL_WIDTH = 28;
 
-/** The shared cost-column header, reused by every table so it is declared once. */
 const COST_HEADER: Cell = ["Cost", COST_WIDTH, "right"];
 
 /**
- * Renders a stored USD amount as display text in the presentation currency, or
- * `n/a` when cost resolution failed. The single place a money amount becomes a
- * string, so every table and free-form row shows the same format.
+ * Gives the text for a stored dollar amount, in the currency that the reports
+ * show. It gives `n/a` for an unknown cost. Every money amount in a report goes
+ * through a money formatter, so every amount has the same format.
  */
 export type MoneyFormatter = (amount: number | null) => string;
 
 /**
- * Builds the report's money formatter for a given exchange rate.
+ * Makes the money formatter for an exchange rate. Costs are stored in dollars
+ * and converted only here, when they are shown (technical-design.md §7,
+ * "Currency", NFR-2.3).
  *
- * Costs are stored in USD because that is what providers bill, and converted
- * only here, at the point of display (technical-design.md §7, NFR-2.3). Binding
- * the rate once and passing the resulting function down means no section knows
- * about rates or currency at all, and a corrected rate re-renders the whole
- * history consistently rather than leaving figures frozen at the rate in force
- * when each was written.
- *
- * @param args - The conversion inputs.
- * @param args.gbpPerUsd - Pounds per US dollar, from `currency.gbpPerUsd`.
- * @returns A formatter that renders a stored USD amount in pounds.
+ * @param args - The exchange rate.
+ * @param args.gbpPerUsd - The number of pounds for one US dollar, from `currency.gbpPerUsd`.
+ * @returns A formatter that shows a stored dollar amount in pounds.
  */
 export function createMoneyFormatter({
 	gbpPerUsd,
@@ -124,12 +104,12 @@ export function createMoneyFormatter({
 }
 
 /**
- * Builds a right-aligned cost cell of the standard width.
+ * Makes a cost cell.
  *
- * @param args - The cell inputs.
- * @param args.amount - The stored USD amount, or `null` if cost resolution failed.
+ * @param args - The amount and the formatter.
+ * @param args.amount - The stored dollar amount, or `null` for an unknown cost.
  * @param args.formatMoney - The report's money formatter.
- * @returns The formatted cost cell.
+ * @returns The cell, aligned right.
  */
 function costCell({
 	amount,
@@ -141,19 +121,18 @@ function costCell({
 	return [formatMoney(amount), COST_WIDTH, "right"];
 }
 
-/** The mark left in place of the characters a cell was too narrow to show. */
+/** The mark at the end of a value that is too wide for its column. */
 const ELLIPSIS = "…";
 
 /**
- * Cuts a cell's text down to its column, ending it in an ellipsis so the reader
- * can see the value continues. A column is one character wider than the longest
- * value it expects, and a shortened value keeps that separating space, so the
- * columns after it stay where the header puts them however long the value is.
+ * Shortens a cell's text to fit its column. The shortened text keeps one space
+ * at the end, so the columns after it stay under their headings
+ * (technical-design.md §7, "Cost and Reporting Modules").
  *
- * @param args - The text and the column it has to fit.
+ * @param args - The text and the column.
  * @param args.text - The cell's full text.
  * @param args.width - The column's width.
- * @returns The text, shortened only if it was too wide.
+ * @returns The text, shortened only if it is too wide.
  */
 function fitToColumn({ text, width }: { readonly text: string; readonly width: number }): string {
 	if (text.length < width) {
@@ -163,18 +142,15 @@ function fitToColumn({ text, width }: { readonly text: string; readonly width: n
 }
 
 /**
- * Groups the members under a key taken from each, in the order the keys were
- * first seen.
+ * Groups the members by a key. The keys keep the order in which they are first
+ * found. So a report follows the order of the pipeline runs, and does not sort
+ * them. The experiment section groups by stage, and the batch summary groups by
+ * module.
  *
- * Two sections of this report group: the experiment table by the stage a run
- * re-ran, and the batch summary by the module a lecture belongs to. Both want
- * first-seen order — the report follows the run rather than sorting it — which
- * is what a `Map` gives and what makes the two the same operation.
- *
- * @param args - The members and how to key them.
+ * @param args - The members and their key.
  * @param args.members - The things to group.
- * @param args.keyOf - The key a member belongs under.
- * @returns The members by key, keys in first-seen order.
+ * @param args.keyOf - Gives the key of a member.
+ * @returns The members by key, with the keys in the order first found.
  * @typeParam TMember - One thing to group.
  */
 function groupBy<TMember>({
@@ -193,10 +169,10 @@ function groupBy<TMember>({
 }
 
 /**
- * Joins fixed-width cells into a single aligned row.
+ * Joins cells into one row of a table.
  *
- * @param cells - The cells to render, in column order.
- * @returns The aligned row string.
+ * @param cells - The cells, in column order.
+ * @returns The row.
  */
 function formatCells(cells: readonly Cell[]): string {
 	return cells
@@ -208,23 +184,18 @@ function formatCells(cells: readonly Cell[]): string {
 }
 
 /**
- * Assembles a titled, ruled table from its parts, shared by the report sections.
+ * Makes a table with a title, a header and a rule above and below the rows. The
+ * table ends at the lower rule, because no table adds its rows (NFR-2.2). The
+ * batch summary adds its own last row below it.
  *
- * The table closes on the rule under its last row and adds nothing beneath it,
- * since no table sums its rows (NFR-2.2). A caller with a line to put there —
- * the batch summary's cross-module row, which counts lectures rather than adding
- * money — appends it to what this returns.
+ * The width of the rules comes from the header. So a new column cannot leave the
+ * rules too short.
  *
- * The rules span the columns, which is what makes them rules, so their width is
- * read off the header rather than passed in: each of the three sections was
- * adding its own column widths up by hand, and a column added to one of them
- * without its sum being edited would have left the table's rules short.
- *
- * @param args - The table parts.
- * @param args.title - The section title printed above the table.
+ * @param args - The parts of the table.
+ * @param args.title - The title above the table.
  * @param args.columns - The header cells.
- * @param args.rows - The body rows, each a list of cells.
- * @returns The table as an array of lines.
+ * @param args.rows - The rows, each a list of cells.
+ * @returns The lines of the table.
  */
 function renderCostTable({
 	title,
@@ -235,7 +206,7 @@ function renderCostTable({
 	readonly columns: readonly Cell[];
 	readonly rows: readonly (readonly Cell[])[];
 }): readonly string[] {
-	// eslint-disable-next-line max-params -- Array.prototype.reduce's reducer is spec-defined
+	// eslint-disable-next-line max-params -- the language sets the parameters of a reduce callback
 	const ruleWidth = columns.reduce((total, [, width]) => total + width, 0);
 	const rule = RULE.repeat(ruleWidth);
 	return [title, formatCells(columns), rule, ...rows.map(formatCells), rule];
@@ -243,33 +214,28 @@ function renderCostTable({
 
 type RanStageEntry = Extract<RunLogStageEntry, { readonly action: "ran" }>;
 
-/**
- * A stage entry a section selected, carrying the run it came from. The stage id
- * is a `StageId` because the stages are walked in pipeline order from
- * {@link STAGE_IDS}, which is the definition of what a stage key may be.
- */
+/** A run log entry of a stage that ran, which a section of the cost report chose, with its run log. */
 type SelectedStageEntry = {
 	readonly log: RunLog;
 	readonly stageId: StageId;
 	readonly entry: RanStageEntry;
 };
 
-/** Whether a section wants a given stage entry, judged from it and the run it belongs to. */
+/** The rule by which a section of the cost report chooses the run log entries that it shows. */
 type StageEntrySelector = (args: {
 	readonly log: RunLog;
 	readonly entry: RanStageEntry;
 }) => boolean;
 
 /**
- * Flattens the run logs into the executed stage entries a section asks for, so
- * the sections iterate results rather than re-walking logs. Each brings its own
- * rule: a run's run type says why it was started and a stage entry says
- * what came of it, and the sections divide on both.
+ * Gives the run log entries of stages that ran and that a section chooses. A
+ * section can choose by the run type of the pipeline run, by the status of
+ * the stage, or by both.
  *
- * @param args - The selection inputs.
+ * @param args - The run logs and the rule.
  * @param args.runLogs - The lecture's run logs.
- * @param args.selects - Whether the section wants a given entry.
- * @returns Each selected stage entry with the log and stage id it came from.
+ * @param args.selects - The section's rule.
+ * @returns Each chosen entry, with its run log and stage id, in pipeline order inside each run log.
  */
 function ranStageEntries({
 	runLogs,
@@ -287,48 +253,46 @@ function ranStageEntries({
 }
 
 /**
- * Section 2's rule: a stage that failed, wherever it failed, and every stage of
- * a run started to recover from one. The run that first meets a failure is
- * given the run type `normal`, so the original failure — the spend the section exists to
- * price — is reached through the failure itself (technical-design.md §7).
+ * The rule of the error recovery section: a stage that failed in any pipeline
+ * run, and every stage of an error-recovery run. The run that first meets a
+ * failure has the run type `normal`. So the rule also chooses by the status
+ * (technical-design.md §7).
  *
- * @param args - The entry being judged.
- * @param args.log - The run log the entry belongs to.
- * @param args.entry - The executed stage entry.
- * @returns Whether section 2 wants this entry.
+ * @param args - The entry to judge.
+ * @param args.log - The run log of the entry.
+ * @param args.entry - The entry of a stage that ran.
+ * @returns `true` when the error recovery section shows the entry.
  */
 const wasSpentOnFailure: StageEntrySelector = ({ log, entry }) =>
 	entry.status === "failed" || log.runType === "error-recovery";
 
 /**
- * Section 3's rule: the deliberate re-runs, whatever became of them.
+ * The rule of the experiment section: every stage of an experiment run, whatever
+ * its status.
  *
- * @param args - The entry being judged.
- * @param args.log - The run log the entry belongs to.
- * @returns Whether section 3 wants this entry.
+ * @param args - The entry to judge.
+ * @param args.log - The run log of the entry.
+ * @returns `true` when the experiment section shows the entry.
  */
 const wasAnExperiment: StageEntrySelector = ({ log }) => log.runType === "experiment";
 
-/**
-/** What a cost table shows for one stage: the model it used and what it recorded. */
+/** The model and the recorded cost that a table shows for one stage. */
 type StageCostRow = {
 	readonly model: string;
 	readonly cost: StageCost | null;
 };
 
 /**
- * The row a stage earns in a cost table, or `null` where it earns none.
+ * Gives the row of a stage in the run summary or the first section of the cost
+ * report. A stage gets a row only when its stage entry names a model. A stage
+ * that names no model makes no model call, so it has no model cost to compare
+ * (technical-design.md §7, NFR-2.2).
  *
- * A stage earns one by naming a model. One that names none makes no model call —
- * audio extraction, PDF generation — so it has no spend to set against another
- * model's, which is what these tables are read for (NFR-2.2). A stage that has
- * not reached a terminal state has recorded nothing yet.
+ * A row can hold no cost or an unknown cost. The table then shows `n/a`.
  *
- * The `cost` it carries may still be absent or unresolved; that is the
- * difference between a row and no row, and `n/a` is how a row says it.
- *
- * @param entry - The manifest stage entry, or `undefined` if the stage never ran.
- * @returns The stage's model and recorded cost, or `null` if it earns no row.
+ * @param entry - The stage entry, or `undefined` when the manifest has none.
+ * @returns The stage's model and recorded cost, or `null` when the stage gets no
+ *   row: it names no model, or it is `pending` or `running`.
  */
 function stageCostRow(entry: StageEntry | QaStageEntry | undefined): StageCostRow | null {
 	if (entry === undefined || entry.status === "pending" || entry.status === "running") {
@@ -342,38 +306,32 @@ function stageCostRow(entry: StageEntry | QaStageEntry | undefined): StageCostRo
 }
 
 /**
- * What the two reports drawn from one lecture's manifest both need: the manifest,
- * and the formatter that renders its money.
- *
- * A formatter rather than a rate, so nothing in this module knows what currency
- * is being shown or what it converts from — the caller has already decided that
- * (technical-design.md §7). Each report intersects this with the one further
- * thing it draws on. `formatBatchSummary` is not among them: it shows no money.
+ * The input that the cost report and the run summary share. A report gets a
+ * formatter and not a rate, so this module does not know the currency
+ * (technical-design.md §7, "Cost and Reporting Modules").
  */
 type ManifestWithMoney = {
 	readonly manifest: Manifest;
 	readonly formatMoney: MoneyFormatter;
 };
 
-/** Inputs for the section driven by the manifest, plus the shared formatter. */
 type ManifestSectionArgs = {
 	readonly manifest: Manifest;
 	readonly formatMoney: MoneyFormatter;
 };
 
-/** Inputs for the sections driven by run logs, plus the shared formatter. */
 type RunLogSectionArgs = {
 	readonly runLogs: readonly RunLog[];
 	readonly formatMoney: MoneyFormatter;
 };
 
-/** Column widths of the current-pipeline section, shared by its header, rows, and total. */
 const CURRENT_PIPELINE_WIDTHS = { stage: 24, model: MODEL_WIDTH, calls: 7 } as const;
 
 /**
- * Section 1: what the outputs currently on disk cost to produce.
+ * Makes the first section of the cost report: the cost of the output that is on
+ * disk now, from the manifest.
  *
- * @param args - The section inputs.
+ * @param args - The section's input.
  * @param args.manifest - The lecture's manifest.
  * @param args.formatMoney - The report's money formatter.
  * @returns The section's lines.
@@ -381,8 +339,8 @@ const CURRENT_PIPELINE_WIDTHS = { stage: 24, model: MODEL_WIDTH, calls: 7 } as c
 function currentPipelineSection({ manifest, formatMoney }: ManifestSectionArgs): readonly string[] {
 	const rows = STAGE_IDS.flatMap((stageId): readonly (readonly Cell[])[] => {
 		const entry = manifest.stages[stageId];
-		// What the outputs on disk cost: a stage that failed left none behind, and
-		// what it spent getting there is section 2's to report.
+		// Only a `complete` or `skipped` stage has its output on disk. The error
+		// recovery section shows what a failed stage cost.
 		if (!isCompletedEntry(entry)) {
 			return [];
 		}
@@ -411,13 +369,13 @@ function currentPipelineSection({ manifest, formatMoney }: ManifestSectionArgs):
 	});
 }
 
-/** Column widths of the error-recovery section, shared by its header and its rows. */
 const ERROR_RECOVERY_WIDTHS = { run: 26, stage: 22, status: 8 } as const;
 
 /**
- * Section 2: spend from failed runs and their retries.
+ * Makes the error recovery section of the cost report from the run logs. It
+ * shows each failed stage and each stage of an error-recovery run.
  *
- * @param args - The section inputs.
+ * @param args - The section's input.
  * @param args.runLogs - The lecture's run logs.
  * @param args.formatMoney - The report's money formatter.
  * @returns The section's lines.
@@ -444,17 +402,15 @@ function errorRecoverySection({ runLogs, formatMoney }: RunLogSectionArgs): read
 }
 
 /**
- * Section 3: deliberate model re-runs, grouped by stage for comparison.
+ * Makes the experiment section of the cost report: the cost of each stage of an
+ * experiment run, from the run logs, grouped by stage.
  *
- * The one section that pads its own columns rather than going through
- * {@link renderCostTable}, and it is meant to. What this section is for is
- * comparing models *within* a stage, so the stage is a heading with its runs
- * indented under it; `renderCostTable` renders one flat table, which would mean
- * repeating the stage on every row and losing the grouping that is the point.
- * The difference in shape is deliberate and was confirmed as such — it is not an
- * unfinished migration to the shared helper.
+ * This section does not use {@link renderCostTable}, and that is deliberate. The
+ * section compares models for one stage, so each stage is a heading with its
+ * pipeline runs under it. `renderCostTable` makes one flat table, which would
+ * show the stage on every row and lose the groups.
  *
- * @param args - The section inputs.
+ * @param args - The section's input.
  * @param args.runLogs - The lecture's run logs.
  * @param args.formatMoney - The report's money formatter.
  * @returns The section's lines.
@@ -481,16 +437,15 @@ function experimentSection({ runLogs, formatMoney }: RunLogSectionArgs): readonl
 }
 
 /**
- * Renders the three-section cost report for a single lecture: current pipeline
- * cost (from the manifest), error-recovery spend, and experiment comparisons
- * (both from the run logs, selected by `runType`). Stored figures are in USD and
- * every total is presented in pounds (technical-design.md §7).
+ * Makes the cost report of one lecture. It has a heading that names the lecture,
+ * and three sections: the current output, error recovery and experiments
+ * (technical-design.md §7).
  *
- * @param args - The report inputs.
+ * @param args - The report's input.
  * @param args.runLogs - The lecture's run logs.
  * @param args.manifest - The lecture's manifest.
- * @param args.formatMoney - Renders a stored dollar figure for display.
- * @returns The formatted multi-section report string.
+ * @param args.formatMoney - The report's money formatter.
+ * @returns The report.
  */
 export function formatCostReport({
 	runLogs,
@@ -498,9 +453,9 @@ export function formatCostReport({
 	formatMoney,
 }: ManifestWithMoney & { readonly runLogs: readonly RunLog[] }): string {
 	return [
-		// A report with no flags covers every configured module, so several of
-		// these print one after another; without this every one of them opens on
-		// the same words and nothing says which lecture it is about.
+		// The command can print the reports of many lectures one after another.
+		// The heading identifies the lecture of each report (technical-design.md §7,
+		// "Cost Report Command").
 		lectureHeading({ manifest }),
 		"",
 		...currentPipelineSection({ manifest, formatMoney }),
@@ -511,7 +466,7 @@ export function formatCostReport({
 	].join("\n");
 }
 
-/** Column widths of the end-of-run summary, shared by its header and its rows. */
+/** The column widths of the run summary. `promptTokens` and `completionTokens` are parts of the `tokens` column. */
 const RUN_SUMMARY_WIDTHS = {
 	stage: 24,
 	model: MODEL_WIDTH,
@@ -522,23 +477,23 @@ const RUN_SUMMARY_WIDTHS = {
 } as const;
 
 /**
- * Formats a token count with thousands separators, padded so the `in / out` pair
- * stays aligned down the column.
+ * Writes a token count with thousands separators, aligned right in its width.
+ * So the `in / out` pairs stay aligned in the column.
  *
- * @param args - The count and the width to pad it to.
+ * @param args - The count and its width.
  * @param args.count - The token count.
- * @param args.width - The column width to right-align within.
- * @returns The padded, separated count.
+ * @param args.width - The width to align the count in.
+ * @returns The count as text.
  */
 function tokenCount({ count, width }: { readonly count: number; readonly width: number }): string {
 	return count.toLocaleString("en-GB").padStart(width);
 }
 
 /**
- * Renders a stage's prompt and completion tokens as the summary's `in / out` cell.
+ * Makes the `in / out` cell of the run summary from a stage's token counts.
  *
  * @param cost - The stage's recorded cost, or `null` when it recorded none.
- * @returns The token cell.
+ * @returns The token cell. A stage with no recorded cost shows zero tokens.
  */
 function tokensCell(cost: StageCost | null): Cell {
 	const promptTokens = tokenCount({
@@ -553,17 +508,14 @@ function tokensCell(cost: StageCost | null): Cell {
 }
 
 /**
- * How a lecture is named at the head of anything written about it: its number,
- * its title, and the date it was given (technical-design.md §7).
- *
- * Three places name a lecture this way — the end-of-run summary, the cost
- * report, and the notice the CLI writes as a run starts — and a batch shows
- * several of them one after another, so two of these disagreeing about how a
- * lecture is identified would be read as two different lectures.
+ * Gives the heading that names a lecture: its lecture number, lecture title and
+ * lecture date. The run summary, the cost report and the CLI's notice at the
+ * start of a pipeline run all use it. So a reader never sees one lecture named
+ * two ways (technical-design.md §7, "Cost and Reporting Modules").
  *
  * @param args - The lecture to name.
  * @param args.manifest - The lecture's manifest.
- * @returns The lecture named for a heading.
+ * @returns The heading.
  * @example
  * lectureHeading({ manifest }); // "Lecture 1: Cell Injury (2025-10-10)"
  */
@@ -572,15 +524,15 @@ export function lectureHeading({ manifest }: { readonly manifest: Manifest }): s
 }
 
 /**
- * The stages this invocation executed that have a model's cost to show, paired
- * with what the manifest recorded for each. Skipped and not-reached stages are
- * left out — the summary reports the work the run did, not the work it declined
- * to repeat — and so is any stage that names no model.
+ * Gives the rows of the run summary: each stage that ran in this pipeline run
+ * and that names a model, with its model and cost from the manifest. A skipped
+ * or not-reached stage did no work, so it gets no row (technical-design.md §7,
+ * "End-of-Run Summary").
  *
- * @param args - The run's outcomes and the manifest they were recorded in.
- * @param args.outcomes - Every stage's outcome, in execution order.
- * @param args.manifest - The lecture's manifest, holding each stage's model and cost.
- * @returns The executed stages that earn a row, with their model and recorded cost.
+ * @param args - The pipeline run's stage outcomes and the manifest.
+ * @param args.outcomes - Each stage's outcome, in pipeline order.
+ * @param args.manifest - The lecture's manifest, which holds each stage's model and cost.
+ * @returns The rows, in the order of the outcomes.
  */
 function executedStages({
 	outcomes,
@@ -603,19 +555,15 @@ function executedStages({
 }
 
 /**
- * Renders the end-of-run summary: one row per stage this invocation executed
- * that names a model, showing the model, its call and token counts, and its
- * cost. Costs are stored in USD and presented in pounds (technical-design.md §7).
+ * Makes the run summary of one pipeline run. Each stage that ran and that names
+ * a model gets a row with its model, calls, tokens and cost. Nothing adds the
+ * rows (technical-design.md §7, "End-of-Run Summary").
  *
- * The table ends at its last stage — nothing sums the run (NFR-2.2). A stage's
- * cost reads `n/a` wherever no figure was resolved, whether its lookup failed or
- * it failed before it charged anything.
- *
- * @param args - The summary inputs.
- * @param args.outcomes - Every stage's outcome for this run, in execution order.
- * @param args.manifest - The lecture's manifest, read after the run.
- * @param args.formatMoney - Renders a stored dollar figure for display.
- * @returns The formatted summary table.
+ * @param args - The summary's input.
+ * @param args.outcomes - Each stage's outcome in this pipeline run, in pipeline order.
+ * @param args.manifest - The lecture's manifest, read after the pipeline run.
+ * @param args.formatMoney - The report's money formatter.
+ * @returns The summary table.
  */
 export function formatRunSummary({
 	outcomes,
@@ -644,19 +592,15 @@ export function formatRunSummary({
 	}).join("\n");
 }
 
-/** Column widths of the batch summary, shared by its header, rows, and closing row. */
 const BATCH_SUMMARY_WIDTHS = { module: 30, lectures: 10, status: 10 } as const;
 
 /**
- * Groups a batch's lectures by the module they belong to, preserving the order
- * the modules were first encountered so the report follows the run.
+ * Groups a batch's pipeline runs by module, in the order the modules are first
+ * found. The key is the module's path and not its name, because two module
+ * folders can have the same name (technical-design.md §7, "End-of-Run Summary").
  *
- * Grouped by the module's path rather than its name: a batch can be given two
- * module directories that share a leaf name, and they are two modules with two
- * sets of lectures.
- *
- * @param lectures - Every lecture the batch attempted.
- * @returns The lectures grouped by module root.
+ * @param lectures - The pipeline run of each lecture in the batch.
+ * @returns The pipeline runs by module root.
  */
 function lecturesByModule(
 	lectures: readonly PipelineRunSummary[],
@@ -668,16 +612,14 @@ function lecturesByModule(
 }
 
 /**
- * Renders the batch summary: one row per module giving its lecture count and its
- * combined status, closed by a row across all of them (technical-design.md §4.7).
+ * Makes the batch summary: one row for each module with its number of lectures
+ * and its status, then one row for all modules (technical-design.md §4.7). It
+ * shows no money, because the cost of a module or a batch is a sum across
+ * lectures (NFR-2.2).
  *
- * It shows no money and takes no rate. What a module or a batch spent is a sum
- * across lectures, and cost is kept per stage (NFR-2.2) — each lecture's own
- * end-of-run summary carries its figures.
- *
- * @param args - The summary inputs.
- * @param args.batch - The completed batch's summary.
- * @returns The formatted batch table.
+ * @param args - The summary's input.
+ * @param args.batch - The batch's summary.
+ * @returns The batch summary table.
  */
 export function formatBatchSummary({ batch }: { readonly batch: BatchSummary }): string {
 	const rows: (readonly Cell[])[] = [];
