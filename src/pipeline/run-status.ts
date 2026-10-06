@@ -1,15 +1,10 @@
 /**
- * Reading what a run and its stages amount to.
+ * The rule that gives one {@link OverallStatus} for a pipeline run, a module or a
+ * batch (technical-design.md §4.7, "Reducing outcomes to a status").
  *
- * Reducing what happened during a run to a single {@link OverallStatus}: the
- * same rule applies at every level — a stage within a lecture, a lecture within
- * a module, a module within a batch — so it is stated once here and applied by
- * the runner (which summarises a lecture and a batch) and by the cost reporting
- * that prints those summaries (technical-design.md §4.7).
- *
- * And reading a manifest stage entry for the one question three unrelated
- * callers ask of it — {@link isCompletedEntry} — which belongs beside the above
- * for the same reason: interpreting a status is one job with one home.
+ * The rule reads the stages of a lecture, the lectures of a module or the
+ * lectures of a batch. The runner and the batch summary use it.
+ * {@link isCompletedEntry} is here too, because it also reads a status.
  */
 
 import type {
@@ -21,19 +16,15 @@ import type {
 } from "../types/pipeline.js";
 
 /**
- * Whether a stage's stage entry means its output is on disk.
+ * Tells if a stage entry is `complete` or `skipped`. Either status means that the
+ * stage's output was made (technical-design.md §4.2).
  *
- * `complete` and `skipped` both say so: the first is the run that did the work,
- * the second is every run after it, which finds the output already there and
- * records that it did not repeat it (technical-design.md §4.2). Treating only
- * `complete` as completed makes the second run erase the record that the work was
- * done, and the third pay for it again.
+ * Each pipeline run after the one that made the stage's output writes `skipped`.
+ * If only `complete` counted, the second pipeline run would remove the record of
+ * that stage run, and the third would pay for the stage again.
  *
- * A type guard rather than a boolean, so a caller that has checked can read the
- * entry's `filesWritten` without asserting.
- *
- * @param entry - The stage entry, or `undefined` for a stage with none.
- * @returns `true` when the entry is a completed or skipped one.
+ * @param entry - The stage entry, or `undefined` for a stage with no entry.
+ * @returns `true` when the entry is `complete` or `skipped`.
  */
 export function isCompletedEntry(
 	entry: StageEntry | QaStageEntry | undefined,
@@ -42,18 +33,12 @@ export function isCompletedEntry(
 }
 
 /**
- * The status one stage contributes to its run: `failed` where the stage ran and
- * failed, and `success` everywhere else.
+ * Gives the status that one stage adds to its pipeline run: `failed` when the
+ * stage ran and failed, and `success` otherwise. A skipped or `not-reached` stage
+ * adds `success`, because it makes nothing fail (technical-design.md §4.7).
  *
- * This is what a stage contributes to the fold below, not a verdict on the stage
- * in isolation — `success` here means "nothing about this stage makes the run a
- * failure", which is as true of a stage the run never reached as of one that
- * finished. A skipped stage reads the same way {@link isCompletedEntry} reads it:
- * its output is on disk, and the run declining to produce it a second time is
- * the pipeline working, not work left undone.
- *
- * @param entry - The stage's run-log entry.
- * @returns The status that stage contributes.
+ * @param entry - The stage's run log entry.
+ * @returns The status that the stage adds.
  */
 export function stageOutcomeStatus(entry: RunLogStageEntry): OverallStatus {
 	if (entry.action === "skipped" || entry.action === "not-reached") {
@@ -63,11 +48,11 @@ export function stageOutcomeStatus(entry: RunLogStageEntry): OverallStatus {
 }
 
 /**
- * Combines the statuses of a run's parts: any failure makes the whole failed,
- * and everything else — including nothing at all — is a success.
+ * Combines statuses. One `failed` status makes the combined status `failed`.
+ * Otherwise the combined status is `success`, also for an empty list.
  *
  * @param args - The statuses to combine.
- * @param args.statuses - The parts' statuses, in any order.
+ * @param args.statuses - The statuses, in any order.
  * @returns The combined status.
  */
 export function summariseOverallStatus({
@@ -79,20 +64,13 @@ export function summariseOverallStatus({
 }
 
 /**
- * The same rule applied to a set of lectures.
- *
- * A lecture already carries its own {@link OverallStatus}, so combining a set of
- * them is a projection and a fold — which two callers were each writing out: the
- * runner across a whole batch, and the batch table for each module's rows within
- * it. Written once, the two cannot come to disagree about what a module of
- * half-failed lectures amounts to.
- *
- * The parameter asks for the status alone rather than for a whole
- * `PipelineRunSummary`, because that is all the rule reads; a
- * `PipelineRunSummary` satisfies it.
+ * Combines the statuses of a set of lectures with the rule of
+ * {@link summariseOverallStatus}. The runner uses
+ * it for a batch, and the batch summary uses it for each module
+ * (technical-design.md §4.7). A `PipelineRunSummary` fits the parameter.
  *
  * @param args - The lectures to combine.
- * @param args.lectures - Each lecture's overall status, in any order.
+ * @param args.lectures - The overall status of each lecture, in any order.
  * @returns The status of the set.
  */
 export function summariseLectures({

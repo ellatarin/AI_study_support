@@ -1,21 +1,16 @@
 /**
- * Reading and writing a lecture's `manifest.json`.
- *
- * The manifest is the pipeline's single record of a lecture's identity, stage
- * states, and accumulated cost, and three separate callers touch it:
- * `source-normalisation` creates and renumbers it, the runner patches a stage entry after every stage,
- * and the CLI's identity commands rewrite the lecture's title or date. Its
- * location and on-disk format live here so those callers share one definition
- * rather than each rebuilding the path and the JSON formatting
- * (technical-design.md §4.5).
+ * The reader and writer of a lecture's `manifest.json`. `source-normalisation`, the runner
+ * and the CLI's identity-change commands all write the manifest. So its path and
+ * its format are declared here once (technical-design.md §4.5).
  */
 
-/* jscpd:ignore-start -- the two places a date enters the pipeline from outside
-   now both read the pipeline types, the date checker and the error helpers, so
-   this import block matches `args.ts`'s line for line. There is nothing to
-   extract: imports cannot be shared, and barrel files are forbidden (CLAUDE.md,
-   File Organisation). Only the imports are exempt; the code below is checked as
-   normal. */
+/* jscpd:ignore-start -- this file and `src/cli/args.ts` are the two places where
+   a date enters the pipeline from outside. Both import the pipeline types, the
+   date check and the error helpers.
+   jscpd finds these imports as a copy of the same imports in `src/cli/args.ts`.
+   Imports cannot be shared, and CLAUDE.md forbids barrel files (File
+   Organisation). Only the imports are exempt. jscpd checks the code below as
+   usual. */
 import { mkdir, readFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { type Manifest, STAGE_IDS } from "../types/pipeline.js";
@@ -27,51 +22,36 @@ import { MANIFEST_FILE } from "./layout.js";
 /* jscpd:ignore-end */
 
 /**
- * The manifest file could not be read at all — it is missing, or the filesystem
- * refused it. Raised by {@link readManifest}, where the caller was handed a path
- * that is not a lecture workspace (technical-design.md §4.5).
+ * {@link readManifest} could not read the manifest file. The file is missing, or
+ * the file system refused the read (technical-design.md §4.5).
  */
 export class ManifestUnreadableError extends NamedError {}
 
-/**
- * The manifest file was read but does not parse as JSON. Raised by
- * {@link readManifest} (technical-design.md §4.5).
- */
+/** {@link readManifest} read the manifest file, but the text is not JSON (technical-design.md §4.5). */
 export class ManifestNotJsonError extends NamedError {}
 
 /**
- * The manifest file parses but describes no lecture — `{}`, `[]` and `null` all
- * parse and none of them is a manifest. Raised by {@link readManifest}
- * (technical-design.md §4.5).
+ * The manifest file is JSON, but it does not describe a lecture. Examples are
+ * `{}`, `[]` and `null` (technical-design.md §4.5).
  */
 export class ManifestShapeError extends NamedError {}
 
 /**
- * The schema version stamped into every manifest this pipeline writes.
- *
- * It belongs beside the read and write it describes, because the two parties that
- * put a version into a manifest — `source-normalisation`, which creates one, and the fixtures,
- * which seed one for every suite — would otherwise each hold their own copy, and
- * nothing reads `version` back to notice they had diverged. Bumping it here bumps
- * what the suites seed, which is the only way a future migration gets tested
- * against the version it is migrating from (technical-design.md §4.5).
+ * The schema version in each manifest that the pipeline writes. It is here, beside
+ * the format, so `source-normalisation` and the test fixtures write the same
+ * version (technical-design.md §4.5).
  */
 export const MANIFEST_VERSION = "1";
 
 /**
- * A manifest stage map with every stage `pending`, as `source-normalisation` writes it for a
- * newly created lecture workspace.
+ * A stage map with each stage `pending`, as `source-normalisation` writes it for a
+ * new workspace. It is here so `source-normalisation` and the test fixtures make
+ * the same map (technical-design.md §4.5).
  *
- * Here for the reason {@link MANIFEST_VERSION} is here: `source-normalisation` writes this map
- * and the fixtures seed it, and each had been building its own. The two were
- * identical down to the assertion below, and nothing reads the map back in a way
- * that would have caught them diverging.
+ * The cast is necessary because `Object.fromEntries` gives `string` keys. The keys
+ * come from `STAGE_IDS`, so each key is a stage id.
  *
- * The assertion is `Object.fromEntries`, which widens the keys it is handed back
- * to `string` whatever it was given. The keys come from `STAGE_IDS`, which is the
- * definition of what a stage key may be, so there is nothing left to check.
- *
- * @returns A fresh stage map, safe for the caller to spread over.
+ * @returns A new stage map on each call.
  */
 export function pendingStages(): Manifest["stages"] {
 	const entries = STAGE_IDS.map((stageId) => [stageId, { status: "pending" }] as const);
@@ -90,26 +70,19 @@ export function manifestPath({ workspaceRoot }: { readonly workspaceRoot: string
 }
 
 /**
- * Reads a workspace's manifest, failing loudly when it cannot be read. Used
- * where the manifest's absence means the caller was handed a path that is not a
- * lecture workspace at all.
+ * Reads a workspace's manifest, and throws when it cannot. Callers use it when the
+ * path must be a lecture workspace.
  *
- * Parsing is not the same as being a manifest: `{}`, `[]` and `null` all parse
- * and none of them describes a lecture. The parsed value goes through the same
- * {@link isManifest} that {@link readManifestSafe} uses, so the two readers
- * agree on what a manifest is and differ only in what they do about its absence.
- *
- * Each of the three ways this fails raises a named error of its own, the two the
- * platform raises included: a caught failure should say which of them happened
- * from its type alone, and a raw `ENOENT` or `SyntaxError` reaching a caller
- * says only that something below went wrong.
+ * It checks the parsed value with the same {@link isManifest} as
+ * {@link readManifestSafe}. Each failure has its own error type, so a caller can
+ * tell which failure occurred (technical-design.md §4.5).
  *
  * @param args - The workspace to read.
  * @param args.workspaceRoot - Absolute path to the lecture workspace folder.
- * @returns The parsed manifest.
- * @throws {ManifestUnreadableError} When the manifest is missing or the filesystem refuses it.
- * @throws {ManifestNotJsonError} When the file does not parse as JSON.
- * @throws {ManifestShapeError} When the file parses but describes no lecture.
+ * @returns The manifest.
+ * @throws {ManifestUnreadableError} When the file is missing or the file system refuses the read.
+ * @throws {ManifestNotJsonError} When the text is not JSON.
+ * @throws {ManifestShapeError} When the JSON does not describe a lecture.
  */
 export async function readManifest({
 	workspaceRoot,
@@ -125,7 +98,7 @@ export async function readManifest({
 }
 
 /**
- * Reads the manifest file's text, naming the read as what failed.
+ * Reads the text of the manifest file.
  *
  * @param path - Absolute path to the manifest file.
  * @returns The file's contents.
@@ -140,12 +113,12 @@ async function readManifestFile(path: string): Promise<string> {
 }
 
 /**
- * Parses the manifest file's text, naming the parse as what failed.
+ * Parses the text of the manifest file.
  *
- * @param args - The file and its contents.
- * @param args.path - Absolute path to the manifest file, for the message.
- * @param args.contents - The text read from it.
- * @returns The parsed value, which is not yet known to be a manifest.
+ * @param args - The file and its text.
+ * @param args.path - Absolute path to the manifest file, for the error message.
+ * @param args.contents - The text of the file.
+ * @returns The parsed value, which is not yet checked as a manifest.
  * @throws {ManifestNotJsonError} When the text does not parse as JSON.
  */
 function parseManifest({
@@ -163,23 +136,18 @@ function parseManifest({
 }
 
 /**
- * Whether a parsed `manifest.json` is a lecture's manifest.
+ * Tells if a parsed `manifest.json` describes a lecture. The check is shallow. It
+ * reads only `lectureNumber`, `lectureDate` and `stages`, which each caller that
+ * lists the workspaces reads next. A manifest with imperfect stage entries still
+ * describes a lecture (technical-design.md §4.5).
  *
- * Deliberately shallow: it answers the question a speculative scan is asking —
- * *is this folder a lecture?* — from the three fields every scanning caller then
- * reads. A file that parses as JSON but carries none of them (`{}`, `[]`, a bare
- * number) is not a manifest, whereas one whose stage entries are imperfect still
- * describes a lecture and is left to the caller reading them.
- *
- * The lecture date is the one field checked beyond its type, because it is the
- * only one a caller *matches on*: every lookup finds a lecture by its date, so a
- * date written any other way silently matches nothing rather than failing where
- * it was introduced. This is the second of the two places a date enters the
- * pipeline from outside; the command line is the other, and both ask
- * {@link isCalendarDate}.
+ * The lecture date must also be a calendar date. Each lookup finds a lecture by
+ * its date, so a date in another form would match nothing and cause no error. The
+ * command line is the other place where a date enters the pipeline, and it uses
+ * the same {@link isCalendarDate}.
  *
  * @param value - The parsed file contents.
- * @returns `true` when the value identifies a lecture.
+ * @returns `true` when the value describes a lecture.
  */
 function isManifest(value: unknown): value is Manifest {
 	if (!isRecord(value)) {
@@ -194,18 +162,13 @@ function isManifest(value: unknown): value is Manifest {
 }
 
 /**
- * Reads a workspace's manifest, returning `null` when it is missing, malformed,
- * or not a manifest at all. Used where directories are scanned speculatively — a
- * folder under `Pipeline processing/` that holds no readable manifest is simply
- * not a lecture, which is a fact to skip over rather than an error to raise.
- *
- * Malformed covers more than a parse failure: a `manifest.json` holding `{}` or
- * `[]` parses perfectly and is still not a lecture, so the parsed value is put
- * through {@link isManifest} before it is handed back as one.
+ * Reads a workspace's manifest. It gives `null` when the file is missing, is not
+ * JSON or does not describe a lecture. Callers use it when they list folders that
+ * may not be lectures (technical-design.md §4.5).
  *
  * @param args - The workspace to read.
- * @param args.workspaceRoot - Absolute path to the candidate workspace folder.
- * @returns The parsed manifest, or `null` when the folder is not a lecture.
+ * @param args.workspaceRoot - Absolute path to the folder that may be a workspace.
+ * @returns The manifest, or `null` when the folder is not a lecture.
  */
 export async function readManifestSafe({
 	workspaceRoot,
@@ -217,14 +180,14 @@ export async function readManifestSafe({
 }
 
 /**
- * Writes a workspace's manifest atomically, creating the workspace directory if
- * it does not yet exist. The atomic write means a crash mid-write leaves the
- * previous manifest intact rather than a truncated one (technical-design.md §4.3).
+ * Writes a workspace's manifest atomically, and makes the workspace folder if it
+ * does not exist. If the invocation stops during the write, the earlier manifest
+ * stays complete (technical-design.md §4.3).
  *
- * @param args - The write inputs.
+ * @param args - The workspace and the manifest.
  * @param args.workspaceRoot - Absolute path to the lecture workspace folder.
- * @param args.manifest - The manifest to persist.
- * @returns A promise that resolves once the manifest is in place.
+ * @param args.manifest - The manifest to write.
+ * @returns A promise that resolves when the manifest is written.
  */
 export async function writeManifest({
 	workspaceRoot,
@@ -239,24 +202,18 @@ export async function writeManifest({
 }
 
 /**
- * Lays changes over a lecture's manifest, records when they were made, and
- * writes the result.
+ * Puts changes on a lecture's manifest, sets `updatedAt` and writes the changed manifest.
+ * The runner uses it after each stage, and the CLI's `rename` and `change-date`
+ * use it. So each of these edits sets `updatedAt` (technical-design.md §4.5).
  *
- * Every party that edits a manifest does the same three things — spread what is
- * there, lay the changes over it, stamp `updatedAt` — and the runner after each
- * stage, the CLI's `rename` and its `change-date` each did all three for
- * themselves. An editor that forgot the third would leave a manifest claiming
- * nothing had happened to it (technical-design.md §4.5).
+ * The caller gives the instant. The runner gives the instant of the stage entry,
+ * so the manifest and its stage entry record the same moment.
  *
- * The instant is the caller's to give rather than read here, because the runner's
- * is not simply "now": it stamps the same instant it writes into the stage entry,
- * so the manifest and the entry inside it name one moment.
- *
- * @param args - The manifest, what to change about it, and when.
+ * @param args - The manifest, the changes and the instant.
  * @param args.workspaceRoot - Absolute path to the lecture workspace folder.
- * @param args.manifest - The manifest as it currently stands.
- * @param args.changes - The fields to lay over it.
- * @param args.updatedAt - The instant the change was made, ISO 8601.
+ * @param args.manifest - The manifest before the changes.
+ * @param args.changes - The fields to put on the manifest.
+ * @param args.updatedAt - The instant of the change, as ISO 8601.
  * @returns The manifest as written.
  */
 export async function patchManifest({

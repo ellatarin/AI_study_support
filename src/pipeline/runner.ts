@@ -56,50 +56,35 @@ import {
 import { assembleContext } from "./stage-context.js";
 
 /**
- * Constructor dependencies for {@link PipelineRunner}. Stages are injected so the
- * runner can be driven by stub stages under test and by the real stages in
- * production (technical-design.md §4.7).
+ * The dependencies of {@link PipelineRunner}. The stages are injected, so tests
+ * can drive the runner with stub stages (technical-design.md §4.7).
  */
 export type PipelineRunnerDeps = {
 	readonly config: PipelineConfig;
 	readonly sourceNormalisation: Readonly<SourceNormalisationStage>;
 	readonly lectureStages: readonly Readonly<PipelineStage<unknown, unknown>>[];
-	/** The run's logger; a stage failure is recorded on it with its stack (technical-design.md §8, §10). */
+	/** The debug logger. The runner records each stage failure on it, with the stack (technical-design.md §8, §10). */
 	readonly logger: Logger;
-	/**
-	 * Where the run says what it is doing, stage by stage, as it happens. Injected
-	 * like the logger and for the same reason: the runner reports the facts and the
-	 * CLI decides how — and whether — a user sees them (technical-design.md §10).
-	 */
+	/** Receives the events of a pipeline run as they occur. The CLI decides what the user sees (technical-design.md §10). */
 	readonly reporter: PipelineRunReporter;
 };
 
-// Inputs addressing a set of modules with optional run- or report-specific options.
-/**
- * The modules a call is scoped to — every public operation on the runner is
- * addressed by a set of module roots, whatever else it also takes.
- */
 type ModuleScope = { readonly moduleRoots: readonly string[] };
 
 type ModuleScopedArgs<TOptions> = ModuleScope & {
 	readonly options?: TOptions;
 };
 
-// Pipeline order comes from STAGE_IDS, the declared source of truth, rather than
-// from the key order of some lookup map — a map is keyed *by* stage, and reading
-// its keys as the sequence means a stage added to one map and not another
-// silently changes the order (technical-design.md §4.7).
-
 /**
- * Derives a filesystem-safe run identifier from a timestamp: the ISO 8601 string
- * with milliseconds removed and colons replaced by hyphens, e.g.
- * `2025-10-10T09-00-00Z` (technical-design.md §4.6).
+ * Makes a timestamp id from an instant: the ISO 8601 time without milliseconds,
+ * with hyphens in place of colons, such as `2025-10-10T09-00-00Z`. The id names a
+ * pipeline run and an invocation (technical-design.md §4.6, §4.7).
  *
- * @param args - The timestamp source.
- * @param args.instant - The moment the run began.
- * @returns The filesystem-safe run identifier.
+ * @param args - The instant.
+ * @param args.instant - The moment that the pipeline run or the invocation starts.
+ * @returns The timestamp id, which is safe in a file name.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- Date is a built-in with mutating methods, but is only read here
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- Date has methods that change it, but this function only reads it
 export function deriveTimestampId({ instant }: { readonly instant: Date }): string {
 	return instant
 		.toISOString()
@@ -108,16 +93,14 @@ export function deriveTimestampId({ instant }: { readonly instant: Date }): stri
 }
 
 /**
- * Decides a run's run type from the manifest state of its `--from-stage` target: a run
- * with no target is `normal`; re-running a stage whose output already exists
- * (`complete` or `skipped`) is an `experiment`; anything else — a failed,
- * pending, running, or absent target — is `error-recovery` (technical-design.md
- * §7).
+ * Decides the run type from the stage entry of the `--from-stage` target
+ * (technical-design.md §7, "Run Classification").
  *
- * @param args - What the run type is decided from.
- * @param args.options - The run options; `fromStage` decides the run type.
- * @param args.manifest - The manifest whose target-stage status is inspected.
- * @returns The run type.
+ * @param args - The pipeline run options and the manifest.
+ * @param args.options - The pipeline run options. Only `fromStage` is read.
+ * @param args.manifest - The manifest, as read before the reset.
+ * @returns `normal` when there is no target, `experiment` when the target's
+ *   stage entry is `complete` or `skipped`, and `error-recovery` otherwise.
  */
 function decideRunType({
 	options,
@@ -136,7 +119,6 @@ function decideRunType({
 	return "error-recovery";
 }
 
-/** A single module, addressed by the root directory that contains it. */
 type ModuleQuery = { readonly moduleRoot: string };
 
 async function listWorkspaces({ moduleRoot }: ModuleQuery): Promise<readonly string[]> {
@@ -145,29 +127,24 @@ async function listWorkspaces({ moduleRoot }: ModuleQuery): Promise<readonly str
 	return names.map((name) => join(processingRoot, name));
 }
 
-/** A lecture workspace paired with the manifest that identifies it. */
+/** A lecture workspace and its manifest. */
 type LocatedWorkspace = {
 	readonly workspaceRoot: string;
 	readonly manifest: Manifest;
 };
 
 /**
- * A module's lectures in date order: every folder under its
- * `Pipeline processing/` that holds a readable manifest, paired with it
- * (technical-design.md §4.7).
+ * Lists a module's lectures, earliest first. A lecture is a folder in
+ * `Pipeline processing/` that holds a readable manifest. Other folders are skipped
+ * (technical-design.md §4.5).
  *
- * A folder without one is passed over. Both `source-normalisation` and the runner scan those
- * folders speculatively, so anything else the user has left in there is not a
- * lecture rather than a fault (technical-design.md §4.5).
- *
- * The directory listing they come from is in whatever order the filesystem
- * chooses, and their names cannot stand in for the date either — `Lecture 10`
- * precedes `Lecture 2` lexicographically. So the order comes from the manifests,
- * whose `lectureDate` is ISO and therefore sorts chronologically as text.
+ * The order comes from each manifest's `lectureDate`. A directory listing has no
+ * fixed order, and base names do not sort by date: `Lecture 10` sorts before
+ * `Lecture 2`. An ISO date sorts by date as text.
  *
  * @param args - The module to list.
  * @param args.moduleRoot - Absolute path to the module directory.
- * @returns The module's lectures, earliest first.
+ * @returns The module's lectures with their manifests, earliest first.
  */
 async function listLecturesByDate({
 	moduleRoot,
@@ -179,7 +156,7 @@ async function listLecturesByDate({
 			located.push({ workspaceRoot, manifest });
 		}
 	}
-	// eslint-disable-next-line max-params -- Array.prototype.sort's comparator is spec-defined
+	// eslint-disable-next-line max-params -- the language specification sets the parameters of a sort comparator
 	located.sort((left, right) =>
 		left.manifest.lectureDate.localeCompare(right.manifest.lectureDate),
 	);
@@ -187,14 +164,12 @@ async function listLecturesByDate({
 }
 
 /**
- * Finds a module's lecture with the given date, by reading the manifests rather
- * than the folder names — the folder is named for the lecture's number and
- * title, both of which change, while the date is what identifies it.
- *
- * A module holds at most one lecture per date (`source-normalisation` guarantees it), so the
- * first match is the match. Shared by {@link resolveWorkspace} and
- * `resolveLecturesByDate`, which apply that same identity rule to different ends
+ * Finds the module's lecture with the given date. The manifests are read, not the
+ * base names, because a base name changes with the lecture number and title
  * (technical-design.md §4.7).
+ *
+ * `source-normalisation` keeps each date unique in a module, so the first match
+ * is the only match.
  *
  * @param args - The module to search and the date to match.
  * @param args.moduleRoot - Absolute path to the module directory.
@@ -213,21 +188,17 @@ async function findLectureByDate({
 }
 
 /**
- * Where a lecture's workspace is now, and what its manifest says.
+ * Finds the lecture's workspace and reads its manifest. When no manifest reads at
+ * the known path, the lecture is found again by its date. `transcript-structuring`
+ * moves the workspace when it replaces the lecture title (technical-design.md
+ * §4.7, "Following a relocated workspace").
  *
- * Normally the answer is the path already held, and this costs the one manifest
- * read the caller needed anyway. But `transcript-structuring` renames the workspace when it
- * replaces the lecture's title, which invalidates that path mid-run — so a path
- * with no readable manifest sends the runner to look the lecture up by date
- * instead, rather than obliging every stage to report a move only one of them
- * ever makes (technical-design.md §4.7).
- *
- * @param args - The lecture to locate.
- * @param args.workspaceRoot - The workspace path last known to the runner.
- * @param args.moduleRoot - Absolute path to the containing module.
- * @param args.lectureDate - The lecture's `YYYY-MM-DD` date, which does not change mid-run.
- * @returns The current workspace path and the manifest read from it.
- * @throws {Error} If the workspace is gone and no workspace in the module carries the date.
+ * @param args - The lecture to find.
+ * @param args.workspaceRoot - The workspace path that the runner knows.
+ * @param args.moduleRoot - Absolute path to the lecture's module.
+ * @param args.lectureDate - The lecture's `YYYY-MM-DD` date, which does not change during a pipeline run.
+ * @returns The workspace path now, and the manifest read from it.
+ * @throws {Error} If no manifest reads at the path and no workspace in the module has the date.
  */
 async function resolveWorkspace({
 	workspaceRoot,
@@ -272,22 +243,17 @@ function patchStages({
 }
 
 /**
- * Patches one stage's entry — and any lecture identity the stage decided — into
- * a manifest and writes it back, returning what it wrote so the caller can
- * rebuild the stage context without a second read (technical-design.md §4.5).
- *
- * A stage's entry and the identity it decided describe one moment in the run,
- * and this is the only place either is written, so the two land in a single
- * write (§4.2).
+ * Writes one stage entry, and any lecture identity that the stage decided, to the
+ * manifest in one write (technical-design.md §4.2, §4.7).
  *
  * @param args - The write inputs.
- * @param args.workspaceRoot - Absolute path to the workspace to write into.
- * @param args.manifest - The manifest to patch, already read by the caller.
- * @param args.stageId - The stage whose entry is being set.
- * @param args.entry - The entry to record for that stage.
- * @param args.identityChanges - The lecture-identity fields the stage decided; empty for every stage but `transcript-structuring`.
- * @param args.timestamp - The instant to stamp the manifest with.
- * @returns The manifest as written.
+ * @param args.workspaceRoot - Absolute path to the workspace.
+ * @param args.manifest - The manifest to change, which the caller already read.
+ * @param args.stageId - The stage whose entry is set.
+ * @param args.entry - The stage entry.
+ * @param args.identityChanges - The lecture identity that the stage decided. Only `transcript-structuring` decides one.
+ * @param args.timestamp - The instant to put in `updatedAt`.
+ * @returns The manifest as written, so the caller can rebuild the stage context without a second read.
  */
 function updateManifest({
 	workspaceRoot,
@@ -315,6 +281,9 @@ function updateManifest({
 	});
 }
 
+// A `skipped` entry keeps the time, settings, cost and files of the earlier
+// completion (technical-design.md §4.5). If the earlier stage entry is not a
+// completed one, the `skipped` entry records this instant and no cost or files.
 function skippedEntry({
 	context,
 	stageId,
@@ -343,9 +312,9 @@ function runLogCost(cost: StageCost | null): RunLogCost {
 }
 
 /**
- * What one stage did, and the context the stage after it runs against. The two
- * travel together because a stage may change the lecture the next one sees — its
- * title, and with it the workspace path (technical-design.md §4.7).
+ * One stage's run log entry, and the context for the next stage. A stage can
+ * change the lecture title and move the workspace, so the next context can differ
+ * (technical-design.md §4.7).
  */
 type StageOutcome = {
 	readonly entry: RunLogStageEntry;
@@ -353,41 +322,41 @@ type StageOutcome = {
 };
 
 /**
- * One stage's manifest transitions, and the context that follows from the last
- * of them (technical-design.md §4.7).
- *
- * Every transition patches the same stage of the same manifest at the same
- * instant; only what is recorded differs. Each locates the workspace first,
- * since the stage may have moved it, so the status writer is what tracks where
- * the lecture currently stands.
+ * Writes one stage's status changes to the manifest, and keeps the context from
+ * the last write (technical-design.md §4.7). Each write finds the workspace
+ * first, because the stage can move it.
  */
 type StageStatusWriter = {
-	/** The stage's output already exists: keep the earlier completion's record of it. */
+	/** The stage's output is on disk. The entry keeps the details of the earlier completion. */
 	skipped(): Promise<void>;
-	/** Written before the stage begins, so a crash leaves `running` behind for the next launch to treat as failed rather than as never attempted (§4.5). */
+	/**
+	 * The `running` entry is written before the stage starts. If the invocation
+	 * stops while the stage runs, `running` stays in the manifest, and the next
+	 * pipeline run does the stage again.
+	 */
 	running(): Promise<void>;
-	/** The stage returned: record what it produced, and any lecture identity it decided (§4.2). */
+	/** The stage returned. The entry records what it made, with any lecture identity that it decided (technical-design.md §4.2). */
 	complete(args: {
 		readonly configUsed: StageConfigUsed | null;
 		readonly result: StageResult<unknown>;
 	}): Promise<void>;
-	/** The stage threw: record the message the user will see. */
+	/** The stage threw. The entry records the error message that the user sees. */
 	failed(args: {
 		readonly configUsed: StageConfigUsed | null;
 		readonly error: string;
 	}): Promise<void>;
-	/** The context the next stage runs against, as of the last transition recorded. */
+	/** The context for the next stage, from the last write. */
 	context(): StageContext;
 };
 
 /**
- * Builds the {@link StageStatusWriter} for one stage of one lecture.
+ * Makes the {@link StageStatusWriter} for one stage of one lecture.
  *
- * @param args - The stage whose status is written, and its lecture.
- * @param args.stageId - The stage whose entry every write patches.
- * @param args.context - The context the stage was invoked with.
- * @param args.config - The validated pipeline configuration, for rebuilding the context.
- * @param args.timestamp - The instant every write is stamped with.
+ * @param args - The stage, its lecture and the instant.
+ * @param args.stageId - The stage whose entry each write sets.
+ * @param args.context - The context that the stage runs against.
+ * @param args.config - The pipeline configuration, to rebuild the context.
+ * @param args.timestamp - The instant that each write records.
  * @returns The status writer.
  */
 function createStageStatusWriter({
@@ -401,8 +370,8 @@ function createStageStatusWriter({
 	readonly config: PipelineConfig;
 	readonly timestamp: string;
 }): StageStatusWriter {
-	// The context the NEXT stage runs against. The stage itself is handed the one
-	// passed in, so it never sees its own entry change under it.
+	// The context for the NEXT stage. The stage that runs keeps the context it was
+	// given, so its own entry does not change during its run.
 	let nextContext = context;
 	const write = async ({
 		entry,
@@ -458,7 +427,7 @@ function createStageStatusWriter({
 	};
 }
 
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger carries mutable properties the rule cannot see past; it is only logged to here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger has mutable properties, and this function only writes log entries to it. CLAUDE.md allows a mutable type that a library requires
 async function runStage({
 	stage,
 	context,
@@ -496,8 +465,8 @@ async function runStage({
 		};
 	} catch (error: unknown) {
 		const message = errorMessage(error);
-		// The message alone reaches the user; the stack goes to the debug log, which
-		// is where an unanticipated failure is actually diagnosed (§8, §10).
+		// The user sees only the message. The stack goes to the debug log, where an
+		// unexpected failure is diagnosed (technical-design.md §8, §10).
 		createStageLogger({ logger, stageId }).error({ err: error }, "Stage failed");
 		reporter({ event: "stage-failed", stageId });
 		await statusWriter.failed({ configUsed, error: message });
@@ -515,18 +484,15 @@ async function runStage({
 }
 
 /**
- * Clears one stage's work for one lecture.
+ * Deletes one stage's output for one lecture. A directory in the workspace is
+ * deleted whole. In the module's `Final output/`, only the file with this
+ * lecture's date is deleted (technical-design.md §4.4, "Stage cleanup boundaries").
  *
- * A stage's workspace directories hold that lecture's work and nothing else, so
- * they go whole. `pdf-generation` deposits into the module's `Final output/`,
- * which holds every lecture in the module — there, only the file carrying this
- * lecture's date is taken (technical-design.md §4.7).
- *
- * @param args - The lecture, and the stage whose work to clear.
+ * @param args - The lecture and the stage.
  * @param args.workspaceRoot - Absolute path to the lecture workspace.
- * @param args.stageId - The stage whose work to clear.
- * @param args.lectureDate - The `YYYY-MM-DD` date this lecture's files carry.
- * @returns A promise that resolves once the stage's work is gone.
+ * @param args.stageId - The stage whose output to delete.
+ * @param args.lectureDate - The `YYYY-MM-DD` date in this lecture's file names.
+ * @returns A promise that resolves when the output is deleted.
  */
 async function deleteStageOutput({
 	workspaceRoot,
@@ -543,6 +509,7 @@ async function deleteStageOutput({
 	}
 }
 
+// The reset walks `STAGE_IDS`, from `fromStage` to the last stage.
 async function resetFromStage({
 	workspaceRoot,
 	manifest,
@@ -565,18 +532,14 @@ async function resetFromStage({
 }
 
 /**
- * Whether a stage lies past the run's `--to-stage` bound, and so should not be
- * reached.
+ * Tells if a stage comes after the `--to-stage` bound. The position in `STAGE_IDS`
+ * is compared, so a bound on a stage that is not built, or on
+ * `source-normalisation`, still stops the run (technical-design.md §4.7).
  *
- * Position is compared against the declared pipeline order rather than against
- * the stages the runner happens to hold, so a bound naming a stage that has no
- * implementation — or one that runs before every lecture stage — still stops the
- * run where it was told to (technical-design.md §4.7).
- *
- * @param args - The stage, and the bound it is measured against.
- * @param args.stageId - The stage the run is about to reach.
- * @param args.toStage - The last stage the run may perform, or `undefined` when the run is unbounded.
- * @returns `true` when the stage lies beyond the bound.
+ * @param args - The stage and the bound.
+ * @param args.stageId - The stage that the run comes to next.
+ * @param args.toStage - The last stage that the run does, or `undefined` when the run has no bound.
+ * @returns `true` when the stage comes after the bound.
  */
 function beyondBound({
 	stageId,
@@ -632,14 +595,10 @@ async function writeRunLog({
 }
 
 /**
- * Whether a parsed file from `Run logs/` is a run log.
- *
- * `Run logs/` is scanned rather than indexed, so whatever lands in it is offered to
- * this reader, and parsing as JSON is not the same as being a run. Shallow for
- * the reason the manifest reader's own guard is: it checks what every consumer reads —
- * the id a run is filed under, and the stage map the cost report iterates — and
- * no more, so a run log written by an older version is not discarded over a field it
- * predates.
+ * Tells if a parsed file from `Run logs/` is a run log (technical-design.md §4.6).
+ * It checks only `pipelineRunId` and the stage map, which every reader uses. So
+ * the cost report still reads a run log that an older version wrote without a
+ * newer field.
  *
  * @param value - The parsed file contents.
  * @returns `true` when the value is a run log.
@@ -664,11 +623,9 @@ async function readRunLogs(workspaceRoot: string): Promise<readonly RunLog[]> {
 }
 
 /**
- * Orchestrates the lecture-notes pipeline: normalising a module's sources,
- * running a single lecture's stages in order, running batches of lectures with
- * bounded concurrency, resolving lectures by date, and printing cost reports.
- * Stage implementations are injected via the constructor
- * (technical-design.md §4.7).
+ * Runs the pipeline. It normalises a module's sources, does a pipeline run on one
+ * lecture or a batch, finds lectures by date and builds cost reports. The stages
+ * are injected (technical-design.md §4.7).
  */
 export class PipelineRunner {
 	readonly #config: PipelineConfig;
@@ -678,13 +635,13 @@ export class PipelineRunner {
 	readonly #reporter: PipelineRunReporter;
 
 	/**
-	 * @param deps - The runner's injected configuration and stages.
-	 * @param deps.config - The validated pipeline configuration.
-	 * @param deps.sourceNormalisation - The per-module `source-normalisation` implementation.
-	 * @param deps.lectureStages - The per-lecture stages, in execution order.
-	 * @param deps.logger - The run's logger, which records each stage failure with its stack.
+	 * @param deps - The runner's configuration and stages.
+	 * @param deps.config - The pipeline configuration, after the config loader checks it.
+	 * @param deps.sourceNormalisation - The `source-normalisation` stage, which acts on a module.
+	 * @param deps.lectureStages - The lecture stages, in the order that they run.
+	 * @param deps.logger - The debug logger.
 	 */
-	// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- PipelineRunnerDeps carries pino's Logger, which has mutable properties the rule cannot see past; it is only logged to (CLAUDE.md permits dropping readonly where a library requires a mutable type)
+	// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- PipelineRunnerDeps holds pino's Logger, which has mutable properties, and the runner only writes log entries to it. CLAUDE.md allows a mutable type that a library requires
 	public constructor(deps: PipelineRunnerDeps) {
 		this.#config = deps.config;
 		this.#sourceNormalisation = deps.sourceNormalisation;
@@ -694,11 +651,11 @@ export class PipelineRunner {
 	}
 
 	/**
-	 * Runs `source-normalisation` for each module, creating or refreshing its lecture workspaces.
+	 * Runs `source-normalisation` on each module, one module at a time.
 	 *
 	 * @param args - The modules to normalise.
 	 * @param args.moduleRoots - Absolute paths to the module directories.
-	 * @returns A promise that resolves once every module is normalised.
+	 * @returns A promise that resolves when each module is normalised.
 	 */
 	public async normaliseSources({ moduleRoots }: ModuleScope): Promise<void> {
 		for (const moduleRoot of moduleRoots) {
@@ -707,20 +664,18 @@ export class PipelineRunner {
 	}
 
 	/**
-	 * Runs one lecture's stages in order against its workspace. Each stage is
-	 * skipped when its output already exists, run otherwise; a failure ends the
-	 * run (marking downstream stages `not-reached`) unless `onStageFailure` says
-	 * to continue. A `fromStage` option resets the nominated stage and everything
-	 * downstream first; a `toStage` option bounds the run at that stage, leaving
-	 * the stages after it `not-reached` and their manifest entries untouched, so a
-	 * bounded run is resumable rather than finished. Writes a timestamped run log
-	 * and returns the run summary
+	 * Does one pipeline run on one lecture, and writes its run log
 	 * (technical-design.md §4.7).
 	 *
-	 * @param args - The run inputs.
+	 * A stage whose output is on disk is skipped. A failed stage stops the run,
+	 * unless `onStageFailure` is `continue`. `fromStage` first resets that stage and
+	 * each later stage. `toStage` is the last stage that the run does. The stages
+	 * after a stop or a bound are `not-reached`, and their stage entries do not change.
+	 *
+	 * @param args - The lecture and the options.
 	 * @param args.workspaceRoot - Absolute path to the lecture workspace.
-	 * @param args.options - Options controlling the run; {@link DEFAULT_PIPELINE_RUN_OPTIONS} when omitted.
-	 * @returns The summary of the lecture run.
+	 * @param args.options - The pipeline run options. {@link DEFAULT_PIPELINE_RUN_OPTIONS} when not given.
+	 * @returns The run summary.
 	 */
 	public async runLecture({
 		workspaceRoot,
@@ -732,13 +687,13 @@ export class PipelineRunner {
 		const startedAt = new Date();
 		const pipelineRunId = deriveTimestampId({ instant: startedAt });
 		const startedIso = startedAt.toISOString();
-		// One invocation writes one debug log and may run many lectures, so the log
-		// cannot be named for a run. Naming each run inside it is what gets a reader
-		// from a run log back to the debug output that produced it (§10).
+		// One invocation writes one debug log and can do many pipeline runs. So the
+		// debug log records the id of each pipeline run. With the id, a reader can
+		// find the debug output of a run log (technical-design.md §10).
 		this.#logger.debug({ pipelineRunId, workspaceRoot }, "Pipeline run started");
 		const initialManifest = await readManifest({ workspaceRoot });
-		// After the manifest is read, because naming the lecture is the point of the
-		// notice, and before anything is reset: what follows belongs under this name.
+		// The notice names the lecture, so it comes after the manifest read. It comes
+		// before the reset, so the notices that follow appear under this lecture.
 		this.#reporter({ event: "lecture-started", manifest: initialManifest });
 		const runType = decideRunType({ options, manifest: initialManifest });
 		const manifest =
@@ -762,8 +717,9 @@ export class PipelineRunner {
 			runType,
 			outcomes,
 		});
-		// Both address the workspace where it ended up, not where it began, so a run
-		// that renamed its own workspace still leaves its log beside the work (§4.7).
+		// The run log and the summary use the workspace path at the end of the run.
+		// If a stage moved the workspace, the run log is still beside the work
+		// (technical-design.md §4.7).
 		await writeRunLog({ workspaceRoot: finalContext.workspaceRoot, runLog });
 		return {
 			workspaceRoot: finalContext.workspaceRoot,
@@ -788,9 +744,9 @@ export class PipelineRunner {
 		readonly context: StageContext;
 	}> {
 		const outcomes: PipelineStageOutcome[] = [];
-		// Carried from stage to stage rather than assembled once, so a stage that
-		// rewrites the lecture's identity hands the next stage the lecture as it now
-		// stands — including a workspace it has moved (§4.7).
+		// Each stage gives its context to the next. So when a stage changes the
+		// lecture identity or moves the workspace, the next stage sees the change
+		// (technical-design.md §4.7).
 		let current = context;
 		let halted = false;
 		for (const stage of this.#lectureStages) {
@@ -820,34 +776,29 @@ export class PipelineRunner {
 	}
 
 	/**
-	 * How many lectures a batch over these modules would cover.
+	 * Counts the lectures that a batch over these modules would run. The CLI gives
+	 * the count before a `--from-stage` batch deletes work (technical-design.md
+	 * §4.7, "Counting a batch's scope", NFR-4.3).
 	 *
-	 * Nothing the user types says how wide a batch is, so the CLI asks before it
-	 * warns them that a `--from-stage` batch is about to discard work — the
-	 * warning has to carry the number to be worth reading (§4.7, NFR-4.3). A
-	 * folder holding no manifest is not a lecture, and a module the pipeline has
-	 * never processed holds none, so neither is counted.
+	 * Normalise the sources first. A lecture whose source pair was just added has
+	 * no workspace until then, so it is not counted.
 	 *
-	 * Sources should be normalised first: a lecture whose video and slides were
-	 * only just added has no workspace until they are, and so would go uncounted.
-	 *
-	 * @param args - The scope to measure.
-	 * @param args.moduleRoots - Absolute paths to the modules a batch would cover.
-	 * @returns The number of lectures standing across those modules.
+	 * @param args - The modules.
+	 * @param args.moduleRoots - Absolute paths to the modules that a batch would run.
+	 * @returns The number of lectures in those modules.
 	 */
 	public async countLectures({ moduleRoots }: ModuleScope): Promise<number> {
 		return (await this.#collectLectures(moduleRoots)).length;
 	}
 
 	/**
-	 * Normalises every module then runs all their lectures with bounded
-	 * concurrency, aggregating each lecture's summary into a batch summary
-	 * (technical-design.md §4.7).
+	 * Normalises each module, then does a pipeline run on each of their lectures,
+	 * at most `concurrency` at once (technical-design.md §4.7, "Batch mode").
 	 *
-	 * @param args - The batch inputs.
+	 * @param args - The modules and the options.
 	 * @param args.moduleRoots - Absolute paths to the modules to run.
-	 * @param args.options - Options controlling the run; {@link DEFAULT_BATCH_OPTIONS} when omitted.
-	 * @returns The aggregated batch summary.
+	 * @param args.options - The batch options. {@link DEFAULT_BATCH_OPTIONS} when not given.
+	 * @returns The batch summary.
 	 */
 	public async runBatch({
 		moduleRoots,
@@ -867,7 +818,7 @@ export class PipelineRunner {
 		return { startedAt, endedAt, lectures, overallStatus: summariseLectures({ lectures }) };
 	}
 
-	// Modules in the order given, and each module's lectures in date order.
+	// The modules in the given order, and the lectures of each module in date order.
 	async #collectLectures(moduleRoots: readonly string[]): Promise<readonly LocatedWorkspace[]> {
 		const lectures: LocatedWorkspace[] = [];
 		for (const moduleRoot of moduleRoots) {
@@ -877,14 +828,14 @@ export class PipelineRunner {
 	}
 
 	/**
-	 * Finds every lecture across the given modules whose manifest records the
-	 * requested date, skipping modules without a `Pipeline processing/` directory
-	 * and workspaces without a manifest (technical-design.md §4.7).
+	 * Finds each lecture in the given modules whose manifest has the date. A module
+	 * with no `Pipeline processing/` folder, and a folder with no manifest, are
+	 * skipped (technical-design.md §4.7).
 	 *
-	 * @param args - The resolution inputs.
+	 * @param args - The modules and the date.
 	 * @param args.moduleRoots - Absolute paths to the modules to search.
 	 * @param args.lectureDate - The `YYYY-MM-DD` date to match.
-	 * @returns The matching lectures, each identifying its module and workspace.
+	 * @returns The matching lectures, each with its module and workspace.
 	 */
 	public async resolveLecturesByDate({
 		moduleRoots,
@@ -906,19 +857,18 @@ export class PipelineRunner {
 	}
 
 	/**
-	 * Renders the per-lecture cost report: all lectures across the given modules,
-	 * or only those matching `lectureDate` when supplied (technical-design.md §7).
+	 * Builds a cost report for each lecture in the modules, or only for the
+	 * lectures with `lectureDate` (technical-design.md §7).
 	 *
-	 * Handed back rather than printed. Showing text to a user is the CLI's job
-	 * (§8), and the CLI is given somewhere to write to, so a report that printed
-	 * itself would be the one output in the pipeline that could not be redirected,
-	 * captured, or read back by a test without intercepting the process's own
-	 * output stream.
+	 * The reports are returned, not printed. The CLI writes them to its injected
+	 * output, as it does with all other output (technical-design.md §4.7, §8). So
+	 * the output can go to a file, and a test can read it without a capture of the
+	 * process output.
 	 *
-	 * @param args - The report inputs.
+	 * @param args - The modules and the options.
 	 * @param args.moduleRoots - Absolute paths to the modules to report on.
-	 * @param args.options - Options narrowing the report, e.g. `lectureDate`.
-	 * @returns One rendered report per reported lecture, empty when none match.
+	 * @param args.options - The report options, such as `lectureDate`.
+	 * @returns One report for each lecture, or none when no lecture matches.
 	 */
 	public async costReport({
 		moduleRoots,
@@ -929,8 +879,8 @@ export class PipelineRunner {
 			options.lectureDate === undefined
 				? lectures
 				: lectures.filter((lecture) => lecture.manifest.lectureDate === options.lectureDate);
-		// One formatter for every lecture reported, so the rate is read once and no
-		// two blocks in the same output could show money differently.
+		// One money formatter for all the reports, so the exchange rate is read once
+		// and all the reports show money in the same way.
 		const formatMoney = createMoneyFormatter({ gbpPerUsd: this.#config.currency.gbpPerUsd });
 		const reports: string[] = [];
 		for (const { workspaceRoot, manifest } of reported) {

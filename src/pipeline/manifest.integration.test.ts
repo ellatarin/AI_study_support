@@ -31,16 +31,16 @@ describe("manifest I/O", () => {
 	}
 
 	describe("MANIFEST_VERSION", () => {
-		// The other assertion that must state its value: everything else in the
-		// repo now reads it from here, so nothing else could notice a change to it.
+		// This test states the value. All other code reads the constant, so only this
+		// test sees a change to the value.
 		it("should declare the schema version a manifest is stamped with when the format is read", () => {
 			expect(MANIFEST_VERSION).toBe("1");
 		});
 	});
 
 	describe("manifestPath", () => {
-		// The one assertion here that must state the filename: it is what the
-		// function under test is for, and deriving it would prove nothing.
+		// This test states the file name. The function exists to give that name, so a
+		// derived value would prove nothing.
 		it("should resolve manifest.json inside the workspace when given a workspace root", () => {
 			expect(manifestPath({ workspaceRoot })).toBe(join(workspaceRoot, "manifest.json"));
 		});
@@ -54,12 +54,11 @@ describe("manifest I/O", () => {
 			expect(await readManifest({ workspaceRoot })).toEqual(manifest);
 		});
 
-		// Every way this reader fails, and the type each one raises: which failure
-		// happened is the fact the type carries, so the table asserts it rather than
-		// leaving all three indistinguishable behind one message check. The last four
-		// are the values readManifestSafe skips over, asked of the reader that is
-		// meant to fail loudly: each parses, so nothing throws of its own accord, and
-		// each still is not a lecture's manifest.
+		// Each failure of this reader, and the error type that it throws. The type
+		// tells which failure occurred, so the table checks the type, not only the
+		// message. The rows with ManifestShapeError hold values that readManifestSafe
+		// ignores. Each is JSON, so the parse does not throw, but none describes a
+		// lecture.
 		it.each([
 			{ scenario: "is missing", content: null, expected: ManifestUnreadableError },
 			{ scenario: "is not JSON", content: corruptJson, expected: ManifestNotJsonError },
@@ -71,9 +70,9 @@ describe("manifest I/O", () => {
 				content: JSON.stringify({ ...makeManifest(), lectureDate: undefined }),
 				expected: ManifestShapeError,
 			},
-			// A date nothing can read is as useless as no date at all: every caller
-			// matches a lecture by this field, so one written another way silently
-			// matches nothing rather than failing where it was introduced.
+			// A date that the pipeline cannot read is no better than no date. Each caller
+			// finds a lecture by this field, so a date in another form would match
+			// nothing and cause no error.
 			{
 				scenario: "dates the lecture in a form the pipeline cannot read",
 				content: JSON.stringify({ ...makeManifest(), lectureDate: "10/10/2025" }),
@@ -110,8 +109,8 @@ describe("manifest I/O", () => {
 		it.each([
 			{ scenario: "the manifest is missing", content: null },
 			{ scenario: "the manifest is malformed", content: corruptJson },
-			// Parsing succeeds for all of these, so nothing throws — and a folder
-			// holding one of them is still not a lecture.
+			// Each of these is JSON, so the parse does not throw. A folder that holds one
+			// is still not a lecture.
 			{ scenario: "the manifest holds an empty object", content: "{}" },
 			{ scenario: "the manifest holds an array", content: "[]" },
 			{ scenario: "the manifest holds null", content: "null" },
@@ -124,9 +123,9 @@ describe("manifest I/O", () => {
 				scenario: "the manifest carries no stages",
 				content: JSON.stringify({ ...makeManifest(), stages: undefined }),
 			},
-			// The consequence of the two readers sharing one idea of a manifest: a
-			// scan passes over a folder whose date it cannot read, rather than
-			// admitting a lecture that would then match nothing.
+			// The two readers use one check. So a list of the workspaces skips a
+			// folder with a date that the pipeline cannot read. Such a lecture would
+			// match nothing.
 			{
 				scenario: "the manifest dates the lecture in a form the pipeline cannot read",
 				content: JSON.stringify({ ...makeManifest(), lectureDate: "10/10/2025" }),
@@ -164,8 +163,8 @@ describe("manifest I/O", () => {
 		});
 
 		it("should create the workspace directory when it does not yet exist", async () => {
-			// Nested as deeply as a real workspace, so the test exercises the depth
-			// writeManifest actually has to create.
+			// The path is as deep as a real workspace, so the test covers all the
+			// folders that writeManifest must make.
 			const nested = workspaceRootFor({
 				moduleRoot: workspaceRoot,
 				baseName: testLecture.baseName,

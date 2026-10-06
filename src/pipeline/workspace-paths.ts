@@ -1,21 +1,14 @@
 /**
- * Turning a path into a place on disk it is safe to touch.
- *
- * Two doors, because a path arrives from one of two kinds of place and the
- * difference decides what has to be proved about it. Segments the code supplies
- * are trusted and are simply joined onto the workspace. An entry read back out
- * of a lecture's manifest, or named by a model, is not: a corrupt or hand-edited
- * manifest must never be able to delete, overwrite or observe a file outside the
- * module tree, so such an entry is resolved, its symlinks collapsed, and its
- * final location proved to be inside `moduleRoot` before anything acts on it
+ * The resolvers of paths in the module tree, one for each kind of input
  * (technical-design.md §4.4).
  *
- * This lives apart from the filesystem conveniences in `src/utils/files.ts`
- * because it differs from them in kind rather than in subject. Listing a
- * directory or writing a file without leaving half of one are conveniences: the
- * cost of a mistake is an inconvenience. This is the one place in the pipeline
- * where the cost of a mistake is a path escaping the tree the user pointed us
- * at, so it is worth being able to read, review and change on its own.
+ * - {@link workspacePath} joins path segments that the code supplies. It checks nothing.
+ * - {@link resolveManifestPath} resolves an entry from a manifest. A corrupt or
+ *   hand-edited manifest must not reach a file outside the module tree. So the
+ *   path is resolved, its symbolic links are followed, and it must be in `moduleRoot`.
+ *
+ * This module is apart from `src/utils/files.ts`, because a mistake here lets a
+ * path escape the module tree (technical-design.md §4.4).
  */
 
 import { realpath } from "node:fs/promises";
@@ -23,25 +16,19 @@ import { basename, dirname, isAbsolute, join, relative, resolve } from "node:pat
 import { NamedError } from "../utils/errors.js";
 
 /**
- * Thrown when a path derived from the run manifest or a stage's `filesWritten`
- * resolves outside the module tree. The manifest is untrusted input; this error
- * signals a corrupt or hand-edited manifest attempting to reach beyond
- * `moduleRoot` (technical-design.md §4.4).
+ * A path from a manifest resolves outside the module tree. The manifest is corrupt
+ * or was edited by hand (technical-design.md §4.4).
  */
 export class ManifestPathError extends NamedError {}
 
 /**
- * Resolves an absolute path inside a workspace from trusted path segments.
+ * Joins trusted path segments onto a workspace root. It checks no boundary, so it
+ * is only for segments that the code supplies. A path from a manifest or a model
+ * reply must use {@link resolveManifestPath} (technical-design.md §4.4).
  *
- * The trusted door. Used for internal, code-supplied paths — a stage's own
- * output directories, say — and it performs no boundary check because the
- * segments never originate from the manifest or from a model's reply. Anything
- * that does must go through {@link resolveManifestPath} instead
- * (technical-design.md §4.3).
- *
- * @param args - The workspace root and the path segments to append to it.
+ * @param args - The workspace root and the segments.
  * @param args.workspaceRoot - Absolute path to the workspace root.
- * @param args.segments - Trusted path segments to append, in order.
+ * @param args.segments - Trusted path segments, in order.
  * @returns The joined absolute path.
  * @example
  * workspacePath({ workspaceRoot, segments: ["Audio", "audio.m4a"] });
@@ -57,9 +44,9 @@ export function workspacePath({
 }
 
 /**
- * Whether a filesystem error carries the `ENOENT` (not found) code.
+ * Tells if a file system error has the `ENOENT` (not found) code.
  *
- * @param error - The caught error to inspect.
+ * @param error - The caught error.
  * @returns `true` when the error is a Node `ENOENT` error.
  */
 function isNotFoundError(error: unknown): boolean {
@@ -67,12 +54,12 @@ function isNotFoundError(error: unknown): boolean {
 }
 
 /**
- * Resolves an absolute, symlink-collapsed path for a candidate, whether or not
- * it exists yet. Existing paths resolve directly; a not-yet-created file
- * resolves its (existing) parent directory and re-appends the basename.
+ * Resolves an absolute path with its symbolic links followed, also when the path
+ * does not exist yet. For a file that does not exist, the parent folder is
+ * resolved and the file name is added again.
  *
  * @param candidate - The absolute path to resolve.
- * @returns The symlink-collapsed absolute path.
+ * @returns The absolute path, with symbolic links followed.
  */
 async function realpathResolved(candidate: string): Promise<string> {
 	try {
@@ -87,12 +74,12 @@ async function realpathResolved(candidate: string): Promise<string> {
 }
 
 /**
- * Whether `target` is `ancestor` itself or nested beneath it.
+ * Tells if `target` is `ancestor` or is in it.
  *
- * @param args - The two absolute paths to compare.
- * @param args.ancestor - The directory expected to contain `target`.
- * @param args.target - The path being tested.
- * @returns `true` when `target` is within `ancestor`.
+ * @param args - The two absolute paths.
+ * @param args.ancestor - The folder that must hold `target`.
+ * @param args.target - The path to test.
+ * @returns `true` when `target` is in `ancestor`.
  */
 function isDescendant({
 	ancestor,
@@ -105,28 +92,24 @@ function isDescendant({
 	return rel === "" || (!rel.startsWith("..") && !isAbsolute(rel));
 }
 
-/**
- * One untrusted manifest path together with the roots that bound it. Named so
- * that callers forwarding a path to {@link resolveManifestPath} state the shape
- * once rather than restating all three fields.
- */
+/** One untrusted path from a manifest, with the roots that limit it (technical-design.md §4.4). */
 export type ManifestPathQuery = {
-	/** The workspace root the entry is relative to. */
+	/** The workspace root. The entry is relative to it. */
 	readonly workspaceRoot: string;
-	/** The module root that bounds all pipeline output. */
+	/** The module root. The resolved path must be in it. */
 	readonly moduleRoot: string;
-	/** The untrusted `filesWritten` entry to resolve. */
+	/** The untrusted `filesWritten` entry. */
 	readonly entry: string;
 };
 
 /**
- * The untrusted door: resolves a manifest-derived path to an absolute location
- * and asserts it stays within `moduleRoot`, collapsing symlinks first so a
- * symlinked escape is caught (technical-design.md §4.4).
+ * Resolves a path from a manifest to an absolute path, and makes sure that it is
+ * in `moduleRoot`. Symbolic links are followed first, so a link that points out
+ * of the tree is found (technical-design.md §4.4).
  *
- * @param query - The path to resolve and the roots that bound it, as {@link ManifestPathQuery} describes them.
- * @returns The absolute, symlink-collapsed path, guaranteed under `moduleRoot`.
- * @throws {@link ManifestPathError} when the entry resolves outside `moduleRoot`.
+ * @param query - The path and the roots that limit it.
+ * @returns The absolute path, with symbolic links followed. It is always in `moduleRoot`.
+ * @throws {@link ManifestPathError} When the entry resolves outside `moduleRoot`.
  */
 export async function resolveManifestPath(query: ManifestPathQuery): Promise<string> {
 	const candidate = resolve(query.workspaceRoot, query.entry);

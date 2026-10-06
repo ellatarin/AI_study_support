@@ -1,23 +1,16 @@
 /**
- * Finding, moving and removing the files a lecture's identity is spread across.
+ * The code that finds, renames and removes the lecture files
+ * (technical-design.md §4.7, "Moving a lecture's files").
  *
- * A lecture is four things on disk — its source video, its source slides, its
- * pipeline workspace, and its finished PDF — and they share one base name.
- * Whenever that name changes they all have to move together, which happens in
- * two unrelated places: the CLI's `change-date` command (§4.7) and
- * `transcript-structuring`, when the LLM replaces the lecturer's provisional
- * title (§5, `transcript-structuring`). The sweep
- * lives here so those two cannot drift apart.
+ * A lecture has four things on disk with one base name: its video recording, its
+ * slide deck, its notes PDF and its workspace. The CLI's `change-date` and
+ * `transcript-structuring` both move all four to a new base name, so the code that
+ * moves them is here once. It is in `src/pipeline/`, because a stage must not
+ * import from the CLI.
  *
- * Three of those four sit in directories shared with every other lecture in the
- * module, so anything acting on one lecture there addresses it by the date its
- * filename carries rather than by sweeping the directory. That is what
- * {@link findLectureFileByDate} and {@link removeLectureFileByDate} are for.
- *
- * It sits under `src/pipeline/` rather than beside the CLI commands that first
- * needed it because a stage may not import from the CLI layer.
- *
- * See technical-design.md §4.7 ("Moving a lecture's files").
+ * The video recording, the slide deck and the notes PDF are in folders
+ * that all the lectures of the module share. So a lecture's file in such a folder
+ * is found by the date in its name.
  */
 
 import { rename, rm } from "node:fs/promises";
@@ -28,20 +21,18 @@ import { lectureBaseName } from "../utils/naming.js";
 import { type ModuleDirs, sharedLectureFileDirs } from "./layout.js";
 
 /**
- * The canonical base name for a lecture sitting on an ISO date.
+ * Gives a lecture's base name from the `YYYY-MM-DD` date that the manifest stores.
+ * {@link lectureBaseName} takes a `Date`, so the conversion from the `YYYY-MM-DD`
+ * text to a `Date` is here once. The date
+ * is read as **local** midnight, as {@link formatDateISO} writes it. Otherwise the
+ * base name is one day early west of Greenwich (technical-design.md §4.7).
  *
- * Both callers that rename a lecture — `change-date` and `transcript-structuring` — hold the date
- * as the `YYYY-MM-DD` string the manifest stores, while {@link lectureBaseName}
- * takes a `Date`. Converting it in one place keeps the trap in one place too:
- * the string must be read as **local** midnight, matching how dates are read out
- * of filenames, or the base name lands a day early west of Greenwich.
- *
- * @param args - The lecture's identity.
- * @param args.lectureNumber - The assigned lecture number.
- * @param args.title - The title to name it by; may be empty.
+ * @param args - The lecture identity.
+ * @param args.lectureNumber - The lecture number.
+ * @param args.title - The title for the name. It can be empty.
  * @param args.lectureDate - The lecture's `YYYY-MM-DD` date.
- * @returns The base name its files and workspace share.
- * @throws Error when the title has no characters usable in a filename.
+ * @returns The base name of the lecture files and the workspace.
+ * @throws Error When the title has no characters that are safe in a file name.
  */
 export function baseNameForLecture({
 	lectureNumber,
@@ -59,35 +50,25 @@ export function baseNameForLecture({
 	});
 }
 
-/**
- * A directory, and the lecture whose file is wanted in it.
- *
- * Looking one up and removing it ask the same question of the same pair, so the
- * pair is named rather than written at both.
- */
 type LectureFileQuery = {
-	/** The directory to scan; a directory that does not exist holds none. */
+	/** The folder to search. A folder that does not exist holds no file. */
 	readonly dir: string;
-	/** The `YYYY-MM-DD` date the lecture's file carries. */
+	/** The `YYYY-MM-DD` date in the name of the lecture's file. */
 	readonly lectureDate: string;
 };
 
 /**
- * The single file in a directory whose name carries the given lecture date.
+ * Finds the file in a folder whose name has the lecture date. The date, not the
+ * name, identifies a lecture (technical-design.md §3.2).
  *
- * Sources are addressed by date rather than by name because a lecture's name
- * changes with its number and title, while its date is what identifies it
- * (technical-design.md §3.2).
+ * The **last** date in the name is compared. A title can hold a date of its own,
+ * and {@link lectureBaseName} puts the title before the lecture date
+ * (technical-design.md §4.7).
  *
- * The **last** date in the name is the one compared. These directories hold
- * names `source-normalisation` has normalised, and {@link lectureBaseName} puts the title
- * before the date — so a title naming a date of its own (a cohort, a study, a
- * historical event) precedes the lecture's own date and the last one is it.
- *
- * @param args - Where to look and what date to look for.
- * @param args.dir - The directory to scan; a directory that does not exist holds none.
+ * @param args - The folder and the date.
+ * @param args.dir - The folder to search. A folder that does not exist holds no file.
  * @param args.lectureDate - The `YYYY-MM-DD` date to match.
- * @returns The matching file name, or `null` when the directory holds none.
+ * @returns The file name, or `null` when no file has the date.
  */
 export async function findLectureFileByDate({
 	dir,
@@ -103,24 +84,16 @@ export async function findLectureFileByDate({
 }
 
 /**
- * Removes the one file in a directory carrying a lecture's date, where there is
- * one.
+ * Removes the file in a folder whose name has the lecture date, if there is one.
+ * All the lectures of the module share the video recording, slide deck and final
+ * output folders, so such a folder is never cleared whole. `delete` calls this
+ * function on each of the three folders. A `--from-stage` reset at or before
+ * `pdf-generation` calls this function on `Final output/` (technical-design.md §4.7).
  *
- * Every directory a lecture's own files sit in — its sources and the module's
- * `Final output/` — is shared with every other lecture in the module, so
- * clearing one lecture out of them can never be a sweep of the directory.
- * Removal goes by date for the same reason lookup does: the date is what
- * identifies a lecture, while its name changes with its number and title
- * (technical-design.md §3.2).
- *
- * Two callers need exactly this: `delete` clears a lecture out of all three
- * directories, and a `--from-stage` re-run at or before `pdf-generation` clears that
- * lecture's PDF out of `Final output/`.
- *
- * @param args - Where to look and whose file to remove.
- * @param args.dir - The directory to clear the file from.
- * @param args.lectureDate - The `YYYY-MM-DD` date identifying it.
- * @returns A promise that resolves once the file is gone, or at once when the directory holds none.
+ * @param args - The folder and the date.
+ * @param args.dir - The folder to remove the file from.
+ * @param args.lectureDate - The `YYYY-MM-DD` date of the lecture.
+ * @returns A promise that resolves when the file is removed, or at once when no file has the date.
  */
 export async function removeLectureFileByDate({
 	dir,
@@ -134,13 +107,13 @@ export async function removeLectureFileByDate({
 }
 
 /**
- * Renames a file to a new base name, keeping whatever extension it carried.
+ * Renames a file to a new base name, and keeps its extension.
  *
- * @param args - The file to rename and its new base name.
- * @param args.dir - The directory holding the file.
- * @param args.name - The file's current name, or `null` when there is nothing to rename.
- * @param args.baseName - The new name, without extension.
- * @returns A promise that resolves once the file is renamed.
+ * @param args - The file and its new base name.
+ * @param args.dir - The folder that holds the file.
+ * @param args.name - The file's name, or `null` when there is no file to rename.
+ * @param args.baseName - The new name, without the extension.
+ * @returns A promise that resolves when the file is renamed.
  */
 async function renameToBase({
 	dir,
@@ -158,20 +131,19 @@ async function renameToBase({
 }
 
 /**
- * Moves a whole lecture onto a new base name: its source video, its source
- * slides, its `Final output/` PDF, and its workspace folder.
+ * Moves a lecture to a new base name: its video recording, its slide deck, its
+ * notes PDF and its workspace folder (technical-design.md §4.7).
  *
- * Anything absent is skipped rather than treated as an error, since a lecture
- * legitimately has no PDF until `pdf-generation` has run. A caller that needs a file to
- * be there checks for it first and says so in its own terms — `change-date`
- * refuses to move a lecture whose source pair is missing.
+ * A missing file is skipped, because a lecture has no PDF until `pdf-generation`
+ * runs. A caller that needs a file checks for it first, as `change-date` does for
+ * the source pair.
  *
- * @param args - The lecture to move and where to move it.
- * @param args.dirs - The module's directories.
+ * @param args - The lecture and its new base name.
+ * @param args.dirs - The module's folders.
  * @param args.workspaceRoot - Absolute path to the lecture's workspace, before the move.
- * @param args.lectureDate - The `YYYY-MM-DD` date its files are found by.
- * @param args.baseName - The base name every one of them is moved onto.
- * @returns The workspace's new absolute path.
+ * @param args.lectureDate - The `YYYY-MM-DD` date in the names of the lecture files.
+ * @param args.baseName - The new base name.
+ * @returns The new absolute path of the workspace.
  */
 export async function renameLectureFiles({
 	dirs,

@@ -54,46 +54,45 @@ import { pendingStages, readManifest, writeManifest } from "./manifest.js";
 import { PipelineRunner } from "./runner.js";
 import { isStageComplete } from "./stages/pipeline-stage.js";
 
-// The runner never parses a base name — it is handed the path — so
-// this suite uses short synthetic names rather than {@link testLecture}'s, which
-// would only make the assertions harder to read.
+// The runner never parses a base name. It gets the path. So this suite uses short
+// made-up names, not the names of {@link testLecture}, to keep the assertions
+// easy to read.
 const LECTURE_BASE_NAME = "L1";
 const EMPTY_BASE_NAME = "L-empty";
 
-// The instant a stage finished on some run before the one under test. Not an ISO
-// timestamp on purpose: nothing parses it, and the cases that seed it are
-// asserting that the runner carried the *prior* completion forward rather than
-// stamping its own, which a value that could plausibly be either would hide.
+// The instant that a stage completed in an earlier pipeline run. It is not an ISO
+// time on purpose. Nothing parses it, and the tests that use it check that the
+// runner keeps the earlier completion and does not record its own instant. A
+// value that could be either instant would hide a failure.
 const BEFORE_THIS_RUN = "earlier";
 
-/** The base name a lecture moves to once `transcript-structuring` has replaced its title. */
+/** The base name of a lecture after `transcript-structuring` replaces its title. */
 const RENAMED_BASE_NAME = `${LECTURE_BASE_NAME} - ${aiDerivedLecture.title}`;
 
-// What `transcript-structuring` decides when it replaces the lecture's title: the new title, the
-// record of what the model derived, and the base name the files move onto. Two
-// suites need it — one with the rename, one without — so it is stated here.
+// The identity that `transcript-structuring` decides when it replaces the
+// lecture title: the new title, the AI-derived title and the new base name. Two
+// suites use it, one with the rename and one without.
 const DECIDED_IDENTITY: LectureIdentityChanges = {
 	lectureTitle: aiDerivedLecture.title,
 	aiDerivedTitle: aiDerivedLecture.title,
 	baseName: RENAMED_BASE_NAME,
 };
 
-// The runner is driven through a single configured stage throughout, so the
-// stage entry is fixed here rather than restated at each construction site.
+// Each test uses one configured stage, so its configuration is set here once.
 const RUNNER_CONFIG: PipelineConfig = makeConfig({
 	stages: { "audio-extraction": { modelId: "openrouter/model-a" } },
 });
 
-// What a stub stage returns when the test is about whether the stage ran at all
-// rather than about what it produced: no output, no cost, no files.
+// The result of a stub stage when the test checks only if the stage ran: no
+// output, no cost and no files.
 const PRODUCED_NOTHING: StageResult<unknown> = {
 	output: undefined,
 	cost: null,
 	filesWritten: [],
 };
 
-// The message a stub audio-extraction stage throws. Five tests state it: four to
-// make the stage fail, and one to assert the message reaches the run summary.
+// The message that a stub audio-extraction stage throws. The tests that make the
+// stage fail use it, and one test checks that the run summary shows it.
 const AUDIO_EXTRACTION_FAILURE = "audio extraction failed";
 
 type StubConfig = {
@@ -116,9 +115,9 @@ function makeStubStage(config: StubConfig): PipelineStage<unknown, unknown> {
 }
 
 /**
- * A stage `run` that produces nothing, as a spy — so a test can assert whether
- * the runner reached the stage at all. {@link makeStubStage}'s own default does
- * the same work, but a test asserting on the call needs the spy in its hand.
+ * A stage `run` that makes nothing, as a spy, so a test can check if the runner
+ * called the stage. The default of {@link makeStubStage} does the same, but a test
+ * needs the spy to check the call.
  *
  * @returns The spy.
  */
@@ -140,10 +139,10 @@ function failingAudioStage(): PipelineStage<unknown, unknown> {
 }
 
 /**
- * The cost of a stage that made one API call, priced only by what it charged:
- * the token counts are not what any test stating a cost here is about.
+ * The cost of a stage that made one model call. The token counts are zero,
+ * because no test here checks them.
  *
- * @param costUsd - What the call cost.
+ * @param costUsd - The cost of the call.
  * @returns The stage cost.
  */
 function oneCallCosting(costUsd: number): StageCost {
@@ -151,14 +150,13 @@ function oneCallCosting(costUsd: number): StageCost {
 }
 
 /**
- * Drives a stub stage through the **real** idempotency check.
+ * Gives a stub stage the **real** `isStageComplete` check. These tests check what
+ * the second and third pipeline runs do with a stage that the first completed.
+ * `isStageComplete` decides what those pipeline runs do with the stage, and a copy
+ * of that check here could become different.
  *
- * A stand-in written here could agree with `isStageComplete` today and drift
- * from it tomorrow, and the behaviour these tests are about — what a second and
- * third run do with a stage the first one finished — lives entirely inside it.
- *
- * @param stageId - The stage the stub implements.
- * @returns The `isComplete` a stub stage is built with.
+ * @param stageId - The stage of the stub.
+ * @returns The `isComplete` for the stub stage.
  */
 function realIsComplete(stageId: StageId): (context: StageContext) => Promise<boolean> {
 	return (context) => isStageComplete({ context, stageId });
@@ -171,16 +169,14 @@ async function readRunLog(workspaceRoot: string, pipelineRunId: string): Promise
 }
 
 /**
- * A matcher for one stage outcome — the stage, and the part of its run-log entry
- * the test actually cares about. Named for what it is rather than what it
- * describes: it never holds an outcome, only the shape one has to have.
+ * A matcher for one stage outcome: the stage, and the run log entry fields that
+ * the test checks. The name says that it is a matcher. It holds no outcome, only
+ * the shape of one. The entry fields are beside `stageId`, not under a key of
+ * their own, so one outcome reads as one description.
  *
- * The entry's fields sit beside `stageId` rather than nested under a key of
- * their own, because one outcome is one description and reads as one.
- *
- * @param args - What the outcome must look like: the stage, then the run-log entry fields that must be present.
- * @param args.stageId - The stage the outcome belongs to.
- * @returns The matcher, for use inside an `expect(...).toEqual`.
+ * @param args - The stage, then the run log entry fields that must be present.
+ * @param args.stageId - The stage of the outcome.
+ * @returns The matcher, for use in an `expect(...).toEqual`.
  */
 function outcomeMatching({
 	stageId,
@@ -190,9 +186,8 @@ function outcomeMatching({
 }
 
 /**
- * Three stages spread across the pipeline order, so the middle one has a stage
- * either side of it. Every case about where a run starts or stops drives the
- * runner through exactly these.
+ * Three stages far apart in the pipeline order, so the middle one has a stage on
+ * each side. The tests of where a pipeline run starts or ends use these stages.
  */
 const SPANNING_STAGES = [
 	"audio-extraction",
@@ -201,15 +196,13 @@ const SPANNING_STAGES = [
 ] as const satisfies readonly StageId[];
 
 /**
- * The outcomes of a run over {@link SPANNING_STAGES} that never reached the
- * third: the first two are accounted for and the last is `not-reached`.
+ * The outcomes of a pipeline run over {@link SPANNING_STAGES} that did not reach
+ * the third stage. The first two stages ran, and the third is `not-reached`. A
+ * failed second stage halts a run in this way, and so does a `--to-stage` bound.
+ * The parameter tells the two apart.
  *
- * Two runs end this way and differ only in why — one halted at a failed second
- * stage, the other was bounded by `--to-stage` — which is what the parameter
- * says.
- *
- * @param secondStageStatus - How the second stage ended.
- * @returns The three outcomes, for use inside an `expect(...).toEqual`.
+ * @param secondStageStatus - The status of the second stage.
+ * @returns The three outcomes, for use in an `expect(...).toEqual`.
  */
 function outcomesStoppingAfterTheSecond(
 	secondStageStatus: "complete" | "failed",
@@ -227,14 +220,12 @@ describe("PipelineRunner integration", () => {
 	let moduleRoot: string;
 	let workspaceRoot: string;
 	const logged = useStubLogger();
-	// Source normalisation does nothing in this suite — the runner is the subject,
-	// not the stage. It is a spy rather than a bare no-op so that the one test
-	// asserting the batch normalises its module can read the call off it, instead
-	// of standing up a second runner to inject a spy of its own.
+	// Source normalisation does nothing in this suite, because the subject is the
+	// runner. It is a spy, so the test that checks that a batch normalises its
+	// module can read the call. That test then needs no second runner.
 	let normaliseModule: Mock<() => Promise<undefined>>;
-	// What the runner told the user about as it went. Kept as the events
-	// themselves rather than as rendered lines: the wording is the CLI's, and
-	// this suite is asking what the runner said happened, not how it reads.
+	// The events that the runner reported. The suite keeps the events, not lines of
+	// text, because the CLI owns the wording.
 	let events: PipelineRunEvent[];
 
 	beforeEach(async () => {
@@ -274,12 +265,11 @@ describe("PipelineRunner integration", () => {
 	}
 
 	/**
-	 * An audio-extraction stage that writes its output where the runner expects it
-	 * and records the given cost — a stage that succeeded and charged for it, which
-	 * is what every case about a completed stage needs. It decides whether it is
-	 * done through the real check, so a later run over the same lecture skips it.
+	 * An audio-extraction stage that writes its output file and records the given
+	 * cost. It uses the real `isStageComplete` check, so a later pipeline run on the
+	 * same lecture skips it.
 	 *
-	 * @param cost - What the stage records for its work.
+	 * @param cost - The cost that the stage records.
 	 * @returns The stage.
 	 */
 	function audioStageCosting(cost: StageCost | null): PipelineStage<unknown, unknown> {
@@ -305,9 +295,9 @@ describe("PipelineRunner integration", () => {
 		});
 
 		it("should execute the stage once when the same lecture is run three times", async () => {
-			// Three, not two: the second run is what rewrites the stage's entry from
-			// `complete` to `skipped`, and the third is what reads that entry back
-			// and decides whether to pay for the work again.
+			// Three, not two. The second pipeline run changes the stage entry from
+			// `complete` to `skipped`. The third reads that entry and decides if it
+			// pays for the work again.
 			const stage = audioStageCosting(null);
 			const run = vi.spyOn(stage, "run");
 			const runner = makeRunner([stage]);
@@ -327,8 +317,8 @@ describe("PipelineRunner integration", () => {
 			let runner: PipelineRunner;
 			let firstRunEntry: StageEntry | undefined;
 
-			// The first run completes the stage; the next two skip it. The third is
-			// the first to find a `skipped` entry where the stage's record should be.
+			// The first pipeline run completes the stage, and the next two skip it. The
+			// third is the first to find a `skipped` stage entry.
 			beforeEach(async () => {
 				stage = audioStageCosting(oneCallCosting(0.5));
 				runner = makeRunner([stage]);
@@ -380,8 +370,8 @@ describe("PipelineRunner integration", () => {
 				});
 			});
 
-			// The case that motivated reporting at all: a re-run of a finished lecture
-			// did every one of its stages no work and said nothing about any of them.
+			// A pipeline run on a lecture whose stages are all completed stages skips
+			// each stage. The user must still see a notice for each skipped stage.
 			it("should announce nothing as started when every stage is skipped", async () => {
 				const skipping = makeStubStage({
 					stageId: "audio-extraction",
@@ -456,8 +446,8 @@ describe("PipelineRunner integration", () => {
 
 			const summary = await makeRunner([stage]).runLecture({ workspaceRoot });
 
-			// The stage's own entry is the only record of what it cost, so an
-			// unresolved lookup has to survive there for the report to show `n/a`.
+			// The stage entry is the only record of the stage's cost. So the unknown
+			// cost must stay there, for the cost report to show `n/a`.
 			const manifest = await readManifest({ workspaceRoot });
 			const entry = manifest.stages["audio-extraction"];
 			expect(entry?.status === "complete" && entry.cost).toEqual({
@@ -467,8 +457,8 @@ describe("PipelineRunner integration", () => {
 				costUsd: null,
 				unknownCostReason,
 			});
-			// The run log records the unresolved cost but not why: `RunLogCost` is the
-			// amount and the call count, and the reason stays on the stage entry.
+			// The run log records the unknown cost, but not the reason. `RunLogCost`
+			// holds only the cost and the call count. The reason stays in the stage entry.
 			const runLog = await readRunLog(workspaceRoot, summary.pipelineRunId);
 			expect(runLog.stages["audio-extraction"]).toMatchObject({
 				cost: { costUsd: null, callCount: 1 },
@@ -569,8 +559,8 @@ describe("PipelineRunner integration", () => {
 			const summary = await makeRunner([stage]).runLecture({ workspaceRoot });
 
 			expect(run).not.toHaveBeenCalled();
-			// A lecture whose work already stands is finished, not half-finished: the
-			// commonest run of all is the one that repeats nothing.
+			// A pipeline run that repeats no work is a success. It is the most usual
+			// pipeline run.
 			expect(summary.overallStatus).toBe("success");
 			expect(summary.stageOutcomes).toEqual([
 				{ stageId: "audio-extraction", entry: { action: "skipped" } },
@@ -624,9 +614,9 @@ describe("PipelineRunner integration", () => {
 			const stage = makeStubStage({ stageId: "audio-extraction" });
 			const runner = makeRunner([stage]);
 
-			// Two acts, each needing the clock somewhere the previous one has already
-			// been: the second instant cannot be set before the first run, so this
-			// interleaving is what the test is, not a lapse in its arrangement.
+			// Two acts, each at its own clock time. The second time cannot be set
+			// before the first pipeline run, so the acts and the clock settings
+			// alternate on purpose.
 			vi.setSystemTime(new Date("2025-10-10T09:00:00Z"));
 			const first = await runner.runLecture({ workspaceRoot });
 			vi.setSystemTime(new Date("2025-10-10T09:00:05Z"));
@@ -638,10 +628,9 @@ describe("PipelineRunner integration", () => {
 			expect(files).toContain(`${second.pipelineRunId}.json`);
 		});
 
-		// One invocation writes one debug log and may run many lectures, so the
-		// debug log cannot be named for a run. Naming each run inside it is what
-		// lets a reader get from a run log back to the debug output that produced
-		// it, and it has to be written before the first stage does anything.
+		// One invocation writes one debug log and can do many pipeline runs. So the
+		// debug log records the id of each pipeline run, before the first stage
+		// starts. With the id, a reader can find the debug output of a run log.
 		it("should record which run it is in the debug log when a run starts", async () => {
 			const summary = await makeRunner([makeStubStage({ stageId: "audio-extraction" })]).runLecture(
 				{ workspaceRoot },
@@ -657,18 +646,18 @@ describe("PipelineRunner integration", () => {
 	});
 
 	describe("runLecture with --from-stage", () => {
-		/** The workspace directory a stage's output lives in; only a stage writing one. */
+		/** The workspace folder of a stage's output file. The function is only for a stage that writes one file. */
 		function stageDir(stageId: StageWithOutputFile): string {
 			return dirname(stageOutputPath({ workspaceRoot, stageId }));
 		}
 
 		/**
-		 * Fills every directory a stage owns, as a finished run would have left
-		 * them, and returns those directories. Used for the stages that write a set
-		 * rather than one named file, which {@link writeStageOutput} cannot serve.
+		 * Puts a file in each folder of a stage, as a completed stage would, and
+		 * returns the folders. It is for a stage that writes a set of files, which
+		 * {@link seedStageOutput} cannot make.
 		 *
-		 * @param stageId - The stage whose directories to fill.
-		 * @returns The absolute paths that were filled.
+		 * @param stageId - The stage whose folders to fill.
+		 * @returns The absolute paths of the folders.
 		 */
 		async function fillStageDirectories(stageId: StageId): Promise<readonly string[]> {
 			const paths = stageDirectoryPaths({ workspaceRoot, stageId });
@@ -680,10 +669,10 @@ describe("PipelineRunner integration", () => {
 		}
 
 		/**
-		 * Whether each path is still on disk, in the order given.
+		 * Tells if each path is on disk, in the given order.
 		 *
 		 * @param paths - The absolute paths to test.
-		 * @returns One boolean per path.
+		 * @returns One boolean for each path.
 		 */
 		function whichExist(paths: readonly string[]): Promise<readonly boolean[]> {
 			return Promise.all(paths.map((path) => pathExists(path)));
@@ -717,11 +706,10 @@ describe("PipelineRunner integration", () => {
 		}
 
 		/**
-		 * Restarts the lecture from the nominated stage, leaving every other option
-		 * at its default: this suite is about what `fromStage` resets, and says
-		 * nothing about how a failure would be handled.
+		 * Does a pipeline run from the given stage. The other options keep their
+		 * defaults, because this suite tests only what `fromStage` resets.
 		 *
-		 * @param fromStage - The stage to run again, along with everything after it.
+		 * @param fromStage - The stage to run again, with each stage after it.
 		 * @returns The run summary.
 		 */
 		function runFromStage(fromStage: StageId): Promise<PipelineRunSummary> {
@@ -753,8 +741,8 @@ describe("PipelineRunner integration", () => {
 			});
 		});
 
-		// qa-loop owns two directories, so what each --from-stage clears is asserted
-		// as the survival of both.
+		// qa-loop has two folders, so each case checks if each of the two folders
+		// stays.
 		const clearingCases: readonly {
 			readonly clears: string;
 			readonly fromStage: StageId;
@@ -783,9 +771,8 @@ describe("PipelineRunner integration", () => {
 			expect(await whichExist(qaDirs)).toStrictEqual(qaSurvives);
 		});
 
-		// `Final output/` belongs to the module, not to this lecture: every lecture's
-		// finished PDF sits in it. A reset that cleared the directory would take all
-		// of them, so it takes the one file carrying this lecture's date.
+		// `Final output/` holds the PDF of each lecture in the module. So a reset
+		// deletes only the file with this lecture's date.
 		describe("the module's shared Final output", () => {
 			let finalOutput: string;
 
@@ -797,8 +784,8 @@ describe("PipelineRunner integration", () => {
 				}
 			});
 
-			// Every --from-stage at or before `pdf-generation` sweeps through it, so each is a
-			// route to the same directory.
+			// Each --from-stage at or before `pdf-generation` resets `pdf-generation`, so
+			// each of these cases deletes from the same folder.
 			it.each([
 				"pdf-generation",
 				"qa-loop",
@@ -818,10 +805,10 @@ describe("PipelineRunner integration", () => {
 		});
 
 		/**
-		 * The three stages, each spying on its own `run`, so a test can say which
-		 * of them the bound let through.
+		 * The three stages, each with a spy on its `run`, so a test can tell which
+		 * stages ran before the bound.
 		 *
-		 * @returns The stages in pipeline order, and each stage's spy by id.
+		 * @returns The stages in pipeline order, and the spy of each stage by its id.
 		 */
 		function spyingStages(): {
 			readonly stages: readonly PipelineStage<unknown, unknown>[];
@@ -837,11 +824,11 @@ describe("PipelineRunner integration", () => {
 		}
 
 		/**
-		 * Runs the lecture bounded at the nominated stage, leaving every other
-		 * option at its default.
+		 * Does a pipeline run with a bound at the given stage. The other options keep
+		 * their defaults.
 		 *
-		 * @param toStage - The last stage the run should perform.
-		 * @returns The run summary, and the stages' spies.
+		 * @param toStage - The last stage that the run does.
+		 * @returns The run summary, and the spies of the stages.
 		 */
 		async function runToStage(toStage: StageId): Promise<{
 			readonly summary: PipelineRunSummary;
@@ -867,8 +854,8 @@ describe("PipelineRunner integration", () => {
 		it("should leave the stages beyond the bound pending when --to-stage is given", async () => {
 			await runToStage("transcription");
 
-			// Nothing was reset and nothing was deleted, so the lecture is resumable:
-			// an ordinary run afterwards picks up exactly where this one stopped.
+			// The run reset nothing and deleted nothing. So the next ordinary pipeline
+			// run continues from the bound.
 			const manifest = await readManifest({ workspaceRoot });
 			expect(manifest.stages.synthesis?.status).toBe("pending");
 		});
@@ -887,9 +874,9 @@ describe("PipelineRunner integration", () => {
 		});
 
 		it("should run no lecture stage when --to-stage names a stage before them all", async () => {
-			// The bound is a position in the pipeline, not a name matched against the
-			// stages the runner holds: `source-normalisation` precedes every lecture stage, so a run
-			// bounded there performs none of them.
+			// The bound is a position in the pipeline order. It is not matched against
+			// the stages that the runner has. `source-normalisation` comes before each
+			// lecture stage, so a run with that bound does no lecture stage.
 			const { summary, runs } = await runToStage("source-normalisation");
 
 			for (const stageId of SPANNING_STAGES) {
@@ -906,7 +893,7 @@ describe("PipelineRunner integration", () => {
 		let moduleB: string;
 		let moduleC: string;
 
-		/** A manifest recording the given lecture's identity, as a scan reads it back. */
+		/** A manifest with the identity of the given lecture. */
 		function manifestFor(lecture: TestLecture): Manifest {
 			return makeManifest({
 				lectureNumber: lecture.number,
@@ -925,15 +912,15 @@ describe("PipelineRunner integration", () => {
 					manifest,
 				});
 			};
-			// Three lectures, differing in the ways these tests turn on: the test
-			// lecture, another in the same module on its own date, and a third in a
-			// second module sharing the test lecture's date.
+			// Three lectures. The second is in the same module as the test lecture,
+			// with a different date. The third is in a second module, with the same
+			// date as the test lecture.
 			await write(moduleA, LECTURE_BASE_NAME, manifestFor(testLecture));
 			await write(moduleA, "L2", manifestFor(otherLecture));
 			await write(moduleB, "L3", manifestFor(sameDateLecture));
-			// Two things the scan has to walk past: a workspace folder holding no
-			// manifest, and a module directory the pipeline has never processed, so
-			// it has no `Pipeline processing/` at all.
+			// The runner must skip two things when it lists the workspaces. One is
+			// a workspace folder with no manifest. The other is a module folder that the
+			// pipeline never processed, with no `Pipeline processing/` folder.
 			await mkdir(workspaceRootFor({ moduleRoot: moduleA, baseName: EMPTY_BASE_NAME }), {
 				recursive: true,
 			});
@@ -994,9 +981,9 @@ describe("PipelineRunner integration", () => {
 			}
 		});
 
-		// One count covers both things a scan has to walk past: the folder holding no
-		// manifest is not a lecture, and the module with no processing directory has
-		// none. Three lectures stand across these modules; only they are counted.
+		// One count covers both things that the runner skips. The folder with no
+		// manifest is not a lecture, and the module with no processing folder has no
+		// lectures. These modules hold three lectures, and the count is three.
 		it("should count the lectures a batch would cover when the modules are measured", async () => {
 			const count = await resolver().countLectures({ moduleRoots: [moduleA, moduleB, moduleC] });
 
@@ -1049,8 +1036,8 @@ describe("PipelineRunner integration", () => {
 			expect(summary.overallStatus).toBe("success");
 		});
 
-		// Without this a batch's stage notices run together: the same stage names
-		// repeat once per lecture with nothing saying which lecture they belong to.
+		// Without a notice for each lecture, the stage notices of a batch repeat the
+		// same stage names, and nothing tells which lecture each belongs to.
 		it("should name each lecture in turn when the batch runs several", async () => {
 			await makeRunner([batchStage()]).runBatch({ moduleRoots: [moduleA] });
 
@@ -1058,9 +1045,8 @@ describe("PipelineRunner integration", () => {
 		});
 
 		it("should run the lectures in date order when the batch starts", async () => {
-			// Names deliberately at odds with date order in both directions a listing
-			// might take them: "Lecture 10" sorts before "Lecture 2" lexicographically,
-			// and neither matches the order the dates put them in.
+			// The names do not sort in date order, as text or by number. "Lecture 10"
+			// sorts before "Lecture 2" as text, and neither order is the date order.
 			const byDate = [
 				{ baseName: "Lecture 10 - Autumn - 2025-09-01", lectureDate: "2025-09-01" },
 				{ baseName: "Lecture 2 - Winter - 2025-11-20", lectureDate: "2025-11-20" },
@@ -1144,8 +1130,8 @@ describe("PipelineRunner integration", () => {
 			const runsDir = runLogsDirPath({ workspaceRoot });
 			await mkdir(runsDir, { recursive: true });
 			await writeFile(join(runsDir, `${runLog.pipelineRunId}.json`), JSON.stringify(runLog));
-			// A non-file entry in runs/, a corrupt run log, and a workspace without a
-			// manifest — all skipped by the reader.
+			// A folder in `Run logs/`, a corrupt run log and a workspace with no
+			// manifest. The cost report ignores each of them.
 			await mkdir(join(runsDir, "nested"), { recursive: true });
 			await writeFile(join(runsDir, "corrupt.json"), corruptJson);
 			await mkdir(workspaceRootFor({ moduleRoot, baseName: EMPTY_BASE_NAME }), { recursive: true });
@@ -1167,8 +1153,8 @@ describe("PipelineRunner integration", () => {
 			expect(reports.join("")).toContain("Current pipeline cost");
 		});
 
-		// runs/ is scanned, not indexed, so anything that lands in it is offered to
-		// the reader. Parsing is not the same as being a run log.
+		// The runner reads each file in `Run logs/`, because there is no index. A
+		// file that parses as JSON is not always a run log.
 		it("should ignore a file in runs/ when it parses but is not a run log", async () => {
 			await writeFile(
 				join(runLogsDirPath({ workspaceRoot }), "debug.json"),
@@ -1190,16 +1176,15 @@ describe("PipelineRunner integration", () => {
 		});
 	});
 
-	// A run's run type is read off the run log, which is where the cost
-	// report picks it up (§7), so the run type is exercised the way the
-	// report meets it rather than through the runner's internals.
+	// The cost report reads the run type from the run log (technical-design.md §7).
+	// So these tests read it from the run log too, not from the runner's private
+	// functions.
 	describe("deciding the run type", () => {
 		const TARGET_STAGE = "transcription" as const satisfies StageId;
 
 		/**
-		 * The mirror of {@link stagesWith}: the stage map of a manifest that has no
-		 * record of one stage at all — every other stage pending, and that stage's
-		 * key absent rather than present with a status.
+		 * The opposite of {@link stagesWith}: a stage map with no key for one stage.
+		 * Each other stage is `pending`.
 		 *
 		 * @param stageId - The stage to leave out of the map.
 		 * @returns The stage map.
@@ -1211,13 +1196,13 @@ describe("PipelineRunner integration", () => {
 		}
 
 		/**
-		 * Runs a lecture whose target stage is in the given state, and reports how
-		 * the run log records the run type.
+		 * Does a pipeline run on a lecture whose target stage has the given entry,
+		 * and gives the run type from the run log.
 		 *
-		 * @param args - The lecture's starting state and how the run was invoked.
-		 * @param args.entry - The target stage's stage entry, or `null` to leave it out of the manifest entirely.
-		 * @param args.fromStage - The `--from-stage` target, or `null` for a plain run.
-		 * @returns The run type recorded in the run log.
+		 * @param args - The target's stage entry and the `--from-stage` target.
+		 * @param args.entry - The target's stage entry, or `null` for no entry in the manifest.
+		 * @param args.fromStage - The `--from-stage` target, or `null` for an ordinary pipeline run.
+		 * @returns The run type in the run log.
 		 */
 		async function runTypeOf({
 			entry,
@@ -1244,9 +1229,8 @@ describe("PipelineRunner integration", () => {
 			expect(await runTypeOf({ entry: null, fromStage: null })).toBe<RunType>("normal");
 		});
 
-		// Re-running a stage whose output already exists is an experiment; anything
-		// else the target could be — failed, pending, or never recorded — is a
-		// recovery from something that went wrong.
+		// A new run of a completed stage is an experiment. Any other target is a
+		// recovery from an error (technical-design.md §7, "Run Classification").
 		it.each([
 			{ state: "complete", entry: completedEntry({ status: "complete" }), expected: "experiment" },
 			{ state: "skipped", entry: completedEntry({ status: "skipped" }), expected: "experiment" },
@@ -1288,7 +1272,7 @@ describe("PipelineRunner integration", () => {
 			await writeManifest({ workspaceRoot, manifest: makeManifest() });
 		});
 
-		/** A stage that decides the given identity and writes nothing itself. */
+		/** A stage that decides the given identity and writes no file. */
 		function makeDecidingStage(
 			identityChanges: LectureIdentityChanges,
 		): PipelineStage<unknown, unknown> {
@@ -1333,14 +1317,14 @@ describe("PipelineRunner integration", () => {
 	describe("following a relocated workspace", () => {
 		let renamedWorkspaceRoot: string;
 
-		// Which stage does the renaming does not matter, so long as it runs before
-		// the downstream one below. Both the pipeline and the assertions name this.
+		// Any stage can do the rename, if it runs before the later stage below. The
+		// stage list and the assertions both use this name.
 		const RENAMING_STAGE = "audio-extraction";
 
 		/**
-		 * A stage that does what `transcript-structuring` does when it replaces a lecture's title:
-		 * moves the workspace out from under the runner and reports the identity it
-		 * decided, leaving the manifest write to the runner.
+		 * A stage that acts as `transcript-structuring` does when it replaces the
+		 * lecture title. It moves the workspace and returns the identity that it
+		 * decided. The runner writes the manifest.
 		 */
 		function makeRenamingStage(): PipelineStage<unknown, unknown> {
 			return makeStubStage({
@@ -1357,7 +1341,7 @@ describe("PipelineRunner integration", () => {
 			});
 		}
 
-		/** Runs a pipeline that is nothing but the renaming stage. */
+		/** Does a pipeline run that has only the renaming stage. */
 		function runRenamingWorkspace(): Promise<PipelineRunSummary> {
 			return makeRunner([makeRenamingStage()]).runLecture({ workspaceRoot });
 		}
@@ -1374,8 +1358,8 @@ describe("PipelineRunner integration", () => {
 			expect(manifest.stages[RENAMING_STAGE]?.status).toBe("complete");
 		});
 
-		// Both the title and the path are read off the rebuilt context, and both are
-		// expected values only the enclosing beforeEach knows — hence the thunks.
+		// The test reads the title and the path from the rebuilt context. Only the
+		// beforeEach knows the expected values, so the rows hold functions.
 		it.each([
 			{
 				what: "new lectureTitle",

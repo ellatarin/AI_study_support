@@ -4,20 +4,17 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { testModuleName, useTempDir } from "./fixtures.js";
 import { ManifestPathError, resolveManifestPath, workspacePath } from "./workspace-paths.js";
 
-// Any absolute path would do: workspacePath only joins onto the root it is
-// given, so the value is scaffolding rather than the subject.
+// Any absolute path will do. workspacePath only joins segments onto the root,
+// so the value is not the subject of the test.
 const TRUSTED_ROOT = "/workspace";
 
-// The separators below are not scaffolding. Each expected path is written out
-// rather than built by calling `join`, which is what workspacePath itself
-// calls: expectations derived the same way the function derives its answer
-// assert `join` against `join`, so they state nothing about what a workspace
-// path looks like and accept whatever the platform's `join` happens to return.
-// Writing them out fixes this suite to POSIX separators, which is the form the
-// rest of the codebase reads and writes. On Windows `join` returns `\` and
-// every row here would fail — deliberately, because that is a real difference
-// and not one to pass over in silence. This project targets macOS; if it ever
-// has to run on Windows, these expectations are what needs rewriting.
+// The separators below are part of the test. Each expected path is written out.
+// workspacePath calls `join`, so an expected path made with `join` would only
+// test `join` against `join`. The written paths fix this suite to POSIX
+// separators, which the rest of the code reads and writes. On Windows, `join`
+// gives `\`, so each row fails. That failure is intentional, because the
+// path separator on Windows is really different. This project targets macOS. If it must run on Windows,
+// rewrite these expected paths.
 describe("workspacePath", () => {
 	it.each([
 		{ segments: ["Audio", "audio.m4a"], expected: `${TRUSTED_ROOT}/Audio/audio.m4a` },
@@ -49,9 +46,9 @@ describe("resolveManifestPath", () => {
 		workspaceRoot = join(moduleRoot, "Lecture 1");
 		outsideDir = join(tempDir(), "outside");
 
-		// resolveManifestPath is layout-agnostic — it only decides whether an
-		// entry stays under moduleRoot — so the directories below are sample
-		// paths rather than the layout's, and are deliberately written out.
+		// resolveManifestPath does not use the layout. It only tests if an entry
+		// stays in moduleRoot. So the folders below are sample paths, written out
+		// on purpose, and not the paths of the layout.
 		await mkdir(join(workspaceRoot, "Audio"), { recursive: true });
 		await mkdir(join(moduleRoot, "Final output"), { recursive: true });
 		await mkdir(outsideDir, { recursive: true });

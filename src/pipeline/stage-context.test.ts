@@ -14,8 +14,8 @@ describe("assembleContext", () => {
 
 		const context = assembleContext({ workspaceRoot, manifest, config });
 
-		// Against the module root the workspace was built under, not against the
-		// same "../.." arithmetic assembleContext itself does.
+		// The expected value is the module root that the workspace was built in. It
+		// does not repeat the "../.." step that assembleContext uses.
 		expect(context.moduleRoot).toBe(moduleRoot);
 		expect(context.workspaceRoot).toBe(workspaceRoot);
 		expect(context.config).toBe(config);

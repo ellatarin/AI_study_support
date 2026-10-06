@@ -17,11 +17,11 @@ describe("lecture files", () => {
 	let dirs: ModuleDirs;
 	let workspaceRoot: string;
 
-	/** Where the lecture's workspace lands once it has been renamed. */
+	/** The workspace path after the rename. */
 	const renamedWorkspaceRoot = (): string =>
 		workspaceRootFor({ moduleRoot, baseName: aiDerivedLecture.baseName });
 
-	/** Moves the lecture laid out in `beforeEach` onto the AI-derived name. */
+	/** Moves the lecture from `beforeEach` to the base name of the AI-derived title. */
 	const renameToNewBase = (): Promise<string> =>
 		renameLectureFiles({
 			dirs,
@@ -61,8 +61,9 @@ describe("lecture files", () => {
 		});
 
 		it("should return the file when its title carries a date of its own", async () => {
-			// A base name puts the title before the date, and titles come from
-			// lecturer filenames or `transcript-structuring`'s LLM — so one can name a date too.
+			// A base name puts the title before the date. A title comes from the
+			// lecturer's file name or from the model in `transcript-structuring`, so it
+			// can hold a date too.
 			const lectureDate = "2025-12-05";
 			const named = `Lecture 4 - Cohort 01-02-2019 Results - ${lectureDate}.mp4`;
 			await writeFile(join(dirs.videoRecording, named), "");

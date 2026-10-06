@@ -1,26 +1,24 @@
 /**
- * Building the {@link StageContext} a stage runs against.
- *
- * This is the only way one is made. The runner assembles a fresh context at
- * every stage transition, and the test fixtures assemble one for each stage
- * suite; both go through here, so a stage under test is handed a context put
- * together exactly as a real run puts it together (technical-design.md §4.7).
+ * The builder of the {@link StageContext} that a stage runs against. The runner
+ * builds one at the start of a pipeline run and after each write to the manifest.
+ * The test fixtures build one for each stage suite. Both use this module, so a
+ * stage under test gets a context made as in a real pipeline run
+ * (technical-design.md §4.7).
  */
 
 import type { Manifest, PipelineConfig, StageContext } from "../types/pipeline.js";
 import { moduleRootOf } from "./layout.js";
 
 /**
- * Builds the immutable {@link StageContext} for a lecture run from its manifest,
- * deriving `moduleRoot` two levels up from the workspace
- * (`moduleRoot/Pipeline processing/<folder>`) and freezing the result so no stage
- * can mutate shared run state (technical-design.md §4.7).
+ * Builds a frozen {@link StageContext} from a lecture's manifest, so no stage can
+ * change it. `moduleRoot` is two folders above the workspace
+ * (`moduleRoot/Pipeline processing/<folder>`, technical-design.md §4.7).
  *
- * @param args - The context inputs.
+ * @param args - The workspace, the manifest and the configuration.
  * @param args.workspaceRoot - Absolute path to the lecture workspace folder.
- * @param args.manifest - The lecture's manifest, the source of lecture identity.
- * @param args.config - The validated pipeline configuration.
- * @returns The frozen stage context shared by every stage in the run.
+ * @param args.manifest - The lecture's manifest, which gives the lecture identity.
+ * @param args.config - The pipeline configuration, after the config loader checks it.
+ * @returns The frozen stage context.
  */
 export function assembleContext({
 	workspaceRoot,
