@@ -884,7 +884,7 @@ Tests for the stage (mock `callModel`; real temp directory, set up by the `useSt
 - `should record beside the topics the chosen run, its support and the deciding rule when the stage completes`
 - `should fail naming the file, without calling the model, when the retitled subtopics $problem` — `test.each` across missing, not JSON, not a list of subtopics
 - `should fail without writing the topics when a run's third send is still unusable`
-- `should save each grouping run as the model replied when the run completes`
+- `should save each grouping run with each topic's title, groupedBecause and first subtopic when the run completes`
 
 Tests of the stage's sending (fake timers; stubbed OpenRouter rather than a mocked `callModel`, so a refusal is really resent):
 - `should start no send until the gap has passed since the stage's previous send when sendGapSeconds is set` — first sends, resent bad replies and resent refusals alike

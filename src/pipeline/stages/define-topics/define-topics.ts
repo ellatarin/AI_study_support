@@ -35,7 +35,7 @@ const STAGE_ID = "define-topics";
 /** One topic as the `g23` prompt asks for it: its title and reason, and the subtopic it starts at. */
 type ReplyTopic = TitledReplyPart & { readonly firstSubtopicId: number };
 
-/** A grouping run as the model replied: its topics, in order. Saved as it came. */
+/** A grouping run as the model replied: its topics, in order. */
 type GroupingReply = { readonly topics: readonly ReplyTopic[] };
 
 /** The reply's shape in words, for the failure a user reads when a reply is not one. */
@@ -52,13 +52,47 @@ function isReplyTopic(value: unknown): value is ReplyTopic {
 }
 
 /**
+ * Whether a value in a saved run is one topic.
+ *
+ * @param value - One entry of the saved run's list.
+ * @returns `true` when it carries a string title and reason and a numeric first subtopic.
+ */
+function isTopic(value: unknown): value is Topic {
+	return (
+		isRecord(value) &&
+		typeof value.title === "string" &&
+		typeof value.groupedBecause === "string" &&
+		typeof value.firstSubtopicId === "number"
+	);
+}
+
+/**
+ * Whether a value is an object that holds a list of topics. A reply and a saved
+ * run have this shape. Their topics use different keys.
+ *
+ * @param args - The value, and the check for one topic.
+ * @param args.value - The parsed reply or saved run.
+ * @param args.isOneTopic - Whether one entry of the list is a topic.
+ * @returns `true` when the value holds a list whose every entry is a topic.
+ */
+function holdsTopics({
+	value,
+	isOneTopic,
+}: {
+	readonly value: unknown;
+	readonly isOneTopic: (entry: unknown) => boolean;
+}): boolean {
+	return isRecord(value) && Array.isArray(value.topics) && value.topics.every(isOneTopic);
+}
+
+/**
  * Whether a parsed reply is the documented list of topics.
  *
  * @param value - The parsed reply.
  * @returns `true` when it holds a list whose every entry is a topic.
  */
 function isGroupingReply(value: unknown): value is GroupingReply {
-	return isRecord(value) && Array.isArray(value.topics) && value.topics.every(isReplyTopic);
+	return holdsTopics({ value, isOneTopic: isReplyTopic });
 }
 
 /**
@@ -70,7 +104,7 @@ function isGroupingReply(value: unknown): value is GroupingReply {
  * @param args - The reply, and how many subtopics it groups.
  * @param args.reply - The parsed reply.
  * @param args.subtopicCount - How many subtopics the lecture has.
- * @returns The reply unchanged, or why it could not be used.
+ * @returns The run that the reply gives, or why the reply could not be used.
  */
 function checkGrouping({
 	reply,
@@ -78,7 +112,7 @@ function checkGrouping({
 }: {
 	readonly reply: GroupingReply;
 	readonly subtopicCount: number;
-}): { readonly reply: GroupingReply } | { readonly failure: string } {
+}): { readonly reply: GroupingRun } | { readonly failure: string } {
 	if (reply.topics.length === 0) {
 		return { failure: "The model's reply holds no topics" };
 	}
@@ -96,7 +130,17 @@ function checkGrouping({
 			failure: `The model's reply does not start its topics at subtopic 1 and then each later than the last, up to subtopic ${subtopicCount}`,
 		};
 	}
-	return { reply };
+	return { reply: asGroupingRun(reply) };
+}
+
+/**
+ * Whether a value parsed from a run file is a saved grouping run.
+ *
+ * @param value - A value parsed from a run file.
+ * @returns `true` when it holds a list whose every entry is a topic.
+ */
+function isGroupingRun(value: unknown): value is GroupingRun {
+	return holdsTopics({ value, isOneTopic: isTopic });
 }
 
 /**
@@ -105,16 +149,16 @@ function checkGrouping({
  * @param value - A value parsed from a run file.
  * @returns The run, or `null` when the value is not one.
  */
-function readGroupingRun(value: unknown): GroupingReply | null {
-	return isGroupingReply(value) ? value : null;
+function readGroupingRun(value: unknown): GroupingRun | null {
+	return isGroupingRun(value) ? value : null;
 }
 
 /** What the stage hands on: the chosen run's topics, in order. */
 type DefineTopicsOutput = { readonly topics: readonly Topic[] };
 
 /**
- * Changes a grouping run, as the model replied, into the run that the chooser
- * reads. The reply's `label` becomes `title`. The code uses this name because it
+ * Changes a grouping run, as the model replied, into the run that is saved and
+ * that the chooser reads. The reply's `label` becomes `title`. The code uses this name because it
  * is easier to read. The prompt keeps its own word.
  *
  * @param reply - A grouping run as the model replied.
@@ -149,7 +193,7 @@ async function defineTopics(
 	const { context } = args;
 	const panel = await makeGroupingRuns(args);
 	const { topics, choice } = chooseGrouping({
-		runs: panel.output.runs.map(asGroupingRun),
+		runs: panel.output.runs,
 		bar: context.config.grouping.bar,
 	});
 	const written = await writeStageOutputWithStageRecord({
@@ -178,7 +222,7 @@ async function defineTopics(
 function makeGroupingRuns(
 	// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger and the OpenAI client carry mutable properties the rule cannot see past; both are only read from here (CLAUDE.md permits dropping readonly where a library requires a mutable type)
 	args: ModelStageRunArgs<TranscriptAndDivision>,
-): Promise<StageResult<{ readonly runs: readonly GroupingReply[] }>> {
+): Promise<StageResult<{ readonly runs: readonly GroupingRun[] }>> {
 	const { input, context, logger, client, sendGate } = args;
 	const messages = buildGroupingMessages({
 		subtopics: input.subtopics.map((subtopic) => ({

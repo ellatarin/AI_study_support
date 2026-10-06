@@ -10,6 +10,7 @@ import { describe, expect, it, vi } from "vitest";
 import { pathExists } from "../../../utils/files.js";
 import {
 	captureError,
+	firstSavedRun,
 	readJsonFile,
 	savedRunPath,
 	sentUserMessage,
@@ -59,6 +60,15 @@ const SUBJECT_TOPIC = {
 
 /** A grouping reply putting each subtopic of {@link transcriptDivision} in a topic of its own. */
 const GOOD_REPLY = replyOf(OPENING_TOPIC, SUBJECT_TOPIC);
+
+/** The topics of {@link GOOD_REPLY} as the stage saves and writes them: each `label` is a `title`. */
+const GOOD_TOPICS = [OPENING_TOPIC, SUBJECT_TOPIC].map(
+	({ label, groupedBecause, firstSubtopicId }) => ({
+		title: label,
+		groupedBecause,
+		firstSubtopicId,
+	}),
+);
 
 describe("createDefineTopicsStage", () => {
 	const { config, workspaceRoot, run } = useStageReadingDivision({
@@ -128,13 +138,7 @@ describe("createDefineTopicsStage", () => {
 
 		expect(
 			await readJsonFile(stageOutputPath({ workspaceRoot: workspaceRoot(), stageId: STAGE_ID })),
-		).toStrictEqual(
-			[OPENING_TOPIC, SUBJECT_TOPIC].map(({ label, groupedBecause, firstSubtopicId }) => ({
-				title: label,
-				groupedBecause,
-				firstSubtopicId,
-			})),
-		);
+		).toStrictEqual(GOOD_TOPICS);
 	});
 
 	it("should record beside the topics the chosen run, its support and the deciding rule when the stage completes", async () => {
@@ -188,9 +192,32 @@ describe("createDefineTopicsStage", () => {
 		).toBe(false);
 	});
 
-	it("should save each grouping run as the model replied when the run completes", async () => {
+	it("should save each grouping run with each topic's title, groupedBecause and first subtopic when the run completes", async () => {
 		await run();
 
-		expect(await readJsonFile(runPath(1))).toStrictEqual(JSON.parse(GOOD_REPLY));
+		expect(await readJsonFile(runPath(1))).toStrictEqual({ topics: GOOD_TOPICS });
 	});
+
+	const { leaveFirstRun, expectUnreadableFirstRun } = firstSavedRun({
+		workspaceRoot,
+		stageId: STAGE_ID,
+		run,
+	});
+
+	it("should make only the missing runs when an earlier invocation saved some", async () => {
+		await leaveFirstRun({ topics: GOOD_TOPICS });
+
+		await run();
+
+		expect(modelCallMock).toHaveBeenCalledTimes(config.grouping.panelSize - 1);
+	});
+
+	it.each([
+		{ problem: "no list of topics", contents: { topics: "one" } },
+		{
+			problem: "a topic named by a label, as saved before titles",
+			contents: JSON.parse(GOOD_REPLY),
+		},
+	])("should fail when a saved run holds $problem", ({ contents }) =>
+		expectUnreadableFirstRun(contents));
 });
