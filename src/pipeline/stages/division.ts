@@ -17,11 +17,11 @@ export type Subtopic = {
 	readonly start: number;
 	readonly end: number;
 	readonly title: string;
-	readonly why: string;
+	readonly reason: string;
 };
 
 /** The title and reason of a subtopic, as they are saved. */
-type TitleAndReason = Pick<Subtopic, "title" | "why">;
+type TitleAndReason = Pick<Subtopic, "title" | "reason">;
 
 /**
  * The text of one subtopic: its span of the transcript.
@@ -84,7 +84,7 @@ export function isReplySubtopic(value: unknown): value is ReplySubtopic {
 
 /**
  * Takes the title and reason from a reply subtopic. `label` becomes `title`,
- * and `groupedBecause` becomes `why`.
+ * and `groupedBecause` becomes `reason`.
  * The code uses these names because they are easier to read. The prompt keeps
  * its own words.
  *
@@ -94,7 +94,7 @@ export function isReplySubtopic(value: unknown): value is ReplySubtopic {
  * @returns The title and the reason.
  */
 export function replyTitleAndReason({ label, groupedBecause }: ReplySubtopic): TitleAndReason {
-	return { title: label, why: groupedBecause };
+	return { title: label, reason: groupedBecause };
 }
 
 /**
@@ -112,11 +112,11 @@ function readSubtopic(value: unknown): Subtopic | null {
 		typeof value.start !== "number" ||
 		typeof value.end !== "number" ||
 		typeof value.title !== "string" ||
-		typeof value.why !== "string"
+		typeof value.reason !== "string"
 	) {
 		return null;
 	}
-	return { start: value.start, end: value.end, title: value.title, why: value.why };
+	return { start: value.start, end: value.end, title: value.title, reason: value.reason };
 }
 
 /**
@@ -311,7 +311,7 @@ export function sliceSubtopics({
 		start,
 		end: cuts[index + 1] ?? text.length,
 		title: titled[index]?.title ?? "",
-		why: titled[index]?.why ?? "",
+		reason: titled[index]?.reason ?? "",
 	}));
 }
 

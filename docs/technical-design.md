@@ -1167,13 +1167,13 @@ The stage fails when fewer than `panelSize` deepened splitting runs are present.
 
 ```typescript
 // src/pipeline/stages/division.ts — shared by the division stages and retitle-subtopics
-type Subtopic = { start: number; end: number; title: string; why: string }
+type Subtopic = { start: number; end: number; title: string; reason: string }
 placeCuts(args: { text: string; startWords: readonly string[] }):
   { cuts: readonly number[] } | { unplaced: string }
 // Finds each subtopic's start words in turn, forward from the previous cut, and returns where each subtopic
 // starts — the first always at 0, whatever its start words. The first start words that cannot be found are
 // returned instead.
-sliceSubtopics(args: { text: string; cuts: readonly number[]; titled: readonly { title: string; why: string }[] }): readonly Subtopic[]
+sliceSubtopics(args: { text: string; cuts: readonly number[]; titled: readonly { title: string; reason: string }[] }): readonly Subtopic[]
 assertLossless(args: { text: string; subtopics: readonly Subtopic[] }): void
 subtopicText(args: { text: string; subtopic: Pick<Subtopic, "start" | "end"> }): string
 readDivision(value: unknown): readonly Subtopic[] | null   // a run file read back, keeping only what a subtopic holds; an old run's inherited-title mark is dropped

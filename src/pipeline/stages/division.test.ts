@@ -77,8 +77,8 @@ describe("placeCuts", () => {
 
 describe("sliceSubtopics", () => {
 	const titled = [
-		{ title: "Opening", why: "Framing." },
-		{ title: "The membrane", why: "One structure." },
+		{ title: "Opening", reason: "Framing." },
+		{ title: "The membrane", reason: "One structure." },
 	];
 
 	it("should reproduce the text exactly when the subtopics are joined", () => {
@@ -88,15 +88,20 @@ describe("sliceSubtopics", () => {
 
 	it("should give each subtopic its span, title and reason when the text is cut", () => {
 		expect(sliceSubtopics({ text: TEXT, cuts: [0, at("So the first")], titled })).toStrictEqual([
-			{ start: 0, end: at("So the first"), title: "Opening", why: "Framing." },
-			{ start: at("So the first"), end: TEXT.length, title: "The membrane", why: "One structure." },
+			{ start: 0, end: at("So the first"), title: "Opening", reason: "Framing." },
+			{
+				start: at("So the first"),
+				end: TEXT.length,
+				title: "The membrane",
+				reason: "One structure.",
+			},
 		]);
 	});
 });
 
 describe("assertLossless", () => {
 	/** A first subtopic ending at character 10, which the second must start from. */
-	const FIRST: Subtopic = { start: 0, end: 10, title: "a", why: "" };
+	const FIRST: Subtopic = { start: 0, end: 10, title: "a", reason: "" };
 
 	it.each([
 		{ fault: "no gap", second: { start: 10, end: TEXT.length }, lossless: true },
@@ -115,17 +120,17 @@ describe("assertLossless", () => {
 });
 
 describe("readDivision", () => {
-	const { title, why, ...span } = { start: 0, end: 5, title: "a", why: "b" };
-	const subtopic = { ...span, title, why };
+	const { title, reason, ...span } = { start: 0, end: 5, title: "a", reason: "b" };
+	const subtopic = { ...span, title, reason };
 
 	it.each([
 		{ held: "a list of subtopics", value: [subtopic], division: [subtopic] },
 		{ held: "not a list", value: { start: 0 }, division: null },
 		{ held: "a subtopic without its reason", value: [{ ...span, title }], division: null },
-		{ held: "a subtopic without its span", value: [{ title, why }], division: null },
+		{ held: "a subtopic without its span", value: [{ title, reason }], division: null },
 		{
 			held: "a subtopic named by a label, as saved before titles",
-			value: [{ ...span, label: title, why }],
+			value: [{ ...span, label: title, reason }],
 			division: null,
 		},
 	])("should read a saved value as a division only when it holds $held", ({ value, division }) => {
@@ -159,7 +164,7 @@ describe("replyTitleAndReason", () => {
 			replyTitleAndReason({ label: "Opening", groupedBecause: "Framing.", startsWith: "Welcome" }),
 		).toEqual({
 			title: "Opening",
-			why: "Framing.",
+			reason: "Framing.",
 		});
 	});
 });

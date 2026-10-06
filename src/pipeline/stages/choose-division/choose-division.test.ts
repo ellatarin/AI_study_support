@@ -20,7 +20,7 @@ function runCuttingAt(runNumber: number, ...cuts: readonly number[]): readonly S
 		start,
 		end: starts[index + 1] ?? TEXT.length,
 		title: `Run ${runNumber}, subtopic ${index + 1}`,
-		why: `Reason ${index + 1}.`,
+		reason: `Reason ${index + 1}.`,
 	}));
 }
 

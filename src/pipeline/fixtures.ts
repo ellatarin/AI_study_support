@@ -718,12 +718,12 @@ const SECOND_SUBTOPIC_START = transcriptText.indexOf(transcriptSecondStartWords)
  * starts from.
  */
 export const transcriptDivision: readonly Subtopic[] = [
-	{ start: 0, end: SECOND_SUBTOPIC_START, title: "Opening", why: "The framing." },
+	{ start: 0, end: SECOND_SUBTOPIC_START, title: "Opening", reason: "The framing." },
 	{
 		start: SECOND_SUBTOPIC_START,
 		end: transcriptText.length,
 		title: "Cell injury",
-		why: "One topic.",
+		reason: "One topic.",
 	},
 ];
 
@@ -733,7 +733,7 @@ export const transcriptDivision: readonly Subtopic[] = [
  * afterwards knows the stage kept it rather than making the run again.
  */
 export const earlierSavedRun: readonly Subtopic[] = [
-	{ start: 0, end: transcriptText.length, title: "Whole", why: "Earlier." },
+	{ start: 0, end: transcriptText.length, title: "Whole", reason: "Earlier." },
 ];
 
 /**

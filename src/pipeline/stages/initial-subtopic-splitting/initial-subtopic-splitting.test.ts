@@ -52,7 +52,7 @@ function splitReply({ secondStartWords }: { readonly secondStartWords: string })
 		subtopics: transcriptDivision.map((subtopic, index) => ({
 			id: index + 1,
 			label: subtopic.title,
-			groupedBecause: subtopic.why,
+			groupedBecause: subtopic.reason,
 			startsWith: startWords[index],
 		})),
 	});
@@ -156,7 +156,7 @@ describe("createInitialSubtopicSplittingStage", () => {
 		{ problem: "a subtopic without its reason", contents: [{ start: 0, end: 1, title: "T" }] },
 		{
 			problem: "a subtopic named by a label, as saved before titles",
-			contents: [{ start: 0, end: 1, label: "L", why: "W" }],
+			contents: [{ start: 0, end: 1, label: "L", reason: "W" }],
 		},
 	])("should fail when a saved run holds $problem", async ({ contents }) => {
 		await leaveFirstRun(contents);
