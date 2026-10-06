@@ -72,9 +72,9 @@ export type StageCost = {
 type StageTuning = {
 	readonly temperature?: number;
 	readonly maxTokens?: number;
-	/** How many splitting or grouping runs a panel stage makes at once. Unset means one at a time. */
+	/** The number of splitting or grouping runs that a panel stage makes at once. Unset means one at a time. */
 	readonly concurrency?: number;
-	/** How many calls one splitting run makes at once in deepening. Only `deepen-subtopic-splitting` reads it. */
+	/** The number of calls that one splitting run makes at once in deepening. Only `deepen-subtopic-splitting` reads it. */
 	readonly callConcurrency?: number;
 	/** The send gate, in seconds. Only `group-into-topics` reads it. */
 	readonly sendGapSeconds?: number;
@@ -111,9 +111,9 @@ export type PipelineConfig = {
 	readonly moduleRoots: readonly string[];
 	readonly openRouter: {
 		readonly baseUrl: string;
-		/** How long the OpenAI client waits for one HTTP request, in milliseconds. */
+		/** The time in milliseconds that the OpenAI client waits for one HTTP request. */
 		readonly completionTimeoutMs: number;
-		/** How many times the OpenAI client retries an HTTP request inside one send. */
+		/** The number of times that the OpenAI client retries an HTTP request inside one send. */
 		readonly completionMaxRetries: number;
 	};
 	readonly elevenLabs: {
@@ -139,7 +139,7 @@ export type PipelineConfig = {
 	/** The grouping panel. Its vote only breaks ties between groupings (technical-design.md §5, `group-into-topics`). */
 	readonly grouping: PanelSettings;
 	readonly batch: {
-		/** How many lectures a batch runs at once. `--concurrency` overrides it. */
+		/** The number of lectures that a batch runs at once. `--concurrency` overrides it. */
 		readonly concurrency: number;
 	};
 	readonly naming: {
@@ -270,7 +270,7 @@ export type LectureIdentityChanges = Partial<
 >;
 
 /**
- * What a stage's `run` returns (technical-design.md §4.2). Each `filesWritten`
+ * The value that a stage's `run` returns (technical-design.md §4.2). Each `filesWritten`
  * entry is relative to the workspace and must stay in the module (§4.4).
  *
  * @typeParam TOutput - The stage's own output.
@@ -284,7 +284,7 @@ export type StageResult<TOutput> = StageCostAndFiles & {
 /**
  * The contract that every stage of one lecture meets (technical-design.md §4.2).
  *
- * @typeParam TInput - What `getInput` gives to `run`.
+ * @typeParam TInput - The value that `getInput` gives to `run`.
  * @typeParam TOutput - The output of `run`.
  */
 export type PipelineStage<TInput, TOutput> = {
@@ -397,7 +397,7 @@ export type QaDeficienciesReport = QaCheckerReport & {
 	readonly iteration: number;
 };
 
-/** How a pipeline run started: with `--from-stage` or without it. */
+/** The way that a pipeline run started: with `--from-stage` or without it. */
 export type PipelineRunTrigger = "manual" | "from-stage";
 
 /** The run type of a pipeline run, decided from the manifest when it starts (technical-design.md §7). */
@@ -419,7 +419,7 @@ type RanStageBase = {
 };
 
 /**
- * What happened to one stage in a pipeline run (technical-design.md §4.6).
+ * The record of one stage in a pipeline run (technical-design.md §4.6).
  * `not-reached` follows a failure that stopped the run, or the `--to-stage` bound.
  */
 export type RunLogStageEntry =
@@ -441,7 +441,7 @@ export type RunLog = TimePeriod & {
 	readonly runType: RunType;
 	readonly fromStage: StageId | null;
 	readonly toStage: StageId | null;
-	/** What each stage did and cost. The run log has no total (NFR-2.2). */
+	/** The record of each stage, with its cost. The run log has no total (NFR-2.2). */
 	readonly stages: Readonly<Partial<Record<StageId, RunLogStageEntry>>>;
 };
 
@@ -464,13 +464,13 @@ export type PipelineRunOptions = {
 	readonly fromStage?: StageId; // reset this stage and every later stage, then run from it
 	/** The last stage that the pipeline run does. Nothing is reset or deleted. */
 	readonly toStage?: StageId;
-	/** What the runner does after a stage fails (technical-design.md §8). */
+	/** The action of the runner after a stage fails (technical-design.md §8). */
 	readonly onStageFailure: "halt" | "continue";
 };
 
 /** The options of a batch (technical-design.md §4.7). */
 export type BatchOptions = PipelineRunOptions & {
-	/** How many lectures `runBatch` runs at once. This is not a stage's `concurrency`. */
+	/** The number of lectures that `runBatch` runs at once. This is not a stage's `concurrency`. */
 	readonly concurrency: number;
 };
 
@@ -488,7 +488,7 @@ export type ReportOptions = {
 	readonly lectureDate?: string;
 };
 
-/** What one stage did in a pipeline run, with the stage's id (technical-design.md §4.7). */
+/** The outcome of one stage in a pipeline run, with the stage's id (technical-design.md §4.7). */
 export type PipelineStageOutcome = {
 	readonly stageId: StageId;
 	readonly entry: RunLogStageEntry;
