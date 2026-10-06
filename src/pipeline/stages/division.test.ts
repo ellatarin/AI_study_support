@@ -136,12 +136,6 @@ describe("readDivision", () => {
 	])("should read a saved value as a division only when it holds $held", ({ value, division }) => {
 		expect(readDivision(value)).toStrictEqual(division);
 	});
-
-	// Deepening once marked every subtopic whose title was inherited. Nothing
-	// reads the mark now, and runs saved with it are still read rather than remade.
-	it("should read a saved run as a division without its mark when the run carries one", () => {
-		expect(readDivision([{ ...subtopic, titleInherited: true }])).toStrictEqual([subtopic]);
-	});
 });
 
 describe("isReplySubtopic", () => {

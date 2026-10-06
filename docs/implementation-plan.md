@@ -718,16 +718,12 @@ Unit tests for `division.ts`:
 
 **Deliverables:**
 
-- `Subtopic` loses `titleInherited`; deepening sets no mark. `isDivision` becomes `readDivision`, which reads a run file as the subtopics it holds and nothing more, so a run file carrying the mark still reads and the mark is dropped as it is read **(TD §5, `deepen-subtopic-splitting`, "Inherited titles are not marked")**. A panel is therefore given a `readRun`, which reads a saved run, in place of `isRun`, which only recognised one.
+- `Subtopic` loses `titleInherited`; deepening sets no mark. `isDivision` becomes `readDivision`, which reads a run file as the subtopics it holds and nothing more **(TD §5, `deepen-subtopic-splitting`, "Inherited titles are not marked")**. A panel is therefore given a `readRun`, which reads a saved run, in place of `isRun`, which only recognised one.
 
 **Tests:**
 
 Unit tests for `division.ts`:
-- `should read a saved run as a division without its mark when the run carries one`
 - `should read a saved value as a division only when it holds $held` — the `isDivision` table, now asserting the subtopics read
-
-Unit tests for `deepen-subtopic-splitting`:
-- `should write no inherited-title mark when the splitting runs it reads carry one`
 
 The deepening tests of the mark are deleted.
 

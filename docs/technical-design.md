@@ -1142,7 +1142,7 @@ For each splitting run, every subtopic over the size gate is sent on its own wit
 
 `d13` is `d9`, the prompt it extends, plus one instruction: judge a boundary by whether someone who knows the field would say the subject has moved on, whether or not the lecturer marks it. It was chosen over `d9` because two panels of nine disagreed on fewer cut sites (3.3 against 3.9 across the eight lectures) and grouping on its divisions gave better topics and titles, judged by reading them; the topic rulings do not settle this, because a ruling can change once the titles are seen. It makes more errors against the prototype's subtopic rulings (5.6 against 5.0 across the eight lectures), several at cut sites marked unwanted by default rather than judged (`docs/quality/segmentation-prototype/AGGREGATION.md`).
 
-**Inherited titles are not marked.** A cut is given a title for the piece it starts, but the piece before the first cut keeps the title of the whole subtopic it was cut from, which can promise material the later pieces now hold (CONTEXT.md, "Inherited title"). Nothing records which titles those are: `retitle-subtopics` replaces every title, so no stage needs to know. Run files saved while deepening did mark them still read as divisions; the mark is ignored and not written again.
+**Inherited titles are not marked.** A cut is given a title for the piece it starts, but the piece before the first cut keeps the title of the whole subtopic it was cut from, which can promise material the later pieces now hold (CONTEXT.md, "Inherited title"). Nothing records which titles those are: `retitle-subtopics` replaces every title, so no stage needs to know.
 
 A call that fails — no reply, not JSON, the wrong shape — takes the panel's retry, and a subtopic that fails all three sends fails the stage. Leaving it whole would record "this subtopic is one step", which the model never said, and the vote would count it.
 
@@ -1176,7 +1176,7 @@ placeCuts(args: { text: string; startWords: readonly string[] }):
 sliceSubtopics(args: { text: string; cuts: readonly number[]; titled: readonly { title: string; reason: string }[] }): readonly Subtopic[]
 assertLossless(args: { text: string; subtopics: readonly Subtopic[] }): void
 subtopicText(args: { text: string; subtopic: Pick<Subtopic, "start" | "end"> }): string
-readDivision(value: unknown): readonly Subtopic[] | null   // a run file read back, keeping only what a subtopic holds; an old run's inherited-title mark is dropped
+readDivision(value: unknown): readonly Subtopic[] | null   // a run file read back, keeping only what a subtopic holds
 type ReplySubtopic = { label: string; groupedBecause: string; startsWith: string }
 isReplySubtopic(value: unknown): value is ReplySubtopic   // one subtopic or cut as a reply names it; `label` is the prompt's word
 

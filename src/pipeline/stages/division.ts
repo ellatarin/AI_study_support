@@ -99,9 +99,7 @@ export function replyTitleAndReason({ label, groupedBecause }: ReplySubtopic): T
 
 /**
  * One entry of a run file read as a subtopic, keeping only what a subtopic
- * holds: a run saved while deepening marked inherited titles carries a mark
- * that nothing reads now, and it goes no further (technical-design.md §5,
- * `deepen-subtopic-splitting`, "Inherited titles are not marked").
+ * holds.
  *
  * @param value - One entry of the parsed run file.
  * @returns The subtopic, or `null` when the entry lacks its span, title or reason.

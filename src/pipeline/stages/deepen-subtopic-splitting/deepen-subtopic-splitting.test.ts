@@ -249,17 +249,6 @@ describe("createDeepenSubtopicSplittingStage", () => {
 		]);
 	});
 
-	// Splitting runs saved while deepening marked inherited titles carry the mark.
-	// They are still read, and the mark goes no further.
-	it("should write no inherited-title mark when the splitting runs it reads carry one", async () => {
-		await seedSplittingRunsBeforeDeepening(
-			transcriptDivision.map((subtopic) => ({ ...subtopic, titleInherited: false })),
-		);
-		answering({ [SECOND]: cutsAt(SECOND_CUT) });
-		await run(SECOND_ONLY);
-		expect((await savedRun(1)).some((subtopic) => "titleInherited" in subtopic)).toBe(false);
-	});
-
 	it("should ignore a cut proposed outside its subtopic when the reply places one there", async () => {
 		answering({ [SECOND]: cutsAt(OPENING.trim()) });
 		await run(SECOND_ONLY);
