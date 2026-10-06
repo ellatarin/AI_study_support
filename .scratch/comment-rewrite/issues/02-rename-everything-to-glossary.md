@@ -230,3 +230,13 @@ Two things any folder or file rename must also fix: each manifest's `filesWritte
 2026-10-06, the user's ruling on S17, which reverses the token count ruling:
 
 - `promptTokens` and `completionTokens` stay, in code and on disk. They are the provider's own counts (`prompt_tokens`, `completion_tokens`), copied one to one, and the terms are standard and easy to understand.
+
+2026-10-06, the user's rulings during the stored renames:
+
+- S4: `deriveRunId` becomes `deriveTimestampId` and `testRunId` becomes `testTimestampId`, because the id names an invocation as well as a pipeline run.
+- S5 and S6: the one constant `RUNS_DIR` is split into `RUN_LOGS_DIR` ("Run logs") and `DEBUG_LOGS_DIR` ("debug-logs"). `runsDirPath` becomes `runLogsDirPath`.
+- S9: the two tests for saved runs that carry `titleInherited` are deleted. No saved run carries the mark now. The backup keeps the old values.
+- S8: `VIDEO_SUBDIR` becomes `VIDEO_RECORDINGS_DIR` and `SLIDE_SUBDIR` becomes `SLIDE_DECKS_DIR`.
+- B5 is reversed. `completionMaxRetries` and `completionTimeoutMs` stay. They are the provider library's own settings, and the library retries a request inside one send. "Resend" keeps one meaning: a stage sending a call again.
+- The rule for words: what the pipeline does uses the glossary words (model call, send, resend, reply). What belongs to the provider or its library keeps the provider's words: its token counts and its client settings.
+- S15: `requireDivision` becomes `requireSubtopicSplitting`, `requireOutput` becomes `requireFinalOutput`, and the test helper `outputSection` becomes `finalOutputSection`.
