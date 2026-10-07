@@ -44,7 +44,6 @@ type CliOutput = {
 	readonly writeError: WriteText;
 };
 
-/** The command dependencies, and the close of the invocation's debug log. */
 type AssembledDeps = { readonly deps: CliDeps; readonly closeDebugLog: () => Promise<void> };
 
 /**
@@ -54,7 +53,7 @@ type AssembledDeps = { readonly deps: CliDeps; readonly closeDebugLog: () => Pro
  * @param args - The project root and the output stream.
  * @param args.projectRoot - The folder that holds `pipeline-config.json`.
  * @param args.write - Writes the output that the user reads.
- * @returns The command dependencies, and the close of the debug log.
+ * @returns The command dependencies, and the function that closes the debug log.
  * @throws {import("../pipeline/config.js").ConfigError} When the configuration cannot be read or is not valid.
  */
 async function assembleDeps({

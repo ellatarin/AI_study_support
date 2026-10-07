@@ -2,7 +2,7 @@ import { once } from "node:events";
 import { destination, type Logger, pino } from "pino";
 import type { StageId } from "../types/pipeline.js";
 
-/** The root logger of one invocation, and the close of its debug log file. */
+/** The result of {@link createDebugLogger}. */
 export type DebugLog = {
 	readonly logger: Logger;
 	/**
@@ -24,7 +24,7 @@ export type DebugLog = {
  *
  * @param args - The path of the debug log.
  * @param args.debugLogFile - Absolute path of the debug log. Its directory is created.
- * @returns A pino logger writing at `debug` level to that file, and the close of the file.
+ * @returns A pino logger writing at `debug` level to that file, and the function that closes the file.
  * @example
  * const { logger, close } = createDebugLogger({ debugLogFile: debugLogPath({ projectRoot, invocationId }) });
  */
