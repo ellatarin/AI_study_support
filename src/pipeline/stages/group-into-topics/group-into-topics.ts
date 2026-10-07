@@ -165,12 +165,10 @@ function asGroupingRun(reply: GroupingReply): GroupingRun {
  * writes the topics of the chosen grouping, with the stage record of the choice
  * beside them.
  *
- * @param args - The input, the stage context and the dependencies of the stage.
+ * @param args - The input, the stage context and the model calls of the stage run.
  * @param args.input - The transcript and the retitled division.
  * @param args.context - The stage context.
- * @param args.logger - The logger that records each model call.
- * @param args.client - The OpenAI client that sends the calls.
- * @param args.sendGate - The send gate of this stage run. Every send waits on it.
+ * @param args.calls - The model calls of this stage run.
  * @returns The chosen topics, the cost of the calls of this invocation, and every file written.
  */
 async function groupIntoTopics(
@@ -203,16 +201,14 @@ async function groupIntoTopics(
  * @param args - The input, the stage context and the dependencies of the stage.
  * @param args.input - The transcript and the retitled division.
  * @param args.context - The stage context.
- * @param args.logger - The logger that records each model call.
- * @param args.client - The OpenAI client that sends the calls.
- * @param args.sendGate - The send gate of this stage run. Every send waits on it.
+ * @param args.calls - The model calls of this stage run.
  * @returns Every grouping run, the cost of the calls of this invocation, and the saved runs.
  */
 function makeGroupingRuns(
-	// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger and the OpenAI client have mutable properties that the rule cannot ignore. This function only reads them. CLAUDE.md permits a mutable type that a library requires.
+	// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger has mutable properties that the rule cannot ignore. This function does not use it. CLAUDE.md permits a mutable type that a library requires.
 	args: ModelStageRunArgs<TranscriptAndDivision>,
 ): Promise<StageResult<{ readonly runs: readonly GroupingRun[] }>> {
-	const { input, context, logger, client, sendGate } = args;
+	const { input, context, calls } = args;
 	const messages = buildGroupingMessages({
 		subtopics: subtopicsWithText({ text: input.transcript, subtopics: input.subtopics }),
 	});
@@ -222,13 +218,11 @@ function makeGroupingRuns(
 		panelSize: context.config.grouping.panelSize,
 		readRun: readGroupingRun,
 		runName: "Grouping run",
+		calls,
 		request: {
 			messages,
 			isReply: isGroupingReply,
 			documentedShape: DOCUMENTED_REPLY_SHAPE,
-			logger,
-			client,
-			sendGate,
 			use: (reply) => checkGrouping({ reply, subtopicCount: input.subtopics.length }),
 		},
 	});

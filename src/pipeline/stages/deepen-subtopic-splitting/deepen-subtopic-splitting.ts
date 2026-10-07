@@ -29,10 +29,9 @@ import {
 } from "../division.js";
 import {
 	defineModelStage,
-	type ModelStageDependencies,
 	type ModelStageFactory,
 	type ModelStageRunArgs,
-	sendJsonWithResends,
+	type StageModelCalls,
 } from "../model-stage.js";
 import { runStagePanel } from "../panel-runs.js";
 import { readTranscriptAndRuns } from "../stage-input.js";
@@ -170,8 +169,8 @@ type DeepeningCallArgs = {
 	readonly transcript: string;
 	readonly runNumber: number;
 	readonly context: StageContext;
-} & ModelStageDependencies &
-	Pick<ModelStageRunArgs<unknown>, "sendGate">;
+	readonly calls: StageModelCalls;
+};
 
 /**
  * Deepens one subtopic in one deepening round. A subtopic above the size gate is
@@ -184,21 +183,16 @@ type DeepeningCallArgs = {
  * @param args.transcript - The transcript that the span of the subtopic indexes into.
  * @param args.runNumber - The splitting run, counting from 1, for the log and the failure message.
  * @param args.context - The stage context.
- * @param args.logger - The logger that records each model call.
- * @param args.client - The OpenAI client that sends the call.
- * @param args.sendGate - The send gate of this stage run. Every send waits on it.
+ * @param args.calls - The model calls of this stage run.
  * @returns The pieces of the subtopic in order, and the cost of its sends. The cost is `null` when the subtopic was not sent.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger and the OpenAI client are library types that are not deeply readonly.
 async function deepenSubtopic({
 	subtopic,
 	round,
 	transcript,
 	runNumber,
 	context,
-	logger,
-	client,
-	sendGate,
+	calls,
 }: DeepeningCallArgs & { readonly subtopic: Subtopic; readonly round: number }): Promise<{
 	readonly pieces: readonly Subtopic[];
 	readonly cost: StageCost | null;
@@ -207,16 +201,11 @@ async function deepenSubtopic({
 	if (countWords(passage) <= context.config.subtopicSplitting.sizeGateWords) {
 		return { pieces: [subtopic], cost: null };
 	}
-	const sent = await sendJsonWithResends({
+	const sent = await calls.sendJsonWithResends({
 		what: `Deepening splitting run ${runNumber}, round ${round}, subtopic "${subtopic.title}"`,
 		messages: buildDeepeningMessages({ passage }),
-		stageId: STAGE_ID,
-		context,
 		isReply: isDeepenReply,
 		documentedShape: DOCUMENTED_REPLY_SHAPE,
-		logger,
-		client,
-		sendGate,
 		use: ({ cuts }) => ({ reply: cutSubtopic({ transcript, subtopic, cuts }) }),
 	});
 	return { pieces: sent.reply, cost: sent.cost };
@@ -231,19 +220,16 @@ async function deepenSubtopic({
  * A subtopic whose third send is still unusable fails the stage, and is not kept
  * whole (technical-design.md §5, `deepen-subtopic-splitting`).
  *
- * @param args - The transcript, the splitting run, the stage context, the logger, the OpenAI client and the send gate.
+ * @param args - The transcript, the splitting run, the stage context and the model calls.
  * @param args.transcript - The transcript that the spans of the splitting run index into.
  * @param args.splittingRunBeforeDeepening - The splitting run to deepen.
  * @param args.runNumber - The splitting run, counting from 1, for the log and the failure message.
  * @param args.context - The stage context.
- * @param args.logger - The logger that records each model call.
- * @param args.client - The OpenAI client that sends the calls.
- * @param args.sendGate - The send gate of this stage run. Every send waits on it.
+ * @param args.calls - The model calls of this stage run.
  * @returns The deepened splitting run, and the cost of its calls. The cost is `null` when no subtopic was above the size gate.
  * @throws {ResendsExhaustedError} If the third send for a subtopic is still unusable.
  * @throws {DivisionNotLosslessError} If the deepened splitting run does not reproduce the transcript. A deepened splitting run that does not reproduce the transcript is always a bug.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger and the OpenAI client are library types that are not deeply readonly.
 async function deepenSplittingRun({
 	splittingRunBeforeDeepening,
 	...underDeepening
@@ -282,21 +268,17 @@ async function deepenSplittingRun({
  * Deepens every splitting run of the panel. The stage reads a saved run that an
  * earlier invocation made, and does not make that run again.
  *
- * @param args - The input, the stage context and the dependencies of the stage.
+ * @param args - The input, the stage context and the model calls of the stage run.
  * @param args.input - The transcript and the splitting runs before deepening.
  * @param args.context - The stage context.
- * @param args.logger - The logger that records each model call.
- * @param args.client - The OpenAI client that sends the calls.
- * @param args.sendGate - The send gate of this stage run. Every send waits on it.
+ * @param args.calls - The model calls of this stage run.
  * @returns Every deepened splitting run, the cost of the calls of this invocation, and the saved runs.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger and the OpenAI client have mutable properties that the rule cannot ignore. This function only reads them. CLAUDE.md permits a mutable type that a library requires.
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger has mutable properties that the rule cannot ignore. This function does not use it. CLAUDE.md permits a mutable type that a library requires.
 function deepenSplittingRuns({
 	input,
 	context,
-	logger,
-	client,
-	sendGate,
+	calls,
 }: ModelStageRunArgs<DeepenSubtopicSplittingInput>): Promise<
 	StageResult<DeepenSubtopicSplittingOutput>
 > {
@@ -310,9 +292,7 @@ function deepenSplittingRuns({
 				splittingRunBeforeDeepening: input.splittingRunsBeforeDeepening[runNumber - 1] ?? [],
 				runNumber,
 				context,
-				logger,
-				client,
-				sendGate,
+				calls,
 			}),
 	});
 }

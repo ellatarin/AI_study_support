@@ -13,7 +13,6 @@ import {
 	defineModelStage,
 	type ModelStageFactory,
 	type ModelStageRunArgs,
-	sendJsonWithResends,
 } from "../model-stage.js";
 import { readTranscriptAndDivision, type TranscriptAndDivision } from "../stage-input.js";
 import { type DivisionOutput, writeDivisionWithStageRecord } from "../stage-output.js";
@@ -141,36 +140,27 @@ function readInput(context: StageContext): Promise<TranscriptAndDivision> {
  * Asks the model for a title for each subtopic. Then it writes the retitled
  * division, with its stage record beside it.
  *
- * @param args - The input, the stage context and the dependencies of the stage.
+ * @param args - The input, the stage context and the model calls of the stage run.
  * @param args.input - The transcript and the chosen division.
  * @param args.context - The stage context.
- * @param args.logger - The logger that records the model call.
- * @param args.client - The OpenAI client that sends the call.
- * @param args.sendGate - The send gate of this stage run. Every send waits on it.
+ * @param args.calls - The model calls of this stage run.
  * @returns The retitled division, the cost of the call, and the files written.
  * @throws {ResendsExhaustedError} If the third send is still unusable.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger and the OpenAI client have mutable properties that the rule cannot ignore. This function only reads them. CLAUDE.md permits a mutable type that a library requires.
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger has mutable properties that the rule cannot ignore. This function does not use it. CLAUDE.md permits a mutable type that a library requires.
 async function retitle({
 	input,
 	context,
-	logger,
-	client,
-	sendGate,
+	calls,
 }: ModelStageRunArgs<TranscriptAndDivision>): Promise<StageResult<DivisionOutput>> {
 	const messages = buildRetitleMessages({
 		texts: input.subtopics.map((subtopic) => subtopicText({ text: input.transcript, subtopic })),
 	});
-	const sent = await sendJsonWithResends({
+	const sent = await calls.sendJsonWithResends({
 		what: "Retitling",
 		messages,
-		stageId: STAGE_ID,
-		context,
 		isReply: isTitlesReply,
 		documentedShape: DOCUMENTED_REPLY_SHAPE,
-		logger,
-		client,
-		sendGate,
 		use: ({ titles }) => pairTitles({ subtopics: input.subtopics, titles }),
 	});
 	return writeDivisionWithStageRecord({

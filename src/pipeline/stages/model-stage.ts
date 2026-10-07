@@ -27,16 +27,16 @@ export type ModelStageDependencies = {
 
 /**
  * The arguments of a model-calling stage's `run`: the input, the stage context,
- * the dependencies, and the send gate. Every call of the stage run waits on the
- * send gate.
+ * the logger, and the model calls of the stage run.
  *
  * @typeParam TInput - The input that the stage's `getInput` gave.
  */
 export type ModelStageRunArgs<TInput> = {
 	readonly input: TInput;
 	readonly context: StageContext;
-} & ModelStageDependencies &
-	Pick<ModelCallRequest, "sendGate">;
+	readonly logger: Logger;
+	readonly calls: StageModelCalls;
+};
 
 /**
  * A request for a JSON reply: the prompt, the stage, and the check of the reply.
@@ -275,6 +275,54 @@ export function sendJsonWithResends<TReply, TKept>({
 }
 
 /**
+ * The part of a JSON request that a stage chooses: the prompt, and the check of
+ * the reply.
+ *
+ * @typeParam TReply - The reply that the stage expects.
+ */
+export type OwnJsonRequest<TReply> = Pick<
+	JsonReplyRequest<TReply>,
+	"messages" | "isReply" | "documentedShape"
+>;
+
+/**
+ * The model calls of one stage run. They already hold the stage id, the stage
+ * context, the logger, the client and the send gate of the stage run. So a stage
+ * passes only its own part of each request.
+ */
+export type StageModelCalls = {
+	/** {@link requestJsonReply} for this stage run. */
+	readonly requestJsonReply: <TReply>(
+		// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- the message-param type of the OpenAI library is not deeply readonly. CLAUDE.md allows a mutable type where a library requires one.
+		request: OwnJsonRequest<TReply> & { readonly fail: (message: string) => Error },
+	) => Promise<UsableJsonReply<TReply>>;
+	/** {@link sendJsonWithResends} for this stage run. */
+	readonly sendJsonWithResends: <TReply, TKept>(
+		// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- as for requestJsonReply: the message-param library type is not deeply readonly
+		request: OwnJsonRequest<TReply> & {
+			readonly what: string;
+			readonly use: (reply: TReply) => { readonly reply: TKept } | { readonly failure: string };
+		},
+	) => Promise<UsableJsonReply<TKept>>;
+};
+
+/**
+ * Gives the model calls of one stage run.
+ *
+ * @param run - The stage, the stage context, the dependencies, and the send gate of the stage run.
+ * @returns The model calls, with these values given.
+ */
+function stageModelCalls(
+	// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- the pino Logger and OpenAI client types have mutable properties that the rule sees. This code only passes them on. CLAUDE.md allows a mutable type where a library requires one.
+	run: Pick<JsonReplyRequest<unknown>, "stageId" | "context" | "sendGate"> & ModelStageDependencies,
+): StageModelCalls {
+	return {
+		requestJsonReply: (request) => requestJsonReply({ ...run, ...request }),
+		sendJsonWithResends: (request) => sendJsonWithResends({ ...run, ...request }),
+	};
+}
+
+/**
  * The factory that the CLI builds a model-calling stage with. It takes the logger
  * and the client of the invocation, and gives the stage.
  *
@@ -289,7 +337,8 @@ export type ModelStageFactory<TInput, TOutput> = (
 /**
  * Defines a stage that calls a model, and gives the factory that the CLI builds it
  * with. The factory uses {@link createPipelineStage}. The `run` of the stage also
- * gets the client of the invocation and a send gate (technical-design.md §4.7).
+ * gets the model calls of the stage run. They use the client of the invocation and
+ * a new send gate (technical-design.md §4.7).
  *
  * @param definition - The stage id and the behaviour of the stage.
  * @param definition.stageId - The stage that this defines.
@@ -315,10 +364,15 @@ export function defineModelStage<TInput, TOutput>({
 			run: (args) =>
 				run({
 					...args,
-					client,
-					// Each stage run gets a new send gate, so it never waits on a turn from an earlier one.
-					sendGate: createSendGate({
-						gapSeconds: configuredStage({ config: args.context.config, stageId })?.sendGapSeconds,
+					calls: stageModelCalls({
+						stageId,
+						context: args.context,
+						logger: args.logger,
+						client,
+						// Each stage run gets a new send gate, so it never waits on a turn from an earlier one.
+						sendGate: createSendGate({
+							gapSeconds: configuredStage({ config: args.context.config, stageId })?.sendGapSeconds,
+						}),
 					}),
 				}),
 		});

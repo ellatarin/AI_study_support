@@ -20,7 +20,6 @@ import {
 	defineModelStage,
 	type ModelStageFactory,
 	type ModelStageRunArgs,
-	sendJsonWithResends,
 } from "../model-stage.js";
 import { writeStageOutput } from "../pipeline-stage.js";
 import { readStageTopics, readTranscriptAndDivision } from "../stage-input.js";
@@ -196,37 +195,30 @@ function decideTitle({
  * "Order of Operations"). The debug log records the outcome, because every later
  * stage names its output from the lecture title (technical-design.md §10).
  *
- * @param args - The input, the stage context and the dependencies of the stage.
+ * @param args - The input, the stage context, the logger and the model calls of the stage run.
  * @param args.input - The grouped lecture.
  * @param args.context - The stage context.
- * @param args.logger - The logger that records the model call and the outcome.
- * @param args.client - The OpenAI client that sends the call.
- * @param args.sendGate - The send gate of this stage run. Every send waits on it.
+ * @param args.logger - The logger that records the outcome.
+ * @param args.calls - The model calls of this stage run.
  * @returns The title judgement, its identity changes, the cost of the call and the file written.
  * @throws {ResendsExhaustedError} If the third send is still unusable.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger and the OpenAI client have mutable properties that the rule cannot ignore. This function only reads them. CLAUDE.md permits a mutable type that a library requires.
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger has mutable properties that the rule cannot ignore. This function only writes log lines to it. CLAUDE.md permits a mutable type that a library requires.
 async function judgeLectureTitle({
 	input,
 	context,
 	logger,
-	client,
-	sendGate,
+	calls,
 }: ModelStageRunArgs<GroupedLecture>): Promise<StageResult<TitleJudgement>> {
-	const sent = await sendJsonWithResends({
+	const sent = await calls.sendJsonWithResends({
 		what: "Title judgement",
 		messages: buildTitleJudgementMessages({
 			lecture: input,
 			provisionalTitle: context.provisionalTitle,
 			language: context.config.finalOutput.language,
 		}),
-		stageId: STAGE_ID,
-		context,
 		isReply: isJudgementReply,
 		documentedShape: DOCUMENTED_REPLY_SHAPE,
-		logger,
-		client,
-		sendGate,
 		use: (reply) => decideTitle({ reply, context }),
 	});
 	const { judgement, identityChanges } = sent.reply;

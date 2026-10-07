@@ -106,21 +106,17 @@ function divideAsReplied({
  * Makes the panel of splitting runs. The stage reads a saved run that an earlier
  * invocation made, and does not make that run again.
  *
- * @param args - The input, the stage context and the dependencies of the stage.
+ * @param args - The input, the stage context and the model calls of the stage run.
  * @param args.input - The transcript to divide.
  * @param args.context - The stage context.
- * @param args.logger - The logger that records each model call.
- * @param args.client - The OpenAI client that sends the calls.
- * @param args.sendGate - The send gate of this stage run. Every send waits on it.
+ * @param args.calls - The model calls of this stage run.
  * @returns Every splitting run, the cost of the calls of this invocation, and the saved runs.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger and the OpenAI client have mutable properties that the rule cannot ignore. This function only reads them. CLAUDE.md permits a mutable type that a library requires.
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger has mutable properties that the rule cannot ignore. This function does not use it. CLAUDE.md permits a mutable type that a library requires.
 function splitTranscript({
 	input,
 	context,
-	logger,
-	client,
-	sendGate,
+	calls,
 }: ModelStageRunArgs<InitialSubtopicSplittingInput>): Promise<
 	StageResult<InitialSubtopicSplittingOutput>
 > {
@@ -129,13 +125,11 @@ function splitTranscript({
 		context,
 		...splittingPanel(context),
 		runName: "Splitting run",
+		calls,
 		request: {
 			messages: buildSplittingMessages({ transcript: input.transcript }),
 			isReply: isSplitReply,
 			documentedShape: DOCUMENTED_REPLY_SHAPE,
-			logger,
-			client,
-			sendGate,
 			use: ({ subtopics }) => divideAsReplied({ transcript: input.transcript, subtopics }),
 		},
 	});

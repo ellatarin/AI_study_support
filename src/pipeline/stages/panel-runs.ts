@@ -12,7 +12,7 @@ import { NamedError } from "../../utils/errors.js";
 import { pathExists, readJsonSafe, writeJsonAtomic } from "../../utils/files.js";
 import { configuredStage } from "../../utils/stage-config.js";
 import { type StageInWorkspace, savedRunFileName, stageDirectoryPaths } from "../layout.js";
-import { sendJsonWithResends, type tryJsonReplyAs } from "./model-stage.js";
+import type { OwnJsonRequest, StageModelCalls } from "./model-stage.js";
 
 /**
  * A saved run that is not JSON or not a run. A saved run is written whole or not
@@ -233,20 +233,22 @@ export async function runStagePanel<TRun>({
  * @param args.panelSize - The number of runs in the panel.
  * @param args.readRun - Reads a parsed saved run as a run.
  * @param args.runName - The name of each run in the log and in a failure, before its number, such as "Grouping run".
- * @param args.request - The call of each run, as for {@link tryJsonReplyAs}. Its `use` makes the run from the reply.
+ * @param args.calls - The model calls of the stage run.
+ * @param args.request - The stage's own part of the call of each run. Its `use` makes the run from the reply.
  * @returns The stage result, with every run in run order.
  * @throws {SavedRunUnreadableError} When a saved run holds no readable run.
  * @throws {ResendsExhaustedError} When the reply of a run's third send is still unusable.
  * @typeParam TReply - The reply that each call expects.
  * @typeParam TRun - The contents of one run.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- as for sendJsonWithResends: the request carries library types that are not deeply readonly
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- the request carries the message-param library type, which is not deeply readonly
 export function runOneCallPanel<TReply, TRun>({
 	stageId,
 	context,
 	panelSize,
 	readRun,
 	runName,
+	calls,
 	request,
 }: {
 	readonly stageId: StageId;
@@ -254,7 +256,10 @@ export function runOneCallPanel<TReply, TRun>({
 	readonly panelSize: number;
 	readonly readRun: (value: unknown) => TRun | null;
 	readonly runName: string;
-	readonly request: Omit<Parameters<typeof tryJsonReplyAs<TReply, TRun>>[0], "stageId" | "context">;
+	readonly calls: StageModelCalls;
+	readonly request: OwnJsonRequest<TReply> & {
+		readonly use: (reply: TReply) => { readonly reply: TRun } | { readonly failure: string };
+	};
 }): Promise<StageResult<{ readonly runs: readonly TRun[] }>> {
 	return runStagePanel({
 		stageId,
@@ -262,10 +267,8 @@ export function runOneCallPanel<TReply, TRun>({
 		panelSize,
 		readRun,
 		makeRun: async ({ runNumber }) => {
-			const sent = await sendJsonWithResends({
+			const sent = await calls.sendJsonWithResends({
 				...request,
-				stageId,
-				context,
 				what: `${runName} ${runNumber}`,
 			});
 			return { run: sent.reply, cost: sent.cost };

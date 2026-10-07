@@ -19,7 +19,6 @@ import {
 	defineModelStage,
 	type ModelStageFactory,
 	type ModelStageRunArgs,
-	requestJsonReply,
 } from "../model-stage.js";
 import { writeStageOutputWithMarkdownVersion } from "../pipeline-stage.js";
 import { buildVerificationMessages } from "./transcript-verification.prompt.js";
@@ -215,12 +214,11 @@ const DOCUMENTED_REPORT_SHAPE =
  * whatever the verdict is, because the report only tells the user. It does not
  * gate the pipeline run.
  *
- * @param args - The input, the stage context and the dependencies of the stage.
+ * @param args - The input, the stage context, the logger and the model calls of the stage run.
  * @param args.input - The transcript and the structured transcript.
  * @param args.context - The stage context.
- * @param args.logger - The logger that records the model call.
- * @param args.client - The OpenRouter client that sends the call.
- * @param args.sendGate - The send gate of this stage run. The model call waits on it.
+ * @param args.logger - The logger that records the verdict.
+ * @param args.calls - The model calls of this stage run.
  * @returns The report path, the number of deficiencies, the cost of the call and the two files written.
  * @throws {TranscriptVerificationError} If the reply is unusable.
  */
@@ -229,24 +227,18 @@ async function verifyTranscript({
 	input,
 	context,
 	logger,
-	client,
-	sendGate,
+	calls,
 }: ModelStageRunArgs<TranscriptVerificationInput>): Promise<
 	StageResult<TranscriptVerificationOutput>
 > {
-	const { reply: report, cost } = await requestJsonReply({
+	const { reply: report, cost } = await calls.requestJsonReply({
 		messages: buildVerificationMessages({
 			transcriptText: input.transcriptText,
 			structuredTranscriptText: input.structuredTranscriptText,
 		}),
-		stageId: STAGE_ID,
-		context,
 		isReply: isCheckerReport,
 		documentedShape: DOCUMENTED_REPORT_SHAPE,
 		fail: (message) => new TranscriptVerificationError(message),
-		logger,
-		client,
-		sendGate,
 	});
 	const { path, filesWritten } = await writeStageOutputWithMarkdownVersion({
 		stageId: STAGE_ID,

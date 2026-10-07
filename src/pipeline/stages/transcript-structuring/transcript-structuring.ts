@@ -11,7 +11,6 @@ import {
 	defineModelStage,
 	type ModelStageFactory,
 	type ModelStageRunArgs,
-	requestJsonReply,
 } from "../model-stage.js";
 import { writeStageOutput } from "../pipeline-stage.js";
 import { buildStructuringMessages } from "./transcript-structuring.prompt.js";
@@ -87,38 +86,29 @@ const DOCUMENTED_REPLY_SHAPE = "{ structuredMarkdown } object";
  * `Structured transcript/structured-transcript.md` (technical-design.md §5,
  * `transcript-structuring`).
  *
- * @param args - The input, the stage context and the dependencies of the stage.
+ * @param args - The input, the stage context and the model calls of the stage run.
  * @param args.input - The transcript to structure.
  * @param args.context - The stage context.
- * @param args.logger - The logger that records the model call.
- * @param args.client - The OpenRouter client that sends the call.
- * @param args.sendGate - The send gate of this stage run. The model call waits on it.
+ * @param args.calls - The model calls of this stage run.
  * @returns The structured transcript path, the cost of the call and the file written.
  * @throws {TranscriptStructuringError} If the reply is unusable.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger has mutable properties that the rule cannot ignore. This function only writes log lines to it. CLAUDE.md permits a mutable type that a library requires.
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger has mutable properties that the rule cannot ignore. This function does not use it. CLAUDE.md permits a mutable type that a library requires.
 async function structureTranscript({
 	input,
 	context,
-	logger,
-	client,
-	sendGate,
+	calls,
 }: ModelStageRunArgs<TranscriptStructuringInput>): Promise<
 	StageResult<TranscriptStructuringOutput>
 > {
-	const { reply, cost } = await requestJsonReply({
+	const { reply, cost } = await calls.requestJsonReply({
 		messages: buildStructuringMessages({
 			transcriptText: input.transcriptText,
 			language: context.config.finalOutput.language,
 		}),
-		stageId: STAGE_ID,
-		context,
 		isReply: isStructuringReply,
 		documentedShape: DOCUMENTED_REPLY_SHAPE,
 		fail: (message) => new TranscriptStructuringError(message),
-		logger,
-		client,
-		sendGate,
 	});
 	const { path, filesWritten } = await writeStageOutput({
 		stageId: STAGE_ID,
