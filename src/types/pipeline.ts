@@ -242,8 +242,8 @@ export type Manifest = {
 		/** The title that the `rename` command sets. While it is set, no stage changes `lectureTitle`. */
 		readonly userTitle: string | null;
 		/**
-		 * The title that `transcript-structuring` proposes when the provisional title is
-		 * not meaningful (technical-design.md §5, `transcript-structuring`).
+		 * The title that `judge-lecture-title` proposes when the provisional title is
+		 * not meaningful (technical-design.md §5, `judge-lecture-title`).
 		 */
 		readonly aiDerivedTitle: string | null;
 		readonly baseName: string;

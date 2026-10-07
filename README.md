@@ -155,7 +155,7 @@ lecture-notes change-date <date> <new date>
 | `choose-division` | Built |
 | `retitle-subtopics` | Built |
 | `group-into-topics` | Built |
-| `judge-lecture-title` | Designed, not built |
+| `judge-lecture-title` | Built |
 | `render-slides` | Designed, not built |
 | `read-slides` | Designed, not built |
 | `verify-slides` | Planned |

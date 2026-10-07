@@ -189,7 +189,7 @@ async function findLectureByDate({
 
 /**
  * Finds the lecture's workspace and reads its manifest. When no manifest reads at
- * the known path, the lecture is found again by its date. `transcript-structuring`
+ * the known path, the lecture is found again by its date. `judge-lecture-title`
  * moves the workspace when it replaces the lecture title (technical-design.md
  * §4.7, "Following a relocated workspace").
  *

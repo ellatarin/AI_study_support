@@ -1322,7 +1322,7 @@ describe("PipelineRunner integration", () => {
 		const RENAMING_STAGE = "audio-extraction";
 
 		/**
-		 * A stage that acts as `transcript-structuring` does when it replaces the
+		 * A stage that acts as `judge-lecture-title` does when it replaces the
 		 * lecture title. It moves the workspace and returns the identity that it
 		 * decided. The runner writes the manifest.
 		 */

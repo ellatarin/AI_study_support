@@ -4,12 +4,16 @@
 
 **Blocked by:** 01 — Judge the title and record the judgement
 
-**Status:** ready-for-agent
+**Status:** resolved
 
-- [ ] For `adopted-derived`, the video, the slide, the workspace and the PDF move to the new base name. The stage returns `aiDerivedTitle`, `lectureTitle` and `baseName`.
-- [ ] For `kept-provisional` and `kept-user-title`, every file stays in place.
-- [ ] For each of the three outcomes, the runner writes the right identity changes to the manifest.
-- [ ] The stage writes `judgement.json` before it moves the workspace.
-- [ ] The `transcript-structuring` prompt sends no provisional title and asks only for `structuredMarkdown`.
-- [ ] `transcript-structuring` returns no identity changes and moves no file.
-- [ ] The title tests of `transcript-structuring` move to the new stage. No title test stays in the old stage.
+- [x] For `adopted-derived`, the video, the slide, the workspace and the PDF move to the new base name. The stage returns `aiDerivedTitle`, `lectureTitle` and `baseName`.
+- [x] For `kept-provisional` and `kept-user-title`, every file stays in place.
+- [x] For each of the three outcomes, the runner writes the right identity changes to the manifest.
+- [x] The stage writes `judgement.json` before it moves the workspace.
+- [x] The `transcript-structuring` prompt sends no provisional title and asks only for `structuredMarkdown`.
+- [x] `transcript-structuring` returns no identity changes and moves no file.
+- [x] The title tests of `transcript-structuring` move to the new stage. No title test stays in the old stage.
+
+## Comments
+
+The stage tests check the identity changes that the stage returns for each outcome. The runner suite checks that the runner writes the identity changes that a stage returns. No test runs the runner with this stage.

@@ -4,18 +4,22 @@
    files. vi.mock is hoisted, so it must be in the file that mocks. Only the
    preamble is exempt. jscpd checks the suite below. */
 import { rm, writeFile } from "node:fs/promises";
+import { dirname, join } from "node:path";
 import type { Mock } from "vitest";
 import { describe, expect, it, vi } from "vitest";
 import {
 	aiDerivedLecture,
 	captureError,
 	expectResendsExhaustedWithoutOutput,
+	loggedAt,
 	readJsonFile,
 	resendPausesTimeoutMs,
 	sentSystemMessage,
 	sentUserMessage,
 	stubbedCallCost,
+	stubbedJudgedBecause,
 	testLecture,
+	titleJudgementReply,
 	titleKept,
 	titleRejected,
 	unusableTranscripts,
@@ -37,12 +41,9 @@ const modelCallMock = callModel as unknown as Mock;
 
 const STAGE_ID = "judge-lecture-title";
 
-/** The reason that every stubbed reply gives. */
-const JUDGED_BECAUSE = "It names the subject.";
-
-/** A reply that keeps the provisional title. The overrides replace its fields. */
+/** {@link titleJudgementReply} as the content of a model reply. */
 function judgementReply(overrides: Readonly<Record<string, unknown>> = {}): string {
-	return JSON.stringify({ ...titleKept, judgedBecause: JUDGED_BECAUSE, ...overrides });
+	return JSON.stringify(titleJudgementReply(overrides));
 }
 
 /** Stubs every model call with `content`. */
@@ -51,16 +52,21 @@ function stubContent(content: string): void {
 }
 
 describe("createJudgeLectureTitleStage", () => {
-	const { workspaceRoot, run } = useStageReadingDivision({
+	const { workspaceRoot, logged, run } = useStageReadingDivision({
 		stageId: STAGE_ID,
 		readsFrom: ["retitle-subtopics", "group-into-topics"],
 		factory: createJudgeLectureTitleStage,
 		stubReply: () => stubContent(judgementReply()),
 	});
 
-	/** The judgement that the stage wrote, parsed from disk. */
-	function writtenJudgement(): Promise<unknown> {
-		return readJsonFile(stageOutputPath({ workspaceRoot: workspaceRoot(), stageId: STAGE_ID }));
+	/** The judgement that the stage wrote into the workspace with `baseName`, parsed from disk. */
+	function writtenJudgement(baseName: string = testLecture.baseName): Promise<unknown> {
+		return readJsonFile(
+			stageOutputPath({
+				workspaceRoot: join(dirname(workspaceRoot()), baseName),
+				stageId: STAGE_ID,
+			}),
+		);
 	}
 
 	it("should send each topic's title with its subtopics' titles and trimmed text in order when the stage calls the model", async () => {
@@ -112,6 +118,7 @@ describe("createJudgeLectureTitleStage", () => {
 			manifest: {},
 			aiDerivedTitle: null,
 			identityChanges: {},
+			baseName: testLecture.baseName,
 		},
 		{
 			outcome: "adopted-derived",
@@ -119,7 +126,12 @@ describe("createJudgeLectureTitleStage", () => {
 			reply: titleRejected,
 			manifest: {},
 			aiDerivedTitle: aiDerivedLecture.title,
-			identityChanges: {},
+			identityChanges: {
+				aiDerivedTitle: aiDerivedLecture.title,
+				lectureTitle: aiDerivedLecture.title,
+				baseName: aiDerivedLecture.baseName,
+			},
+			baseName: aiDerivedLecture.baseName,
 		},
 		{
 			outcome: "kept-user-title",
@@ -128,21 +140,39 @@ describe("createJudgeLectureTitleStage", () => {
 			manifest: withUserTitle,
 			aiDerivedTitle: aiDerivedLecture.title,
 			identityChanges: { aiDerivedTitle: aiDerivedLecture.title },
+			baseName: testLecture.baseName,
 		},
 	])("should write the judgement with outcome $outcome when $case", async (judged) => {
 		stubContent(judgementReply(judged.reply));
 
 		const result = await run(judged.manifest);
 
-		expect(await writtenJudgement()).toStrictEqual({
+		expect(await writtenJudgement(judged.baseName)).toStrictEqual({
 			provisionalTitle: testLecture.title,
 			provisionalTitleMeaningful: judged.reply.provisionalTitleMeaningful,
 			aiDerivedTitle: judged.aiDerivedTitle,
-			judgedBecause: JUDGED_BECAUSE,
+			judgedBecause: stubbedJudgedBecause,
 			outcome: judged.outcome,
 		});
 		expect(result.identityChanges ?? {}).toStrictEqual(judged.identityChanges);
 		expect(result.filesWritten).toStrictEqual(["Title judgement/judgement.json"]);
+	});
+
+	// Every later stage names its output from the lecture title. So the debug log
+	// must record the outcome (technical-design.md §10).
+	it.each([
+		{ outcome: "kept-provisional", reply: titleKept, manifest: {} },
+		{ outcome: "adopted-derived", reply: titleRejected, manifest: {} },
+		{ outcome: "kept-user-title", reply: titleRejected, manifest: withUserTitle },
+	])("should record $outcome in the debug log when that is how the title was decided", async (decided) => {
+		stubContent(judgementReply(decided.reply));
+
+		await run(decided.manifest);
+
+		const [entry] = loggedAt({ entries: logged().entries, level: "debug" }).filter(
+			(logEntry) => logEntry.message === "Decided lecture title",
+		);
+		expect(entry?.payload.outcome).toBe(decided.outcome);
 	});
 
 	it.each([
@@ -176,12 +206,13 @@ describe("createJudgeLectureTitleStage", () => {
 		manifest,
 	}) => {
 		modelCallMock.mockResolvedValueOnce({ content, cost: stubbedCallCost });
+		// A user title keeps the workspace where it is, whatever the next reply proposes.
 		stubContent(judgementReply(titleRejected));
 
-		await run(manifest);
+		await run({ ...manifest, ...withUserTitle });
 
 		expect(modelCallMock).toHaveBeenCalledTimes(2);
-		expect(await writtenJudgement()).toMatchObject({ outcome: "adopted-derived" });
+		expect(await writtenJudgement()).toMatchObject({ outcome: "kept-user-title" });
 	});
 
 	it("should fail without writing the judgement when the third send is still unusable", {

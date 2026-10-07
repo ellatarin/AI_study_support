@@ -827,7 +827,7 @@ export function interceptScribeUpload({
 }
 
 /**
- * {@link testLecture} with the AI-derived title that the `transcript-structuring`
+ * {@link testLecture} with the AI-derived title that the `judge-lecture-title`
  * model proposes when it judges the provisional title not meaningful.
  */
 export const aiDerivedLecture = describeLecture({
@@ -841,28 +841,41 @@ export const titleKept = { provisionalTitleMeaningful: true, suggestedTitle: nul
 
 /**
  * The title judgement when the model judges the provisional title not
- * meaningful and proposes the title of {@link aiDerivedLecture}. The title tests
- * of the two `transcript-structuring` suites use this case.
+ * meaningful and proposes the title of {@link aiDerivedLecture}.
  */
 export const titleRejected = {
 	provisionalTitleMeaningful: false,
 	suggestedTitle: aiDerivedLecture.title,
 };
 
+/** The reason that a stubbed `judge-lecture-title` reply gives. */
+export const stubbedJudgedBecause = "It names the subject.";
+
 /**
- * A correct `transcript-structuring` reply: the title judgement and the
- * structured Markdown. The shape is the documented contract of the stage. So
- * the suites make the reply here, and change only the field that the test is
- * about.
+ * A usable `judge-lecture-title` reply. The default title judgement is
+ * {@link titleKept}.
  *
- * @param overrides - The fields that the behaviour of the test depends on. The
- * default title judgement is {@link titleKept}.
+ * @param overrides - The fields that the behaviour of the test depends on.
+ * @returns The reply, to serialise as the content of the model reply.
+ */
+export function titleJudgementReply(
+	overrides: Readonly<Record<string, unknown>> = {},
+): Record<string, unknown> {
+	return { ...titleKept, judgedBecause: stubbedJudgedBecause, ...overrides };
+}
+
+/**
+ * A correct `transcript-structuring` reply: the structured Markdown. The shape is
+ * the documented contract of the stage. So the suites make the reply here, and
+ * change only the field that the test is about.
+ *
+ * @param overrides - The fields that the behaviour of the test depends on.
  * @returns The reply, to serialise as the content of the model reply.
  */
 export function structuringReply(
 	overrides: Readonly<Record<string, unknown>> = {},
 ): Record<string, unknown> {
-	return { ...titleKept, structuredMarkdown, ...overrides };
+	return { structuredMarkdown, ...overrides };
 }
 
 /**
@@ -1229,7 +1242,7 @@ export function useTranscribedWorkspace({
  *
  * Code that moves a lecture needs the module directories, the workspace, the
  * video recording, the slide deck and the notes PDF. The `change-date` command and
- * `transcript-structuring` both rename the four lecture files together. So the suites that test a rename get the layout from here.
+ * `judge-lecture-title` both rename the four lecture files together. So the suites that test a rename get the layout from here.
  * The caller writes all other files that its code reads, such as a transcript
  * or a manifest. The caller removes `tempDir` after the test.
  *
@@ -1571,7 +1584,7 @@ export async function settleThroughPauses<TResult>(
 	return watched;
 }
 
-/** The output that the fixture of a stage reading a division writes for each earlier stage. */
+/** The output that {@link seedEarlierOutputs} writes for each earlier stage. */
 const SEEDED_OUTPUTS = {
 	"choose-division": transcriptDivision,
 	"retitle-subtopics": transcriptDivision,
@@ -1579,19 +1592,44 @@ const SEEDED_OUTPUTS = {
 } as const;
 
 /**
+ * Writes into a workspace the output of each earlier stage that a stage reads:
+ * {@link transcriptDivision} for a division, and {@link transcriptTopics} for the
+ * topics. The caller writes the transcript.
+ *
+ * @param args - The workspace, and the earlier stages.
+ * @param args.workspaceRoot - The absolute path to the lecture workspace.
+ * @param args.readsFrom - The earlier stages whose output to write.
+ * @returns A promise that resolves when every file is written.
+ */
+export async function seedEarlierOutputs({
+	workspaceRoot,
+	readsFrom,
+}: {
+	readonly workspaceRoot: string;
+	readonly readsFrom: readonly (keyof typeof SEEDED_OUTPUTS)[];
+}): Promise<void> {
+	for (const earlierStage of readsFrom) {
+		await seedStageOutput({
+			workspaceRoot,
+			stageId: earlierStage,
+			contents: JSON.stringify(SEEDED_OUTPUTS[earlierStage]),
+		});
+	}
+}
+
+/**
  * Prepares the suite of a stage that calls a model and reads the division of an
  * earlier stage. Before each test, the function clears the mocks and stubs the
- * model reply. It also writes into a workspace with a transcript the output of
- * each earlier stage: {@link transcriptDivision} for a division, and
- * {@link transcriptTopics} for the topics. The setup is in one place, so two such
- * suites cannot start from different states.
+ * model reply. It also writes the output of each earlier stage into a workspace
+ * with a transcript, through {@link seedEarlierOutputs}. The setup is in one
+ * place, so two such suites cannot start from different states.
  *
  * @param args - The stage, the earlier stages, the stage factory and the stubbed reply.
  * @param args.stageId - The stage under test. It names the temporary directory and selects the config.
  * @param args.readsFrom - The earlier stages whose output the stage reads.
  * @param args.factory - The stage factory, as the CLI calls it.
  * @param args.stubReply - Stubs the model reply. It is called before each test, after the mocks are cleared.
- * @returns The config of the stage, a reader for the workspace of the current test, and a function that runs the stage. The run takes the manifest fields to replace.
+ * @returns The config of the stage, readers for the workspace and the stub logger of the current test, and a function that runs the stage. The run takes the manifest fields to replace.
  * @typeParam TInput - The input of the stage.
  * @typeParam TOutput - The output of the stage.
  */
@@ -1608,6 +1646,7 @@ export function useStageReadingDivision<TInput, TOutput>({
 }): {
 	readonly config: PipelineConfig;
 	readonly workspaceRoot: () => string;
+	readonly logged: () => StubLogger;
 	readonly run: (manifest?: Partial<Manifest>) => Promise<StageResult<TOutput>>;
 } {
 	const workspace = useTranscribedWorkspace({ prefix: `${stageId}-` });
@@ -1618,18 +1657,13 @@ export function useStageReadingDivision<TInput, TOutput>({
 	beforeEach(async () => {
 		vi.clearAllMocks();
 		stubReply();
-		for (const earlierStage of readsFrom) {
-			await seedStageOutput({
-				workspaceRoot: workspaceRoot(),
-				stageId: earlierStage,
-				contents: JSON.stringify(SEEDED_OUTPUTS[earlierStage]),
-			});
-		}
+		await seedEarlierOutputs({ workspaceRoot: workspaceRoot(), readsFrom });
 	});
 
 	return {
 		config,
 		workspaceRoot,
+		logged,
 		run: (manifest = {}) =>
 			driveModelStage({
 				factory,

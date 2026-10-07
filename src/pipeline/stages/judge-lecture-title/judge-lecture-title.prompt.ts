@@ -1,12 +1,17 @@
 /**
  * The messages that `judge-lecture-title` sends. The rules are the title rules of
- * the earlier `transcript-structuring` prompt, with a reason and the language rule
- * added (technical-design.md §5, `judge-lecture-title` and "Where prompts live").
+ * the earlier `transcript-structuring` prompt, with the additions that
+ * technical-design.md §5 lists (`judge-lecture-title` and "Where prompts live").
  */
 
+/* jscpd:ignore-start -- the prompt modules import the same language rule and
+   message builder. So their import blocks are the same line for line. Imports
+   cannot be shared, and CLAUDE.md (File Organisation) forbids barrel files.
+   Only the imports are exempt. jscpd checks the code below. */
 import type { OutputLanguage } from "../../../types/pipeline.js";
 import { languageRule } from "../../../utils/language.js";
 import { type PromptMessages, promptMessages } from "../model-stage.js";
+/* jscpd:ignore-end */
 
 /** The lecture as the model reads it: each topic, with its subtopics in order. */
 export type GroupedLecture = {

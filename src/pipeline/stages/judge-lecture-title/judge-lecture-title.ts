@@ -13,7 +13,8 @@ import type { LectureIdentityChanges, StageContext, StageResult } from "../../..
 import { errorMessage, NamedError } from "../../../utils/errors.js";
 import { jsonFileContent } from "../../../utils/files.js";
 import { isRecord } from "../../../utils/record.js";
-import { baseNameForLecture } from "../../lecture-files.js";
+import { moduleDirs } from "../../layout.js";
+import { baseNameForLecture, renameLectureFiles } from "../../lecture-files.js";
 import { subtopicsWithText } from "../division.js";
 import {
 	defineModelStage,
@@ -115,23 +116,30 @@ export type TitleJudgement = {
 	  }
 );
 
+/** A title judgement, and the identity changes that it decides for the runner to write (technical-design.md §4.2). */
+type DecidedTitle = {
+	readonly judgement: TitleJudgement;
+	readonly identityChanges: LectureIdentityChanges;
+};
+
 /**
- * Makes the title judgement from a reply, or gives the reason that the reply is
- * unusable (technical-design.md §5, `judge-lecture-title`). The model's proposed
- * title is ignored when the provisional title is meaningful.
+ * Makes the title judgement and its identity changes from a reply, or gives the
+ * reason that the reply is unusable (technical-design.md §5, `judge-lecture-title`).
+ * The model's proposed title is ignored when the provisional title is meaningful.
+ * A user title outranks the judgement, so only the AI-derived title is recorded then.
  *
  * @param args - The reply, and the stage context.
  * @param args.reply - The parsed reply.
  * @param args.context - The stage context. It holds the lecture identity and the user title.
- * @returns The title judgement, or the reason that the reply is unusable.
+ * @returns The title judgement and its identity changes, or the reason that the reply is unusable.
  */
-function titleJudgement({
+function decideTitle({
 	reply,
 	context,
 }: {
 	readonly reply: JudgementReply;
 	readonly context: StageContext;
-}): { readonly reply: TitleJudgement } | { readonly failure: string } {
+}): { readonly reply: DecidedTitle } | { readonly failure: string } {
 	const judged = {
 		provisionalTitle: context.provisionalTitle,
 		provisionalTitleMeaningful: reply.provisionalTitleMeaningful,
@@ -143,7 +151,12 @@ function titleJudgement({
 	if (reply.provisionalTitleMeaningful) {
 		return context.provisionalTitle.trim() === ""
 			? { failure: "The model judged an empty provisional title meaningful" }
-			: { reply: { ...judged, aiDerivedTitle: null, outcome: "kept-provisional" } };
+			: {
+					reply: {
+						judgement: { ...judged, aiDerivedTitle: null, outcome: "kept-provisional" },
+						identityChanges: {},
+					},
+				};
 	}
 	const aiDerivedTitle = reply.suggestedTitle?.trim() ?? "";
 	if (aiDerivedTitle === "") {
@@ -151,40 +164,37 @@ function titleJudgement({
 			failure: "The model judged the provisional title not meaningful but proposed no title",
 		};
 	}
+	let baseName: string;
 	try {
-		baseNameForLecture({ ...context, title: aiDerivedTitle });
+		baseName = baseNameForLecture({ ...context, title: aiDerivedTitle });
 	} catch (error: unknown) {
 		return {
 			failure: `The model proposed "${aiDerivedTitle}", which cannot be used in a filename: ${errorMessage(error)}`,
 		};
 	}
+	if (context.manifest.userTitle !== null) {
+		return {
+			reply: {
+				judgement: { ...judged, aiDerivedTitle, outcome: "kept-user-title" },
+				identityChanges: { aiDerivedTitle },
+			},
+		};
+	}
 	return {
 		reply: {
-			...judged,
-			aiDerivedTitle,
-			outcome: context.manifest.userTitle === null ? "adopted-derived" : "kept-user-title",
+			judgement: { ...judged, aiDerivedTitle, outcome: "adopted-derived" },
+			identityChanges: { aiDerivedTitle, lectureTitle: aiDerivedTitle, baseName },
 		},
 	};
 }
 
 /**
- * The identity changes of a title judgement, for the runner to write. A user title
- * outranks the judgement, so only the AI-derived title is recorded then. The
- * rename for `adopted-derived` is not built yet.
- *
- * @param judgement - The title judgement.
- * @returns The identity changes.
- */
-function identityChangesOf(judgement: TitleJudgement): LectureIdentityChanges {
-	return judgement.outcome === "kept-user-title"
-		? { aiDerivedTitle: judgement.aiDerivedTitle }
-		: {};
-}
-
-/**
  * Asks the model to judge the provisional title against the grouped lecture, and
- * writes the title judgement. The debug log records the outcome, because every
- * later stage names its output from the lecture title (technical-design.md §10).
+ * writes the title judgement. For `adopted-derived`, it then moves the lecture
+ * files to the new base name. The judgement is written first, because the move
+ * changes the workspace path (technical-design.md §5, `judge-lecture-title`,
+ * "Order of Operations"). The debug log records the outcome, because every later
+ * stage names its output from the lecture title (technical-design.md §10).
  *
  * @param args - The input, the stage context and the dependencies of the stage.
  * @param args.input - The grouped lecture.
@@ -217,9 +227,9 @@ async function judgeLectureTitle({
 		logger,
 		client,
 		sendGate,
-		use: (reply) => titleJudgement({ reply, context }),
+		use: (reply) => decideTitle({ reply, context }),
 	});
-	const judgement = sent.reply;
+	const { judgement, identityChanges } = sent.reply;
 	const { filesWritten } = await writeStageOutput({
 		stageId: STAGE_ID,
 		workspaceRoot: context.workspaceRoot,
@@ -229,12 +239,15 @@ async function judgeLectureTitle({
 		{ aiDerivedTitle: judgement.aiDerivedTitle, outcome: judgement.outcome },
 		"Decided lecture title",
 	);
-	return {
-		output: judgement,
-		cost: sent.cost,
-		filesWritten,
-		identityChanges: identityChangesOf(judgement),
-	};
+	if (identityChanges.baseName !== undefined) {
+		await renameLectureFiles({
+			dirs: moduleDirs({ moduleRoot: context.moduleRoot }),
+			workspaceRoot: context.workspaceRoot,
+			lectureDate: context.lectureDate,
+			baseName: identityChanges.baseName,
+		});
+	}
+	return { output: judgement, cost: sent.cost, filesWritten, identityChanges };
 }
 
 /** Builds the `judge-lecture-title` stage from the logger and the OpenAI client of the invocation. */

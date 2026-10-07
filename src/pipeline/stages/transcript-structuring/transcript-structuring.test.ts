@@ -1,9 +1,7 @@
 import { rm, writeFile } from "node:fs/promises";
-import { dirname, join } from "node:path";
 import type { Mock } from "vitest";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type {
-	Manifest,
 	OutputLanguage,
 	StageContext,
 	StageCost,
@@ -11,25 +9,19 @@ import type {
 } from "../../../types/pipeline.js";
 import { pathExists } from "../../../utils/files.js";
 import {
-	aiDerivedLecture,
 	captureError,
 	configuringStage,
 	driveStage,
 	exampleConfig,
-	loggedAt,
-	makeManifest,
 	makeStageContext,
 	openRouterClientFor,
 	structuringReply,
 	stubbedCostUsd,
 	testLecture,
-	testUserTitle,
-	titleKept,
 	titleRejected,
 	transcriptText,
 	useStubLogger,
 	useTranscribedWorkspace,
-	withUserTitle,
 } from "../../fixtures.js";
 import { stageOutputEntry, stageOutputPath } from "../../layout.js";
 import { manifestPath } from "../../manifest.js";
@@ -76,17 +68,10 @@ describe("createTranscriptStructuringStage", () => {
 		stubReply();
 	});
 
-	function contextWith({
-		manifest = {},
-		language,
-	}: {
-		readonly manifest?: Partial<Manifest>;
-		readonly language?: OutputLanguage;
-	} = {}): StageContext {
+	function contextWith({ language }: { readonly language?: OutputLanguage } = {}): StageContext {
 		return makeStageContext({
 			workspaceRoot: workspaceRoot(),
 			config: configuringStage({ stageId: "transcript-structuring", language }),
-			manifest: makeManifest(manifest),
 		});
 	}
 
@@ -100,27 +85,8 @@ describe("createTranscriptStructuringStage", () => {
 		});
 	}
 
-	/** The outcome that the stage logged for the lecture title. */
-	function decidedTitleOutcome(): unknown {
-		const [entry] = loggedAt({ entries: logged().entries, level: "debug" }).filter(
-			(logEntry) => logEntry.message === "Decided lecture title",
-		);
-		return entry?.payload.outcome;
-	}
-
 	function runStage(context: StageContext): Promise<StageResult<TranscriptStructuringOutput>> {
 		return driveStage({ stage: makeStage(), context });
-	}
-
-	/** Checks for a manifest at the workspace path before and after a title change. */
-	async function anyManifestWritten(): Promise<boolean> {
-		const baseNames = [testLecture.baseName, aiDerivedLecture.baseName];
-		const written = await Promise.all(
-			baseNames.map((baseName) =>
-				pathExists(manifestPath({ workspaceRoot: join(dirname(workspaceRoot()), baseName) })),
-			),
-		);
-		return written.includes(true);
 	}
 
 	it("should name the stage transcript-structuring when the stage is created", () => {
@@ -150,12 +116,12 @@ describe("createTranscriptStructuringStage", () => {
 		);
 	});
 
-	it("should send the transcript and the provisional title when the stage calls the model", async () => {
+	it("should send the transcript and no provisional title when the stage calls the model", async () => {
 		await runStage(contextWith());
 
 		const sent = JSON.stringify(modelCallMock.mock.calls[0]?.[0].messages);
 		expect(sent).toContain(transcriptText);
-		expect(sent).toContain(testLecture.title);
+		expect(sent).not.toContain(testLecture.title);
 	});
 
 	// The model call of `transcript-structuring` is the first in the pipeline that sets the language of the output
@@ -189,129 +155,31 @@ describe("createTranscriptStructuringStage", () => {
 		expect(result.cost).toEqual(COST);
 	});
 
-	it("should keep the provisional title when the model judges it meaningful", async () => {
+	// A reply that still judges the title must change nothing. Only judge-lecture-title
+	// renames a lecture (technical-design.md §5, `judge-lecture-title`).
+	it("should return no identity changes and leave the workspace where it stands when the stage completes", async () => {
+		stubReply(titleRejected);
+
 		const result = await runStage(contextWith());
 
-		expect(result.output.lectureTitle).toBe(testLecture.title);
-	});
-
-	it("should decide no identity when the model judges the title meaningful", async () => {
-		const result = await runStage(contextWith());
-
-		expect(result.identityChanges).toEqual({});
-	});
-
-	it("should leave the workspace where it stands when the model judges the title meaningful", async () => {
-		await runStage(contextWith());
-
+		expect(result.identityChanges ?? {}).toEqual({});
 		expect(await pathExists(workspaceRoot())).toBe(true);
 	});
 
 	// The stage context holds the manifest from before the stage started. So a stage
-	// that writes the manifest reverts its own `running` entry (technical-design.md
-	// §4.2). This stage decides the lecture identity, so it is the stage most likely to write the manifest.
-	it.each([
-		{ what: "the provisional title stands", reply: titleKept },
-		{ what: "the title is replaced", reply: titleRejected },
-	])("should write no manifest when $what", async ({ reply }) => {
-		stubReply(reply);
-
+	// that writes the manifest reverts its own `running` entry (technical-design.md §4.2).
+	it("should write no manifest when the stage completes", async () => {
 		await runStage(contextWith());
 
-		expect(await anyManifestWritten()).toBe(false);
-	});
-
-	describe("replacing a title the model judges not meaningful", () => {
-		beforeEach(() => {
-			stubReply(titleRejected);
-		});
-
-		it("should decide the whole identity for the runner when the provisional is not meaningful", async () => {
-			const result = await runStage(contextWith());
-
-			expect(result.identityChanges).toEqual({
-				aiDerivedTitle: aiDerivedLecture.title,
-				lectureTitle: aiDerivedLecture.title,
-				baseName: aiDerivedLecture.baseName,
-			});
-		});
-
-		it("should overwrite the lecture title when the provisional is not meaningful", async () => {
-			const result = await runStage(contextWith());
-
-			expect(result.output.lectureTitle).toBe(aiDerivedLecture.title);
-		});
-
-		it.each([
-			{ scenario: "the model proposes no title to replace it with", suggestedTitle: null },
-			{
-				scenario: "the proposed title has no characters usable in a filename",
-				suggestedTitle: "..",
-			},
-		])("should fail when $scenario", async ({ suggestedTitle }) => {
-			stubReply({ ...titleRejected, suggestedTitle });
-
-			const error = await captureError(runStage(contextWith()));
-
-			expect(error).toBeInstanceOf(TranscriptStructuringError);
-		});
-	});
-
-	describe("deferring to a title the user set", () => {
-		beforeEach(() => {
-			stubReply(titleRejected);
-		});
-
-		it("should keep the user title as the lecture title when the lecture has one", async () => {
-			const result = await runStage(contextWith({ manifest: withUserTitle }));
-
-			expect(result.output.lectureTitle).toBe(testUserTitle);
-		});
-
-		// The user title holds, so the lecture title and the base name do not change.
-		// A change to either would move lecture files that carry the user title.
-		it("should decide only what the model derived when the lecture has a user title", async () => {
-			const result = await runStage(contextWith({ manifest: withUserTitle }));
-
-			expect(result.identityChanges).toEqual({ aiDerivedTitle: aiDerivedLecture.title });
-		});
-
-		it("should leave the workspace where it stands when the lecture has a user title", async () => {
-			await runStage(contextWith({ manifest: withUserTitle }));
-
-			expect(await pathExists(workspaceRoot())).toBe(true);
-		});
-	});
-
-	describe("recording which way the title was decided", () => {
-		// Every later stage names its output from this title. So the debug log must
-		// record the outcome (technical-design.md §10).
-		it.each([
-			{ outcome: "kept-provisional", reply: titleKept, manifest: {} },
-			{ outcome: "adopted-derived", reply: titleRejected, manifest: {} },
-			{ outcome: "kept-user-title", reply: titleRejected, manifest: withUserTitle },
-		])("should record $outcome when that is how the title was decided", async (decided) => {
-			stubReply(decided.reply);
-
-			await runStage(contextWith({ manifest: decided.manifest }));
-
-			expect(decidedTitleOutcome()).toBe(decided.outcome);
-		});
+		expect(await pathExists(manifestPath({ workspaceRoot: workspaceRoot() }))).toBe(false);
 	});
 
 	describe("treating as unusable a reply that is not the documented JSON object", () => {
 		it.each([
 			{ what: "prose rather than JSON", content: "Here are your structured notes!" },
 			{ what: "JSON that is not an object", content: '"a string"' },
-			{
-				what: "an object missing structuredMarkdown",
-				content: '{"provisionalTitleMeaningful":true}',
-			},
-			{
-				what: "a non-boolean judgement",
-				content:
-					'{"provisionalTitleMeaningful":"yes","suggestedTitle":null,"structuredMarkdown":"x"}',
-			},
+			{ what: "an object missing structuredMarkdown", content: '{"markdown":"x"}' },
+			{ what: "structuredMarkdown that is not text", content: '{"structuredMarkdown":42}' },
 		])("should fail when the model returns $what", async ({ content }) => {
 			modelCallMock.mockResolvedValue({ content, cost: COST });
 
