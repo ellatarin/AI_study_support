@@ -371,10 +371,13 @@ export function extractDates(filename: string): readonly Date[] {
 	);
 }
 
+const ON_BEFORE_DATE = /(?:^|[\s_])on[\s_]+$/i;
+
 /**
  * Removes every date match from the text, confident or not. So a weekday alone,
  * such as `Fri`, is also removed, and the provisional title keeps only the words
- * of the filename. The whitespace is then collapsed and trimmed.
+ * of the filename. An "on" directly before a date is removed with the date
+ * (technical-design.md §3.2). The whitespace is then collapsed and trimmed.
  *
  * @param text - The text to clean.
  * @returns The text without its dates.
@@ -388,7 +391,8 @@ export function stripDateTokens(text: string): string {
 	// The matches are in text order. The loop removes the last match first, so
 	// the index of each earlier match stays correct.
 	for (const match of [...matches].reverse()) {
-		withoutDates = `${withoutDates.slice(0, match.index)} ${withoutDates.slice(match.index + match.length)}`;
+		const before = withoutDates.slice(0, match.index).replace(ON_BEFORE_DATE, "");
+		withoutDates = `${before} ${withoutDates.slice(match.index + match.length)}`;
 	}
 	return collapseWhitespace(withoutDates);
 }

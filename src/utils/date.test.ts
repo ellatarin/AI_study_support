@@ -142,6 +142,12 @@ describe("stripDateTokens", () => {
 		{ input: "2025-10-10 Immune System Fri", expected: "Immune System" },
 		{ input: "BOD_Immunity to Infection 13 Oct 2025 v2", expected: "BOD_Immunity to Infection v2" },
 		{ input: "Fri 10th Oct Immune System copy", expected: "Immune System copy" },
+		{ input: "BOD_Complement on 17102025 Fri copy", expected: "BOD_Complement copy" },
+		{ input: "BOD_Complement_on_17102025", expected: "BOD_Complement" },
+		{ input: "Immune System ON 2025-10-10", expected: "Immune System" },
+		// An "on" before a date is always removed, also when it belongs to the title.
+		{ input: "Carry on 2025-10-10 with Immunity", expected: "Carry with Immunity" },
+		{ input: "Lights on", expected: "Lights on" },
 	])("should remove date tokens when input is $input", ({ input, expected }) => {
 		expect(stripDateTokens(input)).toBe(expected);
 	});

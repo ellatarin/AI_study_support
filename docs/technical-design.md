@@ -69,6 +69,8 @@ All pipeline artefacts for a lecture live inside a single named workspace folder
 
 Source videos may have the date in any position and any format. `source-normalisation` extracts the date, assigns a lecture number by date order, and produces the provisional title by stripping the date, day names (Mon–Sun), configured module prefixes (e.g. `BOD_`, `Biology of Disease -`), any embedded lecture-number token (e.g. `Lecture 1`, which would otherwise duplicate the assigned number), and trailing artefacts (`co`, `copy`) from the original filename, keeping the lecturer's capitalisation as typed. The separators left behind by those removals go too, so a name `source-normalisation` itself produced reads back as the title it was built from: `Lecture 1 - Cell Injury - 2025-10-10.mp4` gives `Cell Injury`, which is how a lecture renamed by a run that stopped before writing its manifest keeps its title on the next one.
 
+An "on" directly before a date belongs to the date, so it is removed with the date. `BOD_Complement on 17102025 Fri.mp4` gives `Complement`. An "on" in any other place stays in the title.
+
 **Dates are read in British convention.** A four-digit component is the year; otherwise the day leads. Month-first is never read. All eight numeric forms are accepted:
 
 | Day first | Year first |
@@ -113,7 +115,7 @@ extractDate(filename: string): Date | null
 // Numeric forms first, read in British convention; chrono for dates written in words.
 // null when no date is found with sufficient confidence.
 formatDateISO(date: Date): string                    // YYYY-MM-DD, in local time — the zone the date was read in
-stripDateTokens(text: string): string                // removes every numeric date, and every date and weekday span chrono finds
+stripDateTokens(text: string): string                // removes every numeric date, every date and weekday span chrono finds, and an "on" directly before a date
 isCalendarDate(value: string): boolean
 // Whether text is an ISO `YYYY-MM-DD` date that exists, so `2025-02-30` is refused as firmly as
 // `yesterday`. Asked at both points a date enters the pipeline from outside — the command line, and a

@@ -41,6 +41,11 @@ describe("extractProvisionalTitle", () => {
 		// Lecturers do not write their module prefix in one case, so the case is ignored.
 		{ filename: "2025-10-10 bod_Cell injury.mp4", expected: "Cell injury" },
 		{ filename: "2025-10-10 Bod Cell injury.mp4", expected: "Cell injury" },
+		{ filename: "BOD_Complement on 17102025 Fri copy.mp4", expected: "Complement" },
+		{ filename: "BOD_Cancer Therapy on 16032026.mp4", expected: "Cancer Therapy" },
+		{ filename: "BOD_Cell injury on Fri 10th Oct.mp4", expected: "Cell injury" },
+		{ filename: "2025-10-10 BOD_Lights on.mp4", expected: "Lights on" },
+		{ filename: "  BOD_Cell injury 2025-10-10  .mp4", expected: "Cell injury" },
 	])("should extract provisional title when filename is $filename", ({ filename, expected }) => {
 		expect(extractProvisionalTitle({ filename, modulePrefixes: MODULE_PREFIXES })).toBe(expected);
 	});
