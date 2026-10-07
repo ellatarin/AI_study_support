@@ -2,6 +2,8 @@
 
 All documentation work was parked on 2026-10-07, while the user builds features. This file lists each part of the work, its state and where it is. Read it first when the work starts again.
 
+The work happens on `main`, in the main folder. The separate worktree for the comment rewrite was removed on 2026-10-07.
+
 ## 1. The rewrite of the technical design (this folder)
 
 - `spec.md` — the goal, the method and every rule a sentence must follow.
