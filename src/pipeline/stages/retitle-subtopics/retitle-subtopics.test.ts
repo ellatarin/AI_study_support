@@ -17,7 +17,7 @@ import {
 } from "../../fixtures.js";
 import { stageOutputPath, stageRecordPath } from "../../layout.js";
 import { callModel } from "../../openrouter.js";
-import { ResendsExhaustedError } from "../panel-runs.js";
+import { ResendsExhaustedError } from "../model-stage.js";
 import { createRetitleSubtopicsStage, RetitleSubtopicsError } from "./retitle-subtopics.js";
 
 // Only the model call is a stub. The other exports of the module stay real.

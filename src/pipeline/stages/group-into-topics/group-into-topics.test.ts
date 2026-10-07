@@ -24,7 +24,7 @@ import {
 	stageRecordPath,
 } from "../../layout.js";
 import { callModel } from "../../openrouter.js";
-import { ResendsExhaustedError } from "../panel-runs.js";
+import { ResendsExhaustedError } from "../model-stage.js";
 import { GroupIntoTopicsError } from "./choose-grouping.js";
 import { createGroupIntoTopicsStage } from "./group-into-topics.js";
 

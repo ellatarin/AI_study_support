@@ -1,23 +1,18 @@
 /**
- * This module holds what the panel stages share around the model call. It resends
- * an unusable reply. It makes a panel whose saved runs survive a failure and a later
- * invocation. See technical-design.md §5, "Dividing the transcript", Panel runs.
+ * This module holds what the panel stages share around the model call. It makes a
+ * panel whose saved runs survive a failure and a later invocation. See
+ * technical-design.md §5, "Dividing the transcript", Panel runs.
  */
 
 import { join, relative } from "node:path";
-import type { Logger } from "pino";
 import type { StageContext, StageCost, StageId, StageResult } from "../../types/pipeline.js";
 import { mapWithConcurrency } from "../../utils/concurrency.js";
 import { totalCost } from "../../utils/cost.js";
 import { NamedError } from "../../utils/errors.js";
 import { pathExists, readJsonSafe, writeJsonAtomic } from "../../utils/files.js";
-import { sendUntilAccepted } from "../../utils/resend.js";
 import { configuredStage } from "../../utils/stage-config.js";
 import { type StageInWorkspace, savedRunFileName, stageDirectoryPaths } from "../layout.js";
-import { type JsonReplyOutcome, tryJsonReplyAs, type UsableJsonReply } from "./model-stage.js";
-
-/** A call whose reply is still unusable after its last send. The message names the call and the last reason. */
-export class ResendsExhaustedError extends NamedError {}
+import { sendJsonWithResends, type tryJsonReplyAs } from "./model-stage.js";
 
 /**
  * A saved run that is not JSON or not a run. A saved run is written whole or not
@@ -26,70 +21,6 @@ export class ResendsExhaustedError extends NamedError {}
  * transcript", Panel runs).
  */
 export class SavedRunUnreadableError extends NamedError {}
-
-/**
- * Sends one call until its reply is usable: up to three sends, with a pause of two
- * seconds and then four between them. The cost of every send is counted, because
- * every send is billed.
- *
- * Only an unusable reply is resent. An error that the call throws is not resent.
- * The OpenAI client and the model call already resend a failed call that can
- * succeed when it is sent again. See technical-design.md §5, "Dividing the
- * transcript", Panel runs, and §6, §8.
- *
- * Each unusable reply is logged as a warning with the call, the send number and
- * the reason (technical-design.md §5, "Dividing the transcript", Panel runs).
- *
- * @param args - The call, its name, and the logger.
- * @param args.send - Makes the call once.
- * @param args.what - The name of the call in the log and in a failure, such as "run 3".
- * @param args.logger - The logger of the stage.
- * @returns The usable reply, and the cost of all the sends.
- * @throws {ResendsExhaustedError} When the reply of the third send is still unusable.
- * @typeParam TReply - The reply that the call expects.
- */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger type has mutable properties that the rule sees. This code only logs to it. CLAUDE.md allows a mutable type where a library requires one.
-export async function sendWithResends<TReply>({
-	send,
-	what,
-	logger,
-}: {
-	readonly send: () => Promise<JsonReplyOutcome<TReply>>;
-	readonly what: string;
-	readonly logger: Logger;
-}): Promise<UsableJsonReply<TReply>> {
-	const { sent, cost } = await sendUntilAccepted({
-		send,
-		onFailure: ({ send: sends, failure }) => {
-			logger.warn({ what, send: sends, reason: failure }, "Unusable reply");
-		},
-		exhausted: ({ failure, sends }) =>
-			new ResendsExhaustedError(`${what} failed after ${sends} sends: ${failure}`),
-	});
-	return { reply: sent.reply, cost };
-}
-
-/**
- * Asks the model for a JSON reply for a stage, and resends the call until the reply
- * is usable: {@link sendWithResends} over {@link tryJsonReplyAs}. Every call of the
- * splitting, retitling and grouping stages uses it.
- *
- * @param args - The request and the use of the reply, as for {@link tryJsonReplyAs}, and the name of the call.
- * @param args.what - The name of the call in the log and in a failure, such as "Grouping run 3".
- * @returns The value that the stage keeps from the usable reply, and the cost of all the sends.
- * @throws {ResendsExhaustedError} When the reply of the third send is still unusable.
- * @typeParam TReply - The reply that the stage expects.
- * @typeParam TKept - The value that the stage keeps from the reply.
- */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- the message-param, pino Logger and OpenAI client types are library types that are not deeply readonly. CLAUDE.md allows a mutable type where a library requires one.
-export function sendJsonWithResends<TReply, TKept>({
-	what,
-	...request
-}: Parameters<typeof tryJsonReplyAs<TReply, TKept>>[0] & { readonly what: string }): Promise<
-	UsableJsonReply<TKept>
-> {
-	return sendWithResends({ what, logger: request.logger, send: () => tryJsonReplyAs(request) });
-}
 
 /**
  * The size and the folder of a panel's saved runs, and the reader of one saved run.

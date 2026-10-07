@@ -32,8 +32,9 @@ import {
 	type ModelStageDependencies,
 	type ModelStageFactory,
 	type ModelStageRunArgs,
+	sendJsonWithResends,
 } from "../model-stage.js";
-import { runStagePanel, sendJsonWithResends } from "../panel-runs.js";
+import { runStagePanel } from "../panel-runs.js";
 import { readTranscriptAndRuns } from "../stage-input.js";
 import { buildDeepeningMessages } from "./deepen-subtopic-splitting.prompt.js";
 /* jscpd:ignore-end */

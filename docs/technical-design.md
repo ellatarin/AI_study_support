@@ -1236,12 +1236,15 @@ runStagePanel<TRun>(args: { stageId: StageId; context: StageContext; panelSize: 
 // The panel's size is the caller's: the splitting stages pass the division's, group-into-topics the grouping's.
 runOneCallPanel<TReply, TRun>(args: { stageId; context; panelSize; readRun; runName: string; request }): Promise<StageResult<{ runs: readonly TRun[] }>>
 // runStagePanel where every run is the same one JSON call: initial-subtopic-splitting and group-into-topics.
-sendJsonWithResends<TReply, TKept>(args: JsonReplyRequest<TReply> & { what: string; use }): Promise<UsableJsonReply<TKept>>
-// tryJsonReplyAs, resent until usable: every call the splitting, retitling and grouping stages make.
 readPanel<TRun>(args: { panelSize: number; directory: string; readRun; fail }): Promise<readonly TRun[]>
 // readRun reads a parsed run file as a run, or gives null when it is not one, which is a named error.
 // Reads back a panel an earlier stage finished; a missing run throws the error `fail` builds.
 panelDirectory(args: { workspaceRoot: string; stageId: StageId }): string
+
+// src/pipeline/stages/model-stage.ts — shared by every model-calling stage
+sendJsonWithResends<TReply, TKept>(args: JsonReplyRequest<TReply> & { what: string; use }): Promise<UsableJsonReply<TKept>>
+// tryJsonReplyAs, resent until usable: every call the splitting, retitling and grouping stages make.
+// The third unusable reply is a ResendsExhaustedError.
 
 // src/pipeline/stages/panel-vote.ts — shared by choose-division and group-into-topics
 panelVote(args: { runs: readonly (readonly number[])[]; bar: number }): readonly number[]

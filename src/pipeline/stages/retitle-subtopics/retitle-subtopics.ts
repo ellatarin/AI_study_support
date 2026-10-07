@@ -13,8 +13,8 @@ import {
 	defineModelStage,
 	type ModelStageFactory,
 	type ModelStageRunArgs,
+	sendJsonWithResends,
 } from "../model-stage.js";
-import { sendJsonWithResends } from "../panel-runs.js";
 import { readTranscriptAndDivision, type TranscriptAndDivision } from "../stage-input.js";
 import { type DivisionOutput, writeDivisionWithStageRecord } from "../stage-output.js";
 import { buildRetitleMessages } from "./retitle-subtopics.prompt.js";

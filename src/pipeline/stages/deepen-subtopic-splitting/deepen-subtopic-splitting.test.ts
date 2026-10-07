@@ -32,7 +32,7 @@ import {
 } from "../../fixtures.js";
 import { callModel } from "../../openrouter.js";
 import { type Subtopic, subtopicText } from "../division.js";
-import { ResendsExhaustedError } from "../panel-runs.js";
+import { ResendsExhaustedError } from "../model-stage.js";
 import {
 	createDeepenSubtopicSplittingStage,
 	DeepenSubtopicSplittingError,
