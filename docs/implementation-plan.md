@@ -8,7 +8,7 @@
 
 ## Overview
 
-The pipeline is built in twenty phases. Phases 1–3 establish the project scaffold and shared infrastructure before any stage code is written. Phases 4–7 implement the stages from `source-normalisation` to `transcript-verification`. Phases 8–14 divide the transcript: two groundwork phases, then the stages that split it, choose a division, retitle its subtopics and group them, all running after transcription with every existing stage unchanged. Phases 15–19 implement the remaining stages in pipeline order. Phase 20 validates the full pipeline end-to-end against a real lecture.
+The pipeline is built in twenty-one phases. Phases 1–3 make the project scaffold and the shared infrastructure before any stage code is written. Phases 4–7 implement the stages from `source-normalisation` to `transcript-verification`. Phases 8–14 divide the transcript. Two phases make the groundwork. Then the stages split the transcript, choose a division, retitle its subtopics and group them. Phase 15 moves the title judgement to a new stage after grouping. Phases 16–20 implement the remaining stages in pipeline order. Phase 21 checks the full pipeline from end to end against a real lecture.
 
 Testing is not a final phase — unit tests are written alongside each deliverable per the project conventions. Integration tests are noted explicitly where unit testing alone is insufficient.
 
@@ -70,25 +70,34 @@ Cross-references to the technical design are noted as **(TD §N)**.
 
 **Deliverables:**
 
-- `src/types/pipeline.ts` — every shared type, `STAGE_IDS`, the ordered stage list `StageId` is derived from, and `CONFIG_FILENAME`, the configuration file every layer names **(TD §4.1, §4.2, §4.7, §6)**. Covers the stage contracts (`PipelineStage`, `StageContext`, `StageResult`, `StageCost`, `StageConfigUsed`, `StageStatus`), the persisted shapes (`Manifest`, `StageEntry`, `RunLog`, `RunLogStageEntry`, `RunLogCost`, `RunType`), config (`PipelineConfig`, `StageConfig`), QA (`QaDeficiency`, `QaCheckerReport`, `QaDeficienciesReport`, `QaSourcePassage`, `QaConsideration`), and the runner-facing `LectureMatch`, `PipelineRunOptions`, `BatchOptions`, `ReportOptions`, `PipelineStageOutcome`, `PipelineRunSummary`, `BatchSummary`, with `DEFAULT_PIPELINE_RUN_OPTIONS` and `DEFAULT_BATCH_OPTIONS`
-- `src/pipeline/layout.ts` — the filesystem vocabulary, declared once: `moduleDirs`, `sharedLectureFileDirs`, `workspaceRootFor`, `moduleRootOf`, `moduleName`, `MANIFEST_FILE`, `RUN_LOGS_DIR`, `DEBUG_LOGS_DIR`, `runLogsDirPath`, `debugLogPath`, `savedRunFileName`, `STAGE_FILES`, `StageWithOutputFile` and the `stageOutputEntry` that admits only those stages, `stageOutputPath`, `resolveStageOutput`, `stageDirectoryPaths` **(TD §3.3, "The layout has one owner")**. Every stage, the runner and the CLI take directory and file names from here. No other production module states one as a literal. The test fixtures write some names out, so that the tests check the names
+- `src/types/pipeline.ts` holds every shared type **(TD §4.1, §4.2, §4.7, §6)**. It also holds `STAGE_IDS`, the ordered stage list from which `StageId` is derived. And it holds `CONFIG_FILENAME`, the configuration file that every layer names. These are the types:
+  - The stage contracts: `PipelineStage`, `StageContext`, `StageResult`, `StageCost`, `StageConfigUsed`, `StageStatus`.
+  - The persisted shapes: `Manifest`, `StageEntry`, `RunLog`, `RunLogStageEntry`, `RunLogCost`, `RunType`.
+  - The config: `PipelineConfig`, `StageConfig`.
+  - QA: `QaDeficiency`, `QaCheckerReport`, `QaDeficienciesReport`, `QaSourcePassage`, `QaConsideration`.
+  - The runner-facing types: `LectureMatch`, `PipelineRunOptions`, `BatchOptions`, `ReportOptions`, `PipelineStageOutcome`, `PipelineRunSummary`, `BatchSummary`, with `DEFAULT_PIPELINE_RUN_OPTIONS` and `DEFAULT_BATCH_OPTIONS`.
+- `src/pipeline/layout.ts` declares the filesystem vocabulary once **(TD §3.3, "The layout has one owner")**. It holds `moduleDirs`, `sharedLectureFileDirs`, `workspaceRootFor`, `moduleRootOf`, `moduleName`, `MANIFEST_FILE`, `RUN_LOGS_DIR`, `DEBUG_LOGS_DIR`, `runLogsDirPath`, `debugLogPath` and `savedRunFileName`. It also holds `STAGE_FILES`, `StageWithOutputFile`, `stageOutputEntry` (which admits only those stages), `stageOutputPath`, `resolveStageOutput` and `stageDirectoryPaths`. Every stage, the runner and the CLI take directory and file names from here. No other production module states one as a literal. The test fixtures write some names out, so that the tests check the names
 - `src/utils/files.ts` — `writeFileAtomic`, `writeJsonAtomic`, `readJsonSafe`, `cleanTmpFiles`, `pathExists`, and the directory reads `readDirSafe`/`listFileNames`/`listSubdirectoryNames` **(TD §4.3)**
 - `src/pipeline/workspace-paths.ts` — `resolveManifestPath` with its `ManifestPathError` **(TD §4.4)**. It is apart from the helpers above. A mistake here lets a path escape the module tree.
 - `src/utils/logger.ts` — `createDebugLogger`, `createStageLogger` **(TD §10, Logging and Progress Helpers)**
 - `src/utils/date.ts` — `extractDate`, `formatDateISO`, `isCalendarDate` **(TD §3.2, Date and Naming Helpers)**
-- `src/utils/naming.ts` — `extractProvisionalTitle`, `titledBaseName`, `lectureBaseName` **(TD §3.2)**; `filenameSafe` and the `EmptyNameError` it raises **(TD §4.4)**
-- `src/utils/progress.ts` — `createProgressBar` and `createUploadProgressStream` **(TD §10)**. `createUploadProgressStream` moves out of `src/index.ts`. `createParallelWorkBar` is specified in TD §10 but built in Phase 15, with the first stage that calls it
+- `src/utils/naming.ts` — `extractProvisionalTitle`, `titledBaseName`, `lectureBaseName` **(TD §3.2)**, and `filenameSafe` with the `EmptyNameError` that it raises **(TD §4.4)**
+- `src/utils/progress.ts` — `createProgressBar` and `createUploadProgressStream` **(TD §10)**. `createUploadProgressStream` moves out of `src/index.ts`. `createParallelWorkBar` is specified in TD §10 but built in Phase 16, with the first stage that calls it
 - `src/utils/cost.ts` — `accumulateCost`, the arithmetic alone **(TD §7)**
 - `src/pipeline/reports.ts` — `createMoneyFormatter`, `formatCostReport` and the table engine beneath them **(TD §7, Cost and Reporting Modules)**
-- `src/utils/stage-id.ts` — `isStageId`, `unknownStageMessage`: recognising a stage name and reporting one that is not, for the stage flags and the config keys alike; `isStageAfter`: one stage's position against another's in `STAGE_IDS`, asked by the CLI refusing a `--to-stage` before `--from-stage` and by the runner stopping at the bound **(TD §6; §4.7)**
-- `src/utils/model-id.ts` — `splitModelId`: a model ID's provider and its name, read by the provider exemption and by `transcription`, which want opposite halves **(TD §6; §5, `transcription`)**
-- `src/utils/language.ts` — `isOutputLanguage`, `unknownLanguageMessage`, `languageRule`: recognising a configured language, reporting one the pipeline cannot write, and wording the instruction every prose stage's prompt gives the model **(TD §6)**
-- `src/utils/record.ts` — `isRecord`: whether a parsed value has fields to read, shared by every check over something parsed from outside the pipeline — the config file, a manifest, a model's reply **(TD §6; §4.4; §7)**
-- `src/utils/text.ts` — `collapseWhitespace`: closing up the gaps that removing a fragment leaves, which both the naming rules and the date reader end by doing **(TD §3)**; `pluralise`: a count and its noun agreeing with each other, for every place that tells the user how many of something there are
-- `src/utils/stage-config.ts` — `configuredStage`, `unconfiguredStageMessage`: a stage's entry in the config file and the sentence reporting its absence, for the OpenRouter client, `transcription` and the runner alike **(TD §6)**
+- `src/utils/stage-id.ts` **(TD §6, §4.7)**:
+  - `isStageId` and `unknownStageMessage` recognise a stage name and report a name that is not a stage. The stage flags and the config keys both use them.
+  - `isStageAfter` compares the positions of two stages in `STAGE_IDS`. The CLI uses it to refuse a `--to-stage` before `--from-stage`. The runner uses it to stop at the bound.
+- `src/utils/model-id.ts` — `splitModelId` gives a model ID's provider and its name **(TD §6, and §5, `transcription`)**. The provider exemption reads the provider, and `transcription` reads the name.
+- `src/utils/language.ts` — `isOutputLanguage`, `unknownLanguageMessage` and `languageRule` **(TD §6)**. They recognise a configured language and report a language that the pipeline cannot write. `languageRule` words the instruction that each prose prompt gives the model.
+- `src/utils/record.ts` — `isRecord` tells whether a parsed value has fields to read **(TD §6, §4.4, §7)**. Every check of a value parsed from outside the pipeline uses it: the config file, a manifest and a model's reply.
+- `src/utils/text.ts`:
+  - `collapseWhitespace` closes the gaps that remain when a fragment is removed **(TD §3)**. The naming rules and the date reader both end with it.
+  - `pluralise` makes a count and its noun agree. Every message that tells the user a number of things uses it.
+- `src/utils/stage-config.ts` — `configuredStage` and `unconfiguredStageMessage` give a stage's entry in the config file, and the sentence that reports a missing entry **(TD §6)**. The OpenRouter client, `transcription` and the runner all use them.
 - `src/pipeline/config.ts` — `loadConfig`, plus the model-ID resolution check and its provider exemptions **(TD §6)**
 - `src/pipeline/openrouter.ts` — `createOpenRouterClient`, `callModel`, and the exported `UnconfiguredStageError`, `ContextLengthError`, `ProviderError` and `NoReplyChoicesError` **(TD §6)**
-- `src/pipeline/fixtures.ts` — the shared test vocabulary: the example lecture and its derived file names, the module tree builders, the stub logger, the manifest and stage-entry builders. It belongs to this phase because it is what stops each later phase's suites inventing their own lecture, but it is the one deliverable that keeps growing: a phase that needs a fixture the suites will share extends this module rather than restating the value. Production code never imports it, which `eslint.config.js` exempts it in order to allow — it is the one file under `src/pipeline/` permitted to import from `src/pipeline/stages/`
+- `src/pipeline/fixtures.ts` holds the shared test vocabulary. This is the example lecture and its derived file names, the module tree builders, the stub logger, and the manifest and stage-entry builders. It belongs to this phase because it stops the suites of each later phase from making their own lecture. But it is the one deliverable that keeps growing. A phase that needs a fixture for several suites extends this module and does not state the value again. Production code never imports it. So `eslint.config.js` lets it import from `src/pipeline/stages/`, and no other file under `src/pipeline/` can
 
 **Tests:**
 
@@ -891,11 +900,53 @@ Unit tests for the config: as Phase 10, for the `grouping` section, the bar exce
 
 **Live run:** `retitle-subtopics` and `group-into-topics` together on one lecture (about $0.51, stated first): the new titles and the chosen topics beside the prototype's, for the user to read.
 
-**Acceptance:** A lecture gains nine grouping runs and a topics file holding the chosen grouping, with a record beside it of which run, its support and the deciding rule; replay agrees or each difference is explained.
+**Acceptance:** A lecture gains nine grouping runs and a topics file that holds the chosen grouping. Beside it is a record of the chosen run, its support and the deciding rule. The replay agrees, or each difference is explained.
 
 ---
 
-## Phase 15 — `slide-conversion`
+## Phase 15 — `judge-lecture-title`
+
+**Goal:** Judge the provisional title against the grouped lecture in a new stage after `group-into-topics`. Remove the title judgement from `transcript-structuring`, so that only one stage can rename a lecture.
+
+**Deliverables:**
+
+`src/pipeline/stages/judge-lecture-title/` **(TD §5, `judge-lecture-title`)** contains the stage and its prompt module. The stage reads the retitled subtopics and the chosen topics, and builds the grouped lecture from them. It makes one call and resends an unusable reply. It writes `Title judgement/judgement.json`, and then does the rename in the order that the TD gives. The prompt is the title part of the `transcript-structuring` prompt, changed only as TD §5 says. The stage is added to `lectureStages` after `group-into-topics`, with its `STAGE_IDS` and `STAGE_FILES` entries and its cost-report label.
+
+The stage's entry is added to the example config and to the user's own config, with `openai/gpt-6.1-sol-pro` **(TD §6)**.
+
+`transcript-structuring` loses its title judgement **(TD §5, `transcript-structuring`)**. Its prompt asks only for `structuredMarkdown`. It no longer moves lecture files or returns identity changes. Its title tests move to the new stage.
+
+The stage tests need a workspace that holds the retitled subtopics and the chosen topics. Extend the `useStageReadingDivision` fixture to write the topics. Do not build a second fixture.
+
+**Tests:**
+
+Tests for the stage (mock `callModel`, real temp directory):
+- `should send each topic's title with its subtopics' titles and trimmed text in order when the stage calls the model`
+- `should send the provisional title when the lecture has one`
+- `should say that the filename carried no title when the provisional title is empty`
+- `should include the language rule in the prompt when the stage calls the model`
+- `should resend the call when the reply $problem` — `test.each` across the five unusable replies in TD §5, `judge-lecture-title`
+- `should fail without writing the judgement when the third send is still unusable`
+- `should fail naming the file, without calling the model, when the $file $problem` — `test.each` across the retitled subtopics and the topics, each missing, not JSON, and the wrong shape
+- `should write the judgement with outcome $outcome when $case` — `test.each` across `kept-provisional`, `adopted-derived` and `kept-user-title`
+- `should record no AI-derived title when the model judges the provisional title meaningful and still proposes one`
+
+Integration tests for the stage (real temp directory):
+- `should move the video, the slide, the workspace and the PDF to the new base name when the outcome is adopted-derived`
+- `should leave every file in place when the outcome is $outcome` — `test.each` across `kept-provisional` and `kept-user-title`
+- `should write the identity changes of $outcome to the manifest when the runner completes the stage` — `test.each` across the three outcomes
+
+Tests for `transcript-structuring`:
+- `should send no provisional title when the stage calls the model`
+- `should return no identity changes when the stage completes`
+
+**Live run:** the stage on two lectures, one with a meaningful title and one without (about $0.12, stated first). The user reads each judgement and its reason.
+
+**Acceptance:** A lecture gains `Title judgement/judgement.json`. A lecture whose provisional title is not meaningful, and that has no user title, is renamed once. `transcript-structuring` renames nothing.
+
+---
+
+## Phase 16 — `slide-conversion`
 
 **Goal:** Vision LLM extraction of content from each slide, with intra-stage resumability and controlled concurrency.
 
@@ -921,7 +972,7 @@ Integration tests (real temp directory; real small PDF fixture):
 
 ---
 
-## Phase 16 — `image-extraction`
+## Phase 17 — `image-extraction`
 
 **Goal:** Identify academic figures within each slide PNG, crop them with `sharp`, and produce an `images-manifest.json`.
 
@@ -944,7 +995,7 @@ Integration tests (real temp directory; real slide PNG fixture):
 
 ---
 
-## Phase 17 — `synthesis`
+## Phase 18 — `synthesis`
 
 **Goal:** Single LLM call assembling transcript, slide content, and figure captions into textbook-style notes in British English.
 
@@ -965,7 +1016,7 @@ Unit tests:
 
 ---
 
-## Phase 18 — `qa-loop`
+## Phase 19 — `qa-loop`
 
 **Goal:** Iterative quality check and revision cycle; writes the final `QA checked/notes.md`.
 
@@ -993,7 +1044,7 @@ Integration tests (real temp directory):
 
 ---
 
-## Phase 19 — `pdf-generation`
+## Phase 20 — `pdf-generation`
 
 **Goal:** Convert `QA checked/notes.md` to PDF via pandoc and deposit in `Final output/`, the module directory the stage owns.
 
@@ -1020,7 +1071,7 @@ Integration tests (`pdf-generation.integration.test.ts`) — requires pandoc and
 
 ---
 
-## Phase 20 — End-to-End Validation
+## Phase 21 — End-to-End Validation
 
 **Goal:** Run the full pipeline against a real lecture and verify output quality and pipeline mechanics.
 

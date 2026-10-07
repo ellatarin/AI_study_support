@@ -76,6 +76,10 @@ _Avoid_: manual title, override
 The title in force: the user title if set, otherwise the AI-derived title, otherwise the provisional title. It is always present, so no later stage has to ask which kind it got.
 _Avoid_: name, display title, effective title
 
+**Judging the lecture title**:
+Deciding whether the provisional title is meaningful for the lecture's content. The decision is the *title judgement*. It comes after grouping, so the model reads the whole lecture as its topics and subtopics, each under its title. A meaningful provisional title stays. Otherwise the model proposes an AI-derived title, and the lecture takes that title unless a user title is set.
+_Avoid_: retitling the lecture (retitling is for subtopics), title check, title verification
+
 **Base name**:
 The one name that a lecture's video recording, slide deck, workspace and PDF share. To rename a lecture, all four move to one new name together.
 _Avoid_: filename, stem, prefix, canonical name, folder name, lecture name

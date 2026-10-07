@@ -95,12 +95,12 @@ A date is recognised wherever it sits and whatever abuts it: the boundary is "no
 | Original (user-supplied) | `2025-10-10 BOD_Disease cell injury and the immune system Fri co.mp4` |
 | After `source-normalisation` | `Lecture 1 - Disease Cell Injury and the Immune System - 2025-10-10.mp4` |
 
-The provisional title is a best-effort guess from whatever the filename happens to carry — some filenames include a full descriptive title, others little more than a date and a lecture number. Whether it is good enough is not decided here. `transcript-structuring`, which reads the transcript, judges whether the lecturer's provisional title is meaningful and accurate for the content and **prefers it when it is** — a title the lecturer wrote deliberately is authoritative. Only when the provisional title is not meaningful does `transcript-structuring` replace it:
+The provisional title is a best guess from what the filename carries. Some filenames include a full descriptive title. Others hold little more than a date and a lecture number. Whether it is good enough is not decided here. `judge-lecture-title` reads the whole lecture and judges whether the provisional title is meaningful for its content. A title that the lecturer wrote on purpose is authoritative, so the stage keeps a meaningful title. The stage replaces the provisional title only when it is not meaningful:
 
-| Provisional title | After `transcript-structuring` |
+| Provisional title | After `judge-lecture-title` |
 |---|---|
 | Meaningful (lecturer's title kept) | `Lecture 1 - Disease Cell Injury and the Immune System - 2025-10-10.mp4` *(unchanged)* |
-| Not meaningful (replaced by `transcript-structuring`) | `Lecture 1 - Innate Immune Response - 2025-10-10.mp4` *(renamed by `transcript-structuring`)* |
+| Not meaningful (replaced by `judge-lecture-title`) | `Lecture 1 - Innate Immune Response - 2025-10-10.mp4` *(renamed by `judge-lecture-title`)* |
 
 #### Slide decks
 
@@ -132,8 +132,8 @@ extractProvisionalTitle(args: { filename: string; modulePrefixes: readonly strin
 // misspells the subject in both, and no rule can tell `mRNA` from an ordinary word since either may mix
 // cases. The cost is that a filename typed in lower case yields a lower-case title: names are exactly as
 // consistent as the filenames are, and nothing here invents a spelling of its own.
-// A thin or empty result is acceptable — a date-plus-number filename leaves nothing — and transcript-structuring judges
-// the title once the transcript exists. The prefixes come from `naming.modulePrefixes` (§6) rather than
+// A thin or empty result is acceptable — a date-plus-number filename leaves nothing — and judge-lecture-title judges
+// the title once the lecture is grouped into topics. The prefixes come from `naming.modulePrefixes` (§6) rather than
 // being written here: a prefix names a module, and the pipeline is pointed at several. Each is matched
 // literally and without regard to case, so one carrying a pattern character means itself, and an empty
 // list strips nothing.
@@ -188,6 +188,9 @@ Lecture 1 - Disease Cell Injury and the Immune System - 2025-10-10/
 ├── Topics/
 │   ├── topics.json                            # group-into-topics — the chosen grouping
 │   └── choice.json                            # group-into-topics — which run, its support, and the rule that decided
+│
+├── Title judgement/
+│   └── judgement.json                         # judge-lecture-title — the title judgement, its reason and its outcome
 │
 ├── Structured transcript/
 │   └── structured-transcript.md              # transcript-structuring
@@ -377,22 +380,23 @@ Because all other files inside the workspace use simple names, only the four lec
 | `transcription` | Per-lecture | Upload audio to ElevenLabs, save raw transcript |
 | `initial-subtopic-splitting` | Per-lecture | Cut the whole transcript into subtopics, once per splitting run in the panel |
 | `deepen-subtopic-splitting` | Per-lecture | In each splitting run, divide further every subtopic over the size gate |
-| `choose-division` | Per-lecture | Vote on where the splitting runs divide the transcript, and keep the run nearest the vote; no model call |
+| `choose-division` | Per-lecture | Vote on where the splitting runs divide the transcript, and keep the run nearest the vote. No model call |
 | `retitle-subtopics` | Per-lecture | Give every subtopic of the chosen division a new title from its own text, in one call over the whole lecture |
 | `group-into-topics` | Per-lecture | Group the retitled subtopics into topics: a panel of grouping runs, and the grouping most of them made |
-| `transcript-structuring` | Per-lecture | Determine AI title from transcript; structure transcript into markdown; conditionally rename files if original title was non-descriptive |
-| `transcript-verification` | Per-lecture | Compare the structured transcript against the raw one; report what was lost, underexplained, distorted, or invented. Reports only — never fails a run |
-| `slide-conversion` | Per-lecture | Render PDF slides as images; extract content via vision LLM |
+| `judge-lecture-title` | Per-lecture | Judge whether the provisional title is meaningful for the grouped lecture. Propose an AI-derived title when it is not, and rename the lecture files unless a user title is set |
+| `transcript-structuring` | Per-lecture | Structure the transcript into markdown |
+| `transcript-verification` | Per-lecture | Compare the structured transcript against the raw one. Report what was lost, underexplained, distorted, or invented. Reports only — never fails a run |
+| `slide-conversion` | Per-lecture | Render PDF slides as images. Extract content with a vision LLM |
 | `image-extraction` | Per-lecture | Identify, label, and filter academic figures from slide images |
 | `synthesis` | Per-lecture | Combine transcript, slide content, and figures into textbook-style notes |
-| `qa-loop` | Per-lecture | Iteratively check and revise notes; write final `QA checked/notes.md` |
-| `pdf-generation` | Per-lecture | Convert `QA checked/notes.md` to PDF via pandoc; deposit in `Final output/` |
+| `qa-loop` | Per-lecture | Check and revise the notes again and again. Write the final `QA checked/notes.md` |
+| `pdf-generation` | Per-lecture | Convert `QA checked/notes.md` to PDF with pandoc. Put the PDF in `Final output/` |
 
-The four division stages and `retitle-subtopics` run after `transcription` with every existing stage kept and unchanged; nothing reads their output yet, and moving the rest of the pipeline to the README's stage list is later work.
+The four division stages, `retitle-subtopics` and `judge-lecture-title` run after `transcription`. Every older stage stays. Of the later stages, only `judge-lecture-title` reads the topics and subtopics. The move of the rest of the pipeline to the README's stage list is later work.
 
 ### 4.2 Stage Interface
 
-Every stage implements a common `PipelineStage<TInput, TOutput>` contract: an idempotency check `isComplete(context)`, an input step `getInput(context)`, and `run({ input, context })` returning a `StageResult`. Stages read an immutable `StageContext` — lecture identity, `workspaceRoot`, `moduleRoot`, the resolved `PipelineConfig`, and the current `Manifest` — and never mutate it. A stage's own bookkeeping in the manifest — its status, cost, and `filesWritten` — is written by the runner, never by the stage, and so is the manifest's *lecture identity*. **No per-lecture stage writes `manifest.json`.** `transcript-structuring` settles the lecture's title (§5, `transcript-structuring`) and is the only stage that changes anything about the lecture's identity; it reports what it settled on `StageResult.identityChanges` and the runner writes it with the stage's `complete` entry.
+Every stage implements a common `PipelineStage<TInput, TOutput>` contract: an idempotency check `isComplete(context)`, an input step `getInput(context)`, and `run({ input, context })` returning a `StageResult`. Stages read an immutable `StageContext` and never change it. The context holds the lecture identity, `workspaceRoot`, `moduleRoot`, the resolved `PipelineConfig` and the current `Manifest`. The runner writes a stage's own bookkeeping in the manifest: its status, its cost and its `filesWritten`. The stage never writes them. The runner also writes the manifest's *lecture identity*. **No per-lecture stage writes `manifest.json`.** `judge-lecture-title` settles the lecture's title (§5, `judge-lecture-title`). It is the only stage that changes the lecture's identity. It reports what it settled on `StageResult.identityChanges`, and the runner writes that with the stage's `complete` entry.
 
 A stage's context is assembled before its own entry is marked `running`, so the manifest copy it carries is out of date in that field for as long as the stage runs. The copy is a read model. The runner re-reads the manifest immediately before each write and is its only writer, so every write has a current base, and the `running` marker survives the stage it belongs to (§4.5). Currency and trust are separate questions: the manifest is untrusted input however fresh it is, bounded by §4.4.
 
@@ -400,9 +404,9 @@ A stage's context is assembled before its own entry is marked `running`, so the 
 
 - `StageResult.cost` is `null` for stages that make no billable calls (audio-extraction, pdf-generation).
 - `StageResult.filesWritten` holds paths relative to `workspaceRoot`, and MAY escape upward with `..` (e.g. pdf-generation writes to `../../Final output/`) but MUST resolve under `moduleRoot` — enforced by §4.4.
-- `StageCost` is discriminated on `costUsd`: a resolved cost is a `number`; a failed lookup is `null` paired with an `unknownCostReason` (see §7).
-- `StageResult.identityChanges` holds the lecture-identity fields the stage decided — `lectureTitle`, `aiDerivedTitle`, `baseName` — for the runner to write. Absent and `{}` both mean the stage decided nothing; only `transcript-structuring` ever decides anything. `baseName` is the lecture's canonical base name recorded in the manifest, not the runner's handle on the workspace — the runner locates that itself (§4.7).
-- `lectureTitle` is always non-null — seeded by `source-normalisation`, possibly overwritten by `transcript-structuring` (see §3.2, `transcript-structuring`).
+- `StageCost` is discriminated on `costUsd`. A resolved cost is a `number`. A failed lookup is `null` paired with an `unknownCostReason` (see §7).
+- `StageResult.identityChanges` holds the lecture-identity fields the stage decided — `lectureTitle`, `aiDerivedTitle`, `baseName` — for the runner to write. Absent and `{}` both mean the stage decided nothing. Only `judge-lecture-title` ever decides anything. `baseName` is the lecture's canonical base name recorded in the manifest, not the runner's handle on the workspace — the runner locates that itself (§4.7).
+- `lectureTitle` is always non-null — seeded by `source-normalisation`, possibly overwritten by `judge-lecture-title` (see §3.2, and §5, `judge-lecture-title`).
 
 `isComplete()` checks two conditions: the manifest marks the stage `'complete'` or `'skipped'`, AND every path in `manifest.stages[stageId].filesWritten` exists on disk. Both must be true. The two statuses count alike because a run that honours this check records `skipped` in place of the `complete` it read, so from the next run's point of view they describe the same disk — the work is done and does not need paying for again. This means a completed stage whose output was manually deleted returns `false` and re-runs automatically. A recorded path that cannot be resolved at all counts as absent rather than as an error, since deleting a stage's output usually removes its containing directory too; a path resolving *outside* `moduleRoot` is a different matter and always throws (§4.4).
 
@@ -540,7 +544,7 @@ resolveManifestPath(query: ManifestPathQuery): Promise<string>
 
 The resolver has a module of its own. It is not with the filesystem helpers in `src/utils/files.ts` (§4.3). A mistake in a helper, such as a directory listing, causes a small problem. A mistake in the resolver lets a path escape the folder that the user gave to the tool. So a reader can review the resolver alone. A path that the code makes from fixed names needs no check. The layout module (§3.3) joins those names itself.
 
-**`filenameSafe(title)`.** Titles reach the filesystem in the base name, which the workspace, the renamed source files, and the `Final output/` PDF carry. Titles originate from user filenames (`source-normalisation`) or LLM output (`transcript-structuring`) — neither is a trusted path component. `filenameSafe` MUST:
+**`filenameSafe(title)`.** Titles reach the filesystem in the base name. The workspace, the renamed source files and the `Final output/` PDF carry the base name. A title comes from a user's filename (`source-normalisation`) or from a model's reply (`judge-lecture-title`). Neither source is a trusted path component. `filenameSafe` MUST:
 
 - Strip path separators (`/`, `\`), directory-traversal segments (`.`, `..`), null bytes, and ASCII control characters.
 - Collapse whitespace runs to a single space; trim leading/trailing whitespace and dots.
@@ -564,7 +568,11 @@ One `manifest.json` per lecture, stored in the workspace root. All paths are rel
 
 The manifest tracks the **current pipeline state** and the cost of the most recent successful execution of each stage. Historical cost across multiple runs is the responsibility of the run logs (§4.6). Its TypeScript shape is `Manifest` in `src/types/pipeline.ts` (single source of truth); the example below is illustrative, not the schema.
 
-Three separate callers touch it — `source-normalisation` creates and renumbers it, the runner patches a stage entry after every stage (and with it any lecture-identity change `transcript-structuring` decided, §4.2), and the CLI's identity commands rewrite a lecture's title or date — so where it lives and how it is written are stated once:
+Three separate callers change the manifest. So this section states once where it lives and how it is written. These are the callers:
+
+- `source-normalisation` creates the manifest and renumbers it.
+- The runner changes a stage entry after every stage. With that entry, it writes any lecture-identity change that `judge-lecture-title` decided (§4.2).
+- The CLI's identity commands change a lecture's title or date.
 
 ```typescript
 // src/pipeline/manifest.ts
@@ -651,6 +659,13 @@ Each stage entry records `configUsed` — a `StageConfigUsed` capturing the mode
       "configUsed": { "modelId": "openai/gpt-6.1-sol-pro", "concurrency": 5, "sendGapSeconds": 0.5 },
       "cost": { "promptTokens": 76000, "completionTokens": 4300, "costUsd": 0.45, "callCount": 5 },
       "filesWritten": ["Grouping runs/run-01.json", "…", "Grouping runs/run-05.json", "Topics/topics.json", "Topics/choice.json"]
+    },
+    "judge-lecture-title": {
+      "status": "complete",
+      "completedAt": "...",
+      "configUsed": { "modelId": "openai/gpt-6.1-sol-pro" },
+      "cost": { "promptTokens": 15200, "completionTokens": 300, "costUsd": 0.05, "callCount": 1 },
+      "filesWritten": ["Title judgement/judgement.json"]
     },
     "transcript-structuring": {
       "status": "complete",
@@ -873,9 +888,9 @@ assembleContext(args: { workspaceRoot: string; manifest: Manifest; config: Pipel
 // moduleRoot derived two levels up; the result is frozen.
 ```
 
-The context is **rebuilt between stages** rather than assembled once for the run. It costs no extra reads: the runner already re-reads the manifest at every stage transition, so `updateManifest` hands back what it wrote and the next context is assembled from that. What it buys is that a stage's manifest changes reach the stages that follow — `transcript-structuring` replaces `lectureTitle`, and `pdf-generation` names the PDF from it.
+The runner **builds the context again between stages**. It does not build one context for the whole run. This costs no extra reads. The runner already reads the manifest again at every change of stage. So `updateManifest` gives back what it wrote, and the runner builds the next context from that. The result is that a stage's manifest changes reach the stages after it. For example, `judge-lecture-title` replaces `lectureTitle`, and `pdf-generation` names the PDF from it.
 
-**Following a relocated workspace.** `transcript-structuring` renames the workspace folder when it replaces the lecture's title (§5, `transcript-structuring`), which invalidates the path the runner is holding mid-run. Stages do not report the move; the runner re-locates the lecture by the identity this section treats as canonical — `(moduleRoot, lectureDate)`. `resolveWorkspace` reads the manifest at the path it has and, failing that, falls back to `findLectureByDate`, which scans `Pipeline processing/` for the workspace whose manifest carries the date. The fallback is reached only after a stage has moved the folder; every other transition costs the read it always cost. The run log is written at the resolved path and `PipelineRunSummary.workspaceRoot` reports it, so a run that renames its own workspace still leaves its log beside the work.
+**Following a relocated workspace.** `judge-lecture-title` renames the workspace folder when it replaces the lecture's title (§5, `judge-lecture-title`). The path that the runner holds is then wrong. Stages do not report the move. The runner finds the lecture again by the identity that this section treats as canonical: `(moduleRoot, lectureDate)`. `resolveWorkspace` reads the manifest at the path it has. If that read fails, it calls `findLectureByDate`, which searches `Pipeline processing/` for the workspace whose manifest carries the date. The runner calls `findLectureByDate` only after a stage moved the folder. Every other change of stage costs only the usual read. The runner writes the run log at the found path, and `PipelineRunSummary.workspaceRoot` reports that path. So a run that renames its own workspace still leaves its log beside the work.
 
 **Counting a batch's scope.** `countLectures({ moduleRoots })` reports how many lectures stand across those modules, applying the same reading as the batch itself: a folder holding no manifest is not a lecture, and a module the pipeline has never processed holds none. It exists because the `--from-stage` confirmation has to state a number the user has no other way of knowing, and it is called only on that path — the scan it costs is not something an ordinary batch should pay for. Sources are normalised before it runs, so a lecture whose video and slides were only just added is counted; the batch is about to run it either way.
 
@@ -898,7 +913,7 @@ Each identity change leaves the module in a state `source-normalisation` can fin
 - **`delete`** removes the video, the slide, the workspace, and the `Final output/` PDF, having first asked for confirmation. Removing the sources *and* the workspace together is what keeps the module consistent: a workspace left without sources is an orphaned workspace the next `source-normalisation` run would stop to ask about, and sources left without a workspace would simply be normalised back into one. `source-normalisation` then renumbers the lectures that follow.
 - **`change-date`** renames the video, slide, and PDF to the base name `source-normalisation` would give them at the new date, renames the workspace folder to match, and writes the new `lectureDate` and `baseName` to the manifest — so the `source-normalisation` pass that follows has only renumbering left, and renames again if the new date changes the lecture's number. It refuses when a source file already carries the target date, since a rename would otherwise overwrite another lecture, and when the lecture's own video or slide is missing.
 
-**Moving a lecture's files.** `change-date` and `transcript-structuring` both rename the same four things onto a new base name — the source video, the source slide, any `Final output/` PDF, and the workspace folder — so the sweep is stated once and shared. It lives under `src/pipeline/` rather than beside the CLI commands that were its first caller, because a stage may not import from the CLI layer.
+**Moving a lecture's files.** `change-date` and `judge-lecture-title` both give the same four things a new base name. These are the source video, the source slide, any `Final output/` PDF and the workspace folder. So the code that moves them is written once and shared. It is in `src/pipeline/`, not beside the CLI commands that first called it, because a stage must not import from the CLI layer.
 
 Removing one lecture's file lives here for the same reason. Every directory a lecture's own files sit in is shared with every other lecture in the module, so `delete` and a `--from-stage` re-run at or before `pdf-generation` both have to take one file rather than sweep a directory, and both find it the way everything else here does — by the date it carries.
 
@@ -998,7 +1013,13 @@ A prompt module has no test file of its own. Its builder is a pure assembly whos
 
 **Identity and source of truth.** A lecture is identified by its **date** (unique within a module, enforced below). The **filesystem is authoritative for a lecture's existence**: adding a lecture means dropping its `video + slide` into the source folders, which `source-normalisation` picks up on the next run. The **manifest is authoritative for a lecture's title, cost, and history**. Because the two must never drift, **identity changes — rename, delete, change date — are made only through the CLI** (§4.7), which drives the same `source-normalisation` machinery and updates manifest and filesystem together. The user is instructed never to rename, move, or delete sources or workspaces directly; only *adding* a pair is done by dropping files. The sole guard against an accidental direct deletion is orphaned workspace handling (below).
 
-**Title precedence.** The effective `lectureTitle` is, in order: a user-supplied title (`userTitle`, set by the CLI `rename` command) › the AI-derived title (`aiDerivedTitle`, `transcript-structuring`) › the provisional title `source-normalisation` extracts from the filename. `source-normalisation` seeds `lectureTitle = provisionalTitle` for a new lecture and never overwrites a title set later; on re-run it names files and folders from the manifest's current `lectureTitle`, never by re-parsing the already-canonical filename.
+**Title precedence.** The effective `lectureTitle` is the first of these that is set:
+
+1. The user title (`userTitle`), which the CLI `rename` command sets.
+2. The AI-derived title (`aiDerivedTitle`), which `judge-lecture-title` sets.
+3. The provisional title that `source-normalisation` extracts from the filename.
+
+ `source-normalisation` seeds `lectureTitle = provisionalTitle` for a new lecture. It never overwrites a title set later. When it runs again, it names files and folders from the manifest's current `lectureTitle`. It never parses the canonical filename again.
 
 **Validate, then apply.** `source-normalisation` first validates the whole module with read-only checks. If any check fails it logs every problem found (at `error`) and throws, making **no filesystem changes** — a failed run never leaves a half-normalised module, and the error propagates through the runner to the CLI. Only a module that passes every check is mutated. The following **stop the run** (they are errors, not warnings):
 - a video or slide filename with no confidently extractable date;
@@ -1013,7 +1034,7 @@ A prompt module has no test file of its own. Its builder is a pure assembly whos
 
 3. **Slide matching:** Parse the date from each slide PDF (date always at the beginning of the filename) and match it to the video with the same date (validation has already guaranteed a 1:1 match).
 
-4. **Title resolution:** For a **new** lecture, extract a provisional title from the video filename — strip whichever of the date, day names (Mon–Sun), a configured module prefix (e.g. `BOD_`, `Biology of Disease -`; see `naming.modulePrefixes`, §6), embedded lecture-number token (e.g. `Lecture 1`), and trailing artefacts (`co`, `copy`, `v2`) are present, keeping the lecturer's capitalisation exactly as typed (§3.2). A filename with nothing beyond a date and lecture number yields an **empty** provisional title, and the lecture falls back to a bare `Lecture N` name. Whether the title is meaningful is **not** judged here; `transcript-structuring` makes that call. For an **existing** lecture, the title is taken from its manifest (`lectureTitle`), never re-extracted — so a CLI `rename` and a `transcript-structuring` rename are both preserved.
+4. **Title resolution:** For a **new** lecture, extract a provisional title from the video filename (§3.2). Remove the date, day names (Mon–Sun) and a configured module prefix (`naming.modulePrefixes`, §6) where present. Also remove an embedded lecture-number token such as `Lecture 1`, and trailing artefacts (`co`, `copy`, `v2`). Keep the lecturer's capitalisation exactly as typed. A filename with only a date and a lecture number gives an **empty** provisional title, and the lecture gets a bare `Lecture N` name. This step does **not** judge whether the title is meaningful. `judge-lecture-title` does that. For an **existing** lecture, the title comes from its manifest (`lectureTitle`) and is never extracted again. So a CLI `rename` and a `judge-lecture-title` rename both stay.
 
 5. **Base names:** Rename the source video and its matched slide, the workspace folder, and any `Final output/` PDF to the shared base name `Lecture N - <title> - YYYY-MM-DD` (bare `Lecture N - YYYY-MM-DD` when the title is empty). Lecture files already at their target are left untouched.
 
@@ -1105,7 +1126,7 @@ Three stages turn the transcript into subtopics. No single splitting run is reli
 
 The design was settled in the segmentation prototype (`docs/quality/segmentation-prototype/`), which holds the measurements behind every number below. The prompts are the prototype's `s6` and `d13`, carried over word for word. Only what produces the division is carried over: the prototype's rulings, rubrics, scoring and ledgers are how the prompts were tested, stay in the prototype, and appear nowhere in the pipeline.
 
-These three stages, `retitle-subtopics` and `group-into-topics` (below) run after transcription and before transcript structuring, which is unchanged (§4.1).
+These three stages, `retitle-subtopics`, `group-into-topics` and `judge-lecture-title` (below) run after transcription and before transcript structuring (§4.1).
 
 **No check step follows them.** Every other stage where a model transforms content is followed by a separate check (README, "All work is verified with separate models"). These four transform nothing: the model says only where the transcript divides and how subtopics group, and the text is sliced by code, so losslessness is guaranteed rather than checked. What remains to judge — whether a cut or a grouping is well placed — is what the panel settles: a cut survives only where enough runs agree, and a grouping is the one most of the panel made. No checker exists for that judgement, and one would have to be designed and calibrated before its verdict could be trusted.
 
@@ -1268,7 +1289,7 @@ Groups the retitled subtopics into topics. The same subtopics given to the same 
 
 Grouping sees the new titles, not the chosen run's own. An earlier design grouped before retitling, because replacing inherited titles made `g15` on `google/gemini-3.7-flash` lose a ruled topic start on lecture 4. That finding was for `r3` titles on that model; with `r9` titles on `openai/gpt-6.1-sol-pro`, `g15` found every ruled topic start on lecture 4, along with starts the rulings did not make.
 
-This build groups only. One further job belongs to this stage and is not yet designed: judging whether the lecturer's title is meaningful.
+This stage only groups. The next stage, `judge-lecture-title`, reads the chosen topics to judge the provisional title.
 
 **One grouping run.** The model is sent every retitled subtopic in order, each as its subtopic id, its title and its full text, trimmed; the prompt calls a title a `label`, so it is sent under that name. It replies with a list of topics, each a title (the reply's `label`, read as `title`), a one-sentence `groupedBecause`, and the subtopic id of its first subtopic, so a topic can only begin where a subtopic does and the text cannot be touched. A reply is valid when it is a JSON object with a non-empty list of topics; every topic has a non-empty title, a non-empty `groupedBecause` and a first subtopic; the first topic starts at subtopic 1; each later start comes after the one before; and no start is past the last subtopic. Together these put every subtopic in exactly one topic. Anything else is a wrong shape and takes the panel's retry (§5, "Dividing the transcript", Panel runs). The finish reason the provider reports is not one of the checks: `openai/gpt-6.1-sol-pro` sometimes reports `error` on a complete reply, and four such `g23` replies are among those the user accepted. Each run is saved with the reply's `label` as `title`, as the chosen topics are written.
 
@@ -1300,46 +1321,106 @@ chooseGrouping(args: { runs: readonly GroupingRun[]; bar: number }): { topics: r
 
 ---
 
-### `transcript-structuring` — Transcript Structuring (includes title determination)
+### `judge-lecture-title` — judging the lecturer's title
 
-**Input:** `Transcript/transcript.txt`
-**Output:** `Structured transcript/structured-transcript.md`
-**Conditional side effect:** Rename of source video, source slide, workspace folder, and `Final output/` PDF only when the LLM judges the provisional title not meaningful and the user has not named the lecture themselves.
+**Input:** `Retitled subtopics/subtopics.json`, `Topics/topics.json`, and the provisional title from the stage context
+**Output:** `Title judgement/judgement.json`
+**Conditional side effect:** The stage renames the source video, the source slide, the workspace folder and any `Final output/` PDF. It does this only when the model judges the provisional title not meaningful and no user title is set.
 
-`transcript-structuring` makes a single JSON-mode LLM call returning `{ provisionalTitleMeaningful: boolean; suggestedTitle: string | null; structuredMarkdown: string }` — a title judgement and the structured transcript markdown. The title is resolved first; everything else in the pipeline depends on it.
+The stage judges whether the provisional title is meaningful for the lecture's content (CONTEXT.md, "Judging the lecture title"). A title that the lecturer wrote is authoritative. So the model keeps a meaningful title and proposes nothing. The model proposes an AI-derived title only when the provisional title is not meaningful: empty, generic, or in conflict with the content.
 
-#### Title Determination
+**The input.** The stage sends the model the whole lecture as JSON. Each topic of the chosen grouping holds its title and its subtopics, in order. Each subtopic holds its retitled title and its full text, trimmed:
 
-The LLM receives the raw transcript **and the lecturer's provisional title**, and judges whether that title is meaningful and accurate for the lecture's content. A title the lecturer wrote is treated as authoritative: when it is meaningful the LLM **keeps it and proposes nothing**. Only when it is not meaningful does the LLM propose a concise, descriptive academic title (4–8 words) suitable for a filename, which is then stored as `aiDerivedTitle`; otherwise `aiDerivedTitle` stays `null`.
+```json
+{ "topics": [ { "title": "…", "subtopics": [ { "title": "…", "text": "…" } ] } ] }
+```
 
-The rename is **conditional** on the LLM's judgement:
+The subtopics, joined in order, are the whole transcript (CONTEXT.md, "Losslessness"). So the stage does not read `Transcript/transcript.txt`. It sends no subtopic ids and no reasons, because they do not help the judgement. The stage also sends the provisional title. An empty provisional title is sent as a statement that the filename carried no title.
 
-| LLM judgement | Action |
-|---|---|
-| Provisional meaningful | `lectureTitle` already equals `provisionalTitle` from `source-normalisation` — left unchanged; `aiDerivedTitle` stays `null`. No renaming. |
-| Provisional not meaningful | `aiDerivedTitle` set to the proposed title and `lectureTitle` overwritten with it. Source video, source slide, workspace folder, and any existing `Final output/` PDF are renamed to include the AI-derived title. `baseName` updated in manifest. |
+**The prompt** is the title part of the prompt that `transcript-structuring` used before this stage existed. It keeps the same rules. The lecturer's title is authoritative. The model must not propose a title only because it can write a better one. An AI-derived title has four to eight plain words, because it becomes a filename. The prompt adds two things. It asks for a one-sentence reason. It applies `languageRule` (§6) to the AI-derived title, because the title becomes the lecture's file names and the heading of its notes.
 
-**A user title outranks the judgement.** When `userTitle` is non-null the user has already named the lecture through `rename`, and it wins the title precedence outright (§5, `source-normalisation`). `transcript-structuring` still records `aiDerivedTitle` when the LLM proposes one — it is a true record of what the model derived from the transcript, and it is what the title would fall back to were the user's ever cleared — but `lectureTitle` is left alone and nothing on disk is renamed.
+**The reply** is a JSON object with three fields: `provisionalTitleMeaningful` (true or false), `suggestedTitle` (a title, or null), and `judgedBecause` (one sentence). The stage reads `suggestedTitle` as the AI-derived title. A reply is unusable in each of these cases:
 
-`context.lectureTitle` is always non-null (see §4.2) — `source-normalisation` seeds it, `transcript-structuring` may overwrite it. Downstream stages consume it directly with no null check required.
+- It is not a JSON object with those fields and types.
+- `judgedBecause` is empty.
+- The provisional title is not meaningful, and `suggestedTitle` is null or empty.
+- The provisional title is not meaningful, and `suggestedTitle` gives no base name that a filename can use (§4.4, `filenameSafe`).
+- The provisional title is empty, and the model judges it meaningful.
+
+When the provisional title is meaningful, the stage ignores any `suggestedTitle`. The stage resends an unusable reply in the same way as a panel run. It fails after the third send (§5, "Dividing the transcript", Panel runs).
+
+**One call, not a panel.** The stage makes one call. A panel would need a rule to choose one title from several proposed titles. If real lectures show that the judgement changes from one call to the next, a panel can be added later.
+
+**The model** is set on the stage's own entry (§6). It is `openai/gpt-6.1-sol-pro`, with no reasoning-effort setting, as for `group-into-topics`. One call sends the same text as one grouping run. So one call costs about $0.06. This figure is an estimate until a real run measures it.
+
+**The three outcomes.**
+
+| Title judgement | `outcome` | Action |
+|---|---|---|
+| Provisional title meaningful | `kept-provisional` | No change. `lectureTitle` stays equal to `provisionalTitle`, and `aiDerivedTitle` stays `null`. No file moves. |
+| Not meaningful, and no user title | `adopted-derived` | `aiDerivedTitle` and `lectureTitle` take the proposed title. The source video, the source slide, the workspace folder and any `Final output/` PDF move to the new base name. `baseName` changes in the manifest. |
+| Not meaningful, and a user title is set | `kept-user-title` | Only `aiDerivedTitle` takes the proposed title. `lectureTitle` and every name on disk stay. |
+
+**A user title outranks the judgement.** A user title is set through `rename`, and it wins the title precedence (§5, `source-normalisation`). The stage still calls the model and records the AI-derived title. That title is a true record of what the model proposed. It is also the title that the lecture falls back to if the user title is cleared.
+
+`context.lectureTitle` is always non-null (§4.2). `source-normalisation` seeds it, and `judge-lecture-title` can overwrite it. Later stages use it with no null check.
+
+**What is written.** `Title judgement/judgement.json` holds five fields:
+
+- `provisionalTitle`: the title that the model judged. It can be empty.
+- `provisionalTitleMeaningful`: true or false.
+- `aiDerivedTitle`: the proposed title, or `null` when the provisional title is meaningful.
+- `judgedBecause`: the model's reason.
+- `outcome`: `kept-provisional`, `adopted-derived` or `kept-user-title`.
+
+The file shows at a glance why a lecture has a new name. The debug log records the same outcome (§10).
 
 #### Order of Operations
 
-`transcript-structuring` is the only per-lecture stage that moves its own workspace, and the runner writes the manifest there as soon as the stage returns (§4.7). The order is therefore fixed:
+`judge-lecture-title` is the only per-lecture stage that moves its own workspace. The runner writes the manifest in the workspace as soon as the stage returns (§4.7). So the order is fixed:
 
-1. Make the LLM call and parse the response.
-2. Write `Structured transcript/structured-transcript.md` atomically (§4.3).
-3. Decide the title, and with it the identity changes the stage returns. The provisional title stands: no changes. `userTitle` is set: `aiDerivedTitle` alone, since the user's title holds and no name on disk changes. Otherwise: `aiDerivedTitle`, `lectureTitle`, and `baseName`, the last being the base name `lectureBaseName` builds from the new title (§5, `source-normalisation`).
-4. In that last case only, rename the source video, the source slide, any `Final output/` PDF, and the workspace folder via `renameLectureFiles` (§4.7).
-5. Return the changes on `StageResult.identityChanges`. The runner writes them into the manifest together with the stage's `complete` entry, re-locating the workspace by `(moduleRoot, lectureDate)` first (§4.2, §4.7).
+1. Make the call, check the reply, and resend an unusable reply.
+2. Write `Title judgement/judgement.json` atomically (§4.3).
+3. Decide the identity changes that the stage returns. For `kept-provisional`, there are none. For `kept-user-title`, there is only `aiDerivedTitle`. For `adopted-derived`, there are `aiDerivedTitle`, `lectureTitle` and `baseName`. `lectureBaseName` builds the base name from the new title (§5, `source-normalisation`).
+4. For `adopted-derived` only, move the source video, the source slide, any `Final output/` PDF and the workspace folder with `renameLectureFiles` (§4.7).
+5. Return the changes on `StageResult.identityChanges`. The runner finds the workspace again by `(moduleRoot, lectureDate)`. Then it writes the changes into the manifest with the stage's `complete` entry (§4.2, §4.7).
 
-`transcript-structuring` writes no manifest of its own (§4.2). From the rename in step 4 until the runner's write in step 5, the manifest names the folder the lecture previously occupied. The stage is marked `running` across that interval, so an interrupted launch re-runs `transcript-structuring`, which derives the same base name from the same transcript and records the identity.
+The stage writes no manifest of its own (§4.2). From the move in step 4 until the runner's write in step 5, the manifest names the old folder. The stage is marked `running` for that time. So if the launch stops, the next launch runs `judge-lecture-title` again. That run makes a new call, and the new call can propose a different title. `renameLectureFiles` finds the lecture files by their date, so it moves them from wherever the first run left them.
 
-The rename is last within the stage because step 2 writes into the workspace, so the folder must still stand where the stage was told it is. `filesWritten` is recorded relative to the workspace (§4.5), so the output path survives the move untouched.
+The move is the last step because step 2 writes into the workspace. The folder must still be where the stage was told it is. `filesWritten` is relative to the workspace (§4.5), so the output path is still true after the move.
+
+```typescript
+// src/pipeline/stages/judge-lecture-title/judge-lecture-title.prompt.ts
+type GroupedLecture = { topics: readonly { title: string; subtopics: readonly { title: string; text: string }[] }[] }
+buildTitleJudgementMessages(args: { lecture: GroupedLecture; provisionalTitle: string;
+  language: OutputLanguage }): readonly ChatCompletionMessageParam[]
+// The title judgement rules above, as messages. The messages ask for the JSON object, which JSON mode requires (§6).
+
+// src/pipeline/stages/judge-lecture-title/judge-lecture-title.ts
+type TitleJudgement = {
+  provisionalTitle: string
+  provisionalTitleMeaningful: boolean
+  aiDerivedTitle: string | null
+  judgedBecause: string
+  outcome: "kept-provisional" | "adopted-derived" | "kept-user-title"
+}
+createJudgeLectureTitleStage(args: { logger: Logger; client: OpenAI }): PipelineStage<GroupedLecture, TitleJudgement>
+// Throws JudgeLectureTitleError when the retitled subtopics or the topics are missing or unreadable,
+// or when the third send gives an unusable reply. An unknown cost is not a failure (§7).
+```
+
+---
+
+### `transcript-structuring` — Transcript Structuring
+
+**Input:** `Transcript/transcript.txt`
+**Output:** `Structured transcript/structured-transcript.md`
+
+`transcript-structuring` makes one JSON-mode call. The reply is `{ structuredMarkdown: string }`. The stage does not judge the title. `judge-lecture-title` does that before this stage runs.
 
 #### Transcript Structuring
 
-The same LLM call produces the structured markdown. The LLM:
+The LLM call produces the structured markdown. The LLM:
 - Identifies topic boundaries from discourse markers ("Now, moving on to…", "To summarise…")
 - Applies H2 headings for major topics, H3 for sub-topics
 - Removes filler words only (um, uh, sort of, you know) — all substantive content preserved
@@ -1348,24 +1429,22 @@ The same LLM call produces the structured markdown. The LLM:
 - Does not add content not present in the transcript
 - Writes in the configured `finalOutput.language` (§6)
 
-The last rule governs how the transcript's words are spelled, and the rule above it governs which words are there. Speech carries no spelling: the transcript's spelling is the transcriber's, and `transcription` cannot influence it — ElevenLabs' `languageCode` takes an ISO-639-1 or ISO-639-3 code, neither of which can express a regional variant, so `eng` names English and nothing more. An LLM call is therefore the first point in the pipeline at which the output's language can be chosen at all, and `transcript-structuring` is the first such call. The rule is worded by `languageRule` (§6) rather than written into this prompt, so that every prose stage instructs the model identically.
+The last rule controls how the transcript's words are spelled. The rule above it controls which words are there. Speech has no spelling. The transcript's spelling is the transcriber's, and `transcription` cannot change it. ElevenLabs' `languageCode` takes an ISO-639-1 or ISO-639-3 code, and neither can express a regional variant. So `eng` names English and nothing more. A model call is therefore the first point in the pipeline where the output's language can be chosen. `judge-lecture-title` is the first stage that applies the rule, to the AI-derived title. `transcript-structuring` is the first stage that applies it to prose. `languageRule` (§6) gives the wording of the rule, so that every stage gives the model the same instruction.
 
 **Context:** A 90-minute transcript is typically 15,000–30,000 tokens — a single call within any 128k-context model.
 
 ```typescript
 // src/pipeline/stages/transcript-structuring/transcript-structuring.prompt.ts
-buildStructuringMessages(args: { transcriptText: string; provisionalTitle: string;
+buildStructuringMessages(args: { transcriptText: string;
   language: OutputLanguage }): readonly ChatCompletionMessageParam[]
-// The title judgement and the structuring rules above, stated as messages. Asks for the JSON object in the
-// prompt as well as through `responseFormat`, which JSON mode requires (§6).
+// The structuring rules above, as messages. The messages ask for the JSON object, which JSON mode requires (§6).
 
 // src/pipeline/stages/transcript-structuring/transcript-structuring.ts
 type TranscriptStructuringInput = { transcriptText: string }
-type TranscriptStructuringOutput = { structuredTranscriptPath: string; lectureTitle: string }
+type TranscriptStructuringOutput = { structuredTranscriptPath: string }
 createTranscriptStructuringStage(args: { logger: Logger }): PipelineStage<TranscriptStructuringInput, TranscriptStructuringOutput>
-// Throws TranscriptStructuringError when the transcript is missing or empty, when the response is not the
-// documented JSON object, or when the LLM judges the provisional title unusable yet proposes nothing in its
-// place. A cost that cannot be established is not a failure (§7).
+// Throws TranscriptStructuringError when the transcript is missing or empty, or when the reply is not the
+// documented JSON object. An unknown cost is not a failure (§7).
 ```
 
 ---
@@ -1730,7 +1809,7 @@ Unlike OpenRouter's, this base URL carries no path — the SDK appends the versi
 
 Each prefix is matched literally, so one carrying a pattern character means itself; a blank prefix is refused at load, since it would otherwise match any run of underscores or spaces and take apart every title the run produces. A listed prefix is what makes the strip safe: the module names are known, where the shape of a prefix is not — an opening acronym belongs to the subject (`DNA_replication`), and a module written out in full has no shape to match at all.
 
-**`finalOutput.language` is a closed set, and every stage that writes prose obeys it.** The tag is checked at load against `OUTPUT_LANGUAGES`, which maps each tag to the name a prompt calls it by; a tag with no name is refused at startup, listing the ones it could have been. The pairing is the point — "Write in en-GB" is not an instruction a model can follow, so a language cannot be offered in config without wording for the prompts to use. `languageRule` in `src/utils/language.ts` builds that sentence, and every prose stage's prompt includes it rather than wording the rule itself, so the stages cannot drift into instructing the model differently. `transcript-structuring` is the only such stage built; `transcript-verification`, `slide-conversion`, `image-extraction` and `synthesis` join it as they are.
+**`finalOutput.language` is a closed set, and every stage that writes prose obeys it.** The loader checks the tag against `OUTPUT_LANGUAGES`. That list maps each tag to the name that a prompt uses for it. A tag with no name is refused at startup, with a list of the valid tags. The name is necessary because "Write in en-GB" is not an instruction that a model can follow. So config cannot offer a language without wording for the prompts to use. `languageRule` in `src/utils/language.ts` builds that sentence. Every prompt that asks for prose or for a lecture title includes it, and words no rule of its own. So the stages cannot give the model different instructions. `judge-lecture-title` and `transcript-structuring` are the stages built that use it. `transcript-verification`, `slide-conversion`, `image-extraction` and `synthesis` will use it when they are built.
 
 **The subtopic splitting and grouping settings are required sections.** `subtopicSplitting` and `grouping` carry the panel sizes, the bars and the size gate (§5, "Dividing the transcript" and `group-into-topics`). Like every other section they must be present, and a missing or mistyped field is a `ConfigError` at startup. Neither bar may exceed its section's panel size, since nothing could then be kept. Each is a whole number of at least 1.
 
@@ -1781,6 +1860,9 @@ Each prefix is matched literally, so one carrying a pattern character means itse
       "modelId": "<REASONING_MODEL>",             // called once per grouping run with every subtopic's title and text
       "concurrency": 9,
       "sendGapSeconds": 0.5                       // least time between two sends, resends included
+    },
+    "judge-lecture-title": {
+      "modelId": "<REASONING_MODEL>"              // called once per lecture with every topic and subtopic
     },
     "transcript-structuring": {
       "modelId": "<REASONING_MODEL>",             // long-context text model with strong structure/summarisation
@@ -2106,6 +2188,7 @@ src/
 │       ├── panel-vote.ts             # The vote and the distance from it — shared by choose-division and group-into-topics
 │       ├── retitle-subtopics/        # stage module and its r9 prompt module
 │       ├── group-into-topics/            # stage module, its g23 prompt module, choose-grouping.ts
+│       ├── judge-lecture-title/          # stage module and its prompt module
 │       ├── transcript-structuring/   # stage module and its prompt module
 │       ├── transcript-verification/  # stage module, prompt module and the verification report Markdown
 │       ├── slide-conversion/         # PDF render + per-slide vision LLM
@@ -2148,8 +2231,8 @@ The pino file transport writes newline-delimited JSON to `<projectRoot>/debug-lo
 - Rate limit retries: attempt number, back-off delay, error message
 - Per-slide processing times (`slide-conversion`)
 - File I/O errors: path and OS error code
-- **Decisions that name things downstream.** Which source video `audio-extraction` chose, since it selects by base name from whatever the video directory holds; and which of the three ways `transcript-structuring` decided the lecture's title (§5, `transcript-structuring`), since every later stage names its output from it
-- **Failures the run survives**, at `warn` — chiefly `transcription`'s audio-duration lookup, whose only other trace is a `null` in a cost report read days later, and every unusable model reply a panel stage resends (§5, "Dividing the transcript", Panel runs)
+- **Decisions that name things downstream.** The log records which source video `audio-extraction` chose, because it selects by base name from what the video directory holds. It also records the outcome by which `judge-lecture-title` decided the lecture's title (§5, `judge-lecture-title`), because every later stage names its output from that title
+- **Failures the run survives**, at `warn`. The main one is `transcription`'s audio-duration lookup. Its only other trace is a `null` in a cost report that someone reads days later. The log also records every unusable model reply that a stage resends (§5, "Dividing the transcript", Panel runs, and `judge-lecture-title`)
 - Every stage failure, with its stack, bound to the stage that raised it (§8)
 
 The debug log is for human inspection when diagnosing failures. Its JSON format also makes it trivially parseable if automated analysis is ever needed.
