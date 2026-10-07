@@ -22,6 +22,14 @@ _Avoid_: video (alone), recording (alone), source video
 The video recording and the slide deck of one lecture. Every lecture has exactly one of each, matched by date. A lecture that does not have both cannot be processed.
 _Avoid_: inputs, raw files, assets
 
+**Slide deck**:
+The file of one lecture's slides, as the lecturer published it. It is a PDF with one slide on each page.
+_Avoid_: presentation, slideshow, slides file
+
+**Slide**:
+One page of a slide deck. The notes show a slide as one whole image. Nothing is cut out of a slide.
+_Avoid_: page, figure, image (alone)
+
 **Workspace**:
 The folder that holds everything one lecture collects on its way through the pipeline, from audio to finished notes. The folder takes its name from the lecture. When a lecture is renumbered, the folder is renamed and nothing inside it changes.
 _Avoid_: output directory, working directory, scratch folder
@@ -196,6 +204,33 @@ _Avoid_: refusal, rejection
 **Unusable reply**:
 A reply that a stage cannot use, because it is empty, is not JSON, or is not the shape the prompt asks for. In initial subtopic splitting, a reply is also unusable if it has a subtopic start that the transcript does not contain.
 _Avoid_: bad reply, invalid reply
+
+### Slides
+
+**Slide reading**:
+What a vision model reads from one slide: its title, its text, a description of each diagram, a caption, and its kind. The kind is subject matter, content-free or references. The model reads the slide alone. It does not see the transcript.
+_Avoid_: slide content, slide extraction, slide description
+
+**Caption**:
+The short text under a slide image that tells the reader what the slide shows. It comes from the slide alone, so an error in slide placement cannot get into it.
+_Avoid_: label, description, alt text
+
+**Content-free slide**:
+A slide with no subject matter for a student. The kinds are:
+- a title slide
+- an outline or agenda
+- a section divider
+- a "questions?" or "thank you" slide
+- a learning-objectives slide
+- a blank slide
+- a slide that holds only a video or a link.
+
+A references slide is not content-free. The notes leave content-free slides out.
+_Avoid_: filler slide, empty slide, administrative slide
+
+**Slide placement**:
+Putting each slide with the subtopic where the lecturer discusses it. Each slide is placed once. Slides keep their deck order: no slide is placed with a subtopic earlier than the subtopic of the slide before it. A references slide goes with the lecture's last subtopic, outside the deck order. A content-free slide is not placed.
+_Avoid_: slide assignment, slide merging, slide matching
 
 ### Checking quality
 
