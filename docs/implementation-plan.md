@@ -1,14 +1,14 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.69-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
-**Date:** 2026-10-03
+**Suite version:** 1.70-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
+**Date:** 2026-10-07
 **Status:** For review
 
 ---
 
 ## Overview
 
-The pipeline is built in twenty-one phases. Phases 1–3 make the project scaffold and the shared infrastructure before any stage code is written. Phases 4–7 implement the stages from `source-normalisation` to `transcript-verification`. Phases 8–14 divide the transcript. Two phases make the groundwork. Then the stages split the transcript, choose a division, retitle its subtopics and group them. Phase 15 moves the title judgement to a new stage after grouping. Phases 16–20 implement the remaining stages in pipeline order. Phase 21 checks the full pipeline from end to end against a real lecture.
+The pipeline is built in twenty-two phases. Phases 1–3 make the project scaffold and the shared infrastructure before any stage code is written. Phases 4–7 implement the stages from `source-normalisation` to `transcript-verification`. Phases 8–14 divide the transcript. Two phases make the groundwork. Then the stages split the transcript, choose a division, retitle its subtopics and group them. Phase 15 moves the title judgement to a new stage after grouping. Phases 16–18 build the three slide stages. Phases 19–21 implement the remaining stages in pipeline order. Phase 22 checks the full pipeline from end to end against a real lecture.
 
 Testing is not a final phase — unit tests are written alongside each deliverable per the project conventions. Integration tests are noted explicitly where unit testing alone is insufficient.
 
@@ -82,7 +82,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
 - `src/utils/logger.ts` — `createDebugLogger`, `createStageLogger` **(TD §10, Logging and Progress Helpers)**
 - `src/utils/date.ts` — `extractDate`, `formatDateISO`, `isCalendarDate` **(TD §3.2, Date and Naming Helpers)**
 - `src/utils/naming.ts` — `extractProvisionalTitle`, `titledBaseName`, `lectureBaseName` **(TD §3.2)**, and `filenameSafe` with the `EmptyNameError` that it raises **(TD §4.4)**
-- `src/utils/progress.ts` — `createProgressBar` and `createUploadProgressStream` **(TD §10)**. `createUploadProgressStream` moves out of `src/index.ts`. `createParallelWorkBar` is specified in TD §10 but built in Phase 16, with the first stage that calls it
+- `src/utils/progress.ts` — `createProgressBar` and `createUploadProgressStream` **(TD §10)**. `createUploadProgressStream` moves out of `src/index.ts`. `createParallelWorkBar` is specified in TD §10 but built in Phase 17, with the first stage that calls it
 - `src/utils/cost.ts` — `accumulateCost`, the arithmetic alone **(TD §7)**
 - `src/pipeline/reports.ts` — `createMoneyFormatter`, `formatCostReport` and the table engine beneath them **(TD §7, Cost and Reporting Modules)**
 - `src/utils/stage-id.ts` **(TD §6, §4.7)**:
@@ -948,56 +948,90 @@ Tests for `transcript-structuring`:
 
 ---
 
-## Phase 16 — `slide-conversion`
+## Phase 16 — `render-slides`
 
-**Goal:** Vision LLM extraction of content from each slide, with intra-stage resumability and controlled concurrency.
-
-**Deliverables:**
-
-`src/pipeline/stages/slide-conversion.ts` — the whole of **TD §5, `slide-conversion`**: PDF-to-PNG rendering, the per-slide vision call and its prompt, intra-stage resumability, bounded concurrency, the in-flight progress bar, concatenation, and `--from-stage` cleanup.
-
-`createParallelWorkBar` in `src/utils/progress.ts` **(TD §10)** — the in-flight-suffix bar, built here rather than in Phase 2 because this stage and `image-extraction` are what it has to serve.
-
-**Tests:**
-
-Unit tests (mock `callModel`; mock `pdfjs-dist`):
-- `should skip slide when per-slide markdown already exists`
-- `should concatenate all per-slide markdown files with correct separators and headings`
-
-Integration tests (real temp directory; real small PDF fixture):
-- `should render PDF pages to PNG files at correct resolution`
-- `should resume from correct slide when per-slide files pre-exist`
-- `should delete all raw/ files before processing when --from-stage invoked`
-- `should remove .tmp files at stage start`
-
-**Acceptance:** All slides extracted; simulated crash at slide N resumes from slide N on next run; `--from-stage` forces fresh extraction from slide 1.
-
----
-
-## Phase 17 — `image-extraction`
-
-**Goal:** Identify academic figures within each slide PNG, crop them with `sharp`, and produce an `images-manifest.json`.
+**Goal:** Render each page of the slide deck as one image, in a new stage after `judge-lecture-title`.
 
 **Deliverables:**
 
-`src/pipeline/stages/image-extraction.ts` — the whole of **TD §5, `image-extraction`**: the per-slide vision call and its figure schema, the relevance and type exclusions, percentage-to-pixel cropping with `sharp`, the per-figure PNG and caption files, and `images-manifest.json`.
+`src/pipeline/stages/render-slides/` **(TD §5, `render-slides`)** contains the stage. It reads the slide deck and writes one PNG for each page to `Slide images/`. The stage is added to `lectureStages` after `judge-lecture-title`, with its `STAGE_IDS` and `STAGE_FILES` entries and its cost-report label.
+
+The old stage ids `slide-conversion` and `image-extraction` and their `STAGE_FILES` entries are removed. Before the removal, check whether stored manifests hold entries under the old ids. If they do, show the user the change to the stored data first.
 
 **Tests:**
 
-Unit tests:
-- `should convert bounding box percentages to correct pixel coordinates when given image dimensions` — `test.each` across edge cases (full-slide bounds, small figure, zero height)
-- `should exclude figure when relevance or type is [value]` — `test.each` across `academicRelevance: 'exclude'`, `figureType: 'logo'`, `figureType: 'decorative'`
-- `images-manifest.json` structure — snapshot test (serialisation format regression only)
+Integration tests (real temp directory, real small PDF fixture):
+- `should write one image for each page, numbered from 1 in deck order, when the stage completes`
+- `should render each page at 150 DPI when the stage completes`
+- `should fail naming the file when the slide deck $problem` — `test.each` across missing and not a readable PDF
+- `should record no cost when the stage completes`
 
-Integration tests (real temp directory; real slide PNG fixture):
-- `should crop figure from slide PNG at correct pixel coordinates`
-- `should write images-manifest.json atomically after all slides processed`
-
-**Acceptance:** Academic figures cropped and labelled; logos and decorative elements excluded; `images-manifest.json` valid and complete.
+**Acceptance:** A lecture gains `Slide images/`, with one image for each slide.
 
 ---
 
-## Phase 18 — `synthesis`
+## Phase 17 — `read-slides`
+
+**Goal:** Read each slide image with a vision model, in a new stage after `render-slides`.
+
+**Deliverables:**
+
+`src/pipeline/stages/read-slides/` **(TD §5, `read-slides`)** contains the stage and its prompt module. The stage makes one call for each slide, with `concurrency` calls in flight at once. It writes each reading as soon as the reply is usable. On restart, it reads only the slides that have no reading. The stage is added to `lectureStages` after `render-slides`, with its `STAGE_IDS` and `STAGE_FILES` entries and its cost-report label.
+
+The shared model-call code gains image content in a message. No second call path is made.
+
+`createParallelWorkBar` in `src/utils/progress.ts` **(TD §10)** is built here, with the first stage that calls it.
+
+Before the build, propose two vision models to the user, with the OpenRouter price of each. The user's choice goes in the stage's entry in the example config and in the user's own config **(TD §6)**.
+
+**Tests:**
+
+Tests for the stage (mock `callModel`, real temp directory):
+- `should send the slide image, the slide number and the number of slides, and no transcript, when the stage reads a slide`
+- `should include the language rule for the caption when the stage reads a slide`
+- `should write each reading with its slide number and the five fields of the reply when the reply is usable`
+- `should resend the call when the reply $problem` — `test.each` across the three unusable replies in TD §5, `read-slides`
+- `should fail after the third send, and keep the readings already written, when a slide's reply is still unusable`
+- `should read only the slides that have no reading when the stage starts again`
+- `should fail naming the folder, without calling the model, when the slide images $problem` — `test.each` across missing and empty
+
+Tests for the model-call code:
+- `should send the image as image content in the message when a call carries an image`
+
+**Acceptance:** A lecture gains `Slide readings/`, with one reading for each slide. A stage that failed part of the way starts again from the slides that have no reading.
+
+---
+
+## Phase 18 — `place-slides`
+
+**Goal:** Put each subject-matter slide with the subtopic where the lecturer discusses it, in a new stage after `read-slides`.
+
+**Deliverables:**
+
+`src/pipeline/stages/place-slides/` **(TD §5, `place-slides`)** contains the stage and its prompt module. The stage makes one call for the whole lecture and checks the reply. It puts each references slide with the last subtopic, and gives content-free slides no place. It writes `Slide placements/placements.json`. The stage is added to `lectureStages` after `read-slides`, with its `STAGE_IDS` and `STAGE_FILES` entries and its cost-report label. Its entry goes in the example config and in the user's own config.
+
+The stage tests need a workspace that holds the retitled subtopics and the slide readings. Extend the shared stage fixture to write the slide readings. Do not build a second fixture.
+
+**Tests:**
+
+Tests for the stage (mock `callModel`, real temp directory):
+- `should send every subtopic's id, title and trimmed text, and every reading in deck order, when the stage calls the model`
+- `should mark each slide's kind in what it sends when the stage calls the model`
+- `should resend the call when the reply $problem` — `test.each` across the four unusable replies in TD §5, `place-slides`
+- `should ignore an entry for a $kind slide when the reply is otherwise usable` — `test.each` across content-free and references
+- `should put each references slide with the last subtopic when the stage completes`
+- `should give no place to a content-free slide when the stage completes`
+- `should write each placed slide's number and subtopic id in deck order when the stage completes`
+- `should fail naming the file, without calling the model, when the $file $problem` — `test.each` across the transcript, the retitled subtopics and a reading, each missing, not readable, and the wrong shape
+- `should fail without writing the placements when the third send is still unusable`
+
+**Live run:** `render-slides`, `read-slides` and `place-slides` on the lecture of 2026-03-06 (cost stated first). A temporary script outside the repo builds a private HTML test page. The page shows the topic and subtopic headings, the transcript text, and each placed slide with its caption. A switch shows the slides at the start or the end of each subtopic. The user judges the placements.
+
+**Acceptance:** A lecture gains `Slide placements/placements.json`. Each subject-matter slide has one place in deck order. Each references slide is with the last subtopic. No content-free slide has a place.
+
+---
+
+## Phase 19 — `synthesis`
 
 **Goal:** Single LLM call assembling transcript, slide content, and figure captions into textbook-style notes in British English.
 
@@ -1018,7 +1052,7 @@ Unit tests:
 
 ---
 
-## Phase 19 — `qa-loop`
+## Phase 20 — `qa-loop`
 
 **Goal:** Iterative quality check and revision cycle; writes the final `QA checked/notes.md`.
 
@@ -1046,7 +1080,7 @@ Integration tests (real temp directory):
 
 ---
 
-## Phase 20 — `pdf-generation`
+## Phase 21 — `pdf-generation`
 
 **Goal:** Convert `QA checked/notes.md` to PDF via pandoc and deposit in `Final output/`, the module directory the stage owns.
 
@@ -1073,18 +1107,18 @@ Integration tests (`pdf-generation.integration.test.ts`) — requires pandoc and
 
 ---
 
-## Phase 21 — End-to-End Validation
+## Phase 22 — End-to-End Validation
 
 **Goal:** Run the full pipeline against a real lecture and verify output quality and pipeline mechanics.
 
 **Activities:**
-1. Run `source-normalisation` against the Biology of Disease source folder; verify workspace folders and renamed source files
-2. Run full pipeline on one lecture; verify manifest state and run log after each stage
-3. Verify the three-section cost report is correct and matches run log data
-4. Verify the final PDF opens and is readable
-5. Simulate a mid-run failure (kill process during `slide-conversion`); verify resumability on restart
-6. Run `--from-stage slide-conversion` on a completed lecture; verify fresh extraction and downstream re-run
-7. Add a new lecture to the source folder; re-run `source-normalisation`; verify re-numbering propagates correctly
-8. Run batch mode across all lectures; verify sequential processing and batch summary output
+1. Run `source-normalisation` against the Biology of Disease source folder. Verify the workspace folders and the renamed source files
+2. Run the full pipeline on one lecture. Verify the manifest state and the run log after each stage
+3. Verify that the three-section cost report is correct and agrees with the run log data
+4. Verify that the final PDF opens and is readable
+5. Simulate a failure during a run: stop the process during `read-slides`. Verify that the stage continues on restart
+6. Run `--from-stage read-slides` on a completed lecture. Verify fresh slide readings and a new run of each later stage
+7. Add a new lecture to the source folder, and run `source-normalisation` again. Verify that the new numbers reach every later lecture
+8. Run batch mode across all lectures. Verify the sequential processing and the batch summary output
 
 **Acceptance:** Full pipeline produces a readable, well-structured PDF from a real lecture video and slides; all pipeline mechanics (resumability, re-runs, re-numbering, cost reporting) work correctly against real data.

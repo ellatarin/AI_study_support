@@ -2,9 +2,9 @@
 
 A software harness that uses a number of AI models to turn video recordings of lectures, and the slides that go with them, into textbook-style chapters that can be used for study.
 
-For each lecture the software outputs one PDF: continuous prose with the relevant
-pictures from the slides inserted at the right points. It covers everything the lecturer said and
-everything on the slides, organised under headings, with summaries of the key concepts and a glossary. It is meant to be read as a standalone resource instead of rewatching the recording or piecing the slides together, so it must be complete and it has to be right.
+For each lecture the software outputs one PDF: continuous prose with the
+slides inserted at the right points. It covers everything the lecturer said and
+everything on the slides, organised under headings, with summaries of the key concepts and a glossary. A student reads it in place of the recording and the slides. So it must be complete, and it must be right.
 
 > **Status: in progress.** The pipeline currently runs from a module's source files to a verbatim transcript. Dividing the transcript into subtopics and topics is still in prototype but works. The stages after that are being redesigned around the divided transcript: the design is being updated first, then the stages will be built. See [Where the project is up to](#where-the-project-is-up-to).
 
@@ -73,31 +73,26 @@ re-run from it or stop after it.
    the lecturer's title is meaningful. A meaningful title stays. Otherwise the model proposes a new
    title, and the lecture's files take it. A title that you set yourself always stays.
 10. **`render-slides`.** Renders each slide as an image.
-11. **`read-slides`.** A vision model writes out everything on each slide.
-12. **`verify-slides`.** A checker compares each slide's written-out content with the slide image and
-    lists anything missed, misread or added, and a separate reviser corrects it.
-13. **`extract-figures`.** Finds the academically useful figures on the slides, crops and captions them,
-    and leaves out logos and decoration.
-14. **`verify-figures`.** A checker checks that each caption matches its figure, that the figure was
-    captured whole, and that nothing academic was left out as decoration, and a separate reviser
-    corrects what it finds.
-15. **`assign-slides`.** Decides which slides, with their figures, belong to which topic. A slide that
-    belongs to no topic is flagged: it holds content the lecturer never spoke about.
-16. **`merge-slides`.** Adds each topic's slide content and figures into the lecturer's words, at the
-    points where they are discussed. The model says only where each slide fact or figure belongs. Code
-    inserts it, so the lecturer's words come through untouched.
-17. **`verify-merge`.** Checks that every slide fact and figure was placed, in a sensible place, and that
-    nothing was added that is not on a slide, and a separate reviser corrects what it finds.
-18. **`write-topics`.** Rewrites each merged topic as textbook prose. This is the one rewrite, made with
-    everything already in hand.
-19. **`verify-topics`.** Checks each topic's prose against its merged topic: nothing lost, nothing
-    added, nothing distorted. A separate reviser corrects what it finds, and the check repeats until it
-    passes.
-20. **`assemble-chapter`.** Joins the topics into one chapter, with transitions between them and a
+11. **`read-slides`.** A vision model reads each slide on its own. It writes out the slide's title, its
+    text and its diagrams, and a caption for the reader. It also marks the slide as subject matter,
+    content-free (such as a title, outline or "any questions?" slide) or references. The notes show
+    each slide as one whole image, so no figure is cut out.
+12. **`verify-slides`.** A checker compares each slide reading with the slide image and lists anything
+    missed, misread or added, and a separate reviser corrects it.
+13. **`place-slides`.** Puts each subject-matter slide with the subtopic where the lecturer discusses
+    it. The model says only which subtopic. Code checks that every slide has one place and that the
+    slides keep their deck order. A references slide goes with the last subtopic, and content-free
+    slides are left out.
+14. **`write-topics`.** Rewrites each topic as textbook prose, with its placed slides in hand, so the
+    text can refer to them. This is the one rewrite.
+15. **`verify-topics`.** Checks each topic's prose against its transcript text and slide readings:
+    nothing lost, nothing added, nothing distorted. A separate reviser corrects what it finds, and the
+    check repeats until it passes.
+16. **`assemble-chapter`.** Joins the topics into one chapter, with transitions between them and a
     glossary.
-21. **`verify-chapter`.** Checks that joining the topics lost nothing and added nothing, and corrects what
+17. **`verify-chapter`.** Checks that joining the topics lost nothing and added nothing, and corrects what
     it finds.
-22. **`generate-pdf`.** Converts the chapter to a PDF and places it in `Final output/`.
+18. **`generate-pdf`.** Converts the chapter to a PDF and places it in `Final output/`.
 
 
 Transcription uses ElevenLabs. Every other model call goes through OpenRouter, so any model it offers can be assigned to any stage.
@@ -159,11 +154,7 @@ lecture-notes change-date <date> <new date>
 | `render-slides` | Designed, not built |
 | `read-slides` | Designed, not built |
 | `verify-slides` | Planned |
-| `extract-figures` | Designed, not built |
-| `verify-figures` | Planned |
-| `assign-slides` | Planned |
-| `merge-slides` | Planned |
-| `verify-merge` | Planned |
+| `place-slides` | Designed, not built |
 | `write-topics` | Planned |
 | `verify-topics` | Planned |
 | `assemble-chapter` | Planned |

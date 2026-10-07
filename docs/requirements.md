@@ -1,7 +1,7 @@
 # Lecture Notes Generator — Requirements Specification
 
-**Suite version:** 1.69-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
-**Date:** 2026-10-03
+**Suite version:** 1.70-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
+**Date:** 2026-10-07
 **Status:** For review
 
 ---
@@ -28,17 +28,17 @@ The system shall take a set of lecture recordings (video files) and accompanying
 
 **FR-2.1** The system shall accept a library of lecture slide files (PDF) as input.
 
-**FR-2.2** The system shall convert the content of each slide deck into a structured markdown document, preserving the hierarchy, headings and textual content of the slides.
+**FR-2.2** The system shall read each slide: its title, its text, and a description of each diagram.
 
-**FR-2.3** The system shall extract images from the slide files.
+**FR-2.3** The system shall render each slide as one whole image, with a caption that says what the slide shows.
 
-**FR-2.4** The system shall assign a descriptive label to each extracted image that identifies its content and its position within the source material.
+**FR-2.4** The system shall place each slide with the part of the lecture where the lecturer discusses it. The slides shall keep the order of the slide deck.
 
-**FR-2.5** The system shall filter out images that are not relevant to the academic content (e.g. decorative elements, institutional logos, slide backgrounds, and images that do not meaningfully illustrate or explain core academic concepts).
+**FR-2.5** The system shall leave out each slide that holds no subject matter for a student, such as a title, outline or "questions?" slide.
 
 ### FR-3 — Content Synthesis
 
-**FR-3.1** The system shall synthesise the structured transcript, the structured slide content, and the labelled images into a single unified set of notes for each lecture.
+**FR-3.1** The system shall synthesise the structured transcript, the slide readings, and the slide images into a single unified set of notes for each lecture.
 
 **FR-3.2** The synthesised notes shall cover all significant content present across the source materials, without omission.
 
@@ -46,11 +46,11 @@ The system shall take a set of lecture recordings (video files) and accompanying
 
 **FR-3.4** The synthesised notes shall be written in a textbook style: coherent prose, well-organised sections, and academically appropriate language.
 
-**FR-3.5** The system shall incorporate relevant extracted images into the synthesised notes at appropriate positions, referencing them as separate image files via relative paths so that the output markdown remains human-readable.
+**FR-3.5** The system shall show each placed slide image, with its caption, in the synthesised notes at its place. The notes shall refer to each image as a separate file through a relative path, so that a person can read the output markdown.
 
 ### FR-4 — Quality Assurance
 
-**FR-4.1** The system shall perform a quality check of the synthesised notes against all source materials (structured transcripts, structured slide markdown, and extracted images).
+**FR-4.1** The system shall perform a quality check of the synthesised notes against all source materials (structured transcripts, slide readings, and slide images).
 
 **FR-4.2** The quality check shall identify any significant content present in the source materials that is absent or inadequately represented in the synthesised notes.
 

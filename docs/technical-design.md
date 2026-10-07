@@ -1,7 +1,7 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.69-draft — shared across requirements, technical design, and implementation plan; any substantive edit to any of the three bumps this number in all three
-**Date:** 2026-10-03
+**Suite version:** 1.70-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
+**Date:** 2026-10-07
 **Status:** For review
 
 ---
@@ -199,18 +199,16 @@ Lecture 1 - Disease Cell Injury and the Immune System - 2025-10-10/
 │   ├── verification-report.json               # transcript-verification
 │   └── verification-report.md                 # transcript-verification — the same findings, for a reader
 │
-├── Slide content/
-│   ├── raw/
-│   │   ├── slide-001.md                       # per-slide extraction (slide-conversion resumability)
-│   │   ├── slide-002.md
-│   │   └── ...
-│   └── slides.md                              # slide-conversion — concatenated
-│
 ├── Slide images/
-│   ├── images-manifest.json                   # image-extraction
-│   ├── slide-003-figure-01.png
-│   ├── slide-003-figure-01-caption.md
+│   ├── slide-001.png                          # render-slides — one image for each page of the slide deck
 │   └── ...
+│
+├── Slide readings/
+│   ├── slide-001.json                         # read-slides — one slide reading for each slide
+│   └── ...
+│
+├── Slide placements/
+│   └── placements.json                        # place-slides — the subtopic of each placed slide
 │
 ├── Synthesised notes/
 │   └── synthesised-notes.md                  # synthesis
@@ -223,7 +221,7 @@ Lecture 1 - Disease Cell Injury and the Immune System - 2025-10-10/
 └── QA checked/
     ├── notes.md                               # qa-loop final — simple name
     └── images/
-        └── slide-003-figure-01.png
+        └── slide-003.png
 ```
 
 `QA checked/notes.md` uses a simple name because it lives inside the named lecture folder. The full descriptive filename appears only on the PDF in `Final output/` (`pdf-generation`).
@@ -303,10 +301,8 @@ STAGE_FILES = { … } satisfies Readonly<Record<StageId, StageFiles>>
 // pdf-generation works in workspace directories; pdf-generation deposits its PDF in the module's `Final
 // output/`. `outputFile` is null for source-normalisation (which writes nothing of its own), for the stages
 // producing a set rather than a file (initial-subtopic-splitting and deepen-subtopic-splitting, one file per
-// splitting run; image-extraction; qa-loop), and for pdf-generation, whose one file lands
-// outside the workspace where a workspace-relative path cannot reach it. slide-conversion produces a set too —
-// one markdown file per slide — but concatenates it into `Slide content/slides.md`, which is the single file
-// the stage after it reads. group-into-topics works in two directories, `Grouping runs/` and `Topics/`, and its
+// splitting run; render-slides and read-slides, one file per slide; qa-loop), and for pdf-generation, whose one
+// file lands outside the workspace where a workspace-relative path cannot reach it. group-into-topics works in two directories, `Grouping runs/` and `Topics/`, and its
 // file is `Topics/topics.json`.
 // Declared as the literal it is rather than annotated as the map, so the compiler keeps which stages carry a
 // file; `satisfies` still proves every stage appears, so one added to StageId and forgotten here fails to
@@ -384,15 +380,16 @@ Because all other files inside the workspace use simple names, only the four lec
 | `retitle-subtopics` | Per-lecture | Give every subtopic of the chosen division a new title from its own text, in one call over the whole lecture |
 | `group-into-topics` | Per-lecture | Group the retitled subtopics into topics: a panel of grouping runs, and the grouping most of them made |
 | `judge-lecture-title` | Per-lecture | Judge whether the provisional title is meaningful for the grouped lecture. Propose an AI-derived title when it is not, and rename the lecture files unless a user title is set |
+| `render-slides` | Per-lecture | Render each page of the slide deck as one image. No model call |
+| `read-slides` | Per-lecture | Read each slide image with a vision model: its title, text, diagrams, caption and kind |
+| `place-slides` | Per-lecture | Put each subject-matter slide with the subtopic where the lecturer discusses it, in deck order |
 | `transcript-structuring` | Per-lecture | Structure the transcript into markdown |
 | `transcript-verification` | Per-lecture | Compare the structured transcript against the raw one. Report what was lost, underexplained, distorted, or invented. Reports only — never fails a run |
-| `slide-conversion` | Per-lecture | Render PDF slides as images. Extract content with a vision LLM |
-| `image-extraction` | Per-lecture | Identify, label, and filter academic figures from slide images |
 | `synthesis` | Per-lecture | Combine transcript, slide content, and figures into textbook-style notes |
 | `qa-loop` | Per-lecture | Check and revise the notes again and again. Write the final `QA checked/notes.md` |
 | `pdf-generation` | Per-lecture | Convert `QA checked/notes.md` to PDF with pandoc. Put the PDF in `Final output/` |
 
-The four division stages, `retitle-subtopics` and `judge-lecture-title` run after `transcription`. Every older stage stays. Of the later stages, only `judge-lecture-title` reads the topics and subtopics. The move of the rest of the pipeline to the README's stage list is later work.
+The four division stages, `retitle-subtopics`, `judge-lecture-title` and the three slide stages run after `transcription`. Every older stage stays. Of the later stages, only `judge-lecture-title` and `place-slides` read the subtopics. The move of the rest of the pipeline to the README's stage list is later work.
 
 ### 4.2 Stage Interface
 
@@ -554,13 +551,13 @@ The resolver has a module of its own. It is not with the filesystem helpers in `
 filenameSafe(title: string): string   // src/utils/naming.ts; throws when the result would be empty
 ```
 
-**Stage cleanup boundaries.** `--from-stage <stageId>` MUST NOT drive its cleanup off `filesWritten` from the manifest. Cleanup works from the per-stage, hard-coded `STAGE_FILES` (§3.3) — `Slide content/` for `slide-conversion`, the module's `Final output/` for `pdf-generation` — so a corrupt manifest cannot trigger deletion of unintended files. "Hard-coded" is enforced by the type system rather than left to convention: a stage directory name is branded, and the private constructor that mints it rejects a widened `string` (§3.3). A `filesWritten` entry or LLM-supplied name reaching that map is a compile error.
+**Stage cleanup boundaries.** `--from-stage <stageId>` MUST NOT drive its cleanup off `filesWritten` from the manifest. Cleanup works from the hard-coded `STAGE_FILES` of each stage (§3.3), such as `Slide readings/` for `read-slides` and the module's `Final output/` for `pdf-generation`. So a corrupt manifest cannot cause the deletion of unintended files. The type system enforces "hard-coded". A stage directory name is branded, and the private constructor that makes it refuses a widened `string` (§3.3). A `filesWritten` entry or LLM-supplied name reaching that map is a compile error.
 
 `pdf-generation`'s directory is the sole one resolved against `moduleRoot` rather than the workspace, and it holds every lecture in the module. What a stage declares is therefore a `StageOutputLocation` (§3.3), and the variant decides how cleanup proceeds. Its `workspace` variant carries directories, which cleanup takes whole, since each holds one lecture's work and nothing else. Its `module` variant carries the directory the stage deposits into, where cleanup removes the single file carrying the reset lecture's date and leaves the directory and every other lecture's PDF standing. A stage has no way to declare that it owns a module-wide directory, so the reach of a reset is bounded by the type rather than by the care taken at each call site.
 
 The delete target is anchored at the other end too: `workspaceRoot` is always built by `listWorkspaces` as `join(moduleDirs({ moduleRoot }).processing, <directory listing entry>)`, and the manifest is read only to match a lecture date, never to supply a path. So `moduleRootOf(workspaceRoot)` returns the same `moduleRoot` the caller passed in, and neither root nor name is manifest-derived.
 
-**No shell interpolation.** Every child-process invocation across the pipeline (fluent-ffmpeg in `audio-extraction`, pandoc in `pdf-generation`, any future subprocess call) MUST use `spawn(cmd, argv, opts)` with an explicit argv array — never `exec(shellString)` and never any variant that concatenates paths into a shell command. This eliminates the class of bug where folder names with spaces (`Final output/`, `Slide content/`, `QA iterations/`) or attacker-controlled title strings break out of an argument via unescaped shell metacharacters. Paths are passed verbatim as argv elements; no quoting is required or applied.
+**No shell interpolation.** Every child process in the pipeline MUST use `spawn(cmd, argv, opts)` with an explicit argv array. Examples are fluent-ffmpeg in `audio-extraction`, pandoc in `pdf-generation` and any future subprocess call. Never use `exec(shellString)`, or any variant that joins paths into a shell command. This rule removes a class of bug. In that bug, a folder name with spaces breaks out of an argument through unescaped shell metacharacters. Examples are `Final output/`, `Slide images/` and `QA iterations/`. A title string from an attacker can do the same. Paths go into argv unchanged. No quoting is necessary or applied.
 
 ### 4.5 Run Manifest
 
@@ -674,19 +671,19 @@ Each stage entry records `configUsed` — a `StageConfigUsed` capturing the mode
       "cost": { "promptTokens": 18400, "completionTokens": 3200, "costUsd": 0.081, "callCount": 1 },
       "filesWritten": ["Structured transcript/structured-transcript.md"]
     },
-    "slide-conversion": {
+    "read-slides": {
       "status": "complete",
       "completedAt": "...",
       "configUsed": { "modelId": "google/gemini-2.5-flash", "temperature": 0.1, "maxTokens": 4096, "concurrency": 3 },
       "cost": { "promptTokens": 41000, "completionTokens": 8100, "costUsd": 0.034, "callCount": 24 },
-      "filesWritten": ["Slide content/slides.md"]
+      "filesWritten": ["Slide readings/slide-001.json", "...", "Slide readings/slide-024.json"]
     },
-    "image-extraction": {
+    "place-slides": {
       "status": "complete",
       "completedAt": "...",
-      "configUsed": { "modelId": "openai/gpt-4.1", "temperature": 0.0, "maxTokens": 2048, "concurrency": 2 },
-      "cost": { "promptTokens": 0, "completionTokens": 2400, "costUsd": 0.038, "callCount": 12 },
-      "filesWritten": ["Slide images/images-manifest.json"]
+      "configUsed": { "modelId": "openai/gpt-4.1", "temperature": 0.0, "maxTokens": 2048 },
+      "cost": { "promptTokens": 36000, "completionTokens": 400, "costUsd": 0.038, "callCount": 1 },
+      "filesWritten": ["Slide placements/placements.json"]
     },
     "synthesis": {
       "status": "complete",
@@ -709,7 +706,7 @@ Each stage entry records `configUsed` — a `StageConfigUsed` capturing the mode
         "QA iterations/qa-iteration-01-deficiencies.json",
         "QA iterations/qa-iteration-01-revised.md",
         "QA checked/notes.md",
-        "QA checked/images/slide-003-figure-01.png"
+        "QA checked/images/slide-003.png"
       ]
     },
     "pdf-generation": {
@@ -752,14 +749,15 @@ Each log records which stages were attempted, skipped, or re-run; cost and model
     "audio-extraction":       { "action": "skipped" },
     "transcription":          { "action": "skipped" },
     "transcript-structuring": { "action": "skipped" },
-    "slide-conversion": {
+    "render-slides":          { "action": "skipped" },
+    "read-slides": {
       "action": "ran",
       "status": "failed",
       "configUsed": { "modelId": "google/gemini-2.5-flash", "temperature": 0.1, "maxTokens": 4096, "concurrency": 3 },
       "error": "Rate limit exceeded after 3 retries on slide 14",
       "cost": { "costUsd": 0.021, "callCount": 13 }
     },
-    "image-extraction":  { "action": "not-reached" },
+    "place-slides":      { "action": "not-reached" },
     "synthesis":         { "action": "not-reached" },
     "qa-loop":           { "action": "not-reached" },
     "pdf-generation":    { "action": "not-reached" }
@@ -860,7 +858,7 @@ isCompletedEntry(entry: StageEntry | QaStageEntry | undefined): entry is Complet
 
 **Pipeline order comes from `STAGE_IDS`.** `src/types/pipeline.ts` declares `STAGE_IDS` as the ordered stage list, and everything that walks the stages in order — the runner's `--from-stage` reset, the cost report's per-stage breakdown — iterates that array. A map elsewhere in the code is a lookup keyed *by* stage, and its key order is that map's own; the pipeline's order has one statement, and adding a stage to it is what puts the stage in the sequence.
 
-**`--from-stage <stageId>`:** Resets the nominated stage and all downstream stages to `pending` in the manifest. Also deletes per-stage intermediate files for the stages being re-run (e.g. `Slide content/raw/*.md` when re-running `slide-conversion`), so the re-run produces entirely fresh output. Upstream stages are untouched. Deletion targets hard-coded per-stage directories (see §4.4) — never `filesWritten` from the manifest — and in the module's `Final output/`, which is shared, it takes only this lecture's PDF.
+**`--from-stage <stageId>`:** Resets the nominated stage and all downstream stages to `pending` in the manifest. Also deletes the intermediate files of each stage that runs again, such as `Slide readings/*.json` for `read-slides`. So the new run makes entirely fresh output. Upstream stages are untouched. The deletion uses the hard-coded directories of each stage (see §4.4), and never `filesWritten` from the manifest. The module's `Final output/` is shared, so there the deletion takes only this lecture's PDF.
 
 **The reset is confirmed before anything is deleted (NFR-4.3).** The CLI asks once per invocation, leading with the number of lectures that will lose work, and declining runs nothing at all rather than running without the reset. The count is what makes the question worth reading, because nothing the user typed states it: `run <date>` covers however many lectures that date matched and they then chose, and `batch` covers every lecture in the module named — or, with no module named, in every configured one. The question is asked wherever that set first becomes known, which is the CLI for a date and, for a batch, only after `countLectures` has scanned the modules (§4.7, "Counting a batch's scope"). Establishing the count costs that scan, so it is taken only when a stage is nominated; an ordinary run asks nothing and pays nothing. There is no flag to suppress the question.
 
@@ -872,7 +870,7 @@ Given with `--from-stage`, the two bound the run at both ends and the pair must 
 
 Its reason for existing is the cost of the stages downstream of what a run actually needs. Transcribing five lectures for a segmentation experiment reads `Transcript/transcript.txt` and nothing else, and without this flag that run also pays `transcript-structuring` and `transcript-verification` on every lecture.
 
-**Natural restart after failure:** Does not clear intermediate files — per-slide markdown files from `slide-conversion` are preserved for resumability, allowing a failed run to pick up at the slide where it stopped.
+**Natural restart after failure:** Does not clear intermediate files. The slide readings from `read-slides` stay, so a failed run continues from the slide where it stopped.
 
 **Lecture identification:** A lecture is uniquely identified by `(moduleRoot, lectureDate)`. `source-normalisation` guarantees `lectureDate` is unique within a module. Across modules, dates may collide — see `resolveLecturesByDate` below.
 
@@ -1419,6 +1417,94 @@ createJudgeLectureTitleStage(args: { logger: Logger; client: OpenAI }): Pipeline
 
 ---
 
+### `render-slides` — an image of each slide
+
+**Input:** `Source files/Slide decks/<base name>.pdf`
+**Output:** `Slide images/slide-001.png`, `slide-002.png` and so on, one for each page
+
+The stage renders each page of the slide deck as one PNG image at 150 DPI, with `pdfjs-dist` and `canvas`. The images are numbered from 1 in deck order. The stage makes no model call, so its cost is `null` (§4.2).
+
+The notes show a slide as one whole image (CONTEXT.md, "Slide"). No figure is cut out of a slide. A vision model gives imprecise position boxes, so a crop can lose an axis label or take part of the text beside the figure. A whole slide is always complete.
+
+The stage fails when the slide deck is missing, or when `pdfjs-dist` cannot read it. The error names the file.
+
+---
+
+### `read-slides` — what each slide holds
+
+**Input:** `Slide images/slide-001.png` and the rest
+**Output:** `Slide readings/slide-001.json` and so on, one for each slide
+
+A vision model reads each slide image and returns one slide reading (CONTEXT.md, "Slide reading"). The stage makes one call for each slide. The stage's `concurrency` sets how many calls are in flight at once (§6).
+
+The stage does not take the text from the PDF. Biology slides hold pathway diagrams, tables, formulas and micrographs. A text-extraction library puts columns in the wrong order and loses the structure of a table. A vision model reads a slide as a person does.
+
+**The model reads the slide alone.** The call sends the slide image, the slide number and the number of slides in the deck. It sends no transcript and no lecture title. So a reading says only what is on the slide.
+
+**The reply** is a JSON object with five fields:
+
+- `title`: the slide's title, as the slide writes it. It is empty when the slide has no title.
+- `text`: all the text on the slide, word for word. Tables are Markdown tables, and formulas are LaTeX. It is empty when the slide has no text.
+- `diagrams`: one description for each diagram, chart or picture, with its parts, labels, arrows and relationships. The list is empty when the slide has none.
+- `caption`: one or two sentences that tell a reader what the slide shows.
+- `kind`: `subject-matter`, `content-free` or `references` (CONTEXT.md, "Content-free slide").
+
+The prompt applies `languageRule` (§6) to the caption. The title and the text keep the slide's own spelling.
+
+A reply is unusable in each of these cases:
+
+- It is not a JSON object with those fields and types.
+- `caption` is empty.
+- `kind` is not one of the three values.
+
+The stage resends an unusable reply in the same way as a panel run. It fails after the third send (§5, "Dividing the transcript", Panel runs).
+
+**What is written.** The stage writes each reading to its own file as soon as the reply is usable. The file holds `slideNumber` and the five fields of the reply. A stage that failed and starts again reads only the slides that have no reading. A panel stage makes only its missing runs in the same way. `--from-stage read-slides` clears `Slide readings/`, so every slide is read again.
+
+The stage fails without a model call when `Slide images/` is missing or holds no image. It also fails when a slide's third send is unusable. Then the stage sends no further slide. The calls in flight finish, and the stage keeps their readings.
+
+**The model** is set on the stage's own entry (§6). It must accept images.
+
+---
+
+### `place-slides` — each slide with its subtopic
+
+**Input:** `Transcript/transcript.txt`, `Retitled subtopics/subtopics.json`, `Slide readings/`
+**Output:** `Slide placements/placements.json`
+
+The stage puts each subject-matter slide with the subtopic where the lecturer discusses it (CONTEXT.md, "Slide placement").
+
+**One call for the whole lecture.** The model gets every subtopic in order, as its subtopic id, its title and its full text, trimmed. The retitled subtopics hold only spans, so the stage cuts each text from the transcript, as `judge-lecture-title` does. The model also gets every reading in deck order, as its slide number, kind, title, text and diagram descriptions. Content-free slides and references slides are in the list. A section divider shows where the lecture moves on, so it helps the model to place the slides around it.
+
+**The reply** is a JSON object with a list `placements`. Each entry holds a `slideNumber` and a `subtopicId`. The model gives one entry for each subject-matter slide. The stage ignores an entry for a content-free slide or a references slide. A reply is unusable in each of these cases:
+
+- It is not that shape.
+- A subject-matter slide has no entry, or more than one.
+- An entry names a slide or a subtopic that does not exist.
+- A slide's subtopic is earlier than the subtopic of the subject-matter slide before it in the deck.
+
+The stage does not repair a reply, because a repair must guess which slide is wrong. The stage resends an unusable reply in the same way as a panel run. It fails after the third send (§5, "Dividing the transcript", Panel runs).
+
+**Deck order is a rule.** Lecturers show their slides in order. Without the rule, a model can put a slide where its words match the speech, far from where the lecturer showed it. A slide that the lecturer goes back to stays at its first place.
+
+**References slides.** The code puts each references slide with the lecture's last subtopic. The deck-order rule does not apply to references slides. Otherwise a references slide in the middle of a deck would force every later slide into the last subtopic.
+
+**Content-free slides** get no place, and the notes do not show them (CONTEXT.md, "Content-free slide").
+
+**One call, not a panel.** If real lectures show that placements change from one call to the next, a panel can be added later.
+
+**What is written.** `Slide placements/placements.json` holds a list `placements`, with one entry for each placed slide in deck order. Each entry holds `slideNumber` and `subtopicId`.
+
+The stage fails without a model call when the transcript, the retitled subtopics or a reading is missing or unreadable. The error names the file. The stage also fails when the third send is unusable.
+
+#### Gaps in the slide stages
+
+- No checker compares a reading with its slide, or a placement with the transcript. The design gives a checker to every stage that transforms content (README, "Design philosophy"). For the slide stages, the user's own look at one lecture's placements is the first check.
+- `place-slides` makes one call. It has no panel.
+- No built stage shows the slides with the text. A test page, which a script outside the pipeline builds, shows them.
+
+---
+
 ### `transcript-structuring` — Transcript Structuring
 
 **Input:** `Transcript/transcript.txt`
@@ -1462,7 +1548,7 @@ createTranscriptStructuringStage(args: { logger: Logger }): PipelineStage<Transc
 **Input:** `Transcript/transcript.txt` and `Structured transcript/structured-transcript.md`
 **Output:** `Transcript verification/verification-report.json`, and `Transcript verification/verification-report.md` beside it
 
-`transcript-structuring` rewrites a transcript, and nothing downstream reads the raw one again: from `slide-conversion` onwards the structured transcript *is* the lecture. Whatever `transcript-structuring` drops is therefore not recoverable later, and no other stage is positioned to notice it had been dropped — `synthesis` checks the notes against the structured transcript, so content lost before that point is invisible to it. This stage is the one place the two versions sit side by side.
+`transcript-structuring` rewrites a transcript. `synthesis` reads the structured transcript and not the raw one, so from `synthesis` onwards the structured transcript *is* the lecture. So content that `transcript-structuring` drops cannot come back later. No other stage can see that the content is lost. `synthesis` checks the notes against the structured transcript, so it cannot see content lost before that point. This stage is the one place where the two versions are side by side.
 
 It makes a single JSON-mode call carrying both texts, and writes back a `QaCheckerReport` (§4.1, `src/types/pipeline.ts`) — everything a checker is in a position to say, with no iteration number, because this stage runs once and the number belongs to the QA loop that calls its checker repeatedly. The report holds the findings, each with its severity, category, the source passage it is about and where it belongs in the output, plus the `considered` list of what the checker examined and cleared. Only the faithfulness categories are offered — `omission`, `underexplained`, `distortion`, `unsourced-addition`, `other` — because this stage compares two transcripts and has no notes to judge the prose of (`qa-loop`).
 
@@ -1503,110 +1589,12 @@ createTranscriptVerificationStage(args: { logger: Logger; client: OpenRouterClie
 
 ---
 
-### `slide-conversion` — Slide Conversion
-
-**Input:** `Source files/Slide decks/Lecture N - [Title] - YYYY-MM-DD.pdf`
-**Output:** `Slide content/raw/slide-{003d}.md` (one per slide), `Slide content/slides.md` (concatenated)
-
-#### Approach: Vision LLM per slide
-
-Native PDF text extraction is rejected for this use case. Academic biology slides contain pathway diagrams, chemical structures, multi-column tables, embedded formulas, and microscopy images. Text extraction libraries produce garbled output for all of these — column order is wrong, table structure is lost, formulas become character soup. A vision LLM sees each slide as a human does.
-
-**Processing:**
-
-1. Render each PDF page to a PNG at 150 DPI using `pdfjs-dist` + `canvas`. PNGs are written to `Slide content/raw/slide-{003d}.png` and also used by `image-extraction`.
-
-2. For each slide, make a vision LLM call:
-   > "This is slide {N} of {total} from a lecture titled '{lectureTitle}'. Extract all academic content into structured markdown. Reproduce all text exactly. Describe diagrams in full (structure, labels, arrows, relationships). Reconstruct tables with all cells and headers. Render formulas as LaTeX. Note the slide's apparent purpose (e.g. definition slide, pathway diagram, data table)."
-
-3. Each slide's markdown is written to `Slide content/raw/slide-{003d}.md` immediately after its API call, enabling intra-stage resumability: if the process dies at slide 14, a restart skips slides 1–13.
-
-4. Once all slides are processed, concatenate into `Slide content/slides.md` with `---` separators and `### Slide N` headings.
-
-**Progress:** A single `cli-progress` `SingleBar` per stage with an in-flight status suffix — one line, no `MultiBar`:
-
-```
-Slide conversion  [████████░░░░░░░]  15/24  ETA 42s  | in flight: 16, 17, 18
-```
-
-Format string: `'{label}  [{bar}] {value}/{total}  ETA {eta_formatted}  | in flight: {inFlight}'`. The runner updates the bar's `payload.inFlight` array whenever a worker picks up or finishes a slide. Default concurrency: 3 parallel API calls.
-
-**Failure behaviour:** If a slide's LLM call fails, the runner requests cancellation of the stage. Workers already in flight complete their current call (never abandoned mid-write); the stage then aborts. The final bar render highlights the failing slide's number in the status suffix so the failure point is visible in a scrollback.
-
-**Non-TTY output:** When stdout isn't a TTY (piped to a file, CI), `cli-progress` falls back to periodic newline-delimited status prints on stderr — no cursor moves, no ANSI. The design tolerates this without special handling; runs remain readable in captured logs.
-
-**Recommended model:** A cost-efficient vision model (e.g. `google/gemini-2.5-flash`) — this stage makes the most individual API calls.
-
-**`.tmp` cleanup:** At the start of `slide-conversion`, any `.tmp` files in `Slide content/` are deleted before processing begins.
-
-**`--from-stage slide-conversion`:** Deletes all files in `Slide content/raw/` before starting, ensuring entirely fresh output rather than resuming from cached per-slide files.
-
----
-
-### `image-extraction` — Image Extraction and Labelling
-
-**Input:** Slide PNGs from `Slide content/raw/slide-{003d}.png`
-**Output:** `Slide images/slide-{003d}-figure-{02d}.png`, `Slide images/slide-{003d}-figure-{02d}-caption.md`, `Slide images/images-manifest.json`
-
-For each slide PNG, a vision LLM call identifies distinct figures and their bounding boxes. `sharp` then crops each accepted figure from the slide PNG.
-
-#### Vision LLM Response Schema (per slide)
-
-```jsonc
-{
-  "figures": [
-    {
-      "figureIndex": 1,
-      "boundingBox": { "topPct": 15, "leftPct": 5, "widthPct": 45, "heightPct": 60 },
-      "caption": "Complement activation cascade showing classical, lectin, and alternative pathways converging at C3 convertase.",
-      "academicRelevance": "include",
-      "figureType": "pathway-diagram"
-    },
-    {
-      "figureIndex": 2,
-      "boundingBox": { "topPct": 85, "leftPct": 80, "widthPct": 18, "heightPct": 12 },
-      "caption": "University logo",
-      "academicRelevance": "exclude",
-      "figureType": "logo"
-    }
-  ]
-}
-```
-
-Figures with `academicRelevance: 'exclude'` or `figureType` of `logo` or `decorative` are discarded without saving. Cropped PNGs are saved using zero-padded naming: `slide-{003d}-figure-{02d}.png`.
-
-**Progress, failure, and non-TTY behaviour:** Same convention as `slide-conversion` (single `SingleBar` with in-flight suffix). Default concurrency: 2 parallel API calls.
-
-#### `images-manifest.json`
-
-```jsonc
-{
-  "totalSlides": 24,
-  "totalFiguresFound": 31,
-  "totalFiguresIncluded": 19,
-  "figures": [
-    {
-      "filename": "slide-003-figure-01.png",
-      "captionFile": "slide-003-figure-01-caption.md",
-      "slideNumber": 3,
-      "caption": "Complement activation cascade…",
-      "figureType": "pathway-diagram",
-      "outputRelativePath": "images/slide-003-figure-01.png"
-    }
-  ]
-}
-```
-
-`outputRelativePath` is the path used in the final output markdown, relative to the `QA checked/` folder.
-
----
-
 ### `synthesis` — Synthesis
 
 **Inputs:**
 - `Structured transcript/structured-transcript.md`
-- `Slide content/slides.md`
-- `Slide images/images-manifest.json` (captions and filenames; not the images themselves)
+- `Slide readings/`
+- `Slide placements/placements.json`
 
 **Output:** `Synthesised notes/synthesised-notes.md`
 
@@ -1615,8 +1603,8 @@ A single LLM call assembles all three inputs into a unified textbook-style docum
 **What the LLM produces:**
 - Formal British English prose (not bullet lists)
 - H2 for major topics, H3 for sub-topics
-- Transcript provides the narrative voice; slides provide structural anchors and key points; both are woven into flowing paragraphs
-- Image references at contextually appropriate positions: `![{caption}]({outputRelativePath})`
+- The transcript gives the narrative voice. The slide readings give structural anchors and key points. The prose joins both into continuous paragraphs
+- Each placed slide with its subtopic: `![{caption}](images/slide-003.png)`
 - A "Key Concepts" summary box at the end of each H2 section
 - A "Glossary" section at the end defining all technical terms introduced
 - No content added beyond what is present in the source materials
@@ -1817,7 +1805,7 @@ Unlike OpenRouter's, this base URL carries no path — the SDK appends the versi
 
 Each prefix is matched literally, so one carrying a pattern character means itself; a blank prefix is refused at load, since it would otherwise match any run of underscores or spaces and take apart every title the run produces. A listed prefix is what makes the strip safe: the module names are known, where the shape of a prefix is not — an opening acronym belongs to the subject (`DNA_replication`), and a module written out in full has no shape to match at all.
 
-**`finalOutput.language` is a closed set, and every stage that writes prose obeys it.** The loader checks the tag against `OUTPUT_LANGUAGES`. That list maps each tag to the name that a prompt uses for it. A tag with no name is refused at startup, with a list of the valid tags. The name is necessary because "Write in en-GB" is not an instruction that a model can follow. So config cannot offer a language without wording for the prompts to use. `languageRule` in `src/utils/language.ts` builds that sentence. Every prompt that asks for prose or for a lecture title includes it, and words no rule of its own. So the stages cannot give the model different instructions. `judge-lecture-title` and `transcript-structuring` are the stages built that use it. `transcript-verification`, `slide-conversion`, `image-extraction` and `synthesis` will use it when they are built.
+**`finalOutput.language` is a closed set, and every stage that writes prose obeys it.** The loader checks the tag against `OUTPUT_LANGUAGES`. That list maps each tag to the name that a prompt uses for it. A tag with no name is refused at startup, with a list of the valid tags. The name is necessary because "Write in en-GB" is not an instruction that a model can follow. So config cannot offer a language without wording for the prompts to use. `languageRule` in `src/utils/language.ts` builds that sentence. Every prompt that asks for prose or for a lecture title includes it, and words no rule of its own. So the stages cannot give the model different instructions. `judge-lecture-title` and `transcript-structuring` are the stages built that use it. `transcript-verification`, `read-slides` and `synthesis` will use it when they are built.
 
 **The subtopic splitting and grouping settings are required sections.** `subtopicSplitting` and `grouping` carry the panel sizes, the bars and the size gate (§5, "Dividing the transcript" and `group-into-topics`). Like every other section they must be present, and a missing or mistyped field is a `ConfigError` at startup. Neither bar may exceed its section's panel size, since nothing could then be kept. Each is a whole number of at least 1.
 
@@ -1877,17 +1865,14 @@ Each prefix is matched literally, so one carrying a pattern character means itse
       "temperature": 0.2,                         // any tuning field may be null instead: no such parameter is sent
       "maxTokens": 8192
     },
-    "slide-conversion": {
-      "modelId": "<COST_EFFICIENT_VISION_MODEL>", // vision model — called once per slide, so cost per call matters most
+    "read-slides": {
+      "modelId": "<COST_EFFICIENT_VISION_MODEL>", // vision model — called once for each slide, so the cost of one call matters most
       "temperature": 0.1,
       "maxTokens": 4096,
       "concurrency": 3
     },
-    "image-extraction": {
-      "modelId": "<PRECISION_VISION_MODEL>",      // vision model — fewer calls, prioritise bounding-box accuracy
-      "temperature": 0.0,
-      "maxTokens": 2048,
-      "concurrency": 2
+    "place-slides": {
+      "modelId": "<REASONING_MODEL>"              // one call with the whole lecture and every slide reading
     },
     "synthesis": {
       "modelId": "<REASONING_MODEL>",             // single long-context call combining transcript + slides + captions
@@ -2033,8 +2018,8 @@ One row per stage that names a model and whose output stands on disk — `comple
 ```
 Run                    Stage                  Status    Cost
 ────────────────────────────────────────────────────────────
-2025-10-10T09:00Z      slide-conversion       failed   £0.016
-2025-10-10T10:30Z      slide-conversion       retry    £0.025
+2025-10-10T09:00Z      read-slides            failed   £0.016
+2025-10-10T10:30Z      read-slides            retry    £0.025
 ────────────────────────────────────────────────────────────
 ```
 
@@ -2135,7 +2120,7 @@ Items 4 and 5 split one job in two, because the two audiences need different thi
 
 **Panel stages.** `initial-subtopic-splitting`, `deepen-subtopic-splitting` and `group-into-topics` save each run to its own file the moment it is complete. On restart after a `failed` or interrupted stage, the runs already saved are read back and only the missing ones are made; the stage is marked `complete` once every run in the panel is present and its result is written (§5, "Dividing the transcript", Panel runs). A reset with `--from-stage` still clears the stage's directories, runs included.
 
-**Slide Conversion.** Each slide's extracted markdown is written to `Slide content/raw/slide-{003d}.md` immediately after its API call completes. On restart after a `failed` stage, the runner checks for each per-slide file before making its API call — already-processed slides are skipped. The stage is only marked `complete` once all slides have been assembled into `Slide content/slides.md`.
+**`read-slides`.** The stage writes each slide reading to `Slide readings/slide-001.json` and so on, as soon as its reply is usable. On restart after a `failed` stage, the stage reads only the slides that have no reading. The stage is marked `complete` when every slide has a reading.
 
 ### API Error Handling
 
@@ -2199,8 +2184,9 @@ src/
 │       ├── judge-lecture-title/          # stage module and its prompt module
 │       ├── transcript-structuring/   # stage module and its prompt module
 │       ├── transcript-verification/  # stage module, prompt module and the verification report Markdown
-│       ├── slide-conversion/         # PDF render + per-slide vision LLM
-│       ├── image-extraction/         # vision-guided crop + labelling
+│       ├── render-slides/            # stage module: one image for each page of the slide deck
+│       ├── read-slides/              # stage module and its prompt module
+│       ├── place-slides/             # stage module and its prompt module
 │       ├── synthesis/                # context assembly, chunking fallback
 │       ├── qa-loop/                  # two-prompt QA pattern, loop termination
 │       └── pdf-generation/           # pandoc invocation, Final output/ deposit
@@ -2237,7 +2223,7 @@ The pino file transport writes newline-delimited JSON to `<projectRoot>/debug-lo
 
 - Every billable model call: model, prompt token count, latency ms, and the finish reason the provider reported, or `null` when it reported none. `transcription`'s Scribe upload counts — it is billed by audio duration rather than tokens, so it logs bytes uploaded in place of prompt tokens
 - Rate limit retries: attempt number, back-off delay, error message
-- Per-slide processing times (`slide-conversion`)
+- The time of each slide's call (`read-slides`)
 - File I/O errors: path and OS error code
 - **Decisions that name things downstream.** The log records which source video `audio-extraction` chose, because it selects by base name from what the video directory holds. It also records the outcome by which `judge-lecture-title` decided the lecture's title (§5, `judge-lecture-title`), because every later stage names its output from that title
 - **Failures the run survives**, at `warn`. The main one is `transcription`'s audio-duration lookup. Its only other trace is a `null` in a cost report that someone reads days later. The log also records every unusable model reply that a stage resends (§5, "Dividing the transcript", Panel runs, and `judge-lecture-title`)
@@ -2311,8 +2297,8 @@ createUploadProgressStream(totalBytes: number): Transform    // upload byte prog
 createParallelWorkBar(args: { label: string; total: number }): {
   bar; start; pick; complete; fail; stop
 }
-// The in-flight-suffix bar from slide-conversion. pick(id) adds an id to the in-flight set, complete(id) removes it
-// and ticks, fail(id) marks the item red in the final render. Used by slide-conversion and image-extraction; non-TTY behaviour is
-// delegated to cli-progress defaults. **Built with slide-conversion** — the two stages that need it shape what it has
-// to do, and a version written ahead of them could only be checked against a guess at that.
+// The bar that shows the slides in flight, for read-slides. pick(id) adds an id to the in-flight set. complete(id)
+// removes the id and moves the bar on. fail(id) marks the item red in the final render. cli-progress gives the
+// behaviour when the output is not a terminal. **Built with read-slides**, because the stage that needs the bar
+// decides what it must do.
 ```
