@@ -10,7 +10,7 @@ import type { StageContext, StageResult } from "../../../types/pipeline.js";
 import { errorMessage, NamedError } from "../../../utils/errors.js";
 // jscpd:ignore-end
 import { writeFileAtomic } from "../../../utils/files.js";
-import { slideFileName, stageDirectoryPaths } from "../../layout.js";
+import { slideFileName, stageDirectoryPath } from "../../layout.js";
 import type { SourceFileInput, SourceFileStageParts } from "../pipeline-stage.js";
 
 /**
@@ -63,7 +63,7 @@ async function renderSlides({
 	readonly input: SourceFileInput;
 	readonly context: StageContext;
 }): Promise<StageResult<RenderSlidesOutput>> {
-	const [slideImagesDir = context.workspaceRoot] = stageDirectoryPaths({
+	const slideImagesDir = stageDirectoryPath({
 		workspaceRoot: context.workspaceRoot,
 		stageId: STAGE_ID,
 	});

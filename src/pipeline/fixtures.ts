@@ -13,8 +13,9 @@ import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import nock from "nock";
+import type OpenAI from "openai";
 import type { Logger } from "pino";
-import { afterEach, beforeEach, expect, vi } from "vitest";
+import { afterEach, beforeEach, expect, type Mock, vi } from "vitest";
 import type {
 	Manifest,
 	OutputLanguage,
@@ -30,6 +31,7 @@ import type {
 	StageResult,
 } from "../types/pipeline.js";
 import { pathExists } from "../utils/files.js";
+import { MAX_SENDS } from "../utils/resend.js";
 import { createSendGate, type SendGate } from "../utils/send-gate.js";
 import { parseConfig } from "./config.js";
 import {
@@ -37,6 +39,7 @@ import {
 	moduleDirs,
 	type StageWithOutputFile,
 	sharedLectureFileDirs,
+	stageDirectoryPath,
 	stageOutputEntry,
 	stageOutputPath,
 	workspaceRootFor,
@@ -53,7 +56,7 @@ import { createMoneyFormatter, type MoneyFormatter } from "./reports.js";
 import { assembleContext } from "./stage-context.js";
 import { type Subtopic, subtopicText } from "./stages/division.js";
 import { type ModelStageFactory, ResendsExhaustedError } from "./stages/model-stage.js";
-import { panelDirectory, SavedRunUnreadableError } from "./stages/panel-runs.js";
+import { SavedRunUnreadableError } from "./stages/panel-runs.js";
 import type { Topic } from "./stages/topics.js";
 import {
 	API_KEY_VARIABLE as ELEVENLABS_KEY_VARIABLE,
@@ -89,26 +92,37 @@ export async function captureError(promise: Promise<unknown>): Promise<Error> {
  */
 export const resendPausesTimeoutMs = 10_000;
 
+/** The calls that a stub recorded, as a check reads them. A vitest `Mock` gives them. */
+type RecordedCalls = { readonly mock: { readonly calls: readonly unknown[] } };
+
 /**
  * Checks that a stage run failed because the reply of the third send was still
- * unusable, and that the stage wrote no output file.
+ * unusable. It also checks that each call was sent three times, and that the
+ * stage wrote no output file.
  *
- * @param args - The stage run, and the output file to look for.
+ * @param args - The stage run, the stub client, and the output file to look for.
  * @param args.pending - The stage run.
+ * @param args.create - The completion stub of the stage's client. Only its calls are read.
+ * @param args.calls - The number of calls that were in flight. Each is sent three times.
  * @param args.workspaceRoot - The absolute path to the lecture workspace.
  * @param args.stageId - The stage. It must write one output file.
- * @returns A promise that resolves when both checks pass.
+ * @returns A promise that resolves when the checks pass.
  */
-export async function expectResendsExhaustedWithoutOutput({
+async function expectResendsExhaustedWithoutOutput({
 	pending,
+	create,
+	calls,
 	workspaceRoot,
 	stageId,
 }: {
 	readonly pending: Readonly<Promise<unknown>>;
+	readonly create: RecordedCalls;
+	readonly calls: number;
 	readonly workspaceRoot: string;
 	readonly stageId: StageWithOutputFile;
 }): Promise<void> {
 	expect(await captureError(pending)).toBeInstanceOf(ResendsExhaustedError);
+	expect(create.mock.calls).toHaveLength(MAX_SENDS * calls);
 	expect(await pathExists(stageOutputPath({ workspaceRoot, stageId }))).toBe(false);
 }
 
@@ -328,6 +342,46 @@ export function openRouterClientFor({
 	readonly config: PipelineConfig;
 }): OpenRouterClient {
 	return createOpenRouterClientProvider({ openRouter: config.openRouter });
+}
+
+/** The stub of the chat completion call of a {@link stubbedOpenRouterClient}. */
+export type StubbedCompletionCall = Mock<
+	(body: Readonly<Record<string, unknown>>) => Promise<unknown>
+>;
+
+/**
+ * A stub OpenRouter client, for a suite that builds a model stage with it. The
+ * stage then runs the real model-call code. Each completion call goes to
+ * `create`. The suite sets the reply on `create` and reads each request body
+ * from its calls.
+ *
+ * @returns The client provider to build the stage with, and the stub of its completion call.
+ */
+export function stubbedOpenRouterClient(): {
+	readonly client: OpenRouterClient;
+	readonly create: StubbedCompletionCall;
+} {
+	const create: StubbedCompletionCall = vi.fn();
+	const openAi = { chat: { completions: { create } } } as unknown as OpenAI;
+	return { client: () => openAi, create };
+}
+
+/**
+ * Gives a suite a new {@link stubbedOpenRouterClient} before each test. The
+ * function returns readers, because the client does not exist until the hook
+ * runs. {@link useStubLogger} has the same shape.
+ *
+ * @returns Readers for the client and the completion call of the current test.
+ */
+export function useStubbedOpenRouter(): {
+	readonly client: () => OpenRouterClient;
+	readonly create: () => StubbedCompletionCall;
+} {
+	let stubbed = stubbedOpenRouterClient();
+	beforeEach(() => {
+		stubbed = stubbedOpenRouterClient();
+	});
+	return { client: () => stubbed.client, create: () => stubbed.create };
 }
 
 const elevenLabsAddress = configuredAddress(exampleConfig.elevenLabs.baseUrl);
@@ -862,6 +916,60 @@ export function titleJudgementReply(
 	overrides: Readonly<Record<string, unknown>> = {},
 ): Record<string, unknown> {
 	return { ...titleKept, judgedBecause: stubbedJudgedBecause, ...overrides };
+}
+
+/**
+ * A usable `read-slides` reply: a subject-matter slide with one figure. Each
+ * suite that needs a slide reading takes the shape from here. It changes only
+ * the field that the test is about.
+ *
+ * @param overrides - The fields that the behaviour of the test depends on.
+ * @returns The reply, to serialise as the content of the model reply.
+ */
+export function slideReadingReply(
+	overrides: Readonly<Record<string, unknown>> = {},
+): Record<string, unknown> {
+	return {
+		title: "Cell injury",
+		body: "- Injury can be reversible",
+		tables: [],
+		figures: [
+			{ type: "diagram", description: "A cell that swells, with arrows to its organelles." },
+		],
+		caption: "The two outcomes of cell injury.",
+		kind: "subject-matter",
+		...overrides,
+	};
+}
+
+/**
+ * Writes `count` slide images into a workspace, as `render-slides` leaves them.
+ * The bytes of each image are its file name, so a suite can tell the images
+ * apart. The file names are stated in full here, and not taken from the
+ * production code.
+ *
+ * @param args - The workspace, and the number of slides.
+ * @param args.workspaceRoot - The absolute path to the lecture workspace.
+ * @param args.count - The number of slides.
+ * @returns The bytes of each image, in deck order.
+ */
+export async function seedSlideImages({
+	workspaceRoot,
+	count,
+}: {
+	readonly workspaceRoot: string;
+	readonly count: number;
+}): Promise<readonly Buffer[]> {
+	const directory = join(workspaceRoot, "Slide images");
+	await mkdir(directory, { recursive: true });
+	const images: Buffer[] = [];
+	for (let slideNumber = 1; slideNumber <= count; slideNumber++) {
+		const name = `slide-${String(slideNumber).padStart(3, "0")}.png`;
+		const bytes = Buffer.from(name);
+		await writeFile(join(directory, name), bytes);
+		images.push(bytes);
+	}
+	return images;
 }
 
 /**
@@ -1513,13 +1621,14 @@ export async function seedStageOutput({
 }
 
 /**
- * Makes a stage that calls a model, with the logger of the suite and a client
- * for the config. The function then runs the stage against a workspace, as the
- * runner does.
+ * Makes a stage that calls a model, with the logger and the client of the suite.
+ * The function then runs the stage against a workspace, as the runner does.
  *
- * @param args - The stage factory, the config, the workspace and the logger.
+ * @param args - The stage factory, the client, the config, the workspace and the logger.
  * @param args.factory - The stage factory, as the CLI calls it.
- * @param args.config - The configuration that the stage and its client read.
+ * @param args.client - The client of the stage: a {@link stubbedOpenRouterClient}, or
+ *   {@link openRouterClientFor} in a suite that stubs the network.
+ * @param args.config - The configuration that the stage reads.
  * @param args.workspaceRoot - The absolute path to the lecture workspace.
  * @param args.logger - The stub logger of the suite.
  * @param args.manifest - The manifest of the lecture. The default is {@link makeManifest}.
@@ -1530,19 +1639,21 @@ export async function seedStageOutput({
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger has mutable properties that the rule cannot ignore. This code only gives it to the stage
 export function driveModelStage<TInput, TOutput>({
 	factory,
+	client,
 	config,
 	workspaceRoot,
 	logger,
 	manifest,
 }: {
 	readonly factory: ModelStageFactory<TInput, TOutput>;
+	readonly client: OpenRouterClient;
 	readonly config: PipelineConfig;
 	readonly workspaceRoot: string;
 	readonly logger: Logger;
 	readonly manifest?: Manifest;
 }): Promise<StageResult<TOutput>> {
 	return driveStage({
-		stage: factory({ logger, client: openRouterClientFor({ config }) }),
+		stage: factory({ logger, client }),
 		context: makeStageContext({ workspaceRoot, config, manifest }),
 	});
 }
@@ -1619,17 +1730,20 @@ export async function seedEarlierOutputs({
 
 /**
  * Prepares the suite of a stage that calls a model and reads the division of an
- * earlier stage. Before each test, the function clears the mocks and stubs the
- * model reply. It also writes the output of each earlier stage into a workspace
- * with a transcript, through {@link seedEarlierOutputs}. The setup is in one
- * place, so two such suites cannot start from different states.
+ * earlier stage. Before each test, the function makes a new
+ * {@link stubbedOpenRouterClient} and stubs its reply. It also writes the output
+ * of each earlier stage into a workspace with a transcript, through
+ * {@link seedEarlierOutputs}. The setup is in one place, so two such suites cannot
+ * start from different states.
  *
  * @param args - The stage, the earlier stages, the stage factory and the stubbed reply.
  * @param args.stageId - The stage under test. It names the temporary directory and selects the config.
  * @param args.readsFrom - The earlier stages whose output the stage reads.
  * @param args.factory - The stage factory, as the CLI calls it.
- * @param args.stubReply - Stubs the model reply. It is called before each test, after the mocks are cleared.
- * @returns The config of the stage, readers for the workspace and the stub logger of the current test, and a function that runs the stage. The run takes the manifest fields to replace.
+ * @param args.reply - The content of the reply to every call, stubbed before each test. It is
+ *   `null` in a suite that stubs the network and not the client.
+ * @param args.tuning - The fields of the stage's config to replace. The default replaces none.
+ * @returns The config of the stage, and readers for the workspace, the stub logger and the completion call of the current test. It also gives a function that runs the stage with the stub client. The run takes the manifest fields to replace. Last, it gives a check that a run fails after the third unusable send of `calls` calls and writes no output.
  * @typeParam TInput - The input of the stage.
  * @typeParam TOutput - The output of the stage.
  */
@@ -1637,40 +1751,62 @@ export function useStageReadingDivision<TInput, TOutput>({
 	stageId,
 	readsFrom,
 	factory,
-	stubReply,
+	reply,
+	tuning = {},
 }: {
-	readonly stageId: StageId;
+	readonly stageId: StageWithOutputFile;
 	readonly readsFrom: readonly (keyof typeof SEEDED_OUTPUTS)[];
 	readonly factory: ModelStageFactory<TInput, TOutput>;
-	readonly stubReply: () => void;
+	readonly reply: string | null;
+	readonly tuning?: Partial<StageConfig>;
 }): {
 	readonly config: PipelineConfig;
 	readonly workspaceRoot: () => string;
 	readonly logged: () => StubLogger;
+	readonly create: () => StubbedCompletionCall;
 	readonly run: (manifest?: Partial<Manifest>) => Promise<StageResult<TOutput>>;
+	readonly expectResendsExhausted: (args: { readonly calls: number }) => Promise<void>;
 } {
 	const workspace = useTranscribedWorkspace({ prefix: `${stageId}-` });
 	const logged = useStubLogger();
-	const config = configuringStage({ stageId });
+	const configured = configuringStage({ stageId });
+	const config = {
+		...configured,
+		stages: { [stageId]: { ...configured.stages[stageId], ...tuning } },
+	} as PipelineConfig;
 	const workspaceRoot = (): string => workspace().workspaceRoot;
+	const { client, create } = useStubbedOpenRouter();
 
 	beforeEach(async () => {
-		vi.clearAllMocks();
-		stubReply();
+		if (reply !== null) {
+			create().mockResolvedValue(openRouterReplyBody({ content: reply }));
+		}
 		await seedEarlierOutputs({ workspaceRoot: workspaceRoot(), readsFrom });
 	});
+
+	const run = (manifest: Partial<Manifest> = {}): Promise<StageResult<TOutput>> =>
+		driveModelStage({
+			factory,
+			client: client(),
+			config,
+			workspaceRoot: workspaceRoot(),
+			logger: logged().logger,
+			manifest: makeManifest(manifest),
+		});
 
 	return {
 		config,
 		workspaceRoot,
 		logged,
-		run: (manifest = {}) =>
-			driveModelStage({
-				factory,
-				config,
+		create,
+		run,
+		expectResendsExhausted: ({ calls }) =>
+			expectResendsExhaustedWithoutOutput({
+				pending: run(),
+				create: create(),
+				calls,
 				workspaceRoot: workspaceRoot(),
-				logger: logged().logger,
-				manifest: makeManifest(manifest),
+				stageId,
 			}),
 	};
 }
@@ -1696,7 +1832,7 @@ export function savedRunPath({
 	readonly runNumber: number;
 }): string {
 	return join(
-		panelDirectory({ workspaceRoot, stageId }),
+		stageDirectoryPath({ workspaceRoot, stageId }),
 		`run-${String(runNumber).padStart(2, "0")}.json`,
 	);
 }
@@ -1803,10 +1939,10 @@ export function joinedSubtopics({
 }
 
 /**
- * One message of the first call that a stage made to a stubbed `callModel`.
+ * One message of the first call that a stage made to a stub client.
  *
  * @param args - The calls, and the place of the message.
- * @param args.calls - The calls to the stub of `callModel`, as its `mock.calls`.
+ * @param args.calls - The calls to the completion stub of the client, as its `mock.calls`.
  * @param args.index - The place of the message: 0 for the system message, 1 for the user message.
  * @returns The content of the message.
  */
@@ -1822,10 +1958,10 @@ function sentMessage({
 }
 
 /**
- * The user message of the first call that a stage made to a stubbed
- * `callModel`. It holds the material that the prompt is about.
+ * The user message of the first call that a stage made to a stub client. It
+ * holds the material that the prompt is about.
  *
- * @param calls - The calls to the stub of `callModel`, as its `mock.calls`.
+ * @param calls - The calls to the completion stub of the client, as its `mock.calls`.
  * @returns The user message of the first call.
  */
 export function sentUserMessage(calls: readonly (readonly unknown[])[]): string | undefined {
@@ -1833,14 +1969,29 @@ export function sentUserMessage(calls: readonly (readonly unknown[])[]): string 
 }
 
 /**
- * The system message of the first call that a stage made to a stubbed
- * `callModel`. It holds the prompt.
+ * The system message of the first call that a stage made to a stub client. It
+ * holds the prompt.
  *
- * @param calls - The calls to the stub of `callModel`, as its `mock.calls`.
+ * @param calls - The calls to the completion stub of the client, as its `mock.calls`.
  * @returns The system message of the first call.
  */
 export function sentSystemMessage(calls: readonly (readonly unknown[])[]): string | undefined {
 	return sentMessage({ calls, index: 0 });
+}
+
+/**
+ * The content of the user message of each call that a stage made, in call
+ * order. A message that carries an image has a list of content parts, and not
+ * a string.
+ *
+ * @param calls - The calls to a stub, as its `mock.calls`. Each call takes an object with `messages` first.
+ * @returns The content of the user message of each call.
+ */
+export function sentUserContents(calls: readonly (readonly unknown[])[]): readonly unknown[] {
+	return calls.map((call) => {
+		const [{ messages }] = call as [{ messages: { content: unknown }[] }];
+		return messages[1]?.content;
+	});
 }
 
 /**

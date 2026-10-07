@@ -6,13 +6,11 @@
 
 import { join, relative } from "node:path";
 import type { StageContext, StageCost, StageId, StageResult } from "../../types/pipeline.js";
-import { mapWithConcurrency } from "../../utils/concurrency.js";
-import { totalCost } from "../../utils/cost.js";
 import { NamedError } from "../../utils/errors.js";
-import { pathExists, readJsonSafe, writeJsonAtomic } from "../../utils/files.js";
 import { configuredStage } from "../../utils/stage-config.js";
-import { type StageInWorkspace, savedRunFileName, stageDirectoryPaths } from "../layout.js";
+import { savedRunFileName, stageDirectoryPath } from "../layout.js";
 import type { OwnJsonRequest, StageModelCalls } from "./model-stage.js";
+import { readOrMakeSavedFiles, readSavedFile, type SavedFileReader } from "./saved-files.js";
 
 /**
  * A saved run that is not JSON or not a run. A saved run is written whole or not
@@ -35,20 +33,6 @@ type SavedPanel<TRun> = {
 };
 
 /**
- * The folder in which a panel stage saves its runs: the first folder that the
- * stage owns. It is the workspace when the stage owns no folder.
- *
- * @param args - The workspace, and the panel stage.
- * @param args.workspaceRoot - The absolute path of the lecture's workspace.
- * @param args.stageId - The panel stage.
- * @returns The absolute path of the folder.
- */
-export function panelDirectory({ workspaceRoot, stageId }: StageInWorkspace): string {
-	const [directory = workspaceRoot] = stageDirectoryPaths({ workspaceRoot, stageId });
-	return directory;
-}
-
-/**
  * The paths of a panel's saved runs, in run order.
  *
  * @param args - The folder of the panel, and its size.
@@ -66,29 +50,20 @@ function savedRunPaths({
 }
 
 /**
- * Reads the saved run at `path`.
+ * The reader of one saved run, with the panel's error for an unreadable run.
  *
- * @param args - The file, and the reader of a run.
- * @param args.path - The path of the saved run.
- * @param args.readRun - Reads a parsed value as a run.
- * @returns The saved run, or `null` when no file is there.
- * @throws {SavedRunUnreadableError} When a file is there but holds no readable run.
+ * @param readRun - Reads a parsed value as a run.
+ * @returns The reader that {@link readSavedFile} and {@link readOrMakeSavedFiles} take.
  * @typeParam TRun - The contents of one run.
  */
-async function readSavedRun<TRun>({
-	path,
-	readRun,
-}: { readonly path: string } & Pick<SavedPanel<TRun>, "readRun">): Promise<TRun | null> {
-	if (!(await pathExists(path))) {
-		return null;
-	}
-	const saved = readRun(await readJsonSafe(path));
-	if (saved === null) {
-		throw new SavedRunUnreadableError(
-			`${path} holds no readable run. A saved run is written whole, so something else changed it; delete it to make the run again.`,
-		);
-	}
-	return saved;
+function savedRunReader<TRun>(readRun: SavedPanel<TRun>["readRun"]): SavedFileReader<TRun> {
+	return {
+		readSaved: readRun,
+		unreadable: (path) =>
+			new SavedRunUnreadableError(
+				`${path} holds no readable run. A saved run is written whole, so something else changed it; delete it to make the run again.`,
+			),
+	};
 }
 
 /**
@@ -129,24 +104,16 @@ export async function runPanel<TRun>({
 	readonly savedRunFiles: readonly string[];
 }> {
 	const savedRunFiles = savedRunPaths({ directory, panelSize });
-	const outcomes = await mapWithConcurrency({
-		items: savedRunFiles,
-		limit: concurrency,
-		work: async ({ item: path, index }) => {
-			const saved = await readSavedRun({ path, readRun });
-			if (saved !== null) {
-				return { run: saved, cost: null };
-			}
-			const made = await makeRun({ runNumber: index + 1 });
-			await writeJsonAtomic({ path, value: made.run });
-			return made;
+	const { contents, cost } = await readOrMakeSavedFiles({
+		files: [...savedRunFiles.entries()].map(([index, path]) => ({ path, runNumber: index + 1 })),
+		concurrency,
+		...savedRunReader(readRun),
+		make: async ({ runNumber }) => {
+			const made = await makeRun({ runNumber });
+			return { content: made.run, cost: made.cost };
 		},
 	});
-	return {
-		runs: outcomes.map((outcome) => outcome.run),
-		cost: totalCost(outcomes.map((outcome) => outcome.cost)),
-		savedRunFiles,
-	};
+	return { runs: contents, cost, savedRunFiles };
 }
 
 /**
@@ -172,7 +139,7 @@ export async function readPanel<TRun>({
 }: SavedPanel<TRun> & { readonly fail: (message: string) => Error }): Promise<readonly TRun[]> {
 	const runs: TRun[] = [];
 	for (const path of savedRunPaths({ directory, panelSize })) {
-		const saved = await readSavedRun({ path, readRun });
+		const saved = await readSavedFile({ path, ...savedRunReader(readRun) });
 		if (saved === null) {
 			throw fail(`No run at ${path}: the panel of ${panelSize} runs is not complete`);
 		}
@@ -211,7 +178,7 @@ export async function runStagePanel<TRun>({
 	const { runs, cost, savedRunFiles } = await runPanel({
 		panelSize,
 		concurrency: configuredStage({ config: context.config, stageId })?.concurrency,
-		directory: panelDirectory({ workspaceRoot: context.workspaceRoot, stageId }),
+		directory: stageDirectoryPath({ workspaceRoot: context.workspaceRoot, stageId }),
 		readRun,
 		makeRun,
 	});

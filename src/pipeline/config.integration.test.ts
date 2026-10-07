@@ -9,6 +9,7 @@ import {
 	captureError,
 	corruptJson,
 	exampleConfig,
+	exampleStageConfig,
 	makeConfig,
 	makeTempDir,
 	openRouterModelId,
@@ -300,7 +301,9 @@ describe("loadConfig model-ID resolution check", () => {
 
 		expect(config.version).toBe("1");
 		expect(config.stages["transcript-structuring"]?.modelId).toBe(STRUCTURING_MODEL_ID);
-		expect(config.stages["read-slides"]?.concurrency).toBe(3);
+		expect(config.stages["read-slides"]?.concurrency).toBe(
+			exampleStageConfig("read-slides").concurrency,
+		);
 	});
 
 	it("should skip the model list fetch when no stages are configured", async () => {

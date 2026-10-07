@@ -1,22 +1,15 @@
-/* jscpd:ignore-start -- the suites of sibling stages import the same fixtures
-   and mock the same module. So their preambles are the same line for line.
-   Imports cannot be shared, and CLAUDE.md (File Organisation) forbids barrel
-   files. vi.mock is hoisted, so it must be in the file that mocks. Only the
-   preamble is exempt. jscpd checks the suite below. */
 import { rm, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
-import type { Mock } from "vitest";
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import {
 	aiDerivedLecture,
 	captureError,
-	expectResendsExhaustedWithoutOutput,
 	loggedAt,
+	openRouterReplyBody,
 	readJsonFile,
 	resendPausesTimeoutMs,
 	sentSystemMessage,
 	sentUserMessage,
-	stubbedCallCost,
 	stubbedJudgedBecause,
 	testLecture,
 	titleJudgementReply,
@@ -27,17 +20,7 @@ import {
 	withUserTitle,
 } from "../../fixtures.js";
 import { stageOutputPath } from "../../layout.js";
-import { callModel } from "../../openrouter.js";
 import { createJudgeLectureTitleStage, JudgeLectureTitleError } from "./judge-lecture-title.js";
-
-// Only the model call is a stub. The other exports of the module stay real.
-vi.mock(import("../../openrouter.js"), async (importOriginal) => ({
-	...(await importOriginal()),
-	callModel: vi.fn(),
-}));
-
-const modelCallMock = callModel as unknown as Mock;
-/* jscpd:ignore-end */
 
 const STAGE_ID = "judge-lecture-title";
 
@@ -46,18 +29,18 @@ function judgementReply(overrides: Readonly<Record<string, unknown>> = {}): stri
 	return JSON.stringify(titleJudgementReply(overrides));
 }
 
-/** Stubs every model call with `content`. */
-function stubContent(content: string): void {
-	modelCallMock.mockResolvedValue({ content, cost: stubbedCallCost });
-}
-
 describe("createJudgeLectureTitleStage", () => {
-	const { workspaceRoot, logged, run } = useStageReadingDivision({
+	const { workspaceRoot, logged, create, run, expectResendsExhausted } = useStageReadingDivision({
 		stageId: STAGE_ID,
 		readsFrom: ["retitle-subtopics", "group-into-topics"],
 		factory: createJudgeLectureTitleStage,
-		stubReply: () => stubContent(judgementReply()),
+		reply: judgementReply(),
 	});
+
+	/** Stubs every model call with `content`. */
+	function stubContent(content: string): void {
+		create().mockResolvedValue(openRouterReplyBody({ content }));
+	}
 
 	/** The judgement that the stage wrote into the workspace with `baseName`, parsed from disk. */
 	function writtenJudgement(baseName: string = testLecture.baseName): Promise<unknown> {
@@ -72,8 +55,8 @@ describe("createJudgeLectureTitleStage", () => {
 	it("should send each topic's title with its subtopics' titles and trimmed text in order when the stage calls the model", async () => {
 		await run();
 
-		expect(modelCallMock).toHaveBeenCalledTimes(1);
-		expect(sentUserMessage(modelCallMock.mock.calls)).toContain(
+		expect(create()).toHaveBeenCalledTimes(1);
+		expect(sentUserMessage(create().mock.calls)).toContain(
 			JSON.stringify({
 				topics: [
 					{
@@ -101,13 +84,13 @@ describe("createJudgeLectureTitleStage", () => {
 
 		await run({ provisionalTitle: title });
 
-		expect(sentUserMessage(modelCallMock.mock.calls)).toContain(sent);
+		expect(sentUserMessage(create().mock.calls)).toContain(sent);
 	});
 
 	it("should include the language rule in the prompt when the stage calls the model", async () => {
 		await run();
 
-		expect(sentSystemMessage(modelCallMock.mock.calls)).toContain("Write in British English.");
+		expect(sentSystemMessage(create().mock.calls)).toContain("Write in British English.");
 	});
 
 	it.each([
@@ -205,13 +188,13 @@ describe("createJudgeLectureTitleStage", () => {
 		content,
 		manifest,
 	}) => {
-		modelCallMock.mockResolvedValueOnce({ content, cost: stubbedCallCost });
+		create().mockResolvedValueOnce(openRouterReplyBody({ content }));
 		// A user title keeps the workspace where it is, whatever the next reply proposes.
 		stubContent(judgementReply(titleRejected));
 
 		await run({ ...manifest, ...withUserTitle });
 
-		expect(modelCallMock).toHaveBeenCalledTimes(2);
+		expect(create()).toHaveBeenCalledTimes(2);
 		expect(await writtenJudgement()).toMatchObject({ outcome: "kept-user-title" });
 	});
 
@@ -220,12 +203,7 @@ describe("createJudgeLectureTitleStage", () => {
 	}, async () => {
 		stubContent(judgementReply({ judgedBecause: "" }));
 
-		await expectResendsExhaustedWithoutOutput({
-			pending: run(),
-			workspaceRoot: workspaceRoot(),
-			stageId: STAGE_ID,
-		});
-		expect(modelCallMock).toHaveBeenCalledTimes(3);
+		await expectResendsExhausted({ calls: 1 });
 	});
 
 	const inputFiles = [
@@ -251,7 +229,7 @@ describe("createJudgeLectureTitleStage", () => {
 
 		expect(error).toBeInstanceOf(JudgeLectureTitleError);
 		expect(error.message).toContain(path);
-		expect(modelCallMock).not.toHaveBeenCalled();
+		expect(create()).not.toHaveBeenCalled();
 	});
 
 	it.each(
@@ -266,7 +244,7 @@ describe("createJudgeLectureTitleStage", () => {
 
 		expect(error).toBeInstanceOf(JudgeLectureTitleError);
 		expect(error.message).toContain(says);
-		expect(modelCallMock).not.toHaveBeenCalled();
+		expect(create()).not.toHaveBeenCalled();
 	});
 
 	it.each([

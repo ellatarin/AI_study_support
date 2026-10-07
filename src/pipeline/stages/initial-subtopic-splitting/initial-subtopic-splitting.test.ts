@@ -1,43 +1,28 @@
-/* jscpd:ignore-start -- the suites of sibling stages import the same fixtures
-   and mock the same module. So their preambles are the same line for line.
-   Imports cannot be shared, and CLAUDE.md (File Organisation) forbids barrel
-   files. vi.mock is hoisted, so it must be in the file that mocks. Only the
-   preamble is exempt. jscpd checks the suite below. */
 import { join } from "node:path";
-import type { Mock } from "vitest";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import {
 	captureError,
 	configuringStage,
 	driveModelStage,
 	earlierSavedRun,
 	firstSavedRun,
+	openRouterReplyBody,
 	paddedTranscriptText,
 	readSavedRunJson,
 	seedStageOutput,
 	sentUserMessage,
-	stubbedCallCost,
 	transcriptDivision,
 	transcriptSecondStartWords,
 	transcriptText,
 	unusableTranscripts,
+	useStubbedOpenRouter,
 	useStubLogger,
 	useTranscribedWorkspace,
 } from "../../fixtures.js";
-import { callModel } from "../../openrouter.js";
 import {
 	createInitialSubtopicSplittingStage,
 	InitialSubtopicSplittingError,
 } from "./initial-subtopic-splitting.js";
-
-// Only the model call is a stub. The other exports of the module stay real.
-vi.mock(import("../../openrouter.js"), async (importOriginal) => ({
-	...(await importOriginal()),
-	callModel: vi.fn(),
-}));
-
-const modelCallMock = callModel as unknown as Mock;
-/* jscpd:ignore-end */
 
 const STAGE_ID = "initial-subtopic-splitting";
 
@@ -67,19 +52,20 @@ describe("createInitialSubtopicSplittingStage", () => {
 	const workspace = useTranscribedWorkspace({ prefix: "initial-splitting-" });
 	const logged = useStubLogger();
 	const config = configuringStage({ stageId: STAGE_ID });
+	const { client, create } = useStubbedOpenRouter();
 
 	/** The workspace of the current test. */
 	const workspaceRoot = (): string => workspace().workspaceRoot;
 
 	beforeEach(() => {
-		vi.clearAllMocks();
-		modelCallMock.mockResolvedValue({ content: GOOD_REPLY, cost: stubbedCallCost });
+		create().mockResolvedValue(openRouterReplyBody({ content: GOOD_REPLY }));
 	});
 
 	/** Runs the stage on the prepared workspace, as the runner does. */
 	function run(): ReturnType<typeof driveModelStage> {
 		return driveModelStage({
 			factory: createInitialSubtopicSplittingStage,
+			client: client(),
 			config,
 			workspaceRoot: workspaceRoot(),
 			logger: logged().logger,
@@ -104,12 +90,12 @@ describe("createInitialSubtopicSplittingStage", () => {
 			contents: paddedTranscriptText,
 		});
 		await run();
-		expect(sentUserMessage(modelCallMock.mock.calls)).toBe(`Transcript:\n${transcriptText}`);
+		expect(sentUserMessage(create().mock.calls)).toBe(`Transcript:\n${transcriptText}`);
 	});
 
 	it("should save every run of the panel with each subtopic's span, title and reason when the stage completes", async () => {
 		await run();
-		expect(modelCallMock).toHaveBeenCalledTimes(PANEL_SIZE);
+		expect(create()).toHaveBeenCalledTimes(PANEL_SIZE);
 		expect(await savedRun(1)).toEqual(transcriptDivision);
 		expect(await savedRun(PANEL_SIZE)).toEqual(transcriptDivision);
 	});
@@ -133,16 +119,16 @@ describe("createInitialSubtopicSplittingStage", () => {
 			content: JSON.stringify({ subtopics: [{ label: "Opening", groupedBecause: "Why." }] }),
 		},
 	])("should resend a run when the reply $problem", async ({ content }) => {
-		modelCallMock.mockResolvedValueOnce({ content, cost: stubbedCallCost });
+		create().mockResolvedValueOnce(openRouterReplyBody({ content }));
 		await run();
-		expect(modelCallMock).toHaveBeenCalledTimes(PANEL_SIZE + 1);
+		expect(create()).toHaveBeenCalledTimes(PANEL_SIZE + 1);
 		expect(await savedRun(1)).toHaveLength(2);
 	});
 
 	it("should make only the missing runs when an earlier invocation saved some", async () => {
 		await leaveFirstRun(earlierSavedRun);
 		await run();
-		expect(modelCallMock).toHaveBeenCalledTimes(PANEL_SIZE - 1);
+		expect(create()).toHaveBeenCalledTimes(PANEL_SIZE - 1);
 		expect(await savedRun(1)).toEqual(earlierSavedRun);
 	});
 
@@ -159,6 +145,6 @@ describe("createInitialSubtopicSplittingStage", () => {
 	it.each(unusableTranscripts)("should fail when the transcript is $state", async ({ spoil }) => {
 		await spoil(workspaceRoot());
 		expect(await captureError(run())).toBeInstanceOf(InitialSubtopicSplittingError);
-		expect(modelCallMock).not.toHaveBeenCalled();
+		expect(create()).not.toHaveBeenCalled();
 	});
 });

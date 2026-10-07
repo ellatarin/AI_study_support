@@ -208,8 +208,12 @@ _Avoid_: bad reply, invalid reply
 ### Slides
 
 **Slide reading**:
-What a vision model reads from one slide: its title, its text, a description of each diagram, a caption, and its kind. The kind is subject matter, content-free or references. The model reads the slide alone. It does not see the transcript.
+What a vision model reads from one slide: its title, its body, its tables, a description of each figure, a caption, and its kind. The body is the words of the slide that are not in the title, a table or a figure. The kind is subject matter, content-free or references. The model reads the slide alone. It does not see the transcript.
 _Avoid_: slide content, slide extraction, slide description
+
+**Figure**:
+One picture on a slide that shows subject matter: a diagram, a chart, a micrograph, a photograph, a drawing or a printed page. The words in a figure, such as its labels, belong to the figure. A decorative picture, such as a logo, is not a figure. A whole slide is not a figure.
+_Avoid_: diagram (for any figure), image, visual
 
 **Caption**:
 The short text under a slide image that tells the reader what the slide shows. It comes from the slide alone, so an error in slide placement cannot get into it.

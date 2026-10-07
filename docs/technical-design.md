@@ -381,7 +381,7 @@ Because all other files inside the workspace use simple names, only the four lec
 | `group-into-topics` | Per-lecture | Group the retitled subtopics into topics: a panel of grouping runs, and the grouping most of them made |
 | `judge-lecture-title` | Per-lecture | Judge whether the provisional title is meaningful for the grouped lecture. Propose an AI-derived title when it is not, and rename the lecture files unless a user title is set |
 | `render-slides` | Per-lecture | Render each page of the slide deck as one image. No model call |
-| `read-slides` | Per-lecture | Read each slide image with a vision model: its title, text, diagrams, caption and kind |
+| `read-slides` | Per-lecture | Read each slide image with a vision model: its title, body, tables, figures, caption and kind |
 | `place-slides` | Per-lecture | Put each subject-matter slide with the subtopic where the lecturer discusses it, in deck order |
 | `transcript-structuring` | Per-lecture | Structure the transcript into markdown |
 | `transcript-verification` | Per-lecture | Compare the structured transcript against the raw one. Report what was lost, underexplained, distorted, or invented. Reports only — never fails a run |
@@ -1237,7 +1237,16 @@ runOneCallPanel<TReply, TRun>(args: { stageId; context; panelSize; readRun; runN
 readPanel<TRun>(args: { panelSize: number; directory: string; readRun; fail }): Promise<readonly TRun[]>
 // readRun reads a parsed run file as a run, or gives null when it is not one, which is a named error.
 // Reads back a panel an earlier stage finished; a missing run throws the error `fail` builds.
-panelDirectory(args: { workspaceRoot: string; stageId: StageId }): string
+
+// src/pipeline/stages/saved-files.ts — shared by the panel stages and read-slides
+readOrMakeSavedFiles<TFile extends { path: string }, TContent>(args: { files: readonly TFile[];
+  concurrency: number | undefined; readSaved; unreadable; make }): Promise<{ contents; cost }>
+// Reads each saved file that exists and makes each missing one, `concurrency` at a time, saving each as it is made.
+// A saved file that holds nothing readable throws the error `unreadable` builds, so each stage raises its own error.
+
+// src/pipeline/layout.ts
+stageDirectoryPath(args: { workspaceRoot: string; stageId: StageId }): string
+// The first folder that a stage owns, or the workspace when it owns none. The panel stages save their runs there.
 
 // src/pipeline/stages/model-stage.ts — shared by every model-calling stage
 sendJsonWithResends<TReply, TKept>(args: JsonReplyRequest<TReply> & { what: string; use }): Promise<UsableJsonReply<TKept>>
@@ -1439,31 +1448,33 @@ A vision model reads each slide image and returns one slide reading (CONTEXT.md,
 
 The stage does not take the text from the PDF. Biology slides hold pathway diagrams, tables, formulas and micrographs. A text-extraction library puts columns in the wrong order and loses the structure of a table. A vision model reads a slide as a person does.
 
-**The model reads the slide alone.** The call sends the slide image, the slide number and the number of slides in the deck. It sends no transcript and no lecture title. So a reading says only what is on the slide.
+**The model reads the slide alone.** The call sends the slide image and nothing else. It sends no slide number, no transcript and no lecture title. So a reading says only what is on the slide. The kind comes from what the slide shows, and not from its place in the deck. A learning-objectives slide can be first and last, and a section divider can be in the middle.
 
-**The reply** is a JSON object with five fields:
+**The reply** is a JSON object with six fields. Each word on the slide goes into one field only.
 
-- `title`: the slide's title, as the slide writes it. It is empty when the slide has no title.
-- `text`: all the text on the slide, word for word. Tables are Markdown tables, and formulas are LaTeX. It is empty when the slide has no text.
-- `diagrams`: one description for each diagram, chart or picture, with its parts, labels, arrows and relationships. The list is empty when the slide has none.
-- `caption`: one or two sentences that tell a reader what the slide shows.
+- `title`: the slide's title, word for word. It is empty when the slide has no title.
+- `body`: the words that are not in the title, a table or a figure, word for word and in reading order, as Markdown. A subheading is a Markdown heading, a bullet is a list item, and a formula is LaTeX. It is empty when the slide has no such words.
+- `tables`: one Markdown table for each table on the slide.
+- `figures`: one entry for each figure (CONTEXT.md, "Figure"). An entry holds `type` and `description`. `type` is `diagram`, `chart`, `micrograph`, `photograph`, `drawing` or `printed page`. The description holds the figure's parts, labels, arrows and relationships. It also holds what each mark on the figure shows, such as an outline, a circle or a highlight. A printed page is described, and only its headings and the parts that the slide marks are copied word for word. Image credits, URLs and copyright lines are left out, unless one tells what a figure is. Then it goes in the description of that figure.
+- `caption`: one or two sentences that tell a student what the slide shows.
 - `kind`: `subject-matter`, `content-free` or `references` (CONTEXT.md, "Content-free slide").
 
-The prompt applies `languageRule` (§6) to the caption. The title and the text keep the slide's own spelling.
+**The prompt** is in Markdown sections: task, purpose, input, the structure of a reading, method, fields, rules and output. The purpose section tells the model that a later step places the slide from the reading. So the model copies the words exactly and describes each figure fully. The structure section comes before the method, because the model must know which words go into which field before it starts. The prompt applies `languageRule` (§6) to the caption and to the figure descriptions. The title, the body and the tables keep the slide's own spelling. A word that the model cannot read is written as `[illegible]`.
 
 A reply is unusable in each of these cases:
 
 - It is not a JSON object with those fields and types.
 - `caption` is empty.
 - `kind` is not one of the three values.
+- The `type` of a figure is not one of the six values.
 
 The stage resends an unusable reply in the same way as a panel run. It fails after the third send (§5, "Dividing the transcript", Panel runs).
 
-**What is written.** The stage writes each reading to its own file as soon as the reply is usable. The file holds `slideNumber` and the five fields of the reply. A stage that failed and starts again reads only the slides that have no reading. A panel stage makes only its missing runs in the same way. `--from-stage read-slides` clears `Slide readings/`, so every slide is read again.
+**What is written.** The stage writes each reading to its own file as soon as the reply is usable. The file holds `slideNumber` and the six fields of the reply. A stage that failed and starts again reads only the slides that have no reading. A panel stage makes only its missing runs in the same way. `--from-stage read-slides` clears `Slide readings/`, so every slide is read again.
 
 The stage fails without a model call when `Slide images/` is missing or holds no image. It also fails when a slide's third send is unusable. Then the stage sends no further slide. The calls in flight finish, and the stage keeps their readings.
 
-**The model** is set on the stage's own entry (§6). It must accept images.
+**The model** is set on the stage's own entry (§6). It must accept images. It is `google/gemini-3.8-flash`, at the same price as the 3.7 Flash of the division stages.
 
 ---
 
@@ -1474,7 +1485,7 @@ The stage fails without a model call when `Slide images/` is missing or holds no
 
 The stage puts each subject-matter slide with the subtopic where the lecturer discusses it (CONTEXT.md, "Slide placement").
 
-**One call for the whole lecture.** The model gets every subtopic in order, as its subtopic id, its title and its full text, trimmed. The retitled subtopics hold only spans, so the stage cuts each text from the transcript, as `judge-lecture-title` does. The model also gets every reading in deck order, as its slide number, kind, title, text and diagram descriptions. Content-free slides and references slides are in the list. A section divider shows where the lecture moves on, so it helps the model to place the slides around it.
+**One call for the whole lecture.** The model gets every subtopic in order, as its subtopic id, its title and its full text, trimmed. The retitled subtopics hold only spans, so the stage cuts each text from the transcript, as `judge-lecture-title` does. The model also gets every reading in deck order, as its slide number, kind, title, body, tables and figure descriptions. Content-free slides and references slides are in the list. A section divider shows where the lecture moves on, so it helps the model to place the slides around it.
 
 **The reply** is a JSON object with a list `placements`. Each entry holds a `slideNumber` and a `subtopicId`. The model gives one entry for each subject-matter slide. The stage ignores an entry for a content-free slide or a references slide. A reply is unusable in each of these cases:
 
@@ -1866,10 +1877,10 @@ Each prefix is matched literally, so one carrying a pattern character means itse
       "maxTokens": 8192
     },
     "read-slides": {
-      "modelId": "<COST_EFFICIENT_VISION_MODEL>", // vision model — called once for each slide, so the cost of one call matters most
-      "temperature": 0.1,
-      "maxTokens": 4096,
-      "concurrency": 3
+      "modelId": "google/gemini-3.8-flash",       // vision model — called once for each slide, so the cost of one call matters most
+      "temperature": null,                        // a temperature limits JSON-mode calls to the providers that accept one
+      "maxTokens": null,                          // reasoning counts against a cap, so a cap can cut a reply of a dense slide
+      "concurrency": 10                           // slides read at once
     },
     "place-slides": {
       "modelId": "<REASONING_MODEL>"              // one call with the whole lecture and every slide reading

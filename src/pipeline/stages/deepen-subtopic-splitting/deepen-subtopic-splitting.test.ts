@@ -1,19 +1,14 @@
-/* jscpd:ignore-start -- the suites of sibling stages import the same fixtures
-   and mock the same module. So their preambles are the same line for line.
-   Imports cannot be shared, and CLAUDE.md (File Organisation) forbids barrel
-   files. vi.mock is hoisted, so it must be in the file that mocks. Only the
-   preamble is exempt. jscpd checks the suite below. */
 import { rm } from "node:fs/promises";
 import { join } from "node:path";
-import type { Mock } from "vitest";
-import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { StageConfig, StageCost } from "../../../types/pipeline.js";
+import { beforeEach, describe, expect, it } from "vitest";
+import type { StageConfig } from "../../../types/pipeline.js";
 import {
 	captureError,
 	configuringStage,
 	driveModelStage,
 	earlierSavedRun,
 	joinedSubtopics,
+	openRouterReplyBody,
 	openRouterStageConfig,
 	paddedTranscriptText,
 	readSavedRunJson,
@@ -22,16 +17,15 @@ import {
 	seedSavedRun,
 	seedSavedRuns,
 	seedStageOutput,
-	stubbedCallCost,
 	trackingInFlight,
 	transcriptDivision,
 	transcriptText,
 	unusableTranscripts,
+	useStubbedOpenRouter,
 	useStubLogger,
 	useTranscribedWorkspace,
 	waitTurns,
 } from "../../fixtures.js";
-import { callModel } from "../../openrouter.js";
 import { type Subtopic, subtopicText } from "../division.js";
 import { ResendsExhaustedError } from "../model-stage.js";
 import {
@@ -39,16 +33,9 @@ import {
 	DeepenSubtopicSplittingError,
 } from "./deepen-subtopic-splitting.js";
 
-// Only the model call is a stub. The other exports of the module stay real.
-vi.mock(import("../../openrouter.js"), async (importOriginal) => ({
-	...(await importOriginal()),
-	callModel: vi.fn(),
-}));
-
-const modelCallMock = callModel as unknown as Mock;
-/* jscpd:ignore-end */
-
 const STAGE_ID = "deepen-subtopic-splitting";
+
+const { client, create } = useStubbedOpenRouter();
 
 /** The number of runs in the splitting panel of the example config. */
 const PANEL_SIZE = configuringStage({ stageId: STAGE_ID }).subtopicSplitting.panelSize;
@@ -97,7 +84,7 @@ type SentRequest = { readonly messages: readonly { readonly content: string }[] 
 
 /** The user message of every call, in the order of the calls. */
 function sentMessages(): readonly string[] {
-	return (modelCallMock.mock.calls as [SentRequest][]).map(
+	return (create().mock.calls as unknown as [SentRequest][]).map(
 		([{ messages }]) => messages[1]?.content ?? "",
 	);
 }
@@ -122,16 +109,19 @@ function sentPassages(): readonly string[] {
  * If `replies` has no reply for the subtopic, the reply is "one step".
  *
  * @param replies - The reply for each subtopic, keyed by the text of the subtopic.
- * @returns The stub for the model call.
+ * @returns The stub for the completion call of the client.
  */
 function answerFrom(
 	replies: Readonly<Record<string, string>>,
-): (request: SentRequest) => Promise<{ readonly content: string; readonly cost: StageCost }> {
-	return ({ messages }) =>
-		Promise.resolve({
-			content: replies[passageOf(messages[1]?.content ?? "")] ?? ONE_STEP,
-			cost: stubbedCallCost,
-		});
+): (body: Readonly<Record<string, unknown>>) => Promise<Record<string, unknown>> {
+	return (body) => {
+		const { messages } = body as unknown as SentRequest;
+		return Promise.resolve(
+			openRouterReplyBody({
+				content: replies[passageOf(messages[1]?.content ?? "")] ?? ONE_STEP,
+			}),
+		);
+	};
 }
 
 /** The position of `phrase` in the fixture transcript. */
@@ -157,14 +147,13 @@ describe("createDeepenSubtopicSplittingStage", () => {
 	}
 
 	beforeEach(async () => {
-		vi.clearAllMocks();
 		answering({});
 		await seedSplittingRunsBeforeDeepening(transcriptDivision);
 	});
 
 	/** Replies to every call as {@link answerFrom} does for `replies`. */
 	function answering(replies: Readonly<Record<string, string>>): void {
-		modelCallMock.mockImplementation(answerFrom(replies));
+		create().mockImplementation(answerFrom(replies));
 	}
 
 	/**
@@ -181,6 +170,7 @@ describe("createDeepenSubtopicSplittingStage", () => {
 		const configured = configuringStage({ stageId: STAGE_ID });
 		return driveModelStage({
 			factory: createDeepenSubtopicSplittingStage,
+			client: client(),
 			config: {
 				...configured,
 				subtopicSplitting: { ...configured.subtopicSplitting, sizeGateWords },
@@ -270,13 +260,13 @@ describe("createDeepenSubtopicSplittingStage", () => {
 
 	it("should make no second round when the first round cut nothing", async () => {
 		await run(ALMOST_EVERYTHING);
-		expect(modelCallMock).toHaveBeenCalledTimes(2 * PANEL_SIZE);
+		expect(create()).toHaveBeenCalledTimes(2 * PANEL_SIZE);
 	});
 
 	it("should stop after two rounds when a piece stays over the size gate", async () => {
 		answering(CUTTING_BOTH_ROUNDS);
 		await run(ALMOST_EVERYTHING);
-		expect(modelCallMock).toHaveBeenCalledTimes(5 * PANEL_SIZE);
+		expect(create()).toHaveBeenCalledTimes(5 * PANEL_SIZE);
 		expect(await savedStarts(1)).toEqual(CUT_IN_BOTH_ROUNDS);
 	});
 
@@ -291,7 +281,7 @@ describe("createDeepenSubtopicSplittingStage", () => {
 		expected,
 	}) => {
 		const { tracked, peak } = trackingInFlight(answerFrom(CUTTING_BOTH_ROUNDS));
-		modelCallMock.mockImplementation(tracked);
+		create().mockImplementation(tracked);
 		await run({ ...ALMOST_EVERYTHING, tuning: { concurrency: 1, callConcurrency } });
 		expect(peak()).toBe(expected);
 	});
@@ -300,7 +290,7 @@ describe("createDeepenSubtopicSplittingStage", () => {
 		const answer = answerFrom(CUTTING_BOTH_ROUNDS);
 		let callsMade = 0;
 		// Each call waits fewer turns than the call before it, so later calls get their reply first.
-		modelCallMock.mockImplementation(async (request: SentRequest) => {
+		create().mockImplementation(async (request) => {
 			callsMade += 1;
 			await waitTurns({ turns: 100 - callsMade });
 			return answer(request);
@@ -331,15 +321,15 @@ describe("createDeepenSubtopicSplittingStage", () => {
 			content: JSON.stringify({ cuts: [{ label: "Piece", groupedBecause: "Why." }] }),
 		},
 	])("should resend a subtopic when the reply $problem", async ({ content }) => {
-		modelCallMock.mockResolvedValueOnce({ content, cost: stubbedCallCost });
+		create().mockResolvedValueOnce(openRouterReplyBody({ content }));
 		await run(SECOND_ONLY);
-		expect(modelCallMock).toHaveBeenCalledTimes(PANEL_SIZE + 1);
+		expect(create()).toHaveBeenCalledTimes(PANEL_SIZE + 1);
 	});
 
 	it("should fail the stage without saving the run when a subtopic fails every send", {
 		timeout: resendPausesTimeoutMs,
 	}, async () => {
-		modelCallMock.mockResolvedValue({ content: "", cost: stubbedCallCost });
+		create().mockResolvedValue(openRouterReplyBody({ content: "" }));
 		expect(await captureError(run(SECOND_ONLY))).toBeInstanceOf(ResendsExhaustedError);
 		await expect(
 			readSavedRunJson({ workspaceRoot: workspaceRoot(), stageId: STAGE_ID, runNumber: 1 }),
@@ -354,7 +344,7 @@ describe("createDeepenSubtopicSplittingStage", () => {
 			contents: earlierSavedRun,
 		});
 		await run(SECOND_ONLY);
-		expect(modelCallMock).toHaveBeenCalledTimes(PANEL_SIZE - 1);
+		expect(create()).toHaveBeenCalledTimes(PANEL_SIZE - 1);
 		expect(await savedRun(1)).toEqual(earlierSavedRun);
 	});
 
@@ -367,12 +357,12 @@ describe("createDeepenSubtopicSplittingStage", () => {
 			}),
 		);
 		expect(await captureError(run(SECOND_ONLY))).toBeInstanceOf(DeepenSubtopicSplittingError);
-		expect(modelCallMock).not.toHaveBeenCalled();
+		expect(create()).not.toHaveBeenCalled();
 	});
 
 	it.each(unusableTranscripts)("should fail when the transcript is $state", async ({ spoil }) => {
 		await spoil(workspaceRoot());
 		expect(await captureError(run(SECOND_ONLY))).toBeInstanceOf(DeepenSubtopicSplittingError);
-		expect(modelCallMock).not.toHaveBeenCalled();
+		expect(create()).not.toHaveBeenCalled();
 	});
 });

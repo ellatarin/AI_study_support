@@ -646,7 +646,13 @@ Config tests — rows added to the existing `should throw ConfigError when $case
 
 `src/pipeline/stages/deepen-subtopic-splitting/` **(TD §5, `deepen-subtopic-splitting`)** — the stage and its prompt module, the prototype's `d13` byte for byte; its entry in the example config, `STAGE_IDS`, `STAGE_FILES` and the cost-report label. Added to `lectureStages`.
 
-What it shares with `initial-subtopic-splitting`, moved out of that stage rather than copied **(TD §5, §6)**: `readTranscript` in `stage-input.ts`; `isDivision`, `isReplySubtopic` and `subtopicText` in `division.ts`; `runStagePanel`, `readPanel` and `panelDirectory` in `panel-runs.ts`, where a run needing no call now reports no cost; `tryJsonReplyAs`, `promptMessages` and `defineModelStage` in `model-stage.ts`.
+What it shares with `initial-subtopic-splitting` is moved out of that stage, and not copied **(TD §5, §6)**:
+
+- `readTranscript` in `stage-input.ts`
+- `isDivision`, `isReplySubtopic` and `subtopicText` in `division.ts`
+- `runStagePanel` and `readPanel` in `panel-runs.ts`. A run that needs no call now reports no cost.
+- `stageDirectoryPath` in `layout.ts`
+- `tryJsonReplyAs`, `promptMessages` and `defineModelStage` in `model-stage.ts`.
 
 **Tests:**
 
@@ -990,10 +996,10 @@ Before the build, propose two vision models to the user, with the OpenRouter pri
 **Tests:**
 
 Tests for the stage (mock `callModel`, real temp directory):
-- `should send the slide image, the slide number and the number of slides, and no transcript, when the stage reads a slide`
-- `should include the language rule for the caption when the stage reads a slide`
-- `should write each reading with its slide number and the five fields of the reply when the reply is usable`
-- `should resend the call when the reply $problem` — `test.each` across the three unusable replies in TD §5, `read-slides`
+- `should send the slide image alone, with no slide number and no transcript, when the stage reads a slide`
+- `should include the language rule for the caption and the figure descriptions when the stage reads a slide`
+- `should write each reading with its slide number and the six fields of the reply when the reply is usable`
+- `should resend the call when the reply $problem` — `test.each` across the four unusable replies in TD §5, `read-slides`
 - `should fail after the third send, and keep the readings already written, when a slide's reply is still unusable`
 - `should read only the slides that have no reading when the stage starts again`
 - `should fail naming the folder, without calling the model, when the slide images $problem` — `test.each` across missing and empty

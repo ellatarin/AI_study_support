@@ -5,6 +5,7 @@ import {
 	driveModelStage,
 	exampleStageConfig,
 	makeStubLogger,
+	openRouterClientFor,
 	openRouterReplyBody,
 	openRouterUrls,
 	resetStubbedApi,
@@ -63,8 +64,8 @@ describe("group-into-topics sending", () => {
 		stageId: STAGE_ID,
 		readsFrom: ["retitle-subtopics"],
 		factory: createGroupIntoTopicsStage,
-		// Each test stubs the network, not the model call.
-		stubReply: () => undefined,
+		// Each test stubs the network, not the client.
+		reply: null,
 	});
 
 	beforeEach(() => {
@@ -82,6 +83,7 @@ describe("group-into-topics sending", () => {
 		return settleThroughPauses(
 			driveModelStage({
 				factory: createGroupIntoTopicsStage,
+				client: openRouterClientFor({ config: stageConfig }),
 				config: stageConfig,
 				workspaceRoot: workspaceRoot(),
 				logger: makeStubLogger().logger,

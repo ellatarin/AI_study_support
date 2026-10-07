@@ -1,33 +1,16 @@
-/* jscpd:ignore-start -- the suites of sibling stages import the same fixtures
-   and mock the same module. So their preambles are the same line for line.
-   Imports cannot be shared, and CLAUDE.md (File Organisation) forbids barrel
-   files. vi.mock is hoisted, so it must be in the file that mocks. Only the
-   preamble is exempt. jscpd checks the suite below. */
 import { rm, writeFile } from "node:fs/promises";
-import type { Mock } from "vitest";
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import {
 	captureError,
-	expectResendsExhaustedWithoutOutput,
+	openRouterReplyBody,
 	readJsonFile,
 	resendPausesTimeoutMs,
 	sentUserMessage,
-	stubbedCallCost,
 	transcriptDivision,
 	useStageReadingDivision,
 } from "../../fixtures.js";
 import { stageOutputPath, stageRecordPath } from "../../layout.js";
-import { callModel } from "../../openrouter.js";
 import { createRetitleSubtopicsStage, RetitleSubtopicsError } from "./retitle-subtopics.js";
-
-// Only the model call is a stub. The other exports of the module stay real.
-vi.mock(import("../../openrouter.js"), async (importOriginal) => ({
-	...(await importOriginal()),
-	callModel: vi.fn(),
-}));
-
-const modelCallMock = callModel as unknown as Mock;
-/* jscpd:ignore-end */
 
 const STAGE_ID = "retitle-subtopics";
 
@@ -49,12 +32,11 @@ const RETITLED_DIVISION = [
 ];
 
 describe("createRetitleSubtopicsStage", () => {
-	const { workspaceRoot, run } = useStageReadingDivision({
+	const { workspaceRoot, create, run, expectResendsExhausted } = useStageReadingDivision({
 		stageId: STAGE_ID,
 		readsFrom: ["choose-division"],
 		factory: createRetitleSubtopicsStage,
-		stubReply: () =>
-			modelCallMock.mockResolvedValue({ content: GOOD_REPLY, cost: stubbedCallCost }),
+		reply: GOOD_REPLY,
 	});
 
 	/** The retitled division that the stage wrote, parsed from disk. */
@@ -65,8 +47,8 @@ describe("createRetitleSubtopicsStage", () => {
 	it("should send every subtopic as its subtopic id and trimmed text, without its title, in one call when the stage runs", async () => {
 		await run();
 
-		expect(modelCallMock).toHaveBeenCalledTimes(1);
-		expect(sentUserMessage(modelCallMock.mock.calls)).toBe(
+		expect(create()).toHaveBeenCalledTimes(1);
+		expect(sentUserMessage(create().mock.calls)).toBe(
 			JSON.stringify({
 				subtopics: [
 					{ id: 1, text: "Today we are covering" },
@@ -122,25 +104,20 @@ describe("createRetitleSubtopicsStage", () => {
 	])("should resend the call and use the next reply when the reply $problem", async ({
 		content,
 	}) => {
-		modelCallMock.mockResolvedValueOnce({ content, cost: stubbedCallCost });
+		create().mockResolvedValueOnce(openRouterReplyBody({ content }));
 
 		await run();
 
-		expect(modelCallMock).toHaveBeenCalledTimes(2);
+		expect(create()).toHaveBeenCalledTimes(2);
 		expect(await writtenDivision()).toStrictEqual(RETITLED_DIVISION);
 	});
 
 	it("should fail without writing the division when the third send's reply is still unusable", {
 		timeout: resendPausesTimeoutMs,
 	}, async () => {
-		modelCallMock.mockResolvedValue({ content: "", cost: stubbedCallCost });
+		create().mockResolvedValue(openRouterReplyBody({ content: "" }));
 
-		await expectResendsExhaustedWithoutOutput({
-			pending: run(),
-			workspaceRoot: workspaceRoot(),
-			stageId: STAGE_ID,
-		});
-		expect(modelCallMock).toHaveBeenCalledTimes(3);
+		await expectResendsExhausted({ calls: 1 });
 	});
 
 	it.each([
@@ -157,7 +134,7 @@ describe("createRetitleSubtopicsStage", () => {
 
 		expect(error).toBeInstanceOf(RetitleSubtopicsError);
 		expect(error.message).toContain(chosen);
-		expect(modelCallMock).not.toHaveBeenCalled();
+		expect(create()).not.toHaveBeenCalled();
 	});
 
 	it("should leave the chosen division's subtopics as they were when the stage completes", async () => {
@@ -172,10 +149,9 @@ describe("createRetitleSubtopicsStage", () => {
 
 	it("should record beside the division each title that changed, and not one returned unchanged, when the stage completes", async () => {
 		const [opening, second] = transcriptDivision;
-		modelCallMock.mockResolvedValue({
-			content: titlesReply([opening?.title ?? "", NEW_TITLES[1] ?? ""]),
-			cost: stubbedCallCost,
-		});
+		create().mockResolvedValue(
+			openRouterReplyBody({ content: titlesReply([opening?.title ?? "", NEW_TITLES[1] ?? ""]) }),
+		);
 
 		const result = await run();
 

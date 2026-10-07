@@ -1,22 +1,15 @@
-/* jscpd:ignore-start -- the suites of sibling stages import the same fixtures
-   and mock the same module. So their preambles are the same line for line.
-   Imports cannot be shared, and CLAUDE.md (File Organisation) forbids barrel
-   files. vi.mock is hoisted, so it must be in the file that mocks. Only the
-   preamble is exempt. jscpd checks the suite below. */
 import { rm, writeFile } from "node:fs/promises";
 import { relative } from "node:path";
-import type { Mock } from "vitest";
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import {
 	captureError,
-	expectResendsExhaustedWithoutOutput,
 	firstSavedRun,
 	openingTopic,
+	openRouterReplyBody,
 	readJsonFile,
 	resendPausesTimeoutMs,
 	savedRunPath,
 	sentUserMessage,
-	stubbedCallCost,
 	subjectTopic,
 	transcriptTopics,
 	useStageReadingDivision,
@@ -27,19 +20,9 @@ import {
 	stageRecordEntry,
 	stageRecordPath,
 } from "../../layout.js";
-import { callModel } from "../../openrouter.js";
 import type { Topic } from "../topics.js";
 import { GroupIntoTopicsError } from "./choose-grouping.js";
 import { createGroupIntoTopicsStage } from "./group-into-topics.js";
-
-// Only the model call is a stub. The other exports of the module stay real.
-vi.mock(import("../../openrouter.js"), async (importOriginal) => ({
-	...(await importOriginal()),
-	callModel: vi.fn(),
-}));
-
-const modelCallMock = callModel as unknown as Mock;
-/* jscpd:ignore-end */
 
 const STAGE_ID = "group-into-topics";
 
@@ -65,12 +48,13 @@ const SUBJECT_TOPIC = asReplyTopic(subjectTopic);
 const GOOD_REPLY = replyOf(OPENING_TOPIC, SUBJECT_TOPIC);
 
 describe("createGroupIntoTopicsStage", () => {
-	const { config, workspaceRoot, run } = useStageReadingDivision({
+	const { config, workspaceRoot, create, run, expectResendsExhausted } = useStageReadingDivision({
 		stageId: STAGE_ID,
 		readsFrom: ["retitle-subtopics"],
 		factory: createGroupIntoTopicsStage,
-		stubReply: () =>
-			modelCallMock.mockResolvedValue({ content: GOOD_REPLY, cost: stubbedCallCost }),
+		reply: GOOD_REPLY,
+		// The gap between sends is tested with a fake clock in the integration suite.
+		tuning: { sendGapSeconds: undefined },
 	});
 
 	/** The path of the saved grouping run with the number `runNumber`, counting from 1. */
@@ -80,7 +64,7 @@ describe("createGroupIntoTopicsStage", () => {
 	it("should send every retitled subtopic as its subtopic id, title as label, and text with the blank space at each end removed when each grouping run is made", async () => {
 		await run();
 
-		const sent = modelCallMock.mock.calls.map((call) => sentUserMessage([call]));
+		const sent = create().mock.calls.map((call) => sentUserMessage([call]));
 		expect(sent).toStrictEqual(
 			Array(config.grouping.panelSize).fill(
 				JSON.stringify({
@@ -120,11 +104,11 @@ describe("createGroupIntoTopicsStage", () => {
 			content: replyOf(OPENING_TOPIC, { ...SUBJECT_TOPIC, firstSubtopicId: 3 }),
 		},
 	])("should resend a grouping run's call when its reply $problem", async ({ content }) => {
-		modelCallMock.mockResolvedValueOnce({ content, cost: stubbedCallCost });
+		create().mockResolvedValueOnce(openRouterReplyBody({ content }));
 
 		await run();
 
-		expect(modelCallMock).toHaveBeenCalledTimes(config.grouping.panelSize + 1);
+		expect(create()).toHaveBeenCalledTimes(config.grouping.panelSize + 1);
 	});
 
 	it("should write each topic's title, groupedBecause and first subtopic from the chosen run when the stage completes", async () => {
@@ -169,18 +153,17 @@ describe("createGroupIntoTopicsStage", () => {
 
 		expect(error).toBeInstanceOf(GroupIntoTopicsError);
 		expect(error.message).toContain(retitled);
-		expect(modelCallMock).not.toHaveBeenCalled();
+		expect(create()).not.toHaveBeenCalled();
 	});
 
 	it("should fail without writing the topics when a run's third send is still unusable", {
 		timeout: resendPausesTimeoutMs,
 	}, async () => {
-		modelCallMock.mockResolvedValue({ content: replyOf(), cost: stubbedCallCost });
+		create().mockResolvedValue(openRouterReplyBody({ content: replyOf() }));
 
-		await expectResendsExhaustedWithoutOutput({
-			pending: run(),
-			workspaceRoot: workspaceRoot(),
-			stageId: STAGE_ID,
+		// Every run that is in flight is sent three times before the stage fails.
+		await expectResendsExhausted({
+			calls: Math.min(config.grouping.panelSize, config.stages[STAGE_ID]?.concurrency ?? 1),
 		});
 	});
 
@@ -201,7 +184,7 @@ describe("createGroupIntoTopicsStage", () => {
 
 		await run();
 
-		expect(modelCallMock).toHaveBeenCalledTimes(config.grouping.panelSize - 1);
+		expect(create()).toHaveBeenCalledTimes(config.grouping.panelSize - 1);
 	});
 
 	it.each([

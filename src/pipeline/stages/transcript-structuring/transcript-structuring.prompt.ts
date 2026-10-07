@@ -3,9 +3,14 @@
  * (technical-design.md §5, `transcript-structuring` and "Where prompts live").
  */
 
+/* jscpd:ignore-start -- these imports are the same as the imports of
+   read-slides.prompt.ts. This stage will be removed, so the exemption is here
+   and not in the module that stays. */
 import type { OutputLanguage } from "../../../types/pipeline.js";
 import { languageRule } from "../../../utils/language.js";
 import { type PromptMessages, promptMessages } from "../model-stage.js";
+
+/* jscpd:ignore-end */
 
 /**
  * The shape of the reply, stated in the prompt. JSON mode does not fix the shape,

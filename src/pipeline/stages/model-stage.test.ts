@@ -1,22 +1,16 @@
-/* jscpd:ignore-start -- the stage suites import the same fixtures and mock the
-   same module, so their first lines are the same. The imports cannot be shared,
-   because CLAUDE.md forbids barrel files (File Organisation). vi.mock is hoisted,
-   so it must be in the file that mocks. Only these lines are exempt. jscpd checks
-   the suite below as normal. */
-import type { Mock } from "vitest";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
 	captureError,
 	configuringStage,
 	loggedAt,
 	makeStageContext,
-	openRouterClientFor,
+	openRouterReplyBody,
 	stubbedCallCost,
 	stubbedCallsCost,
 	unspacedSends,
+	useStubbedOpenRouter,
 	useStubLogger,
 } from "../fixtures.js";
-import { callModel } from "../openrouter.js";
 import {
 	type JsonReplyOutcome,
 	type JsonReplyRequest,
@@ -27,15 +21,6 @@ import {
 	tryJsonReplyAs,
 } from "./model-stage.js";
 
-// Only the model call is a stub. Everything else that the module exports is real.
-vi.mock(import("../openrouter.js"), async (importOriginal) => ({
-	...(await importOriginal()),
-	callModel: vi.fn(),
-}));
-
-const modelCallMock = callModel as unknown as Mock;
-/* jscpd:ignore-end */
-
 const STAGE_ID = "transcript-verification";
 
 /** The documented reply of the tests: an object with a greeting. */
@@ -43,14 +28,11 @@ type Greeting = { readonly greeting: string };
 
 const logged = useStubLogger();
 const config = configuringStage({ stageId: STAGE_ID });
-
-beforeEach(() => {
-	vi.clearAllMocks();
-});
+const { client, create } = useStubbedOpenRouter();
 
 /** A request for a greeting. The model replies with `content`. */
 function greetingRequest(content: string): JsonReplyRequest<Greeting> {
-	modelCallMock.mockResolvedValue({ content, cost: stubbedCallCost });
+	create().mockResolvedValue(openRouterReplyBody({ content }));
 	return {
 		messages: promptMessages({ system: "Greet the user.", user: "Say hello." }),
 		stageId: STAGE_ID,
@@ -59,7 +41,7 @@ function greetingRequest(content: string): JsonReplyRequest<Greeting> {
 			typeof (value as Greeting | null)?.greeting === "string",
 		documentedShape: "greeting",
 		logger: logged().logger,
-		client: openRouterClientFor({ config }),
+		client: client(),
 		sendGate: unspacedSends,
 	};
 }

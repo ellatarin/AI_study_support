@@ -623,3 +623,17 @@ export function stageDirectoryPaths({
 	const output = resolveStageOutput({ workspaceRoot, stageId });
 	return output.root === "module" ? [output.directory] : output.directories;
 }
+
+/**
+ * Gives the folder that a stage writes into: the first folder of
+ * {@link stageDirectoryPaths}. It is the workspace when the stage owns no folder.
+ *
+ * @param args - The workspace and the stage.
+ * @param args.workspaceRoot - The absolute path to the workspace.
+ * @param args.stageId - The stage.
+ * @returns The absolute path of the folder.
+ */
+export function stageDirectoryPath({ workspaceRoot, stageId }: StageInWorkspace): string {
+	const [directory = workspaceRoot] = stageDirectoryPaths({ workspaceRoot, stageId });
+	return directory;
+}

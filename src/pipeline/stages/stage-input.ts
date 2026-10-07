@@ -8,9 +8,9 @@
 import { readFile } from "node:fs/promises";
 import type { StageContext } from "../../types/pipeline.js";
 import { errorMessage } from "../../utils/errors.js";
-import { type StageWithOutputFile, stageOutputPath } from "../layout.js";
+import { type StageWithOutputFile, stageDirectoryPath, stageOutputPath } from "../layout.js";
 import { readDivision, type Subtopic, splittingPanel } from "./division.js";
-import { panelDirectory, readPanel } from "./panel-runs.js";
+import { readPanel } from "./panel-runs.js";
 import { readTopics, type Topic } from "./topics.js";
 
 /** The stage that reads: its stage context, and the builder of its error. */
@@ -200,7 +200,7 @@ export async function readTranscriptAndRuns({
 	const transcript = await readTranscript({ context, fail });
 	const runs = await readPanel({
 		...splittingPanel(context),
-		directory: panelDirectory({ workspaceRoot: context.workspaceRoot, stageId: panelStage }),
+		directory: stageDirectoryPath({ workspaceRoot: context.workspaceRoot, stageId: panelStage }),
 		fail: (message) => fail(`${message}; run ${panelStage} first`),
 	});
 	return { transcript, runs };

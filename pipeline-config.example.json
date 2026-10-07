@@ -67,10 +67,10 @@
 			"maxTokens": null
 		},
 		"read-slides": {
-			"modelId": "<COST_EFFICIENT_VISION_MODEL>",
-			"temperature": 0.1,
-			"maxTokens": 4096,
-			"concurrency": 3
+			"modelId": "google/gemini-3.8-flash",
+			"temperature": null,
+			"maxTokens": null,
+			"concurrency": 10
 		},
 		"place-slides": {
 			"modelId": "<REASONING_MODEL>"

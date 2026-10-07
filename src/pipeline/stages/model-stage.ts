@@ -165,7 +165,8 @@ export type PromptMessages = readonly OpenAI.Chat.Completions.ChatCompletionMess
  *
  * @param args - The prompt, and the material.
  * @param args.system - The stage's prompt.
- * @param args.user - The material, under the heading that the prompt expects.
+ * @param args.user - The material: text under the heading that the prompt expects,
+ *   or one PNG image as base64, which the user message then holds alone.
  * @returns The system message, then the user message.
  */
 export function promptMessages({
@@ -173,11 +174,18 @@ export function promptMessages({
 	user,
 }: {
 	readonly system: string;
-	readonly user: string;
+	readonly user: string | { readonly pngBase64: string };
 }): PromptMessages {
 	return [
 		{ role: "system", content: system },
-		{ role: "user", content: user },
+		typeof user === "string"
+			? { role: "user", content: user }
+			: {
+					role: "user",
+					content: [
+						{ type: "image_url", image_url: { url: `data:image/png;base64,${user.pngBase64}` } },
+					],
+				},
 	];
 }
 
