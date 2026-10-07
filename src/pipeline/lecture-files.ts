@@ -4,7 +4,7 @@
  *
  * A lecture has four things on disk with one base name: its video recording, its
  * slide deck, its notes PDF and its workspace. The CLI's `change-date` and
- * `transcript-structuring` both move all four to a new base name, so the code that
+ * `judge-lecture-title` both move all four to a new base name, so the code that
  * moves them is here once. It is in `src/pipeline/`, because a stage must not
  * import from the CLI.
  *
@@ -14,11 +14,12 @@
  */
 
 import { rename, rm } from "node:fs/promises";
-import { dirname, extname, join } from "node:path";
+import { basename, dirname, extname, join } from "node:path";
+import type { StageContext } from "../types/pipeline.js";
 import { extractDates, formatDateISO } from "../utils/date.js";
 import { listFileNames } from "../utils/files.js";
 import { lectureBaseName } from "../utils/naming.js";
-import { type ModuleDirs, sharedLectureFileDirs } from "./layout.js";
+import { type ModuleDirs, moduleDirs, sharedLectureFileDirs } from "./layout.js";
 
 /**
  * Gives a lecture's base name from the `YYYY-MM-DD` date that the manifest stores.
@@ -81,6 +82,53 @@ export async function findLectureFileByDate({
 		}
 	}
 	return null;
+}
+
+/** The two source folders of a module, as their keys in {@link ModuleDirs}. */
+export type SourceFolder = keyof Pick<ModuleDirs, "videoRecording" | "slideDeck">;
+
+/** The name of each kind of source file, for the failure that a user reads. */
+const SOURCE_FILE_KINDS: Readonly<Record<SourceFolder, string>> = {
+	videoRecording: "video recording",
+	slideDeck: "slide deck",
+};
+
+/**
+ * Finds the lecture's source file in one source folder by the lecture's base
+ * name, for the stage that reads the file. The file keeps its own extension, so
+ * the match is the one file whose name without its extension is the base name
+ * (technical-design.md §5, `audio-extraction`).
+ *
+ * @param args - The lecture, the source folder and the error to raise.
+ * @param args.context - The stage context of the lecture.
+ * @param args.source - The source folder: `videoRecording` or `slideDeck`.
+ * @param args.fail - Builds the calling stage's own error from a message.
+ * @returns The absolute path of the file.
+ * @throws The error that `fail` builds, when no file or more than one file has the base name.
+ */
+export async function locateSourceFile({
+	context,
+	source,
+	fail,
+}: {
+	readonly context: StageContext;
+	readonly source: SourceFolder;
+	readonly fail: (message: string) => Error;
+}): Promise<string> {
+	const dir = moduleDirs({ moduleRoot: context.moduleRoot })[source];
+	const baseName = context.manifest.baseName;
+	const kind = SOURCE_FILE_KINDS[source];
+	const matches = (await listFileNames(dir)).filter(
+		(name) => basename(name, extname(name)) === baseName,
+	);
+	const [match, ...surplus] = matches;
+	if (match === undefined) {
+		throw fail(`No ${kind} named "${baseName}" found in ${dir}`);
+	}
+	if (surplus.length > 0) {
+		throw fail(`Multiple ${kind}s named "${baseName}" found in ${dir}: ${matches.join(", ")}`);
+	}
+	return join(dir, match);
 }
 
 /**

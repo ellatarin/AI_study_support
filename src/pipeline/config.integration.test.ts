@@ -50,8 +50,8 @@ function makeValidConfig(): Record<string, unknown> {
 					"transcript-structuring": openRouterStageConfig({
 						stageId: "transcript-structuring",
 					}),
-					"slide-conversion": openRouterStageConfig({
-						stageId: "slide-conversion",
+					"read-slides": openRouterStageConfig({
+						stageId: "read-slides",
 						modelId: SLIDE_MODEL_ID,
 					}),
 				},
@@ -300,7 +300,7 @@ describe("loadConfig model-ID resolution check", () => {
 
 		expect(config.version).toBe("1");
 		expect(config.stages["transcript-structuring"]?.modelId).toBe(STRUCTURING_MODEL_ID);
-		expect(config.stages["slide-conversion"]?.concurrency).toBe(3);
+		expect(config.stages["read-slides"]?.concurrency).toBe(3);
 	});
 
 	it("should skip the model list fetch when no stages are configured", async () => {

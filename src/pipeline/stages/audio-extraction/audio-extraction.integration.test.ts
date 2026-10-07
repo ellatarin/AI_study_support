@@ -15,7 +15,8 @@ import {
 	toneInput,
 } from "../../fixtures.js";
 import { moduleDirs, stageOutputEntry, stageOutputPath } from "../../layout.js";
-import { createAudioExtractionStage } from "./audio-extraction.js";
+import { createSourceFileStage } from "../pipeline-stage.js";
+import { audioExtractionParts } from "./audio-extraction.js";
 
 const FIXTURE_SECONDS = 1;
 
@@ -65,7 +66,10 @@ describe("createAudioExtractionStage against real ffmpeg", () => {
 			await renderFixtureVideoRecording(
 				join(moduleDirs({ moduleRoot }).videoRecording, testLecture.videoRecordingFile),
 			);
-			const stage = createAudioExtractionStage({ logger: makeStubLogger().logger });
+			const stage = createSourceFileStage({
+				logger: makeStubLogger().logger,
+				...audioExtractionParts,
+			});
 			const context = makeStageContext({ workspaceRoot });
 
 			const result = await driveStage({ stage, context });

@@ -1,12 +1,13 @@
-import { basename, extname, join } from "node:path";
 import ffmpeg from "fluent-ffmpeg";
 import type { Logger } from "pino";
-import type { PipelineStage, StageContext, StageResult } from "../../../types/pipeline.js";
+import type { StageContext, StageResult } from "../../../types/pipeline.js";
 import { errorMessage, NamedError } from "../../../utils/errors.js";
-import { listFileNames } from "../../../utils/files.js";
 import { createProgressBar } from "../../../utils/progress.js";
-import { moduleDirs } from "../../layout.js";
-import { createPipelineStage, writeStageOutput } from "../pipeline-stage.js";
+import {
+	type SourceFileInput,
+	type SourceFileStageParts,
+	writeStageOutput,
+} from "../pipeline-stage.js";
 
 /**
  * The error when the video recording of the lecture is missing or not unique, or
@@ -14,12 +15,6 @@ import { createPipelineStage, writeStageOutput } from "../pipeline-stage.js";
  * (technical-design.md §5, `audio-extraction`).
  */
 export class AudioExtractionError extends NamedError {}
-
-/** The input of `audio-extraction`. */
-export type AudioExtractionInput = {
-	/** The absolute path of the video recording of the lecture, in any container. */
-	readonly videoRecordingPath: string;
-};
 
 /** The output of `audio-extraction`. */
 export type AudioExtractionOutput = {
@@ -36,36 +31,6 @@ const PROGRESS_FORMAT = "Extracting audio |{bar}| {percentage}%";
 const TMP_OUTPUT_FORMAT = "ipod";
 const PERCENT_COMPLETE = 100;
 const PERCENT_BEFORE_END = 99;
-
-/**
- * Finds the video recording of the lecture by its base name. The video recording
- * keeps its own extension. So the stage finds the one file whose name, without
- * its extension, is the base name (technical-design.md §5, `audio-extraction`).
- *
- * @param context - The stage context.
- * @returns The path of the video recording.
- * @throws {AudioExtractionError} If no video recording matches, or more than one matches.
- */
-async function locateVideoRecording(context: StageContext): Promise<AudioExtractionInput> {
-	const videoRecordingsDir = moduleDirs({ moduleRoot: context.moduleRoot }).videoRecording;
-	const baseName = context.manifest.baseName;
-	const matches = (await listFileNames(videoRecordingsDir)).filter(
-		(name) => basename(name, extname(name)) === baseName,
-	);
-
-	const [videoRecording, ...surplus] = matches;
-	if (videoRecording === undefined) {
-		throw new AudioExtractionError(
-			`No video recording named "${baseName}" found in ${videoRecordingsDir}`,
-		);
-	}
-	if (surplus.length > 0) {
-		throw new AudioExtractionError(
-			`Multiple video recordings named "${baseName}" found in ${videoRecordingsDir}: ${matches.join(", ")}`,
-		);
-	}
-	return { videoRecordingPath: join(videoRecordingsDir, videoRecording) };
-}
 
 /**
  * Copies the audio track of the video recording to `outputPath` without
@@ -133,7 +98,7 @@ async function extractAudio({
 	context,
 	logger,
 }: {
-	readonly input: AudioExtractionInput;
+	readonly input: SourceFileInput;
 	readonly context: StageContext;
 	readonly logger: Logger;
 }): Promise<StageResult<AudioExtractionOutput>> {
@@ -144,16 +109,16 @@ async function extractAudio({
 			stageId: STAGE_ID,
 			context,
 			produce: (tmpPath) =>
-				copyAudioTrack({ inputPath: input.videoRecordingPath, outputPath: tmpPath }),
+				copyAudioTrack({ inputPath: input.sourceFilePath, outputPath: tmpPath }),
 		});
 	} catch (error: unknown) {
 		throw new AudioExtractionError(
-			`Audio extraction failed for ${input.videoRecordingPath}: ${errorMessage(error)}`,
+			`Audio extraction failed for ${input.sourceFilePath}: ${errorMessage(error)}`,
 		);
 	}
 	logger.debug(
 		{
-			videoRecordingPath: input.videoRecordingPath,
+			videoRecordingPath: input.sourceFilePath,
 			audioPath: written.path,
 			latencyMs: Math.round(performance.now() - startedAt),
 		},
@@ -169,24 +134,13 @@ async function extractAudio({
 }
 
 /**
- * Builds the `audio-extraction` stage. It copies the audio track of the video
- * recording to `Audio/audio.m4a` without re-encoding. The audio stays for the
- * life of the workspace (technical-design.md §5, `audio-extraction`).
- *
- * @param args - The dependencies of the stage.
- * @param args.logger - The logger. `createPipelineStage` binds it to this stage.
- * @returns The stage.
+ * The parts of the `audio-extraction` stage. It copies the audio track of the
+ * video recording to `Audio/audio.m4a` without re-encoding. The audio stays for
+ * the life of the workspace (technical-design.md §5, `audio-extraction`).
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger has mutable properties that the rule cannot ignore. This function only reads it. CLAUDE.md permits a mutable type that a library requires.
-export function createAudioExtractionStage({
-	logger,
-}: {
-	readonly logger: Logger;
-}): PipelineStage<AudioExtractionInput, AudioExtractionOutput> {
-	return createPipelineStage({
-		stageId: STAGE_ID,
-		logger,
-		getInput: locateVideoRecording,
-		run: extractAudio,
-	});
-}
+export const audioExtractionParts: SourceFileStageParts<AudioExtractionOutput> = {
+	stageId: STAGE_ID,
+	source: "videoRecording",
+	fail: (message) => new AudioExtractionError(message),
+	run: extractAudio,
+};

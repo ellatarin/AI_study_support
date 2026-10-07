@@ -21,14 +21,14 @@ The system is a TypeScript/Node.js CLI tool made of stages, each named by its id
 | Runtime / dev execution | Node.js + tsx | Already established |
 | Audio extraction | fluent-ffmpeg | Already built |
 | Transcription | ElevenLabs (`@elevenlabs/elevenlabs-js`) | Already built |
-| LLM access (all new stages) | `openai` SDK pointed at OpenRouter | OpenRouter is OpenAI API-compatible; avoids bespoke client; gets retry logic and TypeScript types for free |
-| PDF-to-image rendering | `pdfjs-dist` + `canvas` | Pure-Node, no system binary dependency, consistent PNG output |
-| Image cropping | `sharp` | Standard Node image processing library |
-| PDF generation | `pandoc` (system binary) | Gold standard for academic document conversion; excellent LaTeX equation and image support |
-| Date parsing | `chrono-node` | Robust natural-language date parsing for varied source filename formats |
+| LLM access (all new stages) | `openai` SDK pointed at OpenRouter | OpenRouter is compatible with the OpenAI API. So the project needs no client of its own, and it gets retry logic and TypeScript types from the SDK |
+| PDF-to-image rendering | `pdfjs-dist` + `@napi-rs/canvas` | Pure Node, with a prebuilt canvas. It needs no system library and no build toolchain. `pdfjs-dist` uses this canvas in Node |
+| Image metadata in tests | `sharp` | Standard Node image processing library |
+| PDF generation | `pandoc` (system binary) | The usual tool for academic document conversion. It handles LaTeX equations and images well |
+| Date parsing | `chrono-node` | Parses natural-language dates in the many forms that source filenames use |
 | CLI prompts | `@inquirer/prompts` | Already in use |
 | Progress bars | `cli-progress` | Already in use |
-| Logging | `pino` | Structured JSON log output; child loggers for per-stage context; file transport keeps debug output off stdout/stderr |
+| Logging | `pino` | Structured JSON log output. Child loggers carry the stage. The file transport keeps debug output off stdout and stderr |
 | Environment variables | `dotenv` | Already in use |
 
 ### Environment Variables
@@ -1422,7 +1422,7 @@ createJudgeLectureTitleStage(args: { logger: Logger; client: OpenAI }): Pipeline
 **Input:** `Source files/Slide decks/<base name>.pdf`
 **Output:** `Slide images/slide-001.png`, `slide-002.png` and so on, one for each page
 
-The stage renders each page of the slide deck as one PNG image at 150 DPI, with `pdfjs-dist` and `canvas`. The images are numbered from 1 in deck order. The stage makes no model call, so its cost is `null` (§4.2).
+The stage renders each page of the slide deck as one PNG image at 150 DPI, with `pdfjs-dist` and `@napi-rs/canvas`. The images are numbered from 1 in deck order. The stage makes no model call, so its cost is `null` (§4.2).
 
 The notes show a slide as one whole image (CONTEXT.md, "Slide"). No figure is cut out of a slide. A vision model gives imprecise position boxes, so a crop can lose an axis label or take part of the text beside the figure. A whole slide is always complete.
 

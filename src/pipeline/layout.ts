@@ -107,6 +107,25 @@ export function savedRunFileName({ runNumber }: { readonly runNumber: number }):
 }
 
 /**
+ * Gives the file name of one slide's image or reading. The number has three
+ * digits, so the files list in deck order (technical-design.md §3.3).
+ *
+ * @param args - The slide and the file type.
+ * @param args.slideNumber - The number of the slide in the deck, from 1.
+ * @param args.extension - The file extension, such as `png` or `json`.
+ * @returns The file name, such as `slide-001.png`.
+ */
+export function slideFileName({
+	slideNumber,
+	extension,
+}: {
+	readonly slideNumber: number;
+	readonly extension: string;
+}): string {
+	return `slide-${String(slideNumber).padStart(3, "0")}.${extension}`;
+}
+
+/**
  * Gives the workspace of a lecture: a folder named with the base name of the
  * lecture, in the processing folder. {@link moduleRootOf} does the reverse.
  *
@@ -394,6 +413,9 @@ export const STAGE_FILES = {
 		stageRecord: "choice.json",
 	},
 	"judge-lecture-title": writesInto({ directory: "Title judgement", file: "judgement.json" }),
+	"render-slides": writesSetInto({ directory: "Slide images" }),
+	"read-slides": writesSetInto({ directory: "Slide readings" }),
+	"place-slides": writesInto({ directory: "Slide placements", file: "placements.json" }),
 	"transcript-structuring": writesInto({
 		directory: "Structured transcript",
 		file: "structured-transcript.md",
@@ -403,8 +425,6 @@ export const STAGE_FILES = {
 		file: "verification-report.json",
 		markdownVersion: "verification-report.md",
 	}),
-	"slide-conversion": writesInto({ directory: "Slide content", file: "slides.md" }),
-	"image-extraction": writesSetInto({ directory: "Slide images" }),
 	synthesis: writesInto({ directory: "Synthesised notes", file: "synthesised-notes.md" }),
 	"qa-loop": {
 		outputLocation: inWorkspace([declaredName("QA iterations"), declaredName("QA checked")]),

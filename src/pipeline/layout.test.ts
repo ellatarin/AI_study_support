@@ -17,6 +17,7 @@ import {
 	type StageWithOutputFile,
 	savedRunFileName,
 	sharedLectureFileDirs,
+	slideFileName,
 	stageDirectoryPaths,
 	stageMarkdownVersionEntry,
 	stageMarkdownVersionPath,
@@ -226,7 +227,7 @@ describe("stageOutputEntry", () => {
 			"transcription",
 			"transcript-structuring",
 			"transcript-verification",
-			"slide-conversion",
+			"place-slides",
 			"synthesis",
 		];
 
@@ -289,6 +290,20 @@ describe("savedRunFileName", () => {
 		expected,
 	}) => {
 		expect(savedRunFileName({ runNumber })).toBe(expected);
+	});
+});
+
+describe("slideFileName", () => {
+	it.each([
+		{ slideNumber: 1, extension: "png", expected: "slide-001.png" },
+		{ slideNumber: 42, extension: "json", expected: "slide-042.json" },
+		{ slideNumber: 120, extension: "png", expected: "slide-120.png" },
+	])("should name slide $slideNumber with three digits and the extension $extension when the slide is numbered", ({
+		slideNumber,
+		extension,
+		expected,
+	}) => {
+		expect(slideFileName({ slideNumber, extension })).toBe(expected);
 	});
 });
 

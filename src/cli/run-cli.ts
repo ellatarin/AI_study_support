@@ -13,12 +13,14 @@ import { debugLogPath } from "../pipeline/layout.js";
 import { createOpenRouterClientProvider } from "../pipeline/openrouter.js";
 import { createMoneyFormatter } from "../pipeline/reports.js";
 import { deriveTimestampId, PipelineRunner } from "../pipeline/runner.js";
-import { createAudioExtractionStage } from "../pipeline/stages/audio-extraction/audio-extraction.js";
+import { audioExtractionParts } from "../pipeline/stages/audio-extraction/audio-extraction.js";
 import { createChooseDivisionStage } from "../pipeline/stages/choose-division/choose-division.js";
 import { createDeepenSubtopicSplittingStage } from "../pipeline/stages/deepen-subtopic-splitting/deepen-subtopic-splitting.js";
 import { createGroupIntoTopicsStage } from "../pipeline/stages/group-into-topics/group-into-topics.js";
 import { createInitialSubtopicSplittingStage } from "../pipeline/stages/initial-subtopic-splitting/initial-subtopic-splitting.js";
 import { createJudgeLectureTitleStage } from "../pipeline/stages/judge-lecture-title/judge-lecture-title.js";
+import { createSourceFileStage } from "../pipeline/stages/pipeline-stage.js";
+import { renderSlidesParts } from "../pipeline/stages/render-slides/render-slides.js";
 import { createRetitleSubtopicsStage } from "../pipeline/stages/retitle-subtopics/retitle-subtopics.js";
 import { createSourceNormalisationStage } from "../pipeline/stages/source-normalisation/source-normalisation.js";
 import { createTranscriptStructuringStage } from "../pipeline/stages/transcript-structuring/transcript-structuring.js";
@@ -89,7 +91,7 @@ async function assembleDeps({
 		// The runner runs these stages in this order, so the list is in pipeline order.
 		// A stage that is not built yet is not in the list.
 		lectureStages: [
-			createAudioExtractionStage({ logger }),
+			createSourceFileStage({ logger, ...audioExtractionParts }),
 			createTranscriptionStage({ logger }),
 			createInitialSubtopicSplittingStage({ logger, client }),
 			createDeepenSubtopicSplittingStage({ logger, client }),
@@ -97,6 +99,7 @@ async function assembleDeps({
 			createRetitleSubtopicsStage({ logger, client }),
 			createGroupIntoTopicsStage({ logger, client }),
 			createJudgeLectureTitleStage({ logger, client }),
+			createSourceFileStage({ logger, ...renderSlidesParts }),
 			createTranscriptStructuringStage({ logger, client }),
 			createTranscriptVerificationStage({ logger, client }),
 		],

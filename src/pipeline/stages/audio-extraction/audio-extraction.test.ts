@@ -2,7 +2,12 @@ import { access, mkdir, readdir, rm, writeFile } from "node:fs/promises";
 import { basename, dirname, join } from "node:path";
 import ffmpeg from "fluent-ffmpeg";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { StageContext, StageEntry, StageResult } from "../../../types/pipeline.js";
+import type {
+	PipelineStage,
+	StageContext,
+	StageEntry,
+	StageResult,
+} from "../../../types/pipeline.js";
 import {
 	contextWithEntry,
 	contextWithOutput,
@@ -15,8 +20,9 @@ import {
 	useStubLogger,
 } from "../../fixtures.js";
 import { moduleDirs, stageOutputEntry, stageOutputPath } from "../../layout.js";
+import { createSourceFileStage, type SourceFileInput } from "../pipeline-stage.js";
 import type { AudioExtractionOutput } from "./audio-extraction.js";
-import { AudioExtractionError, createAudioExtractionStage } from "./audio-extraction.js";
+import { AudioExtractionError, audioExtractionParts } from "./audio-extraction.js";
 
 vi.mock("fluent-ffmpeg", () => ({ default: vi.fn() }));
 
@@ -144,8 +150,8 @@ describe("createAudioExtractionStage", () => {
 	}
 
 	/** The stage under test, which logs into {@link logged}. */
-	function makeStage(): ReturnType<typeof createAudioExtractionStage> {
-		return createAudioExtractionStage({ logger: logged().logger });
+	function makeStage(): PipelineStage<SourceFileInput, AudioExtractionOutput> {
+		return createSourceFileStage({ logger: logged().logger, ...audioExtractionParts });
 	}
 
 	function runStage(): Promise<StageResult<AudioExtractionOutput>> {
@@ -179,7 +185,7 @@ describe("createAudioExtractionStage", () => {
 
 		const input = await makeStage().getInput(contextWith());
 
-		expect(input.videoRecordingPath).toBe(join(videoRecordingsDir, `${testLecture.baseName}.mov`));
+		expect(input.sourceFilePath).toBe(join(videoRecordingsDir, `${testLecture.baseName}.mov`));
 	});
 
 	it("should fail before invoking ffmpeg when the video recording is missing", async () => {

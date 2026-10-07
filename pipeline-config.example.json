@@ -66,17 +66,14 @@
 			"temperature": null,
 			"maxTokens": null
 		},
-		"slide-conversion": {
+		"read-slides": {
 			"modelId": "<COST_EFFICIENT_VISION_MODEL>",
 			"temperature": 0.1,
 			"maxTokens": 4096,
 			"concurrency": 3
 		},
-		"image-extraction": {
-			"modelId": "<PRECISION_VISION_MODEL>",
-			"temperature": 0.0,
-			"maxTokens": 2048,
-			"concurrency": 2
+		"place-slides": {
+			"modelId": "<REASONING_MODEL>"
 		},
 		"synthesis": {
 			"modelId": "<REASONING_MODEL>",

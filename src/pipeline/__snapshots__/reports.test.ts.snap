@@ -17,17 +17,17 @@ Current pipeline cost
 Stage                   Model                         Calls      Cost
 ─────────────────────────────────────────────────────────────────────
 Transcription           elevenlabs/scribe_v2              1    £0.031
-Slide conversion        google/gemini-2.5-flash          24    £0.025
-Image extraction        openai/gpt-4.1                   12       n/a
+Read slides             google/gemini-2.5-flash          24    £0.025
+Place slides            openai/gpt-4.1                   12       n/a
 Synthesis               anthropic/claude-sonnet-4.6       1    £0.231
 ─────────────────────────────────────────────────────────────────────
 
 Error recovery cost
 Run                       Stage                   Status      Cost
 ──────────────────────────────────────────────────────────────────
-2025-10-10T09:00:00.000Z  slide-conversion        failed    £0.016
-2025-10-10T10:30:00.000Z  slide-conversion         retry    £0.025
-2025-10-10T11:00:00.000Z  image-extraction        failed       n/a
+2025-10-10T09:00:00.000Z  read-slides             failed    £0.016
+2025-10-10T10:30:00.000Z  read-slides              retry    £0.025
+2025-10-10T11:00:00.000Z  place-slides            failed       n/a
 ──────────────────────────────────────────────────────────────────
 
 Experiment cost
@@ -41,7 +41,7 @@ exports[`formatRunSummary > should render the whole summary table when given a r
 Stage                   Model                         Calls    Tokens (in / out)      Cost
 ──────────────────────────────────────────────────────────────────────────────────────────
 Transcription           elevenlabs/scribe_v2              1          0 /       0    £0.031
-Slide conversion        google/gemini-2.5-flash          24     41,000 /   8,100    £0.025
+Read slides             google/gemini-2.5-flash          24     41,000 /   8,100    £0.025
 Synthesis               anthropic/claude-sonnet-4.6       0          0 /       0       n/a
 ──────────────────────────────────────────────────────────────────────────────────────────"
 `;

@@ -63,7 +63,7 @@ describe("createPipelineRunReporter", () => {
 	it("should count several calls as calls when a stage completes", () => {
 		report({
 			event: "stage-completed",
-			stageId: "slide-conversion",
+			stageId: "read-slides",
 			cost: { promptTokens: 0, completionTokens: 0, callCount: 24, costUsd: 0.05 },
 		});
 

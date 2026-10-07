@@ -23,6 +23,7 @@ import {
 	stageRecordEntry,
 	stageRecordPath,
 } from "../layout.js";
+import { locateSourceFile, type SourceFolder } from "../lecture-files.js";
 import { isCompletedEntry } from "../run-status.js";
 import {
 	ManifestPathError,
@@ -272,6 +273,77 @@ async function writeStageOutputBeside({
 }
 
 /**
+ * The work of a stage. It gets the stage's input, the stage context, and a logger
+ * that names the stage and the lecture.
+ *
+ * @typeParam TInput - The input of the stage.
+ * @typeParam TOutput - The output of the stage.
+ */
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger type has mutable properties that the rule sees. This code only reads the logger. CLAUDE.md allows a mutable type where a library requires one.
+type StageRun<TInput, TOutput> = (args: {
+	readonly input: TInput;
+	readonly context: StageContext;
+	readonly logger: Logger;
+}) => Promise<StageResult<TOutput>>;
+
+/** The input of a stage that reads one source file of the lecture. */
+export type SourceFileInput = {
+	/** The absolute path of the source file. */
+	readonly sourceFilePath: string;
+};
+
+/**
+ * The parts of a stage that reads one source file of the lecture, such as the
+ * video recording or the slide deck. {@link createSourceFileStage} builds the
+ * stage from them.
+ *
+ * @typeParam TOutput - The output of the stage.
+ */
+export type SourceFileStageParts<TOutput> = {
+	readonly stageId: StageId;
+	/** The source folder that holds the file. */
+	readonly source: SourceFolder;
+	/** Builds the stage's own error from a message, when the file is missing or not unique. */
+	readonly fail: (message: string) => Error;
+	readonly run: StageRun<SourceFileInput, TOutput>;
+};
+
+/**
+ * Builds a stage that reads one source file of the lecture. Its input is the
+ * path of the one file in the source folder that has the lecture's base name
+ * (technical-design.md §5, `audio-extraction` and `render-slides`).
+ *
+ * @param args - The parts of the stage, and the logger.
+ * @param args.logger - The logger of the invocation.
+ * @param args.stageId - The stage that this builds.
+ * @param args.source - The source folder that holds the file.
+ * @param args.fail - Builds the stage's own error from a message.
+ * @param args.run - Does the work of the stage.
+ * @returns The pipeline stage.
+ * @typeParam TOutput - The output of the stage.
+ */
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger type has mutable properties that the rule sees. This code only reads the logger. CLAUDE.md allows a mutable type where a library requires one.
+export function createSourceFileStage<TOutput>({
+	logger,
+	stageId,
+	source,
+	fail,
+	run,
+}: SourceFileStageParts<TOutput> & { readonly logger: Logger }): PipelineStage<
+	SourceFileInput,
+	TOutput
+> {
+	return createPipelineStage({
+		stageId,
+		logger,
+		getInput: async (context): Promise<SourceFileInput> => ({
+			sourceFilePath: await locateSourceFile({ context, source, fail }),
+		}),
+		run,
+	});
+}
+
+/**
  * Builds a per-lecture {@link PipelineStage} from the two parts that differ from
  * stage to stage: how it gets its input, and what it does (technical-design.md §4.2).
  *
@@ -302,12 +374,7 @@ export function createPipelineStage<TInput, TOutput>({
 	readonly stageId: StageId;
 	readonly logger: Logger;
 	readonly getInput: (context: StageContext) => Promise<TInput>;
-	// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- the rule reports the pino Logger again in the parameter of the callback. pino's Logger type has mutable properties that the rule sees. This code only reads the logger.
-	readonly run: (args: {
-		readonly input: TInput;
-		readonly context: StageContext;
-		readonly logger: Logger;
-	}) => Promise<StageResult<TOutput>>;
+	readonly run: StageRun<TInput, TOutput>;
 }): PipelineStage<TInput, TOutput> {
 	const stageLogger = createStageLogger({ logger, stageId });
 	return {

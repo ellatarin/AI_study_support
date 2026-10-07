@@ -41,15 +41,15 @@ import {
 // whole. The user agreed to this in the review of 2026-08-24. Do not replace the
 // snapshots with assertions because of the CLAUDE.md snapshot rule alone.
 
-// Every fixture below records the same pipeline run of slide conversion. It is
-// the stage with a model for each call, a concurrency, and enough calls to make
-// its figures worth a check.
-const SLIDE_CONVERSION_CONFIG: StageConfigUsed = {
+// Every fixture below records the same pipeline run of read-slides. It is the
+// stage with a model for each call, a concurrency, and enough calls to make its
+// figures worth a check.
+const READ_SLIDES_CONFIG: StageConfigUsed = {
 	modelId: "google/gemini-2.5-flash",
 	concurrency: 3,
 };
-const SLIDE_CONVERSION_CALLS = 24;
-const SLIDE_CONVERSION_COST_USD = 0.034;
+const READ_SLIDES_CALLS = 24;
+const READ_SLIDES_COST_USD = 0.034;
 
 const resolved = ({
 	callCount,
@@ -103,16 +103,16 @@ const failedSynthesisEntry: StageEntry = {
 	filesWritten: [],
 };
 
-const IMAGE_EXTRACTION_MODEL_ID = "openai/gpt-4.1";
+const PLACE_SLIDES_MODEL_ID = "openai/gpt-4.1";
 
 const manifest: Manifest = makeManifest({
 	stages: {
 		// Audio extraction completed and names no model. It makes no model call, so
 		// no table gives it a row.
 		"audio-extraction": completedEntry({ filesWritten: [stageOutputEntry("audio-extraction")] }),
-		// Image extraction names a model and has an unknown cost. Its row shows n/a.
-		"image-extraction": completedEntry({
-			configUsed: { modelId: IMAGE_EXTRACTION_MODEL_ID },
+		// place-slides names a model and has an unknown cost. Its row shows n/a.
+		"place-slides": completedEntry({
+			configUsed: { modelId: PLACE_SLIDES_MODEL_ID },
 			cost: {
 				promptTokens: 0,
 				completionTokens: 2400,
@@ -126,13 +126,12 @@ const manifest: Manifest = makeManifest({
 			cost: resolved({ callCount: 1, costUsd: 0.042 }),
 			filesWritten: [stageOutputEntry("transcription")],
 		}),
-		"slide-conversion": completedEntry({
-			configUsed: SLIDE_CONVERSION_CONFIG,
+		"read-slides": completedEntry({
+			configUsed: READ_SLIDES_CONFIG,
 			cost: resolved({
-				callCount: SLIDE_CONVERSION_CALLS,
-				costUsd: SLIDE_CONVERSION_COST_USD,
+				callCount: READ_SLIDES_CALLS,
+				costUsd: READ_SLIDES_COST_USD,
 			}),
-			filesWritten: [stageOutputEntry("slide-conversion")],
 		}),
 		synthesis: synthesisEntry,
 	},
@@ -169,10 +168,10 @@ const originalFailure: RunLog = {
 	runType: "normal",
 	fromStage: null,
 	stages: {
-		"slide-conversion": {
+		"read-slides": {
 			action: "ran",
 			status: "failed",
-			configUsed: SLIDE_CONVERSION_CONFIG,
+			configUsed: READ_SLIDES_CONFIG,
 			cost: { costUsd: 0.021, callCount: 5 },
 			error: "Slide 17 conversion failed: 429 rate limit",
 		},
@@ -185,15 +184,15 @@ const runLogs: readonly RunLog[] = [
 		...ranFrom({ startedAt: "2025-10-10T10:30:00.000Z", endedAt: "2025-10-10T10:33:00.000Z" }),
 		triggeredBy: "from-stage",
 		runType: "error-recovery",
-		fromStage: "slide-conversion",
+		fromStage: "read-slides",
 		stages: {
-			"slide-conversion": {
+			"read-slides": {
 				action: "ran",
 				status: "complete",
-				configUsed: SLIDE_CONVERSION_CONFIG,
+				configUsed: READ_SLIDES_CONFIG,
 				cost: {
-					costUsd: SLIDE_CONVERSION_COST_USD,
-					callCount: SLIDE_CONVERSION_CALLS,
+					costUsd: READ_SLIDES_COST_USD,
+					callCount: READ_SLIDES_CALLS,
 				},
 			},
 		},
@@ -216,10 +215,10 @@ const runLogs: readonly RunLog[] = [
 		...ranFrom({ startedAt: "2025-10-10T11:00:00.000Z", endedAt: "2025-10-10T11:01:00.000Z" }),
 		triggeredBy: "from-stage",
 		runType: "error-recovery",
-		fromStage: "image-extraction",
+		fromStage: "place-slides",
 		stages: {
 			// An unknown cost, which the error recovery section shows as n/a.
-			"image-extraction": {
+			"place-slides": {
 				action: "ran",
 				status: "failed",
 				configUsed: { modelId: "openai/gpt-4.1" },
@@ -341,13 +340,13 @@ describe("formatCostReport", () => {
 		const report = costReport({ runLogs: [originalFailure] });
 
 		// 0.021 USD at 0.74 = 0.01554.
-		expect(report).toMatch(/slide-conversion\s+failed\s+£0\.016/);
+		expect(report).toMatch(/read-slides\s+failed\s+£0\.016/);
 	});
 
 	it("should render a stage's cost as n/a when its lookup failed", () => {
 		const report = costReport();
 
-		expect(report).toMatch(/Image extraction\s+openai\/gpt-4\.1\s+12\s+n\/a/);
+		expect(report).toMatch(/Place slides\s+openai\/gpt-4\.1\s+12\s+n\/a/);
 	});
 
 	it("should leave a stage out when it names no model", () => {
@@ -402,7 +401,7 @@ const ran = (status: "complete" | "failed"): RunLogStageEntry =>
 const runOutcomes: readonly PipelineStageOutcome[] = [
 	{ stageId: "audio-extraction", entry: { action: "skipped" } },
 	{ stageId: "transcription", entry: ran("complete") },
-	{ stageId: "slide-conversion", entry: ran("complete") },
+	{ stageId: "read-slides", entry: ran("complete") },
 	{ stageId: "synthesis", entry: ran("failed") },
 	{ stageId: "pdf-generation", entry: { action: "not-reached" } },
 ];
@@ -416,15 +415,14 @@ const runSummaryManifest: Manifest = {
 		}),
 		// The same transcription entry the report fixture uses: one call, no tokens.
 		transcription: manifest.stages.transcription,
-		"slide-conversion": completedEntry({
-			configUsed: SLIDE_CONVERSION_CONFIG,
+		"read-slides": completedEntry({
+			configUsed: READ_SLIDES_CONFIG,
 			cost: {
 				promptTokens: 41_000,
 				completionTokens: 8100,
-				callCount: SLIDE_CONVERSION_CALLS,
-				costUsd: SLIDE_CONVERSION_COST_USD,
+				callCount: READ_SLIDES_CALLS,
+				costUsd: READ_SLIDES_COST_USD,
 			},
-			filesWritten: [stageOutputEntry("slide-conversion")],
 		}),
 		synthesis: failedSynthesisEntry,
 	},
@@ -450,7 +448,7 @@ describe("formatRunSummary", () => {
 		const summary = runSummary();
 
 		expect(summary).toContain("Transcription");
-		expect(summary).toContain("Slide conversion");
+		expect(summary).toContain("Read slides");
 		expect(summary).toContain("Synthesis");
 		expect(summary).not.toContain("Audio extraction");
 		expect(summary).not.toContain("PDF generation");
@@ -459,7 +457,7 @@ describe("formatRunSummary", () => {
 	it("should show the model, calls, and token counts recorded for a stage when it ran", () => {
 		const summary = runSummary();
 
-		expect(summary).toContain(SLIDE_CONVERSION_CONFIG.modelId);
+		expect(summary).toContain(READ_SLIDES_CONFIG.modelId);
 		expect(summary).toContain("41,000");
 		expect(summary).toContain("8,100");
 		// 0.034 USD at 0.74 = 0.02516.
