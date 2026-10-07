@@ -6,7 +6,7 @@ This brief is for the agent that does a comment ticket (03 to 13). The work is t
 
 Read these. They hold the rules, and this brief does not repeat them:
 
-- `CLAUDE.md`, section Documentation: the comment rules.
+- The global `~/.claude/CLAUDE.md`, section "Comments in code", and the project `CLAUDE.md`, section Documentation: the comment rules.
 - `CONTEXT.md`: the terms. Use a term from it for every concept that it defines.
 - `spec.md` in this folder, section "Criteria every rewording ticket shares".
 - The ticket you are doing, and the Comments sections of tickets 01, 02 and 03. Later rulings overrule earlier ones.
