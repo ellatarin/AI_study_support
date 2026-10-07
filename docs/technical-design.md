@@ -435,7 +435,7 @@ A stage does not name its own output file and then record it separately: putting
 // src/pipeline/stages/pipeline-stage.ts
 type RecordedStageOutput = { path: string; filesWritten: readonly string[] }
 type StageOutputSource = { content: string } | { produce: ProduceFile }
-writeStageOutput(args: { stageId: StageWithOutputFile; workspaceRoot: string } & StageOutputSource): Promise<RecordedStageOutput>
+writeStageOutput(args: { stageId: StageWithOutputFile; context: Pick<StageContext, "workspaceRoot"> } & StageOutputSource): Promise<RecordedStageOutput>
 // Where the bytes come from is the one thing that varies, so it is a union rather than a second writer: a
 // stage either hands over content or produces it into the `.tmp` sibling — audio-extraction has ffmpeg write the audio
 // track that way (§4.3). Written as one function because the pairing it protects is one fact.
@@ -443,7 +443,7 @@ writeStageOutput(args: { stageId: StageWithOutputFile; workspaceRoot: string } &
 // pdf-generation names a file outside the workspace, so neither is served by this.
 writeStageOutputWithMarkdownVersion(args: {
   stageId: StageWithOutputFile & StageWithMarkdownVersion
-  workspaceRoot: string
+  context: Pick<StageContext, "workspaceRoot">
   content: string
   markdownVersion: string
 }): Promise<RecordedStageOutput>
@@ -453,7 +453,7 @@ writeStageOutputWithMarkdownVersion(args: {
 // that does not cannot be named here, and one that does cannot forget to render it.
 writeStageOutputWithStageRecord(args: {
   stageId: StageWithOutputFile & StageWithStageRecord
-  workspaceRoot: string
+  context: Pick<StageContext, "workspaceRoot">
   value: unknown
   stageRecord: unknown
 }): Promise<RecordedStageOutput>

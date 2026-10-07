@@ -232,7 +232,7 @@ async function judgeLectureTitle({
 	const { judgement, identityChanges } = sent.reply;
 	const { filesWritten } = await writeStageOutput({
 		stageId: STAGE_ID,
-		workspaceRoot: context.workspaceRoot,
+		context,
 		content: jsonFileContent(judgement),
 	});
 	logger.debug(

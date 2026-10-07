@@ -292,7 +292,7 @@ async function transcribeAudio({
 	);
 	const { path: transcriptPath, filesWritten } = await writeStageOutput({
 		stageId: STAGE_ID,
-		workspaceRoot: context.workspaceRoot,
+		context,
 		content: text,
 	});
 

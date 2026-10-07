@@ -119,12 +119,30 @@ type RecordedStageOutput = {
 	readonly filesWritten: readonly string[];
 };
 
-/** A stage that writes one output file, and the lecture's workspace. */
+/** A stage that writes one output file, and the stage context that holds the lecture's workspace. */
 type StageOutputTarget = {
 	readonly stageId: StageWithOutputFile;
-	/** The absolute path of the lecture's workspace. */
-	readonly workspaceRoot: string;
+	readonly context: Pick<StageContext, "workspaceRoot">;
 };
+
+/**
+ * The stage and the workspace of an output, as the layout functions take them.
+ *
+ * @param target - The stage, and its stage context.
+ * @param target.stageId - The stage.
+ * @param target.context - The stage context that holds the lecture's workspace.
+ * @returns The stage, and the absolute path of the lecture's workspace.
+ * @typeParam TStageId - The stage, as narrow as the caller knows it.
+ */
+function stageInWorkspace<TStageId extends StageWithOutputFile>({
+	stageId,
+	context,
+}: StageOutputTarget & { readonly stageId: TStageId }): {
+	readonly stageId: TStageId;
+	readonly workspaceRoot: string;
+} {
+	return { stageId, workspaceRoot: context.workspaceRoot };
+}
 
 /**
  * The source of an output file: text that the stage holds, or a producer that
@@ -144,19 +162,19 @@ type StageOutputSource =
  * path and the entry come from the same stage id, so the entry always names the
  * file just written (technical-design.md §4.2, §4.3, §4.5).
  *
- * @param args - The stage, the workspace, and the text or the producer.
+ * @param args - The stage, its stage context, and the text or the producer.
  * @param args.stageId - The stage. It must write one output file.
- * @param args.workspaceRoot - The absolute path of the lecture's workspace.
+ * @param args.context - The stage context. It holds the lecture's workspace.
  * @returns The absolute path of the output file, and its `filesWritten` entry.
  * @throws The error of the producer, after the partial `.tmp` file is deleted.
  * @example
- * await writeStageOutput({ stageId, workspaceRoot, content: markdown });
- * await writeStageOutput({ stageId, workspaceRoot, produce: (tmp) => extractTo(tmp) });
+ * await writeStageOutput({ stageId, context, content: markdown });
+ * await writeStageOutput({ stageId, context, produce: (tmp) => extractTo(tmp) });
  */
 export async function writeStageOutput(
 	args: StageOutputTarget & StageOutputSource,
 ): Promise<RecordedStageOutput> {
-	const path = stageOutputPath({ workspaceRoot: args.workspaceRoot, stageId: args.stageId });
+	const path = stageOutputPath(stageInWorkspace(args));
 	await ("content" in args
 		? writeFileAtomic({ path, content: args.content })
 		: produceFileAtomic({ path, produce: args.produce }));
@@ -171,14 +189,14 @@ export async function writeStageOutput(
  * accepts only a stage with a Markdown version. Deleting either file makes the stage run
  * again.
  *
- * @param args - The stage, the workspace, and the text of both files.
+ * @param args - The stage, its stage context, and the text of both files.
  * @param args.stageId - The stage. It must write a Markdown version.
- * @param args.workspaceRoot - The absolute path of the lecture's workspace.
+ * @param args.context - The stage context. It holds the lecture's workspace.
  * @param args.content - The text of the output file.
  * @param args.markdownVersion - The Markdown version of the output, for a person to read.
  * @returns The absolute path of the output file, and the `filesWritten` entries of both files.
  * @example
- * await writeStageOutputWithMarkdownVersion({ stageId, workspaceRoot, content: json, markdownVersion: markdown });
+ * await writeStageOutputWithMarkdownVersion({ stageId, context, content: json, markdownVersion: markdown });
  */
 export function writeStageOutputWithMarkdownVersion({
 	markdownVersion,
@@ -188,7 +206,7 @@ export function writeStageOutputWithMarkdownVersion({
 	readonly markdownVersion: string;
 }): Promise<RecordedStageOutput> {
 	const beside = {
-		path: stageMarkdownVersionPath(output),
+		path: stageMarkdownVersionPath(stageInWorkspace(output)),
 		entry: stageMarkdownVersionEntry(output.stageId),
 	};
 	return writeStageOutputBeside({ output, beside: { ...beside, content: markdownVersion } });
@@ -200,9 +218,9 @@ export function writeStageOutputWithMarkdownVersion({
  * a part of the manifest, so it is replaced and deleted with the output
  * (technical-design.md §3.3, §4.5).
  *
- * @param args - The stage, the workspace, the output, and its stage record.
+ * @param args - The stage, its stage context, the output, and its stage record.
  * @param args.stageId - The stage. It must keep a stage record.
- * @param args.workspaceRoot - The absolute path of the lecture's workspace.
+ * @param args.context - The stage context. It holds the lecture's workspace.
  * @param args.value - The output, written as JSON.
  * @param args.stageRecord - The stage record: how the stage reached the output, written as JSON.
  * @returns The absolute path of the output file, and the `filesWritten` entries of both files.
@@ -219,7 +237,7 @@ export function writeStageOutputWithStageRecord({
 	return writeStageOutputBeside({
 		output: { ...target, content: jsonFileContent(value) },
 		beside: {
-			path: stageRecordPath(target),
+			path: stageRecordPath(stageInWorkspace(target)),
 			entry: stageRecordEntry(target.stageId),
 			content: jsonFileContent(stageRecord),
 		},
@@ -234,7 +252,7 @@ type StageOutputWrite = StageOutputTarget & { readonly content: string };
  * written through it.
  *
  * @param args - The output, and the file beside it.
- * @param args.output - The stage, the workspace, and the text of the output file.
+ * @param args.output - The stage, its stage context, and the text of the output file.
  * @param args.beside - The file beside the output.
  * @param args.beside.path - The absolute path of the file.
  * @param args.beside.entry - The `filesWritten` entry of the file.

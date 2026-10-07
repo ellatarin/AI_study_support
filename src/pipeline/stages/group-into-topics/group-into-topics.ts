@@ -185,7 +185,7 @@ async function groupIntoTopics(
 	});
 	const written = await writeStageOutputWithStageRecord({
 		stageId: STAGE_ID,
-		workspaceRoot: context.workspaceRoot,
+		context,
 		value: topics,
 		stageRecord: choice,
 	});

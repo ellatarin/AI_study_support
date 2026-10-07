@@ -272,7 +272,7 @@ describe("recording what a stage wrote", () => {
 	it("should record the file it just wrote when a stage hands over its content", async () => {
 		const { path, filesWritten } = await writeStageOutput({
 			stageId: STAGE_ID,
-			workspaceRoot,
+			context: { workspaceRoot },
 			content: "audio bytes",
 		});
 
@@ -283,7 +283,7 @@ describe("recording what a stage wrote", () => {
 	it("should record the file it just wrote when a subprocess produces the content", async () => {
 		const { path, filesWritten } = await writeStageOutput({
 			stageId: STAGE_ID,
-			workspaceRoot,
+			context: { workspaceRoot },
 			produce: (tmpPath) => writeFile(tmpPath, "produced bytes"),
 		});
 
@@ -294,7 +294,7 @@ describe("recording what a stage wrote", () => {
 	it("should leave nothing at the output path when the producer fails", async () => {
 		const failing = writeStageOutput({
 			stageId: STAGE_ID,
-			workspaceRoot,
+			context: { workspaceRoot },
 			produce: () => Promise.reject(new Error("ffmpeg failed")),
 		});
 
@@ -305,7 +305,7 @@ describe("recording what a stage wrote", () => {
 	it("should put the Markdown version beside the output when a stage writes one", async () => {
 		const { path } = await writeStageOutputWithMarkdownVersion({
 			stageId: MARKDOWN_VERSION_STAGE,
-			workspaceRoot,
+			context: { workspaceRoot },
 			content: '{"overallVerdict":"pass"}',
 			markdownVersion: "# Transcript verification\n",
 		});
@@ -322,7 +322,7 @@ describe("recording what a stage wrote", () => {
 	it("should record both files when a stage writes a Markdown version of its output", async () => {
 		const { filesWritten } = await writeStageOutputWithMarkdownVersion({
 			stageId: MARKDOWN_VERSION_STAGE,
-			workspaceRoot,
+			context: { workspaceRoot },
 			content: "{}",
 			markdownVersion: "# Transcript verification\n",
 		});

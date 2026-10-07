@@ -122,7 +122,7 @@ async function structureTranscript({
 	});
 	const { path, filesWritten } = await writeStageOutput({
 		stageId: STAGE_ID,
-		workspaceRoot: context.workspaceRoot,
+		context,
 		content: reply.structuredMarkdown,
 	});
 	return { output: { structuredTranscriptPath: path }, cost, filesWritten };

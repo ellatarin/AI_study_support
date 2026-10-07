@@ -39,7 +39,7 @@ export async function writeDivisionWithStageRecord({
 }): Promise<StageResult<DivisionOutput>> {
 	const { filesWritten } = await writeStageOutputWithStageRecord({
 		stageId,
-		workspaceRoot: context.workspaceRoot,
+		context,
 		value: subtopics,
 		stageRecord,
 	});

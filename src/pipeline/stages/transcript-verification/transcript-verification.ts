@@ -250,7 +250,7 @@ async function verifyTranscript({
 	});
 	const { path, filesWritten } = await writeStageOutputWithMarkdownVersion({
 		stageId: STAGE_ID,
-		workspaceRoot: context.workspaceRoot,
+		context,
 		content: JSON.stringify(report, null, REPORT_INDENT),
 		markdownVersion: renderVerificationReportMarkdown({ report }),
 	});

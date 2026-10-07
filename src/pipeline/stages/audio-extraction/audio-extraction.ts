@@ -142,7 +142,7 @@ async function extractAudio({
 	try {
 		written = await writeStageOutput({
 			stageId: STAGE_ID,
-			workspaceRoot: context.workspaceRoot,
+			context,
 			produce: (tmpPath) =>
 				copyAudioTrack({ inputPath: input.videoRecordingPath, outputPath: tmpPath }),
 		});
