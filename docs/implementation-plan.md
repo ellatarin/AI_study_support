@@ -910,7 +910,7 @@ Unit tests for the config: as Phase 10, for the `grouping` section, the bar exce
 
 **Deliverables:**
 
-`src/pipeline/stages/judge-lecture-title/` **(TD §5, `judge-lecture-title`)** contains the stage and its prompt module. The stage reads the retitled subtopics and the chosen topics, and builds the grouped lecture from them. It makes one call and resends an unusable reply. It writes `Title judgement/judgement.json`, and then does the rename in the order that the TD gives. The prompt is the title part of the `transcript-structuring` prompt, changed only as TD §5 says. The stage is added to `lectureStages` after `group-into-topics`, with its `STAGE_IDS` and `STAGE_FILES` entries and its cost-report label.
+`src/pipeline/stages/judge-lecture-title/` **(TD §5, `judge-lecture-title`)** contains the stage and its prompt module. The stage reads the transcript, the retitled subtopics and the chosen topics, and builds the grouped lecture from them. It makes one call and resends an unusable reply. It writes `Title judgement/judgement.json`, and then does the rename in the order that the TD gives. The prompt is the title part of the `transcript-structuring` prompt, changed only as TD §5 says. The stage is added to `lectureStages` after `group-into-topics`, with its `STAGE_IDS` and `STAGE_FILES` entries and its cost-report label.
 
 The stage's entry is added to the example config and to the user's own config, with `openai/gpt-6.1-sol-pro` **(TD §6)**.
 

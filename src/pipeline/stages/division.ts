@@ -40,6 +40,31 @@ export function subtopicText({
 	return text.slice(subtopic.start, subtopic.end);
 }
 
+/** A transcript, and subtopics whose spans index into it. */
+type SubtopicsOfText = {
+	readonly text: string;
+	readonly subtopics: readonly Subtopic[];
+};
+
+/**
+ * The title and the text of each subtopic, as a stage sends them to a model. The
+ * text has the whitespace at its ends removed.
+ *
+ * @param args - The transcript, and the subtopics.
+ * @param args.text - The transcript that the spans index into.
+ * @param args.subtopics - The subtopics, in order.
+ * @returns The title and the trimmed text of each subtopic, in order.
+ */
+export function subtopicsWithText({
+	text,
+	subtopics,
+}: SubtopicsOfText): readonly { readonly title: string; readonly text: string }[] {
+	return subtopics.map((subtopic) => ({
+		title: subtopic.title,
+		text: subtopicText({ text, subtopic }).trim(),
+	}));
+}
+
 /**
  * One part of a model's reply: a subtopic in a splitting reply, or a topic in a
  * grouping reply. The prompts call the title `label` and the reason
@@ -324,13 +349,7 @@ export function sliceSubtopics({
  * @param args.subtopics - The division to check.
  * @throws {DivisionNotLosslessError} When a character is missing or repeated.
  */
-export function assertLossless({
-	text,
-	subtopics,
-}: {
-	readonly text: string;
-	readonly subtopics: readonly Subtopic[];
-}): void {
+export function assertLossless({ text, subtopics }: SubtopicsOfText): void {
 	let expectedStart = 0;
 	for (const [index, subtopic] of subtopics.entries()) {
 		if (subtopic.start !== expectedStart || subtopic.end < subtopic.start) {

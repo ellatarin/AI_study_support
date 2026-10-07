@@ -393,6 +393,7 @@ export const STAGE_FILES = {
 		}),
 		stageRecord: "choice.json",
 	},
+	"judge-lecture-title": writesInto({ directory: "Title judgement", file: "judgement.json" }),
 	"transcript-structuring": writesInto({
 		directory: "Structured transcript",
 		file: "structured-transcript.md",

@@ -21,6 +21,7 @@ export const STAGE_IDS = [
 	"choose-division",
 	"retitle-subtopics",
 	"group-into-topics",
+	"judge-lecture-title",
 	"transcript-structuring",
 	"transcript-verification",
 	"slide-conversion",

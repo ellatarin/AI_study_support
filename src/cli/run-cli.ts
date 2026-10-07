@@ -18,6 +18,7 @@ import { createChooseDivisionStage } from "../pipeline/stages/choose-division/ch
 import { createDeepenSubtopicSplittingStage } from "../pipeline/stages/deepen-subtopic-splitting/deepen-subtopic-splitting.js";
 import { createGroupIntoTopicsStage } from "../pipeline/stages/group-into-topics/group-into-topics.js";
 import { createInitialSubtopicSplittingStage } from "../pipeline/stages/initial-subtopic-splitting/initial-subtopic-splitting.js";
+import { createJudgeLectureTitleStage } from "../pipeline/stages/judge-lecture-title/judge-lecture-title.js";
 import { createRetitleSubtopicsStage } from "../pipeline/stages/retitle-subtopics/retitle-subtopics.js";
 import { createSourceNormalisationStage } from "../pipeline/stages/source-normalisation/source-normalisation.js";
 import { createTranscriptStructuringStage } from "../pipeline/stages/transcript-structuring/transcript-structuring.js";
@@ -95,6 +96,7 @@ async function assembleDeps({
 			createChooseDivisionStage({ logger }),
 			createRetitleSubtopicsStage({ logger, client }),
 			createGroupIntoTopicsStage({ logger, client }),
+			createJudgeLectureTitleStage({ logger, client }),
 			createTranscriptStructuringStage({ logger, client }),
 			createTranscriptVerificationStage({ logger, client }),
 		],

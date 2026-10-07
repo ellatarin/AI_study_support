@@ -29,6 +29,7 @@ import type {
 	StageId,
 	StageResult,
 } from "../types/pipeline.js";
+import { pathExists } from "../utils/files.js";
 import { createSendGate, type SendGate } from "../utils/send-gate.js";
 import { parseConfig } from "./config.js";
 import {
@@ -51,8 +52,9 @@ import {
 import { createMoneyFormatter, type MoneyFormatter } from "./reports.js";
 import { assembleContext } from "./stage-context.js";
 import { type Subtopic, subtopicText } from "./stages/division.js";
-import type { ModelStageFactory } from "./stages/model-stage.js";
+import { type ModelStageFactory, ResendsExhaustedError } from "./stages/model-stage.js";
 import { panelDirectory, SavedRunUnreadableError } from "./stages/panel-runs.js";
+import type { Topic } from "./stages/topics.js";
 import {
 	API_KEY_VARIABLE as ELEVENLABS_KEY_VARIABLE,
 	ELEVENLABS_PATHS,
@@ -79,6 +81,35 @@ export async function captureError(promise: Promise<unknown>): Promise<Error> {
 		return error as Error;
 	}
 	throw new Error("Expected the promise to reject, but it resolved");
+}
+
+/**
+ * The time limit of a test whose call is sent three times. Two real pauses, of two
+ * seconds and then four seconds, come before the third send.
+ */
+export const resendPausesTimeoutMs = 10_000;
+
+/**
+ * Checks that a stage run failed because the reply of the third send was still
+ * unusable, and that the stage wrote no output file.
+ *
+ * @param args - The stage run, and the output file to look for.
+ * @param args.pending - The stage run.
+ * @param args.workspaceRoot - The absolute path to the lecture workspace.
+ * @param args.stageId - The stage. It must write one output file.
+ * @returns A promise that resolves when both checks pass.
+ */
+export async function expectResendsExhaustedWithoutOutput({
+	pending,
+	workspaceRoot,
+	stageId,
+}: {
+	readonly pending: Readonly<Promise<unknown>>;
+	readonly workspaceRoot: string;
+	readonly stageId: StageWithOutputFile;
+}): Promise<void> {
+	expect(await captureError(pending)).toBeInstanceOf(ResendsExhaustedError);
+	expect(await pathExists(stageOutputPath({ workspaceRoot, stageId }))).toBe(false);
 }
 
 /** The pino levels that {@link makeStubLogger} records. */
@@ -698,6 +729,26 @@ export const transcriptDivision: readonly Subtopic[] = [
 	},
 ];
 
+/** The first topic of {@link transcriptTopics}. It holds the first subtopic. */
+export const openingTopic: Topic = {
+	title: "The lecture's opening",
+	groupedBecause: "It frames the lecture.",
+	firstSubtopicId: 1,
+};
+
+/** The second topic of {@link transcriptTopics}. It holds the last subtopic. */
+export const subjectTopic: Topic = {
+	title: "Cell injury",
+	groupedBecause: "It is the lecture's subject.",
+	firstSubtopicId: 2,
+};
+
+/**
+ * {@link transcriptDivision} grouped into topics, as `group-into-topics` writes
+ * them. Each subtopic is a topic of its own.
+ */
+export const transcriptTopics: readonly Topic[] = [openingTopic, subjectTopic];
+
 /**
  * A saved run that an earlier invocation left. It holds {@link transcriptText}
  * as one subtopic, which no stubbed reply of the division suites makes. So if a
@@ -872,6 +923,9 @@ export function verificationReply(
 
 /** The user title that the CLI `rename` command sets. */
 export const testUserTitle = "Cell Injury and Death";
+
+/** The manifest fields of {@link testLecture} after `rename`. The user title is the lecture title. */
+export const withUserTitle = { userTitle: testUserTitle, lectureTitle: testUserTitle };
 
 /** The date to which the CLI `change-date` command moves {@link testLecture}. */
 export const changedDate = "2025-10-24";
@@ -1455,6 +1509,7 @@ export async function seedStageOutput({
  * @param args.config - The configuration that the stage and its client read.
  * @param args.workspaceRoot - The absolute path to the lecture workspace.
  * @param args.logger - The stub logger of the suite.
+ * @param args.manifest - The manifest of the lecture. The default is {@link makeManifest}.
  * @returns The result of the stage.
  * @typeParam TInput - The input of the stage.
  * @typeParam TOutput - The output of the stage.
@@ -1465,15 +1520,17 @@ export function driveModelStage<TInput, TOutput>({
 	config,
 	workspaceRoot,
 	logger,
+	manifest,
 }: {
 	readonly factory: ModelStageFactory<TInput, TOutput>;
 	readonly config: PipelineConfig;
 	readonly workspaceRoot: string;
 	readonly logger: Logger;
+	readonly manifest?: Manifest;
 }): Promise<StageResult<TOutput>> {
 	return driveStage({
 		stage: factory({ logger, client: openRouterClientFor({ config }) }),
-		context: makeStageContext({ workspaceRoot, config }),
+		context: makeStageContext({ workspaceRoot, config, manifest }),
 	});
 }
 
@@ -1514,19 +1571,27 @@ export async function settleThroughPauses<TResult>(
 	return watched;
 }
 
+/** The output that the fixture of a stage reading a division writes for each earlier stage. */
+const SEEDED_OUTPUTS = {
+	"choose-division": transcriptDivision,
+	"retitle-subtopics": transcriptDivision,
+	"group-into-topics": transcriptTopics,
+} as const;
+
 /**
  * Prepares the suite of a stage that calls a model and reads the division of an
  * earlier stage. Before each test, the function clears the mocks and stubs the
- * model reply. It also writes {@link transcriptDivision} into a workspace with a
- * transcript, as the output of the earlier stage. The setup is in one place, so
- * two such suites cannot start from different states.
+ * model reply. It also writes into a workspace with a transcript the output of
+ * each earlier stage: {@link transcriptDivision} for a division, and
+ * {@link transcriptTopics} for the topics. The setup is in one place, so two such
+ * suites cannot start from different states.
  *
- * @param args - The stage, the earlier stage, the stage factory and the stubbed reply.
+ * @param args - The stage, the earlier stages, the stage factory and the stubbed reply.
  * @param args.stageId - The stage under test. It names the temporary directory and selects the config.
- * @param args.readsFrom - The earlier stage whose division the stage reads.
+ * @param args.readsFrom - The earlier stages whose output the stage reads.
  * @param args.factory - The stage factory, as the CLI calls it.
  * @param args.stubReply - Stubs the model reply. It is called before each test, after the mocks are cleared.
- * @returns The config of the stage, a reader for the workspace of the current test, and a function that runs the stage.
+ * @returns The config of the stage, a reader for the workspace of the current test, and a function that runs the stage. The run takes the manifest fields to replace.
  * @typeParam TInput - The input of the stage.
  * @typeParam TOutput - The output of the stage.
  */
@@ -1537,13 +1602,13 @@ export function useStageReadingDivision<TInput, TOutput>({
 	stubReply,
 }: {
 	readonly stageId: StageId;
-	readonly readsFrom: StageWithOutputFile;
+	readonly readsFrom: readonly (keyof typeof SEEDED_OUTPUTS)[];
 	readonly factory: ModelStageFactory<TInput, TOutput>;
 	readonly stubReply: () => void;
 }): {
 	readonly config: PipelineConfig;
 	readonly workspaceRoot: () => string;
-	readonly run: () => Promise<StageResult<TOutput>>;
+	readonly run: (manifest?: Partial<Manifest>) => Promise<StageResult<TOutput>>;
 } {
 	const workspace = useTranscribedWorkspace({ prefix: `${stageId}-` });
 	const logged = useStubLogger();
@@ -1553,18 +1618,26 @@ export function useStageReadingDivision<TInput, TOutput>({
 	beforeEach(async () => {
 		vi.clearAllMocks();
 		stubReply();
-		await seedStageOutput({
-			workspaceRoot: workspaceRoot(),
-			stageId: readsFrom,
-			contents: JSON.stringify(transcriptDivision),
-		});
+		for (const earlierStage of readsFrom) {
+			await seedStageOutput({
+				workspaceRoot: workspaceRoot(),
+				stageId: earlierStage,
+				contents: JSON.stringify(SEEDED_OUTPUTS[earlierStage]),
+			});
+		}
 	});
 
 	return {
 		config,
 		workspaceRoot,
-		run: () =>
-			driveModelStage({ factory, config, workspaceRoot: workspaceRoot(), logger: logged().logger }),
+		run: (manifest = {}) =>
+			driveModelStage({
+				factory,
+				config,
+				workspaceRoot: workspaceRoot(),
+				logger: logged().logger,
+				manifest: makeManifest(manifest),
+			}),
 	};
 }
 
@@ -1696,6 +1769,25 @@ export function joinedSubtopics({
 }
 
 /**
+ * One message of the first call that a stage made to a stubbed `callModel`.
+ *
+ * @param args - The calls, and the place of the message.
+ * @param args.calls - The calls to the stub of `callModel`, as its `mock.calls`.
+ * @param args.index - The place of the message: 0 for the system message, 1 for the user message.
+ * @returns The content of the message.
+ */
+function sentMessage({
+	calls,
+	index,
+}: {
+	readonly calls: readonly (readonly unknown[])[];
+	readonly index: number;
+}): string | undefined {
+	const [{ messages }] = calls[0] as [{ messages: { content: string }[] }];
+	return messages[index]?.content;
+}
+
+/**
  * The user message of the first call that a stage made to a stubbed
  * `callModel`. It holds the material that the prompt is about.
  *
@@ -1703,8 +1795,18 @@ export function joinedSubtopics({
  * @returns The user message of the first call.
  */
 export function sentUserMessage(calls: readonly (readonly unknown[])[]): string | undefined {
-	const [{ messages }] = calls[0] as [{ messages: { content: string }[] }];
-	return messages[1]?.content;
+	return sentMessage({ calls, index: 1 });
+}
+
+/**
+ * The system message of the first call that a stage made to a stubbed
+ * `callModel`. It holds the prompt.
+ *
+ * @param calls - The calls to the stub of `callModel`, as its `mock.calls`.
+ * @returns The system message of the first call.
+ */
+export function sentSystemMessage(calls: readonly (readonly unknown[])[]): string | undefined {
+	return sentMessage({ calls, index: 0 });
 }
 
 /**

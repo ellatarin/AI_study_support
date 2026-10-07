@@ -92,9 +92,8 @@ const SUBTOPIC_ID_KEY = "id";
 /**
  * Builds the messages of a grouping run. The system message is the `g23` prompt.
  * The user message gives each subtopic as its subtopic id, its title and its
- * text. The title is under the key `label` of the prompt. The text has the
- * whitespace at its ends removed. The prototype sent the same user message, so
- * the model reads what the prototype runs read.
+ * text. The title is under the key `label` of the prompt. The prototype sent the
+ * same user message, so the model reads what the prototype runs read.
  *
  * @param args - The subtopics to group.
  * @param args.subtopics - The title and text of each subtopic, in lecture order.
@@ -111,7 +110,7 @@ export function buildGroupingMessages({
 			subtopics: [...subtopics.entries()].map(([index, subtopic]) => ({
 				[SUBTOPIC_ID_KEY]: index + 1,
 				label: subtopic.title,
-				text: subtopic.text.trim(),
+				text: subtopic.text,
 			})),
 		}),
 	});

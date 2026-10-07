@@ -12,7 +12,7 @@
    checks the code below. */
 import type { StageResult } from "../../../types/pipeline.js";
 import { isRecord } from "../../../utils/record.js";
-import { isTitledReplyPart, subtopicText, type TitledReplyPart } from "../division.js";
+import { isTitledReplyPart, subtopicsWithText, type TitledReplyPart } from "../division.js";
 import {
 	defineModelStage,
 	type ModelStageFactory,
@@ -21,12 +21,8 @@ import {
 import { runOneCallPanel } from "../panel-runs.js";
 import { writeStageOutputWithStageRecord } from "../pipeline-stage.js";
 import { readTranscriptAndDivision, type TranscriptAndDivision } from "../stage-input.js";
-import {
-	chooseGrouping,
-	GroupIntoTopicsError,
-	type GroupingRun,
-	type Topic,
-} from "./choose-grouping.js";
+import { isTopic, type Topic } from "../topics.js";
+import { chooseGrouping, GroupIntoTopicsError, type GroupingRun } from "./choose-grouping.js";
 import { buildGroupingMessages } from "./group-into-topics.prompt.js";
 
 /* jscpd:ignore-end */
@@ -50,21 +46,6 @@ const DOCUMENTED_REPLY_SHAPE = "{ topics: [{ label, groupedBecause, firstSubtopi
  */
 function isReplyTopic(value: unknown): value is ReplyTopic {
 	return isTitledReplyPart(value) && typeof value.firstSubtopicId === "number";
-}
-
-/**
- * Checks that a value in a saved run is one topic.
- *
- * @param value - One entry of the list in the saved run.
- * @returns `true` when it has a string `title`, a string `groupedBecause` and a number `firstSubtopicId`.
- */
-function isTopic(value: unknown): value is Topic {
-	return (
-		isRecord(value) &&
-		typeof value.title === "string" &&
-		typeof value.groupedBecause === "string" &&
-		typeof value.firstSubtopicId === "number"
-	);
 }
 
 /**
@@ -233,10 +214,7 @@ function makeGroupingRuns(
 ): Promise<StageResult<{ readonly runs: readonly GroupingRun[] }>> {
 	const { input, context, logger, client, sendGate } = args;
 	const messages = buildGroupingMessages({
-		subtopics: input.subtopics.map((subtopic) => ({
-			title: subtopic.title,
-			text: subtopicText({ text: input.transcript, subtopic }),
-		})),
+		subtopics: subtopicsWithText({ text: input.transcript, subtopics: input.subtopics }),
 	});
 	return runOneCallPanel({
 		stageId: STAGE_ID,

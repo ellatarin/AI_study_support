@@ -29,6 +29,7 @@ import {
 	transcriptText,
 	useStubLogger,
 	useTranscribedWorkspace,
+	withUserTitle,
 } from "../../fixtures.js";
 import { stageOutputEntry, stageOutputPath } from "../../layout.js";
 import { manifestPath } from "../../manifest.js";
@@ -48,8 +49,6 @@ vi.mock(import("../../openrouter.js"), async (importOriginal) => ({
 
 const modelCallMock = callModel as unknown as Mock;
 
-/** The lecture after `rename`. The user title is the lecture title. */
-const withUserTitle = { userTitle: testUserTitle, lectureTitle: testUserTitle };
 const COST: StageCost = {
 	promptTokens: 1200,
 	completionTokens: 300,

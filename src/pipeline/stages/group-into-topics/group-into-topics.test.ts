@@ -7,14 +7,18 @@ import { rm, writeFile } from "node:fs/promises";
 import { relative } from "node:path";
 import type { Mock } from "vitest";
 import { describe, expect, it, vi } from "vitest";
-import { pathExists } from "../../../utils/files.js";
 import {
 	captureError,
+	expectResendsExhaustedWithoutOutput,
 	firstSavedRun,
+	openingTopic,
 	readJsonFile,
+	resendPausesTimeoutMs,
 	savedRunPath,
 	sentUserMessage,
 	stubbedCallCost,
+	subjectTopic,
+	transcriptTopics,
 	useStageReadingDivision,
 } from "../../fixtures.js";
 import {
@@ -24,7 +28,7 @@ import {
 	stageRecordPath,
 } from "../../layout.js";
 import { callModel } from "../../openrouter.js";
-import { ResendsExhaustedError } from "../model-stage.js";
+import type { Topic } from "../topics.js";
 import { GroupIntoTopicsError } from "./choose-grouping.js";
 import { createGroupIntoTopicsStage } from "./group-into-topics.js";
 
@@ -44,36 +48,26 @@ function replyOf(...topics: readonly Readonly<Record<string, unknown>>[]): strin
 	return JSON.stringify({ topics });
 }
 
-/** The first topic of {@link GOOD_REPLY}. It starts at subtopic 1. */
-const OPENING_TOPIC = {
-	label: "The lecture's opening",
-	groupedBecause: "It frames the lecture.",
-	firstSubtopicId: 1,
-};
+/** A topic as the grouping prompt asks for it. The prompt calls the title a `label`. */
+function asReplyTopic({ title, groupedBecause, firstSubtopicId }: Topic): {
+	readonly label: string;
+	readonly groupedBecause: string;
+	readonly firstSubtopicId: number;
+} {
+	return { label: title, groupedBecause, firstSubtopicId };
+}
 
-/** The second topic of {@link GOOD_REPLY}. It starts at the last subtopic. */
-const SUBJECT_TOPIC = {
-	label: "Cell injury",
-	groupedBecause: "It is the lecture's subject.",
-	firstSubtopicId: 2,
-};
+const OPENING_TOPIC = asReplyTopic(openingTopic);
 
-/** A grouping reply that puts each subtopic of {@link transcriptDivision} in a topic of its own. */
+const SUBJECT_TOPIC = asReplyTopic(subjectTopic);
+
+/** A grouping reply that gives {@link transcriptTopics}. */
 const GOOD_REPLY = replyOf(OPENING_TOPIC, SUBJECT_TOPIC);
-
-/** The topics of {@link GOOD_REPLY} as the stage saves and writes them. Each `label` becomes a `title`. */
-const GOOD_TOPICS = [OPENING_TOPIC, SUBJECT_TOPIC].map(
-	({ label, groupedBecause, firstSubtopicId }) => ({
-		title: label,
-		groupedBecause,
-		firstSubtopicId,
-	}),
-);
 
 describe("createGroupIntoTopicsStage", () => {
 	const { config, workspaceRoot, run } = useStageReadingDivision({
 		stageId: STAGE_ID,
-		readsFrom: "retitle-subtopics",
+		readsFrom: ["retitle-subtopics"],
 		factory: createGroupIntoTopicsStage,
 		stubReply: () =>
 			modelCallMock.mockResolvedValue({ content: GOOD_REPLY, cost: stubbedCallCost }),
@@ -138,7 +132,7 @@ describe("createGroupIntoTopicsStage", () => {
 
 		expect(
 			await readJsonFile(stageOutputPath({ workspaceRoot: workspaceRoot(), stageId: STAGE_ID })),
-		).toStrictEqual(GOOD_TOPICS);
+		).toStrictEqual(transcriptTopics);
 	});
 
 	it("should record beside the topics the chosen run, its support and the deciding rule when the stage completes", async () => {
@@ -179,23 +173,21 @@ describe("createGroupIntoTopicsStage", () => {
 	});
 
 	it("should fail without writing the topics when a run's third send is still unusable", {
-		// Two real pauses, of two seconds and then four seconds, come before the third send.
-		timeout: 10_000,
+		timeout: resendPausesTimeoutMs,
 	}, async () => {
 		modelCallMock.mockResolvedValue({ content: replyOf(), cost: stubbedCallCost });
 
-		const error = await captureError(run());
-
-		expect(error).toBeInstanceOf(ResendsExhaustedError);
-		expect(
-			await pathExists(stageOutputPath({ workspaceRoot: workspaceRoot(), stageId: STAGE_ID })),
-		).toBe(false);
+		await expectResendsExhaustedWithoutOutput({
+			pending: run(),
+			workspaceRoot: workspaceRoot(),
+			stageId: STAGE_ID,
+		});
 	});
 
 	it("should save each grouping run with each topic's title, groupedBecause and first subtopic when the run completes", async () => {
 		await run();
 
-		expect(await readJsonFile(runPath(1))).toStrictEqual({ topics: GOOD_TOPICS });
+		expect(await readJsonFile(runPath(1))).toStrictEqual({ topics: transcriptTopics });
 	});
 
 	const { leaveFirstRun, expectUnreadableFirstRun } = firstSavedRun({
@@ -205,7 +197,7 @@ describe("createGroupIntoTopicsStage", () => {
 	});
 
 	it("should make only the missing runs when an earlier invocation saved some", async () => {
-		await leaveFirstRun({ topics: GOOD_TOPICS });
+		await leaveFirstRun({ topics: transcriptTopics });
 
 		await run();
 

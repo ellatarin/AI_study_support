@@ -7,20 +7,13 @@
 
 import { NamedError } from "../../../utils/errors.js";
 import { distanceFromVote, panelVote } from "../panel-vote.js";
+import type { Topic } from "../topics.js";
 
 /**
  * The error when `group-into-topics` cannot read the transcript or the retitled
  * division, or has no grouping runs to choose from.
  */
 export class GroupIntoTopicsError extends NamedError {}
-
-/** One topic of a grouping run: its title, its reason, and where it starts. */
-export type Topic = {
-	readonly title: string;
-	readonly groupedBecause: string;
-	/** The subtopic id of the first subtopic of the topic, counting from 1. */
-	readonly firstSubtopicId: number;
-};
 
 /** The topics of one grouping run, in order. */
 export type GroupingRun = { readonly topics: readonly Topic[] };

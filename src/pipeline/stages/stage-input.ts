@@ -11,6 +11,7 @@ import { errorMessage } from "../../utils/errors.js";
 import { type StageWithOutputFile, stageOutputPath } from "../layout.js";
 import { readDivision, type Subtopic, splittingPanel } from "./division.js";
 import { panelDirectory, readPanel } from "./panel-runs.js";
+import { readTopics, type Topic } from "./topics.js";
 
 /** The stage that reads: its stage context, and the builder of its error. */
 type ReadingStage = {
@@ -75,36 +76,80 @@ export async function readTranscript({ context, fail }: ReadingStage): Promise<s
 }
 
 /**
- * Reads the division that an earlier stage wrote as its output. Each subtopic has
- * its span of the transcript, its title and its reason.
+ * Reads the JSON output file of an earlier stage, and checks its shape.
  *
- * @param args - The stage context, the earlier stage, the purpose, and the error to raise.
+ * @param args - The stage context, the earlier stage, the purpose, the error to raise, and the check of the shape.
  * @param args.context - The stage context of the current lecture.
- * @param args.stageId - The stage whose division to read.
- * @param args.purpose - The use that the reading stage makes of the division, for the failure that a user reads, such as "retitle".
+ * @param args.stageId - The earlier stage. It must write one output file.
+ * @param args.purpose - The use that the reading stage makes of the output, for the failure that a user reads, such as "retitle".
  * @param args.fail - Builds the reading stage's own error from a message.
- * @returns The subtopics of the division, in order.
- * @throws The error that `fail` builds, if the file is missing, empty, not JSON, or not a list of subtopics.
+ * @param args.read - Reads the parsed file, or gives `null` when the file does not have the shape.
+ * @param args.shape - The shape, for the failure that a user reads, such as "a list of subtopics".
+ * @returns The value that `read` gives.
+ * @throws The error that `fail` builds, if the file is missing, empty, not JSON, or not the shape.
+ * @typeParam TValue - The value that the file holds.
  */
-export async function readStageDivision({
-	context,
-	stageId,
-	purpose,
-	fail,
-}: ReadingOutput): Promise<readonly Subtopic[]> {
-	const text = await readStageText({ context, stageId, purpose, fail });
-	const path = stageOutputPath({ workspaceRoot: context.workspaceRoot, stageId });
+async function readStageJson<TValue>({
+	read,
+	shape,
+	...reading
+}: ReadingOutput & {
+	readonly read: (value: unknown) => TValue | null;
+	readonly shape: string;
+}): Promise<TValue> {
+	const text = await readStageText(reading);
+	const path = stageOutputPath({
+		workspaceRoot: reading.context.workspaceRoot,
+		stageId: reading.stageId,
+	});
 	let parsed: unknown;
 	try {
 		parsed = JSON.parse(text);
 	} catch (error: unknown) {
-		throw fail(`The file at ${path} is not JSON (${errorMessage(error)})`);
+		throw reading.fail(`The file at ${path} is not JSON (${errorMessage(error)})`);
 	}
-	const subtopics = readDivision(parsed);
-	if (subtopics === null) {
-		throw fail(`The file at ${path} is not a list of subtopics`);
+	const value = read(parsed);
+	if (value === null) {
+		throw reading.fail(`The file at ${path} is not ${shape}`);
 	}
-	return subtopics;
+	return value;
+}
+
+/**
+ * Reads the division that an earlier stage wrote as its output. Each subtopic has
+ * its span of the transcript, its title and its reason.
+ *
+ * @param reading - The stage context, the earlier stage, the purpose, and the error to raise.
+ * @param reading.context - The stage context of the current lecture.
+ * @param reading.stageId - The stage whose division to read.
+ * @param reading.purpose - The use that the reading stage makes of the division, for the failure that a user reads, such as "retitle".
+ * @param reading.fail - Builds the reading stage's own error from a message.
+ * @returns The subtopics of the division, in order.
+ * @throws The error that `fail` builds, if the file is missing, empty, not JSON, or not a list of subtopics.
+ */
+export function readStageDivision(reading: ReadingOutput): Promise<readonly Subtopic[]> {
+	return readStageJson({ ...reading, read: readDivision, shape: "a list of subtopics" });
+}
+
+/**
+ * Reads the topics that `group-into-topics` wrote.
+ *
+ * @param reading - The stage context, the purpose, and the error to raise.
+ * @param reading.context - The stage context of the current lecture.
+ * @param reading.purpose - The use that the reading stage makes of the topics, for the failure that a user reads, such as "judge".
+ * @param reading.fail - Builds the reading stage's own error from a message.
+ * @returns The topics, in order.
+ * @throws The error that `fail` builds, if the file is missing, empty, not JSON, or not a list of topics.
+ */
+export function readStageTopics(
+	reading: Omit<ReadingOutput, "stageId">,
+): Promise<readonly Topic[]> {
+	return readStageJson({
+		...reading,
+		stageId: "group-into-topics",
+		read: readTopics,
+		shape: "a list of topics",
+	});
 }
 
 /** The trimmed transcript, and the subtopics of a division of it. */

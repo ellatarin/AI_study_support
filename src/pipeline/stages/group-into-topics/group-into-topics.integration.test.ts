@@ -61,7 +61,7 @@ function stubSendsArrivingAt(
 describe("group-into-topics sending", () => {
 	const { config, workspaceRoot } = useStageReadingDivision({
 		stageId: STAGE_ID,
-		readsFrom: "retitle-subtopics",
+		readsFrom: ["retitle-subtopics"],
 		factory: createGroupIntoTopicsStage,
 		// Each test stubs the network, not the model call.
 		stubReply: () => undefined,

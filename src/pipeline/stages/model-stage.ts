@@ -255,7 +255,7 @@ export async function sendWithResends<TReply>({
 /**
  * Asks the model for a JSON reply for a stage, and resends the call until the reply
  * is usable: {@link sendWithResends} over {@link tryJsonReplyAs}. Every call of the
- * splitting, retitling and grouping stages uses it.
+ * splitting, retitling, grouping and title-judging stages uses it.
  *
  * @param args - The request and the use of the reply, as for {@link tryJsonReplyAs}, and the name of the call.
  * @param args.what - The name of the call in the log and in a failure, such as "Grouping run 3".

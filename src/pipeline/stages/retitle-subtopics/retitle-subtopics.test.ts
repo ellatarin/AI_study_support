@@ -6,10 +6,11 @@
 import { rm, writeFile } from "node:fs/promises";
 import type { Mock } from "vitest";
 import { describe, expect, it, vi } from "vitest";
-import { pathExists } from "../../../utils/files.js";
 import {
 	captureError,
+	expectResendsExhaustedWithoutOutput,
 	readJsonFile,
+	resendPausesTimeoutMs,
 	sentUserMessage,
 	stubbedCallCost,
 	transcriptDivision,
@@ -17,7 +18,6 @@ import {
 } from "../../fixtures.js";
 import { stageOutputPath, stageRecordPath } from "../../layout.js";
 import { callModel } from "../../openrouter.js";
-import { ResendsExhaustedError } from "../model-stage.js";
 import { createRetitleSubtopicsStage, RetitleSubtopicsError } from "./retitle-subtopics.js";
 
 // Only the model call is a stub. The other exports of the module stay real.
@@ -51,7 +51,7 @@ const RETITLED_DIVISION = [
 describe("createRetitleSubtopicsStage", () => {
 	const { workspaceRoot, run } = useStageReadingDivision({
 		stageId: STAGE_ID,
-		readsFrom: "choose-division",
+		readsFrom: ["choose-division"],
 		factory: createRetitleSubtopicsStage,
 		stubReply: () =>
 			modelCallMock.mockResolvedValue({ content: GOOD_REPLY, cost: stubbedCallCost }),
@@ -131,18 +131,16 @@ describe("createRetitleSubtopicsStage", () => {
 	});
 
 	it("should fail without writing the division when the third send's reply is still unusable", {
-		// Two real pauses, of two seconds and then four seconds, come before the third send.
-		timeout: 10_000,
+		timeout: resendPausesTimeoutMs,
 	}, async () => {
 		modelCallMock.mockResolvedValue({ content: "", cost: stubbedCallCost });
 
-		const error = await captureError(run());
-
-		expect(error).toBeInstanceOf(ResendsExhaustedError);
+		await expectResendsExhaustedWithoutOutput({
+			pending: run(),
+			workspaceRoot: workspaceRoot(),
+			stageId: STAGE_ID,
+		});
 		expect(modelCallMock).toHaveBeenCalledTimes(3);
-		expect(
-			await pathExists(stageOutputPath({ workspaceRoot: workspaceRoot(), stageId: STAGE_ID })),
-		).toBe(false);
 	});
 
 	it.each([

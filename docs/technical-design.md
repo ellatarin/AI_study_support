@@ -1243,7 +1243,7 @@ panelDirectory(args: { workspaceRoot: string; stageId: StageId }): string
 
 // src/pipeline/stages/model-stage.ts — shared by every model-calling stage
 sendJsonWithResends<TReply, TKept>(args: JsonReplyRequest<TReply> & { what: string; use }): Promise<UsableJsonReply<TKept>>
-// tryJsonReplyAs, resent until usable: every call the splitting, retitling and grouping stages make.
+// tryJsonReplyAs, resent until usable: every call the splitting, retitling, grouping and title-judging stages make.
 // The third unusable reply is a ResendsExhaustedError.
 
 // src/pipeline/stages/panel-vote.ts — shared by choose-division and group-into-topics
@@ -1326,7 +1326,7 @@ chooseGrouping(args: { runs: readonly GroupingRun[]; bar: number }): { topics: r
 
 ### `judge-lecture-title` — judging the lecturer's title
 
-**Input:** `Retitled subtopics/subtopics.json`, `Topics/topics.json`, and the provisional title from the stage context
+**Input:** `Transcript/transcript.txt`, `Retitled subtopics/subtopics.json`, `Topics/topics.json`, and the provisional title from the stage context
 **Output:** `Title judgement/judgement.json`
 **Conditional side effect:** The stage renames the source video, the source slide, the workspace folder and any `Final output/` PDF. It does this only when the model judges the provisional title not meaningful and no user title is set.
 
@@ -1338,9 +1338,14 @@ The stage judges whether the provisional title is meaningful for the lecture's c
 { "topics": [ { "title": "…", "subtopics": [ { "title": "…", "text": "…" } ] } ] }
 ```
 
-The subtopics, joined in order, are the whole transcript (CONTEXT.md, "Losslessness"). So the stage does not read `Transcript/transcript.txt`. It sends no subtopic ids and no reasons, because they do not help the judgement. The stage also sends the provisional title. An empty provisional title is sent as a statement that the filename carried no title.
+The retitled subtopics hold only the span of each subtopic in the transcript. So the stage reads `Transcript/transcript.txt` and cuts the text of each subtopic from it, as `retitle-subtopics` and `group-into-topics` do. It sends no subtopic ids and no reasons, because they do not help the judgement. The stage also sends the provisional title. An empty provisional title is sent as a statement that the filename carried no title.
 
-**The prompt** is the title part of the prompt that `transcript-structuring` used before this stage existed. It keeps the same rules. The lecturer's title is authoritative. The model must not propose a title only because it can write a better one. An AI-derived title has four to eight plain words, because it becomes a filename. The prompt adds two things. It asks for a one-sentence reason. It applies `languageRule` (§6) to the AI-derived title, because the title becomes the lecture's file names and the heading of its notes.
+**The prompt** is the title part of the prompt that `transcript-structuring` used before this stage existed. It keeps the same rules. The lecturer's title is authoritative. The model must not propose a title only because it can write a better one. An AI-derived title has four to eight plain words, because it becomes a filename. The prompt adds these things:
+
+- It tells the model the shape of the input. It also tells the model that a model wrote the topic titles and subtopic titles, and the lecturer did not.
+- An AI-derived title names what all the topics have in common. It is not a list of the topics, and it is not the title of one topic.
+- It asks for a one-sentence reason.
+- It applies `languageRule` (§6) to the AI-derived title, because the title becomes the lecture's file names and the heading of its notes.
 
 **The reply** is a JSON object with three fields: `provisionalTitleMeaningful` (true or false), `suggestedTitle` (a title, or null), and `judgedBecause` (one sentence). The stage reads `suggestedTitle` as the AI-derived title. A reply is unusable in each of these cases:
 
@@ -1400,15 +1405,12 @@ buildTitleJudgementMessages(args: { lecture: GroupedLecture; provisionalTitle: s
 // The title judgement rules above, as messages. The messages ask for the JSON object, which JSON mode requires (§6).
 
 // src/pipeline/stages/judge-lecture-title/judge-lecture-title.ts
-type TitleJudgement = {
-  provisionalTitle: string
-  provisionalTitleMeaningful: boolean
-  aiDerivedTitle: string | null
-  judgedBecause: string
-  outcome: "kept-provisional" | "adopted-derived" | "kept-user-title"
-}
+type TitleJudgement = { provisionalTitle: string; provisionalTitleMeaningful: boolean; judgedBecause: string } & (
+  | { outcome: "kept-provisional"; aiDerivedTitle: null }
+  | { outcome: "adopted-derived" | "kept-user-title"; aiDerivedTitle: string }
+)
 createJudgeLectureTitleStage(args: { logger: Logger; client: OpenAI }): PipelineStage<GroupedLecture, TitleJudgement>
-// Throws JudgeLectureTitleError when the retitled subtopics or the topics are missing or unreadable,
+// Throws JudgeLectureTitleError when the transcript, the retitled subtopics or the topics are missing or unreadable,
 // or when the third send gives an unusable reply. An unknown cost is not a failure (§7).
 ```
 

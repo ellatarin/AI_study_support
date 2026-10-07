@@ -53,6 +53,9 @@
 			"concurrency": 9,
 			"sendGapSeconds": 0.5
 		},
+		"judge-lecture-title": {
+			"modelId": "<REASONING_MODEL>"
+		},
 		"transcript-structuring": {
 			"modelId": "<REASONING_MODEL>",
 			"temperature": 0.2,

@@ -1,0 +1,251 @@
+/* jscpd:ignore-start -- the suites of sibling stages import the same fixtures
+   and mock the same module. So their preambles are the same line for line.
+   Imports cannot be shared, and CLAUDE.md (File Organisation) forbids barrel
+   files. vi.mock is hoisted, so it must be in the file that mocks. Only the
+   preamble is exempt. jscpd checks the suite below. */
+import { rm, writeFile } from "node:fs/promises";
+import type { Mock } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+import {
+	aiDerivedLecture,
+	captureError,
+	expectResendsExhaustedWithoutOutput,
+	readJsonFile,
+	resendPausesTimeoutMs,
+	sentSystemMessage,
+	sentUserMessage,
+	stubbedCallCost,
+	testLecture,
+	titleKept,
+	titleRejected,
+	unusableTranscripts,
+	useStageReadingDivision,
+	withUserTitle,
+} from "../../fixtures.js";
+import { stageOutputPath } from "../../layout.js";
+import { callModel } from "../../openrouter.js";
+import { createJudgeLectureTitleStage, JudgeLectureTitleError } from "./judge-lecture-title.js";
+
+// Only the model call is a stub. The other exports of the module stay real.
+vi.mock(import("../../openrouter.js"), async (importOriginal) => ({
+	...(await importOriginal()),
+	callModel: vi.fn(),
+}));
+
+const modelCallMock = callModel as unknown as Mock;
+/* jscpd:ignore-end */
+
+const STAGE_ID = "judge-lecture-title";
+
+/** The reason that every stubbed reply gives. */
+const JUDGED_BECAUSE = "It names the subject.";
+
+/** A reply that keeps the provisional title. The overrides replace its fields. */
+function judgementReply(overrides: Readonly<Record<string, unknown>> = {}): string {
+	return JSON.stringify({ ...titleKept, judgedBecause: JUDGED_BECAUSE, ...overrides });
+}
+
+/** Stubs every model call with `content`. */
+function stubContent(content: string): void {
+	modelCallMock.mockResolvedValue({ content, cost: stubbedCallCost });
+}
+
+describe("createJudgeLectureTitleStage", () => {
+	const { workspaceRoot, run } = useStageReadingDivision({
+		stageId: STAGE_ID,
+		readsFrom: ["retitle-subtopics", "group-into-topics"],
+		factory: createJudgeLectureTitleStage,
+		stubReply: () => stubContent(judgementReply()),
+	});
+
+	/** The judgement that the stage wrote, parsed from disk. */
+	function writtenJudgement(): Promise<unknown> {
+		return readJsonFile(stageOutputPath({ workspaceRoot: workspaceRoot(), stageId: STAGE_ID }));
+	}
+
+	it("should send each topic's title with its subtopics' titles and trimmed text in order when the stage calls the model", async () => {
+		await run();
+
+		expect(modelCallMock).toHaveBeenCalledTimes(1);
+		expect(sentUserMessage(modelCallMock.mock.calls)).toContain(
+			JSON.stringify({
+				topics: [
+					{
+						title: "The lecture's opening",
+						subtopics: [{ title: "Opening", text: "Today we are covering" }],
+					},
+					{
+						title: "Cell injury",
+						subtopics: [{ title: "Cell injury", text: "cell injury and the immune system." }],
+					},
+				],
+			}),
+		);
+	});
+
+	it.each([
+		{ title: testLecture.title, sent: `Working title: "${testLecture.title}"` },
+		{ title: "", sent: "Working title: (none — the filename carried no title)" },
+	])("should send the working title $sent when the provisional title is '$title'", async ({
+		title,
+		sent,
+	}) => {
+		// A model may not judge an empty title meaningful, so the reply rejects both titles.
+		stubContent(judgementReply(titleRejected));
+
+		await run({ provisionalTitle: title });
+
+		expect(sentUserMessage(modelCallMock.mock.calls)).toContain(sent);
+	});
+
+	it("should include the language rule in the prompt when the stage calls the model", async () => {
+		await run();
+
+		expect(sentSystemMessage(modelCallMock.mock.calls)).toContain("Write in British English.");
+	});
+
+	it.each([
+		{
+			outcome: "kept-provisional",
+			case: "the model judges the provisional title meaningful",
+			reply: titleKept,
+			manifest: {},
+			aiDerivedTitle: null,
+			identityChanges: {},
+		},
+		{
+			outcome: "adopted-derived",
+			case: "the model judges it not meaningful and no user title is set",
+			reply: titleRejected,
+			manifest: {},
+			aiDerivedTitle: aiDerivedLecture.title,
+			identityChanges: {},
+		},
+		{
+			outcome: "kept-user-title",
+			case: "the model judges it not meaningful and a user title is set",
+			reply: titleRejected,
+			manifest: withUserTitle,
+			aiDerivedTitle: aiDerivedLecture.title,
+			identityChanges: { aiDerivedTitle: aiDerivedLecture.title },
+		},
+	])("should write the judgement with outcome $outcome when $case", async (judged) => {
+		stubContent(judgementReply(judged.reply));
+
+		const result = await run(judged.manifest);
+
+		expect(await writtenJudgement()).toStrictEqual({
+			provisionalTitle: testLecture.title,
+			provisionalTitleMeaningful: judged.reply.provisionalTitleMeaningful,
+			aiDerivedTitle: judged.aiDerivedTitle,
+			judgedBecause: JUDGED_BECAUSE,
+			outcome: judged.outcome,
+		});
+		expect(result.identityChanges ?? {}).toStrictEqual(judged.identityChanges);
+		expect(result.filesWritten).toStrictEqual(["Title judgement/judgement.json"]);
+	});
+
+	it.each([
+		{
+			problem: "is not the documented JSON object",
+			content: '{"judgedBecause":"x"}',
+			manifest: {},
+		},
+		{
+			problem: "gives a blank judgedBecause",
+			content: judgementReply({ judgedBecause: " " }),
+			manifest: {},
+		},
+		{
+			problem: "judges the title not meaningful and proposes no title",
+			content: judgementReply({ ...titleRejected, suggestedTitle: " " }),
+			manifest: {},
+		},
+		{
+			problem: "proposes a title that a filename cannot use",
+			content: judgementReply({ ...titleRejected, suggestedTitle: ".." }),
+			manifest: {},
+		},
+		{
+			problem: "judges an empty provisional title meaningful",
+			content: judgementReply(),
+			manifest: { provisionalTitle: "" },
+		},
+	])("should resend the call and use the next reply when the reply $problem", async ({
+		content,
+		manifest,
+	}) => {
+		modelCallMock.mockResolvedValueOnce({ content, cost: stubbedCallCost });
+		stubContent(judgementReply(titleRejected));
+
+		await run(manifest);
+
+		expect(modelCallMock).toHaveBeenCalledTimes(2);
+		expect(await writtenJudgement()).toMatchObject({ outcome: "adopted-derived" });
+	});
+
+	it("should fail without writing the judgement when the third send is still unusable", {
+		timeout: resendPausesTimeoutMs,
+	}, async () => {
+		stubContent(judgementReply({ judgedBecause: "" }));
+
+		await expectResendsExhaustedWithoutOutput({
+			pending: run(),
+			workspaceRoot: workspaceRoot(),
+			stageId: STAGE_ID,
+		});
+		expect(modelCallMock).toHaveBeenCalledTimes(3);
+	});
+
+	const inputFiles = [
+		{ file: "retitled subtopics", stageId: "retitle-subtopics" },
+		{ file: "topics", stageId: "group-into-topics" },
+	] as const;
+	const unusableContents = [
+		{ problem: "are missing", contents: null },
+		{ problem: "are not JSON", contents: "Opening, then cell injury." },
+		{ problem: "are the wrong shape", contents: JSON.stringify({ topics: [] }) },
+	];
+
+	it.each(
+		inputFiles.flatMap((input) => unusableContents.map((unusable) => ({ ...input, ...unusable }))),
+	)("should fail naming the file, without calling the model, when the $file $problem", async ({
+		stageId,
+		contents,
+	}) => {
+		const path = stageOutputPath({ workspaceRoot: workspaceRoot(), stageId });
+		await (contents === null ? rm(path) : writeFile(path, contents));
+
+		const error = await captureError(run());
+
+		expect(error).toBeInstanceOf(JudgeLectureTitleError);
+		expect(error.message).toContain(path);
+		expect(modelCallMock).not.toHaveBeenCalled();
+	});
+
+	it.each(
+		unusableTranscripts,
+	)("should fail, without calling the model, when the transcript $state", async ({
+		spoil,
+		says,
+	}) => {
+		await spoil(workspaceRoot());
+
+		const error = await captureError(run());
+
+		expect(error).toBeInstanceOf(JudgeLectureTitleError);
+		expect(error.message).toContain(says);
+		expect(modelCallMock).not.toHaveBeenCalled();
+	});
+
+	it("should record no AI-derived title when the model judges the provisional title meaningful and still proposes one", async () => {
+		stubContent(judgementReply({ suggestedTitle: aiDerivedLecture.title }));
+
+		await run();
+
+		expect(await writtenJudgement()).toMatchObject({
+			aiDerivedTitle: null,
+			outcome: "kept-provisional",
+		});
+	});
+});

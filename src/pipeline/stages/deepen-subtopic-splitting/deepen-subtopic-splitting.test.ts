@@ -17,6 +17,7 @@ import {
 	openRouterStageConfig,
 	paddedTranscriptText,
 	readSavedRunJson,
+	resendPausesTimeoutMs,
 	savedRunPath,
 	seedSavedRun,
 	seedSavedRuns,
@@ -336,8 +337,7 @@ describe("createDeepenSubtopicSplittingStage", () => {
 	});
 
 	it("should fail the stage without saving the run when a subtopic fails every send", {
-		// Two real pauses, of two seconds and then four seconds, come before the third send.
-		timeout: 10_000,
+		timeout: resendPausesTimeoutMs,
 	}, async () => {
 		modelCallMock.mockResolvedValue({ content: "", cost: stubbedCallCost });
 		expect(await captureError(run(SECOND_ONLY))).toBeInstanceOf(ResendsExhaustedError);
