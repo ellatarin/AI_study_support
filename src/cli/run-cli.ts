@@ -44,6 +44,9 @@ type CliOutput = {
 	readonly writeError: WriteText;
 };
 
+/** The command dependencies, and the close of the invocation's debug log. */
+type AssembledDeps = { readonly deps: CliDeps; readonly closeDebugLog: () => Promise<void> };
+
 /**
  * Makes the {@link CliDeps} from the configuration: the runner with its stages,
  * the prompts and the output stream.
@@ -51,7 +54,7 @@ type CliOutput = {
  * @param args - The project root and the output stream.
  * @param args.projectRoot - The folder that holds `pipeline-config.json`.
  * @param args.write - Writes the output that the user reads.
- * @returns The command dependencies.
+ * @returns The command dependencies, and the close of the debug log.
  * @throws {import("../pipeline/config.js").ConfigError} When the configuration cannot be read or is not valid.
  */
 async function assembleDeps({
@@ -60,13 +63,13 @@ async function assembleDeps({
 }: {
 	readonly projectRoot: string;
 	readonly write: WriteText;
-}): Promise<CliDeps> {
+}): Promise<AssembledDeps> {
 	const config = await loadConfig({ projectRoot });
 	const debugLogFile = debugLogPath({
 		projectRoot,
 		invocationId: deriveTimestampId({ instant: new Date() }),
 	});
-	const logger = createDebugLogger({ debugLogFile });
+	const { logger, close: closeDebugLog } = createDebugLogger({ debugLogFile });
 	// The invocation has one client. Each stage gets it from here, as it gets the
 	// logger, so no module of the pipeline holds a client. It is a provider, not a
 	// client, because a client needs the API key. A command that makes no model
@@ -100,15 +103,18 @@ async function assembleDeps({
 		reporter: createPipelineRunReporter({ write, formatMoney }),
 	});
 	return {
-		runner,
-		moduleRoots: config.moduleRoots,
-		batchConcurrency: config.batch.concurrency,
-		formatMoney,
-		selectMatches: selectLectureMatches,
-		selectMatch: selectLectureMatch,
-		confirm: confirmPrompt,
-		debugLogPath: debugLogFile,
-		write,
+		deps: {
+			runner,
+			moduleRoots: config.moduleRoots,
+			batchConcurrency: config.batch.concurrency,
+			formatMoney,
+			selectMatches: selectLectureMatches,
+			selectMatch: selectLectureMatch,
+			confirm: confirmPrompt,
+			debugLogPath: debugLogFile,
+			write,
+		},
+		closeDebugLog,
 	};
 }
 
@@ -142,6 +148,8 @@ function reportFailure({
  * It answers `--help` before it reads the configuration, so `--help` works in a
  * project with no configuration. One catch takes every error. The error becomes
  * a message and the exit code `1` (technical-design.md §8, "The CLI Boundary").
+ * Before it returns, it closes the debug log. So the debug log is complete on
+ * disk when the exit code is known, also when the command failed.
  *
  * @param args - The invocation.
  * @param args.argv - The arguments after the program name.
@@ -174,8 +182,12 @@ export async function runCli({
 			write(`${USAGE}\n`);
 			return EXIT_SUCCESS;
 		}
-		const deps = await assembleDeps({ projectRoot, write });
-		return await executeCommand({ command, deps });
+		const { deps, closeDebugLog } = await assembleDeps({ projectRoot, write });
+		try {
+			return await executeCommand({ command, deps });
+		} finally {
+			await closeDebugLog();
+		}
 	} catch (error: unknown) {
 		return reportFailure({ error, output });
 	}

@@ -1,41 +1,23 @@
 import { readFileSync } from "node:fs";
-import { access } from "node:fs/promises";
 import { join } from "node:path";
 import { destination, pino } from "pino";
 import { describe, expect, it } from "vitest";
 import { useTempDir } from "../pipeline/fixtures.js";
 import { createDebugLogger, createStageLogger } from "./logger.js";
 
-function delay(milliseconds: number): Promise<void> {
-	return new Promise((resolve) => setTimeout(resolve, milliseconds));
-}
-
-async function waitForFile(target: string): Promise<void> {
-	for (let attempt = 0; attempt < 50; attempt += 1) {
-		try {
-			await access(target);
-			return;
-		} catch {
-			await delay(20);
-		}
-	}
-	throw new Error(`Timed out waiting for ${target}`);
-}
-
 describe("logger", () => {
 	const tempDir = useTempDir({ prefix: "logger-" });
 
 	describe("createDebugLogger", () => {
-		it("should write a JSON debug log at the given path when the debug logger logs", async () => {
+		it("should hold every entry in the debug log file when the debug log is closed", async () => {
 			// The caller gives the whole path. So the debug log goes where the caller
 			// says, not into the working directory. Its directory need not exist.
 			const debugLogFile = join(tempDir(), "debug-logs", "2025-10-10T09-00-00-000Z-debug.log");
 
-			const logger = createDebugLogger({ debugLogFile });
+			const { logger, close } = createDebugLogger({ debugLogFile });
 			logger.info("pipeline started");
-			logger.flush();
+			await close();
 
-			await waitForFile(debugLogFile);
 			const [firstLine = ""] = readFileSync(debugLogFile, "utf8").trim().split("\n");
 			const entry = JSON.parse(firstLine);
 

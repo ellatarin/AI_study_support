@@ -1,5 +1,17 @@
+import { once } from "node:events";
 import { destination, type Logger, pino } from "pino";
 import type { StageId } from "../types/pipeline.js";
+
+/** The root logger of one invocation, and the close of its debug log file. */
+export type DebugLog = {
+	readonly logger: Logger;
+	/**
+	 * Writes each entry that is not yet on disk, and closes the file. The file is
+	 * made and written in the background, so a caller that reads the debug log
+	 * must close it first.
+	 */
+	readonly close: () => Promise<void>;
+};
 
 /**
  * Creates the root logger of one invocation. It writes the debug log as
@@ -12,12 +24,20 @@ import type { StageId } from "../types/pipeline.js";
  *
  * @param args - The path of the debug log.
  * @param args.debugLogFile - Absolute path of the debug log. Its directory is created.
- * @returns A pino logger writing at `debug` level to that file.
+ * @returns A pino logger writing at `debug` level to that file, and the close of the file.
  * @example
- * const logger = createDebugLogger({ debugLogFile: debugLogPath({ projectRoot, invocationId }) });
+ * const { logger, close } = createDebugLogger({ debugLogFile: debugLogPath({ projectRoot, invocationId }) });
  */
-export function createDebugLogger({ debugLogFile }: { readonly debugLogFile: string }): Logger {
-	return pino({ level: "debug" }, destination({ dest: debugLogFile, sync: false, mkdir: true }));
+export function createDebugLogger({ debugLogFile }: { readonly debugLogFile: string }): DebugLog {
+	const stream = destination({ dest: debugLogFile, sync: false, mkdir: true });
+	return {
+		logger: pino({ level: "debug" }, stream),
+		close: async (): Promise<void> => {
+			const closed = once(stream, "close");
+			stream.end();
+			await closed;
+		},
+	};
 }
 
 /**

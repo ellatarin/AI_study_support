@@ -1,4 +1,4 @@
-import { mkdir, rm, writeFile } from "node:fs/promises";
+import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import {
@@ -108,12 +108,20 @@ describe("runCli", () => {
 
 	// The suite does not change the working directory. So this test fails when the
 	// debug log path is relative to the working directory and not to the project root.
-	it("should write the debug log under the project root when a command runs", async () => {
+	it("should have written the debug log in full under the project root when a command returns", async () => {
 		await writeConfig([moduleRoot]);
 
 		await invoke(["run", testLecture.date]);
 
-		const fileNames = await listFileNames(join(projectRoot, DEBUG_LOGS_DIR));
-		expect(fileNames.filter((name) => name.endsWith("-debug.log"))).toHaveLength(1);
+		const debugLogsDir = join(projectRoot, DEBUG_LOGS_DIR);
+		const debugLogs = (await listFileNames(debugLogsDir)).filter((name) =>
+			name.endsWith("-debug.log"),
+		);
+		expect(debugLogs).toHaveLength(1);
+		const entries = (await readFile(join(debugLogsDir, debugLogs[0] ?? ""), "utf8"))
+			.trim()
+			.split("\n");
+		expect(entries.length).toBeGreaterThan(0);
+		expect(() => entries.map((entry) => JSON.parse(entry))).not.toThrow();
 	});
 });
