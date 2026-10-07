@@ -122,6 +122,28 @@ type DecidedTitle = {
 };
 
 /**
+ * Gives the identity changes that bring the lecture back to its provisional title,
+ * for `kept-provisional`. An earlier run can have given the lecture an AI-derived
+ * title and its base name. A user title outranks the provisional title, so then
+ * only the AI-derived title is cleared. Only the fields that differ are returned.
+ *
+ * @param context - The stage context. It holds the lecture identity and the user title.
+ * @returns The identity changes. They are empty when the lecture already has its provisional title.
+ */
+function changesBackToProvisional(context: StageContext): LectureIdentityChanges {
+	const clearsAiDerivedTitle =
+		context.manifest.aiDerivedTitle === null ? {} : { aiDerivedTitle: null };
+	if (context.manifest.userTitle !== null || context.lectureTitle === context.provisionalTitle) {
+		return clearsAiDerivedTitle;
+	}
+	return {
+		...clearsAiDerivedTitle,
+		lectureTitle: context.provisionalTitle,
+		baseName: baseNameForLecture({ ...context, title: context.provisionalTitle }),
+	};
+}
+
+/**
  * Makes the title judgement and its identity changes from a reply, or gives the
  * reason that the reply is unusable (technical-design.md §5, `judge-lecture-title`).
  * The model's proposed title is ignored when the provisional title is meaningful.
@@ -153,7 +175,7 @@ function decideTitle({
 			: {
 					reply: {
 						judgement: { ...judged, aiDerivedTitle: null, outcome: "kept-provisional" },
-						identityChanges: {},
+						identityChanges: changesBackToProvisional(context),
 					},
 				};
 	}

@@ -1368,7 +1368,7 @@ When the provisional title is meaningful, the stage ignores any `suggestedTitle`
 
 | Title judgement | `outcome` | Action |
 |---|---|---|
-| Provisional title meaningful | `kept-provisional` | No change. `lectureTitle` stays equal to `provisionalTitle`, and `aiDerivedTitle` stays `null`. No file moves. |
+| Provisional title meaningful | `kept-provisional` | `aiDerivedTitle` becomes `null`. If no user title is set, `lectureTitle` becomes `provisionalTitle`, and `baseName` follows it. The lecture files move only when an earlier run gave the lecture another name. |
 | Not meaningful, and no user title | `adopted-derived` | `aiDerivedTitle` and `lectureTitle` take the proposed title. The source video, the source slide, the workspace folder and any `Final output/` PDF move to the new base name. `baseName` changes in the manifest. |
 | Not meaningful, and a user title is set | `kept-user-title` | Only `aiDerivedTitle` takes the proposed title. `lectureTitle` and every name on disk stay. |
 
@@ -1392,8 +1392,8 @@ The file shows at a glance why a lecture has a new name. The debug log records t
 
 1. Make the call, check the reply, and resend an unusable reply.
 2. Write `Title judgement/judgement.json` atomically (§4.3).
-3. Decide the identity changes that the stage returns. For `kept-provisional`, there are none. For `kept-user-title`, there is only `aiDerivedTitle`. For `adopted-derived`, there are `aiDerivedTitle`, `lectureTitle` and `baseName`. `lectureBaseName` builds the base name from the new title (§5, `source-normalisation`).
-4. For `adopted-derived` only, move the source video, the source slide, any `Final output/` PDF and the workspace folder with `renameLectureFiles` (§4.7).
+3. Decide the identity changes that the stage returns. For `kept-user-title`, there is only `aiDerivedTitle`. For `adopted-derived`, there are `aiDerivedTitle`, `lectureTitle` and `baseName`. For `kept-provisional`, there are only the fields that differ from the provisional title's identity. In most lectures there are none. `lectureBaseName` builds the base name from the title (§5, `source-normalisation`).
+4. When the changes include `baseName`, move the source video, the source slide, any `Final output/` PDF and the workspace folder with `renameLectureFiles` (§4.7).
 5. Return the changes on `StageResult.identityChanges`. The runner finds the workspace again by `(moduleRoot, lectureDate)`. Then it writes the changes into the manifest with the stage's `complete` entry (§4.2, §4.7).
 
 The stage writes no manifest of its own (§4.2). From the move in step 4 until the runner's write in step 5, the manifest names the old folder. The stage is marked `running` for that time. So if the launch stops, the next launch runs `judge-lecture-title` again. That run makes a new call, and the new call can propose a different title. `renameLectureFiles` finds the lecture files by their date, so it moves them from wherever the first run left them.

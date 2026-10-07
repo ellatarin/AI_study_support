@@ -930,10 +930,12 @@ Tests for the stage (mock `callModel`, real temp directory):
 - `should fail naming the file, without calling the model, when the $file $problem` — `test.each` across the retitled subtopics and the topics, each missing, not JSON, and the wrong shape
 - `should write the judgement with outcome $outcome when $case` — `test.each` across `kept-provisional`, `adopted-derived` and `kept-user-title`
 - `should record no AI-derived title when the model judges the provisional title meaningful and still proposes one`
+- `should return the changes back to the provisional title when the outcome is kept-provisional and $case` — `test.each` across an earlier adopted title, which gives all three fields, and a user title, which gives only `aiDerivedTitle`
 
 Integration tests for the stage (real temp directory):
 - `should move the video, the slide, the workspace and the PDF to the new base name when the outcome is adopted-derived`
 - `should leave every file in place when the outcome is $outcome` — `test.each` across `kept-provisional` and `kept-user-title`
+- `should move the files back to the provisional title's base name when the outcome is kept-provisional after an earlier run renamed the lecture`
 - `should write the identity changes of $outcome to the manifest when the runner completes the stage` — `test.each` across the three outcomes
 
 Tests for `transcript-structuring`:

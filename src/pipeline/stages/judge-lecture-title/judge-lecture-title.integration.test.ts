@@ -26,6 +26,7 @@ import {
 	withUserTitle,
 } from "../../fixtures.js";
 import { type ModuleDirs, stageOutputPath, workspaceRootFor } from "../../layout.js";
+import { renameLectureFiles } from "../../lecture-files.js";
 import { readManifest, writeManifest } from "../../manifest.js";
 import { createJudgeLectureTitleStage } from "./judge-lecture-title.js";
 
@@ -141,6 +142,26 @@ describe("judge-lecture-title against a real module tree", () => {
 
 		expect(await filesNamed(testLecture.baseName)).toStrictEqual([true, true, true, true]);
 		expect(await pathExists(workspaceNamed(aiDerivedLecture.baseName))).toBe(false);
+	});
+
+	it("should move the files back to the provisional title's base name when the outcome is kept-provisional after an earlier run renamed the lecture", async () => {
+		workspaceRoot = await renameLectureFiles({
+			dirs,
+			workspaceRoot,
+			lectureDate: testLecture.date,
+			baseName: aiDerivedLecture.baseName,
+		});
+		const context = await prepareLecture({
+			aiDerivedTitle: aiDerivedLecture.title,
+			lectureTitle: aiDerivedLecture.title,
+			baseName: aiDerivedLecture.baseName,
+		});
+		stubJudgement({ meaningful: true });
+
+		await runStage(context);
+
+		expect(await filesNamed(testLecture.baseName)).toStrictEqual([true, true, true, true]);
+		expect(await filesNamed(aiDerivedLecture.baseName)).toStrictEqual([false, false, false, false]);
 	});
 
 	it.each([

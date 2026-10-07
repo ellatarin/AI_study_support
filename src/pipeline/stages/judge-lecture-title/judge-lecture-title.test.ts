@@ -269,6 +269,31 @@ describe("createJudgeLectureTitleStage", () => {
 		expect(modelCallMock).not.toHaveBeenCalled();
 	});
 
+	it.each([
+		{
+			case: "an earlier run adopted a derived title",
+			manifest: {
+				aiDerivedTitle: aiDerivedLecture.title,
+				lectureTitle: aiDerivedLecture.title,
+				baseName: aiDerivedLecture.baseName,
+			},
+			identityChanges: {
+				aiDerivedTitle: null,
+				lectureTitle: testLecture.title,
+				baseName: testLecture.baseName,
+			},
+		},
+		{
+			case: "a user title is set",
+			manifest: { ...withUserTitle, aiDerivedTitle: aiDerivedLecture.title },
+			identityChanges: { aiDerivedTitle: null },
+		},
+	])("should return the changes back to the provisional title when the outcome is kept-provisional and $case", async (earlier) => {
+		const result = await run(earlier.manifest);
+
+		expect(result.identityChanges).toStrictEqual(earlier.identityChanges);
+	});
+
 	it("should record no AI-derived title when the model judges the provisional title meaningful and still proposes one", async () => {
 		stubContent(judgementReply({ suggestedTitle: aiDerivedLecture.title }));
 
