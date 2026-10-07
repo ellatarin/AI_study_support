@@ -23,13 +23,13 @@ const FAILED = "✖";
 
 /**
  * Writes the end of a completed stage's notice: the number of calls and their
- * cost. A stage with no cost gets no end, not a zero (technical-design.md §10,
- * "Stage Notices").
+ * cost. A stage with no cost says that it made no model call, and does not show
+ * a zero (technical-design.md §10, "Stage Notices").
  *
  * @param args - The cost and the money formatter.
  * @param args.cost - The stage's cost, or `null` when the stage records no cost.
  * @param args.formatMoney - Shows a stored dollar figure.
- * @returns The end of the notice, or an empty string when there is no cost.
+ * @returns The end of the notice.
  */
 function spendTail({
 	cost,
@@ -39,7 +39,7 @@ function spendTail({
 	readonly formatMoney: MoneyFormatter;
 }): string {
 	if (cost === null) {
-		return "";
+		return " — no model call";
 	}
 	return ` — ${pluralise({ count: cost.callCount, noun: "call" })}, ${formatMoney(cost.costUsd)}`;
 }

@@ -86,11 +86,10 @@ describe("createPipelineRunReporter", () => {
 		expect(printed()).toContain("n/a");
 	});
 
-	it("should name the stage alone when it completes having spent nothing", () => {
+	it("should say that the stage made no model call when it completes with no cost", () => {
 		report({ event: "stage-completed", stageId: "audio-extraction", cost: null });
 
-		expect(printed()).toContain("Audio extraction");
-		expect(printed()).not.toContain("call");
+		expect(printed()).toBe("✔ Audio extraction — no model call\n");
 	});
 
 	// The error message comes after the run summary (technical-design.md §10), so

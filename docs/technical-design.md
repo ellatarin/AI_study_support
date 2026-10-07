@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.71-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
+**Suite version:** 1.72-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
 **Date:** 2026-10-07
 **Status:** For review
 
@@ -2268,11 +2268,12 @@ type PipelineRunReporter = (event: PipelineRunEvent) => void
 Lecture 1: Cell Injury (2025-10-10)
 ▶ Transcription…
 ✔ Transcription — 1 call, £0.031
-− Slide conversion — output already present, skipping
+✔ Render slides — no model call
+− Read slides — output already present, skipping
 ✖ Synthesis — failed
 ```
 
-A completed stage that bought nothing — audio extraction, PDF generation — is named with no tail rather than one reading zero. A failed stage is marked but its message is not repeated here: the message and the pointer to the debug log follow the run summary (§8), and this line exists so that a stage announced as started is not left hanging. The lecture is named from `lectureHeading` (§7), the same way the end-of-run summary and the cost report name it, so a batch's notices cannot identify one lecture two ways.
+A completed stage that makes no model call, such as `audio-extraction` or `render-slides`, ends with "no model call". It shows no zero, because a zero would read as a measured cost. It shows no blank, because a blank would read as an unknown cost (§7). A failed stage is marked, but its message is not repeated here. The message and the pointer to the debug log follow the run summary (§8). This line exists so that a stage announced as started is not left open. The lecture's name comes from `lectureHeading` (§7). The end-of-run summary and the cost report name it in the same way, so a batch's notices cannot identify one lecture in two ways.
 
 ### Logging and Progress Helpers
 
