@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Requirements Specification
 
-**Suite version:** 1.70-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
+**Suite version:** 1.71-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
 **Date:** 2026-10-07
 **Status:** For review
 

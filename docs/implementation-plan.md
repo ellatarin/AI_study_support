@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.70-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
+**Suite version:** 1.71-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
 **Date:** 2026-10-07
 **Status:** For review
 
@@ -54,9 +54,12 @@ Cross-references to the technical design are noted as **(TD §N)**.
 **How far the commit gate reaches — decided 2026-08-22.** Every check above is a Claude Code hook, installed into `.claude/settings.local.json`, so **the gate covers commits made from a Claude Code session in this repository and nothing else.** `.git/hooks/` holds only git's own `.sample` files and `core.hooksPath` is unset, so a commit made from a terminal, an IDE, or any other tool runs no checks. The consequence to hold on to is that **a commit that did not come from a session has not been through the gate.** `pnpm check` runs the identical checks over the whole tree on demand, and is the way to find out what the gate would have said.
 
 **Dependencies installed:**
-- Runtime: `openai`, `@elevenlabs/elevenlabs-js`, `fluent-ffmpeg`, `pdfjs-dist`, `canvas`, `sharp`, `chrono-node`, `pino`, `cli-progress`, `@inquirer/prompts`, `dotenv`
+- Runtime: `openai`, `@elevenlabs/elevenlabs-js`, `fluent-ffmpeg`, `pdfjs-dist`, `@napi-rs/canvas`, `sharp`, `chrono-node`, `pino`, `cli-progress`, `@inquirer/prompts`, `dotenv`
 - Dev: `typescript`, `tsx`, `@biomejs/biome`, `eslint`, `typescript-eslint`, `vitest`, `@vitest/coverage-v8`, `nock`, `@types/node`, `@types/fluent-ffmpeg`, `@types/cli-progress`
-- Dev, one per gate check that is not a compiler or a test runner: `secretlint` with `@secretlint/secretlint-rule-preset-recommend`, `jscpd`, and the ESLint plugins the architectural rules are written against — `eslint-plugin-import` with `eslint-import-resolver-typescript`, `eslint-plugin-jsdoc`, `@vitest/eslint-plugin`
+- Dev, one for each gate check that is not a compiler or a test runner:
+  - `secretlint` with `@secretlint/secretlint-rule-preset-recommend`
+  - `jscpd`
+  - the ESLint plugins that the architectural rules use: `eslint-plugin-import` with `eslint-import-resolver-typescript`, `eslint-plugin-jsdoc`, `@vitest/eslint-plugin`
 
 **Acceptance:**
 - `tsc --noEmit`, `biome check`, and `eslint .` all pass on the empty project skeleton
