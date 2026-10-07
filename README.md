@@ -153,8 +153,8 @@ lecture-notes change-date <date> <new date>
 | `initial-subtopic-splitting` | Built |
 | `deepen-subtopic-splitting` | Built |
 | `choose-division` | Built |
-| `retitle-subtopics` | Prototype settled; design being updated, not built |
-| `group-into-topics` | Prototype settled for grouping; design being updated, not built |
+| `retitle-subtopics` | Built |
+| `group-into-topics` | Built |
 | `judge-lecture-title` | Designed, not built |
 | `render-slides` | Designed, not built |
 | `read-slides` | Designed, not built |
