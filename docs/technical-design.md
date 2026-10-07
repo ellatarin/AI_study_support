@@ -1362,7 +1362,7 @@ When the provisional title is meaningful, the stage ignores any `suggestedTitle`
 
 **One call, not a panel.** The stage makes one call. A panel would need a rule to choose one title from several proposed titles. If real lectures show that the judgement changes from one call to the next, a panel can be added later.
 
-**The model** is set on the stage's own entry (§6). It is `openai/gpt-6.1-sol-pro`, with no reasoning-effort setting, as for `group-into-topics`. One call sends the same text as one grouping run. So one call costs about $0.06. This figure is an estimate until a real run measures it.
+**The model** is set on the stage's own entry (§6). It is `openai/gpt-6.1-sol-pro`, with no reasoning-effort setting, as for `group-into-topics`. One call sends about 33,000 prompt tokens. Nine calls on the lectures of one module cost $0.038 to $0.061 each, and $0.051 on average.
 
 **The three outcomes.**
 
