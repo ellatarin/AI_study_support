@@ -14,15 +14,13 @@ import { errorMessage, NamedError } from "../../../utils/errors.js";
 import { isRecord } from "../../../utils/record.js";
 import { moduleDirs } from "../../layout.js";
 import { baseNameForLecture, renameLectureFiles } from "../../lecture-files.js";
-import { subtopicsWithText } from "../division.js";
 import {
 	defineModelStage,
 	type ModelStageFactory,
 	type ModelStageRunArgs,
 } from "../model-stage.js";
 import { writeJsonStageOutput } from "../pipeline-stage.js";
-import { readStageTopics, readTranscriptAndDivision } from "../stage-input.js";
-import type { Topic } from "../topics.js";
+import { readTopicsWithSubtopics } from "../stage-input.js";
 import { buildTitleJudgementMessages, type GroupedLecture } from "./judge-lecture-title.prompt.js";
 
 /* jscpd:ignore-end */
@@ -75,27 +73,15 @@ function isJudgementReply(value: unknown): value is JudgementReply {
  * @throws {JudgeLectureTitleError} If the transcript, the retitled subtopics or the topics are missing or unreadable.
  */
 async function readGroupedLecture(context: StageContext): Promise<GroupedLecture> {
-	const reading = {
+	const topics = await readTopicsWithSubtopics({
 		context,
 		purpose: "judge",
 		fail: (message: string) => new JudgeLectureTitleError(message),
-	};
-	const { transcript, subtopics } = await readTranscriptAndDivision({
-		...reading,
-		stageId: "retitle-subtopics",
 	});
-	const topics = await readStageTopics(reading);
-	// A subtopic id counts from 1, so subtopic id N is at index N - 1. A topic runs
-	// to the subtopic before the next topic's first.
-	const startIndex = (topic: Topic | undefined): number =>
-		topic === undefined ? subtopics.length : topic.firstSubtopicId - 1;
 	return {
-		topics: [...topics.entries()].map(([index, topic]) => ({
+		topics: topics.map((topic) => ({
 			title: topic.title,
-			subtopics: subtopicsWithText({
-				text: transcript,
-				subtopics: subtopics.slice(startIndex(topic), startIndex(topics[index + 1])),
-			}),
+			subtopics: topic.subtopics.map(({ title, text }) => ({ title, text })),
 		})),
 	};
 }

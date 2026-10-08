@@ -37,6 +37,7 @@ const STAGE_LABELS: Readonly<Record<StageId, string>> = {
 	"retitle-subtopics": "Retitle subtopics",
 	"group-into-topics": "Group into topics",
 	"judge-lecture-title": "Judge lecture title",
+	"structure-transcript": "Structure transcript",
 	"render-slides": "Render slides",
 	"read-slides": "Read slides",
 	"place-slides": "Place slides",

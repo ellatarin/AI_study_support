@@ -3,7 +3,6 @@ import { describe, expect, it } from "vitest";
 import {
 	aiDerivedLecture,
 	captureError,
-	eachUnusableJsonFile,
 	loggedAt,
 	openRouterReplyBody,
 	readJsonFile,
@@ -17,6 +16,7 @@ import {
 	titleKept,
 	titleRejected,
 	transcriptSubtopicTexts,
+	unusableTopicsWithSubtopicsFiles,
 	unusableTranscripts,
 	useStageReadingDivision,
 	withUserTitle,
@@ -205,10 +205,7 @@ describe("createJudgeLectureTitleStage", () => {
 	});
 
 	it.each(
-		eachUnusableJsonFile([
-			{ file: "retitled subtopics file", stageId: "retitle-subtopics" },
-			{ file: "topics file", stageId: "group-into-topics" },
-		] as const),
+		unusableTopicsWithSubtopicsFiles,
 	)("should fail naming the file, without calling the model, when the $file is $state", async ({
 		stageId,
 		contents,

@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.73-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
+**Suite version:** 1.74-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
 **Date:** 2026-10-08
 **Status:** For review
 
@@ -1341,12 +1341,14 @@ createJudgeLectureTitleStage(args: { logger: Logger; client: OpenAI }): Pipeline
 
 ### `structure-transcript` — the lecture in one file
 
-**Input:** `Transcript/transcript.txt`, `Chosen division/subtopics.json`, `Retitled subtopics/subtopics.json`, `Topics/topics.json`, `Title judgement/judgement.json`
+**Input:** `Transcript/transcript.txt`, `Retitled subtopics/subtopics.json`, `Topics/topics.json`, and `lectureTitle` from the manifest
 **Output:** `Structured transcript/structured-transcript.json`
 
 The stage writes the structured transcript (CONTEXT.md, "Structured transcript"). It makes no model call, so its cost is `null` (§4.2). It runs directly after `judge-lecture-title`, so the lecture title is final.
 
-The file holds the lecture title and the topics in lecture order, each with its title. Each topic holds its subtopics in order. Each subtopic holds its subtopic id, its title and its own text. The stage cuts each text from the transcript by the subtopic's span. The text is the lecturer's words, unchanged. The file holds no position in the transcript and no reason that a model gave. So each subtopic stands alone, and the later stages read the lecture from this one file.
+The stage does not read the chosen division or the title judgement. The retitled subtopics hold the whole chosen division with the new titles. The manifest's `lectureTitle` obeys a user title (§5, `source-normalisation`, "Title precedence"). The title judgement does not.
+
+The file holds `lectureTitle` and `topics`, the topics in lecture order. Each topic holds its `title` and its `subtopics` in order. Each subtopic holds its `subtopicId`, its `title` and its `text`. The stage cuts each text from the transcript by the subtopic's span, and removes the whitespace at the two ends. The text is the lecturer's words, unchanged. The file holds no position in the transcript and no reason that a model gave. So each subtopic stands alone, and the later stages read the lecture from this one file.
 
 The stage fails when an input file is missing, unreadable or the wrong shape. The error names the file.
 

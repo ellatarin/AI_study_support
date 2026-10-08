@@ -25,6 +25,7 @@ import { createReadSlidesStage } from "../pipeline/stages/read-slides/read-slide
 import { renderSlidesParts } from "../pipeline/stages/render-slides/render-slides.js";
 import { createRetitleSubtopicsStage } from "../pipeline/stages/retitle-subtopics/retitle-subtopics.js";
 import { createSourceNormalisationStage } from "../pipeline/stages/source-normalisation/source-normalisation.js";
+import { createStructureTranscriptStage } from "../pipeline/stages/structure-transcript/structure-transcript.js";
 import { createTranscriptionStage } from "../pipeline/stages/transcription/transcription.js";
 import { errorMessage } from "../utils/errors.js";
 import { createDebugLogger } from "../utils/logger.js";
@@ -99,6 +100,7 @@ async function assembleDeps({
 			createRetitleSubtopicsStage({ logger, client }),
 			createGroupIntoTopicsStage({ logger, client }),
 			createJudgeLectureTitleStage({ logger, client }),
+			createStructureTranscriptStage({ logger }),
 			createSourceFileStage({ logger, ...renderSlidesParts }),
 			createReadSlidesStage({ logger, client }),
 			createPlaceSlidesStage({ logger, client }),

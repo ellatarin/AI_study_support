@@ -6,10 +6,10 @@
 
 **Status:** ready-for-agent
 
-- [ ] The stage reads the transcript, the chosen division, the retitled subtopics, the topics and the title judgement.
-- [ ] The stage writes `Structured transcript/structured-transcript.json`. It holds the lecture title and the topics in lecture order, each with its title. Each topic holds its subtopics in order, each with its subtopic id, its title and its own text.
-- [ ] The file holds no position in the transcript and no reason that a model gave.
-- [ ] The text of each subtopic is the lecturer's words, unchanged.
-- [ ] The stage fails when an input file is missing, unreadable or the wrong shape. The error names the file.
-- [ ] The stage has a place in the stage order directly after `judge-lecture-title`. It can be the start or the end of a bounded run.
+- [x] The stage reads the transcript, the retitled subtopics and the topics. It takes the lecture title from the manifest. (The user ruled 2026-10-08 that the stage does not read the chosen division or the title judgement.)
+- [x] The stage writes `Structured transcript/structured-transcript.json`. It holds the lecture title and the topics in lecture order, each with its title. Each topic holds its subtopics in order, each with its subtopic id, its title and its own text.
+- [x] The file holds no position in the transcript and no reason that a model gave.
+- [x] The text of each subtopic is the lecturer's words, unchanged.
+- [x] The stage fails when an input file is missing, unreadable or the wrong shape. The error names the file.
+- [x] The stage has a place in the stage order directly after `judge-lecture-title`. It can be the start or the end of a bounded run.
 - [ ] A run on one real lecture writes the file. The user can open the file and see each topic with its subtopics.

@@ -12,13 +12,13 @@
 import type { StageContext, StageResult } from "../../../types/pipeline.js";
 import { NamedError } from "../../../utils/errors.js";
 import { isRecord } from "../../../utils/record.js";
-import { placeCuts, type Subtopic, subtopicsWithText, subtopicText } from "../division.js";
+import { placeCuts, type Subtopic, subtopicsWithIdAndText, subtopicText } from "../division.js";
 import {
 	defineModelStage,
 	type ModelStageFactory,
 	type ModelStageRunArgs,
 } from "../model-stage.js";
-import { writeJsonStageOutput } from "../pipeline-stage.js";
+import { writeJsonStageResult } from "../pipeline-stage.js";
 /* jscpd:ignore-end */
 import {
 	findSlideImages,
@@ -325,9 +325,7 @@ async function placeSlides({
 	const sent = await calls.sendJsonWithResends({
 		what: "Slide placements",
 		messages: buildPlacementMessages({
-			subtopics: [
-				...subtopicsWithText({ text: input.transcript, subtopics: input.subtopics }).entries(),
-			].map(([index, subtopic]) => ({ subtopicId: index + 1, ...subtopic })),
+			subtopics: subtopicsWithIdAndText({ text: input.transcript, subtopics: input.subtopics }),
 			slides: input.slides.filter(isSubjectMatter),
 		}),
 		isReply: isPlacementReply,
@@ -349,13 +347,12 @@ async function placeSlides({
 				]
 			: sent.reply.filter((placement) => placement.slideNumber === slide.slideNumber),
 	);
-	const output = { promptVersion: PROMPT_VERSION, placements };
-	const { filesWritten } = await writeJsonStageOutput({
+	return writeJsonStageResult({
 		stageId: STAGE_ID,
 		context,
-		value: output,
+		output: { promptVersion: PROMPT_VERSION, placements },
+		cost: sent.cost,
 	});
-	return { output, cost: sent.cost, filesWritten };
 }
 
 /** Builds the `place-slides` stage from the logger and the OpenAI client of the invocation. */

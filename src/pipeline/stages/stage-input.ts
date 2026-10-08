@@ -9,7 +9,13 @@ import type { StageContext, StageId } from "../../types/pipeline.js";
 import { errorMessage } from "../../utils/errors.js";
 import { readTextFile } from "../../utils/files.js";
 import { type StageWithOutputFile, stageDirectoryPath, stageOutputPath } from "../layout.js";
-import { readDivision, type Subtopic, splittingPanel } from "./division.js";
+import {
+	readDivision,
+	type Subtopic,
+	type SubtopicWithIdAndText,
+	splittingPanel,
+	subtopicsWithIdAndText,
+} from "./division.js";
 import { readPanel } from "./panel-runs.js";
 import { readTopics, type Topic } from "./topics.js";
 
@@ -252,6 +258,42 @@ export async function readTranscriptAndDivision(
 ): Promise<TranscriptAndDivision> {
 	const transcript = await readTranscript(reading);
 	return { transcript, subtopics: await readStageDivision(reading) };
+}
+
+/** One topic with its title, and its subtopics in order. */
+export type TopicWithSubtopics = {
+	readonly title: string;
+	readonly subtopics: readonly SubtopicWithIdAndText[];
+};
+
+/**
+ * Reads the transcript, the retitled subtopics and the topics, and puts each
+ * subtopic under its topic. A topic runs from its first subtopic to the
+ * subtopic before the next topic's first.
+ *
+ * @param reading - The stage context, the purpose, and the error to raise.
+ * @param reading.context - The stage context of the current lecture.
+ * @param reading.purpose - The use that the reading stage makes of the lecture, for the failure that a user reads, such as "judge".
+ * @param reading.fail - Builds the reading stage's own error from a message.
+ * @returns The topics in order, each with the subtopic id, the title and the trimmed text of its subtopics.
+ * @throws The error that `fail` builds, if the transcript, the retitled subtopics or the topics are missing or unreadable.
+ */
+export async function readTopicsWithSubtopics(
+	reading: Omit<ReadingOutput, "stageId">,
+): Promise<readonly TopicWithSubtopics[]> {
+	const { transcript, subtopics } = await readTranscriptAndDivision({
+		...reading,
+		stageId: "retitle-subtopics",
+	});
+	const topics = await readStageTopics(reading);
+	const numbered = subtopicsWithIdAndText({ text: transcript, subtopics });
+	// A subtopic id counts from 1, so subtopic id N is at index N - 1.
+	const startIndex = (topic: Topic | undefined): number =>
+		topic === undefined ? numbered.length : topic.firstSubtopicId - 1;
+	return [...topics.entries()].map(([index, topic]) => ({
+		title: topic.title,
+		subtopics: numbered.slice(startIndex(topic), startIndex(topics[index + 1])),
+	}));
 }
 
 /**

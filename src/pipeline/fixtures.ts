@@ -870,6 +870,15 @@ export function eachUnusableJsonFile<TFile extends object>(
 }
 
 /**
+ * The JSON files that `readTopicsWithSubtopics` reads, each with each of the
+ * {@link unusableJsonContents}, for a suite's `it.each`.
+ */
+export const unusableTopicsWithSubtopicsFiles = eachUnusableJsonFile([
+	{ file: "retitled subtopics file", stageId: "retitle-subtopics" },
+	{ file: "topics file", stageId: "group-into-topics" },
+] as const);
+
+/**
  * Makes a JSON input file unusable: it deletes the file when `contents` is
  * `null`, and otherwise writes `contents` over it.
  *

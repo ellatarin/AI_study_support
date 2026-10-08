@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.73-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
+**Suite version:** 1.74-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
 **Date:** 2026-10-08
 **Status:** For review
 
@@ -1086,16 +1086,16 @@ Each glossary term that only the removed stages used is removed from `CONTEXT.md
 
 **Deliverables:**
 
-`src/pipeline/stages/structure-transcript/` **(TD §5, `structure-transcript`)** contains the stage. It reads its five inputs and writes `Structured transcript/structured-transcript.json`. The stage is added to `lectureStages` directly after `judge-lecture-title`, with its `STAGE_IDS` and `STAGE_FILES` entries and its cost-report label.
+`src/pipeline/stages/structure-transcript/` **(TD §5, `structure-transcript`)** contains the stage. It reads the transcript, the retitled subtopics and the topics, and writes `Structured transcript/structured-transcript.json`. The stage and `judge-lecture-title` use one shared reader that puts each subtopic under its topic. The stage is added to `lectureStages` directly after `judge-lecture-title`, with its `STAGE_IDS` and `STAGE_FILES` entries and its cost-report label.
 
 **Tests:**
 
 Tests for the stage (real temp directory, the shared stage fixture):
-- `should write the lecture title and each topic with its subtopics in lecture order when the stage completes`
-- `should write each subtopic's id, title and text, and no position or reason, when the stage completes`
-- `should keep the lecturer's words unchanged when the stage writes a subtopic's text`
-- `should fail naming the file when the $file is $state` — `test.each` across each input file, each missing, not readable and the wrong shape
-- `should record no cost when the stage completes`
+- `should write the lecture title, and each topic with its subtopics' ids, titles and texts in lecture order, when the stage completes` — the test compares the whole file. So it also shows that the file holds no position and no reason, and that each text is the lecturer's words
+- `should write the manifest's lecture title when it differs from the provisional title`
+- `should record no cost and the one file written when the stage completes`
+- `should fail naming the file when the $file is $state` — `test.each` across the retitled subtopics and the topics, each missing, not JSON and the wrong shape
+- `should fail when the transcript $state` — `test.each` across a missing and a blank transcript
 
 **Acceptance:** A run on one real lecture writes the file. The user opens it and sees each topic with its subtopics.
 

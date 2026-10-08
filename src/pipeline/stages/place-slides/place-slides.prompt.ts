@@ -2,15 +2,9 @@
  * The messages that `place-slides` sends (technical-design.md §5, `place-slides`).
  */
 
+import type { SubtopicWithIdAndText } from "../division.js";
 import { type PromptMessages, promptMessages } from "../model-stage.js";
 import type { SlideReading } from "../slides.js";
-
-/** One subtopic as the model reads it: its subtopic id, its title and its trimmed text. */
-export type SentSubtopic = {
-	readonly subtopicId: number;
-	readonly title: string;
-	readonly text: string;
-};
 
 /**
  * The version of {@link PLACEMENT_PROMPT}. A change to the prompt text gets a new
@@ -125,7 +119,7 @@ export function buildPlacementMessages({
 	subtopics,
 	slides,
 }: {
-	readonly subtopics: readonly SentSubtopic[];
+	readonly subtopics: readonly SubtopicWithIdAndText[];
 	readonly slides: readonly SlideReading[];
 }): PromptMessages {
 	return promptMessages({

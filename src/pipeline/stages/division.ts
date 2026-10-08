@@ -65,6 +65,30 @@ export function subtopicsWithText({
 	}));
 }
 
+/** One subtopic with its subtopic id, its title and its trimmed text. */
+export type SubtopicWithIdAndText = {
+	/** The place of the subtopic in the lecture, counting from 1. */
+	readonly subtopicId: number;
+	readonly title: string;
+	readonly text: string;
+};
+
+/**
+ * The subtopic id, the title and the text of each subtopic, through
+ * {@link subtopicsWithText}.
+ *
+ * @param args - The transcript, and the subtopics.
+ * @param args.text - The transcript that the spans index into.
+ * @param args.subtopics - Every subtopic of the lecture, in order.
+ * @returns The subtopic id, the title and the trimmed text of each subtopic, in order.
+ */
+export function subtopicsWithIdAndText(args: SubtopicsOfText): readonly SubtopicWithIdAndText[] {
+	return [...subtopicsWithText(args).entries()].map(([index, subtopic]) => ({
+		subtopicId: index + 1,
+		...subtopic,
+	}));
+}
+
 /**
  * One part of a model's reply: a subtopic in a splitting reply, or a topic in a
  * grouping reply. The prompts call the title `label` and the reason
