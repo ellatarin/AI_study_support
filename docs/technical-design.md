@@ -1263,7 +1263,7 @@ The stage judges whether the provisional title is meaningful for the lecture's c
 
 The retitled subtopics hold only the span of each subtopic in the transcript. So the stage reads `Transcript/transcript.txt` and cuts the text of each subtopic from it, as `retitle-subtopics` and `group-into-topics` do. It sends no subtopic ids and no reasons, because they do not help the judgement. The stage also sends the provisional title. An empty provisional title is sent as a statement that the filename carried no title.
 
-**The prompt** is the title part of the earlier transcript-structuring prompt, which `docs/reference/transcript-structuring-prompt.md` keeps. It keeps the same rules. The lecturer's title is authoritative. The model must not propose a title only because it can write a better one. An AI-derived title has four to eight plain words, because it becomes a filename. The prompt adds these things:
+**The prompt** is the title part of the prompt of an earlier stage, which structured the whole transcript in one call. It keeps the same rules. The lecturer's title is authoritative. The model must not propose a title only because it can write a better one. An AI-derived title has four to eight plain words, because it becomes a filename. The prompt adds these things:
 
 - It tells the model the shape of the input. It also tells the model that a model wrote the topic titles and subtopic titles, and the lecturer did not.
 - An AI-derived title names what all the topics have in common. It is not a list of the topics, and it is not the title of one topic.
