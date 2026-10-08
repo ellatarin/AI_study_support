@@ -860,6 +860,41 @@ export const unusableJsonContents: readonly {
 	{ state: "the wrong shape", contents: JSON.stringify({}) },
 ];
 
+/**
+ * Pairs each input file with each of the {@link unusableJsonContents}, for a
+ * suite's `it.each`.
+ *
+ * @param files - The input files, each with the fields that the test reads.
+ * @returns One row for each file and each unusable content.
+ * @typeParam TFile - The fields of an input file.
+ */
+export function eachUnusableJsonFile<TFile extends object>(
+	files: readonly TFile[],
+): readonly (TFile & (typeof unusableJsonContents)[number])[] {
+	return files.flatMap((file) =>
+		unusableJsonContents.map((unusable) => ({ ...file, ...unusable })),
+	);
+}
+
+/**
+ * Makes a JSON input file unusable: it deletes the file when `contents` is
+ * `null`, and otherwise writes `contents` over it.
+ *
+ * @param args - The file, and its new contents.
+ * @param args.path - The absolute path of the file.
+ * @param args.contents - The new text of the file, or `null` to delete it.
+ * @returns A promise that resolves when the file is changed.
+ */
+export function spoilJsonFile({
+	path,
+	contents,
+}: {
+	readonly path: string;
+	readonly contents: string | null;
+}): Promise<void> {
+	return contents === null ? rm(path) : writeFile(path, contents);
+}
+
 /** A Scribe upload that a suite intercepted, and the body that the stage sent. */
 export type ScribeUpload = {
 	/** The nock scope, to check whether the upload was made. */

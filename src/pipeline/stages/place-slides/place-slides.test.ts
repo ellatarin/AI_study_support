@@ -1,17 +1,17 @@
-import { rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { isRecord } from "../../../utils/record.js";
 import {
 	captureError,
+	eachUnusableJsonFile,
 	openRouterReplyBody,
 	readingFile,
 	readJsonFile,
 	resendPausesTimeoutMs,
 	slideDeckReadings,
+	spoilJsonFile,
 	transcriptDivision,
 	transcriptSubtopicTexts,
-	unusableJsonContents,
 	unusableTranscripts,
 	useStageReadingDivision,
 } from "../../fixtures.js";
@@ -139,23 +139,20 @@ describe("createPlaceSlidesStage", () => {
 		]);
 	});
 
-	const inputFiles = [
-		{
-			file: "retitled subtopics file",
-			path: () => stageOutputPath({ workspaceRoot: workspaceRoot(), stageId: "retitle-subtopics" }),
-		},
-		{ file: "slide reading of a slide image", path: () => join(workspaceRoot(), readingFile(2)) },
-	];
-
 	it.each(
-		inputFiles.flatMap((input) =>
-			unusableJsonContents.map((unusable) => ({ ...input, ...unusable })),
-		),
+		eachUnusableJsonFile([
+			{
+				file: "retitled subtopics file",
+				path: () =>
+					stageOutputPath({ workspaceRoot: workspaceRoot(), stageId: "retitle-subtopics" }),
+			},
+			{ file: "slide reading of a slide image", path: () => join(workspaceRoot(), readingFile(2)) },
+		]),
 	)("should fail naming the file, without calling the model, when the $file is $state", async ({
 		path,
 		contents,
 	}) => {
-		await (contents === null ? rm(path()) : writeFile(path(), contents));
+		await spoilJsonFile({ path: path(), contents });
 
 		const error = await captureError(run());
 

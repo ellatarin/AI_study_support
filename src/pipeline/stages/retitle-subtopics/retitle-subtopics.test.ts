@@ -1,4 +1,3 @@
-import { rm, writeFile } from "node:fs/promises";
 import { describe, expect, it } from "vitest";
 import {
 	captureError,
@@ -6,7 +5,10 @@ import {
 	readJsonFile,
 	resendPausesTimeoutMs,
 	sentUserMessage,
+	spoilJsonFile,
 	transcriptDivision,
+	transcriptSubtopicTexts,
+	unusableJsonContents,
 	useStageReadingDivision,
 } from "../../fixtures.js";
 import { stageOutputPath, stageRecordPath } from "../../layout.js";
@@ -51,8 +53,8 @@ describe("createRetitleSubtopicsStage", () => {
 		expect(sentUserMessage(create().mock.calls)).toBe(
 			JSON.stringify({
 				subtopics: [
-					{ id: 1, text: "Today we are covering" },
-					{ id: 2, text: "cell injury and the immune system." },
+					{ id: 1, text: transcriptSubtopicTexts[0] },
+					{ id: 2, text: transcriptSubtopicTexts[1] },
 				],
 			}),
 		);
@@ -120,15 +122,13 @@ describe("createRetitleSubtopicsStage", () => {
 		await expectResendsExhausted({ calls: 1 });
 	});
 
-	it.each([
-		{ problem: "is missing", contents: null },
-		{ problem: "is not JSON", contents: "Opening, then cell injury." },
-		{ problem: "is not a list of subtopics", contents: JSON.stringify({ subtopics: [] }) },
-	])("should fail without calling the model when the chosen division $problem", async ({
+	it.each(
+		unusableJsonContents,
+	)("should fail without calling the model when the chosen division is $state", async ({
 		contents,
 	}) => {
 		const chosen = stageOutputPath({ workspaceRoot: workspaceRoot(), stageId: "choose-division" });
-		await (contents === null ? rm(chosen) : writeFile(chosen, contents));
+		await spoilJsonFile({ path: chosen, contents });
 
 		const error = await captureError(run());
 

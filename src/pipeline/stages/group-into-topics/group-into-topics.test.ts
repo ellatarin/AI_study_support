@@ -1,4 +1,3 @@
-import { rm, writeFile } from "node:fs/promises";
 import { relative } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
@@ -10,8 +9,11 @@ import {
 	resendPausesTimeoutMs,
 	savedRunPath,
 	sentUserMessage,
+	spoilJsonFile,
 	subjectTopic,
+	transcriptSubtopicTexts,
 	transcriptTopics,
+	unusableJsonContents,
 	useStageReadingDivision,
 } from "../../fixtures.js";
 import {
@@ -69,8 +71,8 @@ describe("createGroupIntoTopicsStage", () => {
 			Array(config.grouping.panelSize).fill(
 				JSON.stringify({
 					subtopics: [
-						{ id: 1, label: "Opening", text: "Today we are covering" },
-						{ id: 2, label: "Cell injury", text: "cell injury and the immune system." },
+						{ id: 1, label: "Opening", text: transcriptSubtopicTexts[0] },
+						{ id: 2, label: "Cell injury", text: transcriptSubtopicTexts[1] },
 					],
 				}),
 			),
@@ -136,18 +138,16 @@ describe("createGroupIntoTopicsStage", () => {
 		]);
 	});
 
-	it.each([
-		{ problem: "are missing", contents: null },
-		{ problem: "are not JSON", contents: "Opening, then cell injury." },
-		{ problem: "are not a list of subtopics", contents: JSON.stringify({ topics: [] }) },
-	])("should fail naming the file, without calling the model, when the retitled subtopics $problem", async ({
+	it.each(
+		unusableJsonContents,
+	)("should fail naming the file, without calling the model, when the retitled subtopics file is $state", async ({
 		contents,
 	}) => {
 		const retitled = stageOutputPath({
 			workspaceRoot: workspaceRoot(),
 			stageId: "retitle-subtopics",
 		});
-		await (contents === null ? rm(retitled) : writeFile(retitled, contents));
+		await spoilJsonFile({ path: retitled, contents });
 
 		const error = await captureError(run());
 

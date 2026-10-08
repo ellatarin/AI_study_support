@@ -1,20 +1,22 @@
-import { rm, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
 	aiDerivedLecture,
 	captureError,
+	eachUnusableJsonFile,
 	loggedAt,
 	openRouterReplyBody,
 	readJsonFile,
 	resendPausesTimeoutMs,
 	sentSystemMessage,
 	sentUserMessage,
+	spoilJsonFile,
 	stubbedJudgedBecause,
 	testLecture,
 	titleJudgementReply,
 	titleKept,
 	titleRejected,
+	transcriptSubtopicTexts,
 	unusableTranscripts,
 	useStageReadingDivision,
 	withUserTitle,
@@ -58,11 +60,11 @@ describe("createJudgeLectureTitleStage", () => {
 			topics: [
 				{
 					title: "The lecture's opening",
-					subtopics: [{ title: "Opening", text: "Today we are covering" }],
+					subtopics: [{ title: "Opening", text: transcriptSubtopicTexts[0] }],
 				},
 				{
 					title: "Cell injury",
-					subtopics: [{ title: "Cell injury", text: "cell injury and the immune system." }],
+					subtopics: [{ title: "Cell injury", text: transcriptSubtopicTexts[1] }],
 				},
 			],
 		});
@@ -202,24 +204,17 @@ describe("createJudgeLectureTitleStage", () => {
 		await expectResendsExhausted({ calls: 1 });
 	});
 
-	const inputFiles = [
-		{ file: "retitled subtopics", stageId: "retitle-subtopics" },
-		{ file: "topics", stageId: "group-into-topics" },
-	] as const;
-	const unusableContents = [
-		{ problem: "are missing", contents: null },
-		{ problem: "are not JSON", contents: "Opening, then cell injury." },
-		{ problem: "are the wrong shape", contents: JSON.stringify({ topics: [] }) },
-	];
-
 	it.each(
-		inputFiles.flatMap((input) => unusableContents.map((unusable) => ({ ...input, ...unusable }))),
-	)("should fail naming the file, without calling the model, when the $file $problem", async ({
+		eachUnusableJsonFile([
+			{ file: "retitled subtopics file", stageId: "retitle-subtopics" },
+			{ file: "topics file", stageId: "group-into-topics" },
+		] as const),
+	)("should fail naming the file, without calling the model, when the $file is $state", async ({
 		stageId,
 		contents,
 	}) => {
 		const path = stageOutputPath({ workspaceRoot: workspaceRoot(), stageId });
-		await (contents === null ? rm(path) : writeFile(path, contents));
+		await spoilJsonFile({ path, contents });
 
 		const error = await captureError(run());
 
