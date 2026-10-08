@@ -183,6 +183,22 @@ export async function writeStageOutput(
 }
 
 /**
+ * Writes the one output file of a stage as JSON, through {@link writeStageOutput}.
+ *
+ * @param args - The stage, its stage context, and the output.
+ * @param args.stageId - The stage. It must write one output file.
+ * @param args.context - The stage context. It holds the lecture's workspace.
+ * @param args.value - The output, written as JSON.
+ * @returns The absolute path of the output file, and its `filesWritten` entry.
+ */
+export function writeJsonStageOutput({
+	value,
+	...target
+}: StageOutputTarget & { readonly value: unknown }): Promise<RecordedStageOutput> {
+	return writeStageOutput({ ...target, content: jsonFileContent(value) });
+}
+
+/**
  * Writes the output file of a stage and the Markdown version of it, and gives the
  * `filesWritten` entries of both (technical-design.md §3.3, §4.2, §4.5).
  *

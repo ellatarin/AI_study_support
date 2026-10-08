@@ -6,8 +6,8 @@
 
 **Status:** ready-for-agent
 
-- [ ] The model gets every subtopic's id, title and trimmed text, with no topics. It also gets every slide reading in deck order, whole, as `read-slides` wrote it. Content-free slides and references slides are in the list, with their kind.
-- [ ] The model returns one subtopic for each subject-matter slide. The stage ignores an entry for a content-free slide or a references slide.
+- [ ] The model gets every subtopic's id, title and trimmed text, with no topics. It also gets the reading of each subject-matter slide in deck order, whole, as `read-slides` wrote it. Content-free slides and references slides are not in the list.
+- [ ] The model returns one subtopic for each subject-matter slide. The stage ignores an entry for a content-free slide or a references slide, and makes no check on it.
 - [ ] A reply is unusable in each of these cases:
   - the reply is not the documented shape
   - a subject-matter slide has no place, or more than one place

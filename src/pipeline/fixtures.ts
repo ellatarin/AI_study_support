@@ -783,6 +783,16 @@ export const transcriptDivision: readonly Subtopic[] = [
 	},
 ];
 
+/**
+ * The text of each subtopic of {@link transcriptDivision}, trimmed, as a stage
+ * sends it to a model. The texts are stated in full here, and not cut by the
+ * production code.
+ */
+export const transcriptSubtopicTexts = [
+	"Today we are covering",
+	"cell injury and the immune system.",
+] as const;
+
 /** The first topic of {@link transcriptTopics}. It holds the first subtopic. */
 export const openingTopic: Topic = {
 	title: "The lecture's opening",
@@ -834,6 +844,20 @@ export const unusableTranscripts: readonly {
 			writeFile(stageOutputPath({ workspaceRoot, stageId: "transcription" }), " \n"),
 		says: "holds no text; there is nothing to divide",
 	},
+];
+
+/**
+ * The ways in which a JSON input file that a stage reads can be unusable, for a
+ * suite's `it.each`. A `null` content means that the file is deleted. The wrong
+ * shape is wrong for every JSON file that a stage reads.
+ */
+export const unusableJsonContents: readonly {
+	readonly state: string;
+	readonly contents: string | null;
+}[] = [
+	{ state: "missing", contents: null },
+	{ state: "not JSON", contents: "Opening, then cell injury." },
+	{ state: "the wrong shape", contents: JSON.stringify({}) },
 ];
 
 /** A Scribe upload that a suite intercepted, and the body that the stage sent. */
@@ -970,6 +994,52 @@ export async function seedSlideImages({
 		images.push(bytes);
 	}
 	return images;
+}
+
+/**
+ * The workspace-relative path of the reading of slide `slideNumber`. The name is
+ * stated in full here, and not taken from the production code. So a test that
+ * finds a reading at this path checks the name.
+ *
+ * @param slideNumber - The number of the slide in the deck, from 1.
+ * @returns The path, relative to the workspace.
+ */
+export function readingFile(slideNumber: number): string {
+	return `Slide readings/slide-${String(slideNumber).padStart(3, "0")}.json`;
+}
+
+/**
+ * The slide readings that {@link seedEarlierOutputs} writes for `read-slides`, in
+ * deck order. Slides 1 and 2 are subject matter, slide 3 is content-free, and
+ * slide 4 is references.
+ */
+export const slideDeckReadings: readonly Readonly<Record<string, unknown>>[] = [
+	{ slideNumber: 1, ...slideReadingReply() },
+	{ slideNumber: 2, ...slideReadingReply({ title: "Reversible injury" }) },
+	{ slideNumber: 3, ...slideReadingReply({ title: "Questions?", kind: "content-free" }) },
+	{ slideNumber: 4, ...slideReadingReply({ title: "References", kind: "references" }) },
+];
+
+/**
+ * Writes each slide reading into a workspace, as `read-slides` leaves it.
+ *
+ * @param args - The workspace, and the readings.
+ * @param args.workspaceRoot - The absolute path to the lecture workspace.
+ * @param args.readings - The readings, each with its slide number.
+ * @returns A promise that resolves when every reading is written.
+ */
+async function seedSlideReadings({
+	workspaceRoot,
+	readings,
+}: {
+	readonly workspaceRoot: string;
+	readonly readings: readonly Readonly<Record<string, unknown>>[];
+}): Promise<void> {
+	for (const reading of readings) {
+		const path = join(workspaceRoot, readingFile(Number(reading.slideNumber)));
+		await mkdir(dirname(path), { recursive: true });
+		await writeFile(path, JSON.stringify(reading));
+	}
 }
 
 /**
@@ -1739,17 +1809,50 @@ export async function settleThroughPauses<TResult>(
 	return watched;
 }
 
-/** The output that {@link seedEarlierOutputs} writes for each earlier stage. */
-const SEEDED_OUTPUTS = {
-	"choose-division": transcriptDivision,
-	"retitle-subtopics": transcriptDivision,
-	"group-into-topics": transcriptTopics,
+/**
+ * Gives the function that writes one JSON output of an earlier stage.
+ *
+ * @param args - The earlier stage, and its output.
+ * @param args.stageId - The earlier stage.
+ * @param args.output - The output, written as JSON.
+ * @returns The function that writes the output into a workspace.
+ */
+function seedingJsonOutput({
+	stageId,
+	output,
+}: {
+	readonly stageId: StageWithOutputFile;
+	readonly output: unknown;
+}): (workspaceRoot: string) => Promise<string> {
+	return (workspaceRoot) =>
+		seedStageOutput({ workspaceRoot, stageId, contents: JSON.stringify(output) });
+}
+
+/** The function that {@link seedEarlierOutputs} calls to write the output of each earlier stage. */
+const EARLIER_OUTPUT_SEEDS = {
+	"choose-division": seedingJsonOutput({ stageId: "choose-division", output: transcriptDivision }),
+	"retitle-subtopics": seedingJsonOutput({
+		stageId: "retitle-subtopics",
+		output: transcriptDivision,
+	}),
+	"group-into-topics": seedingJsonOutput({
+		stageId: "group-into-topics",
+		output: transcriptTopics,
+	}),
+	"render-slides": (workspaceRoot: string) =>
+		seedSlideImages({ workspaceRoot, count: slideDeckReadings.length }),
+	"read-slides": (workspaceRoot: string) =>
+		seedSlideReadings({ workspaceRoot, readings: slideDeckReadings }),
 } as const;
 
+/** An earlier stage whose output {@link seedEarlierOutputs} can write. */
+type SeededStage = keyof typeof EARLIER_OUTPUT_SEEDS;
+
 /**
- * Writes into a workspace the output of each earlier stage that a stage reads:
- * {@link transcriptDivision} for a division, and {@link transcriptTopics} for the
- * topics. The caller writes the transcript.
+ * Writes into a workspace the output of each earlier stage that a stage reads.
+ * A division is {@link transcriptDivision}, and the topics are
+ * {@link transcriptTopics}. The slides are one image and one reading for each of
+ * the {@link slideDeckReadings}. The caller writes the transcript.
  *
  * @param args - The workspace, and the earlier stages.
  * @param args.workspaceRoot - The absolute path to the lecture workspace.
@@ -1761,14 +1864,10 @@ export async function seedEarlierOutputs({
 	readsFrom,
 }: {
 	readonly workspaceRoot: string;
-	readonly readsFrom: readonly (keyof typeof SEEDED_OUTPUTS)[];
+	readonly readsFrom: readonly SeededStage[];
 }): Promise<void> {
 	for (const earlierStage of readsFrom) {
-		await seedStageOutput({
-			workspaceRoot,
-			stageId: earlierStage,
-			contents: JSON.stringify(SEEDED_OUTPUTS[earlierStage]),
-		});
+		await EARLIER_OUTPUT_SEEDS[earlierStage](workspaceRoot);
 	}
 }
 
@@ -1787,7 +1886,7 @@ export async function seedEarlierOutputs({
  * @param args.reply - The content of the reply to every call, stubbed before each test. It is
  *   `null` in a suite that stubs the network and not the client.
  * @param args.tuning - The fields of the stage's config to replace. The default replaces none.
- * @returns The config of the stage, and readers for the workspace, the stub logger and the completion call of the current test. It also gives a function that runs the stage with the stub client. The run takes the manifest fields to replace. Last, it gives a check that a run fails after the third unusable send of `calls` calls and writes no output.
+ * @returns The config of the stage, and readers for the workspace, the stub logger and the completion call of the current test. It also gives a function that runs the stage with the stub client. The run takes the manifest fields to replace. It gives a check that a run makes one call, and that the user message of the call holds a value as JSON. Last, it gives a check that a run fails after the third unusable send of `calls` calls and writes no output.
  * @typeParam TInput - The input of the stage.
  * @typeParam TOutput - The output of the stage.
  */
@@ -1799,7 +1898,7 @@ export function useStageReadingDivision<TInput, TOutput>({
 	tuning = {},
 }: {
 	readonly stageId: StageWithOutputFile;
-	readonly readsFrom: readonly (keyof typeof SEEDED_OUTPUTS)[];
+	readonly readsFrom: readonly SeededStage[];
 	readonly factory: ModelStageFactory<TInput, TOutput>;
 	readonly reply: string | null;
 	readonly tuning?: Partial<StageConfig>;
@@ -1809,6 +1908,7 @@ export function useStageReadingDivision<TInput, TOutput>({
 	readonly logged: () => StubLogger;
 	readonly create: () => StubbedCompletionCall;
 	readonly run: (manifest?: Partial<Manifest>) => Promise<StageResult<TOutput>>;
+	readonly expectOneCallSending: (value: unknown) => Promise<void>;
 	readonly expectResendsExhausted: (args: { readonly calls: number }) => Promise<void>;
 } {
 	const workspace = useTranscribedWorkspace({ prefix: `${stageId}-` });
@@ -1844,6 +1944,12 @@ export function useStageReadingDivision<TInput, TOutput>({
 		logged,
 		create,
 		run,
+		expectOneCallSending: async (value) => {
+			await run();
+
+			expect(create()).toHaveBeenCalledTimes(1);
+			expect(sentUserMessage(create().mock.calls)).toContain(JSON.stringify(value));
+		},
 		expectResendsExhausted: ({ calls }) =>
 			expectResendsExhaustedWithoutOutput({
 				pending: run(),

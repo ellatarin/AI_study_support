@@ -6,6 +6,7 @@
 import type { OutputLanguage } from "../../../types/pipeline.js";
 import { languageRule } from "../../../utils/language.js";
 import { type PromptMessages, promptMessages } from "../model-stage.js";
+import type { SlideKind } from "../slides.js";
 
 /** The type of a figure (CONTEXT.md, "Figure"), as the reply gives it. */
 export const FIGURE_TYPES = [
@@ -17,11 +18,8 @@ export const FIGURE_TYPES = [
 	"printed page",
 ] as const;
 
-/**
- * The kind of a slide, as the reply gives it, with the rule that the prompt gives
- * the model for it (CONTEXT.md, "Content-free slide").
- */
-export const SLIDE_KIND_RULES = {
+/** The rule that the prompt gives the model for each kind of a slide. */
+export const SLIDE_KIND_RULES: Readonly<Record<SlideKind, string>> = {
 	"content-free": `The slide has no subject matter for a student. These slides are content-free:
   - a title slide
   - an outline or agenda
@@ -32,10 +30,7 @@ export const SLIDE_KIND_RULES = {
   - a slide with only a video or a link.`,
 	references: "The slide lists the sources of the lecture.",
 	"subject-matter": "All other slides.",
-} as const;
-
-/** The kind of a slide: subject matter, content-free or references. */
-export type SlideKind = keyof typeof SLIDE_KIND_RULES;
+};
 
 /**
  * Writes values as the prompt lists them: each in quotes, joined by commas, with

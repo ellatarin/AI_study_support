@@ -5,9 +5,9 @@
  * "Dividing the transcript").
  */
 
-import { readFile } from "node:fs/promises";
-import type { StageContext } from "../../types/pipeline.js";
+import type { StageContext, StageId } from "../../types/pipeline.js";
 import { errorMessage } from "../../utils/errors.js";
+import { readTextFile } from "../../utils/files.js";
 import { type StageWithOutputFile, stageDirectoryPath, stageOutputPath } from "../layout.js";
 import { readDivision, type Subtopic, splittingPanel } from "./division.js";
 import { readPanel } from "./panel-runs.js";
@@ -26,6 +26,96 @@ type ReadingOutput = ReadingStage & {
 	/** The use that the reading stage makes of the output, for the failure that a user reads, such as "divide". */
 	readonly purpose: string;
 };
+
+/** A file that an earlier stage wrote, and the builder of the reading stage's error. */
+type InputFile = {
+	/** The absolute path of the file. */
+	readonly path: string;
+	/** The earlier stage that writes the file, for the failure that a user reads. */
+	readonly stageId: StageId;
+	/** Builds the reading stage's own error from a message. */
+	readonly fail: (message: string) => Error;
+};
+
+/**
+ * Reads a file that an earlier stage wrote.
+ *
+ * @param args - The file, the earlier stage, and the error to raise.
+ * @param args.path - The absolute path of the file.
+ * @param args.stageId - The earlier stage that writes the file.
+ * @param args.fail - Builds the reading stage's own error from a message.
+ * @returns The text of the file, as written.
+ * @throws The error that `fail` builds, if the file is missing or cannot be read.
+ */
+function readInputText({ path, stageId, fail }: InputFile): Promise<string> {
+	return readTextFile({
+		path,
+		fail: (error) => fail(`No file at ${path}; run ${stageId} first (${errorMessage(error)})`),
+	});
+}
+
+/**
+ * Parses the text of a JSON file that an earlier stage wrote, and checks its shape.
+ *
+ * @param args - The text, the file, the error to raise, and the check of the shape.
+ * @param args.text - The text of the file.
+ * @param args.path - The absolute path of the file, for the failure that a user reads.
+ * @param args.fail - Builds the reading stage's own error from a message.
+ * @param args.read - Reads the parsed file, or gives `null` when the file does not have the shape.
+ * @param args.shape - The shape, for the failure that a user reads, such as "a list of subtopics".
+ * @returns The value that `read` gives.
+ * @throws The error that `fail` builds, if the text is not JSON or not the shape.
+ * @typeParam TValue - The value that the file holds.
+ */
+function parseInputJson<TValue>({
+	text,
+	path,
+	fail,
+	read,
+	shape,
+}: Omit<InputFile, "stageId"> & JsonShape<TValue> & { readonly text: string }): TValue {
+	let parsed: unknown;
+	try {
+		parsed = JSON.parse(text);
+	} catch (error: unknown) {
+		throw fail(`The file at ${path} is not JSON (${errorMessage(error)})`);
+	}
+	const value = read(parsed);
+	if (value === null) {
+		throw fail(`The file at ${path} is not ${shape}`);
+	}
+	return value;
+}
+
+/** The check of the shape of a JSON file. */
+type JsonShape<TValue> = {
+	/** Reads the parsed file, or gives `null` when the file does not have the shape. */
+	readonly read: (value: unknown) => TValue | null;
+	/** The shape, for the failure that a user reads, such as "a list of subtopics". */
+	readonly shape: string;
+};
+
+/**
+ * Reads a JSON file that an earlier stage wrote, and checks its shape. Each stage
+ * raises its own error through `fail`, and the messages are the same in every stage.
+ *
+ * @param args - The file, the earlier stage, the error to raise, and the check of the shape.
+ * @param args.path - The absolute path of the file.
+ * @param args.stageId - The earlier stage that writes the file.
+ * @param args.fail - Builds the reading stage's own error from a message.
+ * @param args.read - Reads the parsed file, or gives `null` when the file does not have the shape.
+ * @param args.shape - The shape, for the failure that a user reads, such as "a slide reading".
+ * @returns The value that `read` gives.
+ * @throws The error that `fail` builds, if the file is missing, not JSON, or not the shape.
+ * @typeParam TValue - The value that the file holds.
+ */
+export async function readInputJson<TValue>({
+	read,
+	shape,
+	...file
+}: InputFile & JsonShape<TValue>): Promise<TValue> {
+	return parseInputJson({ text: await readInputText(file), ...file, read, shape });
+}
 
 /**
  * Reads the output file of an earlier stage, and checks that it holds text. Each
@@ -47,12 +137,7 @@ export async function readStageText({
 	fail,
 }: ReadingOutput): Promise<string> {
 	const path = stageOutputPath({ workspaceRoot: context.workspaceRoot, stageId });
-	let text: string;
-	try {
-		text = await readFile(path, "utf8");
-	} catch (error: unknown) {
-		throw fail(`No file at ${path}; run ${stageId} first (${errorMessage(error)})`);
-	}
+	const text = await readInputText({ path, stageId, fail });
 	if (text.trim() === "") {
 		throw fail(`The file at ${path} holds no text; there is nothing to ${purpose}`);
 	}
@@ -93,26 +178,17 @@ async function readStageJson<TValue>({
 	read,
 	shape,
 	...reading
-}: ReadingOutput & {
-	readonly read: (value: unknown) => TValue | null;
-	readonly shape: string;
-}): Promise<TValue> {
-	const text = await readStageText(reading);
-	const path = stageOutputPath({
-		workspaceRoot: reading.context.workspaceRoot,
-		stageId: reading.stageId,
+}: ReadingOutput & JsonShape<TValue>): Promise<TValue> {
+	return parseInputJson({
+		text: await readStageText(reading),
+		path: stageOutputPath({
+			workspaceRoot: reading.context.workspaceRoot,
+			stageId: reading.stageId,
+		}),
+		fail: reading.fail,
+		read,
+		shape,
 	});
-	let parsed: unknown;
-	try {
-		parsed = JSON.parse(text);
-	} catch (error: unknown) {
-		throw reading.fail(`The file at ${path} is not JSON (${errorMessage(error)})`);
-	}
-	const value = read(parsed);
-	if (value === null) {
-		throw reading.fail(`The file at ${path} is not ${shape}`);
-	}
-	return value;
 }
 
 /**

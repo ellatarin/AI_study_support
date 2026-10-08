@@ -11,12 +11,12 @@
    Imports cannot be shared, and CLAUDE.md forbids barrel files (File
    Organisation). Only the imports are exempt. jscpd checks the code below as
    usual. */
-import { mkdir, readFile } from "node:fs/promises";
+import { mkdir } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { type Manifest, STAGE_IDS } from "../types/pipeline.js";
 import { isCalendarDate } from "../utils/date.js";
 import { errorMessage, NamedError } from "../utils/errors.js";
-import { readJsonSafe, writeJsonAtomic } from "../utils/files.js";
+import { readJsonSafe, readTextFile, writeJsonAtomic } from "../utils/files.js";
 import { isRecord } from "../utils/record.js";
 import { MANIFEST_FILE } from "./layout.js";
 /* jscpd:ignore-end */
@@ -104,12 +104,12 @@ export async function readManifest({
  * @returns The file's contents.
  * @throws {ManifestUnreadableError} When the file cannot be read.
  */
-async function readManifestFile(path: string): Promise<string> {
-	try {
-		return await readFile(path, "utf8");
-	} catch (error: unknown) {
-		throw new ManifestUnreadableError(`${path} could not be read: ${errorMessage(error)}`);
-	}
+function readManifestFile(path: string): Promise<string> {
+	return readTextFile({
+		path,
+		fail: (error) =>
+			new ManifestUnreadableError(`${path} could not be read: ${errorMessage(error)}`),
+	});
 }
 
 /**

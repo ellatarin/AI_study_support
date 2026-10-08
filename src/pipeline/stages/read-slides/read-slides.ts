@@ -4,19 +4,24 @@
  */
 
 import { readFile } from "node:fs/promises";
-import { join, relative } from "node:path";
+import { relative } from "node:path";
 import type { StageContext, StageResult } from "../../../types/pipeline.js";
 import { NamedError } from "../../../utils/errors.js";
-import { listFileNames } from "../../../utils/files.js";
-import { isRecord } from "../../../utils/record.js";
 import { configuredStage } from "../../../utils/stage-config.js";
-import { slideFileName, stageDirectoryPath } from "../../layout.js";
 import {
 	defineModelStage,
 	type ModelStageFactory,
 	type ModelStageRunArgs,
 } from "../model-stage.js";
 import { readOrMakeSavedFiles } from "../saved-files.js";
+import {
+	findSlideImages,
+	isSlideReading,
+	isSlideReadingReply,
+	type SlideReading,
+	type SlideReadingReply,
+	slideReadingPath,
+} from "../slides.js";
 import { buildSlideReadingMessages, FIGURE_TYPES, SLIDE_KIND_RULES } from "./read-slides.prompt.js";
 
 /**
@@ -33,22 +38,6 @@ type SlideImages = {
 	readonly slideImagePaths: readonly string[];
 };
 
-/** One figure of a slide (CONTEXT.md, "Figure"). */
-type Figure = { readonly type: string; readonly description: string };
-
-/** The reply that the prompt asks for. */
-type SlideReadingReply = {
-	readonly title: string;
-	readonly body: string;
-	readonly tables: readonly string[];
-	readonly figures: readonly Figure[];
-	readonly caption: string;
-	readonly kind: string;
-};
-
-/** One slide reading, as the stage writes it (technical-design.md §5, `read-slides`). */
-export type SlideReading = { readonly slideNumber: number } & SlideReadingReply;
-
 /** The output of `read-slides`. */
 export type ReadSlidesOutput = {
 	/** The reading of each slide, in deck order. */
@@ -57,56 +46,6 @@ export type ReadSlidesOutput = {
 
 /** The text that ends the failure "The model's reply is not the documented …". */
 const DOCUMENTED_REPLY_SHAPE = "{ title, body, tables, figures, caption, kind } object";
-
-/**
- * Tells if a value is a list of strings.
- *
- * @param value - The value to test.
- * @returns `true` when every entry is a string.
- */
-function isStringList(value: unknown): value is readonly string[] {
-	return Array.isArray(value) && value.every((entry) => typeof entry === "string");
-}
-
-/**
- * Tells if a value is a figure: a `type` and a `description`, both strings.
- *
- * @param value - The value to test.
- * @returns `true` when the value is a {@link Figure}.
- */
-function isFigure(value: unknown): value is Figure {
-	return isRecord(value) && typeof value.type === "string" && typeof value.description === "string";
-}
-
-/**
- * Checks that a parsed reply has the six fields of the prompt, with the right types.
- *
- * @param value - The parsed reply.
- * @returns `true` when the value is a {@link SlideReadingReply}.
- */
-function isSlideReadingReply(value: unknown): value is SlideReadingReply {
-	return (
-		isRecord(value) &&
-		typeof value.title === "string" &&
-		typeof value.body === "string" &&
-		isStringList(value.tables) &&
-		Array.isArray(value.figures) &&
-		value.figures.every(isFigure) &&
-		typeof value.caption === "string" &&
-		typeof value.kind === "string"
-	);
-}
-
-/**
- * Checks that a parsed saved reading has its slide number and the six fields of
- * the reply.
- *
- * @param value - The parsed saved reading.
- * @returns `true` when the value is a {@link SlideReading}.
- */
-function isSlideReading(value: unknown): value is SlideReading {
-	return isRecord(value) && typeof value.slideNumber === "number" && isSlideReadingReply(value);
-}
 
 /**
  * Makes the slide reading from a reply, or gives the reason that the reply is
@@ -144,17 +83,15 @@ function usableReading({
  *
  * @param context - The stage context.
  * @returns The path of each slide image, in deck order.
+ * @throws {ReadSlidesError} If the directory holds no slide image.
  */
-async function findSlideImages(context: StageContext): Promise<SlideImages> {
-	const slideImagesDir = stageDirectoryPath({
-		workspaceRoot: context.workspaceRoot,
-		stageId: "render-slides",
-	});
-	const names = [...(await listFileNames(slideImagesDir))].sort();
-	if (names.length === 0) {
-		throw new ReadSlidesError(`${slideImagesDir} holds no slide image. Run render-slides first.`);
-	}
-	return { slideImagePaths: names.map((name) => join(slideImagesDir, name)) };
+async function readSlideImages(context: StageContext): Promise<SlideImages> {
+	return {
+		slideImagePaths: await findSlideImages({
+			context,
+			fail: (message) => new ReadSlidesError(message),
+		}),
+	};
 }
 
 /**
@@ -174,16 +111,12 @@ async function readSlides({
 	context,
 	calls,
 }: ModelStageRunArgs<SlideImages>): Promise<StageResult<ReadSlidesOutput>> {
-	const readingsDir = stageDirectoryPath({
-		workspaceRoot: context.workspaceRoot,
-		stageId: STAGE_ID,
-	});
 	const slides = [...input.slideImagePaths.entries()].map(([index, imagePath]) => {
 		const slideNumber = index + 1;
 		return {
 			slideNumber,
 			imagePath,
-			path: join(readingsDir, slideFileName({ slideNumber, extension: "json" })),
+			path: slideReadingPath({ workspaceRoot: context.workspaceRoot, slideNumber }),
 		};
 	});
 	const { contents, cost } = await readOrMakeSavedFiles<(typeof slides)[number], SlideReading>({
@@ -218,4 +151,4 @@ async function readSlides({
 
 /** Builds the `read-slides` stage from the logger and the OpenAI client of the invocation. */
 export const createReadSlidesStage: ModelStageFactory<SlideImages, ReadSlidesOutput> =
-	defineModelStage({ stageId: STAGE_ID, getInput: findSlideImages, run: readSlides });
+	defineModelStage({ stageId: STAGE_ID, getInput: readSlideImages, run: readSlides });

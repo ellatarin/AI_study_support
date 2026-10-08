@@ -30,12 +30,13 @@ function judgementReply(overrides: Readonly<Record<string, unknown>> = {}): stri
 }
 
 describe("createJudgeLectureTitleStage", () => {
-	const { workspaceRoot, logged, create, run, expectResendsExhausted } = useStageReadingDivision({
-		stageId: STAGE_ID,
-		readsFrom: ["retitle-subtopics", "group-into-topics"],
-		factory: createJudgeLectureTitleStage,
-		reply: judgementReply(),
-	});
+	const { workspaceRoot, logged, create, run, expectOneCallSending, expectResendsExhausted } =
+		useStageReadingDivision({
+			stageId: STAGE_ID,
+			readsFrom: ["retitle-subtopics", "group-into-topics"],
+			factory: createJudgeLectureTitleStage,
+			reply: judgementReply(),
+		});
 
 	/** Stubs every model call with `content`. */
 	function stubContent(content: string): void {
@@ -53,23 +54,18 @@ describe("createJudgeLectureTitleStage", () => {
 	}
 
 	it("should send each topic's title with its subtopics' titles and trimmed text in order when the stage calls the model", async () => {
-		await run();
-
-		expect(create()).toHaveBeenCalledTimes(1);
-		expect(sentUserMessage(create().mock.calls)).toContain(
-			JSON.stringify({
-				topics: [
-					{
-						title: "The lecture's opening",
-						subtopics: [{ title: "Opening", text: "Today we are covering" }],
-					},
-					{
-						title: "Cell injury",
-						subtopics: [{ title: "Cell injury", text: "cell injury and the immune system." }],
-					},
-				],
-			}),
-		);
+		await expectOneCallSending({
+			topics: [
+				{
+					title: "The lecture's opening",
+					subtopics: [{ title: "Opening", text: "Today we are covering" }],
+				},
+				{
+					title: "Cell injury",
+					subtopics: [{ title: "Cell injury", text: "cell injury and the immune system." }],
+				},
+			],
+		});
 	});
 
 	it.each([

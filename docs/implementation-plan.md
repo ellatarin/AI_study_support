@@ -1033,15 +1033,13 @@ The stage tests need a workspace that holds the retitled subtopics, the slide im
 **Tests:**
 
 Tests for the stage (stub client, real temp directory):
-- `should send every subtopic's id, title and trimmed text, and every whole reading in deck order, when the stage calls the model`
-- `should mark each slide's kind in what it sends when the stage calls the model`
+- `should send every subtopic's id, title and trimmed text, and each subject-matter slide's whole reading in deck order, when the stage calls the model`
 - `should resend the call when the reply $problem` — `test.each` across each unusable reply in TD §5, `place-slides`
 - `should ignore an entry for a $kind slide when the reply is otherwise usable` — `test.each` across content-free and references
 - `should put each references slide with the last subtopic when the stage completes`
-- `should give no place to a content-free slide when the stage completes`
-- `should write each placed slide's number and subtopic id in deck order when the stage completes`
-- `should fail naming the file, without calling the model, when the $file $problem` — `test.each` across the transcript, the retitled subtopics and a reading, each missing, not readable, and the wrong shape
-- `should fail naming the missing reading, without calling the model, when a slide image has no reading`
+- `should write each subject-matter slide and each references slide with its subtopic id in deck order, and no content-free slide, when the stage completes`
+- `should fail naming the file, without calling the model, when the $file is $state` — `test.each` across the retitled subtopics file and the slide reading of a slide image, each missing, not JSON, and the wrong shape
+- `should fail, without calling the model, when the transcript is $state` — `test.each` across a missing transcript and a blank one
 - `should fail without writing the placements when the third send is still unusable`
 
 **Live run:** `render-slides`, `read-slides` and `place-slides` on the lecture of 2026-03-06 (cost stated first). A temporary script outside the repo builds a private HTML test page. The page shows the topic and subtopic headings, the transcript text, and each placed slide with its caption. A switch shows the slides at the start or the end of each subtopic. The user judges the placements.

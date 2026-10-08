@@ -20,6 +20,7 @@ import { createGroupIntoTopicsStage } from "../pipeline/stages/group-into-topics
 import { createInitialSubtopicSplittingStage } from "../pipeline/stages/initial-subtopic-splitting/initial-subtopic-splitting.js";
 import { createJudgeLectureTitleStage } from "../pipeline/stages/judge-lecture-title/judge-lecture-title.js";
 import { createSourceFileStage } from "../pipeline/stages/pipeline-stage.js";
+import { createPlaceSlidesStage } from "../pipeline/stages/place-slides/place-slides.js";
 import { createReadSlidesStage } from "../pipeline/stages/read-slides/read-slides.js";
 import { renderSlidesParts } from "../pipeline/stages/render-slides/render-slides.js";
 import { createRetitleSubtopicsStage } from "../pipeline/stages/retitle-subtopics/retitle-subtopics.js";
@@ -102,6 +103,7 @@ async function assembleDeps({
 			createJudgeLectureTitleStage({ logger, client }),
 			createSourceFileStage({ logger, ...renderSlidesParts }),
 			createReadSlidesStage({ logger, client }),
+			createPlaceSlidesStage({ logger, client }),
 			createTranscriptStructuringStage({ logger, client }),
 			createTranscriptVerificationStage({ logger, client }),
 		],

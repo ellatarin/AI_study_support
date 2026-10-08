@@ -210,6 +210,29 @@ export async function readJsonSafe(path: string): Promise<unknown> {
 }
 
 /**
+ * Reads a text file, and raises the caller's own error when the read fails.
+ *
+ * @param args - The file, and the error to raise.
+ * @param args.path - The absolute path of the file.
+ * @param args.fail - Builds the caller's error from the error of the read.
+ * @returns The text of the file.
+ * @throws The error that `fail` builds, if the file is missing or cannot be read.
+ */
+export async function readTextFile({
+	path,
+	fail,
+}: {
+	readonly path: string;
+	readonly fail: (error: unknown) => Error;
+}): Promise<string> {
+	try {
+		return await readFile(path, "utf8");
+	} catch (error: unknown) {
+		throw fail(error);
+	}
+}
+
+/**
  * Deletes every `.tmp` file in a directory. Each stage run does this at its
  * start, to remove the files that a crash left (technical-design.md §4.3).
  *

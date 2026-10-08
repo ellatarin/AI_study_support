@@ -11,7 +11,6 @@
    checks the code below. */
 import type { LectureIdentityChanges, StageContext, StageResult } from "../../../types/pipeline.js";
 import { errorMessage, NamedError } from "../../../utils/errors.js";
-import { jsonFileContent } from "../../../utils/files.js";
 import { isRecord } from "../../../utils/record.js";
 import { moduleDirs } from "../../layout.js";
 import { baseNameForLecture, renameLectureFiles } from "../../lecture-files.js";
@@ -21,7 +20,7 @@ import {
 	type ModelStageFactory,
 	type ModelStageRunArgs,
 } from "../model-stage.js";
-import { writeStageOutput } from "../pipeline-stage.js";
+import { writeJsonStageOutput } from "../pipeline-stage.js";
 import { readStageTopics, readTranscriptAndDivision } from "../stage-input.js";
 import type { Topic } from "../topics.js";
 import { buildTitleJudgementMessages, type GroupedLecture } from "./judge-lecture-title.prompt.js";
@@ -244,10 +243,10 @@ async function judgeLectureTitle({
 		use: (reply) => decideTitle({ reply, context }),
 	});
 	const { judgement, identityChanges } = sent.reply;
-	const { filesWritten } = await writeStageOutput({
+	const { filesWritten } = await writeJsonStageOutput({
 		stageId: STAGE_ID,
 		context,
-		content: jsonFileContent(judgement),
+		value: judgement,
 	});
 	logger.debug(
 		{ aiDerivedTitle: judgement.aiDerivedTitle, outcome: judgement.outcome },

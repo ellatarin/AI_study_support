@@ -1487,9 +1487,9 @@ The stage fails without a model call when `Slide images/` is missing or holds no
 
 The stage puts each subject-matter slide with the subtopic where the lecturer discusses it (CONTEXT.md, "Slide placement").
 
-**One call for the whole lecture.** The model gets every subtopic in order, as its subtopic id, its title and its full text, trimmed. The retitled subtopics hold only spans, so the stage cuts each text from the transcript, as `judge-lecture-title` does. The model also gets every reading in deck order, whole, as `read-slides` wrote it. So the model sees the caption that a student sees. The subtopics go without their topics. Some topic borders are disputed, and the placements must not depend on those borders. Content-free slides and references slides are in the list. A section divider shows where the lecture moves on, so it helps the model to place the slides around it.
+**One call for the whole lecture.** The model gets every subtopic in order, as its subtopic id, its title and its full text, trimmed. The retitled subtopics hold only spans, so the stage cuts each text from the transcript, as `judge-lecture-title` does. The model also gets the reading of each subject-matter slide in deck order, whole, as `read-slides` wrote it. So the model sees the caption that a student sees. The subtopics go without their topics. Some topic borders are disputed, and the placements must not depend on those borders. Content-free slides and references slides are not in the list. A content-free slide tells the model nothing about where a slide goes, and the code places the references slides.
 
-**The reply** is a JSON object with a list `placements`. Each entry holds a `slideNumber` and a `subtopicId`. The model gives one entry for each subject-matter slide. The stage ignores an entry for a content-free slide or a references slide. A reply is unusable in each of these cases:
+**The reply** is a JSON object with a list `placements`. Each entry holds a `slideNumber` and a `subtopicId`. The model gives one entry for each subject-matter slide. The stage ignores an entry for a content-free slide or a references slide, and makes no check on it. A reply is unusable in each of these cases:
 
 - It is not that shape.
 - A subject-matter slide has no entry, or more than one.

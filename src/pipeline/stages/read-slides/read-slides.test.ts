@@ -7,6 +7,7 @@ import {
 	configuringStage,
 	driveModelStage,
 	openRouterReplyBody,
+	readingFile,
 	readJsonFile,
 	resendPausesTimeoutMs,
 	seedSlideImages,
@@ -23,15 +24,6 @@ import { ResendsExhaustedError } from "../model-stage.js";
 import { createReadSlidesStage, ReadSlidesError } from "./read-slides.js";
 
 const STAGE_ID = "read-slides";
-
-/**
- * The workspace-relative path of the reading of slide `slideNumber`. The name is
- * stated in full here, and not taken from the production code. So a test that
- * finds a reading at this path checks the name.
- */
-function readingFile(slideNumber: number): string {
-	return `Slide readings/slide-${String(slideNumber).padStart(3, "0")}.json`;
-}
 
 describe("createReadSlidesStage", () => {
 	const workspace = useTranscribedWorkspace({ prefix: `${STAGE_ID}-` });
