@@ -1489,9 +1489,12 @@ The stage puts each subject-matter slide with the subtopic where the lecturer di
 
 **One call for the whole lecture.** The model gets every subtopic in order, as its subtopic id, its title and its full text, trimmed. The retitled subtopics hold only spans, so the stage cuts each text from the transcript, as `judge-lecture-title` does. The model also gets the reading of each subject-matter slide in deck order, whole, as `read-slides` wrote it. So the model sees the caption that a student sees. The subtopics go without their topics. Some topic borders are disputed, and the placements must not depend on those borders. Content-free slides and references slides are not in the list. A content-free slide tells the model nothing about where a slide goes, and the code places the references slides.
 
-**The reply** is a JSON object with a list `placements`. Each entry holds a `slideNumber` and a `subtopicId`. The model gives one entry for each subject-matter slide. The stage ignores an entry for a content-free slide or a references slide, and makes no check on it. A reply is unusable in each of these cases:
+**The prompt** is in Markdown sections: task, what the model gets, key considerations, method, rules, a check before the reply, and the reply format. The method places each slide on its own first. Then it goes through the slides in deck order. When two neighbour places disagree, the model moves only the slide whose place is wrong, and it repeats the pass until no two places disagree. So one wrong place does not push every later slide late. The prompt has a version, `p1`, and a change to its text gets a new version.
+
+**The reply** is a JSON object with a list `placements`. Each entry holds a `slideNumber`, a `subtopicId` and `placedBecause`, one sentence that says why the slide goes in that subtopic. The user reads the reasons to judge the placements. The model gives one entry for each subject-matter slide. The stage ignores an entry for a content-free slide or a references slide, and makes no check on it. A reply is unusable in each of these cases:
 
 - It is not that shape.
+- The `placedBecause` of a subject-matter slide is blank.
 - A subject-matter slide has no entry, or more than one.
 - An entry names a slide or a subtopic that does not exist.
 - A slide's subtopic is earlier than the subtopic of the subject-matter slide before it in the deck.
@@ -1510,7 +1513,7 @@ The stage does not repair a reply, because a repair must guess which slide is wr
 
 **One call, not a panel.** If real lectures show that placements change from one call to the next, a panel can be added later.
 
-**What is written.** `Slide placements/placements.json` holds a list `placements`, with one entry for each placed slide in deck order. Each entry holds `slideNumber` and `subtopicId`. A placement gives only the subtopic. It does not say if the slide goes at the start or at the end of the subtopic's text. That decision is open.
+**What is written.** `Slide placements/placements.json` holds `promptVersion`, the version of the prompt that made the placements. It also holds a list `placements`, with one entry for each placed slide in deck order. Each entry holds `slideNumber`, `subtopicId` and `placedBecause`. The `placedBecause` of a references slide is a fixed sentence, because the code places it. A placement gives only the subtopic. It does not say if the slide goes at the start or at the end of the subtopic's text. That decision is open.
 
 The stage fails without a model call when the transcript, the retitled subtopics or a reading is missing or unreadable. The error names the file. The stage finds a missing reading from `Slide images/`. Each slide image must have a reading with its slide number. The stage also fails when the third send is unusable.
 

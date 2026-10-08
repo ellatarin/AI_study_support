@@ -20,11 +20,25 @@ import { createPlaceSlidesStage, PlaceSlidesError } from "./place-slides.js";
 
 const STAGE_ID = "place-slides";
 
+/** The reason that each stubbed reply entry gives. */
+const STUBBED_REASON = "The lecturer explains the slide here.";
+
+/** One reply entry with {@link STUBBED_REASON}. */
+function placement({
+	slideNumber,
+	subtopicId,
+}: {
+	readonly slideNumber: number;
+	readonly subtopicId: number;
+}): Record<string, unknown> {
+	return { slideNumber, subtopicId, placedBecause: STUBBED_REASON };
+}
+
 /** A usable reply for {@link slideDeckReadings}: slide 1 in subtopic 1, and slide 2 in subtopic 2. */
 const usablePlacements = {
 	placements: [
-		{ slideNumber: 1, subtopicId: 1 },
-		{ slideNumber: 2, subtopicId: 2 },
+		placement({ slideNumber: 1, subtopicId: 1 }),
+		placement({ slideNumber: 2, subtopicId: 2 }),
 	],
 };
 
@@ -37,11 +51,14 @@ describe("createPlaceSlidesStage", () => {
 			reply: JSON.stringify(usablePlacements),
 		});
 
+	/** The placements file that the stage wrote, parsed from disk. */
+	function writtenFile(): Promise<unknown> {
+		return readJsonFile(stageOutputPath({ workspaceRoot: workspaceRoot(), stageId: STAGE_ID }));
+	}
+
 	/** The placements that the stage wrote, parsed from disk. */
 	async function writtenPlacements(): Promise<unknown> {
-		const written = await readJsonFile(
-			stageOutputPath({ workspaceRoot: workspaceRoot(), stageId: STAGE_ID }),
-		);
+		const written = await writtenFile();
 		return isRecord(written) ? written.placements : written;
 	}
 
@@ -59,26 +76,44 @@ describe("createPlaceSlidesStage", () => {
 	it.each([
 		{
 			problem: "is not the documented shape",
-			reply: { placements: [{ slideNumber: 1 }, { slideNumber: 2, subtopicId: 2 }] },
+			reply: {
+				placements: [
+					{ slideNumber: 1, placedBecause: STUBBED_REASON },
+					placement({ slideNumber: 2, subtopicId: 2 }),
+				],
+			},
+		},
+		{
+			problem: "gives a blank reason",
+			reply: {
+				placements: [
+					placement({ slideNumber: 1, subtopicId: 1 }),
+					{ ...placement({ slideNumber: 2, subtopicId: 2 }), placedBecause: " " },
+				],
+			},
 		},
 		{
 			problem: "gives a subject-matter slide no place",
-			reply: { placements: [{ slideNumber: 1, subtopicId: 1 }] },
+			reply: { placements: [placement({ slideNumber: 1, subtopicId: 1 })] },
 		},
 		{
 			problem: "gives a subject-matter slide more than one place",
-			reply: { placements: [...usablePlacements.placements, { slideNumber: 2, subtopicId: 2 }] },
+			reply: {
+				placements: [...usablePlacements.placements, placement({ slideNumber: 2, subtopicId: 2 })],
+			},
 		},
 		{
 			problem: "names a slide that does not exist",
-			reply: { placements: [...usablePlacements.placements, { slideNumber: 5, subtopicId: 2 }] },
+			reply: {
+				placements: [...usablePlacements.placements, placement({ slideNumber: 5, subtopicId: 2 })],
+			},
 		},
 		{
 			problem: "names a subtopic that does not exist",
 			reply: {
 				placements: [
-					{ slideNumber: 1, subtopicId: 1 },
-					{ slideNumber: 2, subtopicId: 3 },
+					placement({ slideNumber: 1, subtopicId: 1 }),
+					placement({ slideNumber: 2, subtopicId: 3 }),
 				],
 			},
 		},
@@ -86,8 +121,8 @@ describe("createPlaceSlidesStage", () => {
 			problem: "puts a slide in an earlier subtopic than the slide before it",
 			reply: {
 				placements: [
-					{ slideNumber: 1, subtopicId: 2 },
-					{ slideNumber: 2, subtopicId: 1 },
+					placement({ slideNumber: 1, subtopicId: 2 }),
+					placement({ slideNumber: 2, subtopicId: 1 }),
 				],
 			},
 		},
@@ -105,7 +140,7 @@ describe("createPlaceSlidesStage", () => {
 	])("should ignore an entry for a $kind slide when the reply is otherwise usable", async ({
 		slideNumber,
 	}) => {
-		const ignored = { slideNumber, subtopicId: 9 };
+		const ignored = placement({ slideNumber, subtopicId: 9 });
 		create().mockResolvedValue(
 			openRouterReplyBody({
 				content: JSON.stringify({ placements: [ignored, ...usablePlacements.placements, ignored] }),
@@ -120,10 +155,12 @@ describe("createPlaceSlidesStage", () => {
 	it("should put each references slide with the last subtopic when the stage completes", async () => {
 		await run();
 
-		expect(await writtenPlacements()).toContainEqual({ slideNumber: 4, subtopicId: 2 });
+		expect(await writtenPlacements()).toContainEqual(
+			expect.objectContaining({ slideNumber: 4, subtopicId: 2 }),
+		);
 	});
 
-	it("should write each subject-matter slide and each references slide with its subtopic id in deck order, and no content-free slide, when the stage completes", async () => {
+	it("should write each subject-matter slide and each references slide with its subtopic id and reason in deck order, and no content-free slide, when the stage completes", async () => {
 		create().mockResolvedValue(
 			openRouterReplyBody({
 				content: JSON.stringify({ placements: [...usablePlacements.placements].reverse() }),
@@ -133,10 +170,20 @@ describe("createPlaceSlidesStage", () => {
 		await run();
 
 		expect(await writtenPlacements()).toStrictEqual([
-			{ slideNumber: 1, subtopicId: 1 },
-			{ slideNumber: 2, subtopicId: 2 },
-			{ slideNumber: 4, subtopicId: 2 },
+			{ slideNumber: 1, subtopicId: 1, placedBecause: STUBBED_REASON },
+			{ slideNumber: 2, subtopicId: 2, placedBecause: STUBBED_REASON },
+			{
+				slideNumber: 4,
+				subtopicId: 2,
+				placedBecause: "A references slide goes with the last subtopic.",
+			},
 		]);
+	});
+
+	it("should record the prompt version beside the placements when the stage completes", async () => {
+		await run();
+
+		expect(await writtenFile()).toMatchObject({ promptVersion: "p1" });
 	});
 
 	it.each(

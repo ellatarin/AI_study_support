@@ -27,7 +27,11 @@ import {
 	slideReadingPath,
 } from "../slides.js";
 import { readInputJson, readTranscriptAndDivision } from "../stage-input.js";
-import { buildPlacementMessages, type SentSubtopic } from "./place-slides.prompt.js";
+import {
+	buildPlacementMessages,
+	PROMPT_VERSION,
+	type SentSubtopic,
+} from "./place-slides.prompt.js";
 
 /**
  * The error when the transcript, the retitled subtopics or a slide reading is
@@ -44,11 +48,18 @@ type PlacementInput = {
 	readonly slides: readonly SlideReading[];
 };
 
-/** One entry of the reply: a slide and its subtopic. */
-type Placement = { readonly slideNumber: number; readonly subtopicId: number };
+/** One entry of the reply: a slide, its subtopic, and why the slide goes there. */
+type Placement = {
+	readonly slideNumber: number;
+	readonly subtopicId: number;
+	readonly placedBecause: string;
+};
 
 /** The reply that the prompt asks for. */
 type PlacementReply = { readonly placements: readonly Placement[] };
+
+/** What the stage writes: the placements, and the version of the prompt that made them. */
+type SlidePlacements = PlacementReply & { readonly promptVersion: string };
 
 /** The text that ends the failure "The model's reply is not the documented …". */
 const DOCUMENTED_REPLY_SHAPE = "{ placements } object";
@@ -56,6 +67,9 @@ const DOCUMENTED_REPLY_SHAPE = "{ placements } object";
 const SUBJECT_MATTER: SlideKind = "subject-matter";
 
 const REFERENCES: SlideKind = "references";
+
+/** The reason that the stage writes for each references slide, which the code places. */
+const REFERENCES_REASON = "A references slide goes with the last subtopic.";
 
 /**
  * Tells if a slide is a subject-matter slide.
@@ -68,14 +82,18 @@ function isSubjectMatter(slide: SlideReading): boolean {
 }
 
 /**
- * Tells if a value is a placement: a `slideNumber` and a `subtopicId`, both numbers.
+ * Tells if a value is a placement: a `slideNumber` and a `subtopicId`, both
+ * numbers, and a `placedBecause` string.
  *
  * @param value - The value to test.
  * @returns `true` when the value is a {@link Placement}.
  */
 function isPlacement(value: unknown): value is Placement {
 	return (
-		isRecord(value) && typeof value.slideNumber === "number" && typeof value.subtopicId === "number"
+		isRecord(value) &&
+		typeof value.slideNumber === "number" &&
+		typeof value.subtopicId === "number" &&
+		typeof value.placedBecause === "string"
 	);
 }
 
@@ -143,6 +161,12 @@ function usablePlacements({
 	if (unknownSubtopic !== undefined) {
 		return {
 			failure: `The model's reply names subtopic ${unknownSubtopic.subtopicId}, which does not exist`,
+		};
+	}
+	const unexplained = kept.find((placement) => placement.placedBecause.trim() === "");
+	if (unexplained !== undefined) {
+		return {
+			failure: `The model's reply gives slide ${unexplained.slideNumber} a blank placedBecause`,
 		};
 	}
 	const misplaced = subjectMatterSlides.find((slide) => placesOfSlide(slide).length !== 1);
@@ -236,7 +260,7 @@ async function placeSlides({
 	input,
 	context,
 	calls,
-}: ModelStageRunArgs<PlacementInput>): Promise<StageResult<PlacementReply>> {
+}: ModelStageRunArgs<PlacementInput>): Promise<StageResult<SlidePlacements>> {
 	const sent = await calls.sendJsonWithResends({
 		what: "Slide placements",
 		messages: buildPlacementMessages({
@@ -249,12 +273,24 @@ async function placeSlides({
 	});
 	// A subtopic id counts from 1, so the last subtopic's id is the number of subtopics.
 	const lastSubtopicId = input.subtopics.length;
-	const placements = input.slides.flatMap((slide) =>
+	const placements = input.slides.flatMap((slide): readonly Placement[] =>
 		slide.kind === REFERENCES
-			? [{ slideNumber: slide.slideNumber, subtopicId: lastSubtopicId }]
-			: placesOf({ reply: sent.reply, slideNumber: slide.slideNumber }),
+			? [
+					{
+						slideNumber: slide.slideNumber,
+						subtopicId: lastSubtopicId,
+						placedBecause: REFERENCES_REASON,
+					},
+				]
+			: placesOf({ reply: sent.reply, slideNumber: slide.slideNumber }).map(
+					({ slideNumber, subtopicId, placedBecause }) => ({
+						slideNumber,
+						subtopicId,
+						placedBecause,
+					}),
+				),
 	);
-	const output = { placements };
+	const output = { promptVersion: PROMPT_VERSION, placements };
 	const { filesWritten } = await writeJsonStageOutput({
 		stageId: STAGE_ID,
 		context,
@@ -264,5 +300,5 @@ async function placeSlides({
 }
 
 /** Builds the `place-slides` stage from the logger and the OpenAI client of the invocation. */
-export const createPlaceSlidesStage: ModelStageFactory<PlacementInput, PlacementReply> =
+export const createPlaceSlidesStage: ModelStageFactory<PlacementInput, SlidePlacements> =
 	defineModelStage({ stageId: STAGE_ID, getInput: readPlacementInput, run: placeSlides });
