@@ -1,6 +1,6 @@
 # 01 — Correct misheard terms from the slides before the rewrite
 
-**Status:** needs-triage
+**Status:** resolved
 
 **Blocked by:** none
 
@@ -25,3 +25,7 @@
 - [x] The user decides where the correction happens. The user chose a stage before the rewrite.
 - [ ] The README, the technical design and the plan describe the stage, with its name, its files and its checks.
 - [ ] The notes of the lecture of 2026-03-06 say "β-naphthylamine", not "beta-naphthylene".
+
+## Answer
+
+**Replaced on 2026-10-08.** The user changed the design. Term correction is not a stage of its own. It is the first step of each rewrite attempt in the stage `rewrite-subtopics`. Ticket 07 of `.scratch/rewrite-subtopics/` builds it, and ticket 01 there updates the design documents. Ticket 08 there checks the β-naphthylamine case. The open items above move to those tickets.
