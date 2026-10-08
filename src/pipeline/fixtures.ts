@@ -53,9 +53,10 @@ import {
 } from "./openrouter.js";
 import { createMoneyFormatter, type MoneyFormatter } from "./reports.js";
 import { assembleContext } from "./stage-context.js";
-import { type Subtopic, subtopicText } from "./stages/division.js";
+import { type Subtopic, type SubtopicWithIdAndText, subtopicText } from "./stages/division.js";
 import { type ModelStageFactory, ResendsExhaustedError } from "./stages/model-stage.js";
 import { SavedRunUnreadableError } from "./stages/panel-runs.js";
+import type { StructuredTranscript } from "./stages/structured-transcript.js";
 import type { Topic } from "./stages/topics.js";
 import {
 	API_KEY_VARIABLE as ELEVENLABS_KEY_VARIABLE,
@@ -786,6 +787,19 @@ export const transcriptSubtopicTexts = [
 	"cell injury and the immune system.",
 ] as const;
 
+/**
+ * The subtopic id, the title and the text of each subtopic of
+ * {@link transcriptDivision}. A stage sends them to a model in this form, and
+ * the structured transcript holds them in this form.
+ */
+export const transcriptSubtopicsWithIdAndText: readonly SubtopicWithIdAndText[] = [
+	...transcriptDivision.entries(),
+].map(([index, subtopic]) => ({
+	subtopicId: index + 1,
+	title: subtopic.title,
+	text: transcriptSubtopicTexts[index] ?? "",
+}));
+
 /** The first topic of {@link transcriptTopics}. It holds the first subtopic. */
 export const openingTopic: Topic = {
 	title: "The lecture's opening",
@@ -805,6 +819,18 @@ export const subjectTopic: Topic = {
  * them. Each subtopic is a topic of its own.
  */
 export const transcriptTopics: readonly Topic[] = [openingTopic, subjectTopic];
+
+/**
+ * {@link transcriptTopics} with their subtopics, as `structure-transcript` writes
+ * them under the title of {@link testLecture}.
+ */
+export const transcriptStructuredTranscript: StructuredTranscript = {
+	lectureTitle: testLecture.title,
+	topics: [
+		{ title: openingTopic.title, subtopics: transcriptSubtopicsWithIdAndText.slice(0, 1) },
+		{ title: subjectTopic.title, subtopics: transcriptSubtopicsWithIdAndText.slice(1) },
+	],
+};
 
 /**
  * A saved run that an earlier invocation left. It holds {@link transcriptText}
@@ -1805,6 +1831,10 @@ const EARLIER_OUTPUT_SEEDS = {
 	"group-into-topics": seedingJsonOutput({
 		stageId: "group-into-topics",
 		output: transcriptTopics,
+	}),
+	"structure-transcript": seedingJsonOutput({
+		stageId: "structure-transcript",
+		output: transcriptStructuredTranscript,
 	}),
 	"render-slides": (workspaceRoot: string) =>
 		seedSlideImages({ workspaceRoot, count: slideDeckReadings.length }),

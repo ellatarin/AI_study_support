@@ -8,18 +8,13 @@ import type { Logger } from "pino";
 import type { PipelineStage } from "../../../types/pipeline.js";
 import { NamedError } from "../../../utils/errors.js";
 import { createPipelineStage, writeJsonStageResult } from "../pipeline-stage.js";
-import { readTopicsWithSubtopics, type TopicWithSubtopics } from "../stage-input.js";
+import { readTopicsWithSubtopics } from "../stage-input.js";
+import type { StructuredTranscript, TopicWithSubtopics } from "../structured-transcript.js";
 
 const STAGE_ID = "structure-transcript";
 
 /** The error when the transcript, the retitled subtopics or the topics are missing or unreadable. */
 export class StructureTranscriptError extends NamedError {}
-
-/** The structured transcript that the stage writes (CONTEXT.md, "Structured transcript"). */
-export type StructuredTranscript = {
-	readonly lectureTitle: string;
-	readonly topics: readonly TopicWithSubtopics[];
-};
 
 /**
  * Builds the `structure-transcript` stage.

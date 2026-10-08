@@ -9,14 +9,13 @@ import type { StageContext, StageId } from "../../types/pipeline.js";
 import { errorMessage } from "../../utils/errors.js";
 import { readTextFile } from "../../utils/files.js";
 import { type StageWithOutputFile, stageDirectoryPath, stageOutputPath } from "../layout.js";
-import {
-	readDivision,
-	type Subtopic,
-	type SubtopicWithIdAndText,
-	splittingPanel,
-	subtopicsWithIdAndText,
-} from "./division.js";
+import { readDivision, type Subtopic, splittingPanel, subtopicsWithIdAndText } from "./division.js";
 import { readPanel } from "./panel-runs.js";
+import {
+	readStructuredTranscript,
+	type StructuredTranscript,
+	type TopicWithSubtopics,
+} from "./structured-transcript.js";
 import { readTopics, type Topic } from "./topics.js";
 
 /** The stage that reads: its stage context, and the builder of its error. */
@@ -234,6 +233,27 @@ export function readStageTopics(
 	});
 }
 
+/**
+ * Reads the structured transcript that `structure-transcript` wrote.
+ *
+ * @param reading - The stage context, the purpose, and the error to raise.
+ * @param reading.context - The stage context of the current lecture.
+ * @param reading.purpose - The use that the reading stage makes of the structured transcript, for the failure that a user reads, such as "place the slides in".
+ * @param reading.fail - Builds the reading stage's own error from a message.
+ * @returns The structured transcript.
+ * @throws The error that `fail` builds, if the file is missing, empty, not JSON, or not a structured transcript.
+ */
+export function readStageStructuredTranscript(
+	reading: Omit<ReadingOutput, "stageId">,
+): Promise<StructuredTranscript> {
+	return readStageJson({
+		...reading,
+		stageId: "structure-transcript",
+		read: readStructuredTranscript,
+		shape: "a structured transcript",
+	});
+}
+
 /** The trimmed transcript, and the subtopics of a division of it. */
 export type TranscriptAndDivision = {
 	readonly transcript: string;
@@ -259,12 +279,6 @@ export async function readTranscriptAndDivision(
 	const transcript = await readTranscript(reading);
 	return { transcript, subtopics: await readStageDivision(reading) };
 }
-
-/** One topic with its title, and its subtopics in order. */
-export type TopicWithSubtopics = {
-	readonly title: string;
-	readonly subtopics: readonly SubtopicWithIdAndText[];
-};
 
 /**
  * Reads the transcript, the retitled subtopics and the topics, and puts each

@@ -12,7 +12,7 @@
 import type { StageContext, StageResult } from "../../../types/pipeline.js";
 import { NamedError } from "../../../utils/errors.js";
 import { isRecord } from "../../../utils/record.js";
-import { placeCuts, type Subtopic, subtopicsWithIdAndText, subtopicText } from "../division.js";
+import { placeCuts, type SubtopicWithIdAndText } from "../division.js";
 import {
 	defineModelStage,
 	type ModelStageFactory,
@@ -27,24 +27,23 @@ import {
 	type SlideReading,
 	slideReadingPath,
 } from "../slides.js";
-import {
-	readInputJson,
-	readTranscriptAndDivision,
-	type TranscriptAndDivision,
-} from "../stage-input.js";
+import { readInputJson, readStageStructuredTranscript } from "../stage-input.js";
 import { buildPlacementMessages, PROMPT_VERSION } from "./place-slides.prompt.js";
 
 /**
- * The error when the transcript, the retitled subtopics or a slide reading is
- * missing or unreadable. A call whose third send is still unusable fails the
- * stage with `ResendsExhaustedError`.
+ * The error when the structured transcript or a slide reading is missing or
+ * unreadable. A call whose third send is still unusable fails the stage with
+ * `ResendsExhaustedError`.
  */
 export class PlaceSlidesError extends NamedError {}
 
 const STAGE_ID = "place-slides";
 
-/** The transcript, its retitled subtopics, and the reading of each slide in deck order. */
-type PlacementInput = TranscriptAndDivision & { readonly slides: readonly SlideReading[] };
+/** Every subtopic of the structured transcript in lecture order, and the reading of each slide in deck order. */
+type PlacementInput = {
+	readonly subtopics: readonly SubtopicWithIdAndText[];
+	readonly slides: readonly SlideReading[];
+};
 
 /** One entry of the reply: a slide, its subtopic, its start words, and why the slide goes there. */
 type ReplyPlacement = {
@@ -63,8 +62,8 @@ type SlidePlacement = {
 	readonly subtopicId: number;
 	/** The start words from the reply. `null` for a references slide, which the code places. */
 	readonly startWords: string | null;
-	/** The position in the transcript where the slide goes. */
-	readonly textPosition: number;
+	/** The number of characters from the start of the subtopic's text to the point where the slide goes. */
+	readonly positionInSubtopic: number;
 	readonly placedBecause: string;
 };
 
@@ -145,44 +144,59 @@ function placesOf({
  * Finds start words in the text of one subtopic, as the division stages find
  * the start words of a cut.
  *
- * @param args - The transcript, the subtopic, and the start words.
- * @param args.transcript - The transcript that the span of the subtopic indexes into.
+ * @param args - The subtopic, and the start words.
  * @param args.subtopic - The subtopic that the reply names.
  * @param args.startWords - The start words from the reply.
- * @returns The position in the transcript, or `null` when the subtopic does not hold the words.
+ * @returns The position in the subtopic's text, or `null` when the subtopic does not hold the words.
  */
-function positionInSubtopic({
-	transcript,
+function findStartWords({
 	subtopic,
 	startWords,
 }: {
-	readonly transcript: string;
-	readonly subtopic: Subtopic;
+	readonly subtopic: SubtopicWithIdAndText;
 	readonly startWords: string;
 }): number | null {
 	// The empty first start words stand for the start of the subtopic. placeCuts never searches for them.
-	const placed = placeCuts({
-		text: subtopicText({ text: transcript, subtopic }),
-		startWords: ["", startWords],
-	});
+	const placed = placeCuts({ text: subtopic.text, startWords: ["", startWords] });
 	const [, position] = "cuts" in placed ? placed.cuts : [];
-	return position === undefined ? null : subtopic.start + position;
+	return position ?? null;
+}
+
+/**
+ * Tells if a placement is earlier in the lecture than another: in an earlier
+ * subtopic, or in the same subtopic at a smaller position.
+ *
+ * @param args - The two placements.
+ * @param args.placement - The placement to test.
+ * @param args.than - The placement to compare it with.
+ * @returns `true` when `placement` is earlier than `than`.
+ */
+function isEarlier({
+	placement,
+	than,
+}: {
+	readonly placement: SlidePlacement;
+	readonly than: SlidePlacement;
+}): boolean {
+	return (
+		placement.subtopicId < than.subtopicId ||
+		(placement.subtopicId === than.subtopicId &&
+			placement.positionInSubtopic < than.positionInSubtopic)
+	);
 }
 
 /**
  * Gives the placement of each subject-matter slide in deck order, or the reason
  * that the reply is unusable (technical-design.md §5, `place-slides`).
  *
- * @param args - The reply, the transcript, the subtopics and the slide readings.
+ * @param args - The reply, the subtopics and the slide readings.
  * @param args.reply - The parsed reply, with the documented shape.
- * @param args.transcript - The transcript that the spans of the subtopics index into.
  * @param args.subtopics - Every subtopic, in lecture order.
  * @param args.slides - Every slide reading, in deck order.
  * @returns The placements, or the reason that the reply is unusable.
  */
 function usablePlacements({
 	reply,
-	transcript,
 	subtopics,
 	slides,
 }: PlacementInput & { readonly reply: PlacementReply }):
@@ -202,7 +216,7 @@ function usablePlacements({
 	// The stage ignores the entries for the other slides. The kept entries are in deck order.
 	const kept = subjectMatterSlides.flatMap(placesOfSlide);
 	// A subtopic id counts from 1, so subtopic id N is at index N - 1.
-	const subtopicOf = ({ subtopicId }: ReplyPlacement): Subtopic | undefined =>
+	const subtopicOf = ({ subtopicId }: ReplyPlacement): SubtopicWithIdAndText | undefined =>
 		subtopics[subtopicId - 1];
 	const unknownSubtopic = kept.find((placement) => subtopicOf(placement) === undefined);
 	if (unknownSubtopic !== undefined) {
@@ -225,27 +239,29 @@ function usablePlacements({
 	const placed: SlidePlacement[] = [];
 	for (const placement of kept) {
 		const subtopic = subtopicOf(placement);
-		const textPosition =
+		const positionInSubtopic =
 			subtopic === undefined
 				? null
-				: positionInSubtopic({ transcript, subtopic, startWords: placement.startsWith });
-		if (textPosition === null) {
+				: findStartWords({ subtopic, startWords: placement.startsWith });
+		if (positionInSubtopic === null) {
 			return {
 				failure: `The model's start words "${placement.startsWith}" for slide ${placement.slideNumber} are not in subtopic ${placement.subtopicId}`,
 			};
 		}
-		if (textPosition < (placed.at(-1)?.textPosition ?? 0)) {
-			return {
-				failure: `The model's reply puts slide ${placement.slideNumber} earlier in the transcript than the subject-matter slide before it`,
-			};
-		}
-		placed.push({
+		const slidePlacement: SlidePlacement = {
 			slideNumber: placement.slideNumber,
 			subtopicId: placement.subtopicId,
 			startWords: placement.startsWith,
-			textPosition,
+			positionInSubtopic,
 			placedBecause: placement.placedBecause,
-		});
+		};
+		const previous = placed.at(-1);
+		if (previous !== undefined && isEarlier({ placement: slidePlacement, than: previous })) {
+			return {
+				failure: `The model's reply puts slide ${placement.slideNumber} earlier in the lecture than the subject-matter slide before it`,
+			};
+		}
+		placed.push(slidePlacement);
 	}
 	return { reply: placed };
 }
@@ -279,24 +295,23 @@ function readSlideReading({
 }
 
 /**
- * Reads the transcript, the retitled subtopics and the reading of each slide
- * image.
+ * Reads the structured transcript and the reading of each slide image.
  *
  * @param context - The stage context.
- * @returns The transcript, its subtopics, and each slide reading in deck order.
+ * @returns Every subtopic in lecture order, and each slide reading in deck order.
  * @throws {PlaceSlidesError} If an input file is missing, unreadable or the wrong shape, or if no slide image exists.
  */
 async function readPlacementInput(context: StageContext): Promise<PlacementInput> {
 	const fail = (message: string): Error => new PlaceSlidesError(message);
-	const division = await readTranscriptAndDivision({
+	const { topics } = await readStageStructuredTranscript({
 		context,
-		stageId: "retitle-subtopics",
 		purpose: "place the slides in",
 		fail,
 	});
 	const images = await findSlideImages({ context, fail });
 	return {
-		...division,
+		// The subtopics go without their topics (technical-design.md §5, `place-slides`).
+		subtopics: topics.flatMap((topic) => topic.subtopics),
 		slides: await Promise.all(
 			[...images.keys()].map((index) =>
 				readSlideReading({ context, slideNumber: index + 1, fail }),
@@ -310,7 +325,7 @@ async function readPlacementInput(context: StageContext): Promise<PlacementInput
  * slide at the end of the last subtopic. It writes the placements in deck order.
  *
  * @param args - The input, the stage context and the model calls of the stage run.
- * @param args.input - The transcript, its subtopics and the slide readings.
+ * @param args.input - The subtopics and the slide readings.
  * @param args.context - The stage context.
  * @param args.calls - The model calls of this stage run.
  * @returns The placements, the cost of the call and the file written.
@@ -325,7 +340,7 @@ async function placeSlides({
 	const sent = await calls.sendJsonWithResends({
 		what: "Slide placements",
 		messages: buildPlacementMessages({
-			subtopics: subtopicsWithIdAndText({ text: input.transcript, subtopics: input.subtopics }),
+			subtopics: input.subtopics,
 			slides: input.slides.filter(isSubjectMatter),
 		}),
 		isReply: isPlacementReply,
@@ -338,10 +353,9 @@ async function placeSlides({
 			? [
 					{
 						slideNumber: slide.slideNumber,
-						// A subtopic id counts from 1, so the last subtopic's id is the number of subtopics.
-						subtopicId: input.subtopics.length,
+						subtopicId: lastSubtopic.subtopicId,
 						startWords: null,
-						textPosition: lastSubtopic.end,
+						positionInSubtopic: lastSubtopic.text.length,
 						placedBecause: REFERENCES_REASON,
 					},
 				]

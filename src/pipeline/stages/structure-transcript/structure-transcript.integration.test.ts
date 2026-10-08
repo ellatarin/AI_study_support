@@ -6,14 +6,10 @@ import {
 	driveStage,
 	makeManifest,
 	makeStageContext,
-	openingTopic,
 	readJsonFile,
 	seedEarlierOutputs,
 	spoilJsonFile,
-	subjectTopic,
-	testLecture,
-	transcriptDivision,
-	transcriptSubtopicTexts,
+	transcriptStructuredTranscript,
 	unusableTopicsWithSubtopicsFiles,
 	unusableTranscripts,
 	useStubLogger,
@@ -55,31 +51,7 @@ describe("structure-transcript", () => {
 	it("should write the lecture title, and each topic with its subtopics' ids, titles and texts in lecture order, when the stage completes", async () => {
 		await run();
 
-		expect(await writtenStructuredTranscript()).toStrictEqual({
-			lectureTitle: testLecture.title,
-			topics: [
-				{
-					title: openingTopic.title,
-					subtopics: [
-						{
-							subtopicId: 1,
-							title: transcriptDivision[0]?.title,
-							text: transcriptSubtopicTexts[0],
-						},
-					],
-				},
-				{
-					title: subjectTopic.title,
-					subtopics: [
-						{
-							subtopicId: 2,
-							title: transcriptDivision[1]?.title,
-							text: transcriptSubtopicTexts[1],
-						},
-					],
-				},
-			],
-		});
+		expect(await writtenStructuredTranscript()).toStrictEqual(transcriptStructuredTranscript);
 	});
 
 	it("should write the manifest's lecture title when it differs from the provisional title", async () => {

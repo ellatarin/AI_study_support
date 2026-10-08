@@ -10,13 +10,13 @@ import { readFile, readdir, writeFile } from "node:fs/promises";
 import { basename, join } from "node:path";
 import sharp from "sharp";
 
-type Subtopic = { start: number; end: number; title: string };
-type Topic = { title: string; firstSubtopicId: number };
+type Subtopic = { subtopicId: number; title: string; text: string };
+type Topic = { title: string; subtopics: Subtopic[] };
 type Placement = {
 	slideNumber: number;
 	subtopicId: number;
 	startWords?: string | null;
-	textPosition?: number;
+	positionInSubtopic?: number;
 	placedBecause: string;
 };
 type Reading = { slideNumber: number; title: string; caption: string; kind: string };
@@ -71,9 +71,9 @@ function captionHtml(caption: string): string {
 	});
 }
 
-const transcript = (await readFile(join(workspace, "Transcript/transcript.txt"), "utf8")).trim();
-const subtopics = await readJson<Subtopic[]>("Retitled subtopics/subtopics.json");
-const topics = await readJson<Topic[]>("Topics/topics.json");
+const { topics } = await readJson<{ topics: Topic[] }>(
+	"Structured transcript/structured-transcript.json",
+);
 const { promptVersion, placements } = await readJson<{
 	promptVersion?: string;
 	placements: Placement[];
@@ -142,12 +142,12 @@ function paragraphSpans(text: string): Array<[number, number]> {
 
 /** One subtopic's text as paragraphs, with each figure at its point and its sentence marked. */
 async function subtopicTextHtml(subtopic: Subtopic, placed: Placement[]): Promise<string> {
-	const text = transcript.slice(subtopic.start, subtopic.end);
+	const { text } = subtopic;
 	const ends = sentenceEnds(text);
 	// A placement from prompt p1 has no position, so it goes at the start of its subtopic.
 	const points = placed.map((placement) => ({
 		placement,
-		at: Math.min(Math.max((placement.textPosition ?? subtopic.start) - subtopic.start, 0), text.length),
+		at: Math.min(Math.max(placement.positionInSubtopic ?? 0, 0), text.length),
 	}));
 	const marks = new Map<number, number>();
 	for (const { placement, at } of points) {
@@ -186,12 +186,10 @@ async function subtopicTextHtml(subtopic: Subtopic, placed: Placement[]): Promis
 const sections: string[] = [];
 const contents: string[] = [];
 for (const [topicIndex, topic] of topics.entries()) {
-	const nextFirstId = topics[topicIndex + 1]?.firstSubtopicId ?? subtopics.length + 1;
 	contents.push(`<li><a href="#topic-${topicIndex + 1}">${escapeHtml(topic.title)}</a></li>`);
 	const subtopicSections: string[] = [];
-	for (let subtopicId = topic.firstSubtopicId; subtopicId < nextFirstId; subtopicId++) {
-		const subtopic = subtopics[subtopicId - 1];
-		if (subtopic === undefined) continue;
+	for (const subtopic of topic.subtopics) {
+		const { subtopicId } = subtopic;
 		const placed = placements.filter((placement) => placement.subtopicId === subtopicId);
 		const slideCount = placed.length === 1 ? "1 slide" : `${placed.length} slides`;
 		subtopicSections.push(`<section class="subtopic" id="subtopic-${subtopicId}">

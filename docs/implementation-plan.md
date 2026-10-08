@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.74-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
+**Suite version:** 1.75-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
 **Date:** 2026-10-08
 **Status:** For review
 
@@ -1109,7 +1109,10 @@ Tests for the stage (real temp directory, the shared stage fixture):
 
 `place-slides` **(TD §5, `place-slides`)** reads the structured transcript in place of the transcript and the retitled subtopics. The model gets the same subtopic ids, titles and texts as before, and the prompt stays `p2`. Each placement stores `positionInSubtopic` in place of `textPosition`. The deck-order check compares places by subtopic order first, then by `positionInSubtopic`. The test page script reads `positionInSubtopic`.
 
-**Tests:** The stage's suite changes its fixture to the structured transcript, and its cases for the stored position and the deck order change to `positionInSubtopic`.
+**Tests:** The stage's suite changes its fixture to the structured transcript, and its cases for the stored position and the deck order change to `positionInSubtopic`. Three tests of phase 18 change:
+- `should write each subject-matter slide and each references slide with its subtopic id, start words, position in its subtopic and reason in deck order, and no content-free slide, when the stage completes` replaces the test that names the text position.
+- `should fail naming the file, without calling the model, when the $file is $state` goes across the structured transcript file in place of the retitled subtopics file.
+- `should fail, without calling the model, when the transcript is $state` is removed, because the stage no longer reads the transcript.
 
 **Live run:** the user runs the stage again on lectures 3 and 4. The test pages show the slides at the same sentences as the `p2` pages. The measured costs are recorded.
 

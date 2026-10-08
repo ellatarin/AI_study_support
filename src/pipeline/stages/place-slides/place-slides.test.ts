@@ -10,10 +10,8 @@ import {
 	resendPausesTimeoutMs,
 	slideDeckReadings,
 	spoilJsonFile,
-	transcriptDivision,
+	transcriptSubtopicsWithIdAndText,
 	transcriptSubtopicTexts,
-	transcriptText,
-	unusableTranscripts,
 	useStageReadingDivision,
 } from "../../fixtures.js";
 import { stageOutputPath } from "../../layout.js";
@@ -52,7 +50,7 @@ describe("createPlaceSlidesStage", () => {
 	const { workspaceRoot, create, run, expectOneCallSending, expectResendsExhausted } =
 		useStageReadingDivision({
 			stageId: STAGE_ID,
-			readsFrom: ["retitle-subtopics", "render-slides", "read-slides"],
+			readsFrom: ["structure-transcript", "render-slides", "read-slides"],
 			factory: createPlaceSlidesStage,
 			reply: JSON.stringify(usablePlacements),
 		});
@@ -70,11 +68,7 @@ describe("createPlaceSlidesStage", () => {
 
 	it("should send every subtopic's id, title and trimmed text, and each subject-matter slide's whole reading in deck order, when the stage calls the model", async () => {
 		await expectOneCallSending({
-			subtopics: transcriptDivision.map((subtopic, index) => ({
-				subtopicId: index + 1,
-				title: subtopic.title,
-				text: transcriptSubtopicTexts[index],
-			})),
+			subtopics: transcriptSubtopicsWithIdAndText,
 			slides: [slideDeckReadings[0], slideDeckReadings[1]],
 		});
 	});
@@ -184,7 +178,7 @@ describe("createPlaceSlidesStage", () => {
 		);
 	});
 
-	it("should write each subject-matter slide and each references slide with its subtopic id, start words, text position and reason in deck order, and no content-free slide, when the stage completes", async () => {
+	it("should write each subject-matter slide and each references slide with its subtopic id, start words, position in its subtopic and reason in deck order, and no content-free slide, when the stage completes", async () => {
 		const midSubtopicWords = "the immune system";
 		create().mockResolvedValue(
 			openRouterReplyBody({
@@ -204,21 +198,21 @@ describe("createPlaceSlidesStage", () => {
 				slideNumber: 1,
 				subtopicId: 1,
 				startWords: transcriptSubtopicTexts[0],
-				textPosition: 0,
+				positionInSubtopic: 0,
 				placedBecause: STUBBED_REASON,
 			},
 			{
 				slideNumber: 2,
 				subtopicId: 2,
 				startWords: midSubtopicWords,
-				textPosition: transcriptText.indexOf(midSubtopicWords),
+				positionInSubtopic: transcriptSubtopicTexts[1].indexOf(midSubtopicWords),
 				placedBecause: STUBBED_REASON,
 			},
 			{
 				slideNumber: 4,
 				subtopicId: 2,
 				startWords: null,
-				textPosition: transcriptText.length,
+				positionInSubtopic: transcriptSubtopicTexts[1].length,
 				placedBecause: "A references slide goes at the end of the last subtopic.",
 			},
 		]);
@@ -233,9 +227,9 @@ describe("createPlaceSlidesStage", () => {
 	it.each(
 		eachUnusableJsonFile([
 			{
-				file: "retitled subtopics file",
+				file: "structured transcript file",
 				path: () =>
-					stageOutputPath({ workspaceRoot: workspaceRoot(), stageId: "retitle-subtopics" }),
+					stageOutputPath({ workspaceRoot: workspaceRoot(), stageId: "structure-transcript" }),
 			},
 			{ file: "slide reading of a slide image", path: () => join(workspaceRoot(), readingFile(2)) },
 		]),
@@ -249,21 +243,6 @@ describe("createPlaceSlidesStage", () => {
 
 		expect(error).toBeInstanceOf(PlaceSlidesError);
 		expect(error.message).toContain(path());
-		expect(create()).not.toHaveBeenCalled();
-	});
-
-	it.each(
-		unusableTranscripts,
-	)("should fail, without calling the model, when the transcript is $state", async ({
-		spoil,
-		says,
-	}) => {
-		await spoil(workspaceRoot());
-
-		const error = await captureError(run());
-
-		expect(error).toBeInstanceOf(PlaceSlidesError);
-		expect(error.message).toContain(says);
 		expect(create()).not.toHaveBeenCalled();
 	});
 
