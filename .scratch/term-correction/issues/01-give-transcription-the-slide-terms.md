@@ -28,4 +28,4 @@
 
 ## Answer
 
-**Replaced on 2026-10-08.** The user changed the design. Term correction is not a stage of its own. It is the first step of each rewrite attempt in the stage `rewrite-subtopics`. Ticket 07 of `.scratch/rewrite-subtopics/` builds it, and ticket 01 there updates the design documents. Ticket 08 there checks the β-naphthylamine case. The open items above move to those tickets.
+**Replaced on 2026-10-08.** The user changed the design. Term correction is not a stage of its own. It is the first step of each rewrite attempt in the stage `rewrite-subtopics`. Ticket 05 of `.scratch/rewrite-subtopics/` builds it, and ticket 01 there updates the design documents. Ticket 08 there checks the β-naphthylamine case. The open items above move to those tickets.

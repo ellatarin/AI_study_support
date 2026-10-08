@@ -1,15 +1,15 @@
-# 05 — Rewrite each subtopic
+# 06 — Rewrite each subtopic from its corrected text
 
-**What to build:** The new stage `rewrite-subtopics` turns the text of each subtopic into a rewritten subtopic. In this ticket, the stage has the rewrite step only, and the writer reads the verbatim text. Tickets 06 and 07 add the checker and term correction.
+**What to build:** `rewrite-subtopics` gets its second step, the rewrite. Each subtopic gets a rewritten subtopic, made from its text after term correction. Ticket 07 adds the checker.
 
-**Blocked by:** 03 — Build `structure-transcript`
+**Blocked by:** 05 — Correct misheard terms in each subtopic
 
 **Status:** ready-for-agent
 
 - [ ] Before the build, show the prompt to the user. Its rules use no nouns from the lectures that test it.
 - [ ] Before the build, propose two models to the user, with the price of each from OpenRouter. The user's choice goes in the example config and in the user's config.
-- [ ] The stage makes one call for each subtopic. The writer gets the text of that subtopic only, with no title, no slides and no other subtopic.
-- [ ] The stage works on several subtopics at the same time, up to the concurrency in its config. Its sends are spaced by its `sendGapSeconds`. One gate serves all the lectures of a batch, as in the other stages.
+- [ ] The rewrite makes one call for each subtopic, after term correction. The writer gets the corrected text of that subtopic only, with no title, no slides and no other subtopic.
+- [ ] The rewrite uses the same concurrency and the same gate as term correction.
 - [ ] The prompt tells the writer to keep these kinds of detail exactly. Each kind is a numbered rule.
   - scientific nomenclature and precise terms
   - names, small molecules and protein subunits included
@@ -19,6 +19,6 @@
 - [ ] The prompt tells the writer to keep the lecturer's order, to add nothing, and to write paragraphs with no heading. LaTeX is allowed for symbols.
 - [ ] The prompt tells the writer to drop filler, jokes and course arrangements, and to keep each statement of subject matter in them.
 - [ ] The prompt tells the writer to put a figure mark where the lecturer points at a slide. The mark has no number.
-- [ ] The stage writes `Rewritten subtopics/rewritten-subtopics.json`, with one rewritten subtopic for each subtopic id, in lecture order.
+- [ ] Each rewrite attempt file also holds the rewritten subtopic.
+- [ ] The stage writes `Rewritten subtopics/rewritten-subtopics.json`, with one rewritten subtopic for each subtopic id, in lecture order. Each entry holds the corrections that its rewritten subtopic uses.
 - [ ] The stage resends an unusable reply, and fails after the third send.
-- [ ] The stage fails without a model call when the structured transcript is missing, unreadable or the wrong shape. The error names the file.

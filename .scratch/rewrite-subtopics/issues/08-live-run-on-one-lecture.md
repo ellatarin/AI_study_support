@@ -2,7 +2,7 @@
 
 **What to build:** The user runs `rewrite-subtopics` on one lecture and judges the rewritten subtopics. Then the placement after the rewrite gets its design.
 
-**Blocked by:** 07 — Correct misheard terms before each rewrite attempt
+**Blocked by:** 07 — Check each rewritten subtopic, with up to three rewrite attempts
 
 **Status:** ready-for-agent
 
