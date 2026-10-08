@@ -47,8 +47,8 @@ The verbatim text of what was said, as the transcriber produced it. It has no sp
 _Avoid_: raw transcript (except where contrasted with the structured transcript), captions
 
 **Structured transcript**:
-The transcript reorganised into headed, readable prose, with filler removed. From synthesis onwards, the structured transcript is the lecture. No stage reads the verbatim transcript again. That is why the structured transcript is checked against its source exactly once.
-_Avoid_: cleaned transcript, formatted transcript
+The verbatim transcript arranged as the lecture's structure. It holds the lecture title and the topics in lecture order, each with its title. Each topic holds its subtopics in order. Each subtopic has its subtopic id, its title and its own text. It holds no position in the transcript, so each subtopic stands alone. It holds the lecturer's words unchanged.
+_Avoid_: divided transcript, lecture file, cleaned transcript, formatted transcript
 
 **Notes**:
 The finished document for one lecture: continuous academic prose with figures, key-concept summaries and a glossary, delivered as a PDF. It is the only artefact a student is meant to read.
@@ -235,6 +235,28 @@ _Avoid_: filler slide, empty slide, administrative slide
 **Slide placement**:
 Putting each slide with the subtopic where the lecturer discusses it. The slide goes at the point where the lecturer starts to discuss it. Each slide is placed once. Slides keep their deck order: no slide is placed at a point earlier than the point of the slide before it. A references slide goes with the lecture's last subtopic, outside the deck order. A content-free slide is not placed.
 _Avoid_: slide assignment, slide merging, slide matching
+
+### Rewriting a subtopic
+
+**Term correction**:
+The step that changes misheard terms in one subtopic. It compares the subtopic text with the readings of the slides placed in that subtopic. It changes terms only. It never adds or removes a fact.
+_Avoid_: key-term fixing, spelling correction
+
+**Correction**:
+One change that term correction makes: a wrong form, a right form and a reason. Each form has one to four words. The right form must be on a slide placed in the same subtopic.
+_Avoid_: fix, edit, amendment
+
+**Rewritten subtopic**:
+The prose that the rewrite makes from the text of one subtopic after term correction. It keeps each fact of the text, in the lecturer's order, and adds nothing. It has no heading.
+_Avoid_: passage, section, notes (the notes are the whole page)
+
+**Figure mark**:
+A mark with no number that the writer puts where the lecturer points at a slide. A later step puts a slide at each figure mark and gives it its number.
+_Avoid_: slide reference, placeholder
+
+**Rewrite attempt**:
+One pass of term correction, rewrite and check for one subtopic. When the checker finds a fault, the subtopic gets another rewrite attempt. A subtopic gets at most three.
+_Avoid_: try, iteration
 
 ### Checking quality
 
