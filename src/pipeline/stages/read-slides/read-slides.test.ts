@@ -73,6 +73,18 @@ describe("createReadSlidesStage", () => {
 		);
 	});
 
+	it("should ask for a caption of one short sentence that starts with the subject when the stage reads a slide", async () => {
+		await seedSlideImages({ workspaceRoot: workspace().workspaceRoot, count: 1 });
+
+		await run();
+
+		const prompt = sentSystemMessage(create().mock.calls);
+		expect(prompt).toContain("One sentence of at most 20 words");
+		expect(prompt).toContain(
+			'Start with the subject itself. Never start with words for the slide, the figure or its form, such as "The slide shows", "This diagram", "A diagram of", "An overview of", "A summary of" or "A comparison of".',
+		);
+	});
+
 	it("should write each reading with its slide number and the six fields of the reply when the reply is usable", async () => {
 		await seedSlideImages({ workspaceRoot: workspace().workspaceRoot, count: 2 });
 

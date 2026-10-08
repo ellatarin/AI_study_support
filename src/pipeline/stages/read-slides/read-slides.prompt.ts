@@ -152,7 +152,7 @@ Do not make an entry for a decorative picture, such as a logo or clip art. When 
 
 ## caption
 
-One or two sentences that tell a student what the slide shows.
+One sentence of at most 20 words that tells a student what the slide shows. Start with the subject itself. Never start with words for the slide, the figure or its form, such as "The slide shows", "This diagram", "A diagram of", "An overview of", "A summary of" or "A comparison of".
 
 ## kind
 
