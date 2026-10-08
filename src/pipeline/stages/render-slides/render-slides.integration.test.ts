@@ -20,6 +20,16 @@ import { RenderSlidesError, renderSlidesParts } from "./render-slides.js";
 const PAGE_WIDTH_POINTS = 720;
 const PAGE_HEIGHT_POINTS = 540;
 
+/** The page box of a test slide, as a PDF dictionary entry. */
+const MEDIA_BOX = `/MediaBox [0 0 ${String(PAGE_WIDTH_POINTS)} ${String(PAGE_HEIGHT_POINTS)}]`;
+
+/**
+ * A CCITT Group 4 fax image of 8 by 8 black pixels, as its bits. The first row
+ * is a horizontal-mode code: white run 0, black run 8. Each later row repeats
+ * the row above, as two vertical-mode codes. Two end-of-block codes close it.
+ */
+const BLACK_FAX_IMAGE_BITS = `001${"00110101"}${"000101"}${"11".repeat(7)}${"000000000001".repeat(2)}`;
+
 /**
  * Writes a PDF of blank pages as plain text, so the suite needs no binary
  * fixture and no PDF library.
@@ -27,15 +37,40 @@ const PAGE_HEIGHT_POINTS = 540;
 function blankPagesPdf(pageCount: number): string {
 	const pages = Array.from(
 		{ length: pageCount },
-		() =>
-			`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${String(PAGE_WIDTH_POINTS)} ${String(PAGE_HEIGHT_POINTS)}] >>`,
+		() => `<< /Type /Page /Parent 2 0 R ${MEDIA_BOX} >>`,
 	);
 	const kids = pages.map((_, index) => `${String(index + 3)} 0 R`).join(" ");
-	const objects = [
+	return pdfOf([
 		"<< /Type /Catalog /Pages 2 0 R >>",
 		`<< /Type /Pages /Kids [${kids}] /Count ${String(pageCount)} >>`,
 		...pages,
-	];
+	]);
+}
+
+/**
+ * Writes a PDF of one page that {@link BLACK_FAX_IMAGE_BITS} fills, as a slide
+ * holds a scanned figure. The image bytes are written as Latin-1 characters.
+ */
+function faxImagePagePdf(): string {
+	const bits = BLACK_FAX_IMAGE_BITS.padEnd(Math.ceil(BLACK_FAX_IMAGE_BITS.length / 8) * 8, "0");
+	const image = (bits.match(/.{8}/g) ?? [])
+		.map((byte) => String.fromCharCode(Number.parseInt(byte, 2)))
+		.join("");
+	const content = `q ${String(PAGE_WIDTH_POINTS)} 0 0 ${String(PAGE_HEIGHT_POINTS)} 0 0 cm /Im1 Do Q`;
+	return pdfOf([
+		"<< /Type /Catalog /Pages 2 0 R >>",
+		"<< /Type /Pages /Kids [3 0 R] /Count 1 >>",
+		`<< /Type /Page /Parent 2 0 R ${MEDIA_BOX} /Resources << /XObject << /Im1 4 0 R >> >> /Contents 5 0 R >>`,
+		`<< /Type /XObject /Subtype /Image /Width 8 /Height 8 /ColorSpace /DeviceGray /BitsPerComponent 1 /Filter /CCITTFaxDecode /DecodeParms << /K -1 /Columns 8 /Rows 8 >> /Length ${String(image.length)} >>\nstream\n${image}\nendstream`,
+		`<< /Length ${String(content.length)} >>\nstream\n${content}\nendstream`,
+	]);
+}
+
+/**
+ * Writes PDF objects as a whole PDF, with the cross-reference table that
+ * points at each object.
+ */
+function pdfOf(objects: readonly string[]): string {
 	let body = "%PDF-1.4\n";
 	const offsets: number[] = [];
 	for (const [index, object] of objects.entries()) {
@@ -53,7 +88,7 @@ describe("createRenderSlidesStage", () => {
 	let slideDeckPath: string;
 
 	const writeSlideDeck = (pageCount: number): Promise<void> =>
-		writeFile(slideDeckPath, blankPagesPdf(pageCount));
+		writeFile(slideDeckPath, blankPagesPdf(pageCount), "latin1");
 
 	const renderSlides = (): Promise<StageResult<RenderSlidesOutput>> =>
 		driveStage({
@@ -94,6 +129,19 @@ describe("createRenderSlidesStage", () => {
 		const { width, height } = await sharp(slideImagePath).metadata();
 		// 720 by 540 points is 10 by 7.5 inches, so 1500 by 1125 pixels at 150 DPI.
 		expect({ width, height }).toStrictEqual({ width: 1500, height: 1125 });
+	});
+
+	it("should draw a fax-encoded image when a slide holds one", async () => {
+		await writeFile(slideDeckPath, faxImagePagePdf(), "latin1");
+
+		const result = await renderSlides();
+
+		const [slideImagePath] = result.output.slideImagePaths;
+		const centre = await sharp(slideImagePath)
+			.extract({ left: 750, top: 562, width: 1, height: 1 })
+			.raw()
+			.toBuffer();
+		expect(centre[0]).toBe(0);
 	});
 
 	it("should record no cost when the stage completes", async () => {

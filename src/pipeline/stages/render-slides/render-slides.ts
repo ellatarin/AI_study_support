@@ -1,4 +1,5 @@
-import { join, relative } from "node:path";
+import { createRequire } from "node:module";
+import { dirname, join, relative } from "node:path";
 import { createCanvas } from "@napi-rs/canvas";
 import {
 	getDocument,
@@ -31,6 +32,12 @@ const POINTS_PER_INCH = 72;
 const DOTS_PER_INCH = 150;
 
 /**
+ * The folder of the WebAssembly decoders that ship with pdfjs-dist. Without it,
+ * pdfjs draws nothing for a fax-encoded or JBIG2 image, such as a scanned figure.
+ */
+const PDFJS_WASM_DIR = `${join(dirname(createRequire(import.meta.url).resolve("pdfjs-dist/package.json")), "wasm")}/`;
+
+/**
  * Opens the slide deck as a PDF.
  *
  * @param slideDeckPath - The absolute path of the slide deck.
@@ -39,7 +46,11 @@ const DOTS_PER_INCH = 150;
  */
 async function openSlideDeck(slideDeckPath: string): Promise<PDFDocumentProxy> {
 	try {
-		return await getDocument({ url: slideDeckPath, verbosity: VerbosityLevel.ERRORS }).promise;
+		return await getDocument({
+			url: slideDeckPath,
+			wasmUrl: PDFJS_WASM_DIR,
+			verbosity: VerbosityLevel.ERRORS,
+		}).promise;
 	} catch (error: unknown) {
 		throw new RenderSlidesError(
 			`The slide deck at ${slideDeckPath} is not a readable PDF (${errorMessage(error)})`,

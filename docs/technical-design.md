@@ -1433,7 +1433,7 @@ createJudgeLectureTitleStage(args: { logger: Logger; client: OpenAI }): Pipeline
 **Input:** `Source files/Slide decks/<base name>.pdf`
 **Output:** `Slide images/slide-001.png`, `slide-002.png` and so on, one for each page
 
-The stage renders each page of the slide deck as one PNG image at 150 DPI, with `pdfjs-dist` and `@napi-rs/canvas`. The images are numbered from 1 in deck order. The stage makes no model call, so its cost is `null` (§4.2).
+The stage renders each page of the slide deck as one PNG image at 150 DPI, with `pdfjs-dist` and `@napi-rs/canvas`. The stage gives `pdfjs-dist` the folder of the WebAssembly image decoders that ship with it. Without them, `pdfjs-dist` draws nothing for a fax-encoded or JBIG2 image, such as a scanned chemical structure. The images are numbered from 1 in deck order. The stage makes no model call, so its cost is `null` (§4.2).
 
 The notes show a slide as one whole image (CONTEXT.md, "Slide"). No figure is cut out of a slide. A vision model gives imprecise position boxes, so a crop can lose an axis label or take part of the text beside the figure. A whole slide is always complete.
 
