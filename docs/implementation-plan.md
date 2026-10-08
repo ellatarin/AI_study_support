@@ -1028,19 +1028,20 @@ Tests for the model-call code:
 
 `src/pipeline/stages/place-slides/` **(TD §5, `place-slides`)** contains the stage and its prompt module. The stage makes one call for the whole lecture and checks the reply. It puts each references slide with the last subtopic, and gives content-free slides no place. It writes `Slide placements/placements.json`. The stage is added to `lectureStages` after `read-slides`, with its `STAGE_IDS` and `STAGE_FILES` entries and its cost-report label. Its entry goes in the example config and in the user's own config.
 
-The stage tests need a workspace that holds the retitled subtopics and the slide readings. Extend the shared stage fixture to write the slide readings. Do not build a second fixture.
+The stage tests need a workspace that holds the retitled subtopics, the slide images and the slide readings. Extend the shared stage fixture to write the slide images and the slide readings. Do not build a second fixture.
 
 **Tests:**
 
-Tests for the stage (mock `callModel`, real temp directory):
-- `should send every subtopic's id, title and trimmed text, and every reading in deck order, when the stage calls the model`
+Tests for the stage (stub client, real temp directory):
+- `should send every subtopic's id, title and trimmed text, and every whole reading in deck order, when the stage calls the model`
 - `should mark each slide's kind in what it sends when the stage calls the model`
-- `should resend the call when the reply $problem` — `test.each` across the four unusable replies in TD §5, `place-slides`
+- `should resend the call when the reply $problem` — `test.each` across each unusable reply in TD §5, `place-slides`
 - `should ignore an entry for a $kind slide when the reply is otherwise usable` — `test.each` across content-free and references
 - `should put each references slide with the last subtopic when the stage completes`
 - `should give no place to a content-free slide when the stage completes`
 - `should write each placed slide's number and subtopic id in deck order when the stage completes`
 - `should fail naming the file, without calling the model, when the $file $problem` — `test.each` across the transcript, the retitled subtopics and a reading, each missing, not readable, and the wrong shape
+- `should fail naming the missing reading, without calling the model, when a slide image has no reading`
 - `should fail without writing the placements when the third send is still unusable`
 
 **Live run:** `render-slides`, `read-slides` and `place-slides` on the lecture of 2026-03-06 (cost stated first). A temporary script outside the repo builds a private HTML test page. The page shows the topic and subtopic headings, the transcript text, and each placed slide with its caption. A switch shows the slides at the start or the end of each subtopic. The user judges the placements.

@@ -73,7 +73,9 @@
 			"concurrency": 10
 		},
 		"place-slides": {
-			"modelId": "<REASONING_MODEL>"
+			"modelId": "google/gemini-3.8-flash",
+			"temperature": null,
+			"maxTokens": null
 		},
 		"synthesis": {
 			"modelId": "<REASONING_MODEL>",

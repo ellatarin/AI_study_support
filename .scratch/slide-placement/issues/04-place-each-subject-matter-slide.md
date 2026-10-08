@@ -6,14 +6,17 @@
 
 **Status:** ready-for-agent
 
-- [ ] The model gets every subtopic's title and text, and every slide reading in deck order. Content-free slides are in the list and marked as content-free.
-- [ ] The model returns one subtopic for each subject-matter slide.
+- [ ] The model gets every subtopic's id, title and trimmed text, with no topics. It also gets every slide reading in deck order, whole, as `read-slides` wrote it. Content-free slides and references slides are in the list, with their kind.
+- [ ] The model returns one subtopic for each subject-matter slide. The stage ignores an entry for a content-free slide or a references slide.
 - [ ] A reply is unusable in each of these cases:
-  - a subject-matter slide has no place or two places
-  - a slide is placed earlier than the slide before it in the deck
-  - a subtopic does not exist.
+  - the reply is not the documented shape
+  - a subject-matter slide has no place, or more than one place
+  - an entry names a slide or a subtopic that does not exist
+  - a slide's subtopic is earlier than the subtopic of the subject-matter slide before it in the deck.
 - [ ] The stage resends an unusable reply with no repair, and fails after the third send.
 - [ ] The code puts each references slide with the lecture's last subtopic. The deck-order check does not apply to references slides.
 - [ ] Content-free slides get no place.
-- [ ] The stage writes `Slide placements/placements.json`.
-- [ ] The stage fails without a model call when an input is unusable: the retitled subtopics, the transcript, or a slide reading. The error names the file.
+- [ ] The stage writes `Slide placements/placements.json`, with one entry for each placed slide in deck order.
+- [ ] The stage fails without a model call when an input file is missing, unreadable or the wrong shape. The input files are the transcript, the retitled subtopics and each slide reading. The error names the file.
+- [ ] The stage fails without a model call when a slide image has no reading. The error names the missing reading.
+- [ ] The model is `google/gemini-3.8-flash` with no temperature and no token cap, in the example config and in the user's config.

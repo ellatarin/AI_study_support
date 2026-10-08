@@ -1482,12 +1482,12 @@ The stage fails without a model call when `Slide images/` is missing or holds no
 
 ### `place-slides` — each slide with its subtopic
 
-**Input:** `Transcript/transcript.txt`, `Retitled subtopics/subtopics.json`, `Slide readings/`
+**Input:** `Transcript/transcript.txt`, `Retitled subtopics/subtopics.json`, `Slide images/`, `Slide readings/`
 **Output:** `Slide placements/placements.json`
 
 The stage puts each subject-matter slide with the subtopic where the lecturer discusses it (CONTEXT.md, "Slide placement").
 
-**One call for the whole lecture.** The model gets every subtopic in order, as its subtopic id, its title and its full text, trimmed. The retitled subtopics hold only spans, so the stage cuts each text from the transcript, as `judge-lecture-title` does. The model also gets every reading in deck order, as its slide number, kind, title, body, tables and figure descriptions. Content-free slides and references slides are in the list. A section divider shows where the lecture moves on, so it helps the model to place the slides around it.
+**One call for the whole lecture.** The model gets every subtopic in order, as its subtopic id, its title and its full text, trimmed. The retitled subtopics hold only spans, so the stage cuts each text from the transcript, as `judge-lecture-title` does. The model also gets every reading in deck order, whole, as `read-slides` wrote it. So the model sees the caption that a student sees. The subtopics go without their topics. Some topic borders are disputed, and the placements must not depend on those borders. Content-free slides and references slides are in the list. A section divider shows where the lecture moves on, so it helps the model to place the slides around it.
 
 **The reply** is a JSON object with a list `placements`. Each entry holds a `slideNumber` and a `subtopicId`. The model gives one entry for each subject-matter slide. The stage ignores an entry for a content-free slide or a references slide. A reply is unusable in each of these cases:
 
@@ -1504,11 +1504,17 @@ The stage does not repair a reply, because a repair must guess which slide is wr
 
 **Content-free slides** get no place, and the notes do not show them (CONTEXT.md, "Content-free slide").
 
+**Every subject-matter slide gets a place**, also a slide that the lecturer does not discuss. Deck order then puts that slide between its neighbours. A student loses less from a slide in an approximate place than from a slide that is not in the notes.
+
+**A duplicate slide** is a separate slide, with its own image, number and reading. The stage places each copy. A recap slide that repeats an earlier slide therefore shows twice.
+
 **One call, not a panel.** If real lectures show that placements change from one call to the next, a panel can be added later.
 
-**What is written.** `Slide placements/placements.json` holds a list `placements`, with one entry for each placed slide in deck order. Each entry holds `slideNumber` and `subtopicId`.
+**What is written.** `Slide placements/placements.json` holds a list `placements`, with one entry for each placed slide in deck order. Each entry holds `slideNumber` and `subtopicId`. A placement gives only the subtopic. It does not say if the slide goes at the start or at the end of the subtopic's text. That decision is open.
 
-The stage fails without a model call when the transcript, the retitled subtopics or a reading is missing or unreadable. The error names the file. The stage also fails when the third send is unusable.
+The stage fails without a model call when the transcript, the retitled subtopics or a reading is missing or unreadable. The error names the file. The stage finds a missing reading from `Slide images/`. Each slide image must have a reading with its slide number. The stage also fails when the third send is unusable.
+
+**The model** is set on the stage's own entry (§6). It is `google/gemini-3.8-flash`, the model of `read-slides`. It has no temperature and no token cap, for the same reasons as `read-slides`.
 
 #### Gaps in the slide stages
 
@@ -1885,7 +1891,9 @@ Each prefix is matched literally, so one carrying a pattern character means itse
       "concurrency": 10                           // slides read at once
     },
     "place-slides": {
-      "modelId": "<REASONING_MODEL>"              // one call with the whole lecture and every slide reading
+      "modelId": "google/gemini-3.8-flash",       // one call with the whole lecture and every slide reading
+      "temperature": null,
+      "maxTokens": null
     },
     "synthesis": {
       "modelId": "<REASONING_MODEL>",             // single long-context call combining transcript + slides + captions
