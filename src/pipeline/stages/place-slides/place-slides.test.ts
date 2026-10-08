@@ -12,6 +12,7 @@ import {
 	spoilJsonFile,
 	transcriptDivision,
 	transcriptSubtopicTexts,
+	transcriptText,
 	unusableTranscripts,
 	useStageReadingDivision,
 } from "../../fixtures.js";
@@ -23,15 +24,20 @@ const STAGE_ID = "place-slides";
 /** The reason that each stubbed reply entry gives. */
 const STUBBED_REASON = "The lecturer explains the slide here.";
 
-/** One reply entry with {@link STUBBED_REASON}. */
+/**
+ * One reply entry with {@link STUBBED_REASON}. The default start words are the
+ * whole text of the subtopic, so the slide goes at the start of the subtopic.
+ */
 function placement({
 	slideNumber,
 	subtopicId,
+	startsWith = transcriptSubtopicTexts[subtopicId - 1] ?? "",
 }: {
 	readonly slideNumber: number;
 	readonly subtopicId: number;
+	readonly startsWith?: string;
 }): Record<string, unknown> {
-	return { slideNumber, subtopicId, placedBecause: STUBBED_REASON };
+	return { slideNumber, subtopicId, startsWith, placedBecause: STUBBED_REASON };
 }
 
 /** A usable reply for {@link slideDeckReadings}: slide 1 in subtopic 1, and slide 2 in subtopic 2. */
@@ -118,6 +124,24 @@ describe("createPlaceSlidesStage", () => {
 			},
 		},
 		{
+			problem: "gives start words that are not in the slide's subtopic",
+			reply: {
+				placements: [
+					placement({ slideNumber: 1, subtopicId: 1, startsWith: "the immune system" }),
+					placement({ slideNumber: 2, subtopicId: 2 }),
+				],
+			},
+		},
+		{
+			problem: "puts a slide before the slide before it in the same subtopic",
+			reply: {
+				placements: [
+					placement({ slideNumber: 1, subtopicId: 2, startsWith: "the immune system" }),
+					placement({ slideNumber: 2, subtopicId: 2 }),
+				],
+			},
+		},
+		{
 			problem: "puts a slide in an earlier subtopic than the slide before it",
 			reply: {
 				placements: [
@@ -160,22 +184,42 @@ describe("createPlaceSlidesStage", () => {
 		);
 	});
 
-	it("should write each subject-matter slide and each references slide with its subtopic id and reason in deck order, and no content-free slide, when the stage completes", async () => {
+	it("should write each subject-matter slide and each references slide with its subtopic id, start words, text position and reason in deck order, and no content-free slide, when the stage completes", async () => {
+		const midSubtopicWords = "the immune system";
 		create().mockResolvedValue(
 			openRouterReplyBody({
-				content: JSON.stringify({ placements: [...usablePlacements.placements].reverse() }),
+				content: JSON.stringify({
+					placements: [
+						placement({ slideNumber: 2, subtopicId: 2, startsWith: midSubtopicWords }),
+						placement({ slideNumber: 1, subtopicId: 1 }),
+					],
+				}),
 			}),
 		);
 
 		await run();
 
 		expect(await writtenPlacements()).toStrictEqual([
-			{ slideNumber: 1, subtopicId: 1, placedBecause: STUBBED_REASON },
-			{ slideNumber: 2, subtopicId: 2, placedBecause: STUBBED_REASON },
+			{
+				slideNumber: 1,
+				subtopicId: 1,
+				startWords: transcriptSubtopicTexts[0],
+				textPosition: 0,
+				placedBecause: STUBBED_REASON,
+			},
+			{
+				slideNumber: 2,
+				subtopicId: 2,
+				startWords: midSubtopicWords,
+				textPosition: transcriptText.indexOf(midSubtopicWords),
+				placedBecause: STUBBED_REASON,
+			},
 			{
 				slideNumber: 4,
 				subtopicId: 2,
-				placedBecause: "A references slide goes with the last subtopic.",
+				startWords: null,
+				textPosition: transcriptText.length,
+				placedBecause: "A references slide goes at the end of the last subtopic.",
 			},
 		]);
 	});
@@ -183,7 +227,7 @@ describe("createPlaceSlidesStage", () => {
 	it("should record the prompt version beside the placements when the stage completes", async () => {
 		await run();
 
-		expect(await writtenFile()).toMatchObject({ promptVersion: "p1" });
+		expect(await writtenFile()).toMatchObject({ promptVersion: "p2" });
 	});
 
 	it.each(

@@ -1037,7 +1037,7 @@ Tests for the stage (stub client, real temp directory):
 - `should resend the call when the reply $problem` — `test.each` across each unusable reply in TD §5, `place-slides`
 - `should ignore an entry for a $kind slide when the reply is otherwise usable` — `test.each` across content-free and references
 - `should put each references slide with the last subtopic when the stage completes`
-- `should write each subject-matter slide and each references slide with its subtopic id and reason in deck order, and no content-free slide, when the stage completes`
+- `should write each subject-matter slide and each references slide with its subtopic id, start words, text position and reason in deck order, and no content-free slide, when the stage completes`
 - `should record the prompt version beside the placements when the stage completes`
 - `should fail naming the file, without calling the model, when the $file is $state` — `test.each` across the retitled subtopics file and the slide reading of a slide image, each missing, not JSON, and the wrong shape
 - `should fail, without calling the model, when the transcript is $state` — `test.each` across a missing transcript and a blank one

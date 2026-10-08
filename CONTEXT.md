@@ -233,7 +233,7 @@ A references slide is not content-free. The notes leave content-free slides out.
 _Avoid_: filler slide, empty slide, administrative slide
 
 **Slide placement**:
-Putting each slide with the subtopic where the lecturer discusses it. Each slide is placed once. Slides keep their deck order: no slide is placed with a subtopic earlier than the subtopic of the slide before it. A references slide goes with the lecture's last subtopic, outside the deck order. A content-free slide is not placed.
+Putting each slide with the subtopic where the lecturer discusses it. The slide goes at the point where the lecturer starts to discuss it. Each slide is placed once. Slides keep their deck order: no slide is placed at a point earlier than the point of the slide before it. A references slide goes with the lecture's last subtopic, outside the deck order. A content-free slide is not placed.
 _Avoid_: slide assignment, slide merging, slide matching
 
 ### Checking quality
@@ -313,7 +313,7 @@ The four stages that divide the transcript and group it: initial subtopic splitt
 _Avoid_: segmentation stages
 
 **Start words**:
-The words a model returns to show where a subtopic starts. The code finds these words in the transcript and puts the cut there. So the model never returns the text of a subtopic. A subtopic's `start` is a different thing: the position in the transcript where the cut is made.
+The words a model returns to show where a passage of the transcript starts: where a subtopic starts, or where the lecturer starts to discuss a slide. The code finds these words in the transcript and puts the cut or the slide there. So the model never returns the text of a passage. A subtopic's `start` is a different thing: the position in the transcript where the cut is made.
 _Avoid_: subtopic start (it reads as the position), opening, quote, opening words
 
 **Reason**:

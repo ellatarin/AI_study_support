@@ -16,7 +16,7 @@ export type SentSubtopic = {
  * The version of {@link PLACEMENT_PROMPT}. A change to the prompt text gets a new
  * version, so that each placements file names the prompt that made it.
  */
-export const PROMPT_VERSION = "p1";
+export const PROMPT_VERSION = "p2";
 
 /**
  * Gives the task of the model, its rules and the shape of the reply. JSON mode
@@ -25,7 +25,7 @@ export const PROMPT_VERSION = "p1";
  */
 const PLACEMENT_PROMPT = `# Task
 
-You place the slides of a university lecture in the transcript of the same lecture. For each slide, give the one subtopic of the transcript where the lecturer discusses what the slide shows. A student reads the notes with each slide next to the part of the lecture that explains it.
+You place the slides of a university lecture in the transcript of the same lecture. For each slide, give its place: the one subtopic where the lecturer discusses what the slide shows, and the sentence in that subtopic where the lecturer starts to discuss it. A student reads the notes with each slide in the text, at the sentence where the explanation of the slide starts.
 
 # What you get
 
@@ -45,8 +45,8 @@ The user message is one JSON object with two lists.
 
 1. Read all the subtopics, so that you know what each part of the lecture is about.
 2. Read all the slides in deck order.
-3. For each slide on its own, find the first subtopic where the lecturer discusses what the slide shows. Do not look at the places of the other slides yet.
-4. Go through the slides in deck order. When a slide has an earlier subtopic than the slide before it, the two places disagree. Read both slides and both subtopics again, and decide which of the two places is wrong. Move only that slide. Do not move the slides after it. A move can make a new disagreement, so do this step again from the first slide. Stop when no two places disagree.
+3. For each slide on its own, find the first subtopic where the lecturer discusses what the slide shows. Then find the sentence in that subtopic where the lecturer starts to discuss it. Do not look at the places of the other slides yet.
+4. Go through the slides in deck order. When a slide has an earlier place than the slide before it, the two places disagree. An earlier place is an earlier subtopic, or an earlier sentence in the same subtopic. Read both slides and both subtopics again, and decide which of the two places is wrong. Move only that slide. Do not move the slides after it. A move can make a new disagreement, so do this step again from the first slide. Stop when no two places disagree.
 5. Place each slide that the lecturer does not discuss, by R4.
 6. Check each place against the rules below, by name. Change each place that breaks a rule.
 7. Give the reply.
@@ -59,15 +59,15 @@ Decide from what the slide is about and what the lecturer talks about. Do not re
 
 ## R2 — Deck order
 
-A slide's subtopic is never earlier than the subtopic of the slide before it in the list. Two slides next to each other can have the same subtopic.
+A slide's place is never earlier than the place of the slide before it in the list. Two slides next to each other can have the same subtopic, and the same sentence.
 
 ## R3 — The first place
 
-The lecturer can discuss a slide in more than one subtopic. Then give the first subtopic where the lecturer discusses it. A slide that the lecturer goes back to later stays at its first place.
+The lecturer can discuss a slide in more than one place. Then give the first sentence where the lecturer starts to discuss it. A slide that the lecturer goes back to later stays at its first place.
 
 ## R4 — Every slide gets one place
 
-Give each slide in the list exactly one place. This includes a slide that the lecturer does not discuss. For such a slide, choose a subtopic from the subtopic of the slide before it to the subtopic of the slide after it. Choose the subtopic whose subject is nearest to the slide.
+Give each slide in the list exactly one place. This includes a slide that the lecturer does not discuss. For such a slide, choose a place from the place of the slide before it to the place of the slide after it. Choose the sentence whose subject is nearest to the slide.
 
 ## R5 — A repeated slide
 
@@ -81,19 +81,24 @@ A subtopic title is a short summary of the subtopic's text, and a model wrote it
 
 Use only the slide numbers in "slides" and the subtopic ids in "subtopics".
 
+## R8 — Start words mark the sentence
+
+You do not give the text of the sentence. You give its start words in "startsWith": the first EIGHT to TWELVE words of the sentence, copied from the text of that subtopic exactly as they appear. Do not tidy them. Do not drop a leading "So" or "Right". Do not change capitals, and do not paraphrase. The start words are used to find the sentence, so they must match the text character for character.
+
 # Check before replying
 
-- **R1**: for each slide, does the lecturer discuss what the slide shows in the subtopic you chose, and not only say some of its words?
-- **R2**: does any slide have an earlier subtopic than the slide before it? If so, decide which of the two places is wrong, and move only that slide.
-- **R3**: for each slide, is there an earlier subtopic, at or after the subtopic of the slide before it, where the lecturer already discusses the slide? If so, use that subtopic.
+- **R1**: for each slide, does the lecturer discuss what the slide shows at the place you chose, and not only say some of its words?
+- **R2**: does any slide have an earlier place than the slide before it? If so, decide which of the two places is wrong, and move only that slide.
+- **R3**: for each slide, is there an earlier sentence, at or after the place of the slide before it, where the lecturer already starts to discuss the slide? If so, use that sentence.
 - **R4**: does each slide in the list have exactly one entry?
 - **R6**: did you choose any subtopic because of its title, when its text does not discuss the slide?
 - **R7**: is each slide number in "slides", and each subtopic id in "subtopics"?
-- **placedBecause**: does each sentence name what the lecturer discusses, and does it agree with the subtopic that you chose?
+- **R8**: does each "startsWith" appear, word for word, in the text of the subtopic that you chose?
+- **placedBecause**: does each sentence name what the lecturer discusses, and does it agree with the place that you chose?
 
 # Reply format
 
-Give one entry for each slide, in deck order. In "placedBecause", write one sentence that says what the lecturer discusses in that subtopic that the slide shows. For a slide that the lecturer does not discuss, say so, and say why you chose that subtopic.
+Give one entry for each slide, in deck order. In "placedBecause", write one sentence that says what the lecturer starts to discuss at that place that the slide shows. For a slide that the lecturer does not discuss, say so, and say why you chose that place.
 
 Reply with a single JSON object and nothing else, in this exact shape:
 
@@ -102,7 +107,8 @@ Reply with a single JSON object and nothing else, in this exact shape:
     {
       "slideNumber": <slide number>,
       "subtopicId": <subtopic id>,
-      "placedBecause": "one sentence on why the slide goes in this subtopic"
+      "startsWith": "the first eight to twelve words of the sentence, verbatim",
+      "placedBecause": "one sentence on why the slide goes at this place"
     }
   ]
 }`;
