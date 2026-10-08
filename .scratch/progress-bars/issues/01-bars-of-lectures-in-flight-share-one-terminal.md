@@ -15,7 +15,18 @@ The bars that can meet:
 - The parallel work bar of read-slides ("Slides").
 - The parallel work bar of each panel stage ("Runs").
 
-A single `run` command has one lecture in flight, so it does not have this problem.
+A single `run` command has one lecture in flight, so it does not have this problem. The user's config sets `batch.concurrency` to 1, so a batch has the problem only with `--concurrency 2` or more.
+
+**What a test showed (2026-10-08):** two parallel work bars ran at the same time in a fake terminal. Each bar moves the cursor to the start of the current line, clears the line, and draws itself. So the two bars share one line, and the line changes between them several times each second:
+
+```
+Slides  |██████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░| 6/53  ETA 8s  in flight: 7, 8
+Slides  |██████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░| 6/41  ETA 6s  in flight: 7
+```
+
+The terminal shows these two states on one line, one after the other. The two bars have the same label and no lecture name, so the user cannot tell which lecture a bar belongs to. When a bar stops, it leaves its last state on its own line.
+
+**The calls in flight:** each lecture's read-slides stage has its own `concurrency` limit of 10. No limit applies across lectures. So a batch with `--concurrency 3` can have up to 30 read-slides calls in flight, when all three lectures are at read-slides at the same moment.
 
 **What to decide first:** what the user must see during a batch. Possible answers:
 
