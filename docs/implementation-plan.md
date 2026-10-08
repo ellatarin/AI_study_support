@@ -1,14 +1,14 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.72-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
-**Date:** 2026-10-07
+**Suite version:** 1.73-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
+**Date:** 2026-10-08
 **Status:** For review
 
 ---
 
 ## Overview
 
-The pipeline is built in twenty-two phases. Phases 1–3 make the project scaffold and the shared infrastructure before any stage code is written. Phases 4–7 implement the stages from `source-normalisation` to `transcript-verification`. Phases 8–14 divide the transcript. Two phases make the groundwork. Then the stages split the transcript, choose a division, retitle its subtopics and group them. Phase 15 moves the title judgement to a new stage after grouping. Phases 16–18 build the three slide stages. Phases 19–21 implement the remaining stages in pipeline order. Phase 22 checks the full pipeline from end to end against a real lecture.
+The pipeline is built in twenty-five phases. Phases 1–3 make the project scaffold and the shared infrastructure before any stage code is written. Phases 4–7 implement the stages from `source-normalisation` to two stages that rewrote and checked the whole transcript at once. Phase 19 removes those two stages. Phases 8–14 divide the transcript. Two phases make the groundwork. Then the stages split the transcript, choose a division, retitle its subtopics and group them. Phase 15 moves the title judgement to a new stage after grouping. Phases 16–18 build the three slide stages. Phases 19–22 move the pipeline to the rewrite of each subtopic. Phase 23 runs that rewrite on one lecture and designs the stages after it. Phase 24 builds those stages. Phase 25 checks the full pipeline from end to end against a real lecture.
 
 Testing is not a final phase — unit tests are written alongside each deliverable per the project conventions. Integration tests are noted explicitly where unit testing alone is insufficient.
 
@@ -401,9 +401,11 @@ The transcription integration test streams a real file through the real SDK but 
 
 ---
 
-## Phase 6 — `transcript-structuring`
+## Phase 6 — `transcript-structuring` (removed in Phase 19)
 
-**Goal:** Single LLM call to structure the transcript and determine the lecture title; conditional rename of the lecture's files, which the runner learns to follow.
+**Removed in Phase 19.** The stage is gone. Phase 19 lists what it takes out. The shared code that this phase made stays: `lecture-files.ts`, `responseFormat` and the runner's way to follow a relocated workspace.
+
+**Goal:** Single LLM call to structure the transcript and determine the lecture title. Conditional rename of the lecture's files, which the runner learns to follow.
 
 **Deliverables:**
 
@@ -450,7 +452,9 @@ Integration tests for the runner following the move:
 
 ---
 
-## Phase 7 — `transcript-verification`
+## Phase 7 — `transcript-verification` (removed in Phase 19)
+
+**Removed in Phase 19.** The stage is gone, with its view, `markdownVersion` and the QA types that only it used. The shared code that this phase made stays: `requestJsonReply` in `model-stage.ts`.
 
 **Goal:** Report what `transcript-structuring` lost, underexplained, distorted, or invented, without letting the verdict stop anything.
 
@@ -1049,94 +1053,131 @@ Tests for the stage (stub client, real temp directory):
 
 ---
 
-## Phase 19 — `synthesis`
+## Phase 19 — Remove the replaced stages
 
-**Goal:** Single LLM call assembling transcript, slide content, and figure captions into textbook-style notes in British English.
-
-**Deliverables:**
-
-`src/pipeline/stages/synthesis.ts` — the whole of **TD §5, `synthesis`**: context assembly from the structured transcript, slide content, and figure captions; the token-budget estimate and the chunking fallback above it; and the synthesis prompt and its output structure.
-
-**Tests:**
-
-Unit tests:
-- `should estimate token count within acceptable margin when given inputs of known size`
-- `should identify chunk boundary when transcript heading matches slide heading` — `test.each` across aligned, partially aligned, and misaligned heading pairs
-- `should include image at correct relative path when figure present in manifest` — `test.each` across different `outputRelativePath` values
-- `should activate chunking fallback when total token estimate exceeds threshold`
-- `should produce single-call output when total token estimate is within threshold`
-
-**Acceptance:** Output is valid markdown with correct relative image references; chunking fallback activates and produces coherent output when input exceeds the token threshold.
-
----
-
-## Phase 20 — `qa-loop`
-
-**Goal:** Iterative quality check and revision cycle; writes the final `QA checked/notes.md`.
+**Goal:** Take out of the code the stages that the rewrite of each subtopic replaces. The pipeline still runs from the source files to `place-slides`.
 
 **Deliverables:**
 
-`src/pipeline/stages/qa-loop.ts` — the whole of **TD §5, `qa-loop`**: the two-prompt checker/reviser design and both prompts, the per-type reviser action table (including the NFR-1.3 prohibition on grounding an unsourced addition in a new source), the per-iteration files, all three loop-termination conditions, and the final `QA checked/` write.
+Before the deletion, the text of the structuring prompt goes to `docs/reference/transcript-structuring-prompt.md`. The file holds the prompt text and one line that says where it came from. `judge-lecture-title` names it as the source of its title rules **(TD §5, `judge-lecture-title`)**.
 
-**Tests:**
+`transcript-structuring` and `transcript-verification` are removed from the code, from `STAGE_IDS` and `STAGE_FILES`, from `lectureStages`, from the cost-report labels, and from the example config and the user's own config. The stage ids `synthesis`, `qa-loop` and `pdf-generation` are removed too. Those stages were never built.
 
-Unit tests (mock `callModel` via `nock`) — `test.each` across all three termination conditions:
-- `should terminate with qa-passed when checker returns overallVerdict pass`
-- `should terminate with max-iterations-reached when iteration count reaches configured maximum`
-- `should terminate with stalled when deficiency count is identical across two consecutive iterations`
-- `should record correct terminationReason in manifest for each termination condition`
-- `should offer every QaDeficiency.type value this stage can judge with definitions in the checker prompt`
-- `should include the per-type action table in the reviser prompt`
-- `should explicitly forbid external grounding and restrict unsourced-addition remedies to removal in the reviser prompt` — grep the constructed prompt for the prohibition
-- `should ask the checker to record what it examined and cleared in the checker prompt`
+Code that only the removed stages used is removed, with its tests **(TD §3.3, §4.2, §4.4)**:
+- the layout's `markdownVersion` and its resolvers, and `writeStageOutputWithMarkdownVersion`
+- the output location in the module's `Final output/`, and the reset that takes one lecture's file there
+- the QA types, the QA stage entry and `finalOutput.pandocEngine`.
 
-Integration tests (real temp directory):
-- `should write QA checked/notes.md and copy figures to QA checked/images/ on termination`
-- `should write per-iteration deficiency and revised files atomically`
+Code that a remaining stage uses stays. The commands `rename`, `delete` and `change-date` still act on any file of the lecture in `Final output/`.
 
-**Acceptance:** Loop terminates correctly under all three conditions; final output written atomically; manifest reflects termination reason and iteration count.
+Before the removal, check whether stored manifests hold entries under the removed ids. If they do, show the user the change to the stored data first.
+
+Each glossary term that only the removed stages used is removed from `CONTEXT.md`, after the user agrees to the list. **Underexplained** is one of them.
+
+**Tests:** The suites of the removed code go with it. The suites of the layout and the reset lose their cases for the module's `Final output/`.
+
+**Acceptance:** No code names a removed stage. A run of the pipeline on one lecture still reaches `place-slides`.
 
 ---
 
-## Phase 21 — `pdf-generation`
+## Phase 20 — `structure-transcript`
 
-**Goal:** Convert `QA checked/notes.md` to PDF via pandoc and deposit in `Final output/`, the module directory the stage owns.
+**Goal:** Give each lecture its structured transcript, made by code from the stored files, after `judge-lecture-title`.
 
 **Deliverables:**
 
-`src/pipeline/stages/pdf-generation.ts` — the whole of **TD §5, `pdf-generation`**: the cached `pandoc` and `xelatex` pre-flight checks and their install hints, the `spawn` invocation with its explicit argv array, stderr capture on a non-zero exit, and the output filename assembled from `StageContext` through `filenameSafe` (TD §4.4).
+`src/pipeline/stages/structure-transcript/` **(TD §5, `structure-transcript`)** contains the stage. It reads its five inputs and writes `Structured transcript/structured-transcript.json`. The stage is added to `lectureStages` directly after `judge-lecture-title`, with its `STAGE_IDS` and `STAGE_FILES` entries and its cost-report label.
 
 **Tests:**
 
-Unit tests (mock child process spawn):
-- `should construct correct pandoc argv array from StageContext values` — `test.each` across different lecture numbers, titles, and dates
-- `should invoke pandoc via spawn with an argv array (never exec) and never build a shell command string` — spy on the child_process import and assert `exec`/`execSync` are unused
-- `should pass paths containing spaces (e.g. "Final output/") as raw argv elements with no quoting applied`
-- `should throw clear actionable error when pandoc is not found on PATH` — verify error message names `pandoc` and includes the install URL
-- `should throw clear actionable error when xelatex is not found on PATH` — verify error message names `xelatex` and includes the platform install hint
-- `should include pandoc stderr verbatim in failure message when pandoc exits non-zero`
-- `should cache pre-flight check results and skip re-checking on second invocation in the same process`
+Tests for the stage (real temp directory, the shared stage fixture):
+- `should write the lecture title and each topic with its subtopics in lecture order when the stage completes`
+- `should write each subtopic's id, title and text, and no position or reason, when the stage completes`
+- `should keep the lecturer's words unchanged when the stage writes a subtopic's text`
+- `should fail naming the file when the $file is $state` — `test.each` across each input file, each missing, not readable and the wrong shape
+- `should record no cost when the stage completes`
 
-Integration tests (`pdf-generation.integration.test.ts`) — requires pandoc and xelatex installed; not run in CI:
-- `should produce a valid PDF file when given a small markdown input`
-- `should deposit PDF in Final output/ with correct full descriptive filename`
-
-**Acceptance:** PDF deposited in `Final output/` with the correct full descriptive filename; stage produces a clear, actionable error distinguishing "pandoc missing" from "xelatex missing" from "pandoc ran but LaTeX failed".
+**Acceptance:** A run on one real lecture writes the file. The user opens it and sees each topic with its subtopics.
 
 ---
 
-## Phase 22 — End-to-End Validation
+## Phase 21 — `place-slides` reads the structured transcript
 
-**Goal:** Run the full pipeline against a real lecture and verify output quality and pipeline mechanics.
+**Goal:** Make `place-slides` take its subtopics from the structured transcript, and store each placement's position inside its subtopic.
+
+**Deliverables:**
+
+`place-slides` **(TD §5, `place-slides`)** reads the structured transcript in place of the transcript and the retitled subtopics. The model gets the same subtopic ids, titles and texts as before, and the prompt stays `p2`. Each placement stores `positionInSubtopic` in place of `textPosition`. The deck-order check compares places by subtopic order first, then by `positionInSubtopic`. The test page script reads `positionInSubtopic`.
+
+**Tests:** The stage's suite changes its fixture to the structured transcript, and its cases for the stored position and the deck order change to `positionInSubtopic`.
+
+**Live run:** the user runs the stage again on lectures 3 and 4. The test pages show the slides at the same sentences as the `p2` pages. The measured costs are recorded.
+
+**Acceptance:** Each placement holds `positionInSubtopic`, and the test pages agree with the `p2` pages.
+
+---
+
+## Phase 22 — `rewrite-subtopics`
+
+**Goal:** Rewrite each subtopic as prose, with term correction before the rewrite and a check after it, in one stage **(TD §5, `rewrite-subtopics`)**.
+
+Built in three steps, each a ticket of its own, in the order that a rewrite attempt runs them:
+
+1. **Term correction.** The stage is created with its `STAGE_IDS` and `STAGE_FILES` entries, its cost-report label, its `concurrency` and its `sendGapSeconds`. It makes one call for each subtopic that has a placed slide, and checks each correction in code. It writes the first rewrite attempt of each subtopic.
+2. **The rewrite.** The writer gets the corrected text of one subtopic and writes the rewritten subtopic with its figure marks.
+3. **The check, and the rewrite attempts.** The checker judges each attempt. A fault starts a new rewrite attempt, with each fault given to the step that it concerns. A subtopic gets at most three. The stage writes `Rewritten subtopics/rewritten-subtopics.json`.
+
+Before each step is built, the user sees its prompt, and two models for it are proposed with their OpenRouter prices. The names of the fields in the stored files are agreed with the user before they are written.
+
+**Tests:** Each step's ticket names its tests. Together they cover these behaviours:
+- each check of a correction in code: the right form on a placed slide, and the wrong form in the text
+- the change of each occurrence of the wrong form
+- the writer gets the corrected text of one subtopic and nothing else
+- the five kinds of detail to keep go into the writer's prompt and the checker's prompt as the same numbered rules
+- the checker gets the verbatim text, the corrections with their reasons and the rewritten subtopic, and no slide text
+- one fault fails an attempt, and the faults reach the corrector and the writer
+- the third failed attempt fails the stage and names the subtopic and its faults, and the other subtopics keep their saved results
+- a stage that starts again keeps the subtopics that passed.
+
+**Acceptance:** A lecture gains a rewritten subtopic for each subtopic, and a file for each rewrite attempt.
+
+---
+
+## Phase 23 — Live run of `rewrite-subtopics`, and the design of the stages after it
+
+**Goal:** Judge the rewrite on one real lecture, then design the placement after the rewrite and the HTML stage.
+
+**Activities:**
+1. The user runs `rewrite-subtopics` on one lecture. The measured cost from the manifest is recorded.
+2. The number of rewrite attempts of each subtopic is recorded, with each subtopic that failed.
+3. Each correction and each ignored correction is recorded. The lecture of 2026-03-06 shows whether "beta-naphthylene" becomes "β-naphthylamine".
+4. The user judges the rewritten subtopics against the five kinds of detail to keep.
+5. The figure marks of each subtopic are recorded beside the slides placed in that subtopic.
+6. The user and the agent design the placement after the rewrite **(TD §5, "After the rewrite")**. They decide its stage id, and what happens when a subtopic has more figure marks than slides or fewer. They decide whether it uses the point from `place-slides` as a hint.
+7. The user and the agent design the HTML stage. They decide its stage id and the name of the page. They decide how a reset takes one lecture's page from `Final output/`.
+
+**Acceptance:** The judgement is recorded, and the technical design describes both stages in full.
+
+---
+
+## Phase 24 — The placement after the rewrite, and the HTML stage
+
+**Goal:** Build the two stages that Phase 23 designs. Their deliverables and tests are written into this plan when the design is agreed.
+
+---
+
+## Phase 25 — End-to-End Validation
+
+**Goal:** Run the full pipeline against a real lecture and check the output quality and the pipeline mechanics.
 
 **Activities:**
 1. Run `source-normalisation` against the Biology of Disease source folder. Verify the workspace folders and the renamed source files
 2. Run the full pipeline on one lecture. Verify the manifest state and the run log after each stage
 3. Verify that the three-section cost report is correct and agrees with the run log data
-4. Verify that the final PDF opens and is readable
+4. Verify that the HTML page opens and is readable
 5. Simulate a failure during a run: stop the process during `read-slides`. Verify that the stage continues on restart
 6. Run `--from-stage read-slides` on a completed lecture. Verify fresh slide readings and a new run of each later stage
 7. Add a new lecture to the source folder, and run `source-normalisation` again. Verify that the new numbers reach every later lecture
 8. Run batch mode across all lectures. Verify the sequential processing and the batch summary output
 
-**Acceptance:** Full pipeline produces a readable, well-structured PDF from a real lecture video and slides; all pipeline mechanics (resumability, re-runs, re-numbering, cost reporting) work correctly against real data.
+**Acceptance:** The full pipeline produces a readable, well-structured HTML page from a real lecture video and slides. All pipeline mechanics (resumability, re-runs, re-numbering, cost reporting) work correctly against real data.

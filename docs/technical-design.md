@@ -1,7 +1,7 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.72-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
-**Date:** 2026-10-07
+**Suite version:** 1.73-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
+**Date:** 2026-10-08
 **Status:** For review
 
 ---
@@ -24,7 +24,6 @@ The system is a TypeScript/Node.js CLI tool made of stages, each named by its id
 | LLM access (all new stages) | `openai` SDK pointed at OpenRouter | OpenRouter is compatible with the OpenAI API. So the project needs no client of its own, and it gets retry logic and TypeScript types from the SDK |
 | PDF-to-image rendering | `pdfjs-dist` + `@napi-rs/canvas` | Pure Node, with a prebuilt canvas. It needs no system library and no build toolchain. `pdfjs-dist` uses this canvas in Node |
 | Image metadata in tests | `sharp` | Standard Node image processing library |
-| PDF generation | `pandoc` (system binary) | The usual tool for academic document conversion. It handles LaTeX equations and images well |
 | Date parsing | `chrono-node` | Parses natural-language dates in the many forms that source filenames use |
 | CLI prompts | `@inquirer/prompts` | Already in use |
 | Progress bars | `cli-progress` | Already in use |
@@ -53,13 +52,12 @@ Biology of Disease/
 │   └── Lecture 1 - Disease Cell Injury and the Immune System - 2025-10-10/
 │       └── (see §3.3)
 └── Final output/
-    ├── Lecture 1 - Disease Cell Injury and the Immune System - 2025-10-10.pdf
-    └── Lecture 2 - Immunity to Infection - 2025-10-13.pdf
+    └── (one HTML page per lecture)
 ```
 
 All pipeline artefacts for a lecture live inside a single named workspace folder. Files inside each folder use simple, stage-agnostic names — the folder itself carries the full lecture identity. This means re-numbering a lecture requires renaming only the folder, not any of its contents.
 
-`Final output/` is a direct subfolder of the module root and is the human-facing deliverable. Because it is a flat folder shared across all lectures, its PDFs carry the full descriptive filename.
+`Final output/` is a direct subfolder of the module root and is the human-facing deliverable. It holds one HTML page for each lecture. The HTML stage writes the page (§5, "After the rewrite"). The page's file name is decided with the design of that stage.
 
 **Folder-name convention.** Only `moduleRoots[i]` is configurable (see §6). The subfolder names shown above — `Source files/`, `Video recordings/`, `Slide decks/`, `Pipeline processing/`, `Final output/` — are fixed conventions baked into the pipeline. Every module folder that the pipeline manages MUST follow this layout. The tool creates these subfolders on demand; users should not rename them.
 
@@ -128,7 +126,7 @@ extractProvisionalTitle(args: { filename: string; modulePrefixes: readonly strin
 // separator debris at either end, and trailing artefacts (`co`, `copy`, `v2`) are present. The separator
 // strip is what lets a name this module built read back as the title it was built from:
 // `Lecture 1 - Cell Injury - 2025-10-10.mp4` gives `Cell Injury`. The lecturer's capitalisation is kept
-// exactly as typed — the title becomes the workspace folder and the final PDF name, so re-casing it
+// exactly as typed — the title becomes the workspace folder and the source file names, so re-casing it
 // misspells the subject in both, and no rule can tell `mRNA` from an ordinary word since either may mix
 // cases. The cost is that a filename typed in lower case yields a lower-case title: names are exactly as
 // consistent as the filenames are, and nothing here invents a spelling of its own.
@@ -138,7 +136,7 @@ extractProvisionalTitle(args: { filename: string; modulePrefixes: readonly strin
 // literally and without regard to case, so one carrying a pattern character means itself, and an empty
 // list strips nothing.
 titledBaseName(args: { lectureNumber: number; title: string; date: Date }): string
-// The titled `Lecture N - <title> - YYYY-MM-DD` base name shared by the workspace, sources, and PDF. Takes the
+// The titled `Lecture N - <title> - YYYY-MM-DD` base name shared by the workspace and the sources. Takes the
 // parsed Date rather than a formatted string so the one place that formats a lecture date is formatDateISO.
 lectureBaseName(args: { lectureNumber: number; title: string; date: Date }): string
 // The same name, falling back to a bare `Lecture N - YYYY-MM-DD` when the title is empty — which a filename
@@ -193,11 +191,7 @@ Lecture 1 - Disease Cell Injury and the Immune System - 2025-10-10/
 │   └── judgement.json                         # judge-lecture-title — the title judgement, its reason and its outcome
 │
 ├── Structured transcript/
-│   └── structured-transcript.md              # transcript-structuring
-│
-├── Transcript verification/
-│   ├── verification-report.json               # transcript-verification
-│   └── verification-report.md                 # transcript-verification — the same findings, for a reader
+│   └── structured-transcript.json             # structure-transcript — the lecture's topics and subtopics, with the lecturer's words
 │
 ├── Slide images/
 │   ├── slide-001.png                          # render-slides — one image for each page of the slide deck
@@ -208,25 +202,17 @@ Lecture 1 - Disease Cell Injury and the Immune System - 2025-10-10/
 │   └── ...
 │
 ├── Slide placements/
-│   └── placements.json                        # place-slides — the subtopic of each placed slide
+│   └── placements.json                        # place-slides — the subtopic and the point of each placed slide
 │
-├── Synthesised notes/
-│   └── synthesised-notes.md                  # synthesis
+├── Rewrite attempts/
+│   ├── subtopic-1-attempt-1.json              # rewrite-subtopics — one file per rewrite attempt of a subtopic
+│   └── ...
 │
-├── QA iterations/
-│   ├── qa-iteration-01-deficiencies.json
-│   ├── qa-iteration-01-revised.md
-│   └── ...                                    # qa-loop
-│
-└── QA checked/
-    ├── notes.md                               # qa-loop final — simple name
-    └── images/
-        └── slide-003.png
+└── Rewritten subtopics/
+    └── rewritten-subtopics.json               # rewrite-subtopics — the rewritten subtopic of each subtopic
 ```
 
-`QA checked/notes.md` uses a simple name because it lives inside the named lecture folder. The full descriptive filename appears only on the PDF in `Final output/` (`pdf-generation`).
-
-The directory is named for the stage that fills it: it holds `qa-loop`'s quality-checked notes, and `pdf-generation` only reads it. `pdf-generation`'s own output is the PDF in the module's `Final output/` (§3.1) — the one place a stage writes outside its workspace, and the one a re-run cannot clear by emptying, because every lecture's PDF is in it. `--from-stage pdf-generation` takes this lecture's PDF and leaves the rest (§4.4).
+The stages after `rewrite-subtopics` are designed in outline only (§5, "After the rewrite"). Their folders and files are decided with their design.
 
 #### The layout has one owner
 
@@ -234,8 +220,8 @@ Every name in the two trees above — the module's four directories, each stage'
 
 One owner matters here because each of these names is relied on by two parties at once, and a name changed for one has to reach the other:
 
-- **A stage and the runner.** A stage writes into its directory; `--from-stage` clears the stage's work there (§4.7). Both read the directory from here, so a rename reaches the write and the reset together.
-- **A stage and the stage after it.** `transcription` reads what `audio-extraction` wrote, `transcript-structuring` reads what `transcription` wrote. Each hand-off is one name, read at both ends.
+- **A stage and the runner.** A stage writes into its directory. `--from-stage` clears the stage's work there (§4.7). Both read the directory from here, so a rename reaches the write and the reset together.
+- **A stage and the stage after it.** `transcription` reads what `audio-extraction` wrote, `place-slides` reads what `structure-transcript` wrote. Each hand-off is one name, read at both ends.
 - **Production and tests.** A suite asserting a stage's output exists asks the same module the stage asks.
 
 ```typescript
@@ -260,50 +246,37 @@ workspaceRootFor(args: { moduleRoot: string; baseName: string }): string
 // directory. Every stage, the runner, the CLI and every suite that lays a lecture out asks for it here.
 moduleRootOf(args: { workspaceRoot: string }): string
 // The module two levels up from a lecture workspace (`moduleRoot/Pipeline processing/<folder>`) — the inverse
-// of the above, so the nesting is stated once. Used to assemble StageContext and to resolve the one stage
-// directory that sits outside the workspace.
+// of the above, so the nesting is stated once. Used to assemble StageContext.
 moduleName(args: { moduleRoot: string }): string
 // What a module is called when it is shown to the user: its directory leaf, since a module has no name beyond
 // the folder it is. Read by the batch summary's module column and by the CLI's "nothing matched" message.
 sharedLectureFileDirs(args: { dirs: ModuleDirs }): readonly string[]
-// The three directories holding a file of the lecture's own — video, slides, finished PDF — and so the three a
+// The three directories holding a file of the lecture's own — video, slides, finished page — and so the three a
 // lecture is addressed in by its date (§4.7). `processing` is excluded because a workspace is a folder named
 // after the lecture rather than a file. Walked by `renameLectureFiles`, by `delete`, and by the fixtures.
 
 type StageDirectoryName = string & { readonly [declaredInLayout]: true }   // branded; minted only in layout.ts
 // Branded, and the private constructor that mints it rejects a widened `string`, so a value read back from the
 // manifest or an LLM response cannot reach this map. See §4.4, "Stage cleanup boundaries".
-type StageOutputLocation =
-  | { root: "workspace"; directories: readonly StageDirectoryName[] }
-  | { root: "module"; directory: StageDirectoryName }
-// Where a stage's work sits, and so what a reset may take. The two variants carry different facts.
-// A workspace directory holds one lecture's work and nothing else, so a reset takes the directory. The module's
-// `Final output/` holds every lecture in the module, so a reset there takes only the file belonging to the
-// lecture being reset — which is why that variant names a directory *deposited into* rather than a set owned.
-// A stage cannot declare that it owns a module-wide directory, so no reset can sweep one (§4.7).
 type StageFiles = {
-  outputLocation: StageOutputLocation
+  directories: readonly StageDirectoryName[]
   outputFile: string | null
-  markdownVersion: string | null
   stageRecord: string | null
 }
+// `directories` are the workspace directories the stage works in. Each holds one lecture's work and nothing
+// else, so a reset takes the whole directory (§4.7). No stage works outside the workspace.
 // `stageRecord` is a small JSON file beside `outputFile` saying how the stage reached it — which run a panel chose
 // and why, or which titles changed. choose-division, retitle-subtopics and group-into-topics declare one
 // (§4.5, "How a result was reached is kept beside the result"). It is recorded in `filesWritten` and cleared
 // with the output, so the two cannot come apart.
-// `markdownVersion` is a second file holding the same content as `outputFile` in a form a person reads, written
-// by us from what was already stored rather than produced again. Only transcript-verification declares one
-// (transcript-verification), and it is provisional — see transcript-verification, "The verification report Markdown is temporary". A stage's *output* is
-// still the one file the stage after it reads, which is why the view is a field beside it rather than a second
-// entry in a list: nothing downstream could be pointed at a list and know which member to open.
 STAGE_FILES = { … } satisfies Readonly<Record<StageId, StageFiles>>
-// What each stage owns: where its work sits, and the single file it writes where it writes one. Every stage but
-// pdf-generation works in workspace directories; pdf-generation deposits its PDF in the module's `Final
-// output/`. `outputFile` is null for source-normalisation (which writes nothing of its own), for the stages
+// What each stage owns: the directories its work sits in, and the single file it writes where it writes one.
+// `outputFile` is null for source-normalisation (which writes nothing of its own), and for the stages
 // producing a set rather than a file (initial-subtopic-splitting and deepen-subtopic-splitting, one file per
-// splitting run; render-slides and read-slides, one file per slide; qa-loop), and for pdf-generation, whose one
-// file lands outside the workspace where a workspace-relative path cannot reach it. group-into-topics works in two directories, `Grouping runs/` and `Topics/`, and its
-// file is `Topics/topics.json`.
+// splitting run; render-slides and read-slides, one file per slide). Two stages work in two directories.
+// group-into-topics works in `Grouping runs/` and `Topics/`, and its file is `Topics/topics.json`.
+// rewrite-subtopics works in `Rewrite attempts/` and `Rewritten subtopics/`, and its file is
+// `Rewritten subtopics/rewritten-subtopics.json`.
 // Declared as the literal it is rather than annotated as the map, so the compiler keeps which stages carry a
 // file; `satisfies` still proves every stage appears, so one added to StageId and forgotten here fails to
 // compile.
@@ -311,10 +284,6 @@ STAGE_FILES = { … } satisfies Readonly<Record<StageId, StageFiles>>
 type StageWithOutputFile = /* the keys of STAGE_FILES whose outputFile is a string */
 // The stages that write one named file, derived from the table rather than listed beside it: giving a
 // stage a file or taking one away changes who may be asked, with nothing else edited.
-type StageWithMarkdownVersion = /* the keys of STAGE_FILES whose markdownVersion is a string */
-// The same derivation for the view, so a stage that does not render one cannot be asked for its path. Today
-// that is transcript-verification alone; when the view is withdrawn the set is empty and every caller of the
-// two resolvers below stops compiling, which is the point.
 
 type StageInWorkspace = { workspaceRoot: string; stageId: StageId }
 // One stage's work within one lecture, the pair every resolver below is addressed by.
@@ -328,28 +297,14 @@ stageOutputEntry(stageId: StageWithOutputFile): string
 stageOutputPath(query: StageFileInWorkspace): string
 // The same path, absolute. A stage uses it for its own output and for its upstream's input, so a hand-off
 // between two stages is stated once rather than at both ends.
-stageMarkdownVersionEntry(stageId: StageWithMarkdownVersion): string
-stageMarkdownVersionPath(query: { workspaceRoot: string; stageId: StageWithMarkdownVersion }): string
-// The view's path relative to the workspace and absolute, answering for the view exactly as the two above
-// answer for the output. Both are recorded in `filesWritten`, so a view deleted by hand re-runs its stage.
 type StageWithStageRecord = /* the keys of STAGE_FILES whose stageRecord is a string */
 stageRecordEntry(stageId: StageWithStageRecord): string
 stageRecordPath(query: { workspaceRoot: string; stageId: StageWithStageRecord }): string
 // The same three for the record.
-type ResolvedStageOutput =
-  | { root: "workspace"; directories: readonly string[] }
-  | { root: "module"; directory: string }
-resolveStageOutput(query: StageInWorkspace): ResolvedStageOutput
-// Where the stage's work sits for one lecture, as absolute paths, resolved against whichever root it hangs
-// off — decided here rather than at each end, so a directory that moved between roots cannot be written in one
-// place and looked for in another. The variant comes through with the paths because it is what tells a reset
-// whether it may take the directory (§4.7).
 stageDirectoryPaths(query: StageInWorkspace): readonly string[]
-// Every directory the stage works in, in declaration order; `[]` for a stage working in none. This is what the
-// factory creates and clears of leftovers before a run (§4.3), and it is wider than what a reset may delete:
-// the module directory pdf-generation deposits into appears here, because it must exist before pandoc writes
-// into it, and it holds every lecture's PDF. A reset reads `resolveStageOutput` instead, which carries the
-// variant that says so.
+// Every directory the stage works in, as absolute paths, in declaration order. `[]` for a stage working in
+// none. The factory creates these and clears them of leftovers before a run (§4.3), and a reset deletes them
+// (§4.7).
 ```
 
 ### 3.4 Re-numbering When New Lectures Are Added
@@ -358,7 +313,7 @@ If a new lecture is inserted whose date falls between existing lectures, `source
 
 - Workspace folders in `Pipeline processing/`
 - Source video and slide files in `Source files/`
-- PDF files in `Final output/`
+- Pages in `Final output/`
 - Updates `lectureNumber` in each affected manifest
 
 Because all other files inside the workspace use simple names, only the four lecture files above need renaming per affected lecture. Manifests use relative paths throughout and survive folder renames without modification.
@@ -380,16 +335,13 @@ Because all other files inside the workspace use simple names, only the four lec
 | `retitle-subtopics` | Per-lecture | Give every subtopic of the chosen division a new title from its own text, in one call over the whole lecture |
 | `group-into-topics` | Per-lecture | Group the retitled subtopics into topics: a panel of grouping runs, and the grouping most of them made |
 | `judge-lecture-title` | Per-lecture | Judge whether the provisional title is meaningful for the grouped lecture. Propose an AI-derived title when it is not, and rename the lecture files unless a user title is set |
+| `structure-transcript` | Per-lecture | Write the structured transcript: the lecture title, the topics and their subtopics, each subtopic with its own text. No model call |
 | `render-slides` | Per-lecture | Render each page of the slide deck as one image. No model call |
 | `read-slides` | Per-lecture | Read each slide image with a vision model: its title, body, tables, figures, caption and kind |
-| `place-slides` | Per-lecture | Put each subject-matter slide with the subtopic where the lecturer discusses it, in deck order |
-| `transcript-structuring` | Per-lecture | Structure the transcript into markdown |
-| `transcript-verification` | Per-lecture | Compare the structured transcript against the raw one. Report what was lost, underexplained, distorted, or invented. Reports only — never fails a run |
-| `synthesis` | Per-lecture | Combine transcript, slide content, and figures into textbook-style notes |
-| `qa-loop` | Per-lecture | Check and revise the notes again and again. Write the final `QA checked/notes.md` |
-| `pdf-generation` | Per-lecture | Convert `QA checked/notes.md` to PDF with pandoc. Put the PDF in `Final output/` |
+| `place-slides` | Per-lecture | Put each subject-matter slide at its point in the subtopic where the lecturer discusses it, in deck order |
+| `rewrite-subtopics` | Per-lecture | For each subtopic: correct misheard terms, rewrite the text as prose, and check the rewritten subtopic. At most three rewrite attempts |
 
-The four division stages, `retitle-subtopics`, `judge-lecture-title` and the three slide stages run after `transcription`. Every older stage stays. Of the later stages, only `judge-lecture-title` and `place-slides` read the subtopics. The move of the rest of the pipeline to the README's stage list is later work.
+Two more stages follow `rewrite-subtopics`. Both are designed in outline only, and neither has a stage id yet (§5, "After the rewrite"). The first puts the slides in the rewritten text. The HTML stage then writes the page in `Final output/`. The README's stage list uses the names that the code will take when the redesign is carried through.
 
 ### 4.2 Stage Interface
 
@@ -399,8 +351,8 @@ A stage's context is assembled before its own entry is marked `running`, so the 
 
 **Authoritative types.** The exact shape of every pipeline contract — `PipelineStage`, `StageId`, `StageContext`, `StageResult`, `StageCost`, `StageConfigUsed`, and the rest — lives in `src/types/pipeline.ts` with per-field documentation. That file is the single source of truth; this section describes intent and the invariants those types encode, not field lists:
 
-- `StageResult.cost` is `null` for stages that make no billable calls (audio-extraction, pdf-generation).
-- `StageResult.filesWritten` holds paths relative to `workspaceRoot`, and MAY escape upward with `..` (e.g. pdf-generation writes to `../../Final output/`) but MUST resolve under `moduleRoot` — enforced by §4.4.
+- `StageResult.cost` is `null` for stages that make no billable calls (audio-extraction, choose-division, structure-transcript, render-slides).
+- `StageResult.filesWritten` holds paths relative to `workspaceRoot`. They MUST resolve under `moduleRoot` — enforced by §4.4.
 - `StageCost` is discriminated on `costUsd`. A resolved cost is a `number`. A failed lookup is `null` paired with an `unknownCostReason` (see §7).
 - `StageResult.identityChanges` holds the lecture-identity fields the stage decided — `lectureTitle`, `aiDerivedTitle`, `baseName` — for the runner to write. Absent and `{}` both mean the stage decided nothing. Only `judge-lecture-title` ever decides anything. `baseName` is the lecture's canonical base name recorded in the manifest, not the runner's handle on the workspace — the runner locates that itself (§4.7).
 - `lectureTitle` is always non-null — seeded by `source-normalisation`, possibly overwritten by `judge-lecture-title` (see §3.2, and §5, `judge-lecture-title`).
@@ -436,18 +388,7 @@ writeStageOutput(args: { stageId: StageWithOutputFile; context: Pick<StageContex
 // Where the bytes come from is the one thing that varies, so it is a union rather than a second writer: a
 // stage either hands over content or produces it into the `.tmp` sibling — audio-extraction has ffmpeg write the audio
 // track that way (§4.3). Written as one function because the pairing it protects is one fact.
-// It takes a stage that writes one file (§3.3); a stage producing a set builds its own `filesWritten`, and
-// pdf-generation names a file outside the workspace, so neither is served by this.
-writeStageOutputWithMarkdownVersion(args: {
-  stageId: StageWithOutputFile & StageWithMarkdownVersion
-  context: Pick<StageContext, "workspaceRoot">
-  content: string
-  markdownVersion: string
-}): Promise<RecordedStageOutput>
-// The same act for a stage that also renders its output for a reader (§3.3): it writes both files and returns
-// both entries, and `path` is still the machine-readable one. A separate function rather than an optional
-// argument, because the parameter type is what ties supplying a view to a stage that declares one — a stage
-// that does not cannot be named here, and one that does cannot forget to render it.
+// It takes a stage that writes one file (§3.3). A stage producing a set builds its own `filesWritten`.
 writeStageOutputWithStageRecord(args: {
   stageId: StageWithOutputFile & StageWithStageRecord
   context: Pick<StageContext, "workspaceRoot">
@@ -456,8 +397,7 @@ writeStageOutputWithStageRecord(args: {
 }): Promise<RecordedStageOutput>
 // The same act for a stage that keeps a stage record of how it reached its output: the output and the stage
 // record are each written as JSON, the stage record beside the output, and both entries are returned. Every
-// stage keeping a stage record writes JSON, so both are given as values. The two writers share the step that writes an output and
-// one file beside it.
+// stage keeping a stage record writes JSON, so both are given as values.
 ```
 
 **Stage status semantics:**
@@ -476,7 +416,7 @@ writeStageOutputWithStageRecord(args: {
 
 Every file is written to a `.tmp`-suffixed path first, then renamed on success. Any file that exists on disk without a `.tmp` suffix is guaranteed to be complete. At the start of every stage run, the stage's output directories are created if absent and any `.tmp` files left by a previous crashed run are deleted, before processing begins. This is automatic and requires no user intervention.
 
-The stage does not do this for itself — `createPipelineStage` does it on every stage's behalf (§4.2), reading the directories from `STAGE_FILES` (§3.3) rather than from the stage's output file, so a stage owning several directories, or one outside the workspace as `pdf-generation` does, is prepared as completely as a stage owning a single one.
+The stage does not do this for itself. `createPipelineStage` does it for every stage (§4.2). It reads the directories from `STAGE_FILES` (§3.3), not from the stage's output file. So a stage that owns several directories is prepared as completely as a stage that owns one.
 
 Output a stage does not hold in memory — bytes written by a subprocess, such as `audio-extraction`'s ffmpeg extraction — goes through the same discipline via `produceFileAtomic`, which hands the producer the `.tmp` path and renames only once it resolves. A stage reaches it through `writeStageOutput` (§4.2) rather than directly, so the path it writes and the entry recording it still come from one place. This has one consequence for a stage that muxes: a `.tmp` suffix defeats the container inference ffmpeg does from the output extension, so a stage writing through a temporary path names its output format explicitly.
 
@@ -504,7 +444,7 @@ cleanTmpFiles(dir: string): Promise<void>                                 // del
 
 The same module holds the reads, because a pipeline whose directories are created on demand asks about a
 directory that may not be there yet on nearly every path — a workspace with no `Run logs/`, a module with no
-`Final output/`, a lecture with no PDF. Each answers with an ordinary value rather than a throw, so no caller
+`Final output/`, a lecture with no page. Each answers with an ordinary value rather than a throw, so no caller
 wraps a listing in a try/catch:
 
 ```typescript
@@ -526,7 +466,7 @@ listSubdirectoryNames(dir: string): Promise<readonly string[]>
 2. Resolve the parent directory (or file, if it exists) with `fs.promises.realpath(...)` to collapse any symlinks.
 3. Verify the resulting absolute path is a descendant of `moduleRoot`. Reject otherwise as a corrupt manifest.
 
-This is enforced in every place a path from `filesWritten` or the manifest is used. Today that is one place — the `isComplete()` existence checks, via `recordedFileExists` — and it extends to `cost-report` file discovery and PDF output resolution as those are built.
+This is enforced in every place a path from `filesWritten` or the manifest is used. Today that is one place — the `isComplete()` existence checks, via `recordedFileExists` — and it extends to `cost-report` file discovery as that is built.
 
 `--from-stage` cleanup takes no manifest-derived path, so the boundary check has nothing to act on there. Every directory it works in comes from the hard-coded `STAGE_FILES`, and it reads `filesWritten` at no point (see "Stage cleanup boundaries" below): the untrusted input is kept out of the function rather than checked on the way in. `isComplete()` reads `filesWritten` as its whole job, so the check belongs there.
 
@@ -541,7 +481,7 @@ resolveManifestPath(query: ManifestPathQuery): Promise<string>
 
 The resolver has a module of its own. It is not with the filesystem helpers in `src/utils/files.ts` (§4.3). A mistake in a helper, such as a directory listing, causes a small problem. A mistake in the resolver lets a path escape the folder that the user gave to the tool. So a reader can review the resolver alone. A path that the code makes from fixed names needs no check. The layout module (§3.3) joins those names itself.
 
-**`filenameSafe(title)`.** Titles reach the filesystem in the base name. The workspace, the renamed source files and the `Final output/` PDF carry the base name. A title comes from a user's filename (`source-normalisation`) or from a model's reply (`judge-lecture-title`). Neither source is a trusted path component. `filenameSafe` MUST:
+**`filenameSafe(title)`.** Titles reach the filesystem in the base name. The workspace and the renamed source files carry the base name. A title comes from a user's filename (`source-normalisation`) or from a model's reply (`judge-lecture-title`). Neither source is a trusted path component. `filenameSafe` MUST:
 
 - Strip path separators (`/`, `\`), directory-traversal segments (`.`, `..`), null bytes, and ASCII control characters.
 - Collapse whitespace runs to a single space; trim leading/trailing whitespace and dots.
@@ -551,13 +491,13 @@ The resolver has a module of its own. It is not with the filesystem helpers in `
 filenameSafe(title: string): string   // src/utils/naming.ts; throws when the result would be empty
 ```
 
-**Stage cleanup boundaries.** `--from-stage <stageId>` MUST NOT drive its cleanup off `filesWritten` from the manifest. Cleanup works from the hard-coded `STAGE_FILES` of each stage (§3.3), such as `Slide readings/` for `read-slides` and the module's `Final output/` for `pdf-generation`. So a corrupt manifest cannot cause the deletion of unintended files. The type system enforces "hard-coded". A stage directory name is branded, and the private constructor that makes it refuses a widened `string` (§3.3). A `filesWritten` entry or LLM-supplied name reaching that map is a compile error.
+**Stage cleanup boundaries.** `--from-stage <stageId>` MUST NOT drive its cleanup off `filesWritten` from the manifest. Cleanup works from the hard-coded `STAGE_FILES` of each stage (§3.3), such as `Slide readings/` for `read-slides`. So a corrupt manifest cannot cause the deletion of unintended files. The type system enforces "hard-coded". A stage directory name is branded, and the private constructor that makes it refuses a widened `string` (§3.3). A `filesWritten` entry or LLM-supplied name reaching that map is a compile error.
 
-`pdf-generation`'s directory is the sole one resolved against `moduleRoot` rather than the workspace, and it holds every lecture in the module. What a stage declares is therefore a `StageOutputLocation` (§3.3), and the variant decides how cleanup proceeds. Its `workspace` variant carries directories, which cleanup takes whole, since each holds one lecture's work and nothing else. Its `module` variant carries the directory the stage deposits into, where cleanup removes the single file carrying the reset lecture's date and leaves the directory and every other lecture's PDF standing. A stage has no way to declare that it owns a module-wide directory, so the reach of a reset is bounded by the type rather than by the care taken at each call site.
+Every stage directory is in the workspace, and each holds one lecture's work and nothing else. So cleanup takes each directory whole. No stage can declare a directory outside the workspace, so a reset cannot reach another lecture's work. The HTML stage will write into the module's `Final output/`, which holds every lecture's page. Its design must add a way to reset one lecture's page there and leave the rest (§5, "After the rewrite").
 
 The delete target is anchored at the other end too: `workspaceRoot` is always built by `listWorkspaces` as `join(moduleDirs({ moduleRoot }).processing, <directory listing entry>)`, and the manifest is read only to match a lecture date, never to supply a path. So `moduleRootOf(workspaceRoot)` returns the same `moduleRoot` the caller passed in, and neither root nor name is manifest-derived.
 
-**No shell interpolation.** Every child process in the pipeline MUST use `spawn(cmd, argv, opts)` with an explicit argv array. Examples are fluent-ffmpeg in `audio-extraction`, pandoc in `pdf-generation` and any future subprocess call. Never use `exec(shellString)`, or any variant that joins paths into a shell command. This rule removes a class of bug. In that bug, a folder name with spaces breaks out of an argument through unescaped shell metacharacters. Examples are `Final output/`, `Slide images/` and `QA iterations/`. A title string from an attacker can do the same. Paths go into argv unchanged. No quoting is necessary or applied.
+**No shell interpolation.** Every child process in the pipeline MUST use `spawn(cmd, argv, opts)` with an explicit argv array. Examples are fluent-ffmpeg in `audio-extraction` and any future subprocess call. Never use `exec(shellString)`, or any variant that joins paths into a shell command. This rule removes a class of bug. In that bug, a folder name with spaces breaks out of an argument through unescaped shell metacharacters. Examples are `Final output/`, `Slide images/` and `Rewrite attempts/`. A title string from an attacker can do the same. Paths go into argv unchanged. No quoting is necessary or applied.
 
 ### 4.5 Run Manifest
 
@@ -607,7 +547,7 @@ patchManifest(args: { workspaceRoot: string; manifest: Manifest; changes: Partia
 // entry, so the manifest and the entry inside it name one moment.
 ```
 
-Each stage entry records `configUsed` — a `StageConfigUsed` capturing the model ID and tuning parameters (temperature, max tokens, concurrency, calls at once, max QA iterations) actually resolved for that run, or `null` for stages that make no LLM calls. This lets spend be attributed to a specific model and configuration and lets model experiments be compared (NFR-3.2). The run logs (§4.6) record the same `configUsed` per attempt.
+Each stage entry records `configUsed`, a `StageConfigUsed`. It holds the model ID and the tuning that the run resolved: temperature, max tokens, concurrency, calls at once and send gap. It is `null` for stages that make no LLM calls. This lets spend be attributed to a specific model and configuration and lets model experiments be compared (NFR-3.2). The run logs (§4.6) record the same `configUsed` per attempt.
 
 ```jsonc
 {
@@ -664,12 +604,12 @@ Each stage entry records `configUsed` — a `StageConfigUsed` capturing the mode
       "cost": { "promptTokens": 15200, "completionTokens": 300, "costUsd": 0.05, "callCount": 1 },
       "filesWritten": ["Title judgement/judgement.json"]
     },
-    "transcript-structuring": {
+    "structure-transcript": {
       "status": "complete",
       "completedAt": "...",
-      "configUsed": { "modelId": "anthropic/claude-sonnet-4.6", "temperature": 0.2, "maxTokens": 8192 },
-      "cost": { "promptTokens": 18400, "completionTokens": 3200, "costUsd": 0.081, "callCount": 1 },
-      "filesWritten": ["Structured transcript/structured-transcript.md"]
+      "configUsed": null,
+      "cost": null,
+      "filesWritten": ["Structured transcript/structured-transcript.json"]
     },
     "read-slides": {
       "status": "complete",
@@ -685,44 +625,18 @@ Each stage entry records `configUsed` — a `StageConfigUsed` capturing the mode
       "cost": { "promptTokens": 36000, "completionTokens": 400, "costUsd": 0.038, "callCount": 1 },
       "filesWritten": ["Slide placements/placements.json"]
     },
-    "synthesis": {
+    "rewrite-subtopics": {
       "status": "complete",
       "completedAt": "...",
-      "configUsed": { "modelId": "anthropic/claude-sonnet-4.6", "temperature": 0.3, "maxTokens": 16384 },
-      "cost": { "promptTokens": 65000, "completionTokens": 14200, "costUsd": 0.312, "callCount": 1 },
-      "filesWritten": ["Synthesised notes/synthesised-notes.md"]
-    },
-    "qa-loop": {
-      "status": "complete",
-      "completedAt": "...",
-      "configUsed": { "modelId": "anthropic/claude-sonnet-4.6", "temperature": 0.1, "maxTokens": 8192, "maxIterations": 3 },
-      "cost": { "promptTokens": 68000, "completionTokens": 15800, "costUsd": 0.405, "callCount": 4 },
-      "qaIterations": [
-        { "iteration": 1, "verdict": "fail", "deficiencyCount": 7, "criticalCount": 2, "costUsd": 0.200 },
-        { "iteration": 2, "verdict": "pass", "deficiencyCount": 0, "criticalCount": 0, "costUsd": 0.205 }
-      ],
-      "terminationReason": "qa-passed",
-      "filesWritten": [
-        "QA iterations/qa-iteration-01-deficiencies.json",
-        "QA iterations/qa-iteration-01-revised.md",
-        "QA checked/notes.md",
-        "QA checked/images/slide-003.png"
-      ]
-    },
-    "pdf-generation": {
-      "status": "complete",
-      "completedAt": "...",
-      "configUsed": null,
-      "cost": null,
-      "filesWritten": ["../../Final output/Lecture 1 - Disease Cell Injury and the Immune System - 2025-10-10.pdf"]
+      "configUsed": { "modelId": "…", "concurrency": "…", "sendGapSeconds": "…" },   // models chosen when the stage is built
+      "cost": { "promptTokens": "…", "completionTokens": "…", "costUsd": "…", "callCount": "…" },
+      "filesWritten": ["Rewrite attempts/subtopic-1-attempt-1.json", "…", "Rewritten subtopics/rewritten-subtopics.json"]
     }
   }
 }
 ```
 
 Each stage's `cost` is the only record of what that stage cost, and the manifest holds no roll-up of them. A reader that wants a stage's spend reads that stage's entry; nothing has to be kept in step with anything else, and a stage reset by `--from-stage` takes its cost with it when its entry goes back to `pending` (NFR-2.2).
-
-**A stage may record facts of its own in its entry.** `qa-loop` records its iterations and why it stopped. The stage returns them on its `StageResult`, the runner writes them with the `complete` entry, and a `skipped` entry carries them over from the entry it replaces. Each such stage has its own entry type, keyed to its stage id in `ManifestStages`.
 
 **How a result was reached is kept beside the result, not here.** `choose-division`, `retitle-subtopics` and `group-into-topics` each write a small record next to their output saying how they reached it — which run was chosen and why, or which titles changed (§3.3; §5). The manifest is the run's bookkeeping: whether a stage ran, what it cost, and what it wrote. A record describes the result, so it is written and cleared with the result and listed in `filesWritten` like it, and no skip or re-run can separate the two.
 
@@ -748,7 +662,7 @@ Each log records which stages were attempted, skipped, or re-run; cost and model
   "stages": {
     "audio-extraction":       { "action": "skipped" },
     "transcription":          { "action": "skipped" },
-    "transcript-structuring": { "action": "skipped" },
+    "structure-transcript":   { "action": "skipped" },
     "render-slides":          { "action": "skipped" },
     "read-slides": {
       "action": "ran",
@@ -758,9 +672,7 @@ Each log records which stages were attempted, skipped, or re-run; cost and model
       "cost": { "costUsd": 0.021, "callCount": 13 }
     },
     "place-slides":      { "action": "not-reached" },
-    "synthesis":         { "action": "not-reached" },
-    "qa-loop":           { "action": "not-reached" },
-    "pdf-generation":    { "action": "not-reached" }
+    "rewrite-subtopics": { "action": "not-reached" }
   }
 }
 ```
@@ -848,7 +760,7 @@ summariseLectures(args: { lectures: readonly { overallStatus: OverallStatus }[] 
 // The same rule over lectures, which carry their own status: the runner folds a whole batch this way and the
 // batch table folds each module's rows, so the projection is written once. The parameter asks for the status
 // alone rather than a whole PipelineRunSummary, because that is all the rule reads.
-isCompletedEntry(entry: StageEntry | QaStageEntry | undefined): entry is CompletedStageEntry
+isCompletedEntry(entry: StageEntry | undefined): entry is CompletedStageEntry
 // Whether a *manifest* entry means the stage's output is on disk — `complete` or `skipped` (§4.2). Three
 // unrelated callers ask it: the shared `isComplete`, the run classifier, and the cost report's current-pipeline
 // section. A type guard rather than a boolean, so a caller that has checked can read `filesWritten` without a cast.
@@ -858,7 +770,7 @@ isCompletedEntry(entry: StageEntry | QaStageEntry | undefined): entry is Complet
 
 **Pipeline order comes from `STAGE_IDS`.** `src/types/pipeline.ts` declares `STAGE_IDS` as the ordered stage list, and everything that walks the stages in order — the runner's `--from-stage` reset, the cost report's per-stage breakdown — iterates that array. A map elsewhere in the code is a lookup keyed *by* stage, and its key order is that map's own; the pipeline's order has one statement, and adding a stage to it is what puts the stage in the sequence.
 
-**`--from-stage <stageId>`:** Resets the nominated stage and all downstream stages to `pending` in the manifest. Also deletes the intermediate files of each stage that runs again, such as `Slide readings/*.json` for `read-slides`. So the new run makes entirely fresh output. Upstream stages are untouched. The deletion uses the hard-coded directories of each stage (see §4.4), and never `filesWritten` from the manifest. The module's `Final output/` is shared, so there the deletion takes only this lecture's PDF.
+**`--from-stage <stageId>`:** Resets the nominated stage and all downstream stages to `pending` in the manifest. Also deletes the intermediate files of each stage that runs again, such as `Slide readings/*.json` for `read-slides`. So the new run makes entirely fresh output. Upstream stages are untouched. The deletion uses the hard-coded directories of each stage (see §4.4), and never `filesWritten` from the manifest.
 
 **The reset is confirmed before anything is deleted (NFR-4.3).** The CLI asks once per invocation, leading with the number of lectures that will lose work, and declining runs nothing at all rather than running without the reset. The count is what makes the question worth reading, because nothing the user typed states it: `run <date>` covers however many lectures that date matched and they then chose, and `batch` covers every lecture in the module named — or, with no module named, in every configured one. The question is asked wherever that set first becomes known, which is the CLI for a date and, for a batch, only after `countLectures` has scanned the modules (§4.7, "Counting a batch's scope"). Establishing the count costs that scan, so it is taken only when a stage is nominated; an ordinary run asks nothing and pays nothing. There is no flag to suppress the question.
 
@@ -866,9 +778,9 @@ isCompletedEntry(entry: StageEntry | QaStageEntry | undefined): entry is Complet
 
 It is a position in `STAGE_IDS`, not a name to match, so a stage the pipeline has not yet built still bounds the run: `--to-stage transcription` stops after `transcription` whether or not the stages beyond it exist. Naming a stage the lecture runs before any lecture stage — `source-normalisation` — runs none of them, which is what a caller asking for normalisation alone means by it.
 
-Given with `--from-stage`, the two bound the run at both ends and the pair must be in pipeline order; `--from-stage transcript-structuring --to-stage transcription` is refused at parse time rather than silently running nothing.
+Given with `--from-stage`, the two flags bound the run at both ends, and the pair must be in pipeline order. The parser refuses `--from-stage place-slides --to-stage transcription`, so the run does not silently do nothing.
 
-Its reason for existing is the cost of the stages downstream of what a run actually needs. Transcribing five lectures for a segmentation experiment reads `Transcript/transcript.txt` and nothing else, and without this flag that run also pays `transcript-structuring` and `transcript-verification` on every lecture.
+The flag exists because of the cost of the stages after the ones that a run needs. A segmentation experiment on five lectures reads only `Transcript/transcript.txt`. Without this flag, that run also pays for every model stage after `transcription` on every lecture.
 
 **Natural restart after failure:** Does not clear intermediate files. The slide readings from `read-slides` stay, so a failed run continues from the slide where it stopped.
 
@@ -886,7 +798,7 @@ assembleContext(args: { workspaceRoot: string; manifest: Manifest; config: Pipel
 // moduleRoot derived two levels up; the result is frozen.
 ```
 
-The runner **builds the context again between stages**. It does not build one context for the whole run. This costs no extra reads. The runner already reads the manifest again at every change of stage. So `updateManifest` gives back what it wrote, and the runner builds the next context from that. The result is that a stage's manifest changes reach the stages after it. For example, `judge-lecture-title` replaces `lectureTitle`, and `pdf-generation` names the PDF from it.
+The runner **builds the context again between stages**. It does not build one context for the whole run. This costs no extra reads. The runner already reads the manifest again at every change of stage. So `updateManifest` gives back what it wrote, and the runner builds the next context from that. The result is that a stage's manifest changes reach the stages after it. For example, `judge-lecture-title` replaces `lectureTitle`, and `structure-transcript` writes it as the lecture title.
 
 **Following a relocated workspace.** `judge-lecture-title` renames the workspace folder when it replaces the lecture's title (§5, `judge-lecture-title`). The path that the runner holds is then wrong. Stages do not report the move. The runner finds the lecture again by the identity that this section treats as canonical: `(moduleRoot, lectureDate)`. `resolveWorkspace` reads the manifest at the path it has. If that read fails, it calls `findLectureByDate`, which searches `Pipeline processing/` for the workspace whose manifest carries the date. The runner calls `findLectureByDate` only after a stage moved the folder. Every other change of stage costs only the usual read. The runner writes the run log at the found path, and `PipelineRunSummary.workspaceRoot` reports that path. So a run that renames its own workspace still leaves its log beside the work.
 
@@ -896,8 +808,8 @@ The runner **builds the context again between stages**. It does not build one co
 
 **`cost-report` command:** Reads the run logs of every lecture across the configured `moduleRoots` and renders one three-section report per lecture, each headed by the lecture it covers — what its outputs on disk cost, what its failures and retries cost, and its model experiments grouped for comparison (see §7). Figures are per stage throughout; nothing is summed across stages, runs, lectures or modules (NFR-2.2). The reports are handed back for the CLI to write (§8). Narrowed by `--date` (via `resolveLecturesByDate`, with the same multi-match prompt) or `--module <moduleRoot>`. Where the scope holds no lecture, the command says so and succeeds.
 
-**Identity-change commands (`rename`, `delete`, `change-date`).** A lecture's identity is changed only through these commands — never by editing the filesystem directly — so the manifest and filesystem stay in lock-step (see `source-normalisation`, §5):
-- `rename <date> "<new title>"` — sets `userTitle` in the manifest (which then wins the title precedence) and renames the video, slide, workspace folder, and any `Final output/` PDF to match.
+**Identity-change commands (`rename`, `delete`, `change-date`).** A lecture's identity changes only through these commands, never by an edit of the filesystem. So the manifest and the filesystem stay in step (see `source-normalisation`, §5):
+- `rename <date> "<new title>"` — sets `userTitle` in the manifest, which then wins the title precedence. It renames the video, slide, workspace folder, and any `Final output/` page to match.
 - `delete <date>` — removes the lecture's video, slide, workspace, and outputs, then renumbers the remaining lectures.
 - `change-date <date> <new date>` — moves the lecture (video, slide, workspace, outputs) to the new date, updates its manifest, and renumbers.
 
@@ -907,13 +819,13 @@ Each performs its change and then re-runs `source-normalisation` to return the m
 
 Each identity change leaves the module in a state `source-normalisation` can finish, rather than doing its work itself:
 
-- **`rename`** writes `userTitle` (and `lectureTitle`) to the manifest and stops there. The renaming of video, slide, workspace, and PDF falls out of the following `source-normalisation` pass, which names them from the manifest's current `lectureTitle` — the same code path that named them originally, so a rename cannot drift from a normalisation.
-- **`delete`** removes the video, the slide, the workspace, and the `Final output/` PDF, having first asked for confirmation. Removing the sources *and* the workspace together is what keeps the module consistent: a workspace left without sources is an orphaned workspace the next `source-normalisation` run would stop to ask about, and sources left without a workspace would simply be normalised back into one. `source-normalisation` then renumbers the lectures that follow.
-- **`change-date`** renames the video, slide, and PDF to the base name `source-normalisation` would give them at the new date, renames the workspace folder to match, and writes the new `lectureDate` and `baseName` to the manifest — so the `source-normalisation` pass that follows has only renumbering left, and renames again if the new date changes the lecture's number. It refuses when a source file already carries the target date, since a rename would otherwise overwrite another lecture, and when the lecture's own video or slide is missing.
+- **`rename`** writes `userTitle` and `lectureTitle` to the manifest and stops there. The `source-normalisation` pass that follows renames the video, slide, workspace and page. It names them from the manifest's current `lectureTitle`, with the code that named them first. So a rename cannot drift from a normalisation.
+- **`delete`** asks for confirmation. Then it removes the video, the slide, the workspace and the `Final output/` page. The sources and the workspace go together, and this keeps the module consistent. The next `source-normalisation` run would stop to ask about a workspace left without sources, because it is an orphaned workspace. Sources left without a workspace would be normalised back into one. `source-normalisation` then renumbers the lectures that follow.
+- **`change-date`** renames the video, slide and page to the base name that `source-normalisation` would give them at the new date. It renames the workspace folder to match, and writes the new `lectureDate` and `baseName` to the manifest. So the `source-normalisation` pass that follows has only renumbering left. That pass renames again if the new date changes the lecture's number. `change-date` refuses when a source file already carries the target date, because a rename would overwrite another lecture. It also refuses when the lecture's own video or slide is missing.
 
-**Moving a lecture's files.** `change-date` and `judge-lecture-title` both give the same four things a new base name. These are the source video, the source slide, any `Final output/` PDF and the workspace folder. So the code that moves them is written once and shared. It is in `src/pipeline/`, not beside the CLI commands that first called it, because a stage must not import from the CLI layer.
+**Moving a lecture's files.** `change-date` and `judge-lecture-title` both give the same four things a new base name. These are the source video, the source slide, any `Final output/` page and the workspace folder. So the code that moves them is written once and shared. It is in `src/pipeline/`, not beside the CLI commands that first called it, because a stage must not import from the CLI layer.
 
-Removing one lecture's file lives here for the same reason. Every directory a lecture's own files sit in is shared with every other lecture in the module, so `delete` and a `--from-stage` re-run at or before `pdf-generation` both have to take one file rather than sweep a directory, and both find it the way everything else here does — by the date it carries.
+Removing one lecture's file lives here for the same reason. Every directory a lecture's own files sit in is shared with every other lecture in the module. So `delete` takes one file from each, not the whole directory. It finds the file by the date that the file carries, as everything else here does.
 
 ```typescript
 // src/pipeline/lecture-files.ts
@@ -930,12 +842,11 @@ findLectureFileByDate(args: { dir: string; lectureDate: string }): Promise<strin
 // a historical event — precedes the lecture's own.
 removeLectureFileByDate(args: { dir: string; lectureDate: string }): Promise<void>
 // Removes the one file in a directory carrying this date, where there is one. Used by `delete` across all
-// three of a lecture's directories, and by `--from-stage` for the PDF in the module-wide `Final output/`.
-// Neither may sweep the directory it clears from: all three hold every lecture in the module.
+// three of a lecture's directories. It may not sweep a directory: all three hold every lecture in the module.
 renameLectureFiles(args: { dirs: ModuleDirs; workspaceRoot: string; lectureDate: string; baseName: string }): Promise<string>
-// Renames the video, the slide, any Final output/ PDF, and the workspace folder onto `baseName`, each keeping
+// Renames the video, the slide, any Final output/ page, and the workspace folder onto `baseName`, each keeping
 // the extension it carried, and returns the workspace's new path. Anything absent is skipped, so a lecture
-// with no PDF yet moves cleanly; a caller that requires a file to be present checks for it first, as
+// with no page yet moves cleanly; a caller that requires a file to be present checks for it first, as
 // `change-date` does for the source pair.
 ```
 
@@ -997,7 +908,7 @@ Parsing is validated in full before anything runs: the command must exist, its p
 
 ## 5. Stage Designs
 
-**Where prompts live.** A stage that calls an LLM keeps its prompt in a module of its own, `<stage>.prompt.ts`, in the stage's folder (§9), exporting the function that builds the messages. Only stages that make LLM calls have one; `source-normalisation`, `audio-extraction`, `transcription`, `choose-division` and `pdf-generation` do not. Where a stage makes more than one kind of call, its single prompt module exports one builder per call — the QA loop's checker and reviser both belong to `qa-loop`.
+**Where prompts live.** A stage that calls an LLM keeps its prompt in a module of its own, `<stage>.prompt.ts`, in the stage's folder (§9). The module exports the function that builds the messages. Only stages that make LLM calls have one. `source-normalisation`, `audio-extraction`, `transcription`, `choose-division`, `structure-transcript` and `render-slides` do not. A stage that makes more than one kind of call has one prompt module, with one builder for each kind. The corrector, the writer and the checker of `rewrite-subtopics` all have their builders in its prompt module.
 
 Each prompt sits beside the one stage that uses it, so a prompt edit touches that stage alone (NFR-5.2). Keeping it out of the stage module puts prompt changes in a file of their own — a prompt is the part iterated on hardest once real lectures run, and its diffs stay legible apart from file renames and manifest writes.
 
@@ -1034,15 +945,15 @@ A prompt module has no test file of its own. Its builder is a pure assembly whos
 
 4. **Title resolution:** For a **new** lecture, extract a provisional title from the video filename (§3.2). Remove the date, day names (Mon–Sun) and a configured module prefix (`naming.modulePrefixes`, §6) where present. Also remove an embedded lecture-number token such as `Lecture 1`, and trailing artefacts (`co`, `copy`, `v2`). Keep the lecturer's capitalisation exactly as typed. A filename with only a date and a lecture number gives an **empty** provisional title, and the lecture gets a bare `Lecture N` name. This step does **not** judge whether the title is meaningful. `judge-lecture-title` does that. For an **existing** lecture, the title comes from its manifest (`lectureTitle`) and is never extracted again. So a CLI `rename` and a `judge-lecture-title` rename both stay.
 
-5. **Base names:** Rename the source video and its matched slide, the workspace folder, and any `Final output/` PDF to the shared base name `Lecture N - <title> - YYYY-MM-DD` (bare `Lecture N - YYYY-MM-DD` when the title is empty). Lecture files already at their target are left untouched.
+5. **Base names:** Rename the source video and its matched slide, the workspace folder, and any `Final output/` page to the shared base name `Lecture N - <title> - YYYY-MM-DD`. The base name is a bare `Lecture N - YYYY-MM-DD` when the title is empty. Lecture files already at their target are left untouched.
 
 6. **Workspace + manifest:** Create `Pipeline processing/Lecture N - <title> - YYYY-MM-DD/` for any lecture that does not already have one, writing an initial `manifest.json` with `lectureNumber`, `lectureDate`, `provisionalTitle`, `lectureTitle = provisionalTitle`, `userTitle = null`, `aiDerivedTitle = null`, and all stage statuses `pending`. For an existing lecture whose number or folder changed, update `lectureNumber` and `baseName` in its manifest, preserving everything else.
 
-**Collision-safe renaming.** When the sequence changes, all renames (source files, workspace folders, `Final output/` PDFs) are applied in two phases — each lecture file to a temporary name, then each temporary to its target — so shifting lecture numbers never collide mid-rename. Lecture files already correct are skipped, so a re-run with no changes touches nothing.
+**Collision-safe renaming.** When the sequence changes, all renames of source files, workspace folders and `Final output/` pages are made in two passes. The first pass moves each lecture file to a temporary name. The second moves each temporary name to its target. So shifting lecture numbers never collide during a rename. Lecture files already correct are skipped, so a re-run with no changes touches nothing.
 
 The temporary suffix sits outside the `.tmp` convention of §4.3, because the two name opposite things: a `.tmp` file is a partial write and is deleted at stage start, while a `source-normalisation` temporary holds a complete lecture file — the only copy of a source video, or a whole lecture workspace — between leaving one name and reaching the next. A run therefore begins by finishing any rename its predecessor was interrupted partway through: every temporary entry across the module's four directories is moved on to its target before anything is read, so an interrupted run costs the next one nothing. Where a target name is occupied, the run stops and names those entries, leaving every one of them where it stands.
 
-**Orphaned workspace handling (direct-deletion guard).** If a workspace's date has **no source pair present** (both its video and slide are gone — a partial loss already breaks a source rule), the sources were deleted directly rather than via the CLI, which can leave the pipeline inconsistent. `source-normalisation` neither silently deletes work nor silently proceeds. For **each** orphaned workspace it prompts the user — via an injected `confirm` callback the CLI backs with `@inquirer/prompts` — showing the lecture's number, title and date, and asks whether to delete the workspace and its outputs. The prompt quotes no figure: what a lecture has cost is the sum of its stages, and stage costs are not summed (NFR-2.2). What was spent on it is in its own cost report, which `cost-report` will still print until the workspace goes. Only if **every** orphaned workspace is approved does a final "are you sure?" confirm the irreversible deletion; then the workspaces and their `Final output/` PDFs are deleted (their manifests go with them), the module is renumbered, and each deletion is logged with its prior state. If **any** orphaned workspace is declined, or the final confirmation is declined, `source-normalisation` aborts with an informative error and makes **no changes** — protecting against, e.g., the whole source folder being moved by mistake.
+**Orphaned workspace handling (direct-deletion guard).** A workspace can have a date with **no source pair present**: both its video and its slide are gone. (A partial loss already breaks a source rule.) Then the sources were deleted directly, not through the CLI, and the pipeline can be inconsistent. `source-normalisation` does not silently delete work, and it does not silently continue. For **each** orphaned workspace, it asks the user whether to delete the workspace and its outputs. The question shows the lecture's number, title and date. It goes through an injected `confirm` callback, which the CLI backs with `@inquirer/prompts`. The question quotes no figure. What a lecture cost is the sum of its stages, and stage costs are not summed (NFR-2.2). The lecture's own cost report shows what was spent on it, and `cost-report` prints it until the workspace goes. A final "are you sure?" question comes only when the user approves **every** orphaned workspace. After a yes, the workspaces and their `Final output/` pages are deleted, with their manifests. The module is renumbered, and each deletion is logged with its prior state. If the user declines **any** orphaned workspace, or the final question, `source-normalisation` stops with an informative error and makes **no changes**. This protects the work when, for example, the whole source folder was moved by mistake.
 
 **Logging:** Every action — files discovered, dates extracted, numbers assigned, matches, each rename, each workspace/manifest write, each renumber, each approved deletion (with its prior number/title/date) — is recorded at `info` on the run's pino logger; broken source rules and orphaned workspace aborts are recorded at `error` before the throw.
 
@@ -1124,7 +1035,7 @@ Three stages turn the transcript into subtopics. No single splitting run is reli
 
 The design was settled in the segmentation prototype (`docs/quality/segmentation-prototype/`), which holds the measurements behind every number below. The prompts are the prototype's `s6` and `d13`, carried over word for word. Only what produces the division is carried over: the prototype's rulings, rubrics, scoring and ledgers are how the prompts were tested, stay in the prototype, and appear nowhere in the pipeline.
 
-These three stages, `retitle-subtopics`, `group-into-topics` and `judge-lecture-title` (below) run after transcription and before transcript structuring (§4.1).
+These three stages, `retitle-subtopics`, `group-into-topics` and `judge-lecture-title` (below) run after `transcription` and before `structure-transcript` (§4.1).
 
 **No check step follows them.** Every other stage where a model transforms content is followed by a separate check (README, "All work is verified with separate models"). These four transform nothing: the model says only where the transcript divides and how subtopics group, and the text is sliced by code, so losslessness is guaranteed rather than checked. What remains to judge — whether a cut or a grouping is well placed — is what the panel settles: a cut survives only where enough runs agree, and a grouping is the one most of the panel made. No checker exists for that judgement, and one would have to be designed and calibrated before its verdict could be trusted.
 
@@ -1340,7 +1251,7 @@ chooseGrouping(args: { runs: readonly GroupingRun[]; bar: number }): { topics: r
 
 **Input:** `Transcript/transcript.txt`, `Retitled subtopics/subtopics.json`, `Topics/topics.json`, and the provisional title from the stage context
 **Output:** `Title judgement/judgement.json`
-**Conditional side effect:** The stage renames the source video, the source slide, the workspace folder and any `Final output/` PDF. It does this only when the model judges the provisional title not meaningful and no user title is set.
+**Conditional side effect:** The stage renames the source video, the source slide, the workspace folder and any `Final output/` page. It does this only when the model judges the provisional title not meaningful and no user title is set.
 
 The stage judges whether the provisional title is meaningful for the lecture's content (CONTEXT.md, "Judging the lecture title"). A title that the lecturer wrote is authoritative. So the model keeps a meaningful title and proposes nothing. The model proposes an AI-derived title only when the provisional title is not meaningful: empty, generic, or in conflict with the content.
 
@@ -1352,7 +1263,7 @@ The stage judges whether the provisional title is meaningful for the lecture's c
 
 The retitled subtopics hold only the span of each subtopic in the transcript. So the stage reads `Transcript/transcript.txt` and cuts the text of each subtopic from it, as `retitle-subtopics` and `group-into-topics` do. It sends no subtopic ids and no reasons, because they do not help the judgement. The stage also sends the provisional title. An empty provisional title is sent as a statement that the filename carried no title.
 
-**The prompt** is the title part of the prompt that `transcript-structuring` used before this stage existed. It keeps the same rules. The lecturer's title is authoritative. The model must not propose a title only because it can write a better one. An AI-derived title has four to eight plain words, because it becomes a filename. The prompt adds these things:
+**The prompt** is the title part of the earlier transcript-structuring prompt, which `docs/reference/transcript-structuring-prompt.md` keeps. It keeps the same rules. The lecturer's title is authoritative. The model must not propose a title only because it can write a better one. An AI-derived title has four to eight plain words, because it becomes a filename. The prompt adds these things:
 
 - It tells the model the shape of the input. It also tells the model that a model wrote the topic titles and subtopic titles, and the lecturer did not.
 - An AI-derived title names what all the topics have in common. It is not a list of the topics, and it is not the title of one topic.
@@ -1378,7 +1289,7 @@ When the provisional title is meaningful, the stage ignores any `suggestedTitle`
 | Title judgement | `outcome` | Action |
 |---|---|---|
 | Provisional title meaningful | `kept-provisional` | `aiDerivedTitle` becomes `null`. If no user title is set, `lectureTitle` becomes `provisionalTitle`, and `baseName` follows it. The lecture files move only when an earlier run gave the lecture another name. |
-| Not meaningful, and no user title | `adopted-derived` | `aiDerivedTitle` and `lectureTitle` take the proposed title. The source video, the source slide, the workspace folder and any `Final output/` PDF move to the new base name. `baseName` changes in the manifest. |
+| Not meaningful, and no user title | `adopted-derived` | `aiDerivedTitle` and `lectureTitle` take the proposed title. The source video, the source slide, the workspace folder and any `Final output/` page move to the new base name. `baseName` changes in the manifest. |
 | Not meaningful, and a user title is set | `kept-user-title` | Only `aiDerivedTitle` takes the proposed title. `lectureTitle` and every name on disk stay. |
 
 **A user title outranks the judgement.** A user title is set through `rename`, and it wins the title precedence (§5, `source-normalisation`). The stage still calls the model and records the AI-derived title. That title is a true record of what the model proposed. It is also the title that the lecture falls back to if the user title is cleared.
@@ -1402,7 +1313,7 @@ The file shows at a glance why a lecture has a new name. The debug log records t
 1. Make the call, check the reply, and resend an unusable reply.
 2. Write `Title judgement/judgement.json` atomically (§4.3).
 3. Decide the identity changes that the stage returns. For `kept-user-title`, there is only `aiDerivedTitle`. For `adopted-derived`, there are `aiDerivedTitle`, `lectureTitle` and `baseName`. For `kept-provisional`, there are only the fields that differ from the provisional title's identity. In most lectures there are none. `lectureBaseName` builds the base name from the title (§5, `source-normalisation`).
-4. When the changes include `baseName`, move the source video, the source slide, any `Final output/` PDF and the workspace folder with `renameLectureFiles` (§4.7).
+4. When the changes include `baseName`, move the source video, the source slide, any `Final output/` page and the workspace folder with `renameLectureFiles` (§4.7).
 5. Return the changes on `StageResult.identityChanges`. The runner finds the workspace again by `(moduleRoot, lectureDate)`. Then it writes the changes into the manifest with the stage's `complete` entry (§4.2, §4.7).
 
 The stage writes no manifest of its own (§4.2). From the move in step 4 until the runner's write in step 5, the manifest names the old folder. The stage is marked `running` for that time. So if the launch stops, the next launch runs `judge-lecture-title` again. That run makes a new call, and the new call can propose a different title. `renameLectureFiles` finds the lecture files by their date, so it moves them from wherever the first run left them.
@@ -1425,6 +1336,19 @@ createJudgeLectureTitleStage(args: { logger: Logger; client: OpenAI }): Pipeline
 // Throws JudgeLectureTitleError when the transcript, the retitled subtopics or the topics are missing or unreadable,
 // or when the third send gives an unusable reply. An unknown cost is not a failure (§7).
 ```
+
+---
+
+### `structure-transcript` — the lecture in one file
+
+**Input:** `Transcript/transcript.txt`, `Chosen division/subtopics.json`, `Retitled subtopics/subtopics.json`, `Topics/topics.json`, `Title judgement/judgement.json`
+**Output:** `Structured transcript/structured-transcript.json`
+
+The stage writes the structured transcript (CONTEXT.md, "Structured transcript"). It makes no model call, so its cost is `null` (§4.2). It runs directly after `judge-lecture-title`, so the lecture title is final.
+
+The file holds the lecture title and the topics in lecture order, each with its title. Each topic holds its subtopics in order. Each subtopic holds its subtopic id, its title and its own text. The stage cuts each text from the transcript by the subtopic's span. The text is the lecturer's words, unchanged. The file holds no position in the transcript and no reason that a model gave. So each subtopic stands alone, and the later stages read the lecture from this one file.
+
+The stage fails when an input file is missing, unreadable or the wrong shape. The error names the file.
 
 ---
 
@@ -1482,12 +1406,12 @@ The stage fails without a model call when `Slide images/` is missing or holds no
 
 ### `place-slides` — each slide with its subtopic
 
-**Input:** `Transcript/transcript.txt`, `Retitled subtopics/subtopics.json`, `Slide images/`, `Slide readings/`
+**Input:** `Structured transcript/structured-transcript.json`, `Slide images/`, `Slide readings/`
 **Output:** `Slide placements/placements.json`
 
 The stage puts each subject-matter slide with the subtopic where the lecturer discusses it (CONTEXT.md, "Slide placement"). The slide goes at the sentence where the lecturer starts to discuss it.
 
-**One call for the whole lecture.** The model gets every subtopic in order, as its subtopic id, its title and its full text, trimmed. The retitled subtopics hold only spans, so the stage cuts each text from the transcript, as `judge-lecture-title` does. The model also gets the reading of each subject-matter slide in deck order, whole, as `read-slides` wrote it. So the model sees the caption that a student sees. The subtopics go without their topics. Some topic borders are disputed, and the placements must not depend on those borders. Content-free slides and references slides are not in the list. A content-free slide tells the model nothing about where a slide goes, and the code places the references slides.
+**One call for the whole lecture.** The model gets every subtopic in order, as its subtopic id, its title and its full text, trimmed. The stage takes them from the structured transcript. The model also gets the reading of each subject-matter slide in deck order, whole, as `read-slides` wrote it. So the model sees the caption that a student sees. The subtopics go without their topics. Some topic borders are disputed, and the placements must not depend on those borders. Content-free slides and references slides are not in the list. A content-free slide tells the model nothing about where a slide goes, and the code places the references slides.
 
 **The prompt** is in Markdown sections: task, what the model gets, key considerations, method, rules, a check before the reply, and the reply format. The method places each slide on its own first. Then it goes through the slides in deck order. When two neighbour places disagree, the model moves only the slide whose place is wrong, and it repeats the pass until no two places disagree. So one wrong place does not push every later slide late. The prompt has a version, `p2`, and a change to its text gets a new version.
 
@@ -1498,7 +1422,7 @@ The stage puts each subject-matter slide with the subtopic where the lecturer di
 - A subject-matter slide has no entry, or more than one.
 - An entry names a slide or a subtopic that does not exist.
 - The start words of a subject-matter slide are not in the text of its subtopic.
-- A slide's place is earlier in the transcript than the place of the subject-matter slide before it in the deck.
+- A slide's place is earlier in the lecture than the place of the subject-matter slide before it in the deck. The stage compares two places by their subtopic order first, then by their `positionInSubtopic`.
 
 The stage does not repair a reply, because a repair must guess which slide is wrong. The stage resends an unusable reply in the same way as a panel run. It fails after the third send (§5, "Dividing the transcript", Panel runs).
 
@@ -1514,11 +1438,11 @@ The stage does not repair a reply, because a repair must guess which slide is wr
 
 **One call, not a panel.** If real lectures show that placements change from one call to the next, a panel can be added later.
 
-**What is written.** `Slide placements/placements.json` holds `promptVersion`, the version of the prompt that made the placements. It also holds a list `placements`, with one entry for each placed slide in deck order. Each entry holds `slideNumber`, `subtopicId`, `startWords`, `textPosition` and `placedBecause`. `textPosition` is the position in the transcript where the slide goes, counted as the subtopic spans are. It is always inside the span of the entry's subtopic, so a later stage can check that the slide stays in its subtopic. A references slide has `startWords` null, the end of the last subtopic as its `textPosition`, and a fixed `placedBecause`, because the code places it.
+**What is written.** `Slide placements/placements.json` holds `promptVersion`, the version of the prompt that made the placements. It also holds a list `placements`, with one entry for each placed slide in deck order. Each entry holds `slideNumber`, `subtopicId`, `startWords`, `positionInSubtopic` and `placedBecause`. `positionInSubtopic` is the number of characters from the start of the subtopic's text to the point where the slide goes. A references slide has `startWords` null, the end of the last subtopic as its `positionInSubtopic`, and a fixed `placedBecause`, because the code places it.
 
-**The point goes through the rewrite.** A later stage rewrites the transcript as prose, and a position in the transcript means nothing in the prose. The design of the writing stages decides how each point survives the rewrite. One way is a marker that the writer must keep. The other way is a second placement in the finished prose.
+**The point does not go through the rewrite.** `rewrite-subtopics` rewrites each subtopic as prose, and a position in the lecturer's words means nothing in the prose. So the slides are placed again after the rewrite, at the figure marks of the writer (§5, "After the rewrite"). Term correction in `rewrite-subtopics` uses the subtopic of each placement. The position stays for the deck-order check, for the test page, and as a possible hint to the placement after the rewrite.
 
-The stage fails without a model call when the transcript, the retitled subtopics or a reading is missing or unreadable. The error names the file. The stage finds a missing reading from `Slide images/`. Each slide image must have a reading with its slide number. The stage also fails when the third send is unusable.
+The stage fails without a model call when the structured transcript or a reading is missing or unreadable. The error names the file. The stage finds a missing reading from `Slide images/`. Each slide image must have a reading with its slide number. The stage also fails when the third send is unusable.
 
 **The model** is set on the stage's own entry (§6). It is `google/gemini-3.8-flash`, the model of `read-slides`. It has no temperature and no token cap, for the same reasons as `read-slides`.
 
@@ -1530,176 +1454,57 @@ The stage fails without a model call when the transcript, the retitled subtopics
 
 ---
 
-### `transcript-structuring` — Transcript Structuring
+### `rewrite-subtopics` — each subtopic as prose
 
-**Input:** `Transcript/transcript.txt`
-**Output:** `Structured transcript/structured-transcript.md`
+**Input:** `Structured transcript/structured-transcript.json`, `Slide placements/placements.json`, `Slide readings/`
+**Output:** `Rewrite attempts/subtopic-<id>-attempt-<n>.json` for each rewrite attempt, and `Rewritten subtopics/rewritten-subtopics.json`
 
-`transcript-structuring` makes one JSON-mode call. The reply is `{ structuredMarkdown: string }`. The stage does not judge the title. `judge-lecture-title` does that before this stage runs.
+The stage rewrites each subtopic of the structured transcript as prose. Each subtopic goes through three steps: term correction, the rewrite and the check (CONTEXT.md, "Rewriting a subtopic"). The three steps are one stage, because a fault that the checker finds sends the subtopic through all three again.
 
-#### Transcript Structuring
+The stage works on several subtopics at the same time, up to its `concurrency` (§6). Its `sendGapSeconds` spaces its sends. As in the other stages, one send gate serves all the lectures of a batch (§6, "The send gap is shared by the whole invocation"). Each model call takes the shared resend of an unusable reply (§5, "Dividing the transcript", Panel runs).
 
-The LLM call produces the structured markdown. The LLM:
-- Identifies topic boundaries from discourse markers ("Now, moving on to…", "To summarise…")
-- Applies H2 headings for major topics, H3 for sub-topics
-- Removes filler words only (um, uh, sort of, you know) — all substantive content preserved
-- Converts spoken mathematics to LaTeX where detectable
-- Marks Q&A sections as `> **Q&A:**` blockquote
-- Does not add content not present in the transcript
-- Writes in the configured `finalOutput.language` (§6)
+**Term correction.** The transcriber mishears technical terms, and a slide often prints the right form. For example, a lecture says "beta-naphthylene" where its slide prints "β-naphthylamine". The stage makes one call for each subtopic that has a placed slide, and no call for a subtopic with none. The call gets the subtopic text and the readings of the slides placed in that subtopic. The reply is a list of corrections (CONTEXT.md, "Correction"). Each correction holds a wrong form, a right form and a reason. Each form has one to four words, and the prompt states that limit. Code then checks each correction:
 
-The last rule controls how the transcript's words are spelled. The rule above it controls which words are there. Speech has no spelling. The transcript's spelling is the transcriber's, and `transcription` cannot change it. ElevenLabs' `languageCode` takes an ISO-639-1 or ISO-639-3 code, and neither can express a regional variant. So `eng` names English and nothing more. A model call is therefore the first point in the pipeline where the output's language can be chosen. `judge-lecture-title` is the first stage that applies the rule, to the AI-derived title. `transcript-structuring` is the first stage that applies it to prose. `languageRule` (§6) gives the wording of the rule, so that every stage gives the model the same instruction.
+- Code ignores and records a correction when its right form is not in the reading of a slide placed in the subtopic.
+- Code ignores and records a correction when its wrong form is not in the subtopic text.
+- Code changes each occurrence of the wrong form in the subtopic text to the right form, and records the number of changes.
 
-**Context:** A 90-minute transcript is typically 15,000–30,000 tokens — a single call within any 128k-context model.
+A correction that fails a check is not resent. The stage writes the corrections into the rewrite attempt's file. It never edits the file of an earlier stage.
 
-```typescript
-// src/pipeline/stages/transcript-structuring/transcript-structuring.prompt.ts
-buildStructuringMessages(args: { transcriptText: string;
-  language: OutputLanguage }): readonly ChatCompletionMessageParam[]
-// The structuring rules above, as messages. The messages ask for the JSON object, which JSON mode requires (§6).
+**The rewrite.** The writer gets the corrected text of one subtopic, and nothing else: no title, no slides and no other subtopic. It writes the rewritten subtopic (CONTEXT.md, "Rewritten subtopic"):
 
-// src/pipeline/stages/transcript-structuring/transcript-structuring.ts
-type TranscriptStructuringInput = { transcriptText: string }
-type TranscriptStructuringOutput = { structuredTranscriptPath: string }
-createTranscriptStructuringStage(args: { logger: Logger }): PipelineStage<TranscriptStructuringInput, TranscriptStructuringOutput>
-// Throws TranscriptStructuringError when the transcript is missing or empty, or when the reply is not the
-// documented JSON object. An unknown cost is not a failure (§7).
-```
+- paragraphs with no heading
+- every point in the lecturer's order
+- LaTeX for formulas, where the lecturer speaks one
+- a figure mark, with no number, where the lecturer points at a slide (CONTEXT.md, "Figure mark").
 
----
+The writer drops filler, jokes and course arrangements. It keeps these exactly:
 
-### `transcript-verification` — Transcript Verification
+1. scientific nomenclature and precise terms
+2. names, small molecules and protein subunits included
+3. exact amino acid residues
+4. the lecturer's statistics and numbers
+5. each step of a mechanism in order, with each causal link that the lecturer states.
 
-**Input:** `Transcript/transcript.txt` and `Structured transcript/structured-transcript.md`
-**Output:** `Transcript verification/verification-report.json`, and `Transcript verification/verification-report.md` beside it
+The list goes into the writer's prompt and the checker's prompt as numbered rules, so the two prompts state the same rules.
 
-`transcript-structuring` rewrites a transcript. `synthesis` reads the structured transcript and not the raw one, so from `synthesis` onwards the structured transcript *is* the lecture. So content that `transcript-structuring` drops cannot come back later. No other stage can see that the content is lost. `synthesis` checks the notes against the structured transcript, so it cannot see content lost before that point. This stage is the one place where the two versions are side by side.
+**The check.** The checker gets three things: the verbatim text of the subtopic, the corrections of the attempt with their reasons, and the rewritten subtopic. It gets no slide text. It looks for an omission, a distortion and an unsourced addition (CONTEXT.md, "Checking quality"). It judges each correction from its own knowledge: a correction may improve a term only, and add or remove no fact. It does not look for underexplained content, because that fault asks the writer to add. It does not look for prose faults. One fault of any kind fails the rewrite attempt.
 
-It makes a single JSON-mode call carrying both texts, and writes back a `QaCheckerReport` (§4.1, `src/types/pipeline.ts`) — everything a checker is in a position to say, with no iteration number, because this stage runs once and the number belongs to the QA loop that calls its checker repeatedly. The report holds the findings, each with its severity, category, the source passage it is about and where it belongs in the output, plus the `considered` list of what the checker examined and cleared. Only the faithfulness categories are offered — `omission`, `underexplained`, `distortion`, `unsourced-addition`, `other` — because this stage compares two transcripts and has no notes to judge the prose of (`qa-loop`).
+**Rewrite attempts.** After a fault, the subtopic gets a new rewrite attempt: term correction, the rewrite and the check again. The corrector and the writer each get the faults that concern them. A subtopic gets at most three rewrite attempts. After the third failure the stage fails, and the error names the subtopic and its faults. The other subtopics keep their saved results. No reviser edits a rewritten subtopic.
 
-**It reports; it never gates.** No verdict fails the stage, ends the run, or changes the exit code, and no severity blocks anything downstream. A lecture whose structured transcript is poor still produces notes and a PDF, and the report is how the user finds out. This is deliberate and is the first half of a two-step plan: a checker has to be shown to be right about a corpus before anything is allowed to act on what it says, and a checker that can stop a run is one whose false positives cost a user their run. A revision loop becomes possible once the reports are trusted; until then the cost of the stage being wrong is a file nobody has to read.
+**What is written.** Each rewrite attempt is written to `Rewrite attempts/subtopic-<id>-attempt-<n>.json` when it ends. It holds the corrections, the ignored corrections, the rewritten subtopic and the checker's faults. `Rewritten subtopics/rewritten-subtopics.json` holds the rewritten subtopic of each subtopic that passed the check. A stage that failed and starts again keeps the subtopics that passed. The field names in both files are agreed when the stage is built.
 
-**Tuning is left unset on purpose.** The stage's config entry writes `temperature` and `maxTokens` as `null`, so the only parameter the request carries is the reply format. Under `require_parameters` (§6) every parameter in a request narrows which endpoints may serve it, and a stage whose calls are this long is the worst place to discover that the tuning pinned routing to a provider refusing the account — which is exactly how a `404 No endpoints found that can handle the requested parameters` and a run of `503`s were produced during user testing. No token cap also means no truncated report: the reply length follows the number of findings, which is not known in advance and is largest precisely when the report matters most.
-
-**The prompt is the assessment method, not a new one.** The checker's instructions are the prompt that produced the assessments committed in `docs/quality/`, carried over verbatim with only a reply contract appended, so what the stage does automatically is what was already shown to work by hand. Changing the method and changing the medium at the same time would leave no way to tell which one moved the findings.
-
-**The findings are also written as a document.** `verification-report.md` carries the same report as a page a person reads without a JSON viewer: a heading line with the verdict, the coverage score and how many findings there are; a table of how many findings fell into each category; then the findings themselves, grouped by category with distortions first and ordered critical to minor inside each group, each showing the passage of the source it is about, where that passage sits, and where in the structured transcript the fault is; and last, everything the checker examined and cleared. A report with no findings still produces the document, saying so.
-
-The rendering is ours and is derived from the report already on disk, never from a second call. Two consequences follow. The two files cannot disagree, because one is a projection of the other. And the model is never asked to be good at judgement and at prose in the same breath — the priority order a reader sees comes from the severity the checker assigned, not from a second opinion about what matters.
-
-**The verification report Markdown is temporary.** It exists because the checker is being calibrated by hand: its reports are read, compared against the assessments in `docs/quality/`, and argued with, and a JSON file is the wrong medium for that. Once a checker is settled on, nobody reads these by eye and the stage goes back to writing the one machine-readable file — at which point `verification-report.md`, the renderer, and the layout's `markdownVersion` come out together.
-
-```typescript
-// src/pipeline/stages/transcript-verification/transcript-verification.prompt.ts
-buildVerificationMessages(args: { transcriptText: string; structuredTranscriptText: string }):
-  readonly ChatCompletionMessageParam[]
-// The assessment method, with the reply contract appended. Asks for the JSON object in the prompt as well
-// as through `responseFormat`, which JSON mode requires (§6).
-
-// src/pipeline/stages/transcript-verification/transcript-verification.view.ts
-renderVerificationReport(args: { report: QaCheckerReport }): string
-// The report as the document described above. Pure: it is handed the stored report and returns text, calls
-// nothing, and reads no file — which is what makes every ordering and counting rule testable on its own.
-// Total over `QaDeficiencyType` rather than over the five categories this checker is offered, so the QA loop's
-// wider vocabulary could not produce a finding it silently drops.
-
-// src/pipeline/stages/transcript-verification/transcript-verification.ts
-type TranscriptVerificationInput = { transcriptText: string; structuredTranscriptText: string }
-type TranscriptVerificationOutput = { verificationReportPath: string; deficiencyCount: number }
-createTranscriptVerificationStage(args: { logger: Logger; client: OpenRouterClient }):
-  PipelineStage<TranscriptVerificationInput, TranscriptVerificationOutput>
-// Throws TranscriptVerificationError when either input file is missing or empty, or when the reply is not
-// the documented report. A report full of findings is not a failure — that is the stage working.
-```
+**The models.** Two models for each step are proposed, with their prices, before the stage is built. How the stage's entry names the models of the three steps is decided then (§6).
 
 ---
 
-### `synthesis` — Synthesis
+### After the rewrite
 
-**Inputs:**
-- `Structured transcript/structured-transcript.md`
-- `Slide readings/`
-- `Slide placements/placements.json`
+Two stages follow `rewrite-subtopics`. Both are designed in outline only. Their stage ids, their files and their other rules are decided after a live run of `rewrite-subtopics` on one lecture.
 
-**Output:** `Synthesised notes/synthesised-notes.md`
+**Placing the slides in the rewritten text.** The stage works on one subtopic at a time. It puts a slide at each figure mark, and code gives the figure numbers. It places a slide with no figure mark by its subject matter. Two questions stay open. The first is what happens when a subtopic has more figure marks than slides, or fewer. The second is whether the stage uses the point from `place-slides` as a hint.
 
-A single LLM call assembles all three inputs into a unified textbook-style document. A 90-minute lecture typically produces 25,000–45,000 tokens of combined input — well within a 128k-context model.
-
-**What the LLM produces:**
-- Formal British English prose (not bullet lists)
-- H2 for major topics, H3 for sub-topics
-- The transcript gives the narrative voice. The slide readings give structural anchors and key points. The prose joins both into continuous paragraphs
-- Each placed slide with its subtopic: `![{caption}](images/slide-003.png)`
-- A "Key Concepts" summary box at the end of each H2 section
-- A "Glossary" section at the end defining all technical terms introduced
-- No content added beyond what is present in the source materials
-
-**Context window fallback for very long lectures (> ~80,000 input tokens):**
-Align transcript sections to slide sections by heading similarity to produce paired section bundles. Synthesise each bundle independently. Concatenate, then make a lightweight "coherence pass" call that smooths transitions without re-reading the full content.
-
----
-
-### `qa-loop` — QA Loop
-
-**Inputs:** All source materials + current synthesised notes draft.
-**Outputs (per iteration):** `QA iterations/qa-iteration-{02d}-deficiencies.json`, `QA iterations/qa-iteration-{02d}-revised.md`
-**Final output:** `QA checked/notes.md` and `QA checked/images/`
-
-#### Two-Prompt Design
-
-QA and revision are two separate LLM calls per iteration. Combining them in one call degrades quality — the model cannot be simultaneously maximally critical and produce fluent prose. Separating the tasks allows each to be done well.
-
-**QA checker call:** Reads source transcript + source slides + image manifest + current draft. Returns a structured `QaDeficienciesReport`. The prompt instructs the model to be thorough and critical, to categorise every deficiency into exactly one `QaDeficiency.type` value (carrying a short definition of each in-prompt), to hold the `distortion` / `unsourced-addition` line precisely — contradiction of a source versus content the source does not carry at all — and not to call the notes adequate unless they genuinely are. It also asks what the checker examined and cleared, which lands in `considered`: a findings list alone cannot tell a checker that missed something from one that looked and decided it was not a fault, and only the first is a reason to distrust the report.
-
-**QA reviser call:** Reads current draft + deficiencies report. Applies targeted edits to address each deficiency. Does not rewrite wholesale. Every remedy is grounded in the lecture's own source materials (transcript, slide content, image manifest) — the reviser MUST NOT introduce content from outside the source set. The reviser branches on `type`:
-
-- `omission` → insert the missing content at `outputLocation`, grounded in the quote the finding's `source` carries
-- `underexplained` → restore the mechanism or reasoning the passage was stripped of, using that same quote; do not add unrelated material
-- `distortion` → correct the claim against the cited source
-- `unsourced-addition` → **remove** the content. The reviser MUST NOT go looking for external corroboration — grounding a statement the sources do not carry in a newly-cited one would violate NFR-1.3 (faithful representation) and licenses citation fabrication. This is why the category is distinct from `distortion`: the two look alike in a report and their remedies are opposites
-- `other` → no standing action; a category that keeps recurring has earned a name and a branch of its own, and gets one
-- `clarity` → rewrite the passage for readability without introducing new content or altering meaning
-- `british-english` / `formatting` / `figure-reference` → apply the targeted edit; no other changes
-
-#### Deficiency Schema
-
-The QA checker returns a `QaDeficienciesReport`: an `overallVerdict` (`pass`/`fail`), a self-assessed `coverageScore` (0–100), a list of `QaDeficiency` items, and the `considered` list of what it examined and cleared. Each deficiency carries a `severity` (`critical`/`major`/`minor`), a `type` (the categories listed in the reviser-branch table above, each mapped to FR-4.2/FR-4.3), a `description`, a `suggestedFix`, and both ends of where it applies — an `outputLocation`, and a `source` holding the quote from the source material and where that quote sits. Exact shapes and per-field/per-category documentation are the single source of truth in `src/types/pipeline.ts` (`QaDeficienciesReport`, `QaDeficiency`, `QaDeficiencyType`, `QaSourcePassage`, `QaConsideration`, `QaSeverity`).
-
-**The category set is shared, the prompts are not.** One `QaDeficiencyType` union serves both this stage and transcript verification, so the same fault cannot acquire two names depending on which checker found it — and a finding can be compared across stages, which is what makes the calibration corpus in `docs/quality/` readable against either. What differs is what each prompt offers: transcript verification asks only for the faithfulness categories, because it compares a transcript with a structured transcript and has no notes to judge the prose of. `other` sits in both, deliberately unglamorous — a checker with no way to report a real finding will force it into whichever category fits worst, and a recurring `other` is the evidence that a category is missing.
-
-#### Loop Termination
-
-The loop exits when any one of the following is true:
-
-1. `overallVerdict === 'pass'`
-2. `currentIteration >= maxQaIterations` (configurable, default 3) — exits with a warning in the manifest
-3. Two consecutive iterations with identical deficiency counts and no severity change — exits to prevent infinite cycling on issues the model cannot resolve
-
-`terminationReason` in the manifest records which condition triggered the exit (`'qa-passed'`, `'max-iterations-reached'`, `'stalled'`).
-
-On successful exit, the final revised draft is written to `QA checked/notes.md` and all included figures are copied to `QA checked/images/`. `pdf-generation` then converts this to the final PDF.
-
----
-
-### `pdf-generation` — PDF Generation
-
-**Input:** `QA checked/notes.md`, `QA checked/images/`
-**Output:** `Final output/Lecture N - [title] - YYYY-MM-DD.pdf` (at module level)
-
-Invokes `pandoc` as a child process to convert `QA checked/notes.md` to PDF, placing the result in `Final output/` with the full descriptive filename:
-
-```typescript
-spawn('pandoc', [
-  'QA checked/notes.md',
-  '--resource-path', 'QA checked/images',
-  '--pdf-engine=xelatex',
-  '--output', '../../Final output/Lecture N - [title] - YYYY-MM-DD.pdf',
-], { cwd: workspaceRoot });
-```
-
-`xelatex` is used as the PDF engine for correct Unicode and LaTeX equation rendering. The `--resource-path` flag allows pandoc to resolve relative image references in the markdown. The output filename carries the full lecture identity since `Final output/` is a flat folder shared across all lectures in the module. Every argv element is passed to pandoc verbatim — spaces in paths (`Final output/`, the lecture title) need no quoting because there is no shell to interpret them (see §4.4).
-
-**External dependencies:** Both `pandoc` and `xelatex` must be present on the system `PATH`. The stage runs a pre-flight check for each binary at process start (`pandoc --version`, `xelatex --version`, both cached so per-lecture invocations do not re-shell) and fails with a clear install hint if either is missing: `https://pandoc.org/installing.html` plus `brew install pandoc` for pandoc, and the platform's LaTeX distribution for xelatex (`brew install --cask mactex-no-gui` on macOS, `apt install texlive-xetex` on Debian/Ubuntu). `pandoc` missing, `xelatex` missing, and "pandoc ran but LaTeX errored" are distinct failure modes; on a non-zero exit the stage failure message includes pandoc's captured stderr, which usually names the offending construct.
+**The HTML stage.** The stage joins the rewritten subtopics under their topic and subtopic titles. It shows each slide at its place, with its figure number and its caption. It writes one HTML page for the lecture into `Final output/`. The page is the lecture's notes, and it replaces the PDF of the earlier design. A test page, which a script outside the pipeline builds, is the prototype of its layout. A reset must take this lecture's page from `Final output/` and keep the pages of the other lectures. The design of the stage must add a way to do this (§4.4).
 
 ---
 
@@ -1805,7 +1610,7 @@ OpenRouter's own parameter reference states that JSON mode requires the prompt t
 
 A reply that carries the provider's error and an answer as well — a choice whose content is not empty — is not a refusal: the answer is handed back, and the error is logged as a warning quoting the provider's sentence beside the stage, the model, the finish reason and which send it was. Resending it would throw away a complete answer — `openai/gpt-6.1-sol-pro` reported `error` as the finish reason on 11 of the prototype's 72 grouping calls, every one of them a usable answer — and the stage's own check of the answer still resends one that is unusable. A reply's finish reason is never itself a reason to resend.
 
-**A tuning parameter can be left unset out loud.** Every optional field of a stage entry — `temperature`, `maxTokens`, `concurrency`, `callConcurrency`, `sendGapSeconds`, `maxIterations` — may be written as `null`, which means what leaving the key out means: the request carries no such parameter. There are two ways to say it because the choice is worth writing down. Under the routing restriction above, the parameters a request carries decide which endpoints may serve it, and providers differ in what they accept — the same model reached through one provider takes a `temperature` and through another does not. Which tuning a stage sets is therefore part of choosing what can answer it, and a `null` records a deliberate omission beside the tuning that is set, where a missing key reads as an oversight.
+**A tuning parameter can be left unset out loud.** Each optional field of a stage entry can be `null`: `temperature`, `maxTokens`, `concurrency`, `callConcurrency` and `sendGapSeconds`. A `null` means the same as a missing key: the request carries no such parameter. There are two ways to say it, because the choice is worth a record. Under the routing restriction above, the parameters of a request decide which endpoints can serve it. Providers differ in what they accept. The same model takes a `temperature` through one provider and not through another. So the tuning that a stage sets is part of the choice of what can answer it. A `null` records a deliberate omission beside the tuning that is set. A missing key reads as an oversight.
 
 **Three settings say how much runs at once.** `batch.concurrency` is how many lectures a batch runs at once (§4.7). A stage's `concurrency` is how many of its runs, slides or images are in flight at once. `callConcurrency` is how many calls one run makes at once. Only `deepen-subtopic-splitting` has one, because it is the only stage whose run makes more than one call (§5). Unset, runs and calls are each made one at a time. On any other stage, nothing would read `callConcurrency`. So the loader raises a `ConfigError` at startup that names the stage.
 
@@ -1829,11 +1634,11 @@ Unlike OpenRouter's, this base URL carries no path — the SDK appends the versi
 
 **The spoken language is configuration, and it is not `finalOutput.language`.** `elevenLabs.languageCode` is the language Scribe is told to expect in the audio; `finalOutput.language` is the language the notes are written in (§6, Output). They are deliberately separate fields: a lecture delivered in one language may want notes in another, and collapsing them would make that impossible to express. They also take different forms — Scribe wants an ISO-639-3 code (`eng`), while the notes language is a BCP-47 tag carrying a regional spelling convention (`en-GB`) — so neither can be derived from the other without losing something.
 
-**Module prefixes are configuration because a prefix describes a module, not this codebase.** Lecturers put the module at the front of a recording's filename, which is noise in a title: the module is already the folder the lecture sits in. `naming.modulePrefixes` lists what to strip, and it is a list rather than one value for two reasons — the pipeline is pointed at several modules at once, and **one module may be written more than one way**. A lecturer abbreviates it in some filenames (`BOD_Cell injury`) and writes it out in others (`Biology of Disease - Cell injury`), so both forms are listed. Matching ignores case for the same reason: how a filename happens to write a module says nothing about whether it is one. A prefix absent from the list survives into the workspace folder name and the final PDF for every lecture that carries it.
+**Module prefixes are configuration because a prefix describes a module, not this codebase.** Lecturers put the module at the front of a recording's filename. In a title it is noise, because the module is already the folder that holds the lecture. `naming.modulePrefixes` lists what to strip. It is a list, not one value, for two reasons. The pipeline works on several modules at once, and **one module can be written in more than one way**. A lecturer abbreviates it in some filenames (`BOD_Cell injury`) and writes it in full in others (`Biology of Disease - Cell injury`). So both forms are listed. Matching ignores case for the same reason. How a filename writes a module says nothing about whether it is one. A prefix that is not in the list stays in the base name of each lecture that carries it.
 
 Each prefix is matched literally, so one carrying a pattern character means itself; a blank prefix is refused at load, since it would otherwise match any run of underscores or spaces and take apart every title the run produces. A listed prefix is what makes the strip safe: the module names are known, where the shape of a prefix is not — an opening acronym belongs to the subject (`DNA_replication`), and a module written out in full has no shape to match at all.
 
-**`finalOutput.language` is a closed set, and every stage that writes prose obeys it.** The loader checks the tag against `OUTPUT_LANGUAGES`. That list maps each tag to the name that a prompt uses for it. A tag with no name is refused at startup, with a list of the valid tags. The name is necessary because "Write in en-GB" is not an instruction that a model can follow. So config cannot offer a language without wording for the prompts to use. `languageRule` in `src/utils/language.ts` builds that sentence. Every prompt that asks for prose or for a lecture title includes it, and words no rule of its own. So the stages cannot give the model different instructions. `judge-lecture-title` and `transcript-structuring` are the stages built that use it. `transcript-verification`, `read-slides` and `synthesis` will use it when they are built.
+**`finalOutput.language` is a closed set, and every stage that writes prose obeys it.** The loader checks the tag against `OUTPUT_LANGUAGES`. That list maps each tag to the name that a prompt uses for it. A tag with no name is refused at startup, with a list of the valid tags. The name is necessary because "Write in en-GB" is not an instruction that a model can follow. So config cannot offer a language without wording for the prompts to use. `languageRule` in `src/utils/language.ts` builds that sentence. Every prompt that asks for prose or for a lecture title includes it, and words no rule of its own. So the stages cannot give the model different instructions. `judge-lecture-title` and `read-slides` are the stages built that use it. The writer of `rewrite-subtopics` will use it. A model call is the first point in the pipeline where the language of the output can be chosen. Speech has no spelling, and ElevenLabs' `languageCode` cannot name a regional variant, so `eng` names English and nothing more.
 
 **The subtopic splitting and grouping settings are required sections.** `subtopicSplitting` and `grouping` carry the panel sizes, the bars and the size gate (§5, "Dividing the transcript" and `group-into-topics`). Like every other section they must be present, and a missing or mistyped field is a `ConfigError` at startup. Neither bar may exceed its section's panel size, since nothing could then be kept. Each is a whole number of at least 1.
 
@@ -1888,11 +1693,6 @@ Each prefix is matched literally, so one carrying a pattern character means itse
     "judge-lecture-title": {
       "modelId": "<REASONING_MODEL>"              // called once per lecture with every topic and subtopic
     },
-    "transcript-structuring": {
-      "modelId": "<REASONING_MODEL>",             // long-context text model with strong structure/summarisation
-      "temperature": 0.2,                         // any tuning field may be null instead: no such parameter is sent
-      "maxTokens": 8192
-    },
     "read-slides": {
       "modelId": "google/gemini-3.8-flash",       // vision model — called once for each slide, so the cost of one call matters most
       "temperature": null,                        // a temperature limits JSON-mode calls to the providers that accept one
@@ -1901,19 +1701,8 @@ Each prefix is matched literally, so one carrying a pattern character means itse
     },
     "place-slides": {
       "modelId": "google/gemini-3.8-flash",       // one call with the whole lecture and every slide reading
-      "temperature": null,
+      "temperature": null,                        // any tuning field may be null: no such parameter is sent
       "maxTokens": null
-    },
-    "synthesis": {
-      "modelId": "<REASONING_MODEL>",             // single long-context call combining transcript + slides + captions
-      "temperature": 0.3,
-      "maxTokens": 16384
-    },
-    "qa-loop": {
-      "modelId": "<REASONING_MODEL>",             // iterative critical review + revision
-      "temperature": 0.1,
-      "maxTokens": 8192,
-      "maxIterations": 3
     }
   },
   "subtopicSplitting": {
@@ -1934,8 +1723,7 @@ Each prefix is matched literally, so one carrying a pattern character means itse
     "modulePrefixes": ["BOD", "Biology of Disease", "ANA"]
   },
   "finalOutput": {
-    "language": "en-GB",               // language the NOTES are written in (en-GB | en-US); not elevenLabs.languageCode above
-    "pandocEngine": "xelatex"
+    "language": "en-GB"                // language the NOTES are written in (en-GB | en-US); not elevenLabs.languageCode above
   }
 }
 ```
@@ -1994,14 +1782,14 @@ Printed after every run, showing only the stages executed in that invocation —
 Run summary — Lecture 1: Cell Injury (2025-10-10)
 Stage                   Model                         Calls    Tokens (in / out)      Cost
 ──────────────────────────────────────────────────────────────────────────────────────────
-Slide conversion        google/gemini-2.5-flash          24     41,000 /   8,100    £0.025
-Image extraction        openai/gpt-4.1                   12          0 /   2,400    £0.028
-Synthesis               anthropic/claude-sonnet-4.6       1     65,000 /  14,200    £0.231
-QA loop                 anthropic/claude-sonnet-4.6       4     68,000 /  15,800       n/a
+Group into topics       openai/gpt-6.1-sol-pro            9     76,000 /   4,300    £0.333
+Judge lecture title     openai/gpt-6.1-sol-pro            1     15,200 /     300    £0.037
+Read slides             google/gemini-3.8-flash          24     41,000 /   8,100    £0.025
+Place slides            google/gemini-3.8-flash           1     22,616 /  38,475       n/a
 ──────────────────────────────────────────────────────────────────────────────────────────
 ```
 
-The table closes on its last stage; no line sums the run (NFR-2.2). One row per stage this invocation ran that names a model, on the same rule the report's first section applies: the cost cell reads `n/a` wherever no figure was resolved — a lookup that failed, as QA loop's did above, or a stage that failed before it called anything — and a stage naming no model has no row, having no model spend to show. A stage that failed is named beneath the table either way, with its message.
+The table closes on its last stage. No line sums the run (NFR-2.2). Each stage that this invocation ran and that names a model has one row, by the rule of the report's first section. The cost cell reads `n/a` wherever no figure was resolved. That is a lookup that failed, as for Place slides above, or a stage that failed before it called anything. A stage that names no model has no row, because it has no model spend to show. A stage that failed is named beneath the table either way, with its message.
 
 Any stage that failed is named underneath with the message recorded for it (§8).
 
@@ -2034,15 +1822,13 @@ Lecture 1: Cell Injury (2025-10-10)
 Stage                    Model                  Calls    Cost
 ──────────────────────────────────────────────────────────────
 Transcription            elevenlabs/scribe_v2      1    £0.031
-Transcript structuring   claude-sonnet-4.6         1    £0.060
-Slide conversion         gemini-2.5-flash         24    £0.025
-Image extraction         gpt-4.1                   12    £0.028
-Synthesis                claude-sonnet-4.6         1    £0.231
-QA loop                  claude-sonnet-4.6         4       n/a
+Retitle subtopics        gpt-6.1-sol-pro           1    £0.044
+Read slides              gemini-3.8-flash         24    £0.025
+Place slides             gemini-3.8-flash          1       n/a
 ──────────────────────────────────────────────────────────────
 ```
 
-One row per stage that names a model and whose output stands on disk — `complete` or `skipped` — taken from that stage's own manifest entry. The cost cell shows `n/a` wherever no figure was resolved: a lookup that failed, as QA loop's did here, or a stage that recorded no cost at all. A stage that names no model — audio extraction, PDF generation — has no row, since it has no model spend to compare. Nothing is summed beneath (NFR-2.2).
+Each stage that names a model and whose output stands on disk, `complete` or `skipped`, has one row. The row comes from that stage's own manifest entry. The cost cell shows `n/a` wherever no figure was resolved. That is a lookup that failed, as for Place slides here, or a stage that recorded no cost at all. A stage that names no model, such as audio extraction or render slides, has no row, because it has no model spend to compare. Nothing is summed beneath (NFR-2.2).
 
 **2 — Error recovery cost** (spend from failed runs and retries):
 ```
@@ -2057,9 +1843,9 @@ A row is any stage that failed, under whatever classification its run carried, t
 
 **3 — Experiment cost** (deliberate model re-runs, grouped for comparison):
 ```
-Stage: synthesis
-  Run 2025-10-11T14:00Z    claude-sonnet-4.6      £0.231
-  Run 2025-10-11T15:30Z    anthropic/claude-opus  £0.659
+Stage: place-slides
+  Run 2025-10-11T14:00Z    gemini-3.8-flash       £0.055
+  Run 2025-10-11T15:30Z    gemini-3.8-flash       £0.086
 ```
 
 ### Cost and Reporting Modules
@@ -2075,9 +1861,9 @@ The split is by kind rather than by size. Rendering reads manifests, run logs an
 ```typescript
 accumulateCost(args: { current: StageCost; incoming: StageCost }): StageCost
 // Folds the calls a single stage made into that stage's one StageCost, summing tokens, call counts and cost
-// at full precision (rounding is a display concern). Slide conversion issues one call per slide and image
-// extraction one per image, and each has a single figure to record — this is how they reach it, and it stays
-// inside one stage. The merged cost is resolved only when both inputs resolved; if either is null the result
+// at full precision (rounding is a display concern). read-slides makes one call for each slide and
+// rewrite-subtopics several for each subtopic, and each has a single figure to record — this is how they
+// reach it, and it stays inside one stage. The merged cost is resolved only when both inputs resolved; if either is null the result
 // is null and the errors are joined, so a stage whose lookup failed for one call reports `n/a` rather than
 // the part that happened to come back. Takes no rate and does no formatting: it works entirely in stored USD,
 // which is what keeps it unaffected by the presentation currency.
@@ -2121,7 +1907,7 @@ The tables above share one renderer and one money formatter, so a column of poun
 
 ### Typed Errors
 
-Every way a module can fail raises an error class of its own, the failures the platform raises included — `ConfigError`, `ManifestPathError`, `ManifestUnreadableError`, `ManifestNotJsonError`, `ManifestShapeError`, `UnconfiguredStageError`, `ContextLengthError`, `ProviderError`, `NoReplyChoicesError`, `EmptyNameError`, `SourceNormalisationError`, `AudioExtractionError`, `TranscriptionError`, `TranscriptStructuringError`, `CliUsageError`, `LectureIdentityError`. A caught failure names what happened from its type, so a module with three ways to fail declares three classes; a filesystem error or a `SyntaxError` on its way out through one of them is caught and rethrown as the module's own, its message carried into the new one. Every stage built so far contributes at least one, so each stage still to come adds its own. All extend a shared `NamedError` base that captures the concrete subclass name via `new.target`, so each stays a distinct `instanceof` type without repeating constructor boilerplate and reports its own name in logs.
+Each way a module can fail raises an error class of its own, and this includes the failures that the platform raises. Examples are `ConfigError`, `ManifestPathError`, `ManifestUnreadableError`, `ManifestNotJsonError`, `ManifestShapeError`, `UnconfiguredStageError`, `ContextLengthError`, `ProviderError`, `NoReplyChoicesError`, `EmptyNameError`, `SourceNormalisationError`, `AudioExtractionError`, `TranscriptionError`, `CliUsageError` and `LectureIdentityError`. A caught failure names what happened by its type. So a module with three ways to fail declares three classes. A filesystem error or a `SyntaxError` that leaves through one of them is caught. It is thrown again as the module's own error, with its message carried into the new one. Each built stage adds at least one class, and each stage still to come adds its own. All of them extend a shared `NamedError` base. The base takes the name of the concrete subclass from `new.target`. So each class stays a distinct `instanceof` type with no repeated constructor code, and logs show its own name.
 
 A `catch` binding is typed `unknown`, because any value can be thrown. Every site that wants to report what went wrong therefore needs the same narrowing, so it lives in one place rather than at each catch.
 
@@ -2177,7 +1963,7 @@ src/
 │   └── run-cli.ts                    # Composition root: config, logger, runner, stages, prompts
 ├── types/
 │   └── pipeline.ts                   # All shared types: StageId, StageContext, StageResult,
-│                                     # StageCost, Manifest, QaDeficiency
+│                                     # StageCost, Manifest
 ├── pipeline/
 │   ├── runner.ts                     # Orchestrator, run log creation, batch mode, cost accumulation
 │   ├── layout.ts                     # Every directory and filename, declared once (§3.3)
@@ -2212,14 +1998,11 @@ src/
 │       ├── retitle-subtopics/        # stage module and its r9 prompt module
 │       ├── group-into-topics/            # stage module, its g23 prompt module, choose-grouping.ts
 │       ├── judge-lecture-title/          # stage module and its prompt module
-│       ├── transcript-structuring/   # stage module and its prompt module
-│       ├── transcript-verification/  # stage module, prompt module and the verification report Markdown
+│       ├── structure-transcript/     # stage module: no model call, no prompt
 │       ├── render-slides/            # stage module: one image for each page of the slide deck
 │       ├── read-slides/              # stage module and its prompt module
 │       ├── place-slides/             # stage module and its prompt module
-│       ├── synthesis/                # context assembly, chunking fallback
-│       ├── qa-loop/                  # two-prompt QA pattern, loop termination
-│       └── pdf-generation/           # pandoc invocation, Final output/ deposit
+│       └── rewrite-subtopics/        # stage module, and one prompt module with the corrector, writer and checker
 └── utils/
     ├── date.ts                       # Date extraction and normalisation (chrono-node)
     ├── naming.ts                     # Lecture folder and file naming helpers
@@ -2237,7 +2020,7 @@ src/
     └── logger.ts                     # pino instance and child-logger factory
 ```
 
-**Each stage owns a folder.** A stage's module, its prompt module, any Markdown version, the parts only it uses, and the tests of all of them live in the folder named for its stage id. A stage used to be one file; the division stages are several — a prompt, the reply's validation, the choice of result — and a folder keeps what belongs to one stage together without making any of it look shared. What more than one stage uses sits one level up, beside the stage factory: the model-call and panel-run machinery every model stage reaches, and `division.ts`, which the three division stages share. A stage folder never imports from another stage's folder; ESLint enforces it alongside the existing rule that pipeline infrastructure never imports from a stage. No stage folder has an `index.ts`.
+**Each stage owns a folder.** The folder has the name of the stage id. It holds the stage's module, its prompt module, the parts only it uses, and the tests of all of them. A stage used to be one file. The division stages are several: a prompt, the check of the reply and the choice of result. A folder keeps together what belongs to one stage, and none of it looks shared. What more than one stage uses sits one level up, beside the stage factory. Examples are the model-call and panel-run code that every model stage uses, and `division.ts`, which the three division stages share. A stage folder never imports from another stage's folder. ESLint enforces this rule, and the rule that pipeline infrastructure never imports from a stage. No stage folder has an `index.ts`.
 
 ---
 
@@ -2271,7 +2054,6 @@ The project root is what the log is anchored to, rather than a workspace or the 
 |---|---|---|
 | Progress | stderr (cli-progress) | Real-time stage progress bars |
 | Info | stdout | Stage start/end messages, skipped-stage notices, run and batch summaries |
-| Warning | stderr | Stalled QA loop, max-iterations reached |
 | Error | stdout | Each failed stage and its message, printed by the CLI after the run summary (§8) |
 | Error | stderr | Anything that ends the invocation: a usage error, an unreadable config, an escaped stage error |
 | Error | debug log | Every stage failure, with its stack. The runner logs it. Nothing else sees a stack trace |

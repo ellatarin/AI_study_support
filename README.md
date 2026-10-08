@@ -2,15 +2,16 @@
 
 A software harness that uses a number of AI models to turn video recordings of lectures, and the slides that go with them, into textbook-style chapters that can be used for study.
 
-For each lecture the software outputs one PDF: continuous prose with the
-slides inserted at the right points. It covers everything the lecturer said and
-everything on the slides, organised under headings, with summaries of the key concepts and a glossary. A student reads it in place of the recording and the slides. So it must be complete, and it must be right.
+For each lecture the software outputs one HTML page: continuous prose under the lecture's topic and
+subtopic titles, with each slide at the point where the lecturer discusses it. It covers everything
+the lecturer said. A student reads it in place of the recording and the slides. So it must be
+complete, and it must be right.
 
-> **Status: in progress.** The pipeline currently runs from a module's source files to a verbatim transcript. Dividing the transcript into subtopics and topics is still in prototype but works. The stages after that are being redesigned around the divided transcript: the design is being updated first, then the stages will be built. See [Where the project is up to](#where-the-project-is-up-to).
+> **Status: in progress.** The pipeline currently runs from a module's source files to the placed slides. The rewrite of each subtopic is designed and is being built. The placement of the slides in the rewritten text, and the HTML page, are designed in outline only. See [Where the project is up to](#where-the-project-is-up-to).
 
 ## Design philosophy
 
-**Nothing lost, nothing invented.** A student learning from the PDF output cannot tell what is missing or what was made up. So the standard every stage is held to is **faithfulness**: the notes carry everything the sources carry, and assert nothing they do not. In addition there must be no distortions that would mislead the student.
+**Nothing lost, nothing invented.** A student learning from the notes cannot tell what is missing or what was made up. So the standard every stage is held to is **faithfulness**: the notes carry everything the sources carry, and assert nothing they do not. In addition there must be no distortions that would mislead the student.
 
 **All work is verified with separate models.** Wherever a model transforms or edits any content, separate model calls are then made in order to check the result against its source and report any discrepancies. The checker never fixes anything itself, because a model cannot be as critical as possible and write corrections in the same call. All verification findings come with their reasons, including the things the verifier looked at and cleared. That way a verification step that missed something can be told apart from one that checked and found it fine.
 
@@ -26,7 +27,7 @@ everything on the slides, organised under headings, with summaries of the key co
 
 ### What you put in, and what you get
 
-Each subject module lives in its own folder. The module's lecture recordings and associated slide PDFs go into `Source files/`. One PDF per lecture comes out in `Final output/`:
+Each subject module lives in its own folder. The module's lecture recordings and associated slide PDFs go into `Source files/`. One HTML page per lecture comes out in `Final output/`:
 
 ```
 Biology of Disease/
@@ -34,9 +35,7 @@ Biology of Disease/
 │   ├── Video recordings/     ← lecture recordings
 │   └── Slide decks/          ← slide PDFs
 ├── Pipeline processing/      ← one working folder per lecture, holding every intermediate file
-└── Final output/
-    ├── Lecture 1 - Disease Cell Injury and the Immune System - 2025-10-10.pdf
-    └── Lecture 2 - Immunity to Infection - 2025-10-13.pdf
+└── Final output/             ← one HTML page per lecture
 ```
 
 A module's lecture is identified by the **date** it was delivered, and its recording and slides are matched by that date. Lectures are numbered in date order, and adding an earlier lecture renumbers the later ones. Titles come from the lecturer's own filenames. The software proposes a better one only when the lecturer's is not sufficiently meaningful, and a title you set yourself is never overwritten.
@@ -72,27 +71,35 @@ re-run from it or stop after it.
 9. **`judge-lecture-title`.** Reads the whole lecture as its topics and subtopics, and judges whether
    the lecturer's title is meaningful. A meaningful title stays. Otherwise the model proposes a new
    title, and the lecture's files take it. A title that you set yourself always stays.
-10. **`render-slides`.** Renders each slide as an image.
-11. **`read-slides`.** A vision model reads each slide on its own. It writes out the slide's title, its
+10. **`structure-transcript`.** Writes the **structured transcript**: the lecture title, then each
+    topic with its title, and in each topic its subtopics, each with its title and its own text. The
+    text is the lecturer's words, unchanged. It uses no AI model. The later stages read the lecture
+    from this one file.
+11. **`render-slides`.** Renders each slide as an image.
+12. **`read-slides`.** A vision model reads each slide on its own. It writes out the slide's title, its
     text and its diagrams, and a caption for the reader. It also marks the slide as subject matter,
     content-free (such as a title, outline or "any questions?" slide) or references. The notes show
     each slide as one whole image, so no figure is cut out.
-12. **`verify-slides`.** A checker compares each slide reading with the slide image and lists anything
+13. **`verify-slides`.** A checker compares each slide reading with the slide image and lists anything
     missed, misread or added, and a separate reviser corrects it.
-13. **`place-slides`.** Puts each subject-matter slide with the subtopic where the lecturer discusses
-    it. The model says only which subtopic. Code checks that every slide has one place and that the
-    slides keep their deck order. A references slide goes with the last subtopic, and content-free
-    slides are left out.
-14. **`write-topics`.** Rewrites each topic as textbook prose, with its placed slides in hand, so the
-    text can refer to them. This is the one rewrite.
-15. **`verify-topics`.** Checks each topic's prose against its transcript text and slide readings:
-    nothing lost, nothing added, nothing distorted. A separate reviser corrects what it finds, and the
-    check repeats until it passes.
-16. **`assemble-chapter`.** Joins the topics into one chapter, with transitions between them and a
-    glossary.
-17. **`verify-chapter`.** Checks that joining the topics lost nothing and added nothing, and corrects what
-    it finds.
-18. **`generate-pdf`.** Converts the chapter to a PDF and places it in `Final output/`.
+14. **`place-slides`.** Puts each subject-matter slide at the sentence where the lecturer starts to
+    discuss it. The model names the subtopic and the sentence. Code checks that every slide has one
+    place and that the slides keep their deck order. A references slide goes at the end of the last
+    subtopic, and content-free slides are left out.
+15. **`rewrite-subtopics`.** Rewrites each subtopic as textbook prose, in three steps:
+    - **Term correction.** A model compares the subtopic text with the readings of the slides placed
+      in it, and proposes corrections of misheard terms. Code accepts a correction only when its right
+      form is on one of those slides and its wrong form is in the text.
+    - **The rewrite.** A writer gets the corrected text of that one subtopic and nothing else. It
+      writes paragraphs in the lecturer's order, drops filler and jokes, and keeps every fact. It puts
+      a **figure mark** where the lecturer points at a slide.
+    - **The check.** A checker compares the rewritten subtopic with the lecturer's own words and the
+      corrections. One omission, distortion or addition fails the attempt, and the subtopic is written
+      again, up to three times.
+16. **Placing the slides in the rewritten text.** Puts a slide at each figure mark and numbers the
+    figures. Designed in outline only.
+17. **The HTML page.** Joins the rewritten subtopics under their topic and subtopic titles, with the
+    slides at their places, and puts the page in `Final output/`. Designed in outline only.
 
 
 Transcription uses ElevenLabs. Every other model call goes through OpenRouter, so any model it offers can be assigned to any stage.
@@ -104,7 +111,6 @@ Transcription uses ElevenLabs. Every other model call goes through OpenRouter, s
 You need:
 - **Node.js** with **pnpm**.
 - **ffmpeg**, for audio extraction.
-- **pandoc** with a LaTeX engine (xelatex by default), once PDF output is built.
 - Accounts with **ElevenLabs** (transcription) and **OpenRouter** (every other model).
 
 Then:
@@ -133,8 +139,8 @@ lecture-notes change-date <date> <new date>
 - **`--to-stage`** stops after a stage. The lecture can be carried on later without repeating or
   re-paying for anything already done.
 - **`cost-report`** shows what was spent, by run and by stage.
-- **`rename`, `delete` and `change-date`** keep a lecture's source files, working folder and PDF in
-  step, and renumber the other lectures where needed.
+- **`rename`, `delete` and `change-date`** keep a lecture's source files, working folder and page in
+  `Final output/` in step, and renumber the other lectures where needed.
 
 `lecture-notes --help` lists every option.
 
@@ -151,21 +157,19 @@ lecture-notes change-date <date> <new date>
 | `retitle-subtopics` | Built |
 | `group-into-topics` | Built |
 | `judge-lecture-title` | Built |
-| `render-slides` | Designed, not built |
-| `read-slides` | Designed, not built |
+| `structure-transcript` | Designed, not built |
+| `render-slides` | Built |
+| `read-slides` | Built |
 | `verify-slides` | Planned |
-| `place-slides` | Designed, not built |
-| `write-topics` | Planned |
-| `verify-topics` | Planned |
-| `assemble-chapter` | Planned |
-| `verify-chapter` | Planned |
-| `generate-pdf` | Designed, not built |
+| `place-slides` | Built |
+| `rewrite-subtopics` | Designed, not built |
+| Placing the slides in the rewritten text | Designed in outline |
+| The HTML page | Designed in outline |
 
-The commands (`run`, `batch`, `cost-report`, `rename`, `delete`, `change-date`) are built. So are two
-earlier stages that rewrote and checked the whole transcript at once, and a run still goes through
-them, straight after `deepen-subtopic-splitting`. Their work moves into `write-topics` and
-`verify-topics`, which will be rewritten to work on the divided transcript.
-The built stages still carry their earlier names in the code until the redesign is carried through.
+The commands (`run`, `batch`, `cost-report`, `rename`, `delete`, `change-date`) are built. The code
+still holds two earlier stages that rewrote and checked the whole transcript at once. They are being
+removed, and `rewrite-subtopics` replaces them.
+Some built stages still carry their earlier names in the code until the redesign is carried through.
 
 
 ## Further reading

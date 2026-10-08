@@ -39,7 +39,7 @@ The folder in a module that holds the workspaces of all its lectures.
 _Avoid_: output folder, pipeline folder
 
 **Final output folder**:
-The folder in a module that holds the notes PDFs of all its lectures. The config section `finalOutput` holds the settings for them.
+The folder in a module that holds the notes of all its lectures, one HTML page for each lecture. The config section `finalOutput` holds the settings for them.
 _Avoid_: notes folder, output folder
 
 **Transcript**:
@@ -51,7 +51,7 @@ The verbatim transcript arranged as the lecture's structure. It holds the lectur
 _Avoid_: divided transcript, lecture file, cleaned transcript, formatted transcript
 
 **Notes**:
-The finished document for one lecture: continuous academic prose with figures, key-concept summaries and a glossary, delivered as a PDF. It is the only artefact a student is meant to read.
+The finished document for one lecture, delivered as one HTML page. It is continuous academic prose under the topic and subtopic titles, with each slide at its place. It is the only artefact a student is meant to read.
 _Avoid_: summary, write-up, output, document
 
 ### A lecture's identity
@@ -89,7 +89,7 @@ Deciding whether the provisional title is meaningful for the lecture's content. 
 _Avoid_: retitling the lecture (retitling is for subtopics), title check, title verification
 
 **Base name**:
-The one name that a lecture's video recording, slide deck, workspace and PDF share. To rename a lecture, all four move to one new name together.
+The one name that a lecture's video recording, slide deck, workspace and notes share. To rename a lecture, all four move to one new name together.
 _Avoid_: filename, stem, prefix, canonical name, folder name, lecture name
 
 **Lecture identity**:
@@ -505,7 +505,7 @@ A checker's overall pass or fail on an output. A model's decision on whether a p
 _Avoid_: result, outcome
 
 **Lecture file**:
-One of the four things that share a lecture's base name: its video recording, its slide deck, its workspace and its notes PDF. The workspace is a folder, but it counts as a lecture file. A rename moves all four.
+One of the four things that share a lecture's base name: its video recording, its slide deck, its workspace and its notes. The workspace is a folder, but it counts as a lecture file. A rename moves all four.
 _Avoid_: item, asset, entry
 
 **Verification report Markdown**:
