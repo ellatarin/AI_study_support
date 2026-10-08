@@ -4,17 +4,17 @@
 
 **Blocked by:** 04 — Place each subject-matter slide with a subtopic
 
-**Status:** ready-for-agent
+**Status:** resolved
 
 - [x] The three stages run on 2026-03-06. The measured cost of each stage is quoted from the manifest.
 - [x] The script is in the scratch folder. The user asked on 2026-10-08 to keep it as the prototype of the HTML notes, so it is committed: `.scratch/slide-placement/test-page/build-test-page.mts`. The pages that it builds hold lecture content, so they are not committed.
-- [ ] The page shows the topic and subtopic headings, the transcript text of each subtopic, and each placed slide with its caption.
-- [ ] The page uses smaller JPEG copies of the slides and stays below 16 MB. The stored PNG images do not change.
-- [ ] The page has a switch that shows the slides at the start or at the end of each subtopic.
+- [x] The page shows the topic and subtopic headings, the transcript text of each subtopic, and each placed slide with its caption.
+- [x] The page uses smaller JPEG copies of the slides and stays below 16 MB. The stored PNG images do not change.
+- [x] Closed with no switch. The page has a switch that shows the slides at the start or at the end of each subtopic. The user ruled on 2026-10-08 that the switch has no use, because `p2` places each slide at its sentence.
 - [x] The page is published as a private artifact.
 - [x] This ticket records the user's judgement of the placements and the measured costs.
-- [ ] This ticket lists each slide that the deck shows twice, and the user judges whether the page must show it once. Two references slides with the same title can be two different pages, so a repeat must be found by its image, not by its title.
-- [ ] This ticket lists each run of slides in which each slide repeats the slide before it with a small change. The user judges whether the page must show each slide of the run or only the last one. Lecture 3 has such a run: slides 4, 5 and 6 are one diagram in three steps. A byte comparison does not find a run, because each image is different.
+- [x] Closed by the user on 2026-10-08. Ticket 06 lists the repeated slides of lectures 3 and 4. This ticket lists each slide that the deck shows twice, and the user judges whether the page must show it once. Two references slides with the same title can be two different pages, so a repeat must be found by its image, not by its title.
+- [x] Closed by the user on 2026-10-08, with no judgement. This ticket lists each run of slides in which each slide repeats the slide before it with a small change. The user judges whether the page must show each slide of the run or only the last one. Lecture 3 has such a run: slides 4, 5 and 6 are one diagram in three steps. A byte comparison does not find a run, because each image is different.
 - [x] If the user judges the placements of `google/gemini-3.8-flash` poor, the user chooses a stronger model for `place-slides`, and the stage runs again.
 
 ## Comments
