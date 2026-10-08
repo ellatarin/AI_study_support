@@ -70,7 +70,7 @@ describe("parseCliArgs", () => {
 					"--from-stage",
 					"transcription",
 					"--to-stage",
-					"transcript-structuring",
+					"place-slides",
 					"--continue-on-error",
 				]),
 			).toEqual({
@@ -78,7 +78,7 @@ describe("parseCliArgs", () => {
 				lectureDate: testLecture.date,
 				options: {
 					fromStage: "transcription",
-					toStage: "transcript-structuring",
+					toStage: "place-slides",
 					onStageFailure: "continue",
 				},
 			});
@@ -140,7 +140,7 @@ describe("parseCliArgs", () => {
 					"--from-stage",
 					"transcription",
 					"--to-stage",
-					"transcript-structuring",
+					"place-slides",
 					"--continue-on-error",
 				]),
 			).toEqual({
@@ -148,7 +148,7 @@ describe("parseCliArgs", () => {
 				moduleRoot: null,
 				options: {
 					fromStage: "transcription",
-					toStage: "transcript-structuring",
+					toStage: "place-slides",
 					onStageFailure: "continue",
 				},
 				concurrency: 3,
@@ -262,7 +262,7 @@ describe("parseCliArgs", () => {
 				"run",
 				testLecture.date,
 				"--from-stage",
-				"transcript-structuring",
+				"place-slides",
 				"--to-stage",
 				"transcription",
 			]);
@@ -312,7 +312,7 @@ describe("parseCliArgs", () => {
 			{ flag: "--module", argv: ["batch", "--module", otherModuleRoot] },
 			{
 				flag: "--from-stage",
-				argv: ["rename", testLecture.date, "Title", "--from-stage", "synthesis"],
+				argv: ["rename", testLecture.date, "Title", "--from-stage", "place-slides"],
 			},
 			{ flag: "--continue-on-error", argv: ["cost-report", "--continue-on-error"] },
 			{ flag: "--concurrency", argv: ["delete", testLecture.date, "--concurrency", "2"] },

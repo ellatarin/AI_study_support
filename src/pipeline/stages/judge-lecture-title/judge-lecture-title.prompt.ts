@@ -1,7 +1,6 @@
 /**
- * The messages that `judge-lecture-title` sends. The rules are the title rules of
- * the earlier `transcript-structuring` prompt, with the additions that
- * technical-design.md §5 lists (`judge-lecture-title` and "Where prompts live").
+ * The messages that `judge-lecture-title` sends. technical-design.md §5 gives the
+ * title rules (`judge-lecture-title` and "Where prompts live").
  */
 
 /* jscpd:ignore-start -- the prompt modules import the same language rule and

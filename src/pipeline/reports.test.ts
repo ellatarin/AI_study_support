@@ -71,34 +71,32 @@ const OVERLONG_MODEL_ID = "openrouter/an-extravagantly-long-model-identifier";
  * The longest model id in technical-design.md §4.5 (27 characters). The Model
  * column must hold it and keep the columns after it in place.
  */
-const SYNTHESIS_MODEL_ID = "anthropic/claude-sonnet-4.6";
+const JUDGE_MODEL_ID = "anthropic/claude-sonnet-4.6";
 
-/** The error of every failed synthesis in this suite. */
-const SYNTHESIS_FAILURE = "synthesis failed";
+/** The error of every failed `judge-lecture-title` in this suite. */
+const JUDGE_FAILURE = "judge-lecture-title failed";
 
 /**
- * The stage entry of a completed synthesis, with {@link SYNTHESIS_MODEL_ID}
+ * The stage entry of a completed `judge-lecture-title`, with {@link JUDGE_MODEL_ID}
  * unless a test gives a different model.
  */
-function synthesisEntryFor(modelId = SYNTHESIS_MODEL_ID): StageEntry {
+function judgementEntryFor(modelId = JUDGE_MODEL_ID): StageEntry {
 	return completedEntry({
 		configUsed: { modelId, maxTokens: 8192 },
 		cost: resolved({ callCount: 1, costUsd: 0.312 }),
-		filesWritten: [stageOutputEntry("synthesis")],
+		filesWritten: [stageOutputEntry("judge-lecture-title")],
 	});
 }
 
-const synthesisEntry = synthesisEntryFor();
-
 /**
- * The stage entry of a failed synthesis. It names a model, so the run summary
- * gives it a row. It recorded no cost, so the row shows `n/a`.
+ * The stage entry of a failed `judge-lecture-title`. It names a model, so the run
+ * summary gives it a row. It recorded no cost, so the row shows `n/a`.
  */
-const failedSynthesisEntry: StageEntry = {
+const failedJudgementEntry: StageEntry = {
 	status: "failed",
 	failedAt: "2025-10-10T09:40:00.000Z",
-	error: SYNTHESIS_FAILURE,
-	configUsed: { modelId: SYNTHESIS_MODEL_ID },
+	error: JUDGE_FAILURE,
+	configUsed: { modelId: JUDGE_MODEL_ID },
 	cost: null,
 	filesWritten: [],
 };
@@ -133,7 +131,7 @@ const manifest: Manifest = makeManifest({
 				costUsd: READ_SLIDES_COST_USD,
 			}),
 		}),
-		synthesis: synthesisEntry,
+		"judge-lecture-title": judgementEntryFor(),
 	},
 });
 
@@ -201,9 +199,9 @@ const runLogs: readonly RunLog[] = [
 		...ranFrom({ startedAt: "2025-10-11T14:00:00.000Z", endedAt: "2025-10-11T14:05:00.000Z" }),
 		triggeredBy: "from-stage",
 		runType: "experiment",
-		fromStage: "synthesis",
+		fromStage: "judge-lecture-title",
 		stages: {
-			synthesis: {
+			"judge-lecture-title": {
 				action: "ran",
 				status: "complete",
 				configUsed: { modelId: "anthropic/claude-opus-4.1" },
@@ -233,10 +231,10 @@ const runLogs: readonly RunLog[] = [
 		...ranFrom({ startedAt: "2025-10-11T16:00:00.000Z", endedAt: "2025-10-11T16:02:00.000Z" }),
 		triggeredBy: "from-stage",
 		runType: "experiment",
-		fromStage: "synthesis",
+		fromStage: "judge-lecture-title",
 		stages: {
 			// An unknown cost, which the experiment section shows as n/a.
-			synthesis: {
+			"judge-lecture-title": {
 				action: "ran",
 				status: "complete",
 				configUsed: { modelId: "meta-llama/llama-3.1-405b" },
@@ -316,7 +314,7 @@ describe("formatCostReport", () => {
 	};
 
 	it("should hold the columns in place when a model id is the longest the design records", () => {
-		const { row, rule } = widthOf({ report: costReport(), rowLabel: "Synthesis" });
+		const { row, rule } = widthOf({ report: costReport(), rowLabel: "Judge lecture title" });
 
 		expect(row).toBe(rule);
 	});
@@ -325,12 +323,12 @@ describe("formatCostReport", () => {
 		const overlong = makeManifest({
 			stages: {
 				...manifest.stages,
-				synthesis: synthesisEntryFor(OVERLONG_MODEL_ID),
+				"judge-lecture-title": judgementEntryFor(OVERLONG_MODEL_ID),
 			},
 		});
 
 		const report = costReport({ manifest: overlong });
-		const { row, rule } = widthOf({ report, rowLabel: "Synthesis" });
+		const { row, rule } = widthOf({ report, rowLabel: "Judge lecture title" });
 
 		expect(row).toBe(rule);
 		expect(report).toContain("…");
@@ -356,15 +354,15 @@ describe("formatCostReport", () => {
 	});
 
 	it("should leave a stage out when its output is not on disk", () => {
-		const failedSynthesis = makeManifest({
-			stages: { ...manifest.stages, synthesis: failedSynthesisEntry },
+		const failedJudgement = makeManifest({
+			stages: { ...manifest.stages, "judge-lecture-title": failedJudgementEntry },
 		});
 
-		const report = costReport({ manifest: failedSynthesis });
+		const report = costReport({ manifest: failedJudgement });
 
 		// The first section shows the cost of the output on disk, and a failed stage
 		// has none. The error recovery section shows its cost.
-		expect(report).not.toMatch(/^Synthesis/m);
+		expect(report).not.toMatch(/^Judge lecture title/m);
 	});
 
 	it("should sum nothing beneath its sections when the report is rendered", () => {
@@ -378,7 +376,7 @@ describe("formatCostReport", () => {
 	it("should render every figure in pounds when the stored figures are in dollars", () => {
 		const report = costReport();
 
-		// Synthesis cost 0.312 USD. 0.312 * 0.74 = 0.23088.
+		// judge-lecture-title cost 0.312 USD. 0.312 * 0.74 = 0.23088.
 		expect(report).toContain("£0.231");
 		expect(report).not.toContain("$");
 	});
@@ -390,20 +388,21 @@ const ran = (status: "complete" | "failed"): RunLogStageEntry =>
 		: {
 				action: "ran",
 				status,
-				error: SYNTHESIS_FAILURE,
+				error: JUDGE_FAILURE,
 				configUsed: null,
 				cost: { costUsd: null, callCount: 0 },
 			};
 
-// The stage outcomes of one pipeline run. Two stages completed and one failed.
-// One was skipped because its output was on disk. One was not reached after
-// the failure.
+// The stage outcomes of one pipeline run with `--continue-on-error` and
+// `--to-stage read-slides`. Two stages completed and one failed. One was skipped
+// because its output was on disk. One was not reached, because it is after the
+// `--to-stage` bound.
 const runOutcomes: readonly PipelineStageOutcome[] = [
 	{ stageId: "audio-extraction", entry: { action: "skipped" } },
 	{ stageId: "transcription", entry: ran("complete") },
+	{ stageId: "judge-lecture-title", entry: ran("failed") },
 	{ stageId: "read-slides", entry: ran("complete") },
-	{ stageId: "synthesis", entry: ran("failed") },
-	{ stageId: "pdf-generation", entry: { action: "not-reached" } },
+	{ stageId: "place-slides", entry: { action: "not-reached" } },
 ];
 
 const runSummaryManifest: Manifest = {
@@ -424,7 +423,7 @@ const runSummaryManifest: Manifest = {
 				costUsd: READ_SLIDES_COST_USD,
 			},
 		}),
-		synthesis: failedSynthesisEntry,
+		"judge-lecture-title": failedJudgementEntry,
 	},
 };
 
@@ -449,9 +448,9 @@ describe("formatRunSummary", () => {
 
 		expect(summary).toContain("Transcription");
 		expect(summary).toContain("Read slides");
-		expect(summary).toContain("Synthesis");
+		expect(summary).toContain("Judge lecture title");
 		expect(summary).not.toContain("Audio extraction");
-		expect(summary).not.toContain("PDF generation");
+		expect(summary).not.toContain("Place slides");
 	});
 
 	it("should show the model, calls, and token counts recorded for a stage when it ran", () => {
@@ -473,14 +472,16 @@ describe("formatRunSummary", () => {
 	});
 
 	it("should render a stage's cost as n/a when the manifest recorded none", () => {
-		const summary = runSummary({ outcomes: [{ stageId: "synthesis", entry: ran("failed") }] });
+		const summary = runSummary({
+			outcomes: [{ stageId: "judge-lecture-title", entry: ran("failed") }],
+		});
 
-		// Synthesis names a model and recorded no cost, so it has a row that shows
-		// n/a and not zero. The `.` in the model id is not escaped in the pattern.
-		// It is between two runs of padding, so no other character in the row can
-		// match it.
+		// judge-lecture-title names a model and recorded no cost, so it has a row that
+		// shows n/a and not zero. The `.` in the model id is not escaped in the
+		// pattern. It is between two runs of padding, so no other character in the
+		// row can match it.
 		expect(summary).toMatch(
-			new RegExp(`Synthesis\\s+${SYNTHESIS_MODEL_ID}\\s+0\\s+0 /\\s+0\\s+n/a`),
+			new RegExp(`Judge lecture title\\s+${JUDGE_MODEL_ID}\\s+0\\s+0 /\\s+0\\s+n/a`),
 		);
 	});
 

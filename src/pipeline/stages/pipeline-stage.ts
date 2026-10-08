@@ -12,12 +12,9 @@ import {
 } from "../../utils/files.js";
 import { createStageLogger } from "../../utils/logger.js";
 import {
-	type StageWithMarkdownVersion,
 	type StageWithOutputFile,
 	type StageWithStageRecord,
 	stageDirectoryPaths,
-	stageMarkdownVersionEntry,
-	stageMarkdownVersionPath,
 	stageOutputEntry,
 	stageOutputPath,
 	stageRecordEntry,
@@ -199,37 +196,6 @@ export function writeJsonStageOutput({
 }
 
 /**
- * Writes the output file of a stage and the Markdown version of it, and gives the
- * `filesWritten` entries of both (technical-design.md §3.3, §4.2, §4.5).
- *
- * This is a separate function, not an optional argument, so that its `stageId`
- * accepts only a stage with a Markdown version. Deleting either file makes the stage run
- * again.
- *
- * @param args - The stage, its stage context, and the text of both files.
- * @param args.stageId - The stage. It must write a Markdown version.
- * @param args.context - The stage context. It holds the lecture's workspace.
- * @param args.content - The text of the output file.
- * @param args.markdownVersion - The Markdown version of the output, for a person to read.
- * @returns The absolute path of the output file, and the `filesWritten` entries of both files.
- * @example
- * await writeStageOutputWithMarkdownVersion({ stageId, context, content: json, markdownVersion: markdown });
- */
-export function writeStageOutputWithMarkdownVersion({
-	markdownVersion,
-	...output
-}: StageOutputWrite & {
-	readonly stageId: StageWithMarkdownVersion;
-	readonly markdownVersion: string;
-}): Promise<RecordedStageOutput> {
-	const beside = {
-		path: stageMarkdownVersionPath(stageInWorkspace(output)),
-		entry: stageMarkdownVersionEntry(output.stageId),
-	};
-	return writeStageOutputBeside({ output, beside: { ...beside, content: markdownVersion } });
-}
-
-/**
  * Writes the output file of a stage and its stage record beside it, both as JSON,
  * and gives the `filesWritten` entries of both. The stage record is a file and not
  * a part of the manifest, so it is replaced and deleted with the output
@@ -242,7 +208,7 @@ export function writeStageOutputWithMarkdownVersion({
  * @param args.stageRecord - The stage record: how the stage reached the output, written as JSON.
  * @returns The absolute path of the output file, and the `filesWritten` entries of both files.
  */
-export function writeStageOutputWithStageRecord({
+export async function writeStageOutputWithStageRecord({
 	value,
 	stageRecord,
 	...target
@@ -251,41 +217,15 @@ export function writeStageOutputWithStageRecord({
 	readonly value: unknown;
 	readonly stageRecord: unknown;
 }): Promise<RecordedStageOutput> {
-	return writeStageOutputBeside({
-		output: { ...target, content: jsonFileContent(value) },
-		beside: {
-			path: stageRecordPath(stageInWorkspace(target)),
-			entry: stageRecordEntry(target.stageId),
-			content: jsonFileContent(stageRecord),
-		},
+	const written = await writeJsonStageOutput({ ...target, value });
+	await writeFileAtomic({
+		path: stageRecordPath(stageInWorkspace(target)),
+		content: jsonFileContent(stageRecord),
 	});
-}
-
-type StageOutputWrite = StageOutputTarget & { readonly content: string };
-
-/**
- * Writes the output file of a stage and one more file beside it, and gives the
- * `filesWritten` entries of both. The Markdown version and the stage record are
- * written through it.
- *
- * @param args - The output, and the file beside it.
- * @param args.output - The stage, its stage context, and the text of the output file.
- * @param args.beside - The file beside the output.
- * @param args.beside.path - The absolute path of the file.
- * @param args.beside.entry - The `filesWritten` entry of the file.
- * @param args.beside.content - The text of the file.
- * @returns The absolute path of the output file, and the `filesWritten` entries of both files.
- */
-async function writeStageOutputBeside({
-	output,
-	beside,
-}: {
-	readonly output: StageOutputWrite;
-	readonly beside: { readonly path: string; readonly entry: string; readonly content: string };
-}): Promise<RecordedStageOutput> {
-	const written = await writeStageOutput(output);
-	await writeFileAtomic({ path: beside.path, content: beside.content });
-	return { path: written.path, filesWritten: [...written.filesWritten, beside.entry] };
+	return {
+		path: written.path,
+		filesWritten: [...written.filesWritten, stageRecordEntry(target.stageId)],
+	};
 }
 
 /**

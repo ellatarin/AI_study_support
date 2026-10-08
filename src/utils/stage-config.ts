@@ -35,8 +35,8 @@ export function configuredStage({
  * @param args.stageId - The stage the file does not configure.
  * @returns The message.
  * @example
- * unconfiguredStageMessage({ stageId: "synthesis" });
- * // 'No configuration found for stage "synthesis" in pipeline-config.json'
+ * unconfiguredStageMessage({ stageId: "place-slides" });
+ * // 'No configuration found for stage "place-slides" in pipeline-config.json'
  */
 export function unconfiguredStageMessage({ stageId }: { readonly stageId: StageId }): string {
 	return `No configuration found for stage "${stageId}" in ${CONFIG_FILENAME}`;

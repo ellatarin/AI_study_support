@@ -22,9 +22,9 @@ import {
 
 // The two model IDs in the mocked model list. The valid config uses only these.
 // A test can then fail the model of one stage and keep the other valid.
-const STRUCTURING_MODEL_ID = openRouterModelId;
+const JUDGE_MODEL_ID = openRouterModelId;
 const SLIDE_MODEL_ID = "google/gemini-2.5-flash";
-const KNOWN_MODEL_IDS = [STRUCTURING_MODEL_ID, SLIDE_MODEL_ID] as const;
+const KNOWN_MODEL_IDS = [JUDGE_MODEL_ID, SLIDE_MODEL_ID] as const;
 
 // Each tuning field of a stage's config. `satisfies` makes a renamed field fail to
 // compile here, so no case tests a key that nothing reads.
@@ -34,7 +34,6 @@ const TUNING_FIELDS = [
 	"concurrency",
 	"callConcurrency",
 	"sendGapSeconds",
-	"maxIterations",
 ] as const satisfies readonly (keyof StageConfig)[];
 
 /**
@@ -48,8 +47,8 @@ function makeValidConfig(): Record<string, unknown> {
 				moduleRoots: exampleConfig.moduleRoots,
 				stages: {
 					// The tuning of the example, with the two model IDs of the mocked list.
-					"transcript-structuring": openRouterStageConfig({
-						stageId: "transcript-structuring",
+					"judge-lecture-title": openRouterStageConfig({
+						stageId: "judge-lecture-title",
 					}),
 					"read-slides": openRouterStageConfig({
 						stageId: "read-slides",
@@ -108,30 +107,30 @@ function configuredStages(
 }
 
 /**
- * Gives the raw config of `transcript-structuring`, for a test to change one field
+ * Gives the raw config of `judge-lecture-title`, for a test to change one field
  * in place. The other fields keep the tuning of the example.
  *
  * @param config - The raw config.
  * @returns The raw config of the stage.
- * @throws {Error} If the fixture has no config for `transcript-structuring`.
+ * @throws {Error} If the fixture has no config for `judge-lecture-title`.
  */
-function structuringStage(config: Record<string, unknown>): Record<string, unknown> {
-	const stage = configuredStages(config)["transcript-structuring"];
+function judgeStage(config: Record<string, unknown>): Record<string, unknown> {
+	const stage = configuredStages(config)["judge-lecture-title"];
 	if (stage === undefined) {
-		throw new Error('Fixture has no "transcript-structuring" stage to retune');
+		throw new Error('Fixture has no "judge-lecture-title" stage to retune');
 	}
 	return stage;
 }
 
-/** Changes the model ID of `transcript-structuring` and keeps its tuning. */
-function setStructuringModelId({
+/** Changes the model ID of `judge-lecture-title` and keeps its tuning. */
+function setJudgeModelId({
 	config,
 	modelId,
 }: {
 	readonly config: Record<string, unknown>;
 	readonly modelId: string;
 }): void {
-	structuringStage(config).modelId = modelId;
+	judgeStage(config).modelId = modelId;
 }
 
 function mockModelsResponse(ids: readonly string[]): void {
@@ -190,7 +189,7 @@ describe("loadConfig model-ID resolution check", () => {
 	it.each([
 		{
 			scenario: "a configured modelId is not in the OpenRouter models response",
-			stageId: "transcript-structuring",
+			stageId: "judge-lecture-title",
 			modelId: "openai/nonexistent-model",
 		},
 		{
@@ -259,7 +258,7 @@ describe("loadConfig model-ID resolution check", () => {
 
 	it("should throw ConfigError with a helpful hint when a placeholder like <REASONING_MODEL> is left un-substituted", async () => {
 		await writeValidConfig((config) => {
-			setStructuringModelId({ config, modelId: "<REASONING_MODEL>" });
+			setJudgeModelId({ config, modelId: "<REASONING_MODEL>" });
 		});
 		mockModelsResponse([SLIDE_MODEL_ID]);
 
@@ -290,7 +289,7 @@ describe("loadConfig model-ID resolution check", () => {
 
 		const loaded = await loadConfig({ projectRoot });
 
-		expect(loaded.stages["transcript-structuring"]?.modelId).toBe(STRUCTURING_MODEL_ID);
+		expect(loaded.stages["judge-lecture-title"]?.modelId).toBe(JUDGE_MODEL_ID);
 	});
 
 	it("should accept the config when every stage modelId appears in the OpenRouter response", async () => {
@@ -300,7 +299,7 @@ describe("loadConfig model-ID resolution check", () => {
 		const config = await loadConfig({ projectRoot });
 
 		expect(config.version).toBe("1");
-		expect(config.stages["transcript-structuring"]?.modelId).toBe(STRUCTURING_MODEL_ID);
+		expect(config.stages["judge-lecture-title"]?.modelId).toBe(JUDGE_MODEL_ID);
 		expect(config.stages["read-slides"]?.concurrency).toBe(
 			exampleStageConfig("read-slides").concurrency,
 		);
@@ -322,15 +321,15 @@ describe("loadConfig stage tuning", () => {
 		TUNING_FIELDS,
 	)("should leave %s unset, and the rest of the stage alone, when it is written as null", async (field) => {
 		await writeValidConfig((config) => {
-			structuringStage(config)[field] = null;
+			judgeStage(config)[field] = null;
 		});
 		mockModelsResponse(KNOWN_MODEL_IDS);
 
 		const loaded = await loadConfig({ projectRoot });
 
-		const stage = loaded.stages["transcript-structuring"];
+		const stage = loaded.stages["judge-lecture-title"];
 		expect(stage?.[field]).toBeUndefined();
-		expect(stage?.modelId).toBe(STRUCTURING_MODEL_ID);
+		expect(stage?.modelId).toBe(JUDGE_MODEL_ID);
 	});
 
 	it.each([
@@ -342,7 +341,7 @@ describe("loadConfig stage tuning", () => {
 	}) => {
 		await writeValidConfig((config) => {
 			configuredStages(config)[stageId] = {
-				modelId: STRUCTURING_MODEL_ID,
+				modelId: JUDGE_MODEL_ID,
 				concurrency: 9,
 				sendGapSeconds,
 			};
@@ -597,28 +596,30 @@ const shapeCases: readonly ShapeCase[] = [
 	{
 		name: "a stage is not an object",
 		mutate: (config: Record<string, unknown>) => {
-			config.stages = { synthesis: "gpt" };
+			config.stages = { "judge-lecture-title": "gpt" };
 		},
-		match: /synthesis/,
+		match: /judge-lecture-title/,
 	},
 	{
 		name: "a stage modelId is missing",
 		mutate: (config: Record<string, unknown>) => {
-			config.stages = { synthesis: {} };
+			config.stages = { "judge-lecture-title": {} };
 		},
 		match: /modelId/,
 	},
 	{
 		name: "a stage modelId is not a string",
 		mutate: (config: Record<string, unknown>) => {
-			config.stages = { synthesis: { modelId: 5 } };
+			config.stages = { "judge-lecture-title": { modelId: 5 } };
 		},
 		match: /modelId/,
 	},
 	{
 		name: "a stage param is not a number",
 		mutate: (config: Record<string, unknown>) => {
-			config.stages = { synthesis: { modelId: openRouterModelId, temperature: "hot" } };
+			config.stages = {
+				"judge-lecture-title": { modelId: openRouterModelId, temperature: "hot" },
+			};
 		},
 		match: /temperature/,
 	},
@@ -654,13 +655,6 @@ const shapeCases: readonly ShapeCase[] = [
 		},
 		match: /en-AU/,
 	},
-	{
-		name: "finalOutput.pandocEngine is not a string",
-		mutate: (config: Record<string, unknown>) => {
-			config.finalOutput = finalOutputSection({ pandocEngine: 9 });
-		},
-		match: /pandocEngine/,
-	},
 	missingKeyCase("subtopicSplitting"),
 	...countFieldCases({
 		sectionName: "subtopicSplitting",
@@ -685,18 +679,18 @@ const shapeCases: readonly ShapeCase[] = [
 		// callConcurrency would do nothing.
 		name: "callConcurrency is set on a stage other than deepen-subtopic-splitting",
 		mutate: (config: Record<string, unknown>) => {
-			structuringStage(config).callConcurrency = 4;
+			judgeStage(config).callConcurrency = 4;
 		},
-		match: /stages\.transcript-structuring\.callConcurrency/,
+		match: /stages\.judge-lecture-title\.callConcurrency/,
 	},
 	{
 		// The gap spaces sends that run at the same time. On a stage with no
 		// concurrency, sendGapSeconds would do nothing.
 		name: "sendGapSeconds is set on a stage with no concurrency",
 		mutate: (config: Record<string, unknown>) => {
-			structuringStage(config).sendGapSeconds = 0.5;
+			judgeStage(config).sendGapSeconds = 0.5;
 		},
-		match: /stages\.transcript-structuring\.sendGapSeconds/,
+		match: /stages\.judge-lecture-title\.sendGapSeconds/,
 	},
 	barExceedsPanelCase("subtopicSplitting"),
 	missingKeyCase("grouping"),

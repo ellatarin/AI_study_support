@@ -66,10 +66,10 @@ const EMPTY_BASE_NAME = "L-empty";
 // value that could be either instant would hide a failure.
 const BEFORE_THIS_RUN = "earlier";
 
-/** The base name of a lecture after `transcript-structuring` replaces its title. */
+/** The base name of a lecture after `judge-lecture-title` replaces its title. */
 const RENAMED_BASE_NAME = `${LECTURE_BASE_NAME} - ${aiDerivedLecture.title}`;
 
-// The identity that `transcript-structuring` decides when it replaces the
+// The identity that `judge-lecture-title` decides when it replaces the
 // lecture title: the new title, the AI-derived title and the new base name. Two
 // suites use it, one with the rename and one without.
 const DECIDED_IDENTITY: LectureIdentityChanges = {
@@ -192,8 +192,11 @@ function outcomeMatching({
 const SPANNING_STAGES = [
 	"audio-extraction",
 	"transcription",
-	"synthesis",
+	"place-slides",
 ] as const satisfies readonly StageId[];
+
+/** The third of {@link SPANNING_STAGES}: the stage that a halted or bounded run does not reach. */
+const LAST_SPANNING_STAGE = SPANNING_STAGES[2];
 
 /**
  * The outcomes of a pipeline run over {@link SPANNING_STAGES} that did not reach
@@ -581,7 +584,7 @@ describe("PipelineRunner integration", () => {
 				run: () => Promise.reject(new Error("transcription request failed")),
 			});
 			const thirdRun = spyingRun();
-			const third = makeStubStage({ stageId: "synthesis", run: thirdRun });
+			const third = makeStubStage({ stageId: LAST_SPANNING_STAGE, run: thirdRun });
 
 			const summary = await makeRunner([first, second, third]).runLecture({ workspaceRoot });
 
@@ -589,7 +592,7 @@ describe("PipelineRunner integration", () => {
 			expect(summary.overallStatus).toBe("failed");
 			expect(summary.stageOutcomes).toEqual(outcomesStoppingAfterTheSecond("failed"));
 			const runLog = await readRunLog(workspaceRoot, summary.pipelineRunId);
-			expect(runLog.stages.synthesis).toEqual({ action: "not-reached" });
+			expect(runLog.stages[LAST_SPANNING_STAGE]).toEqual({ action: "not-reached" });
 		});
 
 		it("should continue past a failed stage when onStageFailure is continue", async () => {
@@ -701,7 +704,10 @@ describe("PipelineRunner integration", () => {
 					isComplete: realIsComplete("audio-extraction"),
 				}),
 				makeStubStage({ stageId: "transcription", isComplete: realIsComplete("transcription") }),
-				makeStubStage({ stageId: "synthesis", isComplete: realIsComplete("synthesis") }),
+				makeStubStage({
+					stageId: LAST_SPANNING_STAGE,
+					isComplete: realIsComplete(LAST_SPANNING_STAGE),
+				}),
 			]);
 		}
 
@@ -723,7 +729,7 @@ describe("PipelineRunner integration", () => {
 			const summary = await runFromStage("transcription");
 
 			await expect(access(stageDir("transcription"))).rejects.toThrow();
-			await expect(access(stageDir("synthesis"))).rejects.toThrow();
+			await expect(access(stageDir(LAST_SPANNING_STAGE))).rejects.toThrow();
 			const runLog = await readRunLog(workspaceRoot, summary.pipelineRunId);
 			expect(runLog.runType).toBe("experiment");
 			expect(runLog.fromStage).toBe("transcription");
@@ -741,61 +747,46 @@ describe("PipelineRunner integration", () => {
 			});
 		});
 
-		// qa-loop has two folders, so each case checks if each of the two folders
-		// stays.
+		// group-into-topics has two folders, so each case checks if each of the two
+		// folders stays.
 		const clearingCases: readonly {
 			readonly clears: string;
 			readonly fromStage: StageId;
-			readonly qaSurvives: readonly boolean[];
+			readonly groupingSurvives: readonly boolean[];
 		}[] = [
 			{
 				clears: "nothing of the stage before it",
-				fromStage: "pdf-generation",
-				qaSurvives: [true, true],
+				fromStage: "judge-lecture-title",
+				groupingSurvives: [true, true],
 			},
 			{
-				clears: "the checked notes with the iterations that produced them",
-				fromStage: "qa-loop",
-				qaSurvives: [false, false],
+				clears: "the topics with the grouping runs that produced them",
+				fromStage: "group-into-topics",
+				groupingSurvives: [false, false],
 			},
 		];
 
 		it.each(clearingCases)("should clear $clears when --from-stage $fromStage is given", async ({
 			fromStage,
-			qaSurvives,
+			groupingSurvives,
 		}) => {
-			const qaDirs = await fillStageDirectories("qa-loop");
+			const groupingDirs = await fillStageDirectories("group-into-topics");
 
 			await runFromStage(fromStage);
 
-			expect(await whichExist(qaDirs)).toStrictEqual(qaSurvives);
+			expect(await whichExist(groupingDirs)).toStrictEqual(groupingSurvives);
 		});
 
-		// `Final output/` holds the PDF of each lecture in the module. So a reset
-		// deletes only the file with this lecture's date.
-		describe("the module's shared Final output", () => {
-			let finalOutput: string;
+		// No stage works outside the workspace, so a reset from the first lecture
+		// stage leaves the lecture's file in the module's `Final output/`.
+		it("should leave the lecture's final output in place when --from-stage is given", async () => {
+			const finalOutput = moduleDirs({ moduleRoot }).finalOutput;
+			await mkdir(finalOutput, { recursive: true });
+			await writeFile(join(finalOutput, testLecture.finalOutputFile), "page");
 
-			beforeEach(async () => {
-				finalOutput = moduleDirs({ moduleRoot }).finalOutput;
-				await mkdir(finalOutput, { recursive: true });
-				for (const lecture of [testLecture, otherLecture]) {
-					await writeFile(join(finalOutput, lecture.finalOutputFile), "pdf");
-				}
-			});
+			await runFromStage("audio-extraction");
 
-			// Each --from-stage at or before `pdf-generation` resets `pdf-generation`, so
-			// each of these cases deletes from the same folder.
-			it.each([
-				"pdf-generation",
-				"qa-loop",
-				"synthesis",
-			] as const satisfies readonly StageId[])("should take this lecture's PDF and leave the module's other lectures alone when --from-stage %s is given", async (fromStage) => {
-				await runFromStage(fromStage);
-
-				expect(await pathExists(join(finalOutput, testLecture.finalOutputFile))).toBe(false);
-				expect(await pathExists(join(finalOutput, otherLecture.finalOutputFile))).toBe(true);
-			});
+			expect(await pathExists(join(finalOutput, testLecture.finalOutputFile))).toBe(true);
 		});
 	});
 
@@ -847,7 +838,7 @@ describe("PipelineRunner integration", () => {
 
 			expect(runs.get("audio-extraction")).toHaveBeenCalledTimes(1);
 			expect(runs.get("transcription")).toHaveBeenCalledTimes(1);
-			expect(runs.get("synthesis")).not.toHaveBeenCalled();
+			expect(runs.get(LAST_SPANNING_STAGE)).not.toHaveBeenCalled();
 			expect(summary.stageOutcomes).toEqual(outcomesStoppingAfterTheSecond("complete"));
 		});
 
@@ -857,7 +848,7 @@ describe("PipelineRunner integration", () => {
 			// The run reset nothing and deleted nothing. So the next ordinary pipeline
 			// run continues from the bound.
 			const manifest = await readManifest({ workspaceRoot });
-			expect(manifest.stages.synthesis?.status).toBe("pending");
+			expect(manifest.stages[LAST_SPANNING_STAGE]?.status).toBe("pending");
 		});
 
 		it("should record the bound in the run log when --to-stage is given", async () => {

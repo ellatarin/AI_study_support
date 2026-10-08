@@ -10,7 +10,6 @@
 import type {
 	CompletedStageEntry,
 	OverallStatus,
-	QaStageEntry,
 	RunLogStageEntry,
 	StageEntry,
 } from "../types/pipeline.js";
@@ -26,9 +25,7 @@ import type {
  * @param entry - The stage entry, or `undefined` for a stage with no entry.
  * @returns `true` when the entry is `complete` or `skipped`.
  */
-export function isCompletedEntry(
-	entry: StageEntry | QaStageEntry | undefined,
-): entry is CompletedStageEntry {
+export function isCompletedEntry(entry: StageEntry | undefined): entry is CompletedStageEntry {
 	return entry?.status === "complete" || entry?.status === "skipped";
 }
 

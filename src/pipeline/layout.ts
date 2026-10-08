@@ -187,52 +187,20 @@ type StageDirectoryName = string & { readonly [declaredInLayout]: true };
  */
 type LiteralName<TName extends string> = string extends TName ? never : TName;
 
-/**
- * The place of a stage's work, which tells a reset what it can delete. A reset
- * deletes a workspace folder whole. The final output folder holds the PDFs of all
- * lectures. So a stage only puts its file into it, and a reset deletes only the
- * file of its lecture (technical-design.md §3.3, §4.4).
- *
- * @typeParam TName - The type of a folder name: a declared name here, or an absolute path after it is resolved.
- */
-type OutputLocation<TName extends string> =
-	| {
-			readonly root: "workspace";
-			/** Each folder that the stage owns in the workspace. */
-			readonly directories: readonly TName[];
-	  }
-	| {
-			readonly root: "module";
-			/** The module folder that the stage puts the file of this lecture into. */
-			readonly directory: TName;
-	  };
-
-/** The place of a stage's work, as {@link STAGE_FILES} declares it. */
-export type StageOutputLocation = OutputLocation<StageDirectoryName>;
-
-/** The place of a stage's work, as absolute paths for one workspace. */
-export type ResolvedStageOutput = OutputLocation<string>;
-
 /** The folders and files of one stage. */
 export type StageFiles = {
 	/**
-	 * The place of the stage's work. A reset clears this place for this stage and
-	 * for each stage after this stage (technical-design.md §4.7).
+	 * Each folder that the stage owns in the workspace. A folder holds the work of
+	 * one lecture and nothing else. So a reset deletes the folder whole, for this
+	 * stage and for each stage after this stage (technical-design.md §3.3, §4.7).
 	 */
-	readonly outputLocation: StageOutputLocation;
+	readonly directories: readonly StageDirectoryName[];
 	/**
 	 * The one file that the stage writes in the workspace, relative to the workspace.
 	 * The stage entry records it in `filesWritten`. It is `null` for a stage that
-	 * writes nothing of its own, writes a set of files, or writes its file outside
-	 * the workspace (technical-design.md §3.3).
+	 * writes nothing of its own or writes a set of files (technical-design.md §3.3).
 	 */
 	readonly outputFile: string | null;
-	/**
-	 * A Markdown version of {@link outputFile}, for a person to read. It is a field of
-	 * its own, not a second output, because the next stage reads only the output
-	 * (technical-design.md §3.3).
-	 */
-	readonly markdownVersion: string | null;
 	/**
 	 * The name of the stage record. Only the name is declared, because the stage
 	 * record is always in the folder of {@link outputFile} (technical-design.md §3.3).
@@ -241,16 +209,13 @@ export type StageFiles = {
 };
 
 /**
- * The files of a stage that writes one output file. {@link writesInto},
- * {@link savesRunsThenWritesInto} and {@link writesIntoWithMarkdownVersion} return
- * this type, so {@link STAGE_FILES} keeps which stages have an output file.
+ * The files of a stage that writes one output file. {@link writesInto} and
+ * {@link savesRunsThenWritesInto} return this type, so {@link STAGE_FILES} keeps
+ * which stages have an output file.
  */
-type StageFilesWithOutputFile = {
-	readonly outputLocation: StageOutputLocation;
+type StageFilesWithOutputFile = StageFiles & {
 	/** The output file, relative to the workspace. */
 	readonly outputFile: string;
-	readonly markdownVersion: string | null;
-	readonly stageRecord: string | null;
 };
 
 /**
@@ -266,17 +231,6 @@ function declaredName<TName extends string>(name: TName & LiteralName<TName>): S
 	// was a widened string at the call.
 	const declared: string = name;
 	return declared as StageDirectoryName;
-}
-
-/**
- * Declares the folders that a stage owns in the workspace.
- *
- * @param names - The folder names, each a literal, relative to the workspace.
- * @returns The place of the stage's work.
- */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- the rule reads the brand in the intersection as a mutable object, but the brand is on a string and is readonly. Readonly<> makes the value an object, and then the brand does not typecheck
-function inWorkspace(names: readonly StageDirectoryName[]): StageOutputLocation {
-	return { root: "workspace", directories: names };
 }
 
 /**
@@ -318,13 +272,11 @@ function writesSetInto<TName extends string>(
 	args: Pick<WritesIntoArgs<TName>, "directory">,
 ): StageFiles & {
 	readonly outputFile: null;
-	readonly markdownVersion: null;
 	readonly stageRecord: null;
 } {
 	return {
-		outputLocation: inWorkspace([declaredName<TName>(args.directory)]),
+		directories: [declaredName<TName>(args.directory)],
 		outputFile: null,
-		markdownVersion: null,
 		stageRecord: null,
 	};
 }
@@ -346,52 +298,19 @@ function savesRunsThenWritesInto<TRunsName extends string, TName extends string>
 ): StageFilesWithOutputFile {
 	return {
 		...writesInto<TName>(args),
-		outputLocation: inWorkspace([
-			declaredName<TRunsName>(args.runsDirectory),
-			declaredName<TName>(args.directory),
-		]),
-	};
-}
-
-type StageFilesWithMarkdownVersion = StageFilesWithOutputFile & {
-	readonly markdownVersion: string;
-};
-
-/**
- * Declares a stage that writes one file and a Markdown version of it. Both paths
- * are built from one folder name, so the two files are always in one folder.
- *
- * @param args - The folder and the two files.
- * @param args.directory - The folder name, as a literal.
- * @param args.file - The file name of the output in that folder.
- * @param args.markdownVersion - The file name of the Markdown version in that folder.
- * @returns The files of the stage.
- */
-function writesIntoWithMarkdownVersion<TName extends string>(
-	// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- string literal types have nothing to mutate. The rule cannot resolve the LiteralName conditional
-	args: WritesIntoArgs<TName> & { readonly markdownVersion: string },
-): StageFilesWithMarkdownVersion {
-	return {
-		...writesInto<TName>({ directory: args.directory, file: args.file }),
-		markdownVersion: join(args.directory, args.markdownVersion),
+		directories: [declaredName<TRunsName>(args.runsDirectory), declaredName<TName>(args.directory)],
 	};
 }
 
 /**
  * The folders and files of each stage, in pipeline order (technical-design.md §3.3).
- * `pdf-generation` is the one stage that writes outside the workspace. It puts its
- * PDF into the final output folder, and it does not own that folder.
+ * No stage works outside the workspace.
  *
  * The table has no type annotation, so the compiler keeps which stages have each
  * file. `satisfies` makes sure that each stage is in the table.
  */
 export const STAGE_FILES = {
-	"source-normalisation": {
-		outputLocation: inWorkspace([]),
-		outputFile: null,
-		markdownVersion: null,
-		stageRecord: null,
-	},
+	"source-normalisation": { directories: [], outputFile: null, stageRecord: null },
 	"audio-extraction": writesInto({ directory: "Audio", file: "audio.m4a" }),
 	transcription: writesInto({ directory: "Transcript", file: "transcript.txt" }),
 	"initial-subtopic-splitting": writesSetInto({ directory: "Initial subtopics" }),
@@ -416,28 +335,6 @@ export const STAGE_FILES = {
 	"render-slides": writesSetInto({ directory: "Slide images" }),
 	"read-slides": writesSetInto({ directory: "Slide readings" }),
 	"place-slides": writesInto({ directory: "Slide placements", file: "placements.json" }),
-	"transcript-structuring": writesInto({
-		directory: "Structured transcript",
-		file: "structured-transcript.md",
-	}),
-	"transcript-verification": writesIntoWithMarkdownVersion({
-		directory: "Transcript verification",
-		file: "verification-report.json",
-		markdownVersion: "verification-report.md",
-	}),
-	synthesis: writesInto({ directory: "Synthesised notes", file: "synthesised-notes.md" }),
-	"qa-loop": {
-		outputLocation: inWorkspace([declaredName("QA iterations"), declaredName("QA checked")]),
-		outputFile: null,
-		markdownVersion: null,
-		stageRecord: null,
-	},
-	"pdf-generation": {
-		outputLocation: { root: "module", directory: declaredName(FINAL_OUTPUT_DIR) },
-		outputFile: null,
-		markdownVersion: null,
-		stageRecord: null,
-	},
 } satisfies Readonly<Record<StageId, StageFiles>>;
 
 /**
@@ -448,19 +345,6 @@ export const STAGE_FILES = {
  */
 export type StageWithOutputFile = {
 	[TStage in StageId]: (typeof STAGE_FILES)[TStage]["outputFile"] extends string ? TStage : never;
-}[StageId];
-
-/**
- * The stages that write a Markdown version. The type is derived from
- * {@link STAGE_FILES}. The verification report Markdown is temporary. When the
- * verification report Markdown is deleted, this type is empty. Each caller of
- * {@link stageMarkdownVersionEntry} and {@link stageMarkdownVersionPath} then fails
- * to compile (technical-design.md §5, `transcript-verification`).
- */
-export type StageWithMarkdownVersion = {
-	[TStage in StageId]: (typeof STAGE_FILES)[TStage]["markdownVersion"] extends string
-		? TStage
-		: never;
 }[StageId];
 
 /**
@@ -484,17 +368,6 @@ export type StageWithStageRecord = StageWithOutputFile &
  */
 export function stageOutputEntry(stageId: StageWithOutputFile): string {
 	return STAGE_FILES[stageId].outputFile;
-}
-
-/**
- * Gives the Markdown version of a stage's output, relative to the workspace, as
- * `filesWritten` records it (technical-design.md §3.3).
- *
- * @param stageId - A stage that writes a Markdown version.
- * @returns The path relative to the workspace.
- */
-export function stageMarkdownVersionEntry(stageId: StageWithMarkdownVersion): string {
-	return STAGE_FILES[stageId].markdownVersion;
 }
 
 /** One stage in one workspace. The functions that read, write or clear a stage's work take it. */
@@ -522,28 +395,6 @@ export type StageFileInWorkspace = {
  */
 export function stageOutputPath({ workspaceRoot, stageId }: StageFileInWorkspace): string {
 	return join(workspaceRoot, stageOutputEntry(stageId));
-}
-
-/** One stage that writes a Markdown version, in one workspace. */
-export type StageMarkdownVersionInWorkspace = {
-	/** The absolute path to the workspace. */
-	readonly workspaceRoot: string;
-	readonly stageId: StageWithMarkdownVersion;
-};
-
-/**
- * Gives the Markdown version of a stage's output as an absolute path.
- *
- * @param args - The workspace and the stage.
- * @param args.workspaceRoot - The absolute path to the workspace.
- * @param args.stageId - A stage that writes a Markdown version.
- * @returns The absolute path to the Markdown version.
- */
-export function stageMarkdownVersionPath({
-	workspaceRoot,
-	stageId,
-}: StageMarkdownVersionInWorkspace): string {
-	return join(workspaceRoot, stageMarkdownVersionEntry(stageId));
 }
 
 /**
@@ -576,40 +427,9 @@ export function stageRecordPath({
 }
 
 /**
- * Gives the place of a stage's work for one lecture, as absolute paths. The returned
- * value keeps `root`, because a reset reads `root` to decide if the reset can
- * delete the folders (technical-design.md §4.7).
- *
- * @param args - The workspace and the stage.
- * @param args.workspaceRoot - The absolute path to the workspace.
- * @param args.stageId - The stage.
- * @returns The workspace folders of the stage, or the module folder that it puts its file into.
- */
-export function resolveStageOutput({
-	workspaceRoot,
-	stageId,
-}: StageInWorkspace): ResolvedStageOutput {
-	const location = STAGE_FILES[stageId].outputLocation;
-	if (location.root === "module") {
-		return {
-			root: "module",
-			directory: join(moduleRootOf({ workspaceRoot }), location.directory),
-		};
-	}
-	return {
-		root: "workspace",
-		directories: location.directories.map((name) => join(workspaceRoot, name)),
-	};
-}
-
-/**
  * Gives each folder that a stage works in, as absolute paths. The stage factory
  * makes these folders and clears temporary files from them before the stage runs
- * (technical-design.md §4.3).
- *
- * A reset must not use this list. For `pdf-generation`, the list holds the
- * final output folder, which holds the PDFs of all lectures. A reset uses
- * {@link resolveStageOutput}.
+ * (technical-design.md §4.3). A reset deletes these folders (§4.7).
  *
  * @param args - The workspace and the stage.
  * @param args.workspaceRoot - The absolute path to the workspace.
@@ -620,8 +440,7 @@ export function stageDirectoryPaths({
 	workspaceRoot,
 	stageId,
 }: StageInWorkspace): readonly string[] {
-	const output = resolveStageOutput({ workspaceRoot, stageId });
-	return output.root === "module" ? [output.directory] : output.directories;
+	return STAGE_FILES[stageId].directories.map((name) => join(workspaceRoot, name));
 }
 
 /**

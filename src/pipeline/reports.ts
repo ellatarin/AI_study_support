@@ -12,7 +12,6 @@ import type {
 	OverallStatus,
 	PipelineRunSummary,
 	PipelineStageOutcome,
-	QaStageEntry,
 	RunLog,
 	RunLogStageEntry,
 	StageCost,
@@ -41,11 +40,6 @@ const STAGE_LABELS: Readonly<Record<StageId, string>> = {
 	"render-slides": "Render slides",
 	"read-slides": "Read slides",
 	"place-slides": "Place slides",
-	"transcript-structuring": "Transcript structuring",
-	"transcript-verification": "Transcript verification",
-	synthesis: "Synthesis",
-	"qa-loop": "QA loop",
-	"pdf-generation": "PDF generation",
 };
 
 /**
@@ -296,7 +290,7 @@ type StageCostRow = {
  * @returns The stage's model and recorded cost, or `null` when the stage gets no
  *   row: it names no model, or it is `pending` or `running`.
  */
-function stageCostRow(entry: StageEntry | QaStageEntry | undefined): StageCostRow | null {
+function stageCostRow(entry: StageEntry | undefined): StageCostRow | null {
 	if (entry === undefined || entry.status === "pending" || entry.status === "running") {
 		return null;
 	}

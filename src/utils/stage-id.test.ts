@@ -20,7 +20,7 @@ describe("isStageAfter", () => {
 	it.each([
 		{
 			scenario: "the stage runs later in the pipeline",
-			stageId: "transcript-verification",
+			stageId: "place-slides",
 			other: "transcription",
 			expected: true,
 		},

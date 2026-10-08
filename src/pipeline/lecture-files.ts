@@ -135,8 +135,7 @@ export async function locateSourceFile({
  * Removes the file in a folder whose name has the lecture date, if there is one.
  * All the lectures of the module share the video recording, slide deck and final
  * output folders, so such a folder is never cleared whole. `delete` calls this
- * function on each of the three folders. A `--from-stage` reset at or before
- * `pdf-generation` calls this function on `Final output/` (technical-design.md §4.7).
+ * function on each of the three folders (technical-design.md §4.7).
  *
  * @param args - The folder and the date.
  * @param args.dir - The folder to remove the file from.
@@ -180,10 +179,10 @@ async function renameToBase({
 
 /**
  * Moves a lecture to a new base name: its video recording, its slide deck, its
- * notes PDF and its workspace folder (technical-design.md §4.7).
+ * final output file and its workspace folder (technical-design.md §4.7).
  *
- * A missing file is skipped, because a lecture has no PDF until `pdf-generation`
- * runs. A caller that needs a file checks for it first, as `change-date` does for
+ * A missing file is skipped, because a lecture has no final output file until
+ * the stage that writes it runs. A caller that needs a file checks for it first, as `change-date` does for
  * the source pair.
  *
  * @param args - The lecture and its new base name.

@@ -21,7 +21,6 @@ import type {
 	OutputLanguage,
 	PipelineConfig,
 	PipelineStage,
-	QaCheckerReport,
 	StageConfig,
 	StageConfigUsed,
 	StageContext,
@@ -746,12 +745,6 @@ export const vaccinationAsThird = "Lecture 3 - Vaccination - 2025-10-17";
 export const vaccinationAsFirst = "Lecture 1 - Vaccination - 2025-10-17";
 
 /**
- * The Markdown that the `transcript-structuring` model returns. The suites that
- * stub the call check that this text is written to disk, so it is one value.
- */
-export const structuredMarkdown = "## The Innate Immune Response\n\nBarrier defences come first.";
-
-/**
  * The text of a transcript, for the suites that write a transcript and the
  * suites that read one. No assertion reads the words. Each suite checks only
  * that the text that it gave is the text that it received. So it is one value,
@@ -1075,76 +1068,6 @@ async function seedSlideReadings({
 		await mkdir(dirname(path), { recursive: true });
 		await writeFile(path, JSON.stringify(reading));
 	}
-}
-
-/**
- * A correct `transcript-structuring` reply: the structured Markdown. The shape is
- * the documented contract of the stage. So the suites make the reply here, and
- * change only the field that the test is about.
- *
- * @param overrides - The fields that the behaviour of the test depends on.
- * @returns The reply, to serialise as the content of the model reply.
- */
-export function structuringReply(
-	overrides: Readonly<Record<string, unknown>> = {},
-): Record<string, unknown> {
-	return { structuredMarkdown, ...overrides };
-}
-
-/**
- * One deficiency that the verification checker returns: an omission, with the
- * source passage and the place in the output where it belongs.
- *
- * It is stated once because the stage that writes a deficiency and the suite
- * that reads it must agree on its shape. If they do not agree, the
- * assertions of the suite about the deficiency prove nothing.
- */
-export const verificationDeficiency = {
-	severity: "major",
-	type: "omission",
-	description: "The base-rate argument for benign tumours is absent.",
-	source: { evidence: "who doesn't have moles?", location: "topic block 3" },
-	suggestedFix: "Restore the base-rate argument beside the multi-hit model.",
-	outputLocation: "Comparative Oncology and Tumour Incidence",
-} as const;
-
-/** One consideration in a verification report. */
-export const verificationConsideration = {
-	source: { evidence: "the exam is in January", location: "closing remarks" },
-	whyNotRaised: "Administrative aside, not subject content.",
-} as const;
-
-/**
- * A correct verification report. The shape is the documented contract of the
- * stage. So each suite makes the report here, and changes only the field that
- * its test is about.
- *
- * @param overrides - The fields that the behaviour of the test depends on.
- * @returns The report, as the stage holds it after it reads the reply.
- */
-export function verificationReport(
-	overrides: Readonly<Partial<QaCheckerReport>> = {},
-): QaCheckerReport {
-	return {
-		overallVerdict: "fail",
-		coverageScore: 72,
-		deficiencies: [verificationDeficiency],
-		considered: [verificationConsideration],
-		...overrides,
-	};
-}
-
-/**
- * The same report as the model reply. A test can replace a field with a value
- * that the report type does not allow. The unusable reply cases use this.
- *
- * @param overrides - The fields that the behaviour of the test depends on. They can be invalid.
- * @returns The report, to serialise as the content of the model reply.
- */
-export function verificationReply(
-	overrides: Readonly<Record<string, unknown>> = {},
-): Record<string, unknown> {
-	return { ...verificationReport(), ...overrides };
 }
 
 /** The user title that the CLI `rename` command sets. */

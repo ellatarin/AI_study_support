@@ -21,7 +21,7 @@ import {
 	tryJsonReplyAs,
 } from "./model-stage.js";
 
-const STAGE_ID = "transcript-verification";
+const STAGE_ID = "judge-lecture-title";
 
 /** The documented reply of the tests: an object with a greeting. */
 type Greeting = { readonly greeting: string };

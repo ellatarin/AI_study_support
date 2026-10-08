@@ -35,7 +35,8 @@ import {
 	UnconfiguredStageError,
 } from "./openrouter.js";
 
-const config: PipelineConfig = configuringStage({ stageId: "transcript-structuring" });
+const STAGE_ID = "judge-lecture-title";
+const config: PipelineConfig = configuringStage({ stageId: STAGE_ID });
 
 /**
  * The words that OpenRouter sent this account on 2026-08-31, when the upstream
@@ -136,7 +137,7 @@ function call(
 ): Promise<{ content: string; cost: import("../types/pipeline.js").StageCost }> {
 	return callModel({
 		messages,
-		stageId: "transcript-structuring",
+		stageId: STAGE_ID,
 		config,
 		responseFormat: "text",
 		logger: logged().logger,
@@ -276,7 +277,7 @@ describe("callModel", () => {
 	it("should send no tuning parameters at all when the stage configures none", async () => {
 		const untuned: PipelineConfig = {
 			...config,
-			stages: { "transcript-structuring": { modelId: openRouterModelId } },
+			stages: { [STAGE_ID]: { modelId: openRouterModelId } },
 		};
 
 		const { body } = await callCapturingRequest({ config: untuned });
@@ -417,7 +418,7 @@ describe("callModel", () => {
 			expect(error).toBeInstanceOf(ProviderError);
 			expect(error.message).toContain("Upstream rate limit reached.");
 			expect(error.message).toContain(openRouterModelId);
-			expect(error.message).toContain("transcript-structuring");
+			expect(error.message).toContain(STAGE_ID);
 		});
 
 		// The user sees the error only when every send meets a provider error. The
@@ -555,7 +556,7 @@ describe("callModel", () => {
 
 		expect(error).toBeInstanceOf(ProviderError);
 		expect(error.message).toContain(openRouterModelId);
-		expect(error.message).toContain("transcript-structuring");
+		expect(error.message).toContain(STAGE_ID);
 	});
 
 	it("should propagate the failure unchanged when it did not come from the API", async () => {
@@ -590,10 +591,10 @@ describe("callModel", () => {
 	});
 
 	it("should throw when the requested stage is not present in the config", async () => {
-		const error = await captureError(call({ stageId: "synthesis" }));
+		const error = await captureError(call({ stageId: "place-slides" }));
 
 		expect(error).toBeInstanceOf(UnconfiguredStageError);
-		expect(error.message).toMatch(/synthesis/);
+		expect(error.message).toContain("place-slides");
 		expect(error.message).toContain(CONFIG_FILENAME);
 	});
 });

@@ -10,17 +10,13 @@ import {
 	moduleName,
 	moduleRootOf,
 	RUN_LOGS_DIR,
-	resolveStageOutput,
 	runLogsDirPath,
 	STAGE_FILES,
-	type StageWithMarkdownVersion,
 	type StageWithOutputFile,
 	savedRunFileName,
 	sharedLectureFileDirs,
 	slideFileName,
 	stageDirectoryPaths,
-	stageMarkdownVersionEntry,
-	stageMarkdownVersionPath,
 	stageOutputEntry,
 	stageOutputPath,
 	stageRecordPath,
@@ -37,7 +33,6 @@ const SLIDE_DIR = join(MODULE_ROOT, "Source files", "Slide decks");
 const PROCESSING_DIR = join(MODULE_ROOT, "Pipeline processing");
 const FINAL_OUTPUT_DIR = join(MODULE_ROOT, "Final output");
 const WORKSPACE_ROOT = join(PROCESSING_DIR, testLecture.baseName);
-const QA_DIRS = [join(WORKSPACE_ROOT, "QA iterations"), join(WORKSPACE_ROOT, "QA checked")];
 
 describe("moduleDirs", () => {
 	it.each([
@@ -110,29 +105,6 @@ describe("STAGE_FILES", () => {
 		expect(Object.keys(STAGE_FILES).sort()).toStrictEqual([...STAGE_IDS].sort());
 	});
 
-	it("should give source-normalisation no workspace directory when it owns none", () => {
-		expect(STAGE_FILES["source-normalisation"].outputLocation).toStrictEqual({
-			root: "workspace",
-			directories: [],
-		});
-	});
-
-	it("should keep every stage but pdf-generation inside the workspace when ownership is read", () => {
-		const moduleRooted = STAGE_IDS.filter(
-			(stageId) => STAGE_FILES[stageId].outputLocation.root === "module",
-		);
-
-		expect(moduleRooted).toStrictEqual(["pdf-generation"]);
-	});
-
-	it("should write a Markdown version from transcript-verification alone when ownership is read", () => {
-		const markdownVersionWriters = STAGE_IDS.filter(
-			(stageId) => STAGE_FILES[stageId].markdownVersion !== null,
-		);
-
-		expect(markdownVersionWriters).toStrictEqual(["transcript-verification"]);
-	});
-
 	it("should keep a stage record from choose-division, retitle-subtopics and group-into-topics alone when ownership is read", () => {
 		const stageRecordWriters = STAGE_IDS.filter(
 			(stageId) => STAGE_FILES[stageId].stageRecord !== null,
@@ -154,37 +126,12 @@ describe("stageRecordPath", () => {
 	});
 });
 
-describe("resolveStageOutput", () => {
-	it("should give the workspace directories it owns when a stage works inside the workspace", () => {
-		expect(resolveStageOutput({ workspaceRoot: WORKSPACE_ROOT, stageId: "qa-loop" })).toStrictEqual(
-			{
-				root: "workspace",
-				directories: QA_DIRS,
-			},
-		);
-	});
-
-	// The final output folder holds the PDFs of all lectures. So resolveStageOutput
-	// for pdf-generation names the folder that pdf-generation puts its file into.
-	// It does not name a folder to delete.
-	it("should give the module directory it deposits into when pdf-generation is resolved", () => {
-		expect(
-			resolveStageOutput({ workspaceRoot: WORKSPACE_ROOT, stageId: "pdf-generation" }),
-		).toStrictEqual({ root: "module", directory: FINAL_OUTPUT_DIR });
-	});
-});
-
 describe("stageDirectoryPaths", () => {
 	it.each([
 		{
-			stageId: "qa-loop" as const,
-			scenario: "the quality-checked notes it writes alongside its iterations",
-			expected: QA_DIRS,
-		},
-		{
-			stageId: "pdf-generation" as const,
-			scenario: "the module directory its PDF is deposited in",
-			expected: [FINAL_OUTPUT_DIR],
+			stageId: "render-slides" as const,
+			scenario: "the one workspace directory of its slide images",
+			expected: [join(WORKSPACE_ROOT, "Slide images")],
 		},
 		{
 			stageId: "source-normalisation" as const,
@@ -207,8 +154,8 @@ describe("stageOutputEntry", () => {
 		{ stageId: "audio-extraction" as const, expected: join("Audio", "audio.m4a") },
 		{ stageId: "transcription" as const, expected: join("Transcript", "transcript.txt") },
 		{
-			stageId: "transcript-structuring" as const,
-			expected: join("Structured transcript", "structured-transcript.md"),
+			stageId: "place-slides" as const,
+			expected: join("Slide placements", "placements.json"),
 		},
 		{ stageId: "group-into-topics" as const, expected: join("Topics", "topics.json") },
 	])("should give the workspace-relative output of $stageId when it writes a single file", ({
@@ -225,17 +172,15 @@ describe("stageOutputEntry", () => {
 		const writers: readonly StageWithOutputFile[] = [
 			"audio-extraction",
 			"transcription",
-			"transcript-structuring",
-			"transcript-verification",
+			"judge-lecture-title",
 			"place-slides",
-			"synthesis",
 		];
 
-		// @ts-expect-error -- qa-loop writes a set of files in two folders, so it has no single output file
-		const notAWriter: StageWithOutputFile = "qa-loop";
+		// @ts-expect-error -- render-slides writes one image for each slide, so it has no single output file
+		const notAWriter: StageWithOutputFile = "render-slides";
 
 		expect(writers.map(stageOutputEntry)).toHaveLength(writers.length);
-		expect(notAWriter).toBe("qa-loop");
+		expect(notAWriter).toBe("render-slides");
 	});
 });
 
@@ -244,40 +189,6 @@ describe("stageOutputPath", () => {
 		expect(stageOutputPath({ workspaceRoot: WORKSPACE_ROOT, stageId: "transcription" })).toBe(
 			join(WORKSPACE_ROOT, "Transcript", "transcript.txt"),
 		);
-	});
-});
-
-describe("stageMarkdownCopyEntry", () => {
-	it("should put the Markdown version beside the report it presents when transcript-verification is asked", () => {
-		expect(stageMarkdownVersionEntry("transcript-verification")).toBe(
-			join("Transcript verification", "verification-report.md"),
-		);
-	});
-
-	// The compiler refuses a stage that writes no Markdown version. The
-	// expect-error is the assertion. Without the narrower type
-	// StageWithMarkdownVersion, the expect-error is unused, and the build fails.
-	it("should admit only the stages writing a Markdown version when one is named", () => {
-		const markdownVersionWriters: readonly StageWithMarkdownVersion[] = ["transcript-verification"];
-
-		// @ts-expect-error -- transcription writes a transcript and no Markdown version
-		const noMarkdownVersionWriter: StageWithMarkdownVersion = "transcription";
-
-		expect(markdownVersionWriters.map(stageMarkdownVersionEntry)).toHaveLength(
-			markdownVersionWriters.length,
-		);
-		expect(noMarkdownVersionWriter).toBe("transcription");
-	});
-});
-
-describe("stageMarkdownCopyPath", () => {
-	it("should resolve the Markdown version under the workspace when a workspace is given", () => {
-		expect(
-			stageMarkdownVersionPath({
-				workspaceRoot: WORKSPACE_ROOT,
-				stageId: "transcript-verification",
-			}),
-		).toBe(join(WORKSPACE_ROOT, "Transcript verification", "verification-report.md"));
 	});
 });
 

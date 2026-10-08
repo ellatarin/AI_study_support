@@ -17,17 +17,17 @@ import {
 } from "../fixtures.js";
 import {
 	stageDirectoryPaths,
-	stageMarkdownVersionEntry,
-	stageMarkdownVersionPath,
 	stageOutputEntry,
 	stageOutputPath,
+	stageRecordEntry,
+	stageRecordPath,
 } from "../layout.js";
 import { ManifestPathError } from "../workspace-paths.js";
 import {
 	createPipelineStage,
 	isStageComplete,
 	writeStageOutput,
-	writeStageOutputWithMarkdownVersion,
+	writeStageOutputWithStageRecord,
 } from "./pipeline-stage.js";
 
 // The tests need a stage with one output file. The output of `audio-extraction` is the simplest.
@@ -235,9 +235,7 @@ describe("createPipelineStage", () => {
 // just wrote. They resolve the entry as the `isComplete` check does, and do not
 // build the path again (technical-design.md §4.2, §4.3, §4.5).
 
-// The one stage that writes a Markdown version of its output (technical-design.md §3.3).
-// The Markdown version is temporary.
-const MARKDOWN_VERSION_STAGE = "transcript-verification";
+const STAGE_RECORD_STAGE = "choose-division";
 
 describe("recording what a stage wrote", () => {
 	let moduleRoot: string;
@@ -245,7 +243,7 @@ describe("recording what a stage wrote", () => {
 
 	beforeEach(async () => {
 		({ moduleRoot, workspaceRoot } = await makeWorkspaceTree({ prefix: "stage-output-" }));
-		for (const stageId of [STAGE_ID, MARKDOWN_VERSION_STAGE] as const) {
+		for (const stageId of [STAGE_ID, STAGE_RECORD_STAGE] as const) {
 			await mkdir(dirname(stageOutputPath({ workspaceRoot, stageId })), { recursive: true });
 		}
 	});
@@ -302,34 +300,33 @@ describe("recording what a stage wrote", () => {
 		expect(await pathExists(stageOutputPath({ workspaceRoot, stageId: STAGE_ID }))).toBe(false);
 	});
 
-	it("should put the Markdown version beside the output when a stage writes one", async () => {
-		const { path } = await writeStageOutputWithMarkdownVersion({
-			stageId: MARKDOWN_VERSION_STAGE,
+	it("should put the stage record beside the output when a stage keeps one", async () => {
+		const { path } = await writeStageOutputWithStageRecord({
+			stageId: STAGE_RECORD_STAGE,
 			context: { workspaceRoot },
-			content: '{"overallVerdict":"pass"}',
-			markdownVersion: "# Transcript verification\n",
+			value: { subtopics: [] },
+			stageRecord: { chosenRun: 1 },
 		});
 
-		expect(await readFile(path, "utf8")).toBe('{"overallVerdict":"pass"}');
+		expect(JSON.parse(await readFile(path, "utf8"))).toStrictEqual({ subtopics: [] });
 		expect(
-			await readFile(
-				stageMarkdownVersionPath({ workspaceRoot, stageId: MARKDOWN_VERSION_STAGE }),
-				"utf8",
+			JSON.parse(
+				await readFile(stageRecordPath({ workspaceRoot, stageId: STAGE_RECORD_STAGE }), "utf8"),
 			),
-		).toBe("# Transcript verification\n");
+		).toStrictEqual({ chosenRun: 1 });
 	});
 
-	it("should record both files when a stage writes a Markdown version of its output", async () => {
-		const { filesWritten } = await writeStageOutputWithMarkdownVersion({
-			stageId: MARKDOWN_VERSION_STAGE,
+	it("should record both files when a stage keeps a stage record", async () => {
+		const { filesWritten } = await writeStageOutputWithStageRecord({
+			stageId: STAGE_RECORD_STAGE,
 			context: { workspaceRoot },
-			content: "{}",
-			markdownVersion: "# Transcript verification\n",
+			value: {},
+			stageRecord: {},
 		});
 
 		expect(filesWritten).toStrictEqual([
-			stageOutputEntry(MARKDOWN_VERSION_STAGE),
-			stageMarkdownVersionEntry(MARKDOWN_VERSION_STAGE),
+			stageOutputEntry(STAGE_RECORD_STAGE),
+			stageRecordEntry(STAGE_RECORD_STAGE),
 		]);
 	});
 });

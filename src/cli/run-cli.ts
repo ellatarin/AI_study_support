@@ -25,8 +25,6 @@ import { createReadSlidesStage } from "../pipeline/stages/read-slides/read-slide
 import { renderSlidesParts } from "../pipeline/stages/render-slides/render-slides.js";
 import { createRetitleSubtopicsStage } from "../pipeline/stages/retitle-subtopics/retitle-subtopics.js";
 import { createSourceNormalisationStage } from "../pipeline/stages/source-normalisation/source-normalisation.js";
-import { createTranscriptStructuringStage } from "../pipeline/stages/transcript-structuring/transcript-structuring.js";
-import { createTranscriptVerificationStage } from "../pipeline/stages/transcript-verification/transcript-verification.js";
 import { createTranscriptionStage } from "../pipeline/stages/transcription/transcription.js";
 import { errorMessage } from "../utils/errors.js";
 import { createDebugLogger } from "../utils/logger.js";
@@ -104,8 +102,6 @@ async function assembleDeps({
 			createSourceFileStage({ logger, ...renderSlidesParts }),
 			createReadSlidesStage({ logger, client }),
 			createPlaceSlidesStage({ logger, client }),
-			createTranscriptStructuringStage({ logger, client }),
-			createTranscriptVerificationStage({ logger, client }),
 		],
 		logger,
 		reporter: createPipelineRunReporter({ write, formatMoney }),

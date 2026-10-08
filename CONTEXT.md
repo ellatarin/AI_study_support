@@ -265,28 +265,16 @@ The standard the output must meet: it carries everything the sources carry, and 
 _Avoid_: accuracy, correctness, fidelity (reserved below for the segmentation sense)
 
 **Checker**:
-The call that reads an output against its source and reports what is wrong with it. It is kept apart from the reviser, because one model cannot be fully critical and write fluent prose at the same time.
+The call that reads an output against its source and reports what is wrong with it. It is not the call that writes the output. One model cannot be fully critical and write fluent prose at the same time.
 _Avoid_: reviewer, critic, validator, judge
-
-**Reviser**:
-The call that makes targeted fixes for the deficiencies a checker raised. It works only from the lecture's own sources. It edits. It does not rewrite.
-_Avoid_: fixer, editor, rewriter
 
 **Deficiency**:
 One fault that a checker found. It says what is wrong, how bad it is, where it is in the output, and which passage of the source it is about.
 _Avoid_: finding, issue, error, bug, defect, problem
 
 **Deficiency type**:
-The kind of fault a deficiency is. Omission, underexplained, distortion and unsourced addition are faults of faithfulness. Clarity, British English, formatting and figure reference are prose faults. "Other" is the deficiency type of a deficiency that fits none of these.
+The kind of fault a deficiency is. Omission, distortion and unsourced addition are faults of faithfulness. "Other" is the deficiency type of a deficiency that fits none of these.
 _Avoid_: category, type (alone, since a type is also a code construct)
-
-**Verification report**:
-The file that transcript verification writes. It holds the checker's verdict, its coverage score, its deficiencies and its considerations. The verification report Markdown is a version of it for a person to read.
-_Avoid_: findings report, QA report
-
-**Prose fault**:
-A deficiency in how the output is written, such as clarity, spelling or formatting, and not in its faithfulness to the source.
-_Avoid_: style issue, writing error
 
 **Consideration**:
 Something a checker examined and decided is *not* a fault, with its reason. A list of deficiencies alone cannot tell a checker that missed something from one that looked and cleared it. Only the first is a reason to distrust the checker. That is why considerations are recorded.
@@ -296,10 +284,6 @@ _Avoid_: dismissed item, non-issue, false positive
 Source content that is absent from the output. The remedy is to put it back.
 _Avoid_: gap, missing content
 
-**Underexplained**:
-Source content that is present but has lost the mechanism or reasoning that made it usable. It is not an omission, because nothing is missing except the *why*.
-_Avoid_: oversimplified, too brief, shallow
-
 **Distortion**:
 The output asserts something that its source contradicts. The remedy is to fix it against the source.
 _Avoid_: hallucination, inaccuracy, error
@@ -307,10 +291,6 @@ _Avoid_: hallucination, inaccuracy, error
 **Unsourced addition**:
 Content in the output that the source does not carry at all. The remedy is to delete it. Never look for another source to support it, because that leads to invented citations. It is kept apart from distortion because the two look alike in a report, and their remedies are opposite.
 _Avoid_: hallucination, invention, embellishment
-
-**QA loop**:
-The repeated cycle of check, then revise, that the notes go through. It stops when a checker passes the notes, when the iteration limit is reached, or when the deficiencies stop changing.
-_Avoid_: review cycle, polish pass, refinement
 
 ### Dividing a transcript
 
@@ -507,7 +487,3 @@ _Avoid_: result, outcome
 **Lecture file**:
 One of the four things that share a lecture's base name: its video recording, its slide deck, its workspace and its notes. The workspace is a folder, but it counts as a lecture file. A rename moves all four.
 _Avoid_: item, asset, entry
-
-**Verification report Markdown**:
-A Markdown version of the verification report, written for a person to read, beside the JSON file that the next stage reads. It is temporary, and will be deleted once the checker is calibrated.
-_Avoid_: readable view, report (for the copy), rendering

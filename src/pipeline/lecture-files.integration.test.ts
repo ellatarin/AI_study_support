@@ -62,7 +62,7 @@ describe("lecture files", () => {
 
 		it("should return the file when its title carries a date of its own", async () => {
 			// A base name puts the title before the date. A title comes from the
-			// lecturer's file name or from the model in `transcript-structuring`, so it
+			// lecturer's file name or from the model in `judge-lecture-title`, so it
 			// can hold a date too.
 			const lectureDate = "2025-12-05";
 			const named = `Lecture 4 - Cohort 01-02-2019 Results - ${lectureDate}.mp4`;

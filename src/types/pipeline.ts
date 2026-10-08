@@ -25,11 +25,6 @@ export const STAGE_IDS = [
 	"render-slides",
 	"read-slides",
 	"place-slides",
-	"transcript-structuring",
-	"transcript-verification",
-	"synthesis",
-	"qa-loop",
-	"pdf-generation",
 ] as const;
 
 /** The id of one stage (technical-design.md §4.1). */
@@ -80,8 +75,6 @@ type StageTuning = {
 	readonly callConcurrency?: number;
 	/** The send gate, in seconds. Only `group-into-topics` reads it. */
 	readonly sendGapSeconds?: number;
-	/** The iteration limit of the QA loop. */
-	readonly maxIterations?: number;
 };
 
 /**
@@ -152,24 +145,8 @@ export type PipelineConfig = {
 	readonly finalOutput: {
 		/** The language that every stage that writes prose is told to use. */
 		readonly language: OutputLanguage;
-		readonly pandocEngine: string;
 	};
 };
-
-/** A checker's verdict on one output. */
-export type QaVerdict = "pass" | "fail";
-
-/** One iteration of the QA loop, as the `qa-loop` stage entry records it (technical-design.md §5, `qa-loop`). */
-export type QaIterationSummary = {
-	readonly iteration: number;
-	readonly verdict: QaVerdict;
-	readonly deficiencyCount: number;
-	readonly criticalCount: number;
-	readonly costUsd: number;
-};
-
-/** The reason that the QA loop stopped. `stalled` means that the deficiencies stopped changing. */
-export type TerminationReason = "qa-passed" | "max-iterations-reached" | "stalled";
 
 /** The part of a stage's result that the runner copies into the stage entry unchanged. */
 type StageCostAndFiles = {
@@ -201,29 +178,16 @@ type StageEntryComplete = { readonly status: "complete" } & CompletedStageData;
 /** A completed stage that the runner did not run again. It keeps the data of the earlier entry. */
 type StageEntrySkipped = { readonly status: "skipped" } & CompletedStageData;
 
-type StageEntryQaComplete = StageEntryComplete & {
-	readonly qaIterations: readonly QaIterationSummary[];
-	readonly terminationReason: TerminationReason;
-};
-
-type SharedStageEntry =
-	| StageEntryPending
-	| StageEntryRunning
-	| StageEntrySkipped
-	| StageEntryFailed;
-
 /** The entry of a completed stage: `complete` or `skipped` (technical-design.md §4.2, §4.7). */
 export type CompletedStageEntry = StageEntryComplete | StageEntrySkipped;
 
-/** The stage entry of every stage except `qa-loop` (technical-design.md §4.5). */
-export type StageEntry = SharedStageEntry | StageEntryComplete;
-
-/** The stage entry of `qa-loop`, which also records each iteration (technical-design.md §5, `qa-loop`). */
-export type QaStageEntry = SharedStageEntry | StageEntryQaComplete;
-
-type ManifestStages = {
-	readonly "qa-loop"?: QaStageEntry;
-} & Readonly<Partial<Record<Exclude<StageId, "qa-loop">, StageEntry>>>;
+/** The stage entry of a stage (technical-design.md §4.5). */
+export type StageEntry =
+	| StageEntryPending
+	| StageEntryRunning
+	| StageEntrySkipped
+	| StageEntryFailed
+	| StageEntryComplete;
 
 /** The lecture identity fields that the manifest and the stage context share. */
 type LectureIdentity = {
@@ -251,7 +215,7 @@ export type Manifest = {
 		readonly createdAt: string;
 		readonly updatedAt: string;
 		/** Each stage's entry. Nothing adds the stage costs together (NFR-2.2). */
-		readonly stages: ManifestStages;
+		readonly stages: Readonly<Partial<Record<StageId, StageEntry>>>;
 	};
 
 /**
@@ -331,72 +295,6 @@ export type SourceNormalisationStage = {
 	 * @returns A promise that resolves when every workspace of the module exists.
 	 */
 	normaliseModule(args: { readonly moduleRoot: string }): Promise<void>;
-};
-
-/** Every severity that a deficiency can have, worst first. Reports sort by this order. */
-export const QA_SEVERITIES = ["critical", "major", "minor"] as const;
-
-/** The severity of one deficiency. */
-export type QaSeverity = (typeof QA_SEVERITIES)[number];
-
-/**
- * The deficiency type of a deficiency. Every checker uses this one list, and is
- * offered only the types that it can judge (technical-design.md §5, `qa-loop`).
- */
-export type QaDeficiencyType =
-	// Faithfulness: transcript verification and the QA loop.
-	| "omission" // source content that is absent from the output (FR-4.2)
-	| "underexplained" // present, but without the mechanism or reasoning that makes it usable (FR-4.2)
-	| "distortion" // the output asserts something that the source contradicts (FR-4.3)
-	| "unsourced-addition" // in the output, but not in the source (FR-4.3)
-	| "other" // a real deficiency that fits no other type
-	// Prose faults: the QA loop only.
-	| "clarity" // correct, but ambiguous or hard to follow (FR-4.3)
-	| "british-english" // spelling, punctuation or idiom that is not British English
-	| "formatting" // heading levels, lists, tables or LaTeX
-	| "figure-reference"; // a wrong or missing image, or a broken relative path
-
-/** The passage of the source that a deficiency or a consideration is about. */
-export type QaSourcePassage = {
-	readonly evidence: string; // a direct quote from the source
-	readonly location: string; // where the quote is, in the checker's own words
-};
-
-/**
- * One deficiency that a checker found (technical-design.md §5, `qa-loop`).
- *
- * `source` is `null` for an unsourced addition and for a prose fault. The reply
- * check accepts `null` for every deficiency type.
- */
-export type QaDeficiency = {
-	readonly severity: QaSeverity;
-	readonly type: QaDeficiencyType;
-	readonly description: string;
-	readonly source: QaSourcePassage | null;
-	readonly suggestedFix: string;
-	readonly outputLocation: string;
-};
-
-/**
- * Something that a checker examined and decided is not a deficiency. It shows that
- * the checker looked at a passage, and did not miss it.
- */
-export type QaConsideration = {
-	readonly source: QaSourcePassage;
-	readonly whyNotRaised: string;
-};
-
-/** Everything that a checker's reply holds. The QA loop adds the iteration number, which the model cannot know. */
-export type QaCheckerReport = {
-	readonly overallVerdict: QaVerdict;
-	readonly coverageScore: number; // 0 to 100, as the model estimates it
-	readonly deficiencies: readonly QaDeficiency[];
-	readonly considered: readonly QaConsideration[];
-};
-
-/** The checker report of one QA loop iteration, with the iteration's number. */
-export type QaDeficienciesReport = QaCheckerReport & {
-	readonly iteration: number;
 };
 
 /** The way that a pipeline run started: with `--from-stage` or without it. */

@@ -17,9 +17,9 @@ Current pipeline cost
 Stage                   Model                         Calls      Cost
 ─────────────────────────────────────────────────────────────────────
 Transcription           elevenlabs/scribe_v2              1    £0.031
+Judge lecture title     anthropic/claude-sonnet-4.6       1    £0.231
 Read slides             google/gemini-2.5-flash          24    £0.025
 Place slides            openai/gpt-4.1                   12       n/a
-Synthesis               anthropic/claude-sonnet-4.6       1    £0.231
 ─────────────────────────────────────────────────────────────────────
 
 Error recovery cost
@@ -31,7 +31,7 @@ Run                       Stage                   Status      Cost
 ──────────────────────────────────────────────────────────────────
 
 Experiment cost
-Stage: synthesis
+Stage: judge-lecture-title
   Run 2025-10-11T14:00:00.000Z    anthropic/claude-opus-4.1       £0.659
   Run 2025-10-11T16:00:00.000Z    meta-llama/llama-3.1-405b          n/a"
 `;
@@ -41,7 +41,7 @@ exports[`formatRunSummary > should render the whole summary table when given a r
 Stage                   Model                         Calls    Tokens (in / out)      Cost
 ──────────────────────────────────────────────────────────────────────────────────────────
 Transcription           elevenlabs/scribe_v2              1          0 /       0    £0.031
+Judge lecture title     anthropic/claude-sonnet-4.6       0          0 /       0       n/a
 Read slides             google/gemini-2.5-flash          24     41,000 /   8,100    £0.025
-Synthesis               anthropic/claude-sonnet-4.6       0          0 /       0       n/a
 ──────────────────────────────────────────────────────────────────────────────────────────"
 `;

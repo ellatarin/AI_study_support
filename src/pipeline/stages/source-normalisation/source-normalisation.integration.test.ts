@@ -228,7 +228,7 @@ describe("createSourceNormalisationStage", () => {
 			baseName: cellInjuryAsFirst,
 		});
 		expect(manifest.stages["audio-extraction"]).toEqual({ status: "pending" });
-		expect(manifest.stages["pdf-generation"]).toEqual({ status: "pending" });
+		expect(manifest.stages["place-slides"]).toEqual({ status: "pending" });
 	});
 
 	it("should seed lectureTitle equal to provisionalTitle and leave userTitle and aiDerivedTitle null when a lecture is new", async () => {

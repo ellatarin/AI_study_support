@@ -40,7 +40,7 @@ import {
 
 // A stage with stages before it and after it, for the reset cases. Any such
 // stage will do. The tests check only that the question names it.
-const RESET_FROM = "synthesis";
+const RESET_FROM = "read-slides";
 
 // The message for a declined reset. It is written here and not imported, because
 // the test checks the words that the user reads.
@@ -316,7 +316,7 @@ describe("executeCommand", () => {
 							cost: { costUsd: null, callCount: 0 },
 						},
 					},
-					{ stageId: "synthesis", entry: { action: "not-reached" } },
+					{ stageId: "place-slides", entry: { action: "not-reached" } },
 				],
 			});
 

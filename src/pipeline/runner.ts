@@ -43,8 +43,12 @@ import { createStageLogger } from "../utils/logger.js";
 import { isRecord } from "../utils/record.js";
 import { configuredStage } from "../utils/stage-config.js";
 import { isStageAfter } from "../utils/stage-id.js";
-import { moduleDirs, resolveStageOutput, runLogsDirPath, type StageInWorkspace } from "./layout.js";
-import { removeLectureFileByDate } from "./lecture-files.js";
+import {
+	moduleDirs,
+	runLogsDirPath,
+	type StageInWorkspace,
+	stageDirectoryPaths,
+} from "./layout.js";
 import { patchManifest, readManifest, readManifestSafe, writeManifest } from "./manifest.js";
 import { createMoneyFormatter, formatCostReport } from "./reports.js";
 import {
@@ -251,7 +255,7 @@ function patchStages({
  * @param args.manifest - The manifest to change, which the caller already read.
  * @param args.stageId - The stage whose entry is set.
  * @param args.entry - The stage entry.
- * @param args.identityChanges - The lecture identity that the stage decided. Only `transcript-structuring` decides one.
+ * @param args.identityChanges - The lecture identity that the stage decided. Only `judge-lecture-title` decides one.
  * @param args.timestamp - The instant to put in `updatedAt`.
  * @returns The manifest as written, so the caller can rebuild the stage context without a second read.
  */
@@ -484,27 +488,16 @@ async function runStage({
 }
 
 /**
- * Deletes one stage's output for one lecture. A directory in the workspace is
- * deleted whole. In the module's `Final output/`, only the file with this
- * lecture's date is deleted (technical-design.md §4.4, "Stage cleanup boundaries").
+ * Deletes one stage's output for one lecture. Each workspace directory of the
+ * stage is deleted whole (technical-design.md §4.4, "Stage cleanup boundaries").
  *
  * @param args - The lecture and the stage.
  * @param args.workspaceRoot - Absolute path to the lecture workspace.
  * @param args.stageId - The stage whose output to delete.
- * @param args.lectureDate - The `YYYY-MM-DD` date in this lecture's file names.
  * @returns A promise that resolves when the output is deleted.
  */
-async function deleteStageOutput({
-	workspaceRoot,
-	stageId,
-	lectureDate,
-}: StageInWorkspace & { readonly lectureDate: string }): Promise<void> {
-	const output = resolveStageOutput({ workspaceRoot, stageId });
-	if (output.root === "module") {
-		await removeLectureFileByDate({ dir: output.directory, lectureDate });
-		return;
-	}
-	for (const path of output.directories) {
+async function deleteStageOutput(args: StageInWorkspace): Promise<void> {
+	for (const path of stageDirectoryPaths(args)) {
 		await rm(path, { recursive: true, force: true });
 	}
 }
@@ -524,7 +517,7 @@ async function resetFromStage({
 	let stages = manifest.stages;
 	for (const stageId of STAGE_IDS.slice(STAGE_IDS.indexOf(fromStage))) {
 		stages = patchStages({ stages, stageId, entry: { status: "pending" } });
-		await deleteStageOutput({ workspaceRoot, stageId, lectureDate: manifest.lectureDate });
+		await deleteStageOutput({ workspaceRoot, stageId });
 	}
 	const updated: Manifest = { ...manifest, stages, updatedAt: timestamp };
 	await writeManifest({ workspaceRoot, manifest: updated });
