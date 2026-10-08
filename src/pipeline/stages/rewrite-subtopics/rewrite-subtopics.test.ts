@@ -128,10 +128,10 @@ describe("createRewriteSubtopicsStage", () => {
 		});
 	}
 
-	it("should send the subtopic text and the whole reading of each slide placed in it when the stage corrects a subtopic", async () => {
+	it("should send the subtopic text and the whole reading of each subject-matter slide placed in it, and no references slide, when the stage corrects a subtopic", async () => {
 		await expectOneCallSending({
 			text: transcriptSubtopicTexts[1],
-			slides: [slideDeckReadings[0], slideDeckReadings[1], slideDeckReadings[3]],
+			slides: [slideDeckReadings[0], slideDeckReadings[1]],
 		});
 	});
 
@@ -141,7 +141,25 @@ describe("createRewriteSubtopicsStage", () => {
 		expect(sentSystemMessage(create().mock.calls)).toContain("Each form has one to four words.");
 	});
 
-	it("should make no call and keep the text unchanged when a subtopic has no placed slide", async () => {
+	it.each([
+		{ scenario: "has no placed slide", subtopicOfReferences: 2 },
+		{ scenario: "has only the references slide placed in it", subtopicOfReferences: 1 },
+	])("should make no call and keep the text unchanged when a subtopic $scenario", async ({
+		subtopicOfReferences,
+	}) => {
+		await seedStageOutput({
+			workspaceRoot: workspaceRoot(),
+			stageId: "place-slides",
+			contents: JSON.stringify({
+				...slideDeckPlacements,
+				placements: slideDeckPlacements.placements.map((placement) =>
+					placement.slideNumber === 4
+						? { ...placement, subtopicId: subtopicOfReferences }
+						: placement,
+				),
+			}),
+		});
+
 		await run();
 
 		expect(create()).toHaveBeenCalledTimes(1);
@@ -164,7 +182,7 @@ describe("createRewriteSubtopicsStage", () => {
 			subtopicId: 2,
 			attemptNumber: 1,
 			termCorrectionPromptVersion: "t1",
-			slideNumbers: [1, 2, 4],
+			slideNumbers: [1, 2],
 			corrections: [{ ...usableCorrection, occurrencesChanged: 1 }],
 			ignoredCorrections: [],
 			correctedText: correctedSubtopicText,

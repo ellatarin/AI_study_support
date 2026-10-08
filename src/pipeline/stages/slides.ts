@@ -30,6 +30,18 @@ export type SlideReadingReply = {
 /** One slide reading, as `read-slides` writes it (technical-design.md §5, `read-slides`). */
 export type SlideReading = { readonly slideNumber: number } & SlideReadingReply;
 
+const SUBJECT_MATTER: SlideKind = "subject-matter";
+
+/**
+ * Tells if a slide is a subject-matter slide. A model gets only these slides.
+ *
+ * @param slide - The slide reading.
+ * @returns `true` when the slide's kind is subject matter.
+ */
+export function isSubjectMatter(slide: SlideReading): boolean {
+	return slide.kind === SUBJECT_MATTER;
+}
+
 /**
  * Tells if a value is a list of strings.
  *

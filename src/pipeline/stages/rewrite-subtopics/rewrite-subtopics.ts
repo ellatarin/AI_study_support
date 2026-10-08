@@ -23,7 +23,7 @@ import {
 } from "../model-stage.js";
 /* jscpd:ignore-end */
 import { readOrMakeSavedFiles, unreadableSavedFileMessage } from "../saved-files.js";
-import { readSlideReading, type SlideReading } from "../slides.js";
+import { isSubjectMatter, readSlideReading, type SlideReading } from "../slides.js";
 import { readStageSlidePlacements, readStageStructuredTranscript } from "../stage-input.js";
 import {
 	buildTermCorrectionMessages,
@@ -394,7 +394,9 @@ async function readRewriteInput(context: StageContext): Promise<RewriteInput> {
 				subtopic,
 				slides: placements.flatMap((placement) => {
 					const reading = readingOf.get(placement.slideNumber);
-					return placement.subtopicId === subtopic.subtopicId && reading !== undefined
+					return placement.subtopicId === subtopic.subtopicId &&
+						reading !== undefined &&
+						isSubjectMatter(reading)
 						? [reading]
 						: [];
 				}),

@@ -26,7 +26,13 @@ import {
 	type SlidePlacement,
 	type SlidePlacements,
 } from "../slide-placements.js";
-import { findSlideImages, readSlideReading, type SlideKind, type SlideReading } from "../slides.js";
+import {
+	findSlideImages,
+	isSubjectMatter,
+	readSlideReading,
+	type SlideKind,
+	type SlideReading,
+} from "../slides.js";
 import { readStageStructuredTranscript } from "../stage-input.js";
 import { buildPlacementMessages, PROMPT_VERSION } from "./place-slides.prompt.js";
 
@@ -54,22 +60,10 @@ type PlacementReply = { readonly placements: readonly ReplyPlacement[] };
 /** The text that ends the failure "The model's reply is not the documented …". */
 const DOCUMENTED_REPLY_SHAPE = "{ placements } object";
 
-const SUBJECT_MATTER: SlideKind = "subject-matter";
-
 const REFERENCES: SlideKind = "references";
 
 /** The reason that the stage writes for each references slide, which the code places. */
 const REFERENCES_REASON = "A references slide goes at the end of the last subtopic.";
-
-/**
- * Tells if a slide is a subject-matter slide.
- *
- * @param slide - The slide reading.
- * @returns `true` when the slide's kind is subject matter.
- */
-function isSubjectMatter(slide: SlideReading): boolean {
-	return slide.kind === SUBJECT_MATTER;
-}
 
 /**
  * Tells if a value is a reply entry: a `slideNumber` and a `subtopicId`, both

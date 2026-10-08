@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.76-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
+**Suite version:** 1.77-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
 **Date:** 2026-10-08
 **Status:** For review
 
@@ -1126,7 +1126,7 @@ Tests for the stage (real temp directory, the shared stage fixture):
 
 Built in three steps, each a ticket of its own, in the order that a rewrite attempt runs them:
 
-1. **Term correction.** The stage is created with its `STAGE_IDS` and `STAGE_FILES` entries, its cost-report label, its `concurrency` and its `sendGapSeconds`. It makes one call for each subtopic that has a placed slide, and checks each correction in code. It writes the first rewrite attempt of each subtopic.
+1. **Term correction.** The stage is created with its `STAGE_IDS` and `STAGE_FILES` entries, its cost-report label, its `concurrency` and its `sendGapSeconds`. It makes one call for each subtopic that has a placed subject-matter slide, and checks each correction in code. It writes the first rewrite attempt of each subtopic.
 2. **The rewrite.** The writer gets the corrected text of one subtopic and writes the rewritten subtopic with its figure marks.
 3. **The check, and the rewrite attempts.** The checker judges each attempt. A fault starts a new rewrite attempt, with each fault given to the step that it concerns. A subtopic gets at most three. The stage writes `Rewritten subtopics/rewritten-subtopics.json`.
 

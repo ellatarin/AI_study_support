@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.76-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
+**Suite version:** 1.77-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
 **Date:** 2026-10-08
 **Status:** For review
 
@@ -1465,7 +1465,7 @@ The stage rewrites each subtopic of the structured transcript as prose. Each sub
 
 The stage works on several subtopics at the same time, up to its `concurrency` (§6). Its `sendGapSeconds` spaces its sends. As in the other stages, one send gate serves all the lectures of a batch (§6, "The send gap is shared by the whole invocation"). Each model call takes the shared resend of an unusable reply (§5, "Dividing the transcript", Panel runs).
 
-**Term correction.** The transcriber mishears technical terms, and a slide often prints the right form. For example, a lecture says "beta-naphthylene" where its slide prints "β-naphthylamine". The stage makes one call for each subtopic that has a placed slide, and no call for a subtopic with none. The call gets the subtopic text and the readings of all the slides placed in that subtopic. The references slide is one of them when `place-slides` puts it in the subtopic. The reply is a list of corrections (CONTEXT.md, "Correction"). Each correction holds a wrong form, a right form and a reason. Each form has one to four words, and the prompt states that limit. A reply that gives a blank form is unusable, and the stage resends it.
+**Term correction.** The transcriber mishears technical terms, and a slide often prints the right form. For example, a lecture says "beta-naphthylene" where its slide prints "β-naphthylamine". The stage makes one call for each subtopic that has a placed subject-matter slide, and no call for a subtopic with none. The call gets the subtopic text and the readings of the subject-matter slides placed in that subtopic. The references slide is never sent. The reply is a list of corrections (CONTEXT.md, "Correction"). Each correction holds a wrong form, a right form and a reason. Each form has one to four words, and the prompt states that limit. A reply that gives a blank form is unusable, and the stage resends it.
 
 Code then checks each correction, in this order. A correction that fails a check is ignored, and the stage records the first check that it failed:
 
