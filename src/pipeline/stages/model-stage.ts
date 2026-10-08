@@ -11,7 +11,7 @@ import type { Logger } from "pino";
 import type { PipelineStage, StageContext, StageCost, StageResult } from "../../types/pipeline.js";
 import { errorMessage, NamedError } from "../../utils/errors.js";
 import { sendUntilAccepted } from "../../utils/resend.js";
-import { createSendGate } from "../../utils/send-gate.js";
+import { createSendGate, type SendGate } from "../../utils/send-gate.js";
 import { configuredStage } from "../../utils/stage-config.js";
 import { callModel, type ModelCallRequest, type OpenRouterClient } from "../openrouter.js";
 import { createPipelineStage } from "./pipeline-stage.js";
@@ -346,7 +346,7 @@ export type ModelStageFactory<TInput, TOutput> = (
  * Defines a stage that calls a model, and gives the factory that the CLI builds it
  * with. The factory uses {@link createPipelineStage}. The `run` of the stage also
  * gets the model calls of the stage run. They use the client of the invocation and
- * a new send gate (technical-design.md §4.7).
+ * one send gate that every run of the stage shares (technical-design.md §4.7).
  *
  * @param definition - The stage id and the behaviour of the stage.
  * @param definition.stageId - The stage that this defines.
@@ -364,24 +364,29 @@ export function defineModelStage<TInput, TOutput>({
 	// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- the pino Logger and OpenAI client types have mutable properties that the rule sees. This code only reads them. CLAUDE.md allows a mutable type where a library requires one.
 	readonly run: (args: ModelStageRunArgs<TInput>) => Promise<StageResult<TOutput>>;
 }): ModelStageFactory<TInput, TOutput> {
-	return ({ logger, client }) =>
-		createPipelineStage({
+	return ({ logger, client }) => {
+		// One gate for every run of this stage, so the lectures of a batch share the gap.
+		// The config is the invocation's, so the first run's gap holds for every run.
+		let sendGate: SendGate | undefined;
+		return createPipelineStage({
 			stageId,
 			logger,
 			getInput,
-			run: (args) =>
-				run({
+			run: (args) => {
+				sendGate ??= createSendGate({
+					gapSeconds: configuredStage({ config: args.context.config, stageId })?.sendGapSeconds,
+				});
+				return run({
 					...args,
 					calls: stageModelCalls({
 						stageId,
 						context: args.context,
 						logger: args.logger,
 						client,
-						// Each stage run gets a new send gate, so it never waits on a turn from an earlier one.
-						sendGate: createSendGate({
-							gapSeconds: configuredStage({ config: args.context.config, stageId })?.sendGapSeconds,
-						}),
+						sendGate,
 					}),
-				}),
+				});
+			},
 		});
+	};
 }

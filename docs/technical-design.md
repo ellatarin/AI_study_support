@@ -1782,8 +1782,9 @@ callModel(args: { messages; stageId: StageId; config: PipelineConfig; responseFo
   Promise<{ content: string; cost: StageCost }>
 // `logger` is the calling stage's, already bound to it by createPipelineStage; the call is recorded on it
 // at `debug` with the model, prompt token count, latency and finish reason (§10).
-// `sendGate` is the stage run's, made by defineModelStage from the stage's `sendGapSeconds` (src/utils/send-gate.ts):
-// every send, a refusal's resend included, waits its turn, so the gap holds however sends and resends fall.
+// `sendGate` is the stage's, made by defineModelStage from the stage's `sendGapSeconds` at the stage's first run
+// (src/utils/send-gate.ts). Every run of the stage in the invocation shares it, so the lectures of a batch share the gap.
+// Every send, a refusal's resend included, waits its turn, so the gap holds however sends and resends fall.
 // Wraps the SDK call and reads its cost from the reply's `usage` (§7). `responseFormat: "json"` sends `response_format: json_object` and
 // the provider routing that makes it stick (see "JSON mode is routed for" below), which the stages
 // returning structured data require; it is stated on every call rather than defaulted so a caller always
@@ -1806,7 +1807,9 @@ A reply that carries the provider's error and an answer as well — a choice who
 
 **A tuning parameter can be left unset out loud.** Every optional field of a stage entry — `temperature`, `maxTokens`, `concurrency`, `callConcurrency`, `sendGapSeconds`, `maxIterations` — may be written as `null`, which means what leaving the key out means: the request carries no such parameter. There are two ways to say it because the choice is worth writing down. Under the routing restriction above, the parameters a request carries decide which endpoints may serve it, and providers differ in what they accept — the same model reached through one provider takes a `temperature` and through another does not. Which tuning a stage sets is therefore part of choosing what can answer it, and a `null` records a deliberate omission beside the tuning that is set, where a missing key reads as an oversight.
 
-**Three settings say how much runs at once.** `batch.concurrency` is how many lectures a batch runs at once (§4.7). A stage's `concurrency` is how many of its runs, slides or images are in flight at once. `callConcurrency` is how many calls one run makes at once, and only `deepen-subtopic-splitting` has one: it is the only stage whose run makes more than one call (§5). Unset, runs and calls are each made one at a time. `sendGapSeconds` is the least time between two of a stage's sends, and only `group-into-topics` has one (§5, "Dividing the transcript", Panel runs); unset, sends are not spaced. Either setting on any other stage would be read by nothing, so it is a `ConfigError` at startup naming the stage, rather than a setting that silently does nothing.
+**Three settings say how much runs at once.** `batch.concurrency` is how many lectures a batch runs at once (§4.7). A stage's `concurrency` is how many of its runs, slides or images are in flight at once. `callConcurrency` is how many calls one run makes at once. Only `deepen-subtopic-splitting` has one, because it is the only stage whose run makes more than one call (§5). Unset, runs and calls are each made one at a time. On any other stage, nothing would read `callConcurrency`. So the loader raises a `ConfigError` at startup that names the stage.
+
+**The send gap is shared by the whole invocation.** `sendGapSeconds` is the least time between the starts of two sends of a stage. Unset, sends are not spaced (§5, "Dividing the transcript", Panel runs). The CLI builds each stage once, and a batch runs every lecture through that one stage. So the gap holds across all the lectures of a batch. It limits the rate of the stage's sends, however many lectures run at once. Without it, two lectures with a `concurrency` of 20 each could start 40 sends at once. The gap spaces sends that run at the same time. So a stage that sets `sendGapSeconds` must also set `concurrency`, or the loader raises a `ConfigError` that names the stage.
 
 **A stage key names a stage.** Every key of the `stages` section is checked against the stage IDs, and one that names no stage is a `ConfigError` at startup listing the stages it could have named. Configuration reaches a stage by its key alone, so this check is what makes "the stage is configured" and "the config file mentions the stage" the same statement.
 

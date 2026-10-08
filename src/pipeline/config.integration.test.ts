@@ -333,18 +333,25 @@ describe("loadConfig stage tuning", () => {
 		expect(stage?.modelId).toBe(STRUCTURING_MODEL_ID);
 	});
 
-	it("should keep a fractional sendGapSeconds when group-into-topics sets it", async () => {
+	it.each([
+		{ stageId: "group-into-topics", sendGapSeconds: 0.5 },
+		{ stageId: "read-slides", sendGapSeconds: 0.25 },
+	] as const)("should keep a fractional sendGapSeconds when $stageId sets it with concurrency", async ({
+		stageId,
+		sendGapSeconds,
+	}) => {
 		await writeValidConfig((config) => {
-			configuredStages(config)["group-into-topics"] = {
+			configuredStages(config)[stageId] = {
 				modelId: STRUCTURING_MODEL_ID,
-				sendGapSeconds: 0.5,
+				concurrency: 9,
+				sendGapSeconds,
 			};
 		});
 		mockModelsResponse(KNOWN_MODEL_IDS);
 
 		const loaded = await loadConfig({ projectRoot });
 
-		expect(loaded.stages["group-into-topics"]?.sendGapSeconds).toBe(0.5);
+		expect(loaded.stages[stageId]?.sendGapSeconds).toBe(sendGapSeconds);
 	});
 });
 
@@ -683,9 +690,9 @@ const shapeCases: readonly ShapeCase[] = [
 		match: /stages\.transcript-structuring\.callConcurrency/,
 	},
 	{
-		// Only group-into-topics spaces its sends. On a different stage,
-		// sendGapSeconds would do nothing.
-		name: "sendGapSeconds is set on a stage other than group-into-topics",
+		// The gap spaces sends that run at the same time. On a stage with no
+		// concurrency, sendGapSeconds would do nothing.
+		name: "sendGapSeconds is set on a stage with no concurrency",
 		mutate: (config: Record<string, unknown>) => {
 			structuringStage(config).sendGapSeconds = 0.5;
 		},

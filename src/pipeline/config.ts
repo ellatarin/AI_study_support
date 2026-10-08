@@ -322,10 +322,6 @@ const SINGLE_STAGE_SETTINGS = {
 		readBy: "deepen-subtopic-splitting",
 		because: "the one stage whose run makes more than one call",
 	},
-	sendGapSeconds: {
-		readBy: "group-into-topics",
-		because: "the one stage that spaces its sends",
-	},
 } as const satisfies Readonly<
 	Partial<Record<keyof StageConfig, { readonly readBy: StageId; readonly because: string }>>
 >;
@@ -361,6 +357,36 @@ function requireSingleStageSetting({
 }
 
 /**
+ * Reads the gap between the sends of a stage. The gap spaces sends that run at
+ * the same time, so a stage that sets it must also set `concurrency`
+ * (technical-design.md §6).
+ *
+ * @param args - The stage's config, its concurrency and its config key.
+ * @param args.stage - The readers for the stage's config.
+ * @param args.concurrency - The stage's `concurrency`, or `undefined` when it is unset.
+ * @param args.label - The config key of the stage's config.
+ * @returns The gap in seconds, or `undefined` when it is unset.
+ * @throws {ConfigError} If the gap is not a number, or is set on a stage with no `concurrency`.
+ */
+function requireSendGap({
+	stage,
+	concurrency,
+	label,
+}: {
+	readonly stage: ReturnType<typeof requireSection>;
+	readonly concurrency: number | undefined;
+	readonly label: string;
+}): number | undefined {
+	const gap = stage.optionalNumber("sendGapSeconds");
+	if (gap !== undefined && concurrency === undefined) {
+		throw new ConfigError(
+			`${label}.sendGapSeconds spaces sends that run at the same time, but ${label} sets no concurrency; set concurrency or remove sendGapSeconds`,
+		);
+	}
+	return gap;
+}
+
+/**
  * Reads the config of one stage.
  *
  * @param args - The raw config and the stage.
@@ -376,14 +402,19 @@ function requireStageConfig(args: {
 }): StageConfig {
 	const label = `stages.${args.stageId}`;
 	const stage = requireSection({ value: args.value, label });
-	const singleStage = { stage, stageId: args.stageId, label };
+	const concurrency = stage.optionalNumber("concurrency");
 	return {
 		modelId: stage.string("modelId"),
 		temperature: stage.optionalNumber("temperature"),
 		maxTokens: stage.optionalNumber("maxTokens"),
-		concurrency: stage.optionalNumber("concurrency"),
-		callConcurrency: requireSingleStageSetting({ ...singleStage, field: "callConcurrency" }),
-		sendGapSeconds: requireSingleStageSetting({ ...singleStage, field: "sendGapSeconds" }),
+		concurrency,
+		callConcurrency: requireSingleStageSetting({
+			stage,
+			stageId: args.stageId,
+			label,
+			field: "callConcurrency",
+		}),
+		sendGapSeconds: requireSendGap({ stage, concurrency, label }),
 		maxIterations: stage.optionalNumber("maxIterations"),
 	};
 }

@@ -1,18 +1,23 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
-import { beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import type { PipelineConfig } from "../../../types/pipeline.js";
 import { pathExists } from "../../../utils/files.js";
 import {
 	captureError,
 	configuringStage,
 	driveModelStage,
+	driveStage,
+	makeStageContext,
 	openRouterReplyBody,
 	readingFile,
 	readJsonFile,
 	resendPausesTimeoutMs,
+	SETTLE_STEP_MS,
 	seedSlideImages,
 	sentSystemMessage,
 	sentUserContents,
+	settleThroughPauses,
 	slideReadingReply,
 	trackingInFlight,
 	useCapturedStderr,
@@ -231,5 +236,51 @@ describe("createReadSlidesStage", () => {
 		await run();
 
 		expect(peak()).toBe(limit);
+	});
+
+	describe("for two lectures at once, as in a batch", () => {
+		const otherWorkspace = useTranscribedWorkspace({ prefix: `${STAGE_ID}-other-` });
+
+		beforeEach(() => {
+			vi.useFakeTimers({ toFake: ["setTimeout", "Date"] });
+		});
+
+		afterEach(() => {
+			vi.useRealTimers();
+		});
+
+		it("should start no send of either lecture until the gap has passed since the stage's previous send when sendGapSeconds is set", async () => {
+			const gapSeconds = 0.5;
+			const spaced = {
+				...config,
+				stages: { [STAGE_ID]: { ...config.stages[STAGE_ID], sendGapSeconds: gapSeconds } },
+			} as PipelineConfig;
+			const lectureRoots = [workspace().workspaceRoot, otherWorkspace().workspaceRoot];
+			for (const workspaceRoot of lectureRoots) {
+				await seedSlideImages({ workspaceRoot, count: 2 });
+			}
+			const starts: number[] = [];
+			create().mockImplementation(() => {
+				starts.push(Date.now());
+				return Promise.resolve(
+					openRouterReplyBody({ content: JSON.stringify(slideReadingReply()) }),
+				);
+			});
+			// The CLI builds each stage once, and the runner gives that stage every lecture of a batch.
+			const stage = createReadSlidesStage({ logger: logged().logger, client: client() });
+
+			await settleThroughPauses(
+				Promise.all(
+					lectureRoots.map((workspaceRoot) =>
+						driveStage({ stage, context: makeStageContext({ workspaceRoot, config: spaced }) }),
+					),
+				),
+			);
+
+			expect(starts).toHaveLength(4);
+			const gaps = starts.slice(1).map((start, index) => start - (starts[index] ?? 0));
+			// The test records a start up to one clock step after the send starts.
+			expect(Math.min(...gaps)).toBeGreaterThanOrEqual(gapSeconds * 1000 - SETTLE_STEP_MS);
+		});
 	});
 });
