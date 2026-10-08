@@ -15,3 +15,4 @@
   - its stage id
   - what happens when a subtopic has more figure marks than slides, or fewer
   - whether it uses a hint from the first placement.
+- [ ] The design of the HTML stage says how the final output of one lecture is kept. The final output is a page and its images, so it is more than one file. The design says how `rename`, `delete` and `change-date` move or delete these files, and what a reset of the HTML stage deletes. Today these commands move or delete one file in `Final output/`, found by the lecture date in its name.
