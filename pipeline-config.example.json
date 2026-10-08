@@ -66,6 +66,12 @@
 			"modelId": "google/gemini-3.8-flash",
 			"temperature": null,
 			"maxTokens": null
+		},
+		"rewrite-subtopics": {
+			"modelId": "google/gemini-3.8-flash",
+			"temperature": null,
+			"maxTokens": null,
+			"concurrency": 5
 		}
 	},
 	"finalOutput": {

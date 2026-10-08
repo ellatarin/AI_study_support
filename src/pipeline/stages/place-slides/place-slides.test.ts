@@ -1,15 +1,14 @@
-import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { isRecord } from "../../../utils/record.js";
 import {
-	captureError,
-	eachUnusableJsonFile,
+	itFailsNamingEachSpoiledFile,
 	openRouterReplyBody,
-	readingFile,
 	readJsonFile,
 	resendPausesTimeoutMs,
 	slideDeckReadings,
-	spoilJsonFile,
+	slideReadingInput,
+	structuredTranscriptInput,
+	stubbedPlacedBecause,
 	transcriptSubtopicsWithIdAndText,
 	transcriptSubtopicTexts,
 	useStageReadingDivision,
@@ -19,11 +18,8 @@ import { createPlaceSlidesStage, PlaceSlidesError } from "./place-slides.js";
 
 const STAGE_ID = "place-slides";
 
-/** The reason that each stubbed reply entry gives. */
-const STUBBED_REASON = "The lecturer explains the slide here.";
-
 /**
- * One reply entry with {@link STUBBED_REASON}. The default start words are the
+ * One reply entry with {@link stubbedPlacedBecause}. The default start words are the
  * whole text of the subtopic, so the slide goes at the start of the subtopic.
  */
 function placement({
@@ -35,7 +31,7 @@ function placement({
 	readonly subtopicId: number;
 	readonly startsWith?: string;
 }): Record<string, unknown> {
-	return { slideNumber, subtopicId, startsWith, placedBecause: STUBBED_REASON };
+	return { slideNumber, subtopicId, startsWith, placedBecause: stubbedPlacedBecause };
 }
 
 /** A usable reply for {@link slideDeckReadings}: slide 1 in subtopic 1, and slide 2 in subtopic 2. */
@@ -78,7 +74,7 @@ describe("createPlaceSlidesStage", () => {
 			problem: "is not the documented shape",
 			reply: {
 				placements: [
-					{ slideNumber: 1, placedBecause: STUBBED_REASON },
+					{ slideNumber: 1, placedBecause: stubbedPlacedBecause },
 					placement({ slideNumber: 2, subtopicId: 2 }),
 				],
 			},
@@ -199,14 +195,14 @@ describe("createPlaceSlidesStage", () => {
 				subtopicId: 1,
 				startWords: transcriptSubtopicTexts[0],
 				positionInSubtopic: 0,
-				placedBecause: STUBBED_REASON,
+				placedBecause: stubbedPlacedBecause,
 			},
 			{
 				slideNumber: 2,
 				subtopicId: 2,
 				startWords: midSubtopicWords,
 				positionInSubtopic: transcriptSubtopicTexts[1].indexOf(midSubtopicWords),
-				placedBecause: STUBBED_REASON,
+				placedBecause: stubbedPlacedBecause,
 			},
 			{
 				slideNumber: 4,
@@ -224,26 +220,12 @@ describe("createPlaceSlidesStage", () => {
 		expect(await writtenFile()).toMatchObject({ promptVersion: "p2" });
 	});
 
-	it.each(
-		eachUnusableJsonFile([
-			{
-				file: "structured transcript file",
-				path: () =>
-					stageOutputPath({ workspaceRoot: workspaceRoot(), stageId: "structure-transcript" }),
-			},
-			{ file: "slide reading of a slide image", path: () => join(workspaceRoot(), readingFile(2)) },
-		]),
-	)("should fail naming the file, without calling the model, when the $file is $state", async ({
-		path,
-		contents,
-	}) => {
-		await spoilJsonFile({ path: path(), contents });
-
-		const error = await captureError(run());
-
-		expect(error).toBeInstanceOf(PlaceSlidesError);
-		expect(error.message).toContain(path());
-		expect(create()).not.toHaveBeenCalled();
+	itFailsNamingEachSpoiledFile({
+		files: [structuredTranscriptInput, slideReadingInput(2)],
+		workspaceRoot,
+		run,
+		errorType: PlaceSlidesError,
+		create,
 	});
 
 	it("should fail without writing the placements when the third send is still unusable", {

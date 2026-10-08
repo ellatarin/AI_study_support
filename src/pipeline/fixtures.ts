@@ -15,7 +15,7 @@ import { dirname, join } from "node:path";
 import nock from "nock";
 import type OpenAI from "openai";
 import type { Logger } from "pino";
-import { afterEach, beforeEach, expect, type Mock, vi } from "vitest";
+import { afterEach, beforeEach, expect, it, type Mock, vi } from "vitest";
 import type {
 	Manifest,
 	OutputLanguage,
@@ -56,6 +56,7 @@ import { assembleContext } from "./stage-context.js";
 import { type Subtopic, type SubtopicWithIdAndText, subtopicText } from "./stages/division.js";
 import { type ModelStageFactory, ResendsExhaustedError } from "./stages/model-stage.js";
 import { SavedRunUnreadableError } from "./stages/panel-runs.js";
+import type { SlidePlacements } from "./stages/slide-placements.js";
 import type { StructuredTranscript } from "./stages/structured-transcript.js";
 import type { Topic } from "./stages/topics.js";
 import {
@@ -895,14 +896,66 @@ export function eachUnusableJsonFile<TFile extends object>(
 	);
 }
 
+/** A JSON input file of a stage: its name in a test title, and how to find its path. */
+export type InputFile = {
+	readonly file: string;
+	readonly path: (workspaceRoot: string) => string;
+};
+
+/**
+ * Gives the output file of an earlier stage as an input file.
+ *
+ * @param args - The name of the file, and the stage that writes it.
+ * @param args.file - The name of the file in a test title.
+ * @param args.stageId - The stage that writes the file.
+ * @returns The input file.
+ */
+export function stageOutputInput({
+	file,
+	stageId,
+}: {
+	readonly file: string;
+	readonly stageId: StageWithOutputFile;
+}): InputFile {
+	return { file, path: (workspaceRoot) => stageOutputPath({ workspaceRoot, stageId }) };
+}
+
+/**
+ * Gives the reading of one slide as an input file.
+ *
+ * @param slideNumber - The number of the slide in the deck, from 1.
+ * @returns The input file.
+ */
+export function slideReadingInput(slideNumber: number): InputFile {
+	return {
+		file: `reading of slide ${slideNumber}`,
+		path: (workspaceRoot) => join(workspaceRoot, readingFile(slideNumber)),
+	};
+}
+
+/** The structured transcript as an input file. */
+export const structuredTranscriptInput = stageOutputInput({
+	file: "structured transcript file",
+	stageId: "structure-transcript",
+});
+
+/** The retitled subtopics as an input file. */
+export const retitledSubtopicsInput = stageOutputInput({
+	file: "retitled subtopics file",
+	stageId: "retitle-subtopics",
+});
+
+/** The JSON files that `readTopicsWithSubtopics` reads. */
+export const topicsWithSubtopicsInputs: readonly InputFile[] = [
+	retitledSubtopicsInput,
+	stageOutputInput({ file: "topics file", stageId: "group-into-topics" }),
+];
+
 /**
  * The JSON files that `readTopicsWithSubtopics` reads, each with each of the
  * {@link unusableJsonContents}, for a suite's `it.each`.
  */
-export const unusableTopicsWithSubtopicsFiles = eachUnusableJsonFile([
-	{ file: "retitled subtopics file", stageId: "retitle-subtopics" },
-	{ file: "topics file", stageId: "group-into-topics" },
-] as const);
+export const unusableTopicsWithSubtopicsFiles = eachUnusableJsonFile(topicsWithSubtopicsInputs);
 
 /**
  * Makes a JSON input file unusable: it deletes the file when `contents` is
@@ -921,6 +974,49 @@ export function spoilJsonFile({
 	readonly contents: string | null;
 }): Promise<void> {
 	return contents === null ? rm(path) : writeFile(path, contents);
+}
+
+/**
+ * Adds one test for each input file and each of the {@link unusableJsonContents}.
+ * Each test spoils the file and runs the stage. It checks that the stage fails
+ * with its own error, that the error names the file, and that the stage made no
+ * model call.
+ *
+ * @param args - The input files, and the suite's stage run and stubs.
+ * @param args.files - The input files of the stage.
+ * @param args.workspaceRoot - Gives the workspace of the current test.
+ * @param args.run - Runs the stage.
+ * @param args.errorType - The error class of the stage.
+ * @param args.create - Gives the stubbed completion call of the current test.
+ */
+export function itFailsNamingEachSpoiledFile({
+	files,
+	workspaceRoot,
+	run,
+	errorType,
+	create,
+}: {
+	readonly files: readonly InputFile[];
+	readonly workspaceRoot: () => string;
+	readonly run: () => Promise<unknown>;
+	readonly errorType: abstract new (...args: never[]) => Error;
+	readonly create: () => StubbedCompletionCall;
+}): void {
+	it.each(
+		eachUnusableJsonFile(files),
+	)("should fail naming the file, without calling the model, when the $file is $state", async ({
+		path,
+		contents,
+	}) => {
+		const spoiled = path(workspaceRoot());
+		await spoilJsonFile({ path: spoiled, contents });
+
+		const error = await captureError(run());
+
+		expect(error).toBeInstanceOf(errorType);
+		expect(error.message).toContain(spoiled);
+		expect(create()).not.toHaveBeenCalled();
+	});
 }
 
 /** A Scribe upload that a suite intercepted, and the body that the stage sent. */
@@ -1082,6 +1178,25 @@ export const slideDeckReadings: readonly Readonly<Record<string, unknown>>[] = [
 	{ slideNumber: 3, ...slideReadingReply({ title: "Questions?", kind: "content-free" }) },
 	{ slideNumber: 4, ...slideReadingReply({ title: "References", kind: "references" }) },
 ];
+
+/** The reason that a stubbed `place-slides` reply entry and each stored placement give. */
+export const stubbedPlacedBecause = "The lecturer explains the slide here.";
+
+/**
+ * The slide placements that {@link seedEarlierOutputs} writes for `place-slides`.
+ * Slides 1, 2 and 4 of the {@link slideDeckReadings} are all in subtopic 2. So
+ * subtopic 1 has no placed slide.
+ */
+export const slideDeckPlacements: SlidePlacements = {
+	promptVersion: "p2",
+	placements: [1, 2, 4].map((slideNumber) => ({
+		slideNumber,
+		subtopicId: 2,
+		startWords: null,
+		positionInSubtopic: 0,
+		placedBecause: stubbedPlacedBecause,
+	})),
+};
 
 /**
  * Writes each slide reading into a workspace, as `read-slides` leaves it.
@@ -1840,6 +1955,7 @@ const EARLIER_OUTPUT_SEEDS = {
 		seedSlideImages({ workspaceRoot, count: slideDeckReadings.length }),
 	"read-slides": (workspaceRoot: string) =>
 		seedSlideReadings({ workspaceRoot, readings: slideDeckReadings }),
+	"place-slides": seedingJsonOutput({ stageId: "place-slides", output: slideDeckPlacements }),
 } as const;
 
 /** An earlier stage whose output {@link seedEarlierOutputs} can write. */
@@ -1869,45 +1985,92 @@ export async function seedEarlierOutputs({
 }
 
 /**
- * Prepares the suite of a stage that calls a model and reads the division of an
- * earlier stage. Before each test, the function makes a new
- * {@link stubbedOpenRouterClient} and stubs its reply. It also writes the output
- * of each earlier stage into a workspace with a transcript, through
- * {@link seedEarlierOutputs}. The setup is in one place, so two such suites cannot
- * start from different states.
+ * {@link useStageReadingEarlierOutputs} for a stage that writes one output file,
+ * such as a stage that reads the division of an earlier stage.
  *
- * @param args - The stage, the earlier stages, the stage factory and the stubbed reply.
- * @param args.stageId - The stage under test. It names the temporary directory and selects the config.
- * @param args.readsFrom - The earlier stages whose output the stage reads.
- * @param args.factory - The stage factory, as the CLI calls it.
- * @param args.reply - The content of the reply to every call, stubbed before each test. It is
- *   `null` in a suite that stubs the network and not the client.
- * @param args.tuning - The fields of the stage's config to replace. The default replaces none.
- * @returns The config of the stage, and readers for the workspace, the stub logger and the completion call of the current test. It also gives a function that runs the stage with the stub client. The run takes the manifest fields to replace. It gives a check that a run makes one call, and that the user message of the call holds a value as JSON. Last, it gives a check that a run fails after the third unusable send of `calls` calls and writes no output.
+ * @param args - As for {@link useStageReadingEarlierOutputs}. The stage must write one output file.
+ * @returns As for {@link useStageReadingEarlierOutputs}. It also gives a check that a run fails after the third unusable send of `calls` calls and writes no output.
  * @typeParam TInput - The input of the stage.
  * @typeParam TOutput - The output of the stage.
  */
-export function useStageReadingDivision<TInput, TOutput>({
-	stageId,
-	readsFrom,
-	factory,
-	reply,
-	tuning = {},
-}: {
-	readonly stageId: StageWithOutputFile;
+export function useStageReadingDivision<TInput, TOutput>(
+	args: StageReadingEarlierOutputs<TInput, TOutput> & { readonly stageId: StageWithOutputFile },
+): StageReadingEarlierOutputsSuite<TOutput> & {
+	readonly expectResendsExhausted: (args: { readonly calls: number }) => Promise<void>;
+} {
+	const suite = useStageReadingEarlierOutputs(args);
+	return {
+		...suite,
+		expectResendsExhausted: ({ calls }) =>
+			expectResendsExhaustedWithoutOutput({
+				pending: suite.run(),
+				create: suite.create(),
+				calls,
+				workspaceRoot: suite.workspaceRoot(),
+				stageId: args.stageId,
+			}),
+	};
+}
+
+/**
+ * The stage under test, the earlier stages, the stage factory and the stubbed
+ * reply, for {@link useStageReadingEarlierOutputs}.
+ *
+ * @typeParam TInput - The input of the stage.
+ * @typeParam TOutput - The output of the stage.
+ */
+type StageReadingEarlierOutputs<TInput, TOutput> = {
+	/** The stage under test. It names the temporary directory and selects the config. */
+	readonly stageId: StageId;
+	/** The earlier stages whose output the stage reads. */
 	readonly readsFrom: readonly SeededStage[];
+	/** The stage factory, as the CLI calls it. */
 	readonly factory: ModelStageFactory<TInput, TOutput>;
+	/** The content of the reply to every call, stubbed before each test. `null` in a suite that stubs the network and not the client. */
 	readonly reply: string | null;
+	/** The fields of the stage's config to replace. The default replaces none. */
 	readonly tuning?: Partial<StageConfig>;
-}): {
+};
+
+/**
+ * What {@link useStageReadingEarlierOutputs} gives a suite.
+ *
+ * @typeParam TOutput - The output of the stage.
+ */
+type StageReadingEarlierOutputsSuite<TOutput> = {
 	readonly config: PipelineConfig;
 	readonly workspaceRoot: () => string;
 	readonly logged: () => StubLogger;
 	readonly create: () => StubbedCompletionCall;
 	readonly run: (manifest?: Partial<Manifest>) => Promise<StageResult<TOutput>>;
 	readonly expectOneCallSending: (value: unknown) => Promise<void>;
-	readonly expectResendsExhausted: (args: { readonly calls: number }) => Promise<void>;
-} {
+};
+
+/**
+ * Prepares the suite of a stage that calls a model and reads the output of
+ * earlier stages. Before each test, the function makes a new
+ * {@link stubbedOpenRouterClient} and stubs its reply. It also writes the output
+ * of each earlier stage into a workspace with a transcript, through
+ * {@link seedEarlierOutputs}. The setup is in one place, so two such suites cannot
+ * start from different states.
+ *
+ * @param args - The stage, the earlier stages, the stage factory and the stubbed reply.
+ * @param args.stageId - The stage under test.
+ * @param args.readsFrom - The earlier stages whose output the stage reads.
+ * @param args.factory - The stage factory.
+ * @param args.reply - The stubbed reply.
+ * @param args.tuning - The fields of the stage's config to replace.
+ * @returns The config of the stage, and readers for the workspace, the stub logger and the completion call of the current test. It also gives a function that runs the stage with the stub client. The run takes the manifest fields to replace. Last, it gives a check that a run makes one call, and that the user message of the call holds a value as JSON.
+ * @typeParam TInput - The input of the stage.
+ * @typeParam TOutput - The output of the stage.
+ */
+export function useStageReadingEarlierOutputs<TInput, TOutput>({
+	stageId,
+	readsFrom,
+	factory,
+	reply,
+	tuning = {},
+}: StageReadingEarlierOutputs<TInput, TOutput>): StageReadingEarlierOutputsSuite<TOutput> {
 	const workspace = useTranscribedWorkspace({ prefix: `${stageId}-` });
 	const logged = useStubLogger();
 	const configured = configuringStage({ stageId });
@@ -1947,14 +2110,6 @@ export function useStageReadingDivision<TInput, TOutput>({
 			expect(create()).toHaveBeenCalledTimes(1);
 			expect(sentUserMessage(create().mock.calls)).toContain(JSON.stringify(value));
 		},
-		expectResendsExhausted: ({ calls }) =>
-			expectResendsExhaustedWithoutOutput({
-				pending: run(),
-				create: create(),
-				calls,
-				workspaceRoot: workspaceRoot(),
-				stageId,
-			}),
 	};
 }
 
@@ -2232,5 +2387,40 @@ export function trackingInFlight<TTaskArgs, TTaskResult>(
 			}
 		},
 		peak: () => peak,
+	};
+}
+
+/**
+ * Makes a stub task whose first `count` calls each wait until all of them have
+ * arrived. A stage reads a file before each call. Without this wait, the calls
+ * would not all overlap, and a suite could not see them in flight together.
+ *
+ * @param args - The number of calls that wait, and the reply of each call.
+ * @param args.count - The number of calls that wait for each other.
+ * @param args.reply - Gives the reply of one call.
+ * @returns The stub task.
+ * @typeParam TReply - The reply of one call.
+ */
+export function arrivingTogether<TReply>({
+	count,
+	reply,
+}: {
+	readonly count: number;
+	readonly reply: () => TReply;
+}): () => Promise<TReply> {
+	let arrived = 0;
+	let releaseAll: () => void = () => undefined;
+	const allArrived = new Promise<void>((resolve) => {
+		releaseAll = resolve;
+	});
+	return async () => {
+		arrived += 1;
+		if (arrived === count) {
+			releaseAll();
+		}
+		if (arrived <= count) {
+			await allArrived;
+		}
+		return reply();
 	};
 }

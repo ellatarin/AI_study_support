@@ -7,13 +7,13 @@ import { readFile } from "node:fs/promises";
 import { relative } from "node:path";
 import type { StageContext, StageResult } from "../../../types/pipeline.js";
 import { NamedError } from "../../../utils/errors.js";
-import { configuredStage } from "../../../utils/stage-config.js";
+import { readerFromCheck } from "../../../utils/record.js";
 import {
 	defineModelStage,
 	type ModelStageFactory,
 	type ModelStageRunArgs,
 } from "../model-stage.js";
-import { readOrMakeSavedFiles } from "../saved-files.js";
+import { readOrMakeSavedFiles, unreadableSavedFileMessage } from "../saved-files.js";
 import {
 	findSlideImages,
 	isSlideReading,
@@ -103,6 +103,7 @@ async function readSlideImages(context: StageContext): Promise<SlideImages> {
  * @param args.input - The slide images.
  * @param args.context - The stage context.
  * @param args.calls - The model calls of this stage run.
+ * @param args.concurrency - The stage's `concurrency`.
  * @returns The readings, the cost of the calls and the files written.
  */
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger has mutable properties that the rule cannot ignore. CLAUDE.md permits a mutable type that a library requires.
@@ -110,6 +111,7 @@ async function readSlides({
 	input,
 	context,
 	calls,
+	concurrency,
 }: ModelStageRunArgs<SlideImages>): Promise<StageResult<ReadSlidesOutput>> {
 	const slides = [...input.slideImagePaths.entries()].map(([index, imagePath]) => {
 		const slideNumber = index + 1;
@@ -122,11 +124,11 @@ async function readSlides({
 	const { contents, cost } = await readOrMakeSavedFiles<(typeof slides)[number], SlideReading>({
 		files: slides,
 		label: "Slides",
-		concurrency: configuredStage({ config: context.config, stageId: STAGE_ID })?.concurrency,
-		readSaved: (value) => (isSlideReading(value) ? value : null),
+		concurrency,
+		readSaved: readerFromCheck(isSlideReading),
 		unreadable: (path) =>
 			new ReadSlidesError(
-				`${path} holds no readable slide reading. A reading is written whole, so something else changed it; delete it to read the slide again.`,
+				unreadableSavedFileMessage({ path, content: "slide reading", remake: "read the slide" }),
 			),
 		make: async ({ slideNumber, imagePath }) => {
 			const sent = await calls.sendJsonWithResends({

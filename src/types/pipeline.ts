@@ -26,6 +26,7 @@ export const STAGE_IDS = [
 	"render-slides",
 	"read-slides",
 	"place-slides",
+	"rewrite-subtopics",
 ] as const;
 
 /** The id of one stage (technical-design.md §4.1). */

@@ -15,3 +15,18 @@
 export function isRecord(value: unknown): value is Record<string, unknown> {
 	return typeof value === "object" && value !== null && !Array.isArray(value);
 }
+
+/**
+ * Turns a check of a parsed value's shape into a function. The function gives
+ * the value when the check accepts it, and `null` otherwise. The readers
+ * of saved files and input files take a function of that kind.
+ *
+ * @param check - The check of the value's shape.
+ * @returns The function that gives the value, or `null`.
+ * @typeParam TValue - The shape that the check accepts.
+ */
+export function readerFromCheck<TValue>(
+	check: (value: unknown) => value is TValue,
+): (value: unknown) => TValue | null {
+	return (value) => (check(value) ? value : null);
+}

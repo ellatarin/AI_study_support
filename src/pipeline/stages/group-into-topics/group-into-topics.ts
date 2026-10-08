@@ -11,7 +11,7 @@
    Organisation) forbids barrel files. Only the imports are exempt. jscpd
    checks the code below. */
 import type { StageResult } from "../../../types/pipeline.js";
-import { isRecord } from "../../../utils/record.js";
+import { isRecord, readerFromCheck } from "../../../utils/record.js";
 import { isTitledReplyPart, subtopicsWithText, type TitledReplyPart } from "../division.js";
 import {
 	defineModelStage,
@@ -129,15 +129,8 @@ function isGroupingRun(value: unknown): value is GroupingRun {
 	return holdsTopics({ value, isOneTopic: isTopic });
 }
 
-/**
- * Reads a saved run.
- *
- * @param value - A value parsed from a saved run.
- * @returns The grouping run, or `null` when the value is not one.
- */
-function readGroupingRun(value: unknown): GroupingRun | null {
-	return isGroupingRun(value) ? value : null;
-}
+/** Reads a saved run: the grouping run, or `null` when the value is not one. */
+const readGroupingRun = readerFromCheck(isGroupingRun);
 
 /** The output of the stage: the topics of the chosen run, in order. */
 type GroupIntoTopicsOutput = { readonly topics: readonly Topic[] };

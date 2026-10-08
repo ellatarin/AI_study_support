@@ -4,6 +4,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { PipelineConfig } from "../../../types/pipeline.js";
 import { pathExists } from "../../../utils/files.js";
 import {
+	arrivingTogether,
 	captureError,
 	configuringStage,
 	driveModelStage,
@@ -213,24 +214,12 @@ describe("createReadSlidesStage", () => {
 	it("should have at most the configured number of calls in flight when the stage reads the slides", async () => {
 		const limit = config.stages[STAGE_ID]?.concurrency ?? 1;
 		await seedSlideImages({ workspaceRoot: workspace().workspaceRoot, count: limit + 2 });
-		// Each of the first `limit` calls waits until all of them have arrived. Each
-		// slide reads its image file before its call, so without this wait the calls
-		// would not all overlap.
-		let arrived = 0;
-		let releaseAll: () => void = () => undefined;
-		const allArrived = new Promise<void>((resolve) => {
-			releaseAll = resolve;
-		});
-		const { tracked, peak } = trackingInFlight(async () => {
-			arrived += 1;
-			if (arrived === limit) {
-				releaseAll();
-			}
-			if (arrived <= limit) {
-				await allArrived;
-			}
-			return openRouterReplyBody({ content: JSON.stringify(slideReadingReply()) });
-		});
+		const { tracked, peak } = trackingInFlight(
+			arrivingTogether({
+				count: limit,
+				reply: () => openRouterReplyBody({ content: JSON.stringify(slideReadingReply()) }),
+			}),
+		);
 		create().mockImplementation(tracked);
 
 		await run();

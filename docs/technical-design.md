@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.75-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
+**Suite version:** 1.76-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
 **Date:** 2026-10-08
 **Status:** For review
 
@@ -1465,11 +1465,17 @@ The stage rewrites each subtopic of the structured transcript as prose. Each sub
 
 The stage works on several subtopics at the same time, up to its `concurrency` (§6). Its `sendGapSeconds` spaces its sends. As in the other stages, one send gate serves all the lectures of a batch (§6, "The send gap is shared by the whole invocation"). Each model call takes the shared resend of an unusable reply (§5, "Dividing the transcript", Panel runs).
 
-**Term correction.** The transcriber mishears technical terms, and a slide often prints the right form. For example, a lecture says "beta-naphthylene" where its slide prints "β-naphthylamine". The stage makes one call for each subtopic that has a placed slide, and no call for a subtopic with none. The call gets the subtopic text and the readings of the slides placed in that subtopic. The reply is a list of corrections (CONTEXT.md, "Correction"). Each correction holds a wrong form, a right form and a reason. Each form has one to four words, and the prompt states that limit. Code then checks each correction:
+**Term correction.** The transcriber mishears technical terms, and a slide often prints the right form. For example, a lecture says "beta-naphthylene" where its slide prints "β-naphthylamine". The stage makes one call for each subtopic that has a placed slide, and no call for a subtopic with none. The call gets the subtopic text and the readings of all the slides placed in that subtopic. The references slide is one of them when `place-slides` puts it in the subtopic. The reply is a list of corrections (CONTEXT.md, "Correction"). Each correction holds a wrong form, a right form and a reason. Each form has one to four words, and the prompt states that limit. A reply that gives a blank form is unusable, and the stage resends it.
 
-- Code ignores and records a correction when its right form is not in the reading of a slide placed in the subtopic.
-- Code ignores and records a correction when its wrong form is not in the subtopic text.
-- Code changes each occurrence of the wrong form in the subtopic text to the right form, and records the number of changes.
+Code then checks each correction, in this order. A correction that fails a check is ignored, and the stage records the first check that it failed:
+
+1. `form-too-long`: a form has more than four words.
+2. `right-form-not-on-slide`: the right form is not in the reading of a slide placed in the subtopic.
+3. `wrong-form-not-in-text`: the wrong form is not in the subtopic text.
+
+Each check is an exact match, with case, hyphens and spaces as written. A form must sit inside one piece of a reading: the title, the body, one table, one figure description or the caption. So a form never joins the end of one piece to the start of the next. The prompt asks the model to copy each form exactly, because the code does not accept a near match.
+
+Code changes each occurrence of the wrong form of each kept correction to its right form, and records the number of changes. The longest wrong form goes first. A shorter wrong form changes only the text that no longer form changed. Code finds each wrong form in the text before term correction, so it never changes a right form again.
 
 A correction that fails a check is not resent. The stage writes the corrections into the rewrite attempt's file. It never edits the file of an earlier stage.
 
@@ -1494,9 +1500,23 @@ The list goes into the writer's prompt and the checker's prompt as numbered rule
 
 **Rewrite attempts.** After a fault, the subtopic gets a new rewrite attempt: term correction, the rewrite and the check again. The corrector and the writer each get the faults that concern them. A subtopic gets at most three rewrite attempts. After the third failure the stage fails, and the error names the subtopic and its faults. The other subtopics keep their saved results. No reviser edits a rewritten subtopic.
 
-**What is written.** Each rewrite attempt is written to `Rewrite attempts/subtopic-<id>-attempt-<n>.json` when it ends. It holds the corrections, the ignored corrections, the rewritten subtopic and the checker's faults. `Rewritten subtopics/rewritten-subtopics.json` holds the rewritten subtopic of each subtopic that passed the check. A stage that failed and starts again keeps the subtopics that passed. The field names in both files are agreed when the stage is built.
+**What is written.** Each rewrite attempt is written to `Rewrite attempts/subtopic-<id>-attempt-<n>.json` when it ends. It holds the corrections, the ignored corrections, the rewritten subtopic and the checker's faults. `Rewritten subtopics/rewritten-subtopics.json` holds the rewritten subtopic of each subtopic that passed the check. A stage that failed and starts again keeps the subtopics that passed.
 
-**The models.** Two models for each step are proposed, with their prices, before the stage is built. How the stage's entry names the models of the three steps is decided then (§6).
+A rewrite attempt's file holds these fields from term correction:
+
+| Field | What it holds |
+|---|---|
+| `subtopicId` | The subtopic |
+| `attemptNumber` | The number of the rewrite attempt, from 1 |
+| `termCorrectionPromptVersion` | The version of the term-correction prompt |
+| `slideNumbers` | The slides placed in the subtopic. An empty list means that term correction made no call |
+| `corrections` | Each kept correction: `wrongForm`, `rightForm`, `reason` and `occurrencesChanged` |
+| `ignoredCorrections` | Each ignored correction: `wrongForm`, `rightForm`, `reason` and `ignoredBecause`, the first check that it failed |
+| `correctedText` | The subtopic text after term correction |
+
+The fields of the rewrite and the check, and the fields of `rewritten-subtopics.json`, are agreed when those steps are built.
+
+**The models.** Term correction uses `google/gemini-3.8-flash`. The stage's entry names that model (§6). Two models for the rewrite and two for the check are proposed, with their prices, before each step is built. How the stage's entry names the models of those steps is decided then.
 
 ---
 
@@ -1614,7 +1634,7 @@ A reply that carries the provider's error and an answer as well — a choice who
 
 **A tuning parameter can be left unset out loud.** Each optional field of a stage entry can be `null`: `temperature`, `maxTokens`, `concurrency`, `callConcurrency` and `sendGapSeconds`. A `null` means the same as a missing key: the request carries no such parameter. There are two ways to say it, because the choice is worth a record. Under the routing restriction above, the parameters of a request decide which endpoints can serve it. Providers differ in what they accept. The same model takes a `temperature` through one provider and not through another. So the tuning that a stage sets is part of the choice of what can answer it. A `null` records a deliberate omission beside the tuning that is set. A missing key reads as an oversight.
 
-**Three settings say how much runs at once.** `batch.concurrency` is how many lectures a batch runs at once (§4.7). A stage's `concurrency` is how many of its runs, slides or images are in flight at once. `callConcurrency` is how many calls one run makes at once. Only `deepen-subtopic-splitting` has one, because it is the only stage whose run makes more than one call (§5). Unset, runs and calls are each made one at a time. On any other stage, nothing would read `callConcurrency`. So the loader raises a `ConfigError` at startup that names the stage.
+**Three settings say how much runs at once.** `batch.concurrency` is how many lectures a batch runs at once (§4.7). A stage's `concurrency` is how many of its runs, slides, images or subtopics are in flight at once. `callConcurrency` is how many calls one run makes at once. Only `deepen-subtopic-splitting` has one, because it is the only stage whose run makes more than one call on one piece of work (§5). `rewrite-subtopics` makes one call for each subtopic, so its `concurrency` counts its calls. Unset, runs and calls are each made one at a time. On any other stage, nothing would read `callConcurrency`. So the loader raises a `ConfigError` at startup that names the stage.
 
 **The send gap is shared by the whole invocation.** `sendGapSeconds` is the least time between the starts of two sends of a stage. Unset, sends are not spaced (§5, "Dividing the transcript", Panel runs). The CLI builds each stage once, and a batch runs every lecture through that one stage. So the gap holds across all the lectures of a batch. It limits the rate of the stage's sends, however many lectures run at once. Without it, two lectures with a `concurrency` of 20 each could start 40 sends at once. The gap spaces sends that run at the same time. So a stage that sets `sendGapSeconds` must also set `concurrency`, or the loader raises a `ConfigError` that names the stage.
 
@@ -1705,6 +1725,12 @@ Each prefix is matched literally, so one carrying a pattern character means itse
       "modelId": "google/gemini-3.8-flash",       // one call with the whole lecture and every slide reading
       "temperature": null,                        // any tuning field may be null: no such parameter is sent
       "maxTokens": null
+    },
+    "rewrite-subtopics": {
+      "modelId": "google/gemini-3.8-flash",       // term correction: one call for each subtopic with a placed slide
+      "temperature": null,
+      "maxTokens": null,
+      "concurrency": 5                            // subtopics corrected at once
     }
   },
   "subtopicSplitting": {

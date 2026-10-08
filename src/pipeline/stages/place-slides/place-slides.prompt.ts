@@ -3,8 +3,13 @@
  */
 
 import type { SubtopicWithIdAndText } from "../division.js";
-import { type PromptMessages, promptMessages } from "../model-stage.js";
+/* jscpd:ignore-start -- the prompt modules import the same message builder and
+   slide reading. So their import blocks are the same line for line. Imports
+   cannot be shared, and CLAUDE.md (File Organisation) forbids barrel files.
+   Only the imports are exempt. jscpd checks the code below. */
+import { labelledJson, type PromptMessages, promptMessages } from "../model-stage.js";
 import type { SlideReading } from "../slides.js";
+/* jscpd:ignore-end */
 
 /**
  * The version of {@link PLACEMENT_PROMPT}. A change to the prompt text gets a new
@@ -124,6 +129,6 @@ export function buildPlacementMessages({
 }): PromptMessages {
 	return promptMessages({
 		system: PLACEMENT_PROMPT,
-		user: `Lecture:\n${JSON.stringify({ subtopics, slides })}`,
+		user: labelledJson({ label: "Lecture", value: { subtopics, slides } }),
 	});
 }

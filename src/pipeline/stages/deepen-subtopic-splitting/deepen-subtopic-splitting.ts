@@ -16,6 +16,7 @@ import { totalCost } from "../../../utils/cost.js";
 import { NamedError } from "../../../utils/errors.js";
 import { isRecord } from "../../../utils/record.js";
 import { configuredStage } from "../../../utils/stage-config.js";
+import { countWords } from "../../../utils/text.js";
 import {
 	assertLossless,
 	isReplySubtopic,
@@ -81,17 +82,6 @@ const DOCUMENTED_REPLY_SHAPE = "{ cuts: [{ label, groupedBecause, startsWith }] 
  */
 function isDeepenReply(value: unknown): value is DeepenReply {
 	return isRecord(value) && Array.isArray(value.cuts) && value.cuts.every(isReplySubtopic);
-}
-
-/**
- * Counts the words in a text. Code counts them, because a model can only
- * estimate length (CONTEXT.md, "Size gate").
- *
- * @param text - The text to count.
- * @returns The number of groups of characters between whitespace.
- */
-function countWords(text: string): number {
-	return text.split(/\s+/u).filter((word) => word.length > 0).length;
 }
 
 /**

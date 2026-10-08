@@ -2,7 +2,8 @@
  * This module tidies text. The naming rules and the date reader remove parts of
  * text and then close the gaps with {@link collapseWhitespace}
  * (technical-design.md §3.2). Several messages give a count of a thing with
- * {@link pluralise}.
+ * {@link pluralise}. The size gate and term correction count words with
+ * {@link countWords}.
  */
 
 const WHITESPACE_RUN = /\s+/g;
@@ -17,6 +18,20 @@ const WHITESPACE_RUN = /\s+/g;
  */
 export function collapseWhitespace(text: string): string {
 	return text.replace(WHITESPACE_RUN, " ").trim();
+}
+
+/**
+ * Counts the words in a text. Code counts them, because a model can only
+ * estimate length (CONTEXT.md, "Size gate"). Term correction also counts the
+ * words of each form of a correction (CONTEXT.md, "Correction").
+ *
+ * @param text - The text to count.
+ * @returns The number of groups of characters between whitespace.
+ * @example
+ * countWords("  cell-cycle arrest "); // 2
+ */
+export function countWords(text: string): number {
+	return text.split(WHITESPACE_RUN).filter((word) => word.length > 0).length;
 }
 
 /** A word ending in a consonant and `y`, whose plural ends in `ies`. */

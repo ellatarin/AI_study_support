@@ -12,7 +12,7 @@ import type { PipelineStage, StageContext, StageCost, StageResult } from "../../
 import { errorMessage, NamedError } from "../../utils/errors.js";
 import { sendUntilAccepted } from "../../utils/resend.js";
 import { createSendGate, type SendGate } from "../../utils/send-gate.js";
-import { configuredStage } from "../../utils/stage-config.js";
+import { configuredConcurrency, configuredStage } from "../../utils/stage-config.js";
 import { callModel, type ModelCallRequest, type OpenRouterClient } from "../openrouter.js";
 import { createPipelineStage } from "./pipeline-stage.js";
 
@@ -27,7 +27,7 @@ export type ModelStageDependencies = {
 
 /**
  * The arguments of a model-calling stage's `run`: the input, the stage context,
- * the logger, and the model calls of the stage run.
+ * the logger, the model calls of the stage run, and the stage's `concurrency`.
  *
  * @typeParam TInput - The input that the stage's `getInput` gave.
  */
@@ -36,6 +36,8 @@ export type ModelStageRunArgs<TInput> = {
 	readonly context: StageContext;
 	readonly logger: Logger;
 	readonly calls: StageModelCalls;
+	/** The stage's `concurrency` (technical-design.md §6). Unset means one at a time. */
+	readonly concurrency: number | undefined;
 };
 
 /**
@@ -158,6 +160,25 @@ export async function requestJsonReply<TReply>({
 
 /** The messages that a stage sends: its prompt, then the material that the prompt is about. */
 export type PromptMessages = readonly OpenAI.Chat.Completions.ChatCompletionMessageParam[];
+
+/**
+ * Builds the material of a user message from structured data: the heading that
+ * the prompt expects, on its own line, then the data as JSON.
+ *
+ * @param args - The heading, and the data.
+ * @param args.label - The heading, such as `Lecture`.
+ * @param args.value - The data.
+ * @returns The material.
+ */
+export function labelledJson({
+	label,
+	value,
+}: {
+	readonly label: string;
+	readonly value: unknown;
+}): string {
+	return `${label}:\n${JSON.stringify(value)}`;
+}
 
 /**
  * Builds the two messages that a stage sends: the prompt as the system message,
@@ -378,6 +399,7 @@ export function defineModelStage<TInput, TOutput>({
 				});
 				return run({
 					...args,
+					concurrency: configuredConcurrency({ config: args.context.config, stageId }),
 					calls: stageModelCalls({
 						stageId,
 						context: args.context,

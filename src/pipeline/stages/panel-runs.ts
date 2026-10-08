@@ -7,10 +7,15 @@
 import { join, relative } from "node:path";
 import type { StageContext, StageCost, StageId, StageResult } from "../../types/pipeline.js";
 import { NamedError } from "../../utils/errors.js";
-import { configuredStage } from "../../utils/stage-config.js";
+import { configuredConcurrency } from "../../utils/stage-config.js";
 import { savedRunFileName, stageDirectoryPath } from "../layout.js";
 import type { OwnJsonRequest, StageModelCalls } from "./model-stage.js";
-import { readOrMakeSavedFiles, readSavedFile, type SavedFileReader } from "./saved-files.js";
+import {
+	readOrMakeSavedFiles,
+	readSavedFile,
+	type SavedFileReader,
+	unreadableSavedFileMessage,
+} from "./saved-files.js";
 
 /**
  * A saved run that is not JSON or not a run. A saved run is written whole or not
@@ -61,7 +66,7 @@ function savedRunReader<TRun>(readRun: SavedPanel<TRun>["readRun"]): SavedFileRe
 		readSaved: readRun,
 		unreadable: (path) =>
 			new SavedRunUnreadableError(
-				`${path} holds no readable run. A saved run is written whole, so something else changed it; delete it to make the run again.`,
+				unreadableSavedFileMessage({ path, content: "run", remake: "make the run" }),
 			),
 	};
 }
@@ -178,7 +183,7 @@ export async function runStagePanel<TRun>({
 > {
 	const { runs, cost, savedRunFiles } = await runPanel({
 		panelSize,
-		concurrency: configuredStage({ config: context.config, stageId })?.concurrency,
+		concurrency: configuredConcurrency({ config: context.config, stageId }),
 		directory: stageDirectoryPath({ workspaceRoot: context.workspaceRoot, stageId }),
 		readRun,
 		makeRun,

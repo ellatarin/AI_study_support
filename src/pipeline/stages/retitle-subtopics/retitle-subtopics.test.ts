@@ -1,14 +1,13 @@
 import { describe, expect, it } from "vitest";
 import {
-	captureError,
+	itFailsNamingEachSpoiledFile,
 	openRouterReplyBody,
 	readJsonFile,
 	resendPausesTimeoutMs,
 	sentUserMessage,
-	spoilJsonFile,
+	stageOutputInput,
 	transcriptDivision,
 	transcriptSubtopicTexts,
-	unusableJsonContents,
 	useStageReadingDivision,
 } from "../../fixtures.js";
 import { stageOutputPath, stageRecordPath } from "../../layout.js";
@@ -122,19 +121,12 @@ describe("createRetitleSubtopicsStage", () => {
 		await expectResendsExhausted({ calls: 1 });
 	});
 
-	it.each(
-		unusableJsonContents,
-	)("should fail without calling the model when the chosen division is $state", async ({
-		contents,
-	}) => {
-		const chosen = stageOutputPath({ workspaceRoot: workspaceRoot(), stageId: "choose-division" });
-		await spoilJsonFile({ path: chosen, contents });
-
-		const error = await captureError(run());
-
-		expect(error).toBeInstanceOf(RetitleSubtopicsError);
-		expect(error.message).toContain(chosen);
-		expect(create()).not.toHaveBeenCalled();
+	itFailsNamingEachSpoiledFile({
+		files: [stageOutputInput({ file: "chosen division file", stageId: "choose-division" })],
+		workspaceRoot,
+		run,
+		errorType: RetitleSubtopicsError,
+		create,
 	});
 
 	it("should leave the chosen division's subtopics as they were when the stage completes", async () => {

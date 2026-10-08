@@ -11,6 +11,7 @@ import { readTextFile } from "../../utils/files.js";
 import { type StageWithOutputFile, stageDirectoryPath, stageOutputPath } from "../layout.js";
 import { readDivision, type Subtopic, splittingPanel, subtopicsWithIdAndText } from "./division.js";
 import { readPanel } from "./panel-runs.js";
+import { readSlidePlacements, type SlidePlacements } from "./slide-placements.js";
 import {
 	readStructuredTranscript,
 	type StructuredTranscript,
@@ -251,6 +252,27 @@ export function readStageStructuredTranscript(
 		stageId: "structure-transcript",
 		read: readStructuredTranscript,
 		shape: "a structured transcript",
+	});
+}
+
+/**
+ * Reads the slide placements that `place-slides` wrote.
+ *
+ * @param reading - The stage context, the purpose, and the error to raise.
+ * @param reading.context - The stage context of the current lecture.
+ * @param reading.purpose - The use that the reading stage makes of the placements, for the failure that a user reads, such as "correct the terms of".
+ * @param reading.fail - Builds the reading stage's own error from a message.
+ * @returns The slide placements.
+ * @throws The error that `fail` builds, if the file is missing, empty, not JSON, or not slide placements.
+ */
+export function readStageSlidePlacements(
+	reading: Omit<ReadingOutput, "stageId">,
+): Promise<SlidePlacements> {
+	return readStageJson({
+		...reading,
+		stageId: "place-slides",
+		read: readSlidePlacements,
+		shape: "slide placements",
 	});
 }
 

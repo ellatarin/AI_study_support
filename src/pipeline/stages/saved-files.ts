@@ -27,6 +27,29 @@ export type SavedFileReader<TContent> = {
 };
 
 /**
+ * Gives the message for a saved file that holds nothing readable. The message
+ * tells the user to delete the file, because the pipeline does not make a saved
+ * file again.
+ *
+ * @param args - The file, what it holds, and the work that makes it.
+ * @param args.path - The path of the saved file.
+ * @param args.content - What the file holds, such as `slide reading`.
+ * @param args.remake - The work that makes the file again, such as `read the slide`.
+ * @returns The message.
+ */
+export function unreadableSavedFileMessage({
+	path,
+	content,
+	remake,
+}: {
+	readonly path: string;
+	readonly content: string;
+	readonly remake: string;
+}): string {
+	return `${path} holds no readable ${content}. The file is written whole, so something else changed it; delete it to ${remake} again.`;
+}
+
+/**
  * Reads the saved file at `path`.
  *
  * @param args - The file, and its reader.

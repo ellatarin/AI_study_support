@@ -28,6 +28,21 @@ export function configuredStage({
 }
 
 /**
+ * Finds the `concurrency` of a stage (technical-design.md §6).
+ *
+ * @param args - The configuration to look in, and the stage to look up.
+ * @param args.config - The loaded configuration.
+ * @param args.stageId - The stage to look up.
+ * @returns The stage's `concurrency`, or `undefined` when the stage sets none or is not configured.
+ */
+export function configuredConcurrency(args: {
+	readonly config: PipelineConfig;
+	readonly stageId: StageId;
+}): number | undefined {
+	return configuredStage(args)?.concurrency ?? undefined;
+}
+
+/**
  * Gives the message for a stage that the config file does not configure. The
  * message names the file to edit.
  *

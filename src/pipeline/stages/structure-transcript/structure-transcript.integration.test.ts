@@ -73,8 +73,8 @@ describe("structure-transcript", () => {
 
 	it.each(
 		unusableTopicsWithSubtopicsFiles,
-	)("should fail naming the file when the $file is $state", async ({ stageId, contents }) => {
-		const path = stageOutputPath({ workspaceRoot: workspace().workspaceRoot, stageId });
+	)("should fail naming the file when the $file is $state", async ({ path: pathIn, contents }) => {
+		const path = pathIn(workspace().workspaceRoot);
 		await spoilJsonFile({ path, contents });
 
 		const error = await captureError(run());

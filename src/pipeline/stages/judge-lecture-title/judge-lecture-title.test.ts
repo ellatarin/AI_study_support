@@ -3,20 +3,20 @@ import { describe, expect, it } from "vitest";
 import {
 	aiDerivedLecture,
 	captureError,
+	itFailsNamingEachSpoiledFile,
 	loggedAt,
 	openRouterReplyBody,
 	readJsonFile,
 	resendPausesTimeoutMs,
 	sentSystemMessage,
 	sentUserMessage,
-	spoilJsonFile,
 	stubbedJudgedBecause,
 	testLecture,
 	titleJudgementReply,
 	titleKept,
 	titleRejected,
+	topicsWithSubtopicsInputs,
 	transcriptSubtopicTexts,
-	unusableTopicsWithSubtopicsFiles,
 	unusableTranscripts,
 	useStageReadingDivision,
 	withUserTitle,
@@ -204,20 +204,12 @@ describe("createJudgeLectureTitleStage", () => {
 		await expectResendsExhausted({ calls: 1 });
 	});
 
-	it.each(
-		unusableTopicsWithSubtopicsFiles,
-	)("should fail naming the file, without calling the model, when the $file is $state", async ({
-		stageId,
-		contents,
-	}) => {
-		const path = stageOutputPath({ workspaceRoot: workspaceRoot(), stageId });
-		await spoilJsonFile({ path, contents });
-
-		const error = await captureError(run());
-
-		expect(error).toBeInstanceOf(JudgeLectureTitleError);
-		expect(error.message).toContain(path);
-		expect(create()).not.toHaveBeenCalled();
+	itFailsNamingEachSpoiledFile({
+		files: topicsWithSubtopicsInputs,
+		workspaceRoot,
+		run,
+		errorType: JudgeLectureTitleError,
+		create,
 	});
 
 	it.each(

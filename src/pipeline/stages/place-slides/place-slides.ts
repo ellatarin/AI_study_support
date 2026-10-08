@@ -21,13 +21,13 @@ import {
 import { writeJsonStageResult } from "../pipeline-stage.js";
 /* jscpd:ignore-end */
 import {
-	findSlideImages,
-	isSlideReading,
-	type SlideKind,
-	type SlideReading,
-	slideReadingPath,
-} from "../slides.js";
-import { readInputJson, readStageStructuredTranscript } from "../stage-input.js";
+	hasPlacedSlideFields,
+	type PlacedSlideFields,
+	type SlidePlacement,
+	type SlidePlacements,
+} from "../slide-placements.js";
+import { findSlideImages, readSlideReading, type SlideKind, type SlideReading } from "../slides.js";
+import { readStageStructuredTranscript } from "../stage-input.js";
 import { buildPlacementMessages, PROMPT_VERSION } from "./place-slides.prompt.js";
 
 /**
@@ -46,32 +46,10 @@ type PlacementInput = {
 };
 
 /** One entry of the reply: a slide, its subtopic, its start words, and why the slide goes there. */
-type ReplyPlacement = {
-	readonly slideNumber: number;
-	readonly subtopicId: number;
-	readonly startsWith: string;
-	readonly placedBecause: string;
-};
+type ReplyPlacement = PlacedSlideFields & { readonly startsWith: string };
 
 /** The reply that the prompt asks for. */
 type PlacementReply = { readonly placements: readonly ReplyPlacement[] };
-
-/** One placed slide, as the stage writes it (technical-design.md §5, `place-slides`). */
-type SlidePlacement = {
-	readonly slideNumber: number;
-	readonly subtopicId: number;
-	/** The start words from the reply. `null` for a references slide, which the code places. */
-	readonly startWords: string | null;
-	/** The number of characters from the start of the subtopic's text to the point where the slide goes. */
-	readonly positionInSubtopic: number;
-	readonly placedBecause: string;
-};
-
-/** What the stage writes: the placements, and the version of the prompt that made them. */
-type SlidePlacements = {
-	readonly promptVersion: string;
-	readonly placements: readonly SlidePlacement[];
-};
 
 /** The text that ends the failure "The model's reply is not the documented …". */
 const DOCUMENTED_REPLY_SHAPE = "{ placements } object";
@@ -101,13 +79,7 @@ function isSubjectMatter(slide: SlideReading): boolean {
  * @returns `true` when the value is a {@link ReplyPlacement}.
  */
 function isReplyPlacement(value: unknown): value is ReplyPlacement {
-	return (
-		isRecord(value) &&
-		typeof value.slideNumber === "number" &&
-		typeof value.subtopicId === "number" &&
-		typeof value.startsWith === "string" &&
-		typeof value.placedBecause === "string"
-	);
+	return hasPlacedSlideFields(value) && typeof value.startsWith === "string";
 }
 
 /**
@@ -264,34 +236,6 @@ function usablePlacements({
 		placed.push(slidePlacement);
 	}
 	return { reply: placed };
-}
-
-/**
- * Reads the reading of one slide.
- *
- * @param args - The stage context, the slide, and the error to raise.
- * @param args.context - The stage context.
- * @param args.slideNumber - The number of the slide in the deck, from 1.
- * @param args.fail - Builds the stage's error from a message.
- * @returns The slide reading.
- * @throws The error that `fail` builds, if the file is missing, not JSON or not a slide reading.
- */
-function readSlideReading({
-	context,
-	slideNumber,
-	fail,
-}: {
-	readonly context: StageContext;
-	readonly slideNumber: number;
-	readonly fail: (message: string) => Error;
-}): Promise<SlideReading> {
-	return readInputJson({
-		path: slideReadingPath({ workspaceRoot: context.workspaceRoot, slideNumber }),
-		stageId: "read-slides",
-		fail,
-		read: (value) => (isSlideReading(value) ? value : null),
-		shape: "a slide reading",
-	});
 }
 
 /**

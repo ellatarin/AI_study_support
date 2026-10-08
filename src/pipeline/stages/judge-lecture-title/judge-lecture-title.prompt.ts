@@ -9,7 +9,7 @@
    Only the imports are exempt. jscpd checks the code below. */
 import type { OutputLanguage } from "../../../types/pipeline.js";
 import { languageRule } from "../../../utils/language.js";
-import { type PromptMessages, promptMessages } from "../model-stage.js";
+import { labelledJson, type PromptMessages, promptMessages } from "../model-stage.js";
 /* jscpd:ignore-end */
 
 /** The lecture as the model reads it: each topic, with its subtopics in order. */
@@ -72,6 +72,6 @@ export function buildTitleJudgementMessages({
 			: `"${provisionalTitle}"`;
 	return promptMessages({
 		system: titleJudgementPrompt(language),
-		user: `Working title: ${workingTitle}\n\nLecture:\n${JSON.stringify(lecture)}`,
+		user: `Working title: ${workingTitle}\n\n${labelledJson({ label: "Lecture", value: lecture })}`,
 	});
 }

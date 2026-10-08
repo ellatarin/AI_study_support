@@ -1,14 +1,15 @@
 /**
  * The slide images that `render-slides` writes and the slide readings that
  * `read-slides` writes, for the stages that read them (technical-design.md §5,
- * `read-slides` and `place-slides`).
+ * `read-slides`, `place-slides` and `rewrite-subtopics`).
  */
 
 import { join } from "node:path";
 import type { StageContext } from "../../types/pipeline.js";
 import { listFileNames } from "../../utils/files.js";
-import { isRecord } from "../../utils/record.js";
+import { isRecord, readerFromCheck } from "../../utils/record.js";
 import { slideFileName, stageDirectoryPath } from "../layout.js";
+import { readInputJson } from "./stage-input.js";
 
 /** The kind of a slide (CONTEXT.md, "Content-free slide"), as the `read-slides` reply gives it. */
 export type SlideKind = "content-free" | "references" | "subject-matter";
@@ -99,6 +100,34 @@ export function slideReadingPath({
 		stageDirectoryPath({ workspaceRoot, stageId: "read-slides" }),
 		slideFileName({ slideNumber, extension: "json" }),
 	);
+}
+
+/**
+ * Reads the reading of one slide.
+ *
+ * @param args - The stage context, the slide, and the error to raise.
+ * @param args.context - The stage context.
+ * @param args.slideNumber - The number of the slide in the deck, from 1.
+ * @param args.fail - Builds the reading stage's error from a message.
+ * @returns The slide reading.
+ * @throws The error that `fail` builds, if the file is missing, not JSON or not a slide reading.
+ */
+export function readSlideReading({
+	context,
+	slideNumber,
+	fail,
+}: {
+	readonly context: StageContext;
+	readonly slideNumber: number;
+	readonly fail: (message: string) => Error;
+}): Promise<SlideReading> {
+	return readInputJson({
+		path: slideReadingPath({ workspaceRoot: context.workspaceRoot, slideNumber }),
+		stageId: "read-slides",
+		fail,
+		read: readerFromCheck(isSlideReading),
+		shape: "a slide reading",
+	});
 }
 
 /**

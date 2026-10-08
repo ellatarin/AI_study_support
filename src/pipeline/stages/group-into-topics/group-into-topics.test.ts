@@ -1,19 +1,18 @@
 import { relative } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
-	captureError,
 	firstSavedRun,
+	itFailsNamingEachSpoiledFile,
 	openingTopic,
 	openRouterReplyBody,
 	readJsonFile,
 	resendPausesTimeoutMs,
+	retitledSubtopicsInput,
 	savedRunPath,
 	sentUserMessage,
-	spoilJsonFile,
 	subjectTopic,
 	transcriptSubtopicTexts,
 	transcriptTopics,
-	unusableJsonContents,
 	useStageReadingDivision,
 } from "../../fixtures.js";
 import {
@@ -138,22 +137,12 @@ describe("createGroupIntoTopicsStage", () => {
 		]);
 	});
 
-	it.each(
-		unusableJsonContents,
-	)("should fail naming the file, without calling the model, when the retitled subtopics file is $state", async ({
-		contents,
-	}) => {
-		const retitled = stageOutputPath({
-			workspaceRoot: workspaceRoot(),
-			stageId: "retitle-subtopics",
-		});
-		await spoilJsonFile({ path: retitled, contents });
-
-		const error = await captureError(run());
-
-		expect(error).toBeInstanceOf(GroupIntoTopicsError);
-		expect(error.message).toContain(retitled);
-		expect(create()).not.toHaveBeenCalled();
+	itFailsNamingEachSpoiledFile({
+		files: [retitledSubtopicsInput],
+		workspaceRoot,
+		run,
+		errorType: GroupIntoTopicsError,
+		create,
 	});
 
 	it("should fail without writing the topics when a run's third send is still unusable", {

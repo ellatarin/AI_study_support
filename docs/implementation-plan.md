@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.75-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
+**Suite version:** 1.76-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
 **Date:** 2026-10-08
 **Status:** For review
 
@@ -1133,7 +1133,7 @@ Built in three steps, each a ticket of its own, in the order that a rewrite atte
 Before each step is built, the user sees its prompt, and two models for it are proposed with their OpenRouter prices. The names of the fields in the stored files are agreed with the user before they are written.
 
 **Tests:** Each step's ticket names its tests. Together they cover these behaviours:
-- each check of a correction in code: the right form on a placed slide, and the wrong form in the text
+- each check of a correction in code, in the order of TD §5
 - the change of each occurrence of the wrong form
 - the writer gets the corrected text of one subtopic and nothing else
 - the five kinds of detail to keep go into the writer's prompt and the checker's prompt as the same numbered rules

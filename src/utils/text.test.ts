@@ -1,5 +1,17 @@
 import { describe, expect, it } from "vitest";
-import { collapseWhitespace, pluralise } from "./text.js";
+import { collapseWhitespace, countWords, pluralise } from "./text.js";
+
+describe("countWords", () => {
+	it.each([
+		{ scenario: "single spaces separate the words", text: "beta cell injury", expected: 3 },
+		{ scenario: "runs of whitespace separate the words", text: "beta \n\t cell", expected: 2 },
+		{ scenario: "whitespace leads and trails the text", text: "  cell  ", expected: 1 },
+		{ scenario: "a hyphen joins two words", text: "cell-cycle arrest", expected: 2 },
+		{ scenario: "the text is nothing but whitespace", text: " \n ", expected: 0 },
+	])("should count $expected words when $scenario", ({ text, expected }) => {
+		expect(countWords(text)).toBe(expected);
+	});
+});
 
 describe("collapseWhitespace", () => {
 	it.each([
