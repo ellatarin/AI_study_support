@@ -9,6 +9,7 @@
 - [ ] The user runs the stage on one lecture. The ticket quotes the measured cost from the manifest.
 - [ ] The ticket records the number of rewrite attempts of each subtopic, and each subtopic that failed.
 - [ ] The ticket records each correction and each ignored correction. The lecture of 2026-03-06 shows if "beta-naphthylene" becomes "β-naphthylamine".
+- [ ] The ticket records each misheard term that stays wrong in a subtopic because no slide placed in that subtopic prints it. The count decides if ticket 09 is built.
 - [ ] The user judges the rewritten subtopics against the five kinds of detail to keep. The ticket records the judgement.
 - [ ] The ticket records the figure marks of each subtopic, beside the slides placed in that subtopic.
 - [ ] After the judgement, the user and the agent design the rest of the placement after the rewrite:
