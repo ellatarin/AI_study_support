@@ -19,7 +19,7 @@
 
 ## Comments
 
-**User's judgement (2026-10-08):** the `p2` placements on the pages of lectures 3 and 4 are good. The user keeps `google/gemini-3.8-flash`. A rewrite can change the sentence at each placement point. So each placement must also describe the subject matter of its sentence. That change is a new ticket.
+**User's judgement (2026-10-08):** the `p2` placements on the pages of lectures 3 and 4 are good. The user keeps `google/gemini-3.8-flash`. A rewrite can change the sentence at each placement point. So a later stage must know the subject matter at each point. The sentence alone is not enough: in lecture 3, 12 of the 44 sentences at a placement point are one word, such as "Okay?". The user ruled that `write-topics` takes a fixed number of words from the stored `textPosition` in the transcript. Its design sets the number. `placements.json` gets no new field, and the prompt stays `p2`.
 
 **Measured costs (USD, from the manifests):**
 
