@@ -7,7 +7,7 @@
 **Status:** ready-for-agent
 
 - [ ] The three stages run on 2026-03-06. The measured cost of each stage is quoted from the manifest.
-- [ ] The script is in the scratch folder and is not committed.
+- [x] The script is in the scratch folder. The user asked on 2026-10-08 to keep it as the prototype of the HTML notes, so it is committed: `.scratch/slide-placement/test-page/build-test-page.mts`. The pages that it builds hold lecture content, so they are not committed.
 - [ ] The page shows the topic and subtopic headings, the transcript text of each subtopic, and each placed slide with its caption.
 - [ ] The page uses smaller JPEG copies of the slides and stays below 16 MB. The stored PNG images do not change.
 - [ ] The page has a switch that shows the slides at the start or at the end of each subtopic.

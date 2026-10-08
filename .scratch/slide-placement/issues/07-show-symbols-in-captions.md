@@ -2,7 +2,7 @@
 
 **Status:** resolved
 
-**Decision (2026-10-08):** the readings keep LaTeX. Each page that shows the notes renders the LaTeX as symbols. The PDF needs no change, because pandoc renders LaTeX. The test page loads KaTeX from cdnjs and renders each caption as MathML, which needs no KaTeX stylesheet or fonts. The parked HTML-notes ticket must do the same. The test page shows a LaTeX part that is only a Greek letter, such as `$\beta$`, as the plain letter. The letter is in the text font, not an italic maths symbol.
+**Decision (2026-10-08):** the readings keep LaTeX. Each page that shows the notes renders the LaTeX as symbols. The final output is an HTML page, not a PDF (html-notes ticket 01). The test page loads KaTeX from cdnjs and renders each caption as MathML, which needs no KaTeX stylesheet or fonts. The parked HTML-notes ticket must do the same. The test page shows a LaTeX part that is only a Greek letter, such as `$\beta$`, as the plain letter. The letter is in the text font, not an italic maths symbol.
 
 **Known limitation (accepted by the user on 2026-10-08):** each caption follows the words of its own slide. So two captions can name one substance in two ways. In the lecture of 2026-03-06, slide 31 spells "beta-naphthylamine" and slide 32 shows "β-naphthylamine". The writing stages can make the names in the notes the same.
 
