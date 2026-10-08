@@ -4,10 +4,12 @@ import { describe, expect, it, vi } from "vitest";
 import type { StageCost } from "../../types/pipeline.js";
 import {
 	captureError,
+	inRed,
 	readJsonFile,
 	stubbedCallCost,
 	stubbedCallsCost,
 	trackingInFlight,
+	useCapturedStderr,
 	useTempDir,
 } from "../fixtures.js";
 import { readPanel, runPanel, SavedRunUnreadableError } from "./panel-runs.js";
@@ -150,6 +152,23 @@ describe("runPanel", () => {
 		makeRun.mockImplementation(tracked);
 		await panelOf({ panelSize: 4, makeRun });
 		expect(peak()).toBe(1);
+	});
+
+	describe("on a terminal", () => {
+		const stderrText = useCapturedStderr({ isTerminal: true });
+
+		it("should count each saved run and each made run as done on the progress bar when the panel completes", async () => {
+			await leaveBehind({ name: "run-02.json", contents: JSON.stringify({ madeBy: 2 }) });
+			await panelOf({ panelSize: 3, makeRun: numberedRunMaker() });
+			expect(stderrText()).toMatch(/Runs .*3\/3/);
+		});
+
+		it("should show the failed run in red on the progress bar when a run fails", async () => {
+			const makeRun = numberedRunMaker();
+			makeRun.mockRejectedValue(new Error("run 1 failed after 3 sends"));
+			await captureError(panelOf({ panelSize: 1, makeRun }));
+			expect(stderrText()).toContain(`in flight: ${inRed("1")}`);
+		});
 	});
 });
 

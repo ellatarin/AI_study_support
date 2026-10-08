@@ -188,6 +188,7 @@ async function readSlides({
 	});
 	const { contents, cost } = await readOrMakeSavedFiles<(typeof slides)[number], SlideReading>({
 		files: slides,
+		label: "Slides",
 		concurrency: configuredStage({ config: context.config, stageId: STAGE_ID })?.concurrency,
 		readSaved: (value) => (isSlideReading(value) ? value : null),
 		unreadable: (path) =>

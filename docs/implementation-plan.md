@@ -148,10 +148,7 @@ Cross-references to the technical design are noted as **(TD §N)**.
 - `should render a stage's cost as n/a when its lookup failed` — and `should leave a stage out when it names no model`, the two rules every section applies
 - `formatCostReport` — snapshot test (serialisation format regression only)
 
-`progress.ts` — unit tests driving the bar through its control methods:
-- `should list picked ids in the in-flight suffix when workers pick up items`
-- `should advance the value and drop the id from in-flight when an item completes`
-- `should highlight the id with a red control sequence when an item fails`
+`progress.ts` — unit tests:
 - `should pass bytes through unchanged and advance the progress bar when data flows` — the upload stream
 
 `logger.ts` — integration tests, because the point of the module is a file on disk:
@@ -989,7 +986,18 @@ Integration tests (real temp directory, real small PDF fixture):
 
 The shared model-call code gains image content in a message. No second call path is made.
 
-`createParallelWorkBar` in `src/utils/progress.ts` **(TD §10)** is built here, with the first stage that calls it.
+`createParallelWorkBar` in `src/utils/progress.ts` **(TD §10)** is built here, with the first stage that calls it. `readOrMakeSavedFiles` drives it, so the panel stages show it too.
+
+Tests for `createParallelWorkBar`, which read what the bar writes to stderr:
+- `should show the label, the items done and the total when the bar starts`
+- `should list the items in flight when items are picked`
+- `should count an item done and remove it from the items in flight when it completes`
+- `should show a failed item in red when the item fails`
+- `should write nothing when stderr is not a terminal`
+
+Tests for the bar in `panel-runs.integration.test.ts`:
+- `should count each saved run and each made run as done on the progress bar when the panel completes`
+- `should show the failed run in red on the progress bar when a run fails`
 
 Before the build, propose two vision models to the user, with the OpenRouter price of each. The user's choice goes in the stage's entry in the example config and in the user's own config **(TD §6)**.
 
@@ -999,6 +1007,7 @@ Tests for the stage (mock `callModel`, real temp directory):
 - `should send the slide image alone, with no slide number and no transcript, when the stage reads a slide`
 - `should include the language rule for the caption and the figure descriptions when the stage reads a slide`
 - `should write each reading with its slide number and the six fields of the reply when the reply is usable`
+- `should count each slide on the progress bar when the stage reads the slides`
 - `should resend the call when the reply $problem` — `test.each` across the four unusable replies in TD §5, `read-slides`
 - `should fail after the third send, and keep the readings already written, when a slide's reply is still unusable`
 - `should read only the slides that have no reading when the stage starts again`

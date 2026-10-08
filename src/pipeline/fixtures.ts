@@ -1437,6 +1437,50 @@ export function useTempDir({ prefix }: { readonly prefix: string }): () => strin
 }
 
 /**
+ * Captures what each test of a suite writes to stderr, where the progress bars
+ * go. A progress bar writes nothing when stderr is not a terminal, so the suite
+ * sets whether stderr claims to be one. The two hooks restore stderr after each
+ * test.
+ *
+ * @param args - Whether stderr claims to be a terminal.
+ * @param args.isTerminal - `true` makes stderr claim to be a terminal.
+ * @returns A function that gives the text written to stderr in the current test.
+ */
+export function useCapturedStderr({ isTerminal }: { readonly isTerminal: boolean }): () => string {
+	const realIsTTY = process.stderr.isTTY;
+	let written: string[] = [];
+
+	beforeEach(() => {
+		written = [];
+		process.stderr.isTTY = isTerminal;
+		vi.spyOn(process.stderr, "write").mockImplementation((chunk: unknown): boolean => {
+			written.push(String(chunk));
+			return true;
+		});
+	});
+
+	afterEach(() => {
+		vi.mocked(process.stderr.write).mockRestore();
+		process.stderr.isTTY = realIsTTY;
+	});
+
+	return () => written.join("");
+}
+
+/**
+ * Writes the text in red, as a terminal gets it. The fixture writes the escape
+ * sequence out and does not take it from `progress.ts`. So a test does not check
+ * the sequence against the code that makes it.
+ *
+ * @param text - The text to show in red.
+ * @returns The text between the escape sequences for red and for normal.
+ */
+export function inRed(text: string): string {
+	const esc = String.fromCharCode(27);
+	return `${esc}[31m${text}${esc}[0m`;
+}
+
+/**
  * Makes a media file for a test with the `ffmpeg` program. An integration test
  * can then make its own audio or video, and no binary file is in git.
  *

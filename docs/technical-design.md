@@ -1239,10 +1239,12 @@ readPanel<TRun>(args: { panelSize: number; directory: string; readRun; fail }): 
 // Reads back a panel an earlier stage finished; a missing run throws the error `fail` builds.
 
 // src/pipeline/stages/saved-files.ts — shared by the panel stages and read-slides
-readOrMakeSavedFiles<TFile extends { path: string }, TContent>(args: { files: readonly TFile[];
+readOrMakeSavedFiles<TFile extends { path: string }, TContent>(args: { files: readonly TFile[]; label: string;
   concurrency: number | undefined; readSaved; unreadable; make }): Promise<{ contents; cost }>
 // Reads each saved file that exists and makes each missing one, `concurrency` at a time, saving each as it is made.
 // A saved file that holds nothing readable throws the error `unreadable` builds, so each stage raises its own error.
+// A parallel work bar (§10) shows each file by its number from 1, after `label`: "Runs" for a panel, "Slides" for
+// read-slides. A saved file counts as done at once. A file whose make fails shows in red.
 
 // src/pipeline/layout.ts
 stageDirectoryPath(args: { workspaceRoot: string; stageId: StageId }): string
@@ -2250,12 +2252,12 @@ The project root is what the log is anchored to, rather than a workspace or the 
 
 | Level | Destination | When used |
 |---|---|---|
-| Progress | stdout (cli-progress) | Real-time stage progress bars |
+| Progress | stderr (cli-progress) | Real-time stage progress bars |
 | Info | stdout | Stage start/end messages, skipped-stage notices, run and batch summaries |
 | Warning | stderr | Stalled QA loop, max-iterations reached |
 | Error | stdout | Each failed stage and its message, printed by the CLI after the run summary (§8) |
 | Error | stderr | Anything that ends the invocation: a usage error, an unreadable config, an escaped stage error |
-| Error | debug log | Every stage failure, with its stack — the runner logs it; nothing else sees a stack trace |
+| Error | debug log | Every stage failure, with its stack. The runner logs it. Nothing else sees a stack trace |
 
 The pino file transport is configured with `sync: false` and routes only to the debug log file — no debug output reaches stdout or stderr during normal operation, so it does not interfere with cli-progress bars.
 
@@ -2301,16 +2303,17 @@ createDebugLogger(args: { debugLogFile: string }): DebugLog
 // to read it.
 createStageLogger(args: { logger: Logger; stageId: StageId }): Logger   // child logger with a { stage } binding
 
-// src/utils/progress.ts — the stdout progress bars from the table above.
+// src/utils/progress.ts — the progress bars from the table above. Every bar writes to stderr.
 createProgressBar(args: { format: string; formatValue?: FormatValueFn }): SingleBar
 // Shared SingleBar factory (preset + hideCursor) that the other two build on, so bar construction lives
 // in one place; formatValue supports e.g. byte-to-MB display.
 createUploadProgressStream(totalBytes: number): Transform    // upload byte progress; used by transcription
 createParallelWorkBar(args: { label: string; total: number }): {
-  bar; start; pick; complete; fail; stop
+  start; pick; complete; fail; stop
 }
-// The bar that shows the slides in flight, for read-slides. pick(id) adds an id to the in-flight set. complete(id)
-// removes the id and moves the bar on. fail(id) marks the item red in the final render. cli-progress gives the
-// behaviour when the output is not a terminal. **Built with read-slides**, because the stage that needs the bar
-// decides what it must do.
+// The bar for work on many numbered items at the same time, used by readOrMakeSavedFiles (§5), so read-slides and
+// every panel stage show it. It shows the items done, the total, a time estimate and the number of each item in
+// flight. pick(n) adds item n to the items in flight. complete(n) removes it and counts it done. fail(n) removes
+// it and keeps it in the list in red. The bar writes nothing when stderr is not a terminal, so the red never
+// gets into a captured log.
 ```

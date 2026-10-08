@@ -10,6 +10,12 @@ import {
 /** The cli-progress format of the upload progress bar. Its value and total show as megabytes. */
 const UPLOAD_FORMAT = "Uploading    |{bar}| {percentage}%  {value} / {total}";
 
+const PARALLEL_WORK_FORMAT =
+	"{label}  |{bar}| {value}/{total}  ETA {eta_formatted}  in flight: {inFlight}";
+
+/** The ESC control character, made at run time so that the source holds no control byte. */
+const ESC = String.fromCharCode(27);
+
 /**
  * The stream that every progress bar writes to. It is the default of
  * cli-progress, named here so that this module, not the library, sets it. So
@@ -90,4 +96,72 @@ export function createUploadProgressStream(totalBytes: number): {
 
 	progressBar.start(totalBytes, 0);
 	return { stream, progressBar };
+}
+
+/**
+ * A progress bar for work on many numbered items at the same time. It shows the
+ * items done, the total, and the number of each item in flight. A failed item
+ * stays in the list, in red (technical-design.md §10, "Logging and Progress Helpers").
+ */
+export type ParallelWorkBar = {
+	/** Starts the bar, with no item done and no item in flight. */
+	readonly start: () => void;
+	/** Adds the item to the items in flight. */
+	readonly pick: (itemNumber: number) => void;
+	/** Removes the item from the items in flight, and counts it done. */
+	readonly complete: (itemNumber: number) => void;
+	/** Removes the item from the items in flight, and shows it in red. */
+	readonly fail: (itemNumber: number) => void;
+	/** Stops the bar, and moves the cursor to the next line. */
+	readonly stop: () => void;
+};
+
+/**
+ * Creates a {@link ParallelWorkBar}. The bar writes only to a terminal, so the
+ * red of a failed item never gets into a captured log.
+ *
+ * @param args - The bar configuration.
+ * @param args.label - The word in front of the bar, such as `Slides`.
+ * @param args.total - The number of items.
+ * @returns The controls of the bar. The bar is not started.
+ */
+export function createParallelWorkBar({
+	label,
+	total,
+}: {
+	readonly label: string;
+	readonly total: number;
+}): ParallelWorkBar {
+	const progressBar = createProgressBar({ format: PARALLEL_WORK_FORMAT });
+	const inFlight = new Set<number>();
+	const failed = new Set<number>();
+	let done = 0;
+
+	function payload(): { readonly label: string; readonly inFlight: string } {
+		const failedInRed = [...failed].map((itemNumber) => `${ESC}[31m${itemNumber}${ESC}[0m`);
+		return { label, inFlight: [...[...inFlight].map(String), ...failedInRed].join(", ") };
+	}
+
+	return {
+		start: () => {
+			progressBar.start(total, done, payload());
+		},
+		pick: (itemNumber) => {
+			inFlight.add(itemNumber);
+			progressBar.update(done, payload());
+		},
+		complete: (itemNumber) => {
+			inFlight.delete(itemNumber);
+			done += 1;
+			progressBar.update(done, payload());
+		},
+		fail: (itemNumber) => {
+			inFlight.delete(itemNumber);
+			failed.add(itemNumber);
+			progressBar.update(done, payload());
+		},
+		stop: () => {
+			progressBar.stop();
+		},
+	};
 }

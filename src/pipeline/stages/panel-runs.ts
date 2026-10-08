@@ -106,6 +106,7 @@ export async function runPanel<TRun>({
 	const savedRunFiles = savedRunPaths({ directory, panelSize });
 	const { contents, cost } = await readOrMakeSavedFiles({
 		files: [...savedRunFiles.entries()].map(([index, path]) => ({ path, runNumber: index + 1 })),
+		label: "Runs",
 		concurrency,
 		...savedRunReader(readRun),
 		make: async ({ runNumber }) => {

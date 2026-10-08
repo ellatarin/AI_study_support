@@ -1,7 +1,13 @@
 import { Transform } from "node:stream";
 import { SingleBar } from "cli-progress";
-import { describe, expect, it, vi } from "vitest";
-import { createProgressBar, createUploadProgressStream } from "./progress.js";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import { inRed, useCapturedStderr } from "../pipeline/fixtures.js";
+import {
+	createParallelWorkBar,
+	createProgressBar,
+	createUploadProgressStream,
+	type ParallelWorkBar,
+} from "./progress.js";
 
 describe("createProgressBar", () => {
 	const barCases: readonly {
@@ -45,6 +51,8 @@ describe("the upload progress bar's value display", () => {
 	// These tests render the progress bar and do not call the formatter, because
 	// cli-progress calls the formatter. They show that an upload shows megabytes,
 	// and that the percentage is not read as a byte count.
+	const stderrText = useCapturedStderr({ isTerminal: true });
+
 	function renderUploadProgressBar({
 		uploaded,
 		total,
@@ -52,23 +60,10 @@ describe("the upload progress bar's value display", () => {
 		readonly uploaded: number;
 		readonly total: number;
 	}): string {
-		// A progress bar renders nothing when the stream is not a terminal. So the
-		// stream claims to be a terminal while the progress bar renders.
-		const realIsTTY = process.stderr.isTTY;
-		process.stderr.isTTY = true;
-		const written: string[] = [];
-		const writeSpy = vi
-			.spyOn(process.stderr, "write")
-			.mockImplementation((chunk: string | Uint8Array): boolean => {
-				written.push(String(chunk));
-				return true;
-			});
 		const { progressBar } = createUploadProgressStream(total);
 		progressBar.start(total, uploaded);
 		progressBar.stop();
-		writeSpy.mockRestore();
-		process.stderr.isTTY = realIsTTY;
-		return written.join("");
+		return stderrText();
 	}
 
 	it("should report the bytes moved and the upload's size in megabytes when the progress bar renders", () => {
@@ -82,5 +77,75 @@ describe("the upload progress bar's value display", () => {
 		const rendered = renderUploadProgressBar({ uploaded: 1_048_576, total: 2_097_152 });
 
 		expect(rendered).toContain("50%");
+	});
+});
+
+describe("createParallelWorkBar", () => {
+	const LABEL = "Slides";
+	const TOTAL_ITEMS = 24;
+	/** Two item numbers, in the order that the list of items in flight shows them. */
+	const FIRST_PICKED = 16;
+	const SECOND_PICKED = 17;
+
+	describe("on a terminal", () => {
+		const stderrText = useCapturedStderr({ isTerminal: true });
+		let work: ParallelWorkBar;
+
+		/** The last render of the bar. Each render starts with the label. */
+		function lastRender(): string {
+			const text = stderrText();
+			return text.slice(text.lastIndexOf(LABEL));
+		}
+
+		beforeEach(() => {
+			work = createParallelWorkBar({ label: LABEL, total: TOTAL_ITEMS });
+			work.start();
+		});
+
+		it("should show the label, the items done and the total when the bar starts", () => {
+			work.stop();
+
+			expect(lastRender()).toContain(`0/${TOTAL_ITEMS}`);
+		});
+
+		it("should list the items in flight when items are picked", () => {
+			work.pick(FIRST_PICKED);
+			work.pick(SECOND_PICKED);
+			work.stop();
+
+			expect(lastRender()).toContain(`in flight: ${FIRST_PICKED}, ${SECOND_PICKED}`);
+		});
+
+		it("should count an item done and remove it from the items in flight when it completes", () => {
+			work.pick(FIRST_PICKED);
+			work.pick(SECOND_PICKED);
+			work.complete(FIRST_PICKED);
+			work.stop();
+
+			expect(lastRender()).toContain(`1/${TOTAL_ITEMS}`);
+			expect(lastRender()).toContain(`in flight: ${SECOND_PICKED}`);
+		});
+
+		it("should show a failed item in red when the item fails", () => {
+			work.pick(FIRST_PICKED);
+			work.fail(FIRST_PICKED);
+			work.stop();
+
+			expect(lastRender()).toContain(`in flight: ${inRed(String(FIRST_PICKED))}`);
+		});
+	});
+
+	describe("off a terminal", () => {
+		const stderrText = useCapturedStderr({ isTerminal: false });
+
+		it("should write nothing when stderr is not a terminal", () => {
+			const work = createParallelWorkBar({ label: LABEL, total: TOTAL_ITEMS });
+			work.start();
+			work.pick(FIRST_PICKED);
+			work.complete(FIRST_PICKED);
+			work.stop();
+
+			expect(stderrText()).toBe("");
+		});
 	});
 });

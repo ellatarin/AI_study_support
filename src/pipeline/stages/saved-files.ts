@@ -10,6 +10,7 @@ import type { StageCost } from "../../types/pipeline.js";
 import { mapWithConcurrency } from "../../utils/concurrency.js";
 import { totalCost } from "../../utils/cost.js";
 import { pathExists, readJsonSafe, writeJsonAtomic } from "../../utils/files.js";
+import { createParallelWorkBar } from "../../utils/progress.js";
 
 /**
  * The reader of one saved file, and the error for a file that holds nothing
@@ -53,7 +54,9 @@ export async function readSavedFile<TContent>({
 
 /**
  * Reads each file in `files` that exists, and makes each file that is missing, a
- * few at a time. Each made file is saved as JSON as soon as it is made.
+ * few at a time. Each made file is saved as JSON as soon as it is made. A
+ * progress bar shows each file by its number in `files`, from 1. A saved file
+ * counts as done at once.
  *
  * When one file fails, no further file starts. The files in flight finish and
  * are saved, and then the failure is thrown.
@@ -61,6 +64,7 @@ export async function readSavedFile<TContent>({
  * @param args - The files, how many to make at once, and how to read and make one.
  * @param args.files - Each file, in order. Each has the absolute path to save it at.
  *   Its folder must already exist.
+ * @param args.label - The word in front of the progress bar, such as `Slides`.
  * @param args.concurrency - The most files made at the same time. Unset means one at a time.
  * @param args.readSaved - Reads a parsed saved file.
  * @param args.unreadable - Builds the error for a saved file that holds nothing readable.
@@ -74,30 +78,48 @@ export async function readSavedFile<TContent>({
  */
 export async function readOrMakeSavedFiles<TFile extends { readonly path: string }, TContent>({
 	files,
+	label,
 	concurrency,
 	readSaved,
 	unreadable,
 	make,
 }: SavedFileReader<TContent> & {
 	readonly files: readonly TFile[];
+	readonly label: string;
 	readonly concurrency: number | undefined;
 	readonly make: (
 		file: TFile,
 	) => Promise<{ readonly content: TContent; readonly cost: StageCost | null }>;
 }): Promise<{ readonly contents: readonly TContent[]; readonly cost: StageCost | null }> {
-	const outcomes = await mapWithConcurrency({
-		items: files,
-		limit: concurrency,
-		work: async ({ item: file }) => {
-			const saved = await readSavedFile({ path: file.path, readSaved, unreadable });
-			if (saved !== null) {
-				return { content: saved, cost: null };
-			}
-			const made = await make(file);
-			await writeJsonAtomic({ path: file.path, value: made.content });
-			return made;
-		},
-	});
+	const progressBar = createParallelWorkBar({ label, total: files.length });
+	progressBar.start();
+	let outcomes: readonly { readonly content: TContent; readonly cost: StageCost | null }[];
+	try {
+		outcomes = await mapWithConcurrency({
+			items: files,
+			limit: concurrency,
+			work: async ({ item: file, index }) => {
+				const itemNumber = index + 1;
+				const saved = await readSavedFile({ path: file.path, readSaved, unreadable });
+				if (saved !== null) {
+					progressBar.complete(itemNumber);
+					return { content: saved, cost: null };
+				}
+				progressBar.pick(itemNumber);
+				try {
+					const made = await make(file);
+					await writeJsonAtomic({ path: file.path, value: made.content });
+					progressBar.complete(itemNumber);
+					return made;
+				} catch (error: unknown) {
+					progressBar.fail(itemNumber);
+					throw error;
+				}
+			},
+		});
+	} finally {
+		progressBar.stop();
+	}
 	return {
 		contents: outcomes.map((outcome) => outcome.content),
 		cost: totalCost(outcomes.map((outcome) => outcome.cost)),

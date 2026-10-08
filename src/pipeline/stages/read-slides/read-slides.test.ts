@@ -14,6 +14,7 @@ import {
 	sentUserContents,
 	slideReadingReply,
 	trackingInFlight,
+	useCapturedStderr,
 	useStubbedOpenRouter,
 	useStubLogger,
 	useTranscribedWorkspace,
@@ -89,6 +90,18 @@ describe("createReadSlidesStage", () => {
 		expect(await readJsonFile(join(workspace().workspaceRoot, readingFile(2)))).toStrictEqual({
 			slideNumber: 2,
 			...slideReadingReply(),
+		});
+	});
+
+	describe("on a terminal", () => {
+		const stderrText = useCapturedStderr({ isTerminal: true });
+
+		it("should count each slide on the progress bar when the stage reads the slides", async () => {
+			await seedSlideImages({ workspaceRoot: workspace().workspaceRoot, count: 2 });
+
+			await run();
+
+			expect(stderrText()).toMatch(/Slides .*2\/2/);
 		});
 	});
 
