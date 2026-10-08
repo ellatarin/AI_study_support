@@ -14,3 +14,4 @@
 
 - [ ] The user decides if the HTML page replaces the PDF or comes in addition to it.
 - [ ] The requirements and the technical design describe the page.
+- [ ] The page renders LaTeX in the text and in the captions as symbols, for example `$\beta$` as β (slide-placement ticket 07).
