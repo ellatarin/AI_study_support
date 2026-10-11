@@ -23,7 +23,8 @@
 - [x] The prompt tells the writer to put a figure mark where the lecturer points at a slide. The mark has no number.
 - [x] The prompt names the language of `finalOutput.language`.
 - [x] The stage writes `Rewrites/subtopic-<id>-attempt-<n>.json` for each subtopic, with `subtopicId`, `attemptNumber`, `writerPromptVersion` and `rewrittenSubtopic`.
-- [x] A reply with no paragraph, or with a blank paragraph, is unusable. The stage resends an unusable reply, and fails after the third send.
+- [x] A reply with a blank paragraph is unusable. The stage resends an unusable reply, and fails after the third send.
+- [x] A reply with no paragraph is usable, and the stage keeps an empty rewrite. The user ruled this on 2026-10-11, after the live run on Lecture 3 failed at subtopic 17. Subtopic 17 holds only the lecturer's closing words.
 - [x] A stage that starts again makes no call for a subtopic with a saved file.
 - [x] The stage fails without a model call when a term-correction file is missing or unreadable. The error names the file.
 - [ ] Live run: the user runs the stage on one lecture and judges the rewritten subtopics before ticket 07 starts.

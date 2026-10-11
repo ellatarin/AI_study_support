@@ -84,8 +84,9 @@ async function readRewriteSubtopicsInput(context: StageContext): Promise<Rewrite
 }
 
 /**
- * Gives the reply, or the reason that it is unusable. A reply with no paragraph,
- * or with a blank paragraph, is unusable.
+ * Gives the reply, or the reason that it is unusable. A reply with a blank
+ * paragraph is unusable. A reply with no paragraph is usable, because a subtopic
+ * of only filler has no prose to keep (technical-design.md §5, `rewrite-subtopics`).
  *
  * @param reply - The parsed reply, with the documented shape.
  * @returns The reply, or the reason that it is unusable.
@@ -93,9 +94,6 @@ async function readRewriteSubtopicsInput(context: StageContext): Promise<Rewrite
 function usableReply(
 	reply: WriterReply,
 ): { readonly reply: WriterReply } | { readonly failure: string } {
-	if (reply.paragraphs.length === 0) {
-		return { failure: "The model's reply gives no paragraph" };
-	}
 	return reply.paragraphs.some((paragraph) => paragraph.trim() === "")
 		? { failure: "The model's reply gives a blank paragraph" }
 		: { reply };

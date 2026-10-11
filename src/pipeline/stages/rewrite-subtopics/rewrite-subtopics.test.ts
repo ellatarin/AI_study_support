@@ -60,17 +60,25 @@ describe("createRewriteSubtopicsStage", () => {
 		});
 	});
 
-	it.each([
-		{ problem: "has no paragraph", paragraphs: [] },
-		{ problem: "has a blank paragraph", paragraphs: [usableParagraph, " "] },
-	])("should resend the call when the reply $problem", async ({ paragraphs }) => {
+	it("should resend the call when the reply has a blank paragraph", async () => {
 		create().mockResolvedValueOnce(
-			openRouterReplyBody({ content: JSON.stringify({ paragraphs }) }),
+			openRouterReplyBody({ content: JSON.stringify({ paragraphs: [usableParagraph, " "] }) }),
 		);
 
 		await run();
 
 		expect(create()).toHaveBeenCalledTimes(3);
+	});
+
+	it("should write an empty rewrite when the reply has no paragraph", async () => {
+		create().mockResolvedValueOnce(
+			openRouterReplyBody({ content: JSON.stringify({ paragraphs: [] }) }),
+		);
+
+		await run();
+
+		expect(create()).toHaveBeenCalledTimes(2);
+		expect(await readJsonFile(rewritePath(1))).toMatchObject({ rewrittenSubtopic: [] });
 	});
 
 	it("should keep a saved rewrite and make no call for its subtopic when the stage runs again", async () => {

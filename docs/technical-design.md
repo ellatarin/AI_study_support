@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.83-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
+**Suite version:** 1.84-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
 **Date:** 2026-10-11
 **Status:** For review
 
@@ -1580,7 +1580,7 @@ The writer drops filler, jokes and course arrangements. It keeps these exactly:
 
 The writer's rules R2 to R9 come from one shared text. Both the writer's prompt and the checker's prompt hold this text, so the two prompts state the same rules. R2 forbids an omission, R3 an addition, R4 to R8 are the five kinds of detail above, and R9 says what the writer drops. The prompt also tells the writer to write in the language of `finalOutput.language` (§6).
 
-The reply is `{ "paragraphs": [...] }`. A reply with no paragraph, or with a blank paragraph, is unusable, and the stage resends it. The stage keeps the paragraphs as the rewritten subtopic.
+The reply is `{ "paragraphs": [...] }`. A reply with a blank paragraph is unusable, and the stage resends it. The stage keeps the paragraphs as the rewritten subtopic. A reply with no paragraph is usable. A subtopic that holds only filler or course arrangements, such as a lecturer's closing words, has no prose to keep. The check finds each point that an empty rewrite drops, as an omission.
 
 **In a later round,** the call also gets the faults that the check found in the rewrite of that subtopic.
 

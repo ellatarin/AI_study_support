@@ -11,3 +11,7 @@
 - [ ] The file holds `rewrittenSubtopics`, with one entry for each subtopic in lecture order. Each entry holds `subtopicId`, `attemptNumber`, `rewrittenSubtopic` and `corrections`, the kept corrections of that attempt.
 - [ ] The entries have no titles.
 - [ ] The stage fails when a subtopic has no rewrite attempt that passed. The error names the subtopic.
+
+## Comments
+
+2026-10-11: a rewrite can now be empty, when a subtopic holds only filler (TD §5, `rewrite-subtopics`). Decide at the seams step whether the stage keeps such a subtopic as an entry with an empty `rewrittenSubtopic`, or leaves it out.
