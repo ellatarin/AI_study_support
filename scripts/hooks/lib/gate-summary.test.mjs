@@ -18,6 +18,17 @@ describe("summariseGate", () => {
 		);
 	});
 
+	it("should give the line coverage when the coverage table is coloured", () => {
+		// The totals row of a real run on 2026-10-11, with the colour codes that v8 prints.
+		const colouredTotals =
+			"\u001b[32;1mAll files         \u001b[0m | \u001b[32;1m  99.22\u001b[0m | \u001b[32;1m   97.16\u001b[0m | \u001b[32;1m  99.15\u001b[0m | \u001b[32;1m  99.24\u001b[0m | \u001b[31;1m                 \u001b[0m";
+		const testOutput = PASSING_RUN.replace(COVERAGE_TOTALS, colouredTotals);
+
+		expect(summariseGate({ testOutput })).toBe(
+			"Gate passed: 910 tests in 50 files, 99.24% line coverage; secrets, format, types, lint and duplication clean.",
+		);
+	});
+
 	it.each([
 		{ missing: "the test counts", line: TESTS_LINE },
 		{ missing: "the file count", line: FILES_LINE },

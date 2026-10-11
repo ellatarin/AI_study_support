@@ -9,6 +9,10 @@
 /** The checks that must have passed for the tests to be reached at all. */
 const EARLIER_CHECKS = "secrets, format, types, lint and duplication clean";
 
+/** A terminal colour code, which v8 prints around each cell of the coverage table. */
+// biome-ignore lint/suspicious/noControlCharactersInRegex: the escape character is the thing to match.
+const COLOUR_CODE = /\u001b\[[\d;]*m/g;
+
 /**
  * Summarises a passed gate from the output of its test run.
  *
@@ -16,7 +20,8 @@ const EARLIER_CHECKS = "secrets, format, types, lint and duplication clean";
  * @returns {string} One sentence naming the test count, file count and line
  *   coverage, or saying they were not found — never a count it did not read.
  */
-export function summariseGate({ testOutput }) {
+export function summariseGate({ testOutput: coloured }) {
+	const testOutput = coloured.replace(COLOUR_CODE, "");
 	const tests = testOutput.match(/^\s*Tests\s+(\d+) passed/m)?.[1];
 	const files = testOutput.match(/^\s*Test Files\s+(\d+) passed/m)?.[1];
 	const lines = testOutput.match(/^All files\s*\|[^|]*\|[^|]*\|[^|]*\|\s*([\d.]+)/m)?.[1];
