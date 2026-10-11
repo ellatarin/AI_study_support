@@ -373,13 +373,30 @@ export function lintInput(paragraphs) {
 export function formatHardFindings({ filePath, findings, sourceLines }) {
 	const hard = findings.filter((finding) => finding.level === "advisory-free");
 	if (hard.length === 0) return null;
+	return formatBreaches({
+		filePath,
+		heading: `STE lint: ${hard.length} hard breach(es) in the prose this edit wrote (${STE_SKILL_NAME} skill).`,
+		breaches: hard.map((finding) => ({ ...finding, line: sourceLines[finding.line - 1] ?? "?" })),
+		closing:
+			"Reword each one. The check covers the whole paragraph around a changed line, because every comment you touch must follow STE.",
+	});
+}
+
+/**
+ * Writes a hook report: a heading, one line for each breach, and a closing line.
+ *
+ * @param {{ filePath: string, heading: string, breaches: { line: number | string, rule: string, message: string, match: string }[], closing: string }} args
+ *   The file, the heading, the breaches with their file lines, and the closing line.
+ * @returns {string} The report.
+ */
+export function formatBreaches({ filePath, heading, breaches, closing }) {
 	const relative = path.relative(repoRoot, filePath);
 	return [
-		`STE lint: ${hard.length} hard breach(es) in the prose this edit wrote (${STE_SKILL_NAME} skill).`,
-		...hard.map(
-			(finding) =>
-				`  ${relative}:${sourceLines[finding.line - 1] ?? "?"} ${finding.rule}: ${finding.message} [${finding.match}]`,
+		heading,
+		...breaches.map(
+			(breach) =>
+				`  ${relative}:${breach.line} ${breach.rule}: ${breach.message} [${breach.match}]`,
 		),
-		"Reword each one. The check covers the whole paragraph around a changed line, because every comment you touch must follow STE.",
+		closing,
 	].join("\n");
 }

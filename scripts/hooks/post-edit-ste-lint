@@ -4,7 +4,9 @@
  *
  * The hook runs the asd-ste100 linter on the prose that an edit wrote. It
  * checks each comment paragraph or Markdown block that holds a written line.
- * A hard breach goes back to the session as feedback. The edit stays on disk.
+ * It also runs the comment checks in `lib/comment-checks.mjs` on the comment
+ * paragraphs. A hard breach goes back to the session as feedback. The edit
+ * stays on disk.
  *
  * When the linter cannot run, the hook says so. A silent failure would look
  * the same as clean prose.
@@ -12,6 +14,7 @@
 
 import { spawnSync } from "node:child_process";
 import fs from "node:fs";
+import { commentFindings, formatCommentFindings } from "./lib/comment-checks.mjs";
 import { readPayloadFromStdin } from "./lib/hook-payload.mjs";
 import {
 	changedParagraphs,
@@ -48,8 +51,14 @@ try {
 	process.exit(2);
 }
 
-const report = formatHardFindings({ filePath, findings, sourceLines });
-if (report !== null) {
-	process.stderr.write(`${report}\n`);
+const reports = [
+	formatHardFindings({ filePath, findings, sourceLines }),
+	formatCommentFindings({
+		filePath,
+		findings: commentFindings({ filePath, fileText, paragraphs }),
+	}),
+].filter((report) => report !== null);
+if (reports.length > 0) {
+	process.stderr.write(`${reports.join("\n")}\n`);
 	process.exit(2);
 }
