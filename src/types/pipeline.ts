@@ -69,6 +69,17 @@ export type StageCost = {
 	readonly callCount: number;
 } & CostResolution;
 
+/**
+ * The tally of what one stage run spends. Each model call adds the cost of its
+ * reply. The runner reads the total when the stage fails (technical-design.md §7,
+ * "A stage that fails").
+ */
+export type CostTally = {
+	readonly add: (cost: StageCost) => void;
+	/** Gives the sum of each cost added, or `null` when nothing was added. */
+	readonly total: () => StageCost | null;
+};
+
 /** A stage's tuning: its model settings other than the model itself (technical-design.md §6). */
 type StageTuning = {
 	readonly temperature?: number;
@@ -278,12 +289,13 @@ export type PipelineStage<TInput, TOutput> = {
 
 	/**
 	 * Does the stage's work.
-	 * @param args - The input and the stage context.
+	 * @param args - The input, the stage context, and the cost tally of this stage run.
 	 * @returns The output, the cost and the files written.
 	 */
 	run(args: {
 		readonly input: TInput;
 		readonly context: StageContext;
+		readonly costTally: CostTally;
 	}): Promise<StageResult<TOutput>>;
 };
 

@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.84-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
+**Suite version:** 1.85-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
 **Date:** 2026-10-11
 **Status:** For review
 
@@ -358,7 +358,7 @@ Two more stages follow `assemble-rewrites`. Both are designed in outline only, a
 
 ### 4.2 Stage Interface
 
-Every stage implements a common `PipelineStage<TInput, TOutput>` contract: an idempotency check `isComplete(context)`, an input step `getInput(context)`, and `run({ input, context })` returning a `StageResult`. Stages read an immutable `StageContext` and never change it. The context holds the lecture identity, `workspaceRoot`, `moduleRoot`, the resolved `PipelineConfig` and the current `Manifest`. The runner writes a stage's own bookkeeping in the manifest: its status, its cost and its `filesWritten`. The stage never writes them. The runner also writes the manifest's *lecture identity*. **No per-lecture stage writes `manifest.json`.** `judge-lecture-title` settles the lecture's title (§5, `judge-lecture-title`). It is the only stage that changes the lecture's identity. It reports what it settled on `StageResult.identityChanges`, and the runner writes that with the stage's `complete` entry.
+Every stage implements a common `PipelineStage<TInput, TOutput>` contract. It has an idempotency check `isComplete(context)` and an input step `getInput(context)`. Its `run({ input, context, costTally })` returns a `StageResult`. The runner makes a new cost tally for each stage run. Each model call adds its reply's cost to the tally (§7, "A stage that fails"). Stages read an immutable `StageContext` and never change it. The context holds the lecture identity, `workspaceRoot`, `moduleRoot`, the resolved `PipelineConfig` and the current `Manifest`. The runner writes a stage's own bookkeeping in the manifest: its status, its cost and its `filesWritten`. The stage never writes them. The runner also writes the manifest's *lecture identity*. **No per-lecture stage writes `manifest.json`.** `judge-lecture-title` settles the lecture's title (§5, `judge-lecture-title`). It is the only stage that changes the lecture's identity. It reports what it settled on `StageResult.identityChanges`, and the runner writes that with the stage's `complete` entry.
 
 A stage's context is assembled before its own entry is marked `running`, so the manifest copy it carries is out of date in that field for as long as the stage runs. The copy is a read model. The runner re-reads the manifest immediately before each write and is its only writer, so every write has a current base, and the `running` marker survives the stage it belongs to (§4.5). Currency and trust are separate questions: the manifest is untrusted input however fresh it is, bounded by §4.4.
 
@@ -1930,15 +1930,17 @@ Keeping the conversion at the edge means a stale or corrected rate never invalid
 
 | Level | Location | What it tracks |
 |---|---|---|
-| Current pipeline | `manifest.json` → each stage's `cost` | What each output currently on disk cost to produce |
+| Current pipeline | `manifest.json` → each stage's `cost` | What each output currently on disk cost to produce, with the failed runs before it |
 | All-time expenditure | `Run logs/*.json` | Every API call ever made, including failures and experiments |
 
 Both levels are read a stage at a time. Neither stores a figure spanning stages, runs, lectures or modules: a stage's cost is compared against the same stage's cost under a different model, which is the comparison the two levels exist to serve, and a sum across stages answers no question the pipeline is asked (NFR-2.2).
 
-**Known limitations.** Both levels record only what a stage's launch returned, and in two edge cases that falls short. Neither is worth the machinery that would close it:
+**A stage that fails.** A stage that calls a model records what it spent in a run, also when the run fails. The spend is the tokens, the calls and the cost of each reply that the stage received. Unusable replies that the stage resent are included. A send that the provider refuses with no answer carries no usage, so it counts as nothing.
 
-- **A panel stage relaunched over saved runs** (§5, "Dividing the transcript", Panel runs) records in the manifest only the cost of the runs that launch made, not the runs it reused, so the manifest under-states what the output cost.
-- **A stage that fails** records no cost in either level, so the calls it made before failing, resends and refusals included, appear nowhere.
+- The run-log entry holds the spend of that run only.
+- The manifest entry adds the spend of each run of the stage. A reset (`--from-stage`) starts the sum again from zero.
+
+So the manifest cost of an output includes the failed runs before it. A panel stage that starts again over saved runs (§5, "Dividing the transcript", Panel runs) includes the cost of those runs.
 
 ### Run Classification
 

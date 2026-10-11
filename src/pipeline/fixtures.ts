@@ -17,6 +17,7 @@ import type OpenAI from "openai";
 import type { Logger } from "pino";
 import { afterEach, beforeEach, expect, it, type Mock, vi } from "vitest";
 import type {
+	CostTally,
 	Manifest,
 	OutputLanguage,
 	PipelineConfig,
@@ -29,6 +30,7 @@ import type {
 	StageId,
 	StageResult,
 } from "../types/pipeline.js";
+import { createCostTally } from "../utils/cost.js";
 import { pathExists } from "../utils/files.js";
 import { MAX_SENDS } from "../utils/resend.js";
 import { createSendGate, type SendGate } from "../utils/send-gate.js";
@@ -1482,14 +1484,17 @@ export const runningEntry: StageEntry = { status: "running", round: FIRST_ROUND 
  * failed stage against data that a real pipeline run can make, and not against a
  * partial object with a cast.
  *
- * @param args - The files that the stage recorded before it failed.
+ * @param args - The files that the stage recorded before it failed, and what it spent.
  * @param args.filesWritten - The workspace-relative files that the stage left. The default is none.
+ * @param args.cost - What the stage spent before it failed. The default is `null`.
  * @returns The stage entry.
  */
 export function failedEntry({
 	filesWritten = [],
+	cost = null,
 }: {
 	readonly filesWritten?: readonly string[];
+	readonly cost?: StageCost | null;
 } = {}): StageEntry {
 	return {
 		status: "failed",
@@ -1497,7 +1502,7 @@ export function failedEntry({
 		round: FIRST_ROUND,
 		error: "the stage threw",
 		configUsed: null,
-		cost: null,
+		cost,
 		filesWritten,
 	};
 }
@@ -2046,6 +2051,7 @@ export async function seedStageOutput({
  * @param args.workspaceRoot - The absolute path to the lecture workspace.
  * @param args.logger - The stub logger of the suite.
  * @param args.manifest - The manifest of the lecture. The default is {@link makeManifest}.
+ * @param args.costTally - The cost tally of the stage run. The default is a new tally.
  * @returns The result of the stage.
  * @typeParam TInput - The input of the stage.
  * @typeParam TOutput - The output of the stage.
@@ -2058,6 +2064,7 @@ export function driveModelStage<TInput, TOutput>({
 	workspaceRoot,
 	logger,
 	manifest,
+	costTally,
 }: {
 	readonly factory: ModelStageFactory<TInput, TOutput>;
 	readonly client: OpenRouterClient;
@@ -2065,10 +2072,12 @@ export function driveModelStage<TInput, TOutput>({
 	readonly workspaceRoot: string;
 	readonly logger: Logger;
 	readonly manifest?: Manifest;
+	readonly costTally?: CostTally;
 }): Promise<StageResult<TOutput>> {
 	return driveStage({
 		stage: factory({ logger, client }),
 		context: makeStageContext({ workspaceRoot, config, manifest }),
+		costTally,
 	});
 }
 
@@ -2242,6 +2251,8 @@ type StageReadingEarlierOutputsSuite<TOutput> = {
 	readonly logged: () => StubLogger;
 	readonly create: () => StubbedCompletionCall;
 	readonly run: (manifest?: Partial<Manifest>) => Promise<StageResult<TOutput>>;
+	/** Gives the cost tally that `run` gives to the stage in the current test. */
+	readonly costTally: () => CostTally;
 	readonly expectOneCallSending: (value: unknown) => Promise<void>;
 	readonly expectCallsSending: (values: readonly unknown[]) => Promise<void>;
 };
@@ -2280,8 +2291,10 @@ export function useStageReadingEarlierOutputs<TInput, TOutput>({
 	} as PipelineConfig;
 	const workspaceRoot = (): string => workspace().workspaceRoot;
 	const { client, create } = useStubbedOpenRouter();
+	let costTally = createCostTally();
 
 	beforeEach(async () => {
+		costTally = createCostTally();
 		if (reply !== null) {
 			create().mockResolvedValue(openRouterReplyBody({ content: reply }));
 		}
@@ -2296,6 +2309,7 @@ export function useStageReadingEarlierOutputs<TInput, TOutput>({
 			workspaceRoot: workspaceRoot(),
 			logger: logged().logger,
 			manifest: makeManifest(manifest),
+			costTally,
 		});
 
 	return {
@@ -2304,6 +2318,7 @@ export function useStageReadingEarlierOutputs<TInput, TOutput>({
 		logged,
 		create,
 		run,
+		costTally: () => costTally,
 		expectOneCallSending: async (value) => {
 			await run();
 
@@ -2533,19 +2548,22 @@ export function readSavedRunJson(run: Parameters<typeof savedRunPath>[0]): Promi
  * `prefer-readonly-parameter-types` reports each function that takes such a
  * type. `PipelineRunnerFacade` gives the same reason.
  *
- * @param args - The stage and its context.
+ * @param args - The stage, its context and its cost tally.
  * @param args.stage - The stage under test.
  * @param args.context - The context that the runner makes for the stage.
+ * @param args.costTally - The cost tally of the stage run. The default is a new tally.
  * @returns The result of the stage.
  */
 export async function driveStage<TInput, TOutput>({
 	stage,
 	context,
+	costTally = createCostTally(),
 }: {
 	readonly stage: Readonly<PipelineStage<TInput, TOutput>>;
 	readonly context: StageContext;
+	readonly costTally?: CostTally;
 }): Promise<StageResult<TOutput>> {
-	return stage.run({ input: await stage.getInput(context), context });
+	return stage.run({ input: await stage.getInput(context), context, costTally });
 }
 
 /**

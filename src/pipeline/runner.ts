@@ -33,6 +33,7 @@ import {
 	STAGE_IDS,
 } from "../types/pipeline.js";
 import { mapWithConcurrency } from "../utils/concurrency.js";
+import { createCostTally, totalCost } from "../utils/cost.js";
 import { errorMessage } from "../utils/errors.js";
 import { listFileNames, readJsonSafe, writeJsonAtomic } from "../utils/files.js";
 import { createStageLogger } from "../utils/logger.js";
@@ -301,6 +302,18 @@ function skippedEntry({
 	};
 }
 
+/**
+ * Gives what a stage spent in its earlier runs, from its stage entry. A pending
+ * or running entry holds no cost, so a reset (`--from-stage`) starts the sum
+ * again (technical-design.md §7, "A stage that fails").
+ *
+ * @param entry - The stage entry before this run, or `undefined` when the manifest has none.
+ * @returns The spend of the earlier runs, or `null` when there is none.
+ */
+function spentInEarlierRuns(entry: StageEntry | undefined): StageCost | null {
+	return entry !== undefined && "cost" in entry ? entry.cost : null;
+}
+
 function runLogCost(cost: StageCost | null): RunLogCost {
 	if (cost === null) {
 		return { costUsd: null, callCount: 0 };
@@ -337,10 +350,11 @@ type StageStatusWriter = {
 		readonly configUsed: StageConfigUsed | null;
 		readonly result: StageResult<unknown>;
 	}): Promise<void>;
-	/** The stage threw. The entry records the error message that the user sees. */
+	/** The stage threw. The entry records the error message that the user sees, and what the stage spent before it failed. */
 	failed(args: {
 		readonly configUsed: StageConfigUsed | null;
 		readonly error: string;
+		readonly cost: StageCost | null;
 	}): Promise<void>;
 	/** The context for the next stage, from the last write. */
 	context(): StageContext;
@@ -370,6 +384,7 @@ function createStageStatusWriter({
 	// The context for the NEXT stage. The stage that runs keeps the context it was
 	// given, so its own entry does not change during its run.
 	let nextContext = context;
+	const spentBefore = spentInEarlierRuns(context.manifest.stages[stageId]);
 	const write = async ({
 		entry,
 		identityChanges,
@@ -404,12 +419,12 @@ function createStageStatusWriter({
 					completedAt: timestamp,
 					round: FIRST_ROUND,
 					configUsed,
-					cost: result.cost,
+					cost: totalCost([spentBefore, result.cost]),
 					filesWritten: result.filesWritten,
 				},
 				identityChanges: result.identityChanges ?? {},
 			}),
-		failed: ({ configUsed, error }) =>
+		failed: ({ configUsed, error, cost }) =>
 			write({
 				entry: {
 					status: "failed",
@@ -417,7 +432,7 @@ function createStageStatusWriter({
 					round: FIRST_ROUND,
 					error,
 					configUsed,
-					cost: null,
+					cost: totalCost([spentBefore, cost]),
 					filesWritten: [],
 				},
 				identityChanges: {},
@@ -453,9 +468,10 @@ async function runStage({
 	const configUsed = resolveStageRunConfig({ config, stageId });
 	reporter({ event: "stage-started", stageId });
 	await statusWriter.running();
+	const costTally = createCostTally();
 	try {
 		const input = await stage.getInput(context);
-		const result = await stage.run({ input, context });
+		const result = await stage.run({ input, context, costTally });
 		await statusWriter.complete({ configUsed, result });
 		reporter({ event: "stage-completed", stageId, cost: result.cost });
 		return {
@@ -470,11 +486,12 @@ async function runStage({
 		};
 	} catch (error: unknown) {
 		const message = errorMessage(error);
+		const cost = costTally.total();
 		// The user sees only the message. The stack goes to the debug log, where an
 		// unexpected failure is diagnosed (technical-design.md §8, §10).
 		createStageLogger({ logger, stageId }).error({ err: error }, "Stage failed");
 		reporter({ event: "stage-failed", stageId });
-		await statusWriter.failed({ configUsed, error: message });
+		await statusWriter.failed({ configUsed, error: message, cost });
 		return {
 			entry: {
 				action: "ran",
@@ -482,7 +499,7 @@ async function runStage({
 				error: message,
 				configUsed,
 				rounds: ROUNDS_PER_PIPELINE_RUN,
-				cost: runLogCost(null),
+				cost: runLogCost(cost),
 			},
 			context: statusWriter.context(),
 		};

@@ -2,11 +2,13 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
+	captureError,
 	correctedSubtopicText,
 	itFailsAfterTheThirdUnusableSend,
 	itFailsNamingEachSpoiledFile,
 	openRouterReplyBody,
 	readJsonFile,
+	resendPausesTimeoutMs,
 	rewriteFile,
 	rewrittenParagraphs,
 	structuredTranscriptInput,
@@ -24,12 +26,13 @@ const [, usableParagraph] = rewrittenParagraphs;
 const usableReply = JSON.stringify({ paragraphs: [usableParagraph] });
 
 describe("createRewriteSubtopicsStage", () => {
-	const { workspaceRoot, create, run, expectCallsSending } = useStageReadingEarlierOutputs({
-		stageId: STAGE_ID,
-		readsFrom: ["structure-transcript", "correct-terms"],
-		factory: createRewriteSubtopicsStage,
-		reply: usableReply,
-	});
+	const { workspaceRoot, create, run, costTally, expectCallsSending } =
+		useStageReadingEarlierOutputs({
+			stageId: STAGE_ID,
+			readsFrom: ["structure-transcript", "correct-terms"],
+			factory: createRewriteSubtopicsStage,
+			reply: usableReply,
+		});
 
 	/**
 	 * The absolute path of the rewrite of a subtopic in round 1.
@@ -93,6 +96,20 @@ describe("createRewriteSubtopicsStage", () => {
 	});
 
 	itFailsAfterTheThirdUnusableSend({ run, create, calls: 2, outputPath: () => rewritePath(2) });
+
+	it("should add the cost of each reply to the cost tally when the third send is still unusable", {
+		timeout: resendPausesTimeoutMs,
+	}, async () => {
+		create().mockResolvedValue(openRouterReplyBody({ content: JSON.stringify({}) }));
+
+		await captureError(run());
+
+		expect(costTally().total()).toMatchObject({
+			callCount: 6,
+			promptTokens: 720,
+			completionTokens: 270,
+		});
+	});
 
 	itFailsNamingEachSpoiledFile({
 		files: [structuredTranscriptInput, termCorrectionInput(2)],

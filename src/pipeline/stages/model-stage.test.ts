@@ -1,4 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { createCostTally } from "../../utils/cost.js";
 import {
 	captureError,
 	configuringStage,
@@ -43,6 +44,7 @@ function greetingRequest(content: string): JsonReplyRequest<Greeting> {
 		logger: logged().logger,
 		client: client(),
 		sendGate: unspacedSends,
+		costTally: createCostTally(),
 	};
 }
 

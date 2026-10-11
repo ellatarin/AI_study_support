@@ -1,7 +1,13 @@
 import { mkdir } from "node:fs/promises";
 import { basename } from "node:path";
 import type { Logger } from "pino";
-import type { PipelineStage, StageContext, StageId, StageResult } from "../../types/pipeline.js";
+import type {
+	CostTally,
+	PipelineStage,
+	StageContext,
+	StageId,
+	StageResult,
+} from "../../types/pipeline.js";
 import {
 	cleanTmpFiles,
 	jsonFileContent,
@@ -253,8 +259,8 @@ export async function writeStageOutputWithStageRecord({
 }
 
 /**
- * The work of a stage. It gets the stage's input, the stage context, and a logger
- * that names the stage and the lecture.
+ * The work of a stage. It gets the stage's input, the stage context, a logger
+ * that names the stage and the lecture, and the cost tally of the stage run.
  *
  * @typeParam TInput - The input of the stage.
  * @typeParam TOutput - The output of the stage.
@@ -264,6 +270,7 @@ type StageRun<TInput, TOutput> = (args: {
 	readonly input: TInput;
 	readonly context: StageContext;
 	readonly logger: Logger;
+	readonly costTally: CostTally;
 }) => Promise<StageResult<TOutput>>;
 
 /** The input of a stage that reads one source file of the lecture. */
@@ -361,7 +368,7 @@ export function createPipelineStage<TInput, TOutput>({
 		stageId,
 		isComplete: (context) => isStageComplete({ context, stageId }),
 		getInput,
-		run: async ({ input, context }) => {
+		run: async ({ input, context, costTally }) => {
 			await prepareStageDirectories({ workspaceRoot: context.workspaceRoot, stageId });
 			// The lecture is added at each call of `run`, because a batch runs one stage
 			// object for several lectures at the same time (technical-design.md §10).
@@ -370,7 +377,7 @@ export function createPipelineStage<TInput, TOutput>({
 				lectureNumber: context.lectureNumber,
 				lectureDate: context.lectureDate,
 			});
-			return run({ input, context, logger: lectureLogger });
+			return run({ input, context, logger: lectureLogger, costTally });
 		},
 	};
 }

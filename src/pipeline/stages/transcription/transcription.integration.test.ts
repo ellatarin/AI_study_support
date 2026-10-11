@@ -2,6 +2,7 @@ import { mkdir, readFile, rm } from "node:fs/promises";
 import { dirname } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import {
+	driveStage,
 	exampleConfig,
 	interceptScribeUpload,
 	makeConfig,
@@ -61,8 +62,7 @@ describe("createTranscriptionStage against real audio", () => {
 				config: makeConfig({ stages: { transcription: { modelId: transcriptionModelId } } }),
 			});
 
-			const input = await stage.getInput(context);
-			const result = await stage.run({ input, context });
+			const result = await driveStage({ stage, context });
 
 			expect(upload.scope.isDone()).toBe(true);
 			expect(upload.uploadedBody().length).toBeGreaterThan(0);

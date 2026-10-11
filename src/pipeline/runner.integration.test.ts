@@ -100,10 +100,7 @@ type StubConfig = {
 	stageId: StageId;
 	isComplete?: (context: StageContext) => Promise<boolean>;
 	getInput?: (context: StageContext) => Promise<unknown>;
-	run?: (args: {
-		readonly input: unknown;
-		readonly context: StageContext;
-	}) => Promise<StageResult<unknown>>;
+	run?: PipelineStage<unknown, unknown>["run"];
 };
 
 function makeStubStage(config: StubConfig): PipelineStage<unknown, unknown> {
@@ -297,6 +294,25 @@ describe("PipelineRunner integration", () => {
 		beforeEach(async () => {
 			await writeManifest({ workspaceRoot, manifest: makeManifest() });
 		});
+
+		/**
+		 * Runs one audio-extraction stage, and gives its entry in the run log and in
+		 * the manifest.
+		 *
+		 * @param stage - The audio-extraction stage.
+		 * @returns The run-log entry and the stage entry of the stage.
+		 */
+		async function runAudioStageAndReadEntries(
+			stage: PipelineStage<unknown, unknown>,
+		): Promise<{ readonly runLogEntry: unknown; readonly stageEntry: StageEntry | undefined }> {
+			const summary = await makeRunner([stage]).runLecture({ workspaceRoot });
+			const runLog = await readRunLog(workspaceRoot, summary.pipelineRunId);
+			const manifest = await readManifest({ workspaceRoot });
+			return {
+				runLogEntry: runLog.stages["audio-extraction"],
+				stageEntry: manifest.stages["audio-extraction"],
+			};
+		}
 
 		it("should execute the stage once when the same lecture is run three times", async () => {
 			// Three, not two. The second pipeline run changes the stage entry from
@@ -529,6 +545,50 @@ describe("PipelineRunner integration", () => {
 			]);
 			const manifest = await readManifest({ workspaceRoot });
 			expect(manifest.stages["audio-extraction"]?.status).toBe("failed");
+		});
+
+		it("should record what a failed stage spent in its run log and its stage entry when the stage throws after a call", async () => {
+			const spent = oneCallCosting(0.25);
+			const stage = makeStubStage({
+				stageId: "audio-extraction",
+				run: ({ costTally }) => {
+					costTally.add(spent);
+					return Promise.reject(new Error(AUDIO_EXTRACTION_FAILURE));
+				},
+			});
+
+			const { runLogEntry, stageEntry } = await runAudioStageAndReadEntries(stage);
+
+			expect(runLogEntry).toMatchObject({
+				status: "failed",
+				error: AUDIO_EXTRACTION_FAILURE,
+				cost: { costUsd: 0.25, callCount: 1 },
+			});
+			expect(stageEntry).toMatchObject({ status: "failed", cost: spent });
+		});
+
+		it("should add the spend of this run to the spend of the failed run before it when the stage runs again", async () => {
+			await writeManifest({
+				workspaceRoot,
+				manifest: makeManifest({
+					stages: stagesWith({
+						stageId: "audio-extraction",
+						entry: failedEntry({ cost: oneCallCosting(0.25) }),
+					}),
+				}),
+			});
+			const stage = makeStubStage({
+				stageId: "audio-extraction",
+				run: () => Promise.resolve({ ...PRODUCED_NOTHING, cost: oneCallCosting(0.5) }),
+			});
+
+			const { runLogEntry, stageEntry } = await runAudioStageAndReadEntries(stage);
+
+			expect(runLogEntry).toMatchObject({ cost: { costUsd: 0.5, callCount: 1 } });
+			expect(stageEntry).toMatchObject({
+				status: "complete",
+				cost: { callCount: 2, costUsd: 0.75 },
+			});
 		});
 
 		it("should stringify the failure when a stage throws a non-error value", async () => {

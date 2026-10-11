@@ -4,7 +4,7 @@
  * `src/pipeline/reports.ts` (technical-design.md §7, "Cost and Reporting Modules").
  */
 
-import type { StageCost } from "../types/pipeline.js";
+import type { CostTally, StageCost } from "../types/pipeline.js";
 
 /** The text between two reasons in the reason for an unknown cost. */
 const REASON_SEPARATOR = "; ";
@@ -71,4 +71,19 @@ export function totalCost(costs: readonly (StageCost | null)[]): StageCost | nul
 		}
 	}
 	return total;
+}
+
+/**
+ * Makes an empty {@link CostTally} for one stage run.
+ *
+ * @returns The tally. Its total is `null` until a cost is added.
+ */
+export function createCostTally(): CostTally {
+	let total: StageCost | null = null;
+	return {
+		add: (cost) => {
+			total = accumulateCost({ current: total, incoming: cost });
+		},
+		total: () => total,
+	};
 }

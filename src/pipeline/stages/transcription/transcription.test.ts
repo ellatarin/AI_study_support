@@ -12,6 +12,7 @@ import type {
 import { CONFIG_FILENAME } from "../../../types/pipeline.js";
 import {
 	completedEntry,
+	driveStage,
 	exampleConfig,
 	interceptScribeUpload,
 	loggedAt,
@@ -111,10 +112,8 @@ describe("createTranscriptionStage", () => {
 		return createTranscriptionStage({ logger: logged().logger });
 	}
 
-	async function runStage(context: StageContext): Promise<StageResult<TranscriptionOutput>> {
-		const stage = makeStage();
-		const input = await stage.getInput(context);
-		return stage.run({ input, context });
+	function runStage(context: StageContext): Promise<StageResult<TranscriptionOutput>> {
+		return driveStage({ stage: makeStage(), context });
 	}
 
 	it("should name the stage transcription when the stage is created", () => {

@@ -8,7 +8,13 @@
 
 import type OpenAI from "openai";
 import type { Logger } from "pino";
-import type { PipelineStage, StageContext, StageCost, StageResult } from "../../types/pipeline.js";
+import type {
+	CostTally,
+	PipelineStage,
+	StageContext,
+	StageCost,
+	StageResult,
+} from "../../types/pipeline.js";
 import { errorMessage, NamedError } from "../../utils/errors.js";
 import { sendUntilAccepted } from "../../utils/resend.js";
 import { createSendGate, type SendGate } from "../../utils/send-gate.js";
@@ -52,6 +58,7 @@ export type JsonReplyRequest<TReply> = Pick<
 	"messages" | "stageId" | "sendGate"
 > & {
 	readonly context: StageContext;
+	readonly costTally: CostTally;
 	readonly isReply: (value: unknown) => value is TReply;
 	readonly documentedShape: string;
 } & ModelStageDependencies;
@@ -91,6 +98,8 @@ export type JsonReplyOutcome<TReply> =
  * @param args.logger - The logger of the stage. The call is logged on it.
  * @param args.client - The OpenAI client that makes the model call.
  * @param args.sendGate - The send gate of the stage run. The call waits on it.
+ * @param args.costTally - The cost tally of the stage run. The cost of the reply is added to it,
+ *   so a stage that fails still records what it spent (technical-design.md §7, "A stage that fails").
  * @returns The checked reply or the reason that it is unusable, with the cost of the call.
  * @typeParam TReply - The reply that the stage expects.
  */
@@ -104,6 +113,7 @@ export async function tryJsonReply<TReply>({
 	logger,
 	client,
 	sendGate,
+	costTally,
 }: JsonReplyRequest<TReply>): Promise<JsonReplyOutcome<TReply>> {
 	const { content, cost } = await callModel({
 		messages,
@@ -114,6 +124,7 @@ export async function tryJsonReply<TReply>({
 		client,
 		sendGate,
 	});
+	costTally.add(cost);
 	if (content.trim() === "") {
 		return { failure: "The model's reply was empty", cost };
 	}
@@ -316,8 +327,8 @@ export type OwnJsonRequest<TReply> = Pick<
 
 /**
  * The model calls of one stage run. They already hold the stage id, the stage
- * context, the logger, the client and the send gate of the stage run. So a stage
- * passes only its own part of each request.
+ * context, the logger, the client, the send gate and the cost tally of the stage
+ * run. So a stage passes only its own part of each request.
  */
 export type StageModelCalls = {
 	/** {@link requestJsonReply} for this stage run. */
@@ -338,12 +349,13 @@ export type StageModelCalls = {
 /**
  * Gives the model calls of one stage run.
  *
- * @param run - The stage, the stage context, the dependencies, and the send gate of the stage run.
+ * @param run - The stage, the stage context, the dependencies, and the send gate and cost tally of the stage run.
  * @returns The model calls, with these values given.
  */
 function stageModelCalls(
 	// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- the pino Logger and OpenAI client types have mutable properties that the rule sees. This code only passes them on. CLAUDE.md allows a mutable type where a library requires one.
-	run: Pick<JsonReplyRequest<unknown>, "stageId" | "context" | "sendGate"> & ModelStageDependencies,
+	run: Pick<JsonReplyRequest<unknown>, "stageId" | "context" | "sendGate" | "costTally"> &
+		ModelStageDependencies,
 ): StageModelCalls {
 	return {
 		requestJsonReply: (request) => requestJsonReply({ ...run, ...request }),
@@ -406,6 +418,7 @@ export function defineModelStage<TInput, TOutput>({
 						logger: args.logger,
 						client,
 						sendGate,
+						costTally: args.costTally,
 					}),
 				});
 			},
