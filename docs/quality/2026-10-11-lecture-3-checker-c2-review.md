@@ -33,7 +33,7 @@ A fault is named by its subtopic and its number in the check of that subtopic.
 | 3.3 | omission | Adolescence is dropped | does not matter | minor | yes |
 | 3.4 | distortion | "A signalling and basis for adherence" becomes "a signalling basis" | matters | useful | yes |
 | 3.5 | distortion | "Invading stroma" becomes "invaded stroma" | does not matter | wrong | yes |
-| 5.1 | unsourced-addition | "Since" joins two facts as cause and effect | not marked | minor | — |
+| 5.1 | unsourced-addition | "Since" joins two facts as cause and effect | does not matter | minor | yes |
 | 6.1 | distortion | "I think" is dropped from a claim about ovarian cancer | does not matter | minor | yes |
 | 6.2 | distortion | "Transcoelomic site" becomes "transcoelomic route" | does not matter | wrong | yes |
 | 6.3 | distortion | "Very often" becomes "often" | does not matter | minor | yes |
@@ -44,8 +44,8 @@ A fault is named by its subtopic and its number in the check of that subtopic.
 | 7.3 | omission | "Very often" is dropped from sampling the lymph node | does not matter | minor | yes |
 | 8.1 | omission | The next step, looking for metastases, is dropped | matters | useful | yes |
 | 8.2 | distortion | "What you would think is" becomes a plain statement | does not matter | minor | yes |
-| 9.1 | distortion | "Would put pressure" becomes "puts pressure" | not marked | minor | — |
-| 10.1 | distortion | "Adenomas" becomes "adenoma" in a list | not marked | wrong | — |
+| 9.1 | distortion | "Would put pressure" becomes "puts pressure" | does not matter | minor | yes |
+| 10.1 | distortion | "Adenomas" becomes "adenoma" in a list | does not matter | wrong | yes |
 | 11.1 | distortion | "Erosion of that bone function" becomes "erosion of the bone" | does not matter | wrong | yes |
 | 11.2 | unsourced-addition | "The normal" becomes "normal tissue" | does not matter | minor | yes |
 | 11.3 | unsourced-addition | "These will interfere" becomes interference with the stem cells | does not matter | minor | yes |
@@ -62,19 +62,15 @@ A fault is named by its subtopic and its number in the check of that subtopic.
 
 ## Where the user and the agent agree
 
-The user and the agent agree on every fault that both judged, except fault 2.2.
+The user and the agent agree on every fault except fault 2.2.
 
 - The faults that matter to both are 2.1, 3.4, 7.1, 8.1, 12.1 and 15.1. Some add a fact or a causal or defining link that the lecturer did not state. The others drop an observation or a step of reasoning.
 - Neither thinks that a change to an intensity word matters. The same is true of a change to a modal verb, and of a remark to the audience.
-- Neither thinks that the five repairs of misheard or garbled words matter: 3.5, 6.2, 7.2, 10.1 and 11.1. The agent judged the rewrite better than the transcript in each one. The user marked four of them *does not matter*, and did not mark 10.1.
+- Neither thinks that the five repairs of misheard or garbled words matter: 3.5, 6.2, 7.2, 10.1 and 11.1. The agent judged the rewrite better than the transcript in each one.
 
 ## Where they disagree
 
 **Fault 2.2.** The lecturer said that about seven human viruses can predispose to chronic inflammation. The rewrite says that infection can. The agent judged the meaning almost the same. The user marked it *matters*. The user's verdict stands: the rewrite changes the subject of a causal claim, from one named agent to a wider class. So a change to the subject of a causal claim is a fault, also when the claim stays near to true.
-
-## Not marked
-
-Faults 5.1, 9.1 and 10.1 have no mark from the user.
 
 ## What the review means for checker prompt c3
 
