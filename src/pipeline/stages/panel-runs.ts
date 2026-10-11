@@ -4,12 +4,17 @@
  * technical-design.md §5, "Dividing the transcript", Panel runs.
  */
 
+/* jscpd:ignore-start -- the shared stage modules that save files import the same
+   path helpers and pipeline types. So their import blocks start the same line
+   for line. Imports cannot be shared, and CLAUDE.md (File Organisation) forbids
+   barrel files. Only the imports are exempt. jscpd checks the code below. */
 import { join, relative } from "node:path";
-import type { StageContext, StageCost, StageId, StageResult } from "../../types/pipeline.js";
+import type { StageContext, StageId, StageResult } from "../../types/pipeline.js";
 import { NamedError } from "../../utils/errors.js";
 import { configuredConcurrency } from "../../utils/stage-config.js";
 import { savedRunFileName, stageDirectoryPath } from "../layout.js";
 import type { OwnJsonRequest, StageModelCalls } from "./model-stage.js";
+/* jscpd:ignore-end */
 import {
 	readOrMakeSavedFiles,
 	readSavedFile,
@@ -85,10 +90,8 @@ function savedRunReader<TRun>(readRun: SavedPanel<TRun>["readRun"]): SavedFileRe
  * @param args.concurrency - The most runs in flight at the same time. Unset means one at a time.
  * @param args.directory - The folder for the saved runs. It must already exist.
  * @param args.readRun - Reads a parsed saved run as a run.
- * @param args.makeRun - Makes one run, given its number from 1. It also gives the
- *   cost of the run's calls, or `null` for a run that made no call.
- * @returns Every run in run order, the cost of the runs that this invocation made,
- *   and the paths of the saved runs. The cost is `null` when no run made a call.
+ * @param args.makeRun - Makes one run, given its number from 1.
+ * @returns Every run in run order, and the paths of the saved runs.
  * @throws {SavedRunUnreadableError} When a saved run holds no readable run.
  * @typeParam TRun - The contents of one run.
  */
@@ -100,26 +103,20 @@ export async function runPanel<TRun>({
 	makeRun,
 }: SavedPanel<TRun> & {
 	readonly concurrency?: number | undefined;
-	readonly makeRun: (args: {
-		readonly runNumber: number;
-	}) => Promise<{ readonly run: TRun; readonly cost: StageCost | null }>;
+	readonly makeRun: (args: { readonly runNumber: number }) => Promise<TRun>;
 }): Promise<{
 	readonly runs: readonly TRun[];
-	readonly cost: StageCost | null;
 	readonly savedRunFiles: readonly string[];
 }> {
 	const savedRunFiles = savedRunPaths({ directory, panelSize });
-	const { contents, cost } = await readOrMakeSavedFiles({
+	const { contents } = await readOrMakeSavedFiles({
 		files: [...savedRunFiles.entries()].map(([index, path]) => ({ path, runNumber: index + 1 })),
 		label: "Runs",
 		concurrency,
 		...savedRunReader(readRun),
-		make: async ({ runNumber }) => {
-			const made = await makeRun({ runNumber });
-			return { content: made.run, cost: made.cost };
-		},
+		make: ({ runNumber }) => makeRun({ runNumber }),
 	});
-	return { runs: contents, cost, savedRunFiles };
+	return { runs: contents, savedRunFiles };
 }
 
 /**
@@ -156,8 +153,8 @@ export async function readPanel<TRun>({
 
 /**
  * Makes the panel of a stage in the stage's folder, with as many runs in flight as
- * the stage's `concurrency` allows. The stage result holds every run, the cost of
- * this invocation's calls, and the workspace-relative paths of the saved runs.
+ * the stage's `concurrency` allows. The stage result holds every run, and the
+ * workspace-relative paths of the saved runs.
  *
  * @param args - The stage, the stage context, the panel size, and how to make and read a run.
  * @param args.stageId - The panel stage. It sets the folder and the concurrency.
@@ -181,7 +178,7 @@ export async function runStagePanel<TRun>({
 } & Pick<Parameters<typeof runPanel<TRun>>[0], "panelSize" | "readRun" | "makeRun">): Promise<
 	StageResult<{ readonly runs: readonly TRun[] }>
 > {
-	const { runs, cost, savedRunFiles } = await runPanel({
+	const { runs, savedRunFiles } = await runPanel({
 		panelSize,
 		concurrency: configuredConcurrency({ config: context.config, stageId }),
 		directory: stageDirectoryPath({ workspaceRoot: context.workspaceRoot, stageId }),
@@ -190,7 +187,6 @@ export async function runStagePanel<TRun>({
 	});
 	return {
 		output: { runs },
-		cost,
 		filesWritten: savedRunFiles.map((file) => relative(context.workspaceRoot, file)),
 	};
 }
@@ -244,7 +240,7 @@ export function runOneCallPanel<TReply, TRun>({
 				...request,
 				what: `${runName} ${runNumber}`,
 			});
-			return { run: sent.reply, cost: sent.cost };
+			return sent.reply;
 		},
 	});
 }

@@ -299,7 +299,6 @@ async function placeSlides({
 		stageId: STAGE_ID,
 		context,
 		output: { promptVersion: PROMPT_VERSION, placements },
-		cost: sent.cost,
 	});
 }
 

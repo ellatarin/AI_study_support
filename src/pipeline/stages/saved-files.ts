@@ -6,9 +6,7 @@
  * "Dividing the transcript", Panel runs, and `read-slides`).
  */
 
-import type { StageCost } from "../../types/pipeline.js";
 import { mapWithConcurrency } from "../../utils/concurrency.js";
-import { totalCost } from "../../utils/cost.js";
 import { pathExists, readJsonSafe, writeJsonAtomic } from "../../utils/files.js";
 import { createParallelWorkBar } from "../../utils/progress.js";
 
@@ -24,17 +22,6 @@ export type SavedFileReader<TContent> = {
 	readonly readSaved: (value: unknown) => TContent | null;
 	/** Builds the error for the file at `path` that holds nothing readable. */
 	readonly unreadable: (path: string) => Error;
-};
-
-/**
- * The content of one file, and the cost of the calls that made it. A file read
- * back from disk has the cost `null`.
- *
- * @typeParam TContent - The contents of one file.
- */
-export type MadeFile<TContent> = {
-	readonly content: TContent;
-	readonly cost: StageCost | null;
 };
 
 /**
@@ -102,10 +89,8 @@ export async function readSavedFile<TContent>({
  * @param args.concurrency - The most files made at the same time. Unset means one at a time.
  * @param args.readSaved - Reads a parsed saved file.
  * @param args.unreadable - Builds the error for a saved file that holds nothing readable.
- * @param args.make - Makes one missing file. It also gives the cost of its calls,
- *   or `null` when it made no call.
- * @returns The contents of each file in the order of `files`, and the cost of the
- *   files that this invocation made. The cost is `null` when none made a call.
+ * @param args.make - Makes the content of one missing file.
+ * @returns The contents of each file in the order of `files`.
  * @throws The error that `unreadable` builds, when a saved file holds nothing readable.
  * @typeParam TFile - One file to read or make, with its path.
  * @typeParam TContent - The contents of one file.
@@ -121,13 +106,12 @@ export async function readOrMakeSavedFiles<TFile extends { readonly path: string
 	readonly files: readonly TFile[];
 	readonly label: string;
 	readonly concurrency: number | undefined;
-	readonly make: (file: TFile) => Promise<MadeFile<TContent>>;
-}): Promise<{ readonly contents: readonly TContent[]; readonly cost: StageCost | null }> {
+	readonly make: (file: TFile) => Promise<TContent>;
+}): Promise<{ readonly contents: readonly TContent[] }> {
 	const progressBar = createParallelWorkBar({ label, total: files.length });
 	progressBar.start();
-	let outcomes: readonly MadeFile<TContent>[];
 	try {
-		outcomes = await mapWithConcurrency({
+		const contents = await mapWithConcurrency({
 			items: files,
 			limit: concurrency,
 			work: async ({ item: file, index }) => {
@@ -135,12 +119,12 @@ export async function readOrMakeSavedFiles<TFile extends { readonly path: string
 				const saved = await readSavedFile({ path: file.path, readSaved, unreadable });
 				if (saved !== null) {
 					progressBar.complete(itemNumber);
-					return { content: saved, cost: null };
+					return saved;
 				}
 				progressBar.pick(itemNumber);
 				try {
 					const made = await make(file);
-					await writeJsonAtomic({ path: file.path, value: made.content });
+					await writeJsonAtomic({ path: file.path, value: made });
 					progressBar.complete(itemNumber);
 					return made;
 				} catch (error: unknown) {
@@ -149,11 +133,8 @@ export async function readOrMakeSavedFiles<TFile extends { readonly path: string
 				}
 			},
 		});
+		return { contents };
 	} finally {
 		progressBar.stop();
 	}
-	return {
-		contents: outcomes.map((outcome) => outcome.content),
-		cost: totalCost(outcomes.map((outcome) => outcome.cost)),
-	};
 }

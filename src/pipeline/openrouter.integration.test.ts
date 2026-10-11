@@ -22,6 +22,7 @@ import {
 	stubbedTokenUsage,
 	stubOpenRouterApi,
 	unspacedSends,
+	useCostTally,
 	useStubLogger,
 } from "./fixtures.js";
 import {
@@ -116,6 +117,7 @@ function mockProviderError({
 }
 
 const logged = useStubLogger();
+const costTally = useCostTally();
 
 /** Gives the payload of each warning that the call logged, in order. */
 function warningsLogged(): readonly unknown[] {
@@ -132,9 +134,7 @@ function providerErrorWarning(send: number): Record<string, unknown> {
 	return { model: openRouterModelId, send, providerMessage: PROVIDER_BUSY_MESSAGE };
 }
 
-function call(
-	overrides: Record<string, unknown> = {},
-): Promise<{ content: string; cost: import("../types/pipeline.js").StageCost }> {
+function call(overrides: Record<string, unknown> = {}): Promise<{ readonly content: string }> {
 	return callModel({
 		messages,
 		stageId: STAGE_ID,
@@ -146,6 +146,7 @@ function call(
 		// different client gives it in `overrides`.
 		client: openRouterClientFor({ config }),
 		sendGate: unspacedSends,
+		costTally: costTally(),
 		...overrides,
 	});
 }
@@ -324,9 +325,9 @@ describe("callModel", () => {
 	// OpenRouter gives the cost of every reply in its `usage`, so no second request
 	// is made (technical-design.md §7, "Sources").
 	it("should record the cost and token counts the reply carries when a call completes", async () => {
-		const result = await callSucceeding();
+		await callSucceeding();
 
-		expect(result.cost).toEqual(stubbedCallCost);
+		expect(costTally().total()).toEqual(stubbedCallCost);
 	});
 
 	// A cost that is missing or not a number does not fail the call. The call returns the answer, and the
@@ -353,7 +354,7 @@ describe("callModel", () => {
 		const result = await callSucceeding({ usage });
 
 		expect(result.content).toBe(ANSWER);
-		expect(result.cost).toMatchObject({
+		expect(costTally().total()).toMatchObject({
 			callCount: 1,
 			costUsd: null,
 			unknownCostReason: expect.stringContaining("usage.cost"),
@@ -361,10 +362,9 @@ describe("callModel", () => {
 	});
 
 	it("should default token counts to zero when the reply omits usage", async () => {
-		const result = await callSucceeding({ usage: undefined });
+		await callSucceeding({ usage: undefined });
 
-		expect(result.cost.promptTokens).toBe(0);
-		expect(result.cost.completionTokens).toBe(0);
+		expect(costTally().total()).toMatchObject({ promptTokens: 0, completionTokens: 0 });
 	});
 
 	it("should return empty content when the model returns null content", async () => {
@@ -383,6 +383,14 @@ describe("callModel", () => {
 		expect(error).toBeInstanceOf(NoReplyChoicesError);
 		expect(error.message).toMatch(new RegExp(openRouterModelId));
 		expect(error.message).toMatch(/no choices/i);
+	});
+
+	it("should add the cost of the send to the cost tally when the provider returns no choices", async () => {
+		mockReplyReturning({ choices: [] });
+
+		await captureError(call());
+
+		expect(costTally().total()).toEqual(stubbedCallCost);
 	});
 
 	// OpenRouter can answer with HTTP 200 and an `error` field in place of the
@@ -421,6 +429,16 @@ describe("callModel", () => {
 			expect(error.message).toContain(STAGE_ID);
 		});
 
+		it("should add the cost of each send to the cost tally when every send meets a provider error", async () => {
+			mockProviderError({ usage: stubbedReplyUsage });
+			mockProviderError({ usage: stubbedReplyUsage });
+			mockProviderError({ usage: stubbedReplyUsage });
+
+			await settleThroughPauses(captureError(call()));
+
+			expect(costTally().total()).toEqual(stubbedCallsCost({ calls: 3 }));
+		});
+
 		// The user sees the error only when every send meets a provider error. The
 		// debug log is the only record of a provider error that a later send overcame.
 		it("should log each provider error as a warning with which send it was and the provider's sentence when a resend gets past it", async () => {
@@ -451,9 +469,9 @@ describe("callModel", () => {
 			mockProviderError(erroredReply);
 			mockReplyReturning();
 
-			const result = await settleThroughPauses(call());
+			await settleThroughPauses(call());
 
-			expect(result.cost).toEqual(expected);
+			expect(costTally().total()).toEqual(expected);
 		});
 
 		it.each([
@@ -468,16 +486,16 @@ describe("callModel", () => {
 			const result = await settleThroughPauses(call());
 
 			expect(result.content).toBe(ANSWER);
-			expect(result.cost.callCount).toBe(1);
+			expect(costTally().total()?.callCount).toBe(1);
 		});
 
 		it("should resend a reply carrying the provider's error when its answer is empty", async () => {
 			mockReplyReturning({ ...BUSY_ERROR, ...openRouterReplyBody({ content: "" }) });
 			mockReplyReturning();
 
-			const result = await settleThroughPauses(call());
+			await settleThroughPauses(call());
 
-			expect(result.cost.callCount).toBe(2);
+			expect(costTally().total()?.callCount).toBe(2);
 		});
 
 		// The answer is kept, so the debug log is the only record of the provider's error.

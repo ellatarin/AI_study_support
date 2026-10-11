@@ -10,9 +10,8 @@
    same line for line. Imports cannot be shared, and CLAUDE.md (File
    Organisation) forbids barrel files. Only the imports are exempt. jscpd
    checks the code below. */
-import type { StageContext, StageCost, StageResult } from "../../../types/pipeline.js";
+import type { StageContext, StageResult } from "../../../types/pipeline.js";
 import { mapWithConcurrency } from "../../../utils/concurrency.js";
-import { totalCost } from "../../../utils/cost.js";
 import { NamedError } from "../../../utils/errors.js";
 import { isRecord } from "../../../utils/record.js";
 import { configuredStage } from "../../../utils/stage-config.js";
@@ -174,7 +173,7 @@ type DeepeningCallArgs = {
  * @param args.runNumber - The splitting run, counting from 1, for the log and the failure message.
  * @param args.context - The stage context.
  * @param args.calls - The model calls of this stage run.
- * @returns The pieces of the subtopic in order, and the cost of its sends. The cost is `null` when the subtopic was not sent.
+ * @returns The pieces of the subtopic in order.
  */
 async function deepenSubtopic({
 	subtopic,
@@ -183,13 +182,13 @@ async function deepenSubtopic({
 	runNumber,
 	context,
 	calls,
-}: DeepeningCallArgs & { readonly subtopic: Subtopic; readonly round: number }): Promise<{
-	readonly pieces: readonly Subtopic[];
-	readonly cost: StageCost | null;
-}> {
+}: DeepeningCallArgs & {
+	readonly subtopic: Subtopic;
+	readonly round: number;
+}): Promise<readonly Subtopic[]> {
 	const passage = subtopicText({ text: transcript, subtopic });
 	if (countWords(passage) <= context.config.subtopicSplitting.sizeGateWords) {
-		return { pieces: [subtopic], cost: null };
+		return [subtopic];
 	}
 	const sent = await calls.sendJsonWithResends({
 		what: `Deepening splitting run ${runNumber}, round ${round}, subtopic "${subtopic.title}"`,
@@ -198,7 +197,7 @@ async function deepenSubtopic({
 		documentedShape: DOCUMENTED_REPLY_SHAPE,
 		use: ({ cuts }) => ({ reply: cutSubtopic({ transcript, subtopic, cuts }) }),
 	});
-	return { pieces: sent.reply, cost: sent.cost };
+	return sent.reply;
 }
 
 /**
@@ -216,7 +215,7 @@ async function deepenSubtopic({
  * @param args.runNumber - The splitting run, counting from 1, for the log and the failure message.
  * @param args.context - The stage context.
  * @param args.calls - The model calls of this stage run.
- * @returns The deepened splitting run, and the cost of its calls. The cost is `null` when no subtopic was above the size gate.
+ * @returns The deepened splitting run.
  * @throws {ResendsExhaustedError} If the third send for a subtopic is still unusable.
  * @throws {DivisionNotLosslessError} If the deepened splitting run does not reproduce the transcript. A deepened splitting run that does not reproduce the transcript is always a bug.
  */
@@ -225,25 +224,20 @@ async function deepenSplittingRun({
 	...underDeepening
 }: DeepeningCallArgs & {
 	readonly splittingRunBeforeDeepening: readonly Subtopic[];
-}): Promise<{
-	readonly run: readonly Subtopic[];
-	readonly cost: StageCost | null;
-}> {
+}): Promise<readonly Subtopic[]> {
 	const { transcript, context } = underDeepening;
 	const callConcurrency = configuredStage({
 		config: context.config,
 		stageId: STAGE_ID,
 	})?.callConcurrency;
 	let subtopics = splittingRunBeforeDeepening;
-	let cost: StageCost | null = null;
 	for (let round = 1; round <= MAX_ROUNDS; round += 1) {
 		const deepened = await mapWithConcurrency({
 			items: subtopics,
 			limit: callConcurrency,
 			work: ({ item: subtopic }) => deepenSubtopic({ ...underDeepening, subtopic, round }),
 		});
-		cost = totalCost([cost, ...deepened.map((outcome) => outcome.cost)]);
-		const deeper = deepened.flatMap((outcome) => outcome.pieces);
+		const deeper = deepened.flat();
 		const cutAnything = deeper.length > subtopics.length;
 		subtopics = deeper;
 		if (!cutAnything) {
@@ -251,7 +245,7 @@ async function deepenSplittingRun({
 		}
 	}
 	assertLossless({ text: transcript, subtopics });
-	return { run: subtopics, cost };
+	return subtopics;
 }
 
 /**
@@ -262,7 +256,7 @@ async function deepenSplittingRun({
  * @param args.input - The transcript and the splitting runs before deepening.
  * @param args.context - The stage context.
  * @param args.calls - The model calls of this stage run.
- * @returns Every deepened splitting run, the cost of the calls of this invocation, and the saved runs.
+ * @returns Every deepened splitting run, and the saved runs.
  */
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger has mutable properties that the rule cannot ignore. This function does not use it. CLAUDE.md permits a mutable type that a library requires.
 function deepenSplittingRuns({

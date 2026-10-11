@@ -8,15 +8,9 @@
 
 import type OpenAI from "openai";
 import type { Logger } from "pino";
-import type {
-	CostTally,
-	PipelineStage,
-	StageContext,
-	StageCost,
-	StageResult,
-} from "../../types/pipeline.js";
+import type { CostTally, PipelineStage, StageContext, StageResult } from "../../types/pipeline.js";
 import { errorMessage, NamedError } from "../../utils/errors.js";
-import { sendUntilAccepted } from "../../utils/resend.js";
+import { type FailedSend, sendUntilAccepted } from "../../utils/resend.js";
 import { createSendGate, type SendGate } from "../../utils/send-gate.js";
 import { configuredConcurrency, configuredStage } from "../../utils/stage-config.js";
 import { callModel, type ModelCallRequest, type OpenRouterClient } from "../openrouter.js";
@@ -64,21 +58,19 @@ export type JsonReplyRequest<TReply> = Pick<
 } & ModelStageDependencies;
 
 /**
- * A JSON reply that has the documented shape, and the cost of the call.
+ * A JSON reply that has the documented shape.
  *
  * @typeParam TReply - The reply that the stage expects.
  */
-export type UsableJsonReply<TReply> = { readonly reply: TReply; readonly cost: StageCost };
+export type UsableJsonReply<TReply> = { readonly reply: TReply };
 
 /**
  * The outcome of one JSON call: the documented reply, or the reason that the reply
- * is unusable. Both carry the cost, because the call was made.
+ * is unusable.
  *
  * @typeParam TReply - The reply that the stage expects.
  */
-export type JsonReplyOutcome<TReply> =
-	| UsableJsonReply<TReply>
-	| { readonly failure: string; readonly cost: StageCost };
+export type JsonReplyOutcome<TReply> = UsableJsonReply<TReply> | FailedSend;
 
 /**
  * Asks the model for a JSON reply for a stage. It gives the reply when the reply
@@ -87,7 +79,7 @@ export type JsonReplyOutcome<TReply> =
  *
  * A reply in JSON mode can still be empty, prose or the wrong shape, so the reply
  * is checked (technical-design.md §6). An unusable reply is returned and not
- * thrown, so that a caller that resends still has the cost of the call.
+ * thrown, so that a caller can resend it.
  *
  * @param args - The prompt, the stage, and the check of the reply.
  * @param args.messages - The prompt, as the stage's prompt module built it.
@@ -98,9 +90,8 @@ export type JsonReplyOutcome<TReply> =
  * @param args.logger - The logger of the stage. The call is logged on it.
  * @param args.client - The OpenAI client that makes the model call.
  * @param args.sendGate - The send gate of the stage run. The call waits on it.
- * @param args.costTally - The cost tally of the stage run. The cost of the reply is added to it,
- *   so a stage that fails still records what it spent (technical-design.md §7, "A stage that fails").
- * @returns The checked reply or the reason that it is unusable, with the cost of the call.
+ * @param args.costTally - The cost tally of the stage run. Each send of the call adds its cost to it.
+ * @returns The checked reply, or the reason that it is unusable.
  * @typeParam TReply - The reply that the stage expects.
  */
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- the message-param, pino Logger and OpenAI client types are library types that are not deeply readonly. CLAUDE.md allows a mutable type where a library requires one.
@@ -115,7 +106,7 @@ export async function tryJsonReply<TReply>({
 	sendGate,
 	costTally,
 }: JsonReplyRequest<TReply>): Promise<JsonReplyOutcome<TReply>> {
-	const { content, cost } = await callModel({
+	const { content } = await callModel({
 		messages,
 		stageId,
 		config: context.config,
@@ -123,10 +114,10 @@ export async function tryJsonReply<TReply>({
 		logger,
 		client,
 		sendGate,
+		costTally,
 	});
-	costTally.add(cost);
 	if (content.trim() === "") {
-		return { failure: "The model's reply was empty", cost };
+		return { failure: "The model's reply was empty" };
 	}
 	let parsed: unknown;
 	try {
@@ -134,13 +125,12 @@ export async function tryJsonReply<TReply>({
 	} catch (error: unknown) {
 		return {
 			failure: `The model answered with something other than JSON (${errorMessage(error)})`,
-			cost,
 		};
 	}
 	if (!isReply(parsed)) {
-		return { failure: `The model's reply is not the documented ${documentedShape}`, cost };
+		return { failure: `The model's reply is not the documented ${documentedShape}` };
 	}
-	return { reply: parsed, cost };
+	return { reply: parsed };
 }
 
 /**
@@ -151,7 +141,7 @@ export async function tryJsonReply<TReply>({
  *
  * @param args - As for {@link tryJsonReply}, and the error to raise.
  * @param args.fail - Builds the stage's own error from a message.
- * @returns The checked reply, and the cost of the call.
+ * @returns The checked reply.
  * @throws The error that `fail` builds, if the reply is empty, not JSON, or not the documented shape.
  * @typeParam TReply - The reply that the stage expects.
  */
@@ -224,12 +214,12 @@ export function promptMessages({
 /**
  * {@link tryJsonReply}, then `use` makes what the stage keeps from a usable reply.
  * `use` can also find the reply unusable, for example when its start words are not
- * in the transcript. That failure is returned like any other, with the cost of the
- * call, so a caller that resends treats every failure the same.
+ * in the transcript. That failure is returned like any other, so a caller that
+ * resends treats every failure the same.
  *
  * @param args - As for {@link tryJsonReply}, and the use of the reply.
  * @param args.use - Makes what the stage keeps from the documented reply, or gives the reason that it cannot.
- * @returns The value that the stage keeps, or the reason that the reply is unusable, with the cost of the call.
+ * @returns The value that the stage keeps, or the reason that the reply is unusable.
  * @typeParam TReply - The reply that the stage expects.
  * @typeParam TKept - The value that the stage keeps from the reply.
  */
@@ -244,7 +234,7 @@ export async function tryJsonReplyAs<TReply, TKept>({
 	if ("failure" in outcome) {
 		return outcome;
 	}
-	return { ...use(outcome.reply), cost: outcome.cost };
+	return use(outcome.reply);
 }
 
 /** A call whose reply is still unusable after its last send. The message names the call and the last reason. */
@@ -252,8 +242,7 @@ export class ResendsExhaustedError extends NamedError {}
 
 /**
  * Sends one call until its reply is usable: up to three sends, with a pause of two
- * seconds and then four between them. The cost of every send is counted, because
- * every send is billed.
+ * seconds and then four between them.
  *
  * Only an unusable reply is resent. An error that the call throws is not resent.
  * The OpenAI client and the model call already resend a failed call that can
@@ -267,7 +256,7 @@ export class ResendsExhaustedError extends NamedError {}
  * @param args.send - Makes the call once.
  * @param args.what - The name of the call in the log and in a failure, such as "run 3".
  * @param args.logger - The logger of the stage.
- * @returns The usable reply, and the cost of all the sends.
+ * @returns The usable reply.
  * @throws {ResendsExhaustedError} When the reply of the third send is still unusable.
  * @typeParam TReply - The reply that the call expects.
  */
@@ -281,7 +270,7 @@ export async function sendWithResends<TReply>({
 	readonly what: string;
 	readonly logger: Logger;
 }): Promise<UsableJsonReply<TReply>> {
-	const { sent, cost } = await sendUntilAccepted({
+	const { sent } = await sendUntilAccepted({
 		send,
 		onFailure: ({ send: sends, failure }) => {
 			logger.warn({ what, send: sends, reason: failure }, "Unusable reply");
@@ -289,7 +278,7 @@ export async function sendWithResends<TReply>({
 		exhausted: ({ failure, sends }) =>
 			new ResendsExhaustedError(`${what} failed after ${sends} sends: ${failure}`),
 	});
-	return { reply: sent.reply, cost };
+	return sent;
 }
 
 /**
@@ -299,7 +288,7 @@ export async function sendWithResends<TReply>({
  *
  * @param args - The request and the use of the reply, as for {@link tryJsonReplyAs}, and the name of the call.
  * @param args.what - The name of the call in the log and in a failure, such as "Grouping run 3".
- * @returns The value that the stage keeps from the usable reply, and the cost of all the sends.
+ * @returns The value that the stage keeps from the usable reply.
  * @throws {ResendsExhaustedError} When the reply of the third send is still unusable.
  * @typeParam TReply - The reply that the stage expects.
  * @typeParam TKept - The value that the stage keeps from the reply.

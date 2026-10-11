@@ -62,11 +62,10 @@ describe("structure-transcript", () => {
 		});
 	});
 
-	it("should record no cost and the one file written when the stage completes", async () => {
+	it("should record the one file written when the stage completes", async () => {
 		const result = await run();
 
 		expect(result).toMatchObject({
-			cost: null,
 			filesWritten: ["Structured transcript/structured-transcript.json"],
 		});
 	});

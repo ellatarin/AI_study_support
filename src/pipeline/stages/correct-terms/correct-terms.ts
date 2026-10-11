@@ -17,7 +17,6 @@ import { FIRST_ROUND } from "../../manifest.js";
 import type { SubtopicWithIdAndText } from "../division.js";
 import type { ModelStageFactory } from "../model-stage.js";
 import { defineRewriteAttemptStage, type RewriteAttemptWork } from "../rewrite-attempts.js";
-import type { MadeFile } from "../saved-files.js";
 import { isSubjectMatter, readSlideReading, type SlideReading } from "../slides.js";
 import { readStageSlidePlacements, readStageSubtopics } from "../stage-input.js";
 import {
@@ -318,17 +317,15 @@ async function readCorrectTermsInput(context: StageContext): Promise<CorrectTerm
  * @param args - The subtopic with its slides, and the model calls of the stage run.
  * @param args.subtopic - The subtopic, with the reading of each slide placed in it.
  * @param args.calls - The model calls of this stage run.
- * @returns The term-correction result, and the cost of its call.
+ * @returns The term-correction result.
  * @throws {ResendsExhaustedError} If the third send is still unusable.
  */
 async function correctSubtopicTerms({
 	subtopic: entry,
 	calls,
-}: RewriteAttemptWork<CorrectTermsInput, SubtopicWithSlides>): Promise<
-	MadeFile<TermCorrectionResult>
-> {
+}: RewriteAttemptWork<CorrectTermsInput, SubtopicWithSlides>): Promise<TermCorrectionResult> {
 	if (entry.slides.length === 0) {
-		return { content: correctedAttempt({ ...entry, corrections: [] }), cost: null };
+		return correctedAttempt({ ...entry, corrections: [] });
 	}
 	const sent = await calls.sendJsonWithResends({
 		what: `Term correction of subtopic ${entry.subtopicId}`,
@@ -337,10 +334,7 @@ async function correctSubtopicTerms({
 		documentedShape: DOCUMENTED_REPLY_SHAPE,
 		use: usableReply,
 	});
-	return {
-		content: correctedAttempt({ ...entry, corrections: sent.reply.corrections }),
-		cost: sent.cost,
-	};
+	return correctedAttempt({ ...entry, corrections: sent.reply.corrections });
 }
 
 /** Builds the `correct-terms` stage from the logger and the OpenAI client of the invocation. */

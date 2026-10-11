@@ -345,10 +345,11 @@ type StageStatusWriter = {
 	 * pipeline run does the stage again.
 	 */
 	running(): Promise<void>;
-	/** The stage returned. The entry records what it made, with any lecture identity that it decided (technical-design.md §4.2). */
+	/** The stage returned. The entry records what it made and spent, with any lecture identity that it decided (technical-design.md §4.2). */
 	complete(args: {
 		readonly configUsed: StageConfigUsed | null;
 		readonly result: StageResult<unknown>;
+		readonly cost: StageCost | null;
 	}): Promise<void>;
 	/** The stage threw. The entry records the error message that the user sees, and what the stage spent before it failed. */
 	failed(args: {
@@ -412,14 +413,14 @@ function createStageStatusWriter({
 		skipped: () =>
 			write({ entry: skippedEntry({ context, stageId, timestamp }), identityChanges: {} }),
 		running: () => write({ entry: { status: "running", round: FIRST_ROUND }, identityChanges: {} }),
-		complete: ({ configUsed, result }) =>
+		complete: ({ configUsed, result, cost }) =>
 			write({
 				entry: {
 					status: "complete",
 					completedAt: timestamp,
 					round: FIRST_ROUND,
 					configUsed,
-					cost: totalCost([spentBefore, result.cost]),
+					cost: totalCost([spentBefore, cost]),
 					filesWritten: result.filesWritten,
 				},
 				identityChanges: result.identityChanges ?? {},
@@ -469,40 +470,34 @@ async function runStage({
 	reporter({ event: "stage-started", stageId });
 	await statusWriter.running();
 	const costTally = createCostTally();
+	// The outcome of a stage that ran. Its cost is the total of the stage run's cost tally.
+	const ranOutcome = (
+		ending: { readonly status: "complete" } | { readonly status: "failed"; readonly error: string },
+	): StageOutcome => ({
+		entry: {
+			action: "ran",
+			...ending,
+			configUsed,
+			rounds: ROUNDS_PER_PIPELINE_RUN,
+			cost: runLogCost(costTally.total()),
+		},
+		context: statusWriter.context(),
+	});
 	try {
 		const input = await stage.getInput(context);
 		const result = await stage.run({ input, context, costTally });
-		await statusWriter.complete({ configUsed, result });
-		reporter({ event: "stage-completed", stageId, cost: result.cost });
-		return {
-			entry: {
-				action: "ran",
-				status: "complete",
-				configUsed,
-				rounds: ROUNDS_PER_PIPELINE_RUN,
-				cost: runLogCost(result.cost),
-			},
-			context: statusWriter.context(),
-		};
+		const cost = costTally.total();
+		await statusWriter.complete({ configUsed, result, cost });
+		reporter({ event: "stage-completed", stageId, cost });
+		return ranOutcome({ status: "complete" });
 	} catch (error: unknown) {
 		const message = errorMessage(error);
-		const cost = costTally.total();
 		// The user sees only the message. The stack goes to the debug log, where an
 		// unexpected failure is diagnosed (technical-design.md §8, §10).
 		createStageLogger({ logger, stageId }).error({ err: error }, "Stage failed");
 		reporter({ event: "stage-failed", stageId });
-		await statusWriter.failed({ configUsed, error: message, cost });
-		return {
-			entry: {
-				action: "ran",
-				status: "failed",
-				error: message,
-				configUsed,
-				rounds: ROUNDS_PER_PIPELINE_RUN,
-				cost: runLogCost(cost),
-			},
-			context: statusWriter.context(),
-		};
+		await statusWriter.failed({ configUsed, error: message, cost: costTally.total() });
+		return ranOutcome({ status: "failed", error: message });
 	}
 }
 

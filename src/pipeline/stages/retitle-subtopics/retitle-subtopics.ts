@@ -144,7 +144,7 @@ function readInput(context: StageContext): Promise<TranscriptAndDivision> {
  * @param args.input - The transcript and the chosen division.
  * @param args.context - The stage context.
  * @param args.calls - The model calls of this stage run.
- * @returns The retitled division, the cost of the call, and the files written.
+ * @returns The retitled division, and the files written.
  * @throws {ResendsExhaustedError} If the third send is still unusable.
  */
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger has mutable properties that the rule cannot ignore. This function does not use it. CLAUDE.md permits a mutable type that a library requires.
@@ -168,7 +168,6 @@ async function retitle({
 		context,
 		subtopics: sent.reply.map(({ subtopic, newTitle }) => ({ ...subtopic, title: newTitle })),
 		stageRecord: titleChanges(sent.reply),
-		cost: sent.cost,
 	});
 }
 

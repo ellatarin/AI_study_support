@@ -2291,10 +2291,9 @@ export function useStageReadingEarlierOutputs<TInput, TOutput>({
 	} as PipelineConfig;
 	const workspaceRoot = (): string => workspace().workspaceRoot;
 	const { client, create } = useStubbedOpenRouter();
-	let costTally = createCostTally();
+	const costTally = useCostTally();
 
 	beforeEach(async () => {
-		costTally = createCostTally();
 		if (reply !== null) {
 			create().mockResolvedValue(openRouterReplyBody({ content: reply }));
 		}
@@ -2309,7 +2308,7 @@ export function useStageReadingEarlierOutputs<TInput, TOutput>({
 			workspaceRoot: workspaceRoot(),
 			logger: logged().logger,
 			manifest: makeManifest(manifest),
-			costTally,
+			costTally: costTally(),
 		});
 
 	return {
@@ -2318,7 +2317,7 @@ export function useStageReadingEarlierOutputs<TInput, TOutput>({
 		logged,
 		create,
 		run,
-		costTally: () => costTally,
+		costTally,
 		expectOneCallSending: async (value) => {
 			await run();
 
@@ -2538,6 +2537,20 @@ export async function readJsonFile(path: string): Promise<unknown> {
  */
 export function readSavedRunJson(run: Parameters<typeof savedRunPath>[0]): Promise<unknown> {
 	return readJsonFile(savedRunPath(run));
+}
+
+/**
+ * Gives a new cost tally before each test, for a suite that checks what a stage
+ * spent (technical-design.md §7).
+ *
+ * @returns A function that gives the cost tally of the current test.
+ */
+export function useCostTally(): () => CostTally {
+	let costTally = createCostTally();
+	beforeEach(() => {
+		costTally = createCostTally();
+	});
+	return () => costTally;
 }
 
 /**

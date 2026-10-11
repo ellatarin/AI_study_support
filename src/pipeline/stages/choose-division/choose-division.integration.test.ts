@@ -60,7 +60,6 @@ describe("choose-division", () => {
 			},
 		);
 		expect(result).toMatchObject({
-			cost: null,
 			filesWritten: ["Chosen division/subtopics.json", "Chosen division/choice.json"],
 		});
 	});

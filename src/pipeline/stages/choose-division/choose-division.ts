@@ -234,7 +234,6 @@ export function createChooseDivisionStage({
 				context,
 				subtopics,
 				stageRecord: choice,
-				cost: null,
 			});
 		},
 	});

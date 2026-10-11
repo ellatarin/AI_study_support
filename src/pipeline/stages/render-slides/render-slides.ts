@@ -93,10 +93,8 @@ async function renderSlides({
 		await writeFileAtomic({ path, content: canvas.toBuffer("image/png") });
 		slideImagePaths.push(path);
 	}
-	// The stage makes no billable call, so it records no cost.
 	return {
 		output: { slideImagePaths },
-		cost: null,
 		filesWritten: slideImagePaths.map((path) => relative(context.workspaceRoot, path)),
 	};
 }

@@ -23,7 +23,6 @@ import {
 	type RewriteAttemptWork,
 	readOrMakeRewriteAttempts,
 } from "../rewrite-attempts.js";
-import type { MadeFile } from "../saved-files.js";
 import { readStageSubtopics } from "../stage-input.js";
 import { readSubtopicRewrite } from "../subtopic-rewrites.js";
 import { readTermCorrectionResult } from "../term-corrections.js";
@@ -238,15 +237,13 @@ async function readCheckRewriteAttemptsInput(
  * @param args - The subtopic, the stage context and the model calls of the stage run.
  * @param args.subtopic - What the checker gets for the subtopic.
  * @param args.calls - The model calls of this stage run.
- * @returns The subtopic check, and the cost of its calls.
+ * @returns The subtopic check.
  * @throws {ResendsExhaustedError} If the third send is still unusable.
  */
 async function checkSubtopic({
 	subtopic,
 	calls,
-}: RewriteAttemptWork<CheckRewriteAttemptsInput, SubtopicToCheck>): Promise<
-	MadeFile<SubtopicCheck>
-> {
+}: RewriteAttemptWork<CheckRewriteAttemptsInput, SubtopicToCheck>): Promise<SubtopicCheck> {
 	const { subtopicId, ...toCheck } = subtopic;
 	const sent = await calls.sendJsonWithResends({
 		what: `Check of subtopic ${subtopicId}`,
@@ -256,13 +253,10 @@ async function checkSubtopic({
 		use: (reply) => ({ reply }),
 	});
 	return {
-		content: {
-			subtopicId,
-			attemptNumber: FIRST_ROUND,
-			checkerPromptVersion: CHECKER_PROMPT_VERSION,
-			...sent.reply,
-		},
-		cost: sent.cost,
+		subtopicId,
+		attemptNumber: FIRST_ROUND,
+		checkerPromptVersion: CHECKER_PROMPT_VERSION,
+		...sent.reply,
 	};
 }
 
@@ -307,7 +301,7 @@ export const createCheckRewriteAttemptsStage: ModelStageFactory<
 	stageId: STAGE_ID,
 	getInput: readCheckRewriteAttemptsInput,
 	run: async (run) => {
-		const { contents, cost, filesWritten } = await readOrMakeRewriteAttempts({
+		const { contents, filesWritten } = await readOrMakeRewriteAttempts({
 			stageId: STAGE_ID,
 			subtopicsOf: (input) => input.subtopics,
 			isSaved: isSubtopicCheck,
@@ -320,6 +314,6 @@ export const createCheckRewriteAttemptsStage: ModelStageFactory<
 			workspaceRoot: run.context.workspaceRoot,
 			checks: contents,
 		});
-		return { output: { checks: contents }, cost, filesWritten: [...filesWritten, roundFile] };
+		return { output: { checks: contents }, filesWritten: [...filesWritten, roundFile] };
 	},
 });

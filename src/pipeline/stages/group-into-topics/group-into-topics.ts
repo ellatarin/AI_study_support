@@ -182,7 +182,6 @@ async function groupIntoTopics(
 	});
 	return {
 		output: { topics },
-		cost: panel.cost,
 		filesWritten: [...panel.filesWritten, ...written.filesWritten],
 	};
 }

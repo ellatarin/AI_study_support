@@ -26,6 +26,7 @@ import {
 	stubElevenLabsApi,
 	transcriptionModelId,
 	transcriptText,
+	useCostTally,
 	useStubLogger,
 } from "../../fixtures.js";
 import { stageOutputEntry, stageOutputPath } from "../../layout.js";
@@ -44,6 +45,7 @@ describe("createTranscriptionStage", () => {
 	let moduleRoot: string;
 	let workspaceRoot: string;
 	const logged = useStubLogger();
+	const costTally = useCostTally();
 
 	beforeEach(async () => {
 		vi.clearAllMocks();
@@ -113,7 +115,7 @@ describe("createTranscriptionStage", () => {
 	}
 
 	function runStage(context: StageContext): Promise<StageResult<TranscriptionOutput>> {
-		return driveStage({ stage: makeStage(), context });
+		return driveStage({ stage: makeStage(), context, costTally: costTally() });
 	}
 
 	it("should name the stage transcription when the stage is created", () => {
@@ -220,9 +222,9 @@ describe("createTranscriptionStage", () => {
 	it("should record cost from audio duration and the configured rate when transcription completes", async () => {
 		interceptScribeUpload();
 
-		const result = await runStage(contextWith());
+		await runStage(contextWith());
 
-		expect(result.cost).toEqual({
+		expect(costTally().total()).toEqual({
 			promptTokens: 0,
 			completionTokens: 0,
 			callCount: 1,
@@ -235,10 +237,10 @@ describe("createTranscriptionStage", () => {
 		stubDurationFailure("ffprobe could not read the container");
 		interceptScribeUpload();
 
-		const result = await runStage(contextWith());
+		await runStage(contextWith());
 
-		expect(result.cost).toMatchObject({ callCount: 1, costUsd: null });
-		expect(result.cost).toHaveProperty(
+		expect(costTally().total()).toMatchObject({ callCount: 1, costUsd: null });
+		expect(costTally().total()).toHaveProperty(
 			"unknownCostReason",
 			expect.stringContaining("ffprobe could not read the container"),
 		);
@@ -277,9 +279,12 @@ describe("createTranscriptionStage", () => {
 		);
 		interceptScribeUpload();
 
-		const result = await runStage(contextWith());
+		await runStage(contextWith());
 
-		expect(result.cost).toHaveProperty("unknownCostReason", expect.stringContaining("no duration"));
+		expect(costTally().total()).toHaveProperty(
+			"unknownCostReason",
+			expect.stringContaining("no duration"),
+		);
 	});
 
 	it("should still write the transcript when the audio duration cannot be read", async () => {

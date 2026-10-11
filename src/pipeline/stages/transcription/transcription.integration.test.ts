@@ -17,6 +17,7 @@ import {
 	toneInput,
 	transcriptionModelId,
 	transcriptText,
+	useCostTally,
 } from "../../fixtures.js";
 import { stageOutputEntry, stageOutputPath } from "../../layout.js";
 import { createTranscriptionStage } from "./transcription.js";
@@ -37,6 +38,7 @@ function renderFixtureAudio(outputPath: string): Promise<void> {
 describe("createTranscriptionStage against real audio", () => {
 	let moduleRoot: string;
 	let workspaceRoot: string;
+	const costTally = useCostTally();
 
 	beforeEach(async () => {
 		stubElevenLabsApi();
@@ -62,7 +64,7 @@ describe("createTranscriptionStage against real audio", () => {
 				config: makeConfig({ stages: { transcription: { modelId: transcriptionModelId } } }),
 			});
 
-			const result = await driveStage({ stage, context });
+			const result = await driveStage({ stage, context, costTally: costTally() });
 
 			expect(upload.scope.isDone()).toBe(true);
 			expect(upload.uploadedBody().length).toBeGreaterThan(0);
@@ -70,7 +72,7 @@ describe("createTranscriptionStage against real audio", () => {
 				await readFile(stageOutputPath({ workspaceRoot, stageId: "transcription" }), "utf8"),
 			).toBe(transcriptText);
 			expect(result.filesWritten).toStrictEqual([stageOutputEntry("transcription")]);
-			expect(result.cost?.costUsd).toBeCloseTo(
+			expect(costTally().total()?.costUsd).toBeCloseTo(
 				(FIXTURE_SECONDS / SECONDS_PER_HOUR) * exampleConfig.elevenLabs.costPerAudioHourUsd,
 				5,
 			);

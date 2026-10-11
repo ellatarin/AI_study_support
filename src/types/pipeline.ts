@@ -163,7 +163,7 @@ export type PipelineConfig = {
 	};
 };
 
-/** The part of a stage's result that the runner copies into the stage entry unchanged. */
+/** The cost and the files of a stage entry. The files come from the stage's result, and the cost from its cost tally. */
 type StageCostAndFiles = {
 	readonly cost: StageCost | null;
 	readonly filesWritten: readonly string[];
@@ -254,11 +254,12 @@ export type LectureIdentityChanges = Partial<
 
 /**
  * The value that a stage's `run` returns (technical-design.md §4.2). Each `filesWritten`
- * entry is relative to the workspace and must stay in the module (§4.4).
+ * entry is relative to the workspace and must stay in the module (§4.4). The cost
+ * is not part of it: the runner reads the cost tally of the stage run (§7).
  *
  * @typeParam TOutput - The stage's own output.
  */
-export type StageResult<TOutput> = StageCostAndFiles & {
+export type StageResult<TOutput> = Pick<StageCostAndFiles, "filesWritten"> & {
 	readonly output: TOutput;
 	/** The lecture identity that the stage decided. Absent and `{}` both mean nothing. */
 	readonly identityChanges?: LectureIdentityChanges;

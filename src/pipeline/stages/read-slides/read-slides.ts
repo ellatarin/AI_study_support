@@ -104,7 +104,7 @@ async function readSlideImages(context: StageContext): Promise<SlideImages> {
  * @param args.context - The stage context.
  * @param args.calls - The model calls of this stage run.
  * @param args.concurrency - The stage's `concurrency`.
- * @returns The readings, the cost of the calls and the files written.
+ * @returns The readings and the files written.
  */
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger has mutable properties that the rule cannot ignore. CLAUDE.md permits a mutable type that a library requires.
 async function readSlides({
@@ -121,7 +121,7 @@ async function readSlides({
 			path: slideReadingPath({ workspaceRoot: context.workspaceRoot, slideNumber }),
 		};
 	});
-	const { contents, cost } = await readOrMakeSavedFiles<(typeof slides)[number], SlideReading>({
+	const { contents } = await readOrMakeSavedFiles<(typeof slides)[number], SlideReading>({
 		files: slides,
 		label: "Slides",
 		concurrency,
@@ -141,12 +141,11 @@ async function readSlides({
 				documentedShape: DOCUMENTED_REPLY_SHAPE,
 				use: (reply) => usableReading({ reply, slideNumber }),
 			});
-			return { content: sent.reply, cost: sent.cost };
+			return sent.reply;
 		},
 	});
 	return {
 		output: { readings: contents },
-		cost,
 		filesWritten: slides.map((slide) => relative(context.workspaceRoot, slide.path)),
 	};
 }

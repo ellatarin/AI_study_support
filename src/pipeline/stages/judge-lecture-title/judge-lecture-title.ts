@@ -246,7 +246,7 @@ async function judgeLectureTitle({
 			baseName: identityChanges.baseName,
 		});
 	}
-	return { output: judgement, cost: sent.cost, filesWritten, identityChanges };
+	return { output: judgement, filesWritten, identityChanges };
 }
 
 /** Builds the `judge-lecture-title` stage from the logger and the OpenAI client of the invocation. */

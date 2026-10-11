@@ -3,6 +3,7 @@ import type { Logger } from "pino";
 import {
 	CONFIG_FILENAME,
 	type CostResolution,
+	type CostTally,
 	type PipelineConfig,
 	type StageConfig,
 	type StageCost,
@@ -336,6 +337,8 @@ export type ModelCallRequest = {
 	readonly logger: Logger;
 	readonly client: OpenRouterClient;
 	readonly sendGate: SendGate;
+	/** The cost tally of the stage run. Each send adds its cost, a failed send too (technical-design.md §7). */
+	readonly costTally: CostTally;
 };
 
 /**
@@ -369,7 +372,6 @@ function sendCost({
  */
 type AnsweredSend = {
 	readonly content: string;
-	readonly cost: StageCost;
 	readonly keptError: {
 		readonly providerMessage: string;
 		readonly finishReason: string | null;
@@ -377,13 +379,15 @@ type AnsweredSend = {
 };
 
 /**
- * Makes one send of a model call, and logs it at `debug`.
+ * Makes one send of a model call, logs it at `debug`, and adds its cost to the
+ * cost tally. The cost is added before any check of the reply, because the send
+ * is billed even when the reply is unusable.
  *
  * @param options - As for {@link callModel}, with the stage's configuration and the client.
  * @param options.stageConfig - The stage's model and tuning.
  * @param options.openAiClient - The client for the call.
- * @returns The answer, its cost and any provider error that came with it. Or, for
- *   a reply with a provider error and no answer, the failed send and its cost.
+ * @returns The answer and any provider error that came with it. Or, for a reply
+ *   with a provider error and no answer, the failed send.
  * @throws {ContextLengthError} If the prompt is longer than the model's context window.
  * @throws {ProviderError} If the send fails with an `APIError`.
  * @throws {NoReplyChoicesError} If the reply has no choices and no provider error.
@@ -419,8 +423,10 @@ async function sendOnce(
 	// A resend would lose a complete answer (technical-design.md §6).
 	const content = choice?.message.content ?? "";
 	const providerMessage = providerErrorMessage(response);
-	if (providerMessage !== null && content === "") {
-		return { failure: providerMessage, cost: sendCost({ response, hasProviderError: true }) };
+	const hasProviderError = providerMessage !== null && content === "";
+	options.costTally.add(sendCost({ response, hasProviderError }));
+	if (hasProviderError) {
+		return { failure: providerMessage };
 	}
 	// A reply with no choices has no answer to read. Without this check, the call
 	// would return "" as if the model answered. This error names the stage and the
@@ -433,15 +439,14 @@ async function sendOnce(
 	}
 	return {
 		content,
-		cost: sendCost({ response, hasProviderError: false }),
 		keptError: providerMessage === null ? null : { providerMessage, finishReason },
 	};
 }
 
 /**
- * Makes one model call for a stage. It returns the answer and the
- * {@link StageCost}, which it reads from the reply's `usage`. A reply with no
- * numeric cost has an unknown cost, and the call does not fail
+ * Makes one model call for a stage, and returns the answer. Each send adds its
+ * {@link StageCost}, which it reads from the reply's `usage`, to the cost tally. A
+ * reply with no numeric cost has an unknown cost, and the call does not fail
  * (technical-design.md §6, §7).
  *
  * A reply with a provider error and no answer is sent again, up to three sends.
@@ -458,7 +463,8 @@ async function sendOnce(
  * @param options.client - The provider of the invocation's client (§4.7).
  * @param options.sendGate - The send gate of the stage run. Each send, and each resend,
  *   waits for its turn (§6, `sendGapSeconds`).
- * @returns The answer and its cost.
+ * @param options.costTally - The cost tally of the stage run. Each send adds its cost to it.
+ * @returns The answer.
  * @throws {UnconfiguredStageError} If the configuration has no entry for the stage. Its message
  *   names the stage.
  * @throws {ContextLengthError} If the prompt is longer than the model's context window. Its
@@ -471,13 +477,13 @@ async function sendOnce(
 export async function callModel(
 	// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- the OpenAI client, message and pino Logger types are library types that are not deeply readonly (CLAUDE.md allows mutable types when a library requires them)
 	options: ModelCallRequest,
-): Promise<{ readonly content: string; readonly cost: StageCost }> {
+): Promise<{ readonly content: string }> {
 	const stageConfig = stageConfigFor({ config: options.config, stageId: options.stageId });
 	const { modelId } = stageConfig;
 	// The client is asked for only here, when a call needs it. So a command that
 	// calls no model never needs the API key.
 	const openAiClient = options.client();
-	const { sent, sends, cost } = await sendUntilAccepted({
+	const { sent, sends } = await sendUntilAccepted({
 		send: async () => {
 			await options.sendGate.waitTurn();
 			return sendOnce({ ...options, stageConfig, openAiClient });
@@ -499,5 +505,5 @@ export async function callModel(
 			"Answer kept beside the provider's error",
 		);
 	}
-	return { content: sent.content, cost };
+	return { content: sent.content };
 }

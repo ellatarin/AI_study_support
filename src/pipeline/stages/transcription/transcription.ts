@@ -6,6 +6,7 @@ import ffmpeg from "fluent-ffmpeg";
 import type { Logger } from "pino";
 import type {
 	CostResolution,
+	CostTally,
 	PipelineConfig,
 	PipelineStage,
 	StageContext,
@@ -255,11 +256,12 @@ async function priceAudio({
  * The upload is a billable call. So the debug log records it like a model call,
  * with the model, the bytes sent and the latency (technical-design.md §10).
  *
- * @param args - The input, the stage context and the logger.
+ * @param args - The input, the stage context, the logger and the cost tally.
  * @param args.input - The audio to upload.
  * @param args.context - The stage context.
  * @param args.logger - The logger that records the Scribe call.
- * @returns The transcript path, the cost from the audio duration, and the file written.
+ * @param args.costTally - The cost tally of the stage run. The cost from the audio duration is added to it.
+ * @returns The transcript path, and the file written.
  * @throws {TranscriptionError} If the key or the model is missing, or the response has no text.
  */
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger has mutable properties that the rule cannot ignore. This function only logs to it. CLAUDE.md permits a mutable type that a library requires.
@@ -267,10 +269,12 @@ async function transcribeAudio({
 	input,
 	context,
 	logger,
+	costTally,
 }: {
 	readonly input: TranscriptionInput;
 	readonly context: StageContext;
 	readonly logger: Logger;
+	readonly costTally: CostTally;
 }): Promise<StageResult<TranscriptionOutput>> {
 	const apiKey = requireApiKey();
 	const modelId = resolveModelId(context);
@@ -296,12 +300,14 @@ async function transcribeAudio({
 		content: text,
 	});
 
-	const cost = await deriveCost({
-		audioPath: input.audioPath,
-		costPerAudioHourUsd: context.config.elevenLabs.costPerAudioHourUsd,
-		logger,
-	});
-	return { output: { transcriptPath }, cost, filesWritten };
+	costTally.add(
+		await deriveCost({
+			audioPath: input.audioPath,
+			costPerAudioHourUsd: context.config.elevenLabs.costPerAudioHourUsd,
+			logger,
+		}),
+	);
+	return { output: { transcriptPath }, filesWritten };
 }
 
 /**

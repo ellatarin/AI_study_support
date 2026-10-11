@@ -6,8 +6,6 @@ import {
 	loggedAt,
 	makeStageContext,
 	openRouterReplyBody,
-	stubbedCallCost,
-	stubbedCallsCost,
 	unspacedSends,
 	useStubbedOpenRouter,
 	useStubLogger,
@@ -67,21 +65,15 @@ describe("tryJsonReplyAs", () => {
 		});
 	}
 
-	it("should hand back what the stage keeps and the call's cost when the reply is usable", async () => {
-		expect(await askForLength('{"greeting":"hello"}')).toEqual({
-			reply: 5,
-			cost: stubbedCallCost,
-		});
+	it("should hand back what the stage keeps when the reply is usable", async () => {
+		expect(await askForLength('{"greeting":"hello"}')).toEqual({ reply: 5 });
 	});
 
 	it.each([
 		{ label: "not the documented shape", content: '{"farewell":"bye"}' },
 		{ label: "refused by the stage", content: '{"greeting":""}' },
-	])("should give a failure and the call's cost when the reply is $label", async ({ content }) => {
-		expect(await askForLength(content)).toEqual({
-			failure: expect.any(String),
-			cost: stubbedCallCost,
-		});
+	])("should give a failure when the reply is $label", async ({ content }) => {
+		expect(await askForLength(content)).toEqual({ failure: expect.any(String) });
 	});
 });
 
@@ -91,11 +83,8 @@ describe("tryJsonReply", () => {
 		return tryJsonReply(greetingRequest(content));
 	}
 
-	it("should hand back the reply and its cost when the reply is the documented shape", async () => {
-		expect(await ask('{"greeting":"hello"}')).toEqual({
-			reply: { greeting: "hello" },
-			cost: stubbedCallCost,
-		});
+	it("should hand back the reply when the reply is the documented shape", async () => {
+		expect(await ask('{"greeting":"hello"}')).toEqual({ reply: { greeting: "hello" } });
 	});
 
 	it.each([
@@ -110,25 +99,15 @@ describe("tryJsonReply", () => {
 			content: '{"farewell":"bye"}',
 			failure: "The model's reply is not the documented greeting",
 		},
-	])("should give the reason and the call's cost when the reply is $label", async ({
-		content,
-		failure,
-	}) => {
-		expect(await ask(content)).toEqual({ failure, cost: stubbedCallCost });
+	])("should give the reason when the reply is $label", async ({ content, failure }) => {
+		expect(await ask(content)).toEqual({ failure });
 	});
 });
 
-// Every send costs one stubbed call, whether its reply was usable or not.
 const REPLY = { answer: 42 } as const;
-const GOOD: JsonReplyOutcome<typeof REPLY> = { reply: REPLY, cost: stubbedCallCost };
-const EMPTY: JsonReplyOutcome<typeof REPLY> = {
-	failure: "The model's reply was empty",
-	cost: stubbedCallCost,
-};
-const PROSE: JsonReplyOutcome<typeof REPLY> = {
-	failure: "The model answered with something other than JSON",
-	cost: stubbedCallCost,
-};
+const GOOD: JsonReplyOutcome<typeof REPLY> = { reply: REPLY };
+const EMPTY = { failure: "The model's reply was empty" } as const;
+const PROSE = { failure: "The model answered with something other than JSON" } as const;
 
 /** A send that gives each outcome in turn, one for each call. */
 function sendAnswering(
@@ -177,21 +156,13 @@ describe("sendWithResends", () => {
 		return caught;
 	}
 
-	it("should return the reply and one send's cost when the first send succeeds", async () => {
-		const send = sendAnswering(GOOD);
-		expect(await settle(resending({ send }))).toEqual({
-			reply: REPLY,
-			cost: stubbedCallsCost({ calls: 1 }),
-		});
-		expect(send).toHaveBeenCalledTimes(1);
-	});
-
-	it("should keep the reply and count every send's cost when two sends fail first", async () => {
-		const send = sendAnswering(EMPTY, PROSE, GOOD);
-		expect(await settle(resending({ send }))).toEqual({
-			reply: REPLY,
-			cost: stubbedCallsCost({ calls: 3 }),
-		});
+	it.each([
+		{ case: "the first send succeeds", outcomes: [GOOD] },
+		{ case: "two sends fail first", outcomes: [EMPTY, PROSE, GOOD] },
+	])("should return the reply after one send for each outcome when $case", async ({ outcomes }) => {
+		const send = sendAnswering(...outcomes);
+		expect(await settle(resending({ send }))).toEqual({ reply: REPLY });
+		expect(send).toHaveBeenCalledTimes(outcomes.length);
 	});
 
 	it("should log each unusable reply with what was sent, which send it was and why when sends fail", async () => {

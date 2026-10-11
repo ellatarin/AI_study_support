@@ -1,14 +1,11 @@
 /**
  * This module resends a call after a failure that a resend can fix. A call is
- * sent at most three times, with pauses of two seconds and then four. The cost of
- * each send is counted. Two failures are resent with it: a provider error
- * (technical-design.md §6), and an unusable reply in a panel stage (§5,
- * "Dividing the transcript", Panel runs). So the resend of a provider error and the resend of an unusable
- * reply cannot become different.
+ * sent at most three times, with pauses of two seconds and then four. Two
+ * failures are resent with it: a provider error (technical-design.md §6), and an
+ * unusable reply in a panel stage (§5, "Dividing the transcript", Panel runs). So
+ * the resend of a provider error and the resend of an unusable reply cannot
+ * become different. Each send adds its own cost to the cost tally (§7).
  */
-
-import type { StageCost } from "../types/pipeline.js";
-import { accumulateCost } from "./cost.js";
 
 /** The most sends of one call. After the last failed send, the failure is final. */
 export const MAX_SENDS = 3;
@@ -20,8 +17,8 @@ export const MAX_SENDS = 3;
  */
 const FIRST_PAUSE_MS = 2000;
 
-/** A send that failed in a way a resend can fix, with its cost. */
-export type FailedSend = { readonly failure: string; readonly cost: StageCost };
+/** A send that failed in a way a resend can fix. */
+export type FailedSend = { readonly failure: string };
 
 /**
  * Waits for a time: before a resend here, and before a turn in `send-gate.ts`.
@@ -48,19 +45,19 @@ function isFailedSend<TSent>(outcome: TSent | FailedSend): outcome is FailedSend
 }
 
 /**
- * Sends a call until it succeeds, at most {@link MAX_SENDS} times. The cost of
- * each send is counted, a failed send too. Only a failure that `send` returns is
- * resent. An error that `send` throws goes to the caller at once.
+ * Sends a call until it succeeds, at most {@link MAX_SENDS} times. Only a failure
+ * that `send` returns is resent. An error that `send` throws goes to the caller
+ * at once.
  *
  * @param args - The call, and what to do with each failure and the last.
  * @param args.send - Sends the call once.
  * @param args.onFailure - Gets each failed send: its number, counting from 1, and the reason.
  * @param args.exhausted - Builds the error that is thrown when the last send fails too.
- * @returns The successful send, its number counting from 1, and the total cost of all sends.
+ * @returns The successful send, and its number counting from 1.
  * @throws The error `exhausted` builds, when every send fails.
  * @typeParam TSent - The value that a successful send comes back with.
  */
-export async function sendUntilAccepted<TSent extends { readonly cost: StageCost }>({
+export async function sendUntilAccepted<TSent>({
 	send,
 	onFailure,
 	exhausted,
@@ -68,14 +65,12 @@ export async function sendUntilAccepted<TSent extends { readonly cost: StageCost
 	readonly send: () => Promise<TSent | FailedSend>;
 	readonly onFailure: (args: { readonly send: number; readonly failure: string }) => void;
 	readonly exhausted: (args: { readonly failure: string; readonly sends: number }) => Error;
-}): Promise<{ readonly sent: TSent; readonly sends: number; readonly cost: StageCost }> {
-	let cost: StageCost | null = null;
+}): Promise<{ readonly sent: TSent; readonly sends: number }> {
 	let pauseMs = FIRST_PAUSE_MS;
 	for (let sends = 1; ; sends++) {
 		const outcome = await send();
-		cost = accumulateCost({ current: cost, incoming: outcome.cost });
 		if (!isFailedSend(outcome)) {
-			return { sent: outcome, sends, cost };
+			return { sent: outcome, sends };
 		}
 		onFailure({ send: sends, failure: outcome.failure });
 		if (sends === MAX_SENDS) {

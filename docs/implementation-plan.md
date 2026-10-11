@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.85-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
+**Suite version:** 1.86-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
 **Date:** 2026-10-11
 **Status:** For review
 
@@ -547,19 +547,18 @@ Every doc naming a moved file is updated in the same commit.
 
 `src/pipeline/stages/panel-runs.ts` **(TD §5, "Dividing the transcript", Panel runs; TD §8, "Intra-Stage Resumability")** — the whole of the panel-run behaviour the TD describes, each of its failures a named error: `sendWithResends` for one call, `runPanel` for the panel.
 
-`tryJsonReply` in `src/pipeline/stages/model-stage.ts` **(TD §6, "A stage asks for a JSON reply through one shared act")** — the JSON call that returns a bad reply with its cost rather than throwing it; `requestJsonReply` is rebuilt on it.
+`tryJsonReply` in `src/pipeline/stages/model-stage.ts` **(TD §6, "A stage asks for a JSON reply through one shared act")**. It is the JSON call that returns a bad reply and does not throw it. `requestJsonReply` is rebuilt on it.
 
 `mapWithConcurrency` in `src/utils/concurrency.ts` — the batch runner's bounded-concurrency loop, moved out so the panel shares it. `accumulateCost` accepts a running total of `null`, meaning nothing counted yet.
 
 **Tests:**
 
 Unit tests for `tryJsonReply` (mock `callModel`):
-- `should hand back the reply and its cost when the reply is the documented shape`
-- `should give the reason and the call's cost when the reply is $label` — `test.each` across empty, not JSON, and the wrong shape
+- `should hand back the reply when the reply is the documented shape`
+- `should give the reason when the reply is $label` — `test.each` across empty, not JSON, and the wrong shape
 
 Unit tests for `sendWithResends` (fake timers for the pause):
-- `should return the reply and one send's cost when the first send succeeds`
-- `should keep the reply and count every send's cost when two sends fail first`
+- `should return the reply after one send for each outcome when $case` — `test.each` across the first send succeeding and two sends failing first
 - `should log each unusable reply with what was sent, which send it was and why when sends fail`
 - `should fail naming what was sent and the last reason when all three sends fail`
 - `should wait two seconds and then four before the second and third sends when sends keep failing`
@@ -570,12 +569,10 @@ Unit tests for `mapWithConcurrency`:
 - `should have at most $expected in flight when the limit is $limit` — `test.each`, a limit of 0 included
 - `should return no results when given no items`
 
-Integration tests for `runPanel` (a stand-in run maker; real temp directory):
+Integration tests for `runPanel` (a stand-in run maker, and a real temp directory):
 - `should return every run in run order when the panel is made from scratch`
 - `should save each run to its own numbered file when the run completes`
 - `should make only the missing runs when some were saved by an earlier invocation`
-- `should add up the cost of the runs it made when some were saved by an earlier invocation`
-- `should report no cost when every run was saved by an earlier invocation`
 - `should fail naming the file when a saved run is $problem` — `test.each` across not JSON and not a run
 - `should keep the runs already saved when a later run fails`
 - `should make one run at a time when the stage sets no concurrency`
@@ -651,7 +648,7 @@ What it shares with `initial-subtopic-splitting` is moved out of that stage, and
 
 - `readTranscript` in `stage-input.ts`
 - `isDivision`, `isReplySubtopic` and `subtopicText` in `division.ts`
-- `runStagePanel` and `readPanel` in `panel-runs.ts`. A run that needs no call now reports no cost.
+- `runStagePanel` and `readPanel` in `panel-runs.ts`.
 - `stageDirectoryPath` in `layout.ts`
 - `tryJsonReplyAs`, `promptMessages` and `defineModelStage` in `model-stage.ts`.
 
@@ -764,7 +761,7 @@ Integration tests for `callModel` (stubbed OpenRouter):
 - `should log each refusal as a warning with which send it was and the provider's sentence`
 - `should count the refused send as a call when the refusal $scenario` — `test.each` across reporting its own usage, which is counted, and reporting none, which costs nothing
 
-The panel's `sendWithResends` tests cover the shared loop's pauses, cost counting and exhaustion unchanged.
+The panel's `sendWithResends` tests cover the shared loop's pauses and exhaustion unchanged.
 
 **Acceptance:** A refusal no longer fails a stage unless it recurs on the third send.
 
@@ -974,7 +971,7 @@ Integration tests (real temp directory, real small PDF fixture):
 - `should write one image for each page, numbered from 1 in deck order, when the stage completes`
 - `should render each page at 150 DPI when the stage completes`
 - `should fail naming the file when the slide deck $problem` — `test.each` across missing and not a readable PDF
-- `should record no cost when the stage completes`
+- `should record no cost when the stage completes` — the stage adds nothing to its cost tally
 
 **Acceptance:** A lecture gains `Slide images/`, with one image for each slide.
 
@@ -1093,7 +1090,7 @@ Each glossary term that only the removed stages used is removed from `CONTEXT.md
 Tests for the stage (real temp directory, the shared stage fixture):
 - `should write the lecture title, and each topic with its subtopics' ids, titles and texts in lecture order, when the stage completes` — the test compares the whole file. So it also shows that the file holds no position and no reason, and that each text is the lecturer's words
 - `should write the manifest's lecture title when it differs from the provisional title`
-- `should record no cost and the one file written when the stage completes`
+- `should record the one file written when the stage completes`
 - `should fail naming the file when the $file is $state` — `test.each` across the retitled subtopics and the topics, each missing, not JSON and the wrong shape
 - `should fail when the transcript $state` — `test.each` across a missing and a blank transcript
 

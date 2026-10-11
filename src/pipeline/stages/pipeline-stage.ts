@@ -205,24 +205,19 @@ export function writeJsonStageOutput({
  * Writes the output of a stage as its one JSON output file, through
  * {@link writeJsonStageOutput}, and gives the result of the stage.
  *
- * @param args - The stage, its stage context, the output and its cost.
+ * @param args - The stage, its stage context and the output.
  * @param args.stageId - The stage. It must write one output file.
  * @param args.context - The stage context. It holds the lecture's workspace.
  * @param args.output - The output, written as JSON.
- * @param args.cost - The cost of the stage, or `null` when the stage made no billable call.
  * @returns The stage result, with the `filesWritten` entry of the output file.
  * @typeParam TOutput - The output of the stage.
  */
 export async function writeJsonStageResult<TOutput>({
 	output,
-	cost,
 	...target
-}: StageOutputTarget & {
-	readonly output: TOutput;
-	readonly cost: StageResult<TOutput>["cost"];
-}): Promise<StageResult<TOutput>> {
+}: StageOutputTarget & { readonly output: TOutput }): Promise<StageResult<TOutput>> {
 	const { filesWritten } = await writeJsonStageOutput({ ...target, value: output });
-	return { output, cost, filesWritten };
+	return { output, filesWritten };
 }
 
 /**

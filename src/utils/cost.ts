@@ -57,11 +57,11 @@ export function accumulateCost({
 }
 
 /**
- * Adds up the costs of the parts of one stage: its splitting runs or grouping
- * runs, or the calls of one splitting run. A part that made no call is skipped.
+ * Adds up costs of one stage, such as the spend of its earlier runs and of this
+ * run. A `null` cost is skipped.
  *
- * @param costs - The cost of each part, or `null` for a part that made no call.
- * @returns The total, or `null` when no part made a call.
+ * @param costs - Each cost, or `null` where nothing was spent.
+ * @returns The total, or `null` when every cost is `null`.
  */
 export function totalCost(costs: readonly (StageCost | null)[]): StageCost | null {
 	let total: StageCost | null = null;

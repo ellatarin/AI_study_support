@@ -17,6 +17,7 @@ import {
 	makeWorkspaceTree,
 	seedStageOutput,
 	testLecture,
+	useCostTally,
 	useStubLogger,
 } from "../../fixtures.js";
 import { moduleDirs, stageOutputEntry, stageOutputPath } from "../../layout.js";
@@ -52,6 +53,7 @@ describe("createAudioExtractionStage", () => {
 	let videoRecordingsDir: string;
 	let calls: ExtractionCall[];
 	const logged = useStubLogger();
+	const costTally = useCostTally();
 
 	beforeEach(async () => {
 		vi.clearAllMocks();
@@ -155,7 +157,7 @@ describe("createAudioExtractionStage", () => {
 	}
 
 	function runStage(): Promise<StageResult<AudioExtractionOutput>> {
-		return driveStage({ stage: makeStage(), context: contextWith() });
+		return driveStage({ stage: makeStage(), context: contextWith(), costTally: costTally() });
 	}
 
 	it("should name the stage audio-extraction when the stage is created", () => {
@@ -228,9 +230,9 @@ describe("createAudioExtractionStage", () => {
 		});
 
 		it("should record no cost when the stage makes no billable call", async () => {
-			const result = await runStage();
+			await runStage();
 
-			expect(result.cost).toBeNull();
+			expect(costTally().total()).toBeNull();
 		});
 
 		it("should copy the audio track without re-encoding when extracting", async () => {

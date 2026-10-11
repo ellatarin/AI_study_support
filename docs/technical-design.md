@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.85-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
+**Suite version:** 1.86-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
 **Date:** 2026-10-11
 **Status:** For review
 
@@ -358,7 +358,7 @@ Two more stages follow `assemble-rewrites`. Both are designed in outline only, a
 
 ### 4.2 Stage Interface
 
-Every stage implements a common `PipelineStage<TInput, TOutput>` contract. It has an idempotency check `isComplete(context)` and an input step `getInput(context)`. Its `run({ input, context, costTally })` returns a `StageResult`. The runner makes a new cost tally for each stage run. Each model call adds its reply's cost to the tally (§7, "A stage that fails"). Stages read an immutable `StageContext` and never change it. The context holds the lecture identity, `workspaceRoot`, `moduleRoot`, the resolved `PipelineConfig` and the current `Manifest`. The runner writes a stage's own bookkeeping in the manifest: its status, its cost and its `filesWritten`. The stage never writes them. The runner also writes the manifest's *lecture identity*. **No per-lecture stage writes `manifest.json`.** `judge-lecture-title` settles the lecture's title (§5, `judge-lecture-title`). It is the only stage that changes the lecture's identity. It reports what it settled on `StageResult.identityChanges`, and the runner writes that with the stage's `complete` entry.
+Every stage implements a common `PipelineStage<TInput, TOutput>` contract. It has an idempotency check `isComplete(context)` and an input step `getInput(context)`. Its `run({ input, context, costTally })` returns a `StageResult`. The runner makes a new cost tally for each stage run, and records its total as the stage's cost. Each send of a model call adds its cost to the tally (§7). A `StageResult` holds no cost. Stages read an immutable `StageContext` and never change it. The context holds the lecture identity, `workspaceRoot`, `moduleRoot`, the resolved `PipelineConfig` and the current `Manifest`. The runner writes a stage's own bookkeeping in the manifest: its status, its cost and its `filesWritten`. The stage never writes them. The runner also writes the manifest's *lecture identity*. **No per-lecture stage writes `manifest.json`.** `judge-lecture-title` settles the lecture's title (§5, `judge-lecture-title`). It is the only stage that changes the lecture's identity. It reports what it settled on `StageResult.identityChanges`, and the runner writes that with the stage's `complete` entry.
 
 A stage's context is assembled before its own entry is marked `running`, so the manifest copy it carries is out of date in that field for as long as the stage runs. The copy is a read model. The runner re-reads the manifest immediately before each write and is its only writer, so every write has a current base, and the `running` marker survives the stage it belongs to (§4.5). Currency and trust are separate questions: the manifest is untrusted input however fresh it is, bounded by §4.4.
 
@@ -385,7 +385,7 @@ createPipelineStage<TInput, TOutput>(args: {
   stageId: StageId
   logger: Logger                                        // the run's; bound to the stage here, once
   getInput: (context: StageContext) => Promise<TInput>
-  run: (args: { input: TInput; context: StageContext; logger: Logger }) => Promise<StageResult<TOutput>>
+  run: (args: { input: TInput; context: StageContext; logger: Logger; costTally: CostTally }) => Promise<StageResult<TOutput>>
 }): PipelineStage<TInput, TOutput>
 // `run`'s logger is the bound child, not the one passed in. Every per-lecture stage factory therefore takes
 // { logger } and forwards it, exactly as createSourceNormalisationStage already does for source-normalisation.
@@ -1184,7 +1184,7 @@ readStageDivision(args: { context: StageContext; stageId: StageWithOutputFile; p
 
 // src/pipeline/stages/stage-output.ts — shared by choose-division and retitle-subtopics, whose output is a division
 type DivisionOutput = { subtopics: readonly Subtopic[] }
-writeDivisionWithStageRecord(args: { stageId: StageWithStageRecord; context: StageContext; subtopics: readonly Subtopic[]; stageRecord: unknown; cost: StageCost | null }):
+writeDivisionWithStageRecord(args: { stageId: StageWithStageRecord; context: StageContext; subtopics: readonly Subtopic[]; stageRecord: unknown }):
   Promise<StageResult<DivisionOutput>>
 // Writes the division and its record beside it (§4.5) and gives the stage's result.
 readTranscriptAndRuns(args: { context; panelStage: "initial-subtopic-splitting" | "deepen-subtopic-splitting"; fail }):
@@ -1200,7 +1200,7 @@ splittingPanel(context: StageContext): { panelSize: number; readRun }
 
 // src/pipeline/stages/panel-runs.ts — shared by the panel stages
 runStagePanel<TRun>(args: { stageId: StageId; context: StageContext; panelSize: number; readRun; makeRun }): Promise<StageResult<{ runs: readonly TRun[] }>>
-// Makes the stage's panel in its own directory at its configured concurrency; a run needing no call reports no cost.
+// Makes the stage's panel in its own directory at its configured concurrency.
 // The panel's size is the caller's: the splitting stages pass the division's, group-into-topics the grouping's.
 runOneCallPanel<TReply, TRun>(args: { stageId; context; panelSize; readRun; runName: string; calls: StageModelCalls; request }): Promise<StageResult<{ runs: readonly TRun[] }>>
 // runStagePanel where every run is the same one JSON call: initial-subtopic-splitting and group-into-topics.
@@ -1210,7 +1210,7 @@ readPanel<TRun>(args: { panelSize: number; directory: string; readRun; fail }): 
 
 // src/pipeline/stages/saved-files.ts — shared by the panel stages and read-slides
 readOrMakeSavedFiles<TFile extends { path: string }, TContent>(args: { files: readonly TFile[]; label: string;
-  concurrency: number | undefined; readSaved; unreadable; make }): Promise<{ contents; cost }>
+  concurrency: number | undefined; readSaved; unreadable; make }): Promise<{ contents }>
 // Reads each saved file that exists and makes each missing one, `concurrency` at a time, saving each as it is made.
 // A saved file that holds nothing readable throws the error `unreadable` builds, so each stage raises its own error.
 // A parallel work bar (§10) shows each file by its number from 1, after `label`: "Runs" for a panel, "Slides" for
@@ -1740,14 +1740,14 @@ class NoReplyChoicesError extends NamedError // the call was accepted and carrie
 // One class per way a completion call fails. Context length keeps its own because it has a remedy of its own —
 // configure a larger-context model — and no choices is distinct from a model answering with empty content,
 // which is a legitimate reply handed back as "".
-callModel(args: { messages; stageId: StageId; config: PipelineConfig; responseFormat: "text" | "json"; logger: Logger; client?: OpenAI; sendGate: SendGate }):
-  Promise<{ content: string; cost: StageCost }>
+callModel(args: { messages; stageId: StageId; config: PipelineConfig; responseFormat: "text" | "json"; logger: Logger; client?: OpenAI; sendGate: SendGate; costTally: CostTally }):
+  Promise<{ content: string }>
 // `logger` is the calling stage's, already bound to it by createPipelineStage; the call is recorded on it
 // at `debug` with the model, prompt token count, latency and finish reason (§10).
 // `sendGate` is the stage's, made by defineModelStage from the stage's `sendGapSeconds` at the stage's first run
 // (src/utils/send-gate.ts). Every run of the stage in the invocation shares it, so the lectures of a batch share the gap.
 // Every send, a refusal's resend included, waits its turn, so the gap holds however sends and resends fall.
-// Wraps the SDK call and reads its cost from the reply's `usage` (§7). `responseFormat: "json"` sends `response_format: json_object` and
+// Wraps the SDK call. Each send reads its cost from the reply's `usage` and adds it to `costTally` (§7). `responseFormat: "json"` sends `response_format: json_object` and
 // the provider routing that makes it stick (see "JSON mode is routed for" below), which the stages
 // returning structured data require; it is stated on every call rather than defaulted so a caller always
 // declares the shape it expects back. `client` is injected by tests; it defaults to the shared instance.
@@ -1757,9 +1757,15 @@ callModel(args: { messages; stageId: StageId; config: PipelineConfig; responseFo
 
 OpenRouter's own parameter reference states that JSON mode requires the prompt to ask for JSON as well, so a `"json"` caller instructs the model in its messages too, and still treats a reply that will not parse as a stage failure.
 
-**A stage asks for a JSON reply through one shared act.** Every stage that expects JSON has the same three obligations: send the call in JSON mode, refuse a reply that will not parse, and refuse one that parses into something other than the shape it documented. `requestJsonReply` in `src/pipeline/stages/model-stage.ts` performs all three and hands back the validated reply with the call's cost. The stage supplies what is its own — the messages, the predicate that recognises its reply, the shape in words, and how to raise its own named error — so each stage keeps its own error type while the two sentences a user reads are identical wherever they come from. The same module names the dependency pair (`{ logger, client }`) and the run arguments every model-calling stage takes, which had otherwise been restated per stage.
+**A stage asks for a JSON reply through one shared act.** Every stage that expects JSON has the same three obligations:
 
-`requestJsonReply` is built on `tryJsonReply`, which makes the same call and returns a bad reply instead of throwing it: the reply, or the reason it cannot be used — empty, not JSON, the wrong shape — and the call's cost either way. The panel stages resend a bad reply (§5, "Dividing the transcript", Panel runs), and a resend needs the failed call's cost, which a thrown error would lose. An empty reply has its own reason because it is the common case and says something different from prose: the provider answered with nothing, not with the wrong thing.
+- send the call in JSON mode
+- refuse a reply that does not parse
+- refuse a reply that parses into a shape other than the documented shape.
+
+`requestJsonReply` in `src/pipeline/stages/model-stage.ts` does all three and gives back the checked reply. The stage supplies its messages and the predicate that recognises its reply. It also supplies the shape in words, and the way to raise its own named error. So each stage keeps its own error type. The two sentences that a user reads are the same in every stage. The same module names the dependency pair (`{ logger, client }`) and the run arguments that every model-calling stage takes. Without it, each stage would state them again.
+
+`requestJsonReply` is built on `tryJsonReply`. `tryJsonReply` makes the same call, and returns a bad reply instead of throwing it. It gives the reply, or the reason that the reply cannot be used: empty, not JSON, or the wrong shape. The panel stages resend a bad reply (§5, "Dividing the transcript", Panel runs). A thrown error would end the stage before the resend. An empty reply has its own reason, because it is the common case. It also says something different from prose: the provider answered with nothing, not with the wrong thing.
 
 `tryJsonReplyAs` is `tryJsonReply` followed by the stage turning the reply into what it keeps — where the stage may still find it unusable, as a splitting reply naming words the transcript does not contain — so that failure is resent like any other. The same module builds the two messages a stage sends (`promptMessages`: the prompt as the system message, the material as the user message) and defines a model-calling stage from its id, input reader and run (`defineModelStage`), returning the factory the CLI calls with the logger and client.
 
@@ -1914,11 +1920,11 @@ Each prefix is matched literally, so one carrying a pattern character means itse
 
 ### Sources
 
-OpenRouter prices every reply in the reply itself: `response.usage.cost` is the call's cost in US dollars, beside `usage.prompt_tokens` and `usage.completion_tokens`. `callModel` reads all three from the reply, so its return value already includes the call's `StageCost`, and **no stage is ever marked `complete` with a cost still to arrive**. The pipeline makes no second request for the price. OpenRouter's `/generation` endpoint also reports it, but its record appears only 10–18 seconds after the reply (measured 2026-09-30), and asking sooner is answered "not found".
+OpenRouter prices every reply in the reply itself: `response.usage.cost` is the call's cost in US dollars, beside `usage.prompt_tokens` and `usage.completion_tokens`. Each send of `callModel` reads all three from its reply and adds the `StageCost` to the stage run's cost tally. So **no stage is ever marked `complete` with a cost still to arrive**. The pipeline makes no second request for the price. OpenRouter's `/generation` endpoint also reports it, but its record appears only 10–18 seconds after the reply (measured 2026-09-30), and asking sooner is answered "not found".
 
 If a reply carries no numeric `usage.cost`, the call and the stage still succeed — cost telemetry MUST NOT gate pipeline progress. The manifest and run-log entries record `cost.costUsd = null` along with `cost.unknownCostReason` describing why; when a stage's calls go unpriced for the same reason, the reason is recorded once. Tokens and `callCount` are always populated regardless.
 
-ElevenLabs returns no price with a transcript, so `transcription` derives transcription cost from the audio's duration (read with `ffprobe`) multiplied by the configured `elevenLabs.costPerAudioHourUsd` (§6). The result is recorded as a normal `StageCost` with `callCount: 1` and zero token counts — Scribe is billed by audio duration, not tokens. If the duration cannot be read, the stage still succeeds and records `costUsd: null` with `unknownCostReason`, exactly as an unpriced OpenRouter reply does: cost telemetry MUST NOT gate pipeline progress.
+ElevenLabs returns no price with a transcript. So `transcription` multiplies the audio's duration (read with `ffprobe`) by the configured `elevenLabs.costPerAudioHourUsd` (§6). The stage adds the result to its cost tally as a normal `StageCost`, with `callCount: 1` and zero token counts. Scribe is billed by audio duration, not tokens. If the duration cannot be read, the stage still succeeds. It records `costUsd: null` with `unknownCostReason`, as an unpriced OpenRouter reply does. Cost telemetry MUST NOT gate pipeline progress.
 
 ### Currency
 

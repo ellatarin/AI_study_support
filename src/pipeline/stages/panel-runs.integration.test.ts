@@ -1,13 +1,10 @@
 import { readdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { describe, expect, it, vi } from "vitest";
-import type { StageCost } from "../../types/pipeline.js";
 import {
 	captureError,
 	inRed,
 	readJsonFile,
-	stubbedCallCost,
-	stubbedCallsCost,
 	trackingInFlight,
 	useCapturedStderr,
 	useTempDir,
@@ -23,19 +20,14 @@ function readNumberedRun(value: unknown): NumberedRun | null {
 	return typeof madeBy === "number" ? { madeBy } : null;
 }
 
-/** The run that has the number `runNumber`, at the cost of one stubbed call. */
-function numberedRun({ runNumber }: { readonly runNumber: number }): {
-	run: NumberedRun;
-	cost: StageCost;
-} {
-	return { run: { madeBy: runNumber }, cost: stubbedCallCost };
+/** The run that has the number `runNumber`. */
+function numberedRun({ runNumber }: { readonly runNumber: number }): NumberedRun {
+	return { madeBy: runNumber };
 }
 
 /** A run maker that records the runs that it was asked for, in order. */
 function numberedRunMaker(): ReturnType<
-	typeof vi.fn<
-		(args: { readonly runNumber: number }) => Promise<{ run: NumberedRun; cost: StageCost | null }>
-	>
+	typeof vi.fn<(args: { readonly runNumber: number }) => Promise<NumberedRun>>
 > {
 	return vi.fn(({ runNumber }: { readonly runNumber: number }) =>
 		Promise.resolve(numberedRun({ runNumber })),
@@ -98,29 +90,6 @@ describe("runPanel", () => {
 		const { runs } = await panelOf({ panelSize: 3, makeRun });
 		expect(makeRun.mock.calls.map(([args]) => args.runNumber)).toEqual([1, 3]);
 		expect(runs).toEqual([{ madeBy: 1 }, { madeBy: 99 }, { madeBy: 3 }]);
-	});
-
-	it("should add up the cost of the runs it made when some were saved by an earlier invocation", async () => {
-		await leaveBehind({ name: "run-01.json", contents: JSON.stringify({ madeBy: 1 }) });
-		const { cost } = await panelOf({ panelSize: 3, makeRun: numberedRunMaker() });
-		expect(cost).toEqual(stubbedCallsCost({ calls: 2 }));
-	});
-
-	it("should report no cost when every run was saved by an earlier invocation", async () => {
-		await leaveBehind({ name: "run-01.json", contents: JSON.stringify({ madeBy: 1 }) });
-		const makeRun = numberedRunMaker();
-		const { cost } = await panelOf({ panelSize: 1, makeRun });
-		expect(cost).toBeNull();
-		expect(makeRun).not.toHaveBeenCalled();
-	});
-
-	it("should report no cost when the runs it made needed no calls", async () => {
-		const makeRun = numberedRunMaker();
-		makeRun.mockImplementation(({ runNumber }) =>
-			Promise.resolve({ ...numberedRun({ runNumber }), cost: null }),
-		);
-		const { cost } = await panelOf({ panelSize: 2, makeRun });
-		expect(cost).toBeNull();
 	});
 
 	it.each([
@@ -194,7 +163,7 @@ describe("readPanel", () => {
 	function save(runNumber: number): Promise<void> {
 		return leaveBehind({
 			name: `run-0${runNumber}.json`,
-			contents: JSON.stringify(numberedRun({ runNumber }).run),
+			contents: JSON.stringify(numberedRun({ runNumber })),
 		});
 	}
 

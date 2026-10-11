@@ -14,7 +14,6 @@ import { isRecord, isStringList } from "../../../utils/record.js";
 import { FIRST_ROUND } from "../../manifest.js";
 import type { ModelStageFactory } from "../model-stage.js";
 import { defineRewriteAttemptStage, type RewriteAttemptWork } from "../rewrite-attempts.js";
-import type { MadeFile } from "../saved-files.js";
 import { readStageSubtopics } from "../stage-input.js";
 import { isSubtopicRewrite, type SubtopicRewrite } from "../subtopic-rewrites.js";
 import { readTermCorrectionResult, type TermCorrectionResult } from "../term-corrections.js";
@@ -106,16 +105,14 @@ function usableReply(
  * @param args.subtopic - The term-correction result of the subtopic.
  * @param args.context - The stage context.
  * @param args.calls - The model calls of this stage run.
- * @returns The subtopic rewrite, and the cost of its calls.
+ * @returns The subtopic rewrite.
  * @throws {ResendsExhaustedError} If the third send is still unusable.
  */
 async function rewriteSubtopic({
 	subtopic,
 	context,
 	calls,
-}: RewriteAttemptWork<RewriteSubtopicsInput, TermCorrectionResult>): Promise<
-	MadeFile<SubtopicRewrite>
-> {
+}: RewriteAttemptWork<RewriteSubtopicsInput, TermCorrectionResult>): Promise<SubtopicRewrite> {
 	const sent = await calls.sendJsonWithResends({
 		what: `Rewrite of subtopic ${subtopic.subtopicId}`,
 		messages: buildWriterMessages({
@@ -127,13 +124,10 @@ async function rewriteSubtopic({
 		use: usableReply,
 	});
 	return {
-		content: {
-			subtopicId: subtopic.subtopicId,
-			attemptNumber: FIRST_ROUND,
-			writerPromptVersion: WRITER_PROMPT_VERSION,
-			rewrittenSubtopic: sent.reply.paragraphs,
-		},
-		cost: sent.cost,
+		subtopicId: subtopic.subtopicId,
+		attemptNumber: FIRST_ROUND,
+		writerPromptVersion: WRITER_PROMPT_VERSION,
+		rewrittenSubtopic: sent.reply.paragraphs,
 	};
 }
 

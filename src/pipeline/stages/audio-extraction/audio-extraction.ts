@@ -125,10 +125,8 @@ async function extractAudio({
 		"Extracted audio track",
 	);
 
-	// The stage makes no billable call, so it records no cost.
 	return {
 		output: { audioPath: written.path },
-		cost: null,
 		filesWritten: written.filesWritten,
 	};
 }

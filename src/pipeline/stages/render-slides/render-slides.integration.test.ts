@@ -10,6 +10,7 @@ import {
 	makeStubLogger,
 	makeWorkspaceTree,
 	testLecture,
+	useCostTally,
 } from "../../fixtures.js";
 import { moduleDirs, stageDirectoryPaths } from "../../layout.js";
 import { createSourceFileStage } from "../pipeline-stage.js";
@@ -90,10 +91,13 @@ describe("createRenderSlidesStage", () => {
 	const writeSlideDeck = (pageCount: number): Promise<void> =>
 		writeFile(slideDeckPath, blankPagesPdf(pageCount), "latin1");
 
+	const costTally = useCostTally();
+
 	const renderSlides = (): Promise<StageResult<RenderSlidesOutput>> =>
 		driveStage({
 			stage: createSourceFileStage({ logger: makeStubLogger().logger, ...renderSlidesParts }),
 			context: makeStageContext({ workspaceRoot }),
+			costTally: costTally(),
 		});
 
 	beforeEach(async () => {
@@ -147,9 +151,9 @@ describe("createRenderSlidesStage", () => {
 	it("should record no cost when the stage completes", async () => {
 		await writeSlideDeck(1);
 
-		const result = await renderSlides();
+		await renderSlides();
 
-		expect(result.cost).toBeNull();
+		expect(costTally().total()).toBeNull();
 	});
 
 	it.each([

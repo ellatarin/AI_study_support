@@ -85,12 +85,25 @@ const RUNNER_CONFIG: PipelineConfig = makeConfig({
 });
 
 // The result of a stub stage when the test checks only if the stage ran: no
-// output, no cost and no files.
+// output and no files.
 const PRODUCED_NOTHING: StageResult<unknown> = {
 	output: undefined,
-	cost: null,
 	filesWritten: [],
 };
+
+/**
+ * Gives the `run` of a stub stage that adds a cost to its cost tally, and then
+ * completes with {@link PRODUCED_NOTHING}.
+ *
+ * @param cost - The cost that the stage spends.
+ * @returns The `run` of the stub stage.
+ */
+function runSpending(cost: StageCost): PipelineStage<unknown, unknown>["run"] {
+	return ({ costTally }) => {
+		costTally.add(cost);
+		return Promise.resolve(PRODUCED_NOTHING);
+	};
+}
 
 // The message that a stub audio-extraction stage throws. The tests that make the
 // stage fail use it, and one test checks that the run summary shows it.
@@ -277,16 +290,20 @@ describe("PipelineRunner integration", () => {
 		return makeStubStage({
 			stageId: "audio-extraction",
 			isComplete: realIsComplete("audio-extraction"),
-			run: async ({ context }) => ({
-				output: undefined,
-				cost,
-				filesWritten: [
-					await seedStageOutput({
-						workspaceRoot: context.workspaceRoot,
-						stageId: "audio-extraction",
-					}),
-				],
-			}),
+			run: async ({ context, costTally }) => {
+				if (cost !== null) {
+					costTally.add(cost);
+				}
+				return {
+					output: undefined,
+					filesWritten: [
+						await seedStageOutput({
+							workspaceRoot: context.workspaceRoot,
+							stageId: "audio-extraction",
+						}),
+					],
+				};
+			},
 		});
 	}
 
@@ -465,16 +482,12 @@ describe("PipelineRunner integration", () => {
 			const unknownCostReason = "the generation endpoint timed out";
 			const stage = makeStubStage({
 				stageId: "audio-extraction",
-				run: async () => ({
-					output: undefined,
-					cost: {
-						promptTokens: 10,
-						completionTokens: 20,
-						callCount: 1,
-						costUsd: null,
-						unknownCostReason,
-					},
-					filesWritten: [],
+				run: runSpending({
+					promptTokens: 10,
+					completionTokens: 20,
+					callCount: 1,
+					costUsd: null,
+					unknownCostReason,
 				}),
 			});
 
@@ -567,6 +580,16 @@ describe("PipelineRunner integration", () => {
 			expect(stageEntry).toMatchObject({ status: "failed", cost: spent });
 		});
 
+		it("should record the cost tally of a completed stage in its run log and its stage entry when the stage completes", async () => {
+			const spent = oneCallCosting(0.25);
+			const stage = makeStubStage({ stageId: "audio-extraction", run: runSpending(spent) });
+
+			const { runLogEntry, stageEntry } = await runAudioStageAndReadEntries(stage);
+
+			expect(runLogEntry).toMatchObject({ cost: { costUsd: 0.25, callCount: 1 } });
+			expect(stageEntry).toMatchObject({ status: "complete", cost: spent });
+		});
+
 		it("should add the spend of this run to the spend of the failed run before it when the stage runs again", async () => {
 			await writeManifest({
 				workspaceRoot,
@@ -579,7 +602,7 @@ describe("PipelineRunner integration", () => {
 			});
 			const stage = makeStubStage({
 				stageId: "audio-extraction",
-				run: () => Promise.resolve({ ...PRODUCED_NOTHING, cost: oneCallCosting(0.5) }),
+				run: runSpending(oneCallCosting(0.5)),
 			});
 
 			const { runLogEntry, stageEntry } = await runAudioStageAndReadEntries(stage);
@@ -652,7 +675,7 @@ describe("PipelineRunner integration", () => {
 		it("should mark downstream stages not-reached when an upstream stage fails", async () => {
 			const first = makeStubStage({
 				stageId: "audio-extraction",
-				run: () => Promise.resolve({ ...PRODUCED_NOTHING, cost: oneCallCosting(0.1) }),
+				run: runSpending(oneCallCosting(0.1)),
 			});
 			const second = makeStubStage({
 				stageId: "transcription",
@@ -1083,7 +1106,7 @@ describe("PipelineRunner integration", () => {
 		function batchStage(): PipelineStage<unknown, unknown> {
 			return makeStubStage({
 				stageId: "audio-extraction",
-				run: () => Promise.resolve({ ...PRODUCED_NOTHING, cost: oneCallCosting(0.25) }),
+				run: runSpending(oneCallCosting(0.25)),
 			});
 		}
 
@@ -1337,13 +1360,7 @@ describe("PipelineRunner integration", () => {
 		): PipelineStage<unknown, unknown> {
 			return makeStubStage({
 				stageId: "audio-extraction",
-				run: async () =>
-					({
-						output: undefined,
-						cost: null,
-						filesWritten: [],
-						identityChanges,
-					}) as StageResult<unknown>,
+				run: async () => ({ ...PRODUCED_NOTHING, identityChanges }),
 			});
 		}
 
@@ -1390,12 +1407,7 @@ describe("PipelineRunner integration", () => {
 				stageId: RENAMING_STAGE,
 				run: async ({ context }) => {
 					await rename(context.workspaceRoot, renamedWorkspaceRoot);
-					return {
-						output: undefined,
-						cost: null,
-						filesWritten: [],
-						identityChanges: DECIDED_IDENTITY,
-					} as StageResult<unknown>;
+					return { ...PRODUCED_NOTHING, identityChanges: DECIDED_IDENTITY };
 				},
 			});
 		}
@@ -1439,11 +1451,7 @@ describe("PipelineRunner integration", () => {
 				stageId: "transcription",
 				run: ({ context }) => {
 					seen.push(read(context));
-					return Promise.resolve({
-						output: undefined,
-						cost: null,
-						filesWritten: [],
-					} as StageResult<unknown>);
+					return Promise.resolve(PRODUCED_NOTHING);
 				},
 			});
 

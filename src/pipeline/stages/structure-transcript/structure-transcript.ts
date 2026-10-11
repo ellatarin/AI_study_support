@@ -43,7 +43,6 @@ export function createStructureTranscriptStage({
 				stageId: STAGE_ID,
 				context,
 				output: { lectureTitle: context.lectureTitle, topics: input },
-				cost: null,
 			}),
 	});
 }

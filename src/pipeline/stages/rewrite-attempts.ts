@@ -16,7 +16,7 @@ import {
 	type PromptMessages,
 	promptMessages,
 } from "./model-stage.js";
-import { type MadeFile, readOrMakeSavedFiles, unreadableSavedFileMessage } from "./saved-files.js";
+import { readOrMakeSavedFiles, unreadableSavedFileMessage } from "./saved-files.js";
 import { type ReadingStage, readInputJson } from "./stage-input.js";
 
 /** The fields that each file of a rewrite attempt starts with. */
@@ -141,7 +141,7 @@ type RewriteAttemptFiles<TInput, TSubtopic, TContent> = {
 	readonly isSaved: (value: unknown) => value is TContent;
 	readonly saved: { readonly content: string; readonly remake: string };
 	readonly fail: (message: string) => Error;
-	readonly make: (args: RewriteAttemptWork<TInput, TSubtopic>) => Promise<MadeFile<TContent>>;
+	readonly make: (args: RewriteAttemptWork<TInput, TSubtopic>) => Promise<TContent>;
 };
 
 /**
@@ -174,12 +174,12 @@ type RewriteAttemptStage<TInput, TSubtopic, TContent, TOutput> = RewriteAttemptF
  * @param args.isSaved - Checks that a parsed saved file has the shape that `make` gives.
  * @param args.saved - The words for the message about an unreadable file, such as `subtopic rewrite` and `rewrite the subtopic`.
  * @param args.fail - Builds the stage's own error from a message.
- * @param args.make - Makes the file of one subtopic, and gives the cost of its calls.
+ * @param args.make - Makes the content of the file of one subtopic.
  * @param args.input - The input of the stage.
  * @param args.context - The stage context.
  * @param args.calls - The model calls of this stage run.
  * @param args.concurrency - The number of subtopics in work at the same time.
- * @returns The content of each file in lecture order, the cost of the calls, and the `filesWritten` entry of each file.
+ * @returns The content of each file in lecture order, and the `filesWritten` entry of each file.
  * @throws The error that `fail` builds, if a saved file is unreadable.
  * @typeParam TInput - The input of the stage.
  * @typeParam TSubtopic - The work of one subtopic.
@@ -215,7 +215,7 @@ export async function readOrMakeRewriteAttempts<
 			attemptNumber: FIRST_ROUND,
 		}),
 	}));
-	const { contents, cost } = await readOrMakeSavedFiles<(typeof files)[number], TContent>({
+	const { contents } = await readOrMakeSavedFiles<(typeof files)[number], TContent>({
 		files,
 		label: "Subtopics",
 		concurrency,
@@ -225,7 +225,6 @@ export async function readOrMakeRewriteAttempts<
 	});
 	return {
 		contents,
-		cost,
 		filesWritten: files.map((file) => relative(context.workspaceRoot, file.path)),
 	};
 }
