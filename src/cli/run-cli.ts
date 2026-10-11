@@ -14,6 +14,7 @@ import { createOpenRouterClientProvider } from "../pipeline/openrouter.js";
 import { createMoneyFormatter } from "../pipeline/reports.js";
 import { deriveTimestampId, PipelineRunner } from "../pipeline/runner.js";
 import { audioExtractionParts } from "../pipeline/stages/audio-extraction/audio-extraction.js";
+import { createCheckRewriteAttemptsStage } from "../pipeline/stages/check-rewrite-attempts/check-rewrite-attempts.js";
 import { createChooseDivisionStage } from "../pipeline/stages/choose-division/choose-division.js";
 import { createCorrectTermsStage } from "../pipeline/stages/correct-terms/correct-terms.js";
 import { createDeepenSubtopicSplittingStage } from "../pipeline/stages/deepen-subtopic-splitting/deepen-subtopic-splitting.js";
@@ -108,6 +109,7 @@ async function assembleDeps({
 			createPlaceSlidesStage({ logger, client }),
 			createCorrectTermsStage({ logger, client }),
 			createRewriteSubtopicsStage({ logger, client }),
+			createCheckRewriteAttemptsStage({ logger, client }),
 		],
 		logger,
 		reporter: createPipelineRunReporter({ write, formatMoney }),

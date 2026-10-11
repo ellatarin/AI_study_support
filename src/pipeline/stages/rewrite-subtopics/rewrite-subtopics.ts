@@ -13,16 +13,13 @@ import { NamedError } from "../../../utils/errors.js";
 import { isRecord, isStringList } from "../../../utils/record.js";
 import { FIRST_ROUND } from "../../manifest.js";
 import type { ModelStageFactory } from "../model-stage.js";
-/* jscpd:ignore-end */
-import {
-	defineRewriteAttemptStage,
-	hasRewriteAttemptFields,
-	type RewriteAttemptWork,
-} from "../rewrite-attempts.js";
+import { defineRewriteAttemptStage, type RewriteAttemptWork } from "../rewrite-attempts.js";
 import type { MadeFile } from "../saved-files.js";
-import { readStageStructuredTranscript } from "../stage-input.js";
+import { readStageSubtopics } from "../stage-input.js";
+import { isSubtopicRewrite, type SubtopicRewrite } from "../subtopic-rewrites.js";
 import { readTermCorrectionResult, type TermCorrectionResult } from "../term-corrections.js";
 import { buildWriterMessages, WRITER_PROMPT_VERSION } from "./rewrite-subtopics.prompt.js";
+/* jscpd:ignore-end */
 
 /**
  * The error when an input file is missing or unreadable. A call whose third send
@@ -47,14 +44,6 @@ type RewriteSubtopicsInput = { readonly corrected: readonly TermCorrectionResult
 
 /** The reply that the writer prompt asks for. */
 type WriterReply = { readonly paragraphs: readonly string[] };
-
-/** The rewrite of one rewrite attempt of a subtopic, as the stage writes it (technical-design.md §5, `rewrite-subtopics`). */
-type SubtopicRewrite = {
-	readonly subtopicId: number;
-	readonly attemptNumber: number;
-	readonly writerPromptVersion: string;
-	readonly rewrittenSubtopic: readonly string[];
-};
 
 /** The output of `rewrite-subtopics`. */
 type RewriteSubtopicsOutput = {
@@ -84,13 +73,10 @@ function isWriterReply(value: unknown): value is WriterReply {
  * @throws {RewriteSubtopicsError} If an input file is missing, unreadable or the wrong shape.
  */
 async function readRewriteSubtopicsInput(context: StageContext): Promise<RewriteSubtopicsInput> {
-	const { topics } = await readStageStructuredTranscript({ context, purpose: "rewrite", fail });
-	const subtopicIds = topics.flatMap((topic) =>
-		topic.subtopics.map((subtopic) => subtopic.subtopicId),
-	);
+	const subtopics = await readStageSubtopics({ context, purpose: "rewrite", fail });
 	return {
 		corrected: await Promise.all(
-			subtopicIds.map((subtopicId) =>
+			subtopics.map(({ subtopicId }) =>
 				readTermCorrectionResult({ context, subtopicId, attemptNumber: FIRST_ROUND, fail }),
 			),
 		),
@@ -113,20 +99,6 @@ function usableReply(
 	return reply.paragraphs.some((paragraph) => paragraph.trim() === "")
 		? { failure: "The model's reply gives a blank paragraph" }
 		: { reply };
-}
-
-/**
- * Checks that a parsed saved file is a subtopic rewrite.
- *
- * @param value - The parsed file.
- * @returns `true` when the value is a {@link SubtopicRewrite}.
- */
-function isSubtopicRewrite(value: unknown): value is SubtopicRewrite {
-	return (
-		hasRewriteAttemptFields(value) &&
-		typeof value.writerPromptVersion === "string" &&
-		isStringList(value.rewrittenSubtopic)
-	);
 }
 
 /**

@@ -16,11 +16,10 @@ import { countWords } from "../../../utils/text.js";
 import { FIRST_ROUND } from "../../manifest.js";
 import type { SubtopicWithIdAndText } from "../division.js";
 import type { ModelStageFactory } from "../model-stage.js";
-/* jscpd:ignore-end */
 import { defineRewriteAttemptStage, type RewriteAttemptWork } from "../rewrite-attempts.js";
 import type { MadeFile } from "../saved-files.js";
 import { isSubjectMatter, readSlideReading, type SlideReading } from "../slides.js";
-import { readStageSlidePlacements, readStageStructuredTranscript } from "../stage-input.js";
+import { readStageSlidePlacements, readStageSubtopics } from "../stage-input.js";
 import {
 	type Correction,
 	type IgnoredBecause,
@@ -33,6 +32,7 @@ import {
 	buildTermCorrectionMessages,
 	TERM_CORRECTION_PROMPT_VERSION,
 } from "./correct-terms.prompt.js";
+/* jscpd:ignore-end */
 
 /**
  * The error when an input file is missing or unreadable, or when a saved
@@ -288,7 +288,7 @@ function correctedAttempt({
 async function readCorrectTermsInput(context: StageContext): Promise<CorrectTermsInput> {
 	const fail = (message: string): Error => new CorrectTermsError(message);
 	const purpose = "correct the terms of";
-	const { topics } = await readStageStructuredTranscript({ context, purpose, fail });
+	const subtopics = await readStageSubtopics({ context, purpose, fail });
 	const { placements } = await readStageSlidePlacements({ context, purpose, fail });
 	const slideNumbers = [...new Set(placements.map((placement) => placement.slideNumber))];
 	const readings = await Promise.all(
@@ -296,20 +296,18 @@ async function readCorrectTermsInput(context: StageContext): Promise<CorrectTerm
 	);
 	const readingOf = new Map(readings.map((reading) => [reading.slideNumber, reading]));
 	return {
-		subtopics: topics
-			.flatMap((topic) => topic.subtopics)
-			.map((subtopic) => ({
-				subtopicId: subtopic.subtopicId,
-				subtopic,
-				slides: placements.flatMap((placement) => {
-					const reading = readingOf.get(placement.slideNumber);
-					return placement.subtopicId === subtopic.subtopicId &&
-						reading !== undefined &&
-						isSubjectMatter(reading)
-						? [reading]
-						: [];
-				}),
-			})),
+		subtopics: subtopics.map((subtopic) => ({
+			subtopicId: subtopic.subtopicId,
+			subtopic,
+			slides: placements.flatMap((placement) => {
+				const reading = readingOf.get(placement.slideNumber);
+				return placement.subtopicId === subtopic.subtopicId &&
+					reading !== undefined &&
+					isSubjectMatter(reading)
+					? [reading]
+					: [];
+			}),
+		})),
 	};
 }
 

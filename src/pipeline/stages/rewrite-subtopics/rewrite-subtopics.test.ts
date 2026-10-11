@@ -7,7 +7,8 @@ import {
 	itFailsNamingEachSpoiledFile,
 	openRouterReplyBody,
 	readJsonFile,
-	sentUserContents,
+	rewriteFile,
+	rewrittenParagraphs,
 	structuredTranscriptInput,
 	termCorrectionInput,
 	transcriptSubtopicTexts,
@@ -17,24 +18,13 @@ import { createRewriteSubtopicsStage, RewriteSubtopicsError } from "./rewrite-su
 
 const STAGE_ID = "rewrite-subtopics";
 
-const usableParagraph = "Cell injury involves the immune system.";
+const [, usableParagraph] = rewrittenParagraphs;
 
 /** The content of a usable reply: one paragraph. */
 const usableReply = JSON.stringify({ paragraphs: [usableParagraph] });
 
-/**
- * The workspace-relative path of the rewrite of a subtopic in round 1. The name
- * is stated in full here, and not taken from the production code.
- *
- * @param subtopicId - The subtopic.
- * @returns The path, relative to the workspace.
- */
-function rewriteFile(subtopicId: number): string {
-	return `Rewrites/subtopic-${subtopicId}-attempt-1.json`;
-}
-
 describe("createRewriteSubtopicsStage", () => {
-	const { workspaceRoot, create, run } = useStageReadingEarlierOutputs({
+	const { workspaceRoot, create, run, expectCallsSending } = useStageReadingEarlierOutputs({
 		stageId: STAGE_ID,
 		readsFrom: ["structure-transcript", "correct-terms"],
 		factory: createRewriteSubtopicsStage,
@@ -52,16 +42,10 @@ describe("createRewriteSubtopicsStage", () => {
 	}
 
 	it("should send the corrected text of one subtopic, and nothing else, when the stage rewrites each subtopic", async () => {
-		await run();
-
-		const sent = sentUserContents(create().mock.calls);
-		expect(sent).toHaveLength(2);
-		expect(sent).toStrictEqual(
-			expect.arrayContaining([
-				`Subtopic:\n${JSON.stringify({ text: transcriptSubtopicTexts[0] })}`,
-				`Subtopic:\n${JSON.stringify({ text: correctedSubtopicText })}`,
-			]),
-		);
+		await expectCallsSending([
+			{ text: transcriptSubtopicTexts[0] },
+			{ text: correctedSubtopicText },
+		]);
 	});
 
 	it("should write the rewritten subtopic and the writer prompt version in the file of each subtopic when the stage completes", async () => {

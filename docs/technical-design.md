@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.82-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
+**Suite version:** 1.83-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
 **Date:** 2026-10-11
 **Status:** For review
 
@@ -349,7 +349,7 @@ Because all other files inside the workspace use simple names, only the four lec
 | `place-slides` | Per-lecture | Put each subject-matter slide at its point in the subtopic where the lecturer discusses it, in deck order |
 | `correct-terms` | Per-lecture | Correct the misheard terms of each subtopic from the slides placed in it. First stage of the rewrite loop |
 | `rewrite-subtopics` | Per-lecture | Rewrite the corrected text of each subtopic as prose. Second stage of the rewrite loop |
-| `check-rewrite-attempts` | Per-lecture | Check each correction and each rewritten subtopic against the verbatim text. Send the failed subtopics back for another round. Last stage of the rewrite loop |
+| `check-rewrite-attempts` | Per-lecture | Check each rewritten subtopic against the verbatim text and the corrections of its attempt. Send the failed subtopics back for another round. Last stage of the rewrite loop |
 | `assemble-rewrites` | Per-lecture | Write the rewritten subtopic and the corrections of each subtopic in one file. No model call |
 
 The runner repeats the rewrite loop while the check sends subtopics back, up to `rewriting.maxRounds` rounds (§4.7, "The rewrite loop", and ADR 0002).
@@ -967,7 +967,7 @@ Parsing is validated in full before anything runs: the command must exist, its p
 
 ## 5. Stage Designs
 
-**Where prompts live.** A stage that calls an LLM keeps its prompt in a module of its own, `<stage>.prompt.ts`, in the stage's folder (§9). The module exports the function that builds the messages. Only stages that make LLM calls have one. `source-normalisation`, `audio-extraction`, `transcription`, `choose-division`, `structure-transcript` and `render-slides` do not. A stage that makes more than one kind of call has one prompt module, with one builder for each kind. The corrector, the writer and the checker of `rewrite-subtopics` all have their builders in its prompt module.
+**Where prompts live.** A stage that calls an LLM keeps its prompt in a module of its own, `<stage>.prompt.ts`, in the stage's folder (§9). The module exports the function that builds the messages. Only stages that make LLM calls have one. `source-normalisation`, `audio-extraction`, `transcription`, `choose-division`, `structure-transcript` and `render-slides` do not. A stage that makes more than one kind of call has one prompt module, with one builder for each kind. Two prompts that share a text take it from a module of its own beside the stage folders. The writer's rules R2 to R9 are such a text (`rewrite-subtopics`).
 
 Each prompt sits beside the one stage that uses it, so a prompt edit touches that stage alone (NFR-5.2). Keeping it out of the stage module puts prompt changes in a file of their own — a prompt is the part iterated on hardest once real lectures run, and its diffs stay legible apart from file renames and manifest writes.
 
@@ -1501,7 +1501,7 @@ The stage does not repair a reply, because a repair must guess which slide is wr
 
 **What is written.** `Slide placements/placements.json` holds `promptVersion`, the version of the prompt that made the placements. It also holds a list `placements`, with one entry for each placed slide in deck order. Each entry holds `slideNumber`, `subtopicId`, `startWords`, `positionInSubtopic` and `placedBecause`. `positionInSubtopic` is the number of characters from the start of the subtopic's text to the point where the slide goes. A references slide has `startWords` null, the end of the last subtopic as its `positionInSubtopic`, and a fixed `placedBecause`, because the code places it.
 
-**The point does not go through the rewrite.** `rewrite-subtopics` rewrites each subtopic as prose, and a position in the lecturer's words means nothing in the prose. So the slides are placed again after the rewrite, at the figure marks of the writer (§5, "After the rewrite"). Term correction in `rewrite-subtopics` uses the subtopic of each placement. The position stays for the deck-order check, for the test page, and as a possible hint to the placement after the rewrite.
+**The point does not go through the rewrite.** `rewrite-subtopics` rewrites each subtopic as prose, and a position in the lecturer's words means nothing in the prose. So the slides are placed again after the rewrite, at the figure marks of the writer (§5, "After the rewrite"). `correct-terms` uses the subtopic of each placement. The position stays for the deck-order check, for the test page, and as a possible hint to the placement after the rewrite.
 
 The stage fails without a model call when the structured transcript or a reading is missing or unreadable. The error names the file. The stage finds a missing reading from `Slide images/`. Each slide image must have a reading with its slide number. The stage also fails when the third send is unusable.
 
@@ -1609,6 +1609,15 @@ The checker treats each correction as right, and does not judge it. A model that
 - prose faults.
 
 One deficiency of any kind fails the rewrite attempt. So a deficiency has no severity.
+
+A reply is unusable, and the stage resends it, in these cases:
+
+- a deficiency has an unknown type, or names a rule other than R2 to R9
+- a deficiency has no description
+- the passages of a deficiency do not agree with its type. An omission has no rewrite passage, an unsourced addition has no source passage, and a distortion has both
+- a consideration has no source passage or no reason.
+
+A stage that starts again makes no call for a subtopic with a saved check. It writes the result file of the round again from the saved checks.
 
 **The end of a round.** When each subtopic of the round has its check, the stage writes `Checks/round-<n>.json`. The file holds `round` and `failedSubtopicIds`, the subtopics with a fault. An empty list means that each subtopic passed. The runner reads this file to decide the next round (§4.7, "The rewrite loop"). In round `rewriting.maxRounds`, a failed subtopic makes the stage fail. The error names each failed subtopic and its faults. No reviser edits a rewritten subtopic.
 
@@ -1760,7 +1769,7 @@ A reply that carries the provider's error and an answer as well — a choice who
 
 **A tuning parameter can be left unset out loud.** Each optional field of a stage entry can be `null`: `temperature`, `maxTokens`, `concurrency`, `callConcurrency` and `sendGapSeconds`. A `null` means the same as a missing key: the request carries no such parameter. There are two ways to say it, because the choice is worth a record. Under the routing restriction above, the parameters of a request decide which endpoints can serve it. Providers differ in what they accept. The same model takes a `temperature` through one provider and not through another. So the tuning that a stage sets is part of the choice of what can answer it. A `null` records a deliberate omission beside the tuning that is set. A missing key reads as an oversight.
 
-**Three settings say how much runs at once.** `batch.concurrency` is how many lectures a batch runs at once (§4.7). A stage's `concurrency` is how many of its runs, slides, images or subtopics are in flight at once. `callConcurrency` is how many calls one run makes at once. Only `deepen-subtopic-splitting` has one, because it is the only stage whose run makes more than one call on one piece of work (§5). `rewrite-subtopics` makes one call for each subtopic, so its `concurrency` counts its calls. Unset, runs and calls are each made one at a time. On any other stage, nothing would read `callConcurrency`. So the loader raises a `ConfigError` at startup that names the stage.
+**Three settings say how much runs at once.** `batch.concurrency` is how many lectures a batch runs at once (§4.7). A stage's `concurrency` is how many of its runs, slides, images or subtopics are in flight at once. `callConcurrency` is how many calls one run makes at once. Only `deepen-subtopic-splitting` has one, because it is the only stage whose run makes more than one call on one piece of work (§5). `rewrite-subtopics` and `check-rewrite-attempts` make one call for each subtopic, so their `concurrency` counts their calls. Unset, runs and calls are each made one at a time. On any other stage, nothing would read `callConcurrency`. So the loader raises a `ConfigError` at startup that names the stage.
 
 **The send gap is shared by the whole invocation.** `sendGapSeconds` is the least time between the starts of two sends of a stage. Unset, sends are not spaced (§5, "Dividing the transcript", Panel runs). The CLI builds each stage once, and a batch runs every lecture through that one stage. So the gap holds across all the lectures of a batch. It limits the rate of the stage's sends, however many lectures run at once. Without it, two lectures with a `concurrency` of 20 each could start 40 sends at once. The gap spaces sends that run at the same time. So a stage that sets `sendGapSeconds` must also set `concurrency`, or the loader raises a `ConfigError` that names the stage.
 
@@ -1786,7 +1795,7 @@ Unlike OpenRouter's, this base URL carries no path — the SDK appends the versi
 
 Each prefix is matched literally, so one carrying a pattern character means itself; a blank prefix is refused at load, since it would otherwise match any run of underscores or spaces and take apart every title the run produces. A listed prefix is what makes the strip safe: the module names are known, where the shape of a prefix is not — an opening acronym belongs to the subject (`DNA_replication`), and a module written out in full has no shape to match at all.
 
-**`finalOutput.language` is a closed set, and every stage that writes prose obeys it.** The loader checks the tag against `OUTPUT_LANGUAGES`. That list maps each tag to the name that a prompt uses for it. A tag with no name is refused at startup, with a list of the valid tags. The name is necessary because "Write in en-GB" is not an instruction that a model can follow. So config cannot offer a language without wording for the prompts to use. `languageRule` in `src/utils/language.ts` builds that sentence. Every prompt that asks for prose or for a lecture title includes it, and words no rule of its own. So the stages cannot give the model different instructions. `judge-lecture-title` and `read-slides` are the stages built that use it. The writer of `rewrite-subtopics` will use it. A model call is the first point in the pipeline where the language of the output can be chosen. Speech has no spelling, and ElevenLabs' `languageCode` cannot name a regional variant, so `eng` names English and nothing more.
+**`finalOutput.language` is a closed set, and every stage that writes prose obeys it.** The loader checks the tag against `OUTPUT_LANGUAGES`. That list maps each tag to the name that a prompt uses for it. A tag with no name is refused at startup, with a list of the valid tags. The name is necessary because "Write in en-GB" is not an instruction that a model can follow. So config cannot offer a language without wording for the prompts to use. `languageRule` in `src/utils/language.ts` builds that sentence. Every prompt that asks for prose or for a lecture title includes it, and words no rule of its own. So the stages cannot give the model different instructions. `judge-lecture-title`, `read-slides` and `rewrite-subtopics` are the stages built that use it. A model call is the first point in the pipeline where the language of the output can be chosen. Speech has no spelling, and ElevenLabs' `languageCode` cannot name a regional variant, so `eng` names English and nothing more.
 
 **The subtopic splitting and grouping settings are required sections.** `subtopicSplitting` and `grouping` carry the panel sizes, the bars and the size gate (§5, "Dividing the transcript" and `group-into-topics`). Like every other section they must be present, and a missing or mistyped field is a `ConfigError` at startup. Neither bar may exceed its section's panel size, since nothing could then be kept. Each is a whole number of at least 1.
 

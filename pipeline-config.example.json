@@ -79,6 +79,12 @@
 			"maxTokens": null,
 			"concurrency": 10,
 			"sendGapSeconds": 0.25
+		},
+		"check-rewrite-attempts": {
+			"modelId": "openai/gpt-5.6-sol-pro",
+			"temperature": null,
+			"maxTokens": null,
+			"concurrency": 5
 		}
 	},
 	"finalOutput": {

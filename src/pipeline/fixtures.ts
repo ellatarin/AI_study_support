@@ -575,6 +575,29 @@ export function openRouterReplyBody({
 }
 
 /**
+ * Gives a stub completion that picks its reply by the text of the request. A
+ * stage can send several calls at the same time. Then the replies cannot follow
+ * the call order, so a suite picks the reply of a call by what the call sends.
+ *
+ * @param args - The text to find, and the two replies.
+ * @param args.holds - The text that a request holds to get `matching`, such as a paragraph or an image in base64.
+ * @param args.matching - The reply body to a request that holds the text.
+ * @param args.other - The reply body to every other request.
+ * @returns The completion, for `mockImplementation` of a {@link StubbedCompletionCall}.
+ */
+export function replyingWhenRequestHolds({
+	holds,
+	matching,
+	other,
+}: {
+	readonly holds: string;
+	readonly matching: unknown;
+	readonly other: unknown;
+}): (body: Readonly<Record<string, unknown>>) => Promise<unknown> {
+	return (body) => Promise.resolve(JSON.stringify(body).includes(holds) ? matching : other);
+}
+
+/**
  * Intercepts one JSON-mode model call, and replies with `reply` at the price
  * {@link stubbedCostUsd}. It keeps the request body that the stage sent.
  *
@@ -967,17 +990,35 @@ export function slideReadingInput(slideNumber: number): InputFile {
 }
 
 /**
- * Gives the term-correction file of one subtopic in round 1 as an input file.
+ * Gives the function that makes the file of a stage of the rewrite loop, for
+ * one subtopic in round 1, an input file.
  *
- * @param subtopicId - The subtopic.
- * @returns The input file.
+ * @param args - The name of the file in a test title, and its path.
+ * @param args.name - The name of the file, such as `rewrite file`.
+ * @param args.file - Gives the workspace-relative path of the file of a subtopic.
+ * @returns The function that gives the input file of a subtopic.
  */
-export function termCorrectionInput(subtopicId: number): InputFile {
-	return {
-		file: `term-correction file of subtopic ${subtopicId}`,
-		path: (workspaceRoot) => join(workspaceRoot, termCorrectionFile(subtopicId)),
-	};
+function rewriteAttemptInput({
+	name,
+	file,
+}: {
+	readonly name: string;
+	readonly file: (subtopicId: number) => string;
+}): (subtopicId: number) => InputFile {
+	return (subtopicId) => ({
+		file: `${name} of subtopic ${subtopicId}`,
+		path: (workspaceRoot) => join(workspaceRoot, file(subtopicId)),
+	});
 }
+
+/** Gives the term-correction file of one subtopic in round 1 as an input file. */
+export const termCorrectionInput = rewriteAttemptInput({
+	name: "term-correction file",
+	file: termCorrectionFile,
+});
+
+/** Gives the rewrite file of one subtopic in round 1 as an input file. */
+export const rewriteInput = rewriteAttemptInput({ name: "rewrite file", file: rewriteFile });
 
 /** The structured transcript as an input file. */
 export const structuredTranscriptInput = stageOutputInput({
@@ -1293,24 +1334,56 @@ export const usedTermCorrection = {
 	correctedText: correctedSubtopicText,
 } as const;
 
-/** The term-correction files that {@link seedEarlierOutputs} writes for `correct-terms`. */
-const termCorrectionAttempts: readonly Readonly<Record<string, unknown>>[] = [
-	noSlideTermCorrection,
-	usedTermCorrection,
-];
+/**
+ * The workspace-relative path of the rewrite of a subtopic in round 1. The name
+ * is stated in full here, and not taken from the production code.
+ *
+ * @param subtopicId - The subtopic.
+ * @returns The path, relative to the workspace.
+ */
+export function rewriteFile(subtopicId: number): string {
+	return `Rewrites/subtopic-${subtopicId}-attempt-1.json`;
+}
+
+/** The paragraph that the writer writes for each subtopic of {@link transcriptDivision}. */
+export const rewrittenParagraphs = [
+	"The lecture covers its subject today.",
+	"Cell injury involves the immune system.",
+] as const;
+
+/** The rewrite file of each subtopic, as `rewrite-subtopics` writes it. */
+const subtopicRewrites: readonly Readonly<Record<string, unknown>>[] = [
+	...rewrittenParagraphs.entries(),
+].map(([index, paragraph]) => ({
+	subtopicId: index + 1,
+	attemptNumber: 1,
+	writerPromptVersion: "w1",
+	rewrittenSubtopic: [paragraph],
+}));
 
 /**
- * Writes each term-correction file into a workspace, as `correct-terms` leaves it.
+ * Gives the function that writes the files of a stage of the rewrite loop into
+ * a workspace, as the stage leaves them in round 1.
  *
- * @param workspaceRoot - The absolute path to the lecture workspace.
- * @returns A promise that resolves when every file is written.
+ * @param args - The content of each file, and the path of the file of a subtopic.
+ * @param args.attempts - The content of each file. Each one has a `subtopicId`.
+ * @param args.file - Gives the workspace-relative path of the file of a subtopic.
+ * @returns The function that writes the files into a workspace.
  */
-async function seedTermCorrections(workspaceRoot: string): Promise<void> {
-	for (const attempt of termCorrectionAttempts) {
-		const path = join(workspaceRoot, termCorrectionFile(Number(attempt.subtopicId)));
-		await mkdir(dirname(path), { recursive: true });
-		await writeFile(path, JSON.stringify(attempt));
-	}
+function seedingRewriteAttempts({
+	attempts,
+	file,
+}: {
+	readonly attempts: readonly Readonly<Record<string, unknown>>[];
+	readonly file: (subtopicId: number) => string;
+}): (workspaceRoot: string) => Promise<void> {
+	return async (workspaceRoot) => {
+		for (const attempt of attempts) {
+			const path = join(workspaceRoot, file(Number(attempt.subtopicId)));
+			await mkdir(dirname(path), { recursive: true });
+			await writeFile(path, JSON.stringify(attempt));
+		}
+	};
 }
 
 /**
@@ -2075,7 +2148,11 @@ const EARLIER_OUTPUT_SEEDS = {
 	"read-slides": (workspaceRoot: string) =>
 		seedSlideReadings({ workspaceRoot, readings: slideDeckReadings }),
 	"place-slides": seedingJsonOutput({ stageId: "place-slides", output: slideDeckPlacements }),
-	"correct-terms": seedTermCorrections,
+	"correct-terms": seedingRewriteAttempts({
+		attempts: [noSlideTermCorrection, usedTermCorrection],
+		file: termCorrectionFile,
+	}),
+	"rewrite-subtopics": seedingRewriteAttempts({ attempts: subtopicRewrites, file: rewriteFile }),
 } as const;
 
 /** An earlier stage whose output {@link seedEarlierOutputs} can write. */
@@ -2166,6 +2243,7 @@ type StageReadingEarlierOutputsSuite<TOutput> = {
 	readonly create: () => StubbedCompletionCall;
 	readonly run: (manifest?: Partial<Manifest>) => Promise<StageResult<TOutput>>;
 	readonly expectOneCallSending: (value: unknown) => Promise<void>;
+	readonly expectCallsSending: (values: readonly unknown[]) => Promise<void>;
 };
 
 /**
@@ -2182,7 +2260,7 @@ type StageReadingEarlierOutputsSuite<TOutput> = {
  * @param args.factory - The stage factory.
  * @param args.reply - The stubbed reply.
  * @param args.tuning - The fields of the stage's config to replace.
- * @returns The config of the stage, and readers for the workspace, the stub logger and the completion call of the current test. It also gives a function that runs the stage with the stub client. The run takes the manifest fields to replace. Last, it gives a check that a run makes one call, and that the user message of the call holds a value as JSON.
+ * @returns The config of the stage, and readers for the workspace, the stub logger and the completion call of the current test. It also gives a function that runs the stage with the stub client. The run takes the manifest fields to replace. Last, it gives a check that a run makes one call, and that the user message of the call holds a value as JSON. It also gives a check that a run makes one call for each of several values. The calls come in any order, and each call sends one value as the subtopic.
  * @typeParam TInput - The input of the stage.
  * @typeParam TOutput - The output of the stage.
  */
@@ -2231,6 +2309,15 @@ export function useStageReadingEarlierOutputs<TInput, TOutput>({
 
 			expect(create()).toHaveBeenCalledTimes(1);
 			expect(sentUserMessage(create().mock.calls)).toContain(JSON.stringify(value));
+		},
+		expectCallsSending: async (values) => {
+			await run();
+
+			const sent = sentUserContents(create().mock.calls);
+			expect(sent).toHaveLength(values.length);
+			expect(sent).toStrictEqual(
+				expect.arrayContaining(values.map((value) => `Subtopic:\n${JSON.stringify(value)}`)),
+			);
 		},
 	};
 }

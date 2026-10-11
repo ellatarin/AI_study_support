@@ -13,6 +13,7 @@ import {
 	openRouterReplyBody,
 	readingFile,
 	readJsonFile,
+	replyingWhenRequestHolds,
 	resendPausesTimeoutMs,
 	SETTLE_STEP_MS,
 	seedSlideImages,
@@ -148,10 +149,12 @@ describe("createReadSlidesStage", () => {
 		});
 		const usable = openRouterReplyBody({ content: JSON.stringify(slideReadingReply()) });
 		// The slides are read at the same time, so the reply follows the image and not the call order.
-		create().mockImplementation((body) =>
-			Promise.resolve(
-				JSON.stringify(body).includes(secondImage?.toString("base64") ?? "") ? unusable : usable,
-			),
+		create().mockImplementation(
+			replyingWhenRequestHolds({
+				holds: secondImage?.toString("base64") ?? "",
+				matching: unusable,
+				other: usable,
+			}),
 		);
 
 		const error = await captureError(run());

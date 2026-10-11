@@ -6,7 +6,9 @@
    Only the imports are exempt. jscpd checks the code below. */
 import type { OutputLanguage } from "../../../types/pipeline.js";
 import { languageRule } from "../../../utils/language.js";
-import { labelledJson, type PromptMessages, promptMessages } from "../model-stage.js";
+import { CHECKED_WRITER_RULES } from "../checked-writer-rules.js";
+import type { PromptMessages } from "../model-stage.js";
+import { subtopicPromptMessages } from "../rewrite-attempts.js";
 /* jscpd:ignore-end */
 
 /**
@@ -14,31 +16,6 @@ import { labelledJson, type PromptMessages, promptMessages } from "../model-stag
  * version, so that each rewrite names the prompt that made it.
  */
 export const WRITER_PROMPT_VERSION = "w1";
-
-/**
- * The rules R4 to R8: the five kinds of detail that a rewrite keeps exactly. The
- * checker prompt must state the same rules (technical-design.md §5,
- * `rewrite-subtopics`).
- */
-const DETAIL_RULES = `## R4 — Scientific nomenclature and precise terms
-
-Use each technical term exactly as the text writes it. Do not replace a precise term with a more general word or with a synonym. Do not replace a general term with a more precise one.
-
-## R5 — Names
-
-Keep each name exactly as the text writes it. This includes the names of people, of molecules, small molecules included, and of the subunits of a protein.
-
-## R6 — Amino acid residues
-
-Keep each amino acid residue that the lecturer names, with its position, exactly as the text writes it.
-
-## R7 — Statistics and numbers
-
-Keep each number, quantity, unit, percentage, ratio and date exactly. Do not round a number or convert it. Do not make an approximate number exact, or an exact number approximate.
-
-## R8 — Each step of a mechanism
-
-When the lecturer describes a process, keep each step, in the lecturer's order. Keep each causal link that the lecturer states: what causes what, what leads to what, and what is necessary for what. Do not add a step or a link that the lecturer did not state.`;
 
 /**
  * Gives the task of the writer, its rules and the shape of the reply. JSON mode
@@ -63,19 +40,7 @@ The user message is one JSON object. "text" is what the lecturer said in this pa
 
 Keep the order in which the lecturer makes the points. Do not move a point to another place.
 
-## R2 — Leave out nothing
-
-Keep every fact that the lecturer states. Do not shorten the content by leaving out a fact, a detail or a qualification, even when it seems minor.
-
-## R3 — Add nothing
-
-Write only what the text says. Do not add a fact, an example, a definition, a cause, a result or a conclusion that the lecturer did not state, even when you know that it is true. When a statement of the lecturer is incomplete, keep it incomplete. Keep the lecturer's certainty: when the lecturer says that something may happen or probably happens, do not state it as certain. Do not make a certain statement uncertain.
-
-${DETAIL_RULES}
-
-## R9 — Drop what is not subject matter
-
-Drop filler, false starts, repetitions that add nothing, jokes, remarks to the audience and course arrangements, such as exams, deadlines and reading lists. When such a passage also states subject matter, keep that statement.
+${CHECKED_WRITER_RULES}
 
 ## R10 — A figure mark where the lecturer points at a slide
 
@@ -129,8 +94,5 @@ export function buildWriterMessages({
 	readonly text: string;
 	readonly language: OutputLanguage;
 }): PromptMessages {
-	return promptMessages({
-		system: writerPrompt(language),
-		user: labelledJson({ label: "Subtopic", value: { text } }),
-	});
+	return subtopicPromptMessages({ system: writerPrompt(language), material: { text } });
 }

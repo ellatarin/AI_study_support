@@ -33,7 +33,7 @@ import {
 	type SlideKind,
 	type SlideReading,
 } from "../slides.js";
-import { readStageStructuredTranscript } from "../stage-input.js";
+import { readStageSubtopics } from "../stage-input.js";
 import { buildPlacementMessages, PROMPT_VERSION } from "./place-slides.prompt.js";
 
 /**
@@ -241,15 +241,11 @@ function usablePlacements({
  */
 async function readPlacementInput(context: StageContext): Promise<PlacementInput> {
 	const fail = (message: string): Error => new PlaceSlidesError(message);
-	const { topics } = await readStageStructuredTranscript({
-		context,
-		purpose: "place the slides in",
-		fail,
-	});
+	// The subtopics go without their topics (technical-design.md §5, `place-slides`).
+	const subtopics = await readStageSubtopics({ context, purpose: "place the slides in", fail });
 	const images = await findSlideImages({ context, fail });
 	return {
-		// The subtopics go without their topics (technical-design.md §5, `place-slides`).
-		subtopics: topics.flatMap((topic) => topic.subtopics),
+		subtopics,
 		slides: await Promise.all(
 			[...images.keys()].map((index) =>
 				readSlideReading({ context, slideNumber: index + 1, fail }),

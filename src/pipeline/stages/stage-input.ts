@@ -9,7 +9,13 @@ import type { StageContext, StageId } from "../../types/pipeline.js";
 import { errorMessage } from "../../utils/errors.js";
 import { readTextFile } from "../../utils/files.js";
 import { type StageWithOutputFile, stageDirectoryPath, stageOutputPath } from "../layout.js";
-import { readDivision, type Subtopic, splittingPanel, subtopicsWithIdAndText } from "./division.js";
+import {
+	readDivision,
+	type Subtopic,
+	type SubtopicWithIdAndText,
+	splittingPanel,
+	subtopicsWithIdAndText,
+} from "./division.js";
 import { readPanel } from "./panel-runs.js";
 import { readSlidePlacements, type SlidePlacements } from "./slide-placements.js";
 import {
@@ -244,7 +250,7 @@ export function readStageTopics(
  * @returns The structured transcript.
  * @throws The error that `fail` builds, if the file is missing, empty, not JSON, or not a structured transcript.
  */
-export function readStageStructuredTranscript(
+function readStageStructuredTranscript(
 	reading: Omit<ReadingOutput, "stageId">,
 ): Promise<StructuredTranscript> {
 	return readStageJson({
@@ -253,6 +259,21 @@ export function readStageStructuredTranscript(
 		read: readStructuredTranscript,
 		shape: "a structured transcript",
 	});
+}
+
+/**
+ * Reads each subtopic of the structured transcript, in lecture order, without
+ * its topic.
+ *
+ * @param reading - The stage context, the purpose, and the error to raise, as for {@link readStageStructuredTranscript}.
+ * @returns Each subtopic with its subtopic id, its title and its text.
+ * @throws The error that `fail` builds, if the file is missing, empty, not JSON, or not a structured transcript.
+ */
+export async function readStageSubtopics(
+	reading: Omit<ReadingOutput, "stageId">,
+): Promise<readonly SubtopicWithIdAndText[]> {
+	const { topics } = await readStageStructuredTranscript(reading);
+	return topics.flatMap((topic) => topic.subtopics);
 }
 
 /**

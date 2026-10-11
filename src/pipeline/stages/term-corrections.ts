@@ -4,9 +4,19 @@
  * `rewrite-subtopics`).
  */
 
-import { isRecord, readerFromCheck } from "../../utils/record.js";
-import { hasRewriteAttemptFields, rewriteAttemptFilePath } from "./rewrite-attempts.js";
-import { type ReadingStage, readInputJson } from "./stage-input.js";
+/* jscpd:ignore-start -- the modules of the rewrite-attempt files import the same
+   readers. So their import blocks are the same line for line. Imports cannot be
+   shared, and CLAUDE.md (File Organisation) forbids barrel files. Only the
+   imports are exempt. jscpd checks the code below. */
+import { isRecord } from "../../utils/record.js";
+import {
+	hasRewriteAttemptFields,
+	type RewriteAttemptFields,
+	readRewriteAttemptFile,
+} from "./rewrite-attempts.js";
+import type { ReadingStage } from "./stage-input.js";
+
+/* jscpd:ignore-end */
 
 const STAGE_ID = "correct-terms";
 
@@ -83,47 +93,20 @@ export function isTermCorrectionResult(value: unknown): value is TermCorrectionR
 	);
 }
 
-/** The subtopic and the rewrite attempt of one term-correction file. */
-type TermCorrectionFile = {
-	readonly subtopicId: number;
-	/** The number of the rewrite attempt, from 1. */
-	readonly attemptNumber: number;
-};
-
-/**
- * Gives the path of the term-correction file of one rewrite attempt of a subtopic.
- *
- * @param args - The workspace, the subtopic and the rewrite attempt.
- * @param args.workspaceRoot - The absolute path to the lecture workspace.
- * @param args.subtopicId - The subtopic.
- * @param args.attemptNumber - The number of the rewrite attempt, from 1.
- * @returns The absolute path of the term-correction file.
- */
-function termCorrectionPath(args: TermCorrectionFile & { readonly workspaceRoot: string }): string {
-	return rewriteAttemptFilePath({ ...args, stageId: STAGE_ID });
-}
-
 /**
  * Reads the term-correction file of one rewrite attempt of a subtopic.
  *
- * @param args - The stage context, the subtopic, the rewrite attempt, and the error to raise.
- * @param args.context - The stage context.
- * @param args.subtopicId - The subtopic.
- * @param args.attemptNumber - The number of the rewrite attempt, from 1.
- * @param args.fail - Builds the reading stage's error from a message.
+ * @param file - The stage context, the subtopic, the rewrite attempt, and the error to raise.
  * @returns The term-correction result.
  * @throws The error that `fail` builds, if the file is missing, not JSON or not a term-correction result.
  */
-export function readTermCorrectionResult({
-	context,
-	fail,
-	...file
-}: TermCorrectionFile & ReadingStage): Promise<TermCorrectionResult> {
-	return readInputJson({
-		path: termCorrectionPath({ workspaceRoot: context.workspaceRoot, ...file }),
+export function readTermCorrectionResult(
+	file: RewriteAttemptFields & ReadingStage,
+): Promise<TermCorrectionResult> {
+	return readRewriteAttemptFile({
+		...file,
 		stageId: STAGE_ID,
-		fail,
-		read: readerFromCheck(isTermCorrectionResult),
+		isFile: isTermCorrectionResult,
 		shape: "a term-correction result",
 	});
 }

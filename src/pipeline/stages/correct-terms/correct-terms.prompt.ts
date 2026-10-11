@@ -4,7 +4,8 @@
    slide reading. So their import blocks are the same line for line. Imports
    cannot be shared, and CLAUDE.md (File Organisation) forbids barrel files.
    Only the imports are exempt. jscpd checks the code below. */
-import { labelledJson, type PromptMessages, promptMessages } from "../model-stage.js";
+import type { PromptMessages } from "../model-stage.js";
+import { subtopicPromptMessages } from "../rewrite-attempts.js";
 import type { SlideReading } from "../slides.js";
 /* jscpd:ignore-end */
 
@@ -104,8 +105,5 @@ type TermCorrectionMaterial = {
  * @returns The system and user messages.
  */
 export function buildTermCorrectionMessages(material: TermCorrectionMaterial): PromptMessages {
-	return promptMessages({
-		system: TERM_CORRECTION_PROMPT,
-		user: labelledJson({ label: "Subtopic", value: material }),
-	});
+	return subtopicPromptMessages({ system: TERM_CORRECTION_PROMPT, material });
 }
