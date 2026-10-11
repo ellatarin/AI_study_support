@@ -1,13 +1,13 @@
-# 08 — Live run of `rewrite-subtopics` on one lecture
+# 08 — Live run of the rewrite loop on one lecture
 
-**What to build:** The user runs `rewrite-subtopics` on one lecture and judges the rewritten subtopics. Then the placement after the rewrite gets its design.
+**What to build:** The user runs the rewrite loop and `assemble-rewrites` on one lecture, and judges the rewritten subtopics. Then the placement after the rewrite gets its design.
 
-**Blocked by:** 07 — Check each rewritten subtopic, with up to three rewrite attempts
+**Blocked by:** 12 — Repeat the rewrite loop in the runner
 
 **Status:** ready-for-agent
 
-- [ ] The user runs the stage on one lecture. The ticket quotes the measured cost from the manifest.
-- [ ] The ticket records the number of rewrite attempts of each subtopic, and each subtopic that failed.
+- [ ] The user runs the pipeline on one lecture to `assemble-rewrites`. The ticket quotes the measured cost of each stage from the manifest.
+- [ ] The ticket records the number of rounds, and the subtopics that failed in each round.
 - [ ] The ticket records each correction and each ignored correction. The lecture of 2026-03-06 shows if "beta-naphthylene" becomes "β-naphthylamine".
 - [ ] The ticket records each misheard term that stays wrong in a subtopic because no slide placed in that subtopic prints it. The count decides if ticket 09 is built.
 - [ ] The user judges the rewritten subtopics against the five kinds of detail to keep. The ticket records the judgement.

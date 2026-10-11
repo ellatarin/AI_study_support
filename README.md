@@ -7,7 +7,7 @@ subtopic titles, with each slide at the point where the lecturer discusses it. I
 the lecturer said. A student reads it in place of the recording and the slides. So it must be
 complete, and it must be right.
 
-> **Status: in progress.** The pipeline currently runs from a module's source files to the placed slides. The rewrite of each subtopic is designed and is being built. The placement of the slides in the rewritten text, and the HTML page, are designed in outline only. See [Where the project is up to](#where-the-project-is-up-to).
+> **Status: in progress.** The pipeline currently runs from a module's source files to the placed slides. The rewrite loop, which corrects, rewrites and checks each subtopic, is designed and is being built. The placement of the slides in the rewritten text, and the HTML page, are designed in outline only. See [Where the project is up to](#where-the-project-is-up-to).
 
 ## Design philosophy
 
@@ -86,19 +86,22 @@ re-run from it or stop after it.
     discuss it. The model names the subtopic and the sentence. Code checks that every slide has one
     place and that the slides keep their deck order. A references slide goes at the end of the last
     subtopic, and content-free slides are left out.
-15. **`rewrite-subtopics`.** Rewrites each subtopic as textbook prose, in three steps:
-    - **Term correction.** A model compares the subtopic text with the readings of the slides placed
+15. **The rewrite loop.** Three stages turn each subtopic into textbook prose. The pipeline repeats
+    them for the subtopics that fail the check, up to three rounds by default:
+    - **`correct-terms`.** A model compares the subtopic text with the readings of the slides placed
       in it, and proposes corrections of misheard terms. Code accepts a correction only when its right
       form is on one of those slides and its wrong form is in the text.
-    - **The rewrite.** A writer gets the corrected text of that one subtopic and nothing else. It
-      writes paragraphs in the lecturer's order, drops filler and jokes, and keeps every fact. It puts
-      a **figure mark** where the lecturer points at a slide.
-    - **The check.** A checker compares the rewritten subtopic with the lecturer's own words and the
-      corrections. One omission, distortion or addition fails the attempt, and the subtopic is written
-      again, up to three times.
-16. **Placing the slides in the rewritten text.** Puts a slide at each figure mark and numbers the
+    - **`rewrite-subtopics`.** A writer gets the corrected text of that one subtopic and nothing else.
+      It writes paragraphs in the lecturer's order, drops filler and jokes, and keeps every fact. It
+      puts a **figure mark** where the lecturer points at a slide.
+    - **`check-rewrite-attempts`.** A checker from a different company compares the rewritten
+      subtopic with the lecturer's own words and the corrections. One omission, distortion or addition
+      sends the subtopic back for another round.
+16. **`assemble-rewrites`.** Puts the rewritten subtopics and their corrections in one file. No model
+    call.
+17. **Placing the slides in the rewritten text.** Puts a slide at each figure mark and numbers the
     figures. Designed in outline only.
-17. **The HTML page.** Joins the rewritten subtopics under their topic and subtopic titles, with the
+18. **The HTML page.** Joins the rewritten subtopics under their topic and subtopic titles, with the
     slides at their places, and puts the page in `Final output/`. Designed in outline only.
 
 
@@ -157,18 +160,20 @@ lecture-notes change-date <date> <new date>
 | `retitle-subtopics` | Built |
 | `group-into-topics` | Built |
 | `judge-lecture-title` | Built |
-| `structure-transcript` | Designed, not built |
+| `structure-transcript` | Built |
 | `render-slides` | Built |
 | `read-slides` | Built |
 | `verify-slides` | Planned |
 | `place-slides` | Built |
+| `correct-terms` | Built, as the first step of `rewrite-subtopics`. Being moved to its own stage |
 | `rewrite-subtopics` | Designed, not built |
+| `check-rewrite-attempts` | Designed, not built |
+| The rewrite loop in the runner | Designed, not built |
+| `assemble-rewrites` | Designed, not built |
 | Placing the slides in the rewritten text | Designed in outline |
 | The HTML page | Designed in outline |
 
-The commands (`run`, `batch`, `cost-report`, `rename`, `delete`, `change-date`) are built. The code
-still holds two earlier stages that rewrote and checked the whole transcript at once. They are being
-removed, and `rewrite-subtopics` replaces them.
+The commands (`run`, `batch`, `cost-report`, `rename`, `delete`, `change-date`) are built.
 Some built stages still carry their earlier names in the code until the redesign is carried through.
 
 

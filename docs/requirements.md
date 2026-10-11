@@ -1,7 +1,7 @@
 # Lecture Notes Generator — Requirements Specification
 
-**Suite version:** 1.77-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
-**Date:** 2026-10-08
+**Suite version:** 1.78-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
+**Date:** 2026-10-11
 **Status:** For review
 
 ---
@@ -62,7 +62,7 @@ The system shall take a set of lecture recordings (video files) and accompanying
 
 **FR-4.4** When the check finds a fault, the system shall correct the terms and rewrite the subtopic again. It shall give each fault to the step that it concerns.
 
-**FR-4.5** The system shall make at most three attempts at each subtopic. When the third attempt fails the check, the system shall stop and report the subtopic and its faults.
+**FR-4.5** The system shall make at most a configured number of attempts at each subtopic, three by default. When the last attempt fails the check, the system shall stop and report the subtopic and its faults.
 
 ### FR-5 — Model Configurability
 

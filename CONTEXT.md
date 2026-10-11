@@ -132,7 +132,7 @@ A pipeline run told to stop after a named stage (`--to-stage`). It does not reac
 _Avoid_: partial run
 
 **Reset**:
-Clearing the work of a stage and of every stage after it, so that `--from-stage` runs them again. The cleared stages go back to pending.
+Clearing the work of a stage and of every stage after it, so that `--from-stage` runs them again. The cleared stages go back to pending. A reset of a stage in the rewrite loop starts at the first stage of the loop.
 _Avoid_: wipe, clean
 
 **Run type**:
@@ -152,7 +152,7 @@ A lecture's own record: its identity, how far each stage has got, and what each 
 _Avoid_: state file, metadata, db, run manifest
 
 **Stage entry**:
-One stage's part of the manifest: its status, the settings it ran with, what it cost and the files it wrote.
+One stage's part of the manifest: its status, its round, the settings it ran with, what it cost and the files it wrote. A stage outside the rewrite loop always has round 1. The status of the check is *sent back* when subtopics failed and rounds are left.
 _Avoid_: manifest entry, stage map (for one entry)
 
 **Stage record**:
@@ -176,7 +176,7 @@ The table printed after a pipeline run. It has one row for each stage that ran, 
 _Avoid_: end-of-run report
 
 **Completed stage**:
-A stage whose stage entry is `complete` or `skipped` and whose recorded files are all on disk, whether this pipeline run made them or an earlier one did. The runner does not run a completed stage again, and does not pay for it twice. Saved runs from a failed panel do not make a stage completed. A title or identity that a stage chooses is *decided*.
+A stage whose stage entry is `complete` or `skipped` and whose recorded files are all on disk. This pipeline run or an earlier one can have made the files. The runner does not run a completed stage again, and does not pay for it twice. A stage of the rewrite loop is completed only for the round that its stage entry records. Saved runs from a failed panel do not make a stage completed. A title or identity that a stage chooses is *decided*.
 _Avoid_: settled, done, cached, finished
 
 **Orphaned workspace**:
@@ -239,7 +239,7 @@ _Avoid_: slide assignment, slide merging, slide matching
 ### Rewriting a subtopic
 
 **Term correction**:
-The step that changes misheard terms in one subtopic. It compares the subtopic text with the readings of the slides placed in that subtopic. It changes terms only. It never adds or removes a fact.
+The stage that changes misheard terms in each subtopic. It compares the subtopic text with the readings of the slides placed in that subtopic. It changes terms only. It never adds or removes a fact.
 _Avoid_: key-term fixing, spelling correction
 
 **Correction**:
@@ -254,8 +254,16 @@ _Avoid_: passage, section, notes (the notes are the whole page)
 A mark with no number that the writer puts where the lecturer points at a slide. A later step puts a slide at each figure mark and gives it its number.
 _Avoid_: slide reference, placeholder
 
+**Rewrite loop**:
+The three stages that repeat: term correction, the rewrite and the check. The runner runs them in order. When the check finds a fault in a subtopic, the runner sends the lecture back to term correction for another round.
+_Avoid_: retry loop, cycle
+
+**Round**:
+One pass of the rewrite loop over a lecture. Round 1 includes every subtopic. A later round includes only the subtopics that failed the check in the round before. The configuration sets the largest number of rounds. A subtopic that fails in the last round makes the check fail.
+_Avoid_: pass, iteration, cycle
+
 **Rewrite attempt**:
-One pass of term correction, rewrite and check for one subtopic. When the checker finds a fault, the subtopic gets another rewrite attempt. A subtopic gets at most three.
+The work on one subtopic in one round: its term correction, its rewrite and its check. The number of a rewrite attempt is always the number of its round.
 _Avoid_: try, iteration
 
 ### Checking quality
@@ -449,7 +457,7 @@ _Avoid_: criteria (as a bare noun), checklist, test cases
 *Words for how the code is built, not for the problem it solves. Each is also documented where the code defines it.*
 
 **Runner**:
-The code that drives a pipeline run. It runs a lecture's stages in order and skips completed ones. It writes each stage entry and the run log. It also carries out resets and bounded runs.
+The code that drives a pipeline run. It runs a lecture's stages in order and skips completed ones. It repeats the rewrite loop while the check sends subtopics back. It writes each stage entry and the run log. It also carries out resets and bounded runs.
 _Avoid_: orchestrator, engine
 
 **Stage context**:

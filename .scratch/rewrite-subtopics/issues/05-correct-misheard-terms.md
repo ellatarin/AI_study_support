@@ -22,3 +22,7 @@
 - [x] The stage never changes the file of an earlier stage.
 - [x] The stage resends an unusable reply, and fails after the third send.
 - [x] The stage fails without a model call when an input file is missing, unreadable or the wrong shape. The input files are the structured transcript, the slide placements and the slide readings. The error names the file.
+
+## Comments
+
+2026-10-11: The design changed after this ticket. Term correction becomes its own stage, `correct-terms`, with the folder `Term corrections/`. The runner repeats the rewrite loop (ADR 0002). Ticket 10 makes the move.
