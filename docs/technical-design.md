@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.81-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
+**Suite version:** 1.82-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
 **Date:** 2026-10-11
 **Status:** For review
 
@@ -831,7 +831,7 @@ The flag exists because of the cost of the stages after the ones that a run need
 4. **The check writes its result file first.** At the end of a round, `check-rewrite-attempts` writes `Checks/round-<n>.json` with `round` and `failedSubtopicIds`. It writes the file before it returns, so the file is on disk before the runner records the stage. A crash between the two leaves the stage `running`. The next run runs the check again for that round, and its saved checks make that rerun cost nothing.
 5. **The runner reads the result file.** An empty `failedSubtopicIds` makes the check `complete`, and the runner goes on to `assemble-rewrites`. A list with subtopics makes the check `sent-back`, and the runner goes back to `correct-terms` in the next round.
 6. **The last round.** In round `rewriting.maxRounds`, a failed subtopic makes `check-rewrite-attempts` fail. Its error names each failed subtopic and its faults. A later run reads the saved checks of that round and fails again with no call. To start the loop again, use `--from-stage`.
-7. **The faults go back.** In a later round, `correct-terms` gets the faults that the check found in the corrections of each subtopic. `rewrite-subtopics` gets the faults that the check found in the rewrite. This is the one place where a stage reads the output of a later stage.
+7. **The faults go back.** In a later round, `rewrite-subtopics` gets the faults that the check found in the rewrite. This is the one place where a stage reads the output of a later stage. The check does not judge the corrections, so `correct-terms` gets no faults. What `correct-terms` does in a later round is not decided yet.
 8. **A reset of a loop stage starts at `correct-terms`.** `--from-stage` on any loop stage resets the whole loop and every stage after it. A reset in the middle would keep the saved attempts of a later round. The check results that caused those attempts would be gone.
 9. **`--to-stage` inside the loop stops the run there.** The next run continues the loop from the manifest.
 
@@ -1542,7 +1542,7 @@ Code changes each occurrence of the wrong form of each kept correction to its ri
 
 A correction that fails a check is not resent. The stage writes the corrections into its own file for the rewrite attempt. It never edits the file of an earlier stage.
 
-**In a later round,** the call also gets the faults that the check found in the corrections of that subtopic. The text and the slides are the same as in round 1.
+**In a later round,** the stage gets no faults, because the check does not judge the corrections. What the stage does in a later round is not decided yet (§4.7, "The rewrite loop").
 
 The file of a rewrite attempt holds these fields:
 
@@ -1578,7 +1578,7 @@ The writer drops filler, jokes and course arrangements. It keeps these exactly:
 4. the lecturer's statistics and numbers
 5. each step of a mechanism in order, with each causal link that the lecturer states.
 
-The list goes into the writer's prompt and the checker's prompt as numbered rules, so the two prompts state the same rules. The prompt also tells the writer to write in the language of `finalOutput.language` (§6).
+The writer's rules R2 to R9 come from one shared text. Both the writer's prompt and the checker's prompt hold this text, so the two prompts state the same rules. R2 forbids an omission, R3 an addition, R4 to R8 are the five kinds of detail above, and R9 says what the writer drops. The prompt also tells the writer to write in the language of `finalOutput.language` (§6).
 
 The reply is `{ "paragraphs": [...] }`. A reply with no paragraph, or with a blank paragraph, is unusable, and the stage resends it. The stage keeps the paragraphs as the rewritten subtopic.
 
@@ -1600,11 +1600,29 @@ The file of a rewrite attempt holds these fields:
 **Input:** `Structured transcript/structured-transcript.json`, `Term corrections/`, `Rewrites/`
 **Output:** `Checks/subtopic-<id>-attempt-<n>.json` for each subtopic in each round, and `Checks/round-<n>.json` for each round
 
-The checker gets three things: the verbatim text of the subtopic, the corrections of the attempt with their reasons, and the rewritten subtopic. Without the corrections, it would report each corrected term as a distortion. It gets no slide text. It looks for an omission, a distortion and an unsourced addition (CONTEXT.md, "Checking quality"). It judges each correction from its own knowledge: a correction may improve a term only, and add or remove no fact. It does not look for underexplained content, because that fault asks the writer to add. It does not look for prose faults. One fault of any kind fails the rewrite attempt.
+The checker gets three things: the verbatim text of the subtopic, the kept corrections of the attempt with their reasons, and the rewritten subtopic. Without the corrections, it would report each corrected term as a distortion. It gets no slide text. It looks for an omission, a distortion and an unsourced addition (CONTEXT.md, "Checking quality"). Each deficiency names the writer's rule that the rewrite breaks, from R2 to R9 (`rewrite-subtopics`).
+
+The checker treats each correction as right, and does not judge it. A model that judged the corrections from its own knowledge would make more errors than the slides hold. The checker does not look for these faults:
+
+- underexplained content, because that fault asks the writer to add
+- a change of the lecturer's order (R1). A moved step of a mechanism is still a distortion under R8
+- prose faults.
+
+One deficiency of any kind fails the rewrite attempt. So a deficiency has no severity.
 
 **The end of a round.** When each subtopic of the round has its check, the stage writes `Checks/round-<n>.json`. The file holds `round` and `failedSubtopicIds`, the subtopics with a fault. An empty list means that each subtopic passed. The runner reads this file to decide the next round (§4.7, "The rewrite loop"). In round `rewriting.maxRounds`, a failed subtopic makes the stage fail. The error names each failed subtopic and its faults. No reviser edits a rewritten subtopic.
 
-The fields of the file of each check are agreed when the stage is built.
+The checker also lists its considerations: each passage that it examined and found not to be a deficiency, with the reason. No stage reads them. They show, when a check is debugged, what the checker looked at.
+
+The file of each check holds these fields:
+
+| Field | What it holds |
+|---|---|
+| `subtopicId` | The subtopic |
+| `attemptNumber` | The number of the rewrite attempt, which is the number of the round |
+| `checkerPromptVersion` | The version of the checker prompt |
+| `deficiencies` | Each deficiency: `deficiencyType` (`omission`, `distortion` or `unsourced-addition`), `rule`, `description`, `sourcePassage` (null for an unsourced addition) and `rewritePassage` (null for an omission) |
+| `considerations` | Each consideration: `sourcePassage` and `reason` |
 
 **The model** is `openai/gpt-5.6-sol-pro`, set on the stage's own entry (§6). It is the checker that issue #8 chose for the earlier verification stage.
 

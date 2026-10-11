@@ -12,7 +12,9 @@
 - [ ] A loop stage is completed only when its round is the current round.
 - [ ] The stage context carries the round. In a later round, each loop stage works only on the subtopics in the result file of the round before. One shared function gives this list.
 - [ ] After the check, the runner reads `Checks/round-<n>.json`. No failed subtopic: the check is `complete`, and the runner goes on. Failed subtopics: the check is `sent-back`, and the runner goes back to `correct-terms` in the next round.
-- [ ] In a later round, `correct-terms` gets the faults about the corrections of each subtopic, and `rewrite-subtopics` gets the faults about its rewrite. Each prompt says how it uses them. The user sees each prompt change before the build.
+- [ ] In round `rewriting.maxRounds`, a failed subtopic makes `check-rewrite-attempts` fail. The error names each failed subtopic and its faults. (Moved from ticket 07 on 2026-10-11, because ticket 07 runs only round 1.)
+- [ ] In a later round, `rewrite-subtopics` gets the faults about its rewrite. The prompt says how it uses them. The user sees the prompt change before the build.
+- [ ] Decide with the user what `correct-terms` does in a later round. The check does not judge the corrections (user ruling, 2026-10-11), so it gets no faults. With the same input, a new call would give the same kind of reply.
 - [ ] A crash after the result file and before the stage entry is safe. The next run runs the check again for that round, with no call.
 - [ ] `--from-stage` on any loop stage resets from `correct-terms`.
 - [ ] `--to-stage` on a loop stage stops the run there. The next run continues the loop.

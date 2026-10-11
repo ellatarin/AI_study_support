@@ -277,7 +277,7 @@ The call that reads an output against its source and reports what is wrong with 
 _Avoid_: reviewer, critic, validator, judge
 
 **Deficiency**:
-One fault that a checker found. It says what is wrong, how bad it is, where it is in the output, and which passage of the source it is about.
+One fault that a checker found. It says what is wrong, where it is in the output, and which passage of the source it is about.
 _Avoid_: finding, issue, error, bug, defect, problem
 
 **Deficiency type**:
