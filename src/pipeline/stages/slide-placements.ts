@@ -20,14 +20,14 @@ export type SlidePlacement = PlacedSlideFields & {
 	readonly positionInSubtopic: number;
 };
 
-/** What `place-slides` writes: the placements, and the version of the prompt that made them. */
+/** The output of `place-slides`: the placements, and the version of the prompt that made them. */
 export type SlidePlacements = {
 	readonly promptVersion: string;
 	readonly placements: readonly SlidePlacement[];
 };
 
 /**
- * Tells if a value has the fields of {@link PlacedSlideFields}.
+ * Checks that a value has the fields of {@link PlacedSlideFields}.
  *
  * @param value - One entry of a list of placements.
  * @returns `true` when the value has a `slideNumber` and a `subtopicId`, both

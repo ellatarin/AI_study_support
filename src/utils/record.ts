@@ -5,7 +5,7 @@
  */
 
 /**
- * Tells if a value has fields to read: an object that is not `null` and not an
+ * Checks that a value has fields to read: an object that is not `null` and not an
  * array. An array fails, because each caller reads named fields. So a wrong shape
  * is found here, and not later as a missing field.
  *

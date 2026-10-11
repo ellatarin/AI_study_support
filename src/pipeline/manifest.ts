@@ -142,7 +142,7 @@ function parseManifest({
 }
 
 /**
- * The check that a parsed `manifest.json` describes a lecture. It reads
+ * Checks that a parsed `manifest.json` describes a lecture. It reads
  * `lectureNumber`, `lectureDate` and `stages`, which each caller that lists the
  * workspaces reads next. In `stages`, it reads only the `round` of each entry
  * that is not `pending`. A manifest with such an entry and no `round` fails, so a
@@ -170,7 +170,7 @@ function isManifest(value: unknown): value is Manifest {
 }
 
 /**
- * The round check on one stage entry. Each entry that is not `pending` must have
+ * Checks the round of one stage entry. Each entry that is not `pending` must have
  * a numeric `round`. An entry that is not an object passes, because
  * {@link isManifest} judges no other part of an entry.
  *

@@ -1,5 +1,5 @@
 /**
- * The choice of the topics of a lecture from the grouping runs. The chosen
+ * The code that chooses the topics of a lecture from the grouping runs. The chosen
  * grouping is the grouping that the rules below rank first. It is handed on
  * whole from the earliest run that made it (technical-design.md §5,
  * `group-into-topics`, "The chosen grouping").

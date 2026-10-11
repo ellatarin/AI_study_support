@@ -543,7 +543,7 @@ function formatModelIdError(args: {
 }
 
 /**
- * Tells if the model-ID check skips a model ID, because its provider is exempt. A
+ * Checks that the model-ID check skips a model ID, because its provider is exempt. A
  * model ID with no provider is always checked (technical-design.md §6).
  *
  * @param args - The model ID and the exempt providers.

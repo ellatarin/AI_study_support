@@ -11,7 +11,7 @@ import type { OutputLanguage } from "../types/pipeline.js";
 import { OUTPUT_LANGUAGES } from "../types/pipeline.js";
 
 /**
- * Tells if a string is the tag of a language that the pipeline can write.
+ * Checks that a string is the tag of a language that the pipeline can write.
  *
  * @param value - The string to test.
  * @returns `true` when the string is a key of {@link OUTPUT_LANGUAGES}.

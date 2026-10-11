@@ -428,7 +428,7 @@ function invocationForm({
 const LABEL_GAP = 3;
 
 /**
- * Tells whether a word names a command. It is a type guard, so that the caller
+ * Checks that a word names a command. It is a type guard, so that the caller
  * can then use the word as a key of {@link COMMAND_SPECS}.
  *
  * @param value - The word that the user typed.

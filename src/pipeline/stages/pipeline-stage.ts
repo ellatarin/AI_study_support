@@ -29,7 +29,7 @@ import {
 } from "../workspace-paths.js";
 
 /**
- * Tells whether one `filesWritten` entry is still on disk. An entry that cannot be
+ * Checks that one `filesWritten` entry is still on disk. An entry that cannot be
  * resolved counts as absent, because deleting an output often deletes its folder
  * too (technical-design.md §4.2).
  *

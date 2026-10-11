@@ -141,7 +141,7 @@ export type LoggedEntry = {
 	readonly message: string;
 };
 
-/** A logger to inject, and the entries that it recorded until now. */
+/** A logger to inject, and each entry that it records. */
 export type StubLogger = {
 	readonly logger: Logger;
 	readonly entries: readonly LoggedEntry[];
@@ -157,7 +157,7 @@ export type StubLogger = {
  * level, not only `error`. A test asks the same three things of a `debug` line
  * and of a failure: the message, the payload and the bindings.
  *
- * @returns The logger to inject, and the entries that it recorded until now.
+ * @returns The logger to inject, and each entry that it records.
  */
 export function makeStubLogger(): StubLogger {
 	const entries: LoggedEntry[] = [];
@@ -1940,7 +1940,7 @@ function seedingJsonOutput({
 		seedStageOutput({ workspaceRoot, stageId, contents: JSON.stringify(output) });
 }
 
-/** The function that {@link seedEarlierOutputs} calls to write the output of each earlier stage. */
+/** The writer of the output of each earlier stage, which {@link seedEarlierOutputs} calls. */
 const EARLIER_OUTPUT_SEEDS = {
 	"choose-division": seedingJsonOutput({ stageId: "choose-division", output: transcriptDivision }),
 	"retitle-subtopics": seedingJsonOutput({
@@ -2037,7 +2037,7 @@ type StageReadingEarlierOutputs<TInput, TOutput> = {
 };
 
 /**
- * What {@link useStageReadingEarlierOutputs} gives a suite.
+ * The parts that {@link useStageReadingEarlierOutputs} gives a suite.
  *
  * @typeParam TOutput - The output of the stage.
  */

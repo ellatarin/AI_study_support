@@ -1,5 +1,5 @@
 /**
- * The cutting of a transcript into subtopics at the start words that a model
+ * The code that cuts a transcript into subtopics at the start words that a model
  * gives. The division stages and `retitle-subtopics` use it
  * (technical-design.md §5, "Dividing the transcript").
  *
@@ -101,7 +101,7 @@ export type TitledReplyPart = {
 };
 
 /**
- * Tells whether a value in a parsed reply has a title and a reason.
+ * Checks that a value in a parsed reply has a title and a reason.
  *
  * @param value - One entry of the list in the reply.
  * @returns `true` when the value is an object whose `label` and `groupedBecause` are strings.
@@ -121,7 +121,7 @@ export function isTitledReplyPart(
 export type ReplySubtopic = TitledReplyPart & { readonly startsWith: string };
 
 /**
- * Tells whether a value in a parsed reply is a reply subtopic.
+ * Checks that a value in a parsed reply is a reply subtopic.
  *
  * @param value - One entry of the list in the reply.
  * @returns `true` when the value has `label`, `groupedBecause` and `startsWith` as strings.
@@ -220,7 +220,7 @@ const CONNECTIVES: ReadonlySet<string> = new Set([
 const MAX_CONNECTIVE_WORDS = 2;
 
 /**
- * Tells whether a character is whitespace. A position past either end of the
+ * Checks that a character is whitespace. A position past either end of the
  * text has no character. A missing character counts as not whitespace.
  *
  * @param character - The character, or `undefined` past either end of the text.

@@ -95,7 +95,7 @@ const DOCUMENTED_REPLY_SHAPE = "{ corrections } object";
 const FIRST_ATTEMPT = 1;
 
 /**
- * Tells if a value is one correction of a reply: a `wrongForm`, a `rightForm`
+ * Checks that a value is one correction of a reply: a `wrongForm`, a `rightForm`
  * and a `reason`, all strings.
  *
  * @param value - The value to test.
@@ -260,7 +260,7 @@ function occurrencesOf({
 /**
  * Changes each occurrence of the wrong form of each correction to its right
  * form. The longer wrong form goes first. A shorter wrong form changes only the
- * occurrences that no longer form has changed. Each form is found in the text
+ * occurrences that a longer wrong form did not change. Each form is found in the text
  * before term correction, so a right form is never changed again.
  *
  * @param args - The text, and the corrections that passed each check.

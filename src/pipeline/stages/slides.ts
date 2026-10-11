@@ -33,7 +33,7 @@ export type SlideReading = { readonly slideNumber: number } & SlideReadingReply;
 const SUBJECT_MATTER: SlideKind = "subject-matter";
 
 /**
- * Tells if a slide is a subject-matter slide. A model gets only these slides.
+ * Checks that a slide is a subject-matter slide. A model gets only these slides.
  *
  * @param slide - The slide reading.
  * @returns `true` when the slide's kind is subject matter.
@@ -43,7 +43,7 @@ export function isSubjectMatter(slide: SlideReading): boolean {
 }
 
 /**
- * Tells if a value is a list of strings.
+ * Checks that a value is a list of strings.
  *
  * @param value - The value to test.
  * @returns `true` when every entry is a string.
@@ -53,7 +53,7 @@ function isStringList(value: unknown): value is readonly string[] {
 }
 
 /**
- * Tells if a value is a figure: a `type` and a `description`, both strings.
+ * Checks that a value is a figure: a `type` and a `description`, both strings.
  *
  * @param value - The value to test.
  * @returns `true` when the value is a {@link Figure}.

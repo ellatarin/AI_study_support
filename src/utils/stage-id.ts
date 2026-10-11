@@ -16,7 +16,7 @@ import { STAGE_IDS } from "../types/pipeline.js";
 export const STAGES_IN_ORDER = STAGE_IDS.join(", ");
 
 /**
- * Tells if a string is a stage id.
+ * Checks that a string is a stage id.
  *
  * @param value - The string to test.
  * @returns `true` when the string is one of {@link STAGE_IDS}.
@@ -26,7 +26,7 @@ export function isStageId(value: string): value is StageId {
 }
 
 /**
- * Tells if one stage comes later in the pipeline than another. The order comes
+ * Checks that one stage comes later in the pipeline than another. The order comes
  * from {@link STAGE_IDS}. So the comparison works for a stage that is not built
  * yet, and `--to-stage` can name such a stage.
  *

@@ -136,7 +136,7 @@ function byIndex(left: TextMatch, right: TextMatch): number {
 }
 
 /**
- * Tells if a piece of text overlaps a match that is already claimed.
+ * Checks that a piece of text overlaps a match that is already claimed.
  *
  * @param args - The claimed matches and the place of the new match.
  * @param args.matches - The matches already claimed.
@@ -417,7 +417,7 @@ export function formatDateISO(date: Readonly<Date>): string {
 const ISO_DATE_FORM = /^\d{4}-\d{2}-\d{2}$/;
 
 /**
- * Tells if text is an ISO `YYYY-MM-DD` date that exists. So `2025-02-30` fails
+ * Checks that text is an ISO `YYYY-MM-DD` date that exists. So `2025-02-30` fails
  * as `yesterday` does. The command line and the manifest reader check each
  * lecture date with it (technical-design.md §3.2).
  *

@@ -26,7 +26,7 @@ export async function readDirSafe(dir: string): Promise<readonly Dirent[]> {
 }
 
 /**
- * Tells if a path exists, whatever kind of entry it is. It gives a value, not an
+ * Checks that a path exists, whatever kind of entry it is. It gives a value, not an
  * error, because each caller expects both answers.
  *
  * @param path - The absolute path to test.

@@ -66,7 +66,7 @@ const REFERENCES: SlideKind = "references";
 const REFERENCES_REASON = "A references slide goes at the end of the last subtopic.";
 
 /**
- * Tells if a value is a reply entry: a `slideNumber` and a `subtopicId`, both
+ * Checks that a value is a reply entry: a `slideNumber` and a `subtopicId`, both
  * numbers, and a `startsWith` and a `placedBecause`, both strings.
  *
  * @param value - The value to test.
@@ -129,7 +129,7 @@ function findStartWords({
 }
 
 /**
- * Tells if a placement is earlier in the lecture than another: in an earlier
+ * Checks that a placement is earlier in the lecture than another: in an earlier
  * subtopic, or in the same subtopic at a smaller position.
  *
  * @param args - The two placements.

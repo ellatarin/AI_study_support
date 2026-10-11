@@ -37,7 +37,7 @@ export function pause({ milliseconds }: { readonly milliseconds: number }): Prom
 }
 
 /**
- * Tells if the outcome of a send is a failure to resend.
+ * Checks that the outcome of a send is a failure to resend.
  *
  * @param outcome - The value that one send came back with.
  * @returns `true` when the send failed.

@@ -262,7 +262,7 @@ export type PipelineStage<TInput, TOutput> = {
 	readonly stageId: StageId;
 
 	/**
-	 * Checks whether the stage is a completed stage, so that the runner can skip it.
+	 * Checks that the stage is a completed stage, so that the runner can skip it.
 	 * @param context - The stage context.
 	 * @returns `true` when the stage entry is `complete` or `skipped` and every file that it records is on disk.
 	 */
@@ -338,7 +338,7 @@ export type RunLogStageEntry =
 	| (RanStageBase & { readonly status: "complete" })
 	| (RanStageBase & { readonly status: "failed"; readonly error: string });
 
-/** When a piece of work started and ended, both as ISO 8601 times. */
+/** The start and the end of a piece of work, both as ISO 8601 times. */
 type TimePeriod = {
 	readonly startedAt: string;
 	readonly endedAt: string;
@@ -433,5 +433,5 @@ export type PipelineRunEvent =
 	  }
 	| { readonly event: "stage-failed"; readonly stageId: StageId };
 
-/** The function that receives the runner's events (technical-design.md §10). */
+/** Receives the runner's events (technical-design.md §10). */
 export type PipelineRunReporter = (event: PipelineRunEvent) => void;

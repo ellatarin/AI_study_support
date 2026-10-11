@@ -319,8 +319,8 @@ type StageOutcome = {
 };
 
 /**
- * Writes one stage's status changes to the manifest, and keeps the context from
- * the last write (technical-design.md §4.7). Each write finds the workspace
+ * The writer of one stage's status changes to the manifest. It keeps the
+ * context from the last write (technical-design.md §4.7). Each write finds the workspace
  * first, because the stage can move it.
  */
 type StageStatusWriter = {
@@ -527,7 +527,7 @@ async function resetFromStage({
 }
 
 /**
- * Tells if a stage comes after the `--to-stage` bound. The position in `STAGE_IDS`
+ * Checks that a stage comes after the `--to-stage` bound. The position in `STAGE_IDS`
  * is compared, so a bound on a stage that is not built, or on
  * `source-normalisation`, still stops the run (technical-design.md §4.7).
  *
@@ -590,7 +590,7 @@ async function writeRunLog({
 }
 
 /**
- * Tells if a parsed file from `Run logs/` is a run log (technical-design.md §4.6).
+ * Checks that a parsed file from `Run logs/` is a run log (technical-design.md §4.6).
  * It checks only `pipelineRunId` and the stage map, which every reader uses. So
  * the cost report still reads a run log that an older version wrote without a
  * newer field.

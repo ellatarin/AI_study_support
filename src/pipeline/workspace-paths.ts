@@ -18,7 +18,7 @@ import { NamedError } from "../utils/errors.js";
 export class ManifestPathError extends NamedError {}
 
 /**
- * Tells if a file system error has the `ENOENT` (not found) code.
+ * Checks that a file system error has the `ENOENT` (not found) code.
  *
  * @param error - The caught error.
  * @returns `true` when the error is a Node `ENOENT` error.
@@ -48,7 +48,7 @@ async function realpathResolved(candidate: string): Promise<string> {
 }
 
 /**
- * Tells if `target` is `ancestor` or is in it.
+ * Checks that `target` is `ancestor` or is in it.
  *
  * @param args - The two absolute paths.
  * @param args.ancestor - The folder that must hold `target`.

@@ -687,7 +687,7 @@ describe("PipelineRunner integration", () => {
 		}
 
 		/**
-		 * Tells if each path is on disk, in the given order.
+		 * Finds which paths are on disk, in the given order.
 		 *
 		 * @param paths - The absolute paths to test.
 		 * @returns One boolean for each path.

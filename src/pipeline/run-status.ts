@@ -15,7 +15,7 @@ import type {
 } from "../types/pipeline.js";
 
 /**
- * Tells if a stage entry is `complete` or `skipped`. Either status means that the
+ * Checks that a stage entry is `complete` or `skipped`. Either status means that the
  * stage's output was made (technical-design.md §4.2).
  *
  * Each pipeline run after the one that made the stage's output writes `skipped`.
