@@ -236,18 +236,20 @@ async function readCheckRewriteAttemptsInput(
  *
  * @param args - The subtopic, the stage context and the model calls of the stage run.
  * @param args.subtopic - What the checker gets for the subtopic.
+ * @param args.context - The stage context. It holds the language of the notes.
  * @param args.calls - The model calls of this stage run.
  * @returns The subtopic check.
  * @throws {ResendsExhaustedError} If the third send is still unusable.
  */
 async function checkSubtopic({
 	subtopic,
+	context,
 	calls,
 }: RewriteAttemptWork<CheckRewriteAttemptsInput, SubtopicToCheck>): Promise<SubtopicCheck> {
-	const { subtopicId, ...toCheck } = subtopic;
+	const { subtopicId, ...material } = subtopic;
 	const sent = await calls.sendJsonWithResends({
 		what: `Check of subtopic ${subtopicId}`,
-		messages: buildCheckerMessages(toCheck),
+		messages: buildCheckerMessages({ material, language: context.config.finalOutput.language }),
 		isReply: isCheckerReply,
 		documentedShape: DOCUMENTED_REPLY_SHAPE,
 		use: (reply) => ({ reply }),

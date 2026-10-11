@@ -16,16 +16,15 @@ function systemPrompt(messages: readonly { readonly content?: unknown }[]): stri
 describe("the writer's rules R2 to R9", () => {
 	it("should be in the checker prompt in the words of the writer prompt when both prompts are built", () => {
 		const text = transcriptSubtopicTexts[0];
-		const writerPrompt = systemPrompt(
-			buildWriterMessages({ text, language: makeConfig().finalOutput.language }),
-		);
+		const { language } = makeConfig().finalOutput;
+		const writerPrompt = systemPrompt(buildWriterMessages({ text, language }));
 		const writerRules = writerPrompt.slice(
 			writerPrompt.indexOf("## R2 "),
 			writerPrompt.indexOf("## R10 "),
 		);
 
 		const checkerPrompt = systemPrompt(
-			buildCheckerMessages({ text, corrections: [], rewrite: [] }),
+			buildCheckerMessages({ material: { text, corrections: [], rewrite: [] }, language }),
 		);
 
 		expect(writerRules).toContain("## R9 ");

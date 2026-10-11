@@ -1,7 +1,13 @@
 import { describe, expect, it } from "vitest";
+import { outputLanguageNames } from "../pipeline/fixtures.js";
 import type { OutputLanguage } from "../types/pipeline.js";
 import { OUTPUT_LANGUAGES } from "../types/pipeline.js";
-import { isOutputLanguage, languageRule, unknownLanguageMessage } from "./language.js";
+import {
+	isOutputLanguage,
+	languageName,
+	languageRule,
+	unknownLanguageMessage,
+} from "./language.js";
 
 const OUTPUT_LANGUAGE_TAGS = Object.keys(OUTPUT_LANGUAGES);
 
@@ -20,15 +26,23 @@ describe("isOutputLanguage", () => {
 	});
 });
 
-describe("languageRule", () => {
-	it.each([
-		{ language: "en-GB", expected: "Write in British English." },
-		{ language: "en-US", expected: "Write in American English." },
-	] as const)("should instruct the model with $expected when the tag is $language", ({
+describe("languageName", () => {
+	it.each(outputLanguageNames)("should give $name when the tag is $language", ({
 		language,
-		expected,
+		name,
 	}) => {
-		expect(languageRule({ language })).toBe(expected);
+		expect(languageName({ language })).toBe(name);
+	});
+});
+
+describe("languageRule", () => {
+	it.each(
+		outputLanguageNames,
+	)("should instruct the model to write in $name when the tag is $language", ({
+		language,
+		name,
+	}) => {
+		expect(languageRule({ language })).toBe(`Write in ${name}.`);
 	});
 
 	it.each(

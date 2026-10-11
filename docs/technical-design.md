@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.86-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
+**Suite version:** 1.87-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
 **Date:** 2026-10-11
 **Status:** For review
 
@@ -1602,7 +1602,11 @@ The file of a rewrite attempt holds these fields:
 
 The checker gets three things: the verbatim text of the subtopic, the kept corrections of the attempt with their reasons, and the rewritten subtopic. Without the corrections, it would report each corrected term as a distortion. It gets no slide text. It looks for an omission, a distortion and an unsourced addition (CONTEXT.md, "Checking quality"). Each deficiency names the writer's rule that the rewrite breaks, from R2 to R9 (`rewrite-subtopics`).
 
-The checker treats each correction as right, and does not judge it. A model that judged the corrections from its own knowledge would make more errors than the slides hold. The checker does not look for these faults:
+The checker treats each correction as right, and does not judge it. A model that judged the corrections from its own knowledge would make more errors than the slides hold.
+
+The checker prompt names the language of `finalOutput.language`, because the writer had to write in it. A spelling of that language is not a deficiency, such as "colour" for the transcriber's "color". The text has the transcriber's spelling. Without this rule, each spelling of the notes' language that differs from it reads as a changed term.
+
+The checker does not look for these faults:
 
 - underexplained content, because that fault asks the writer to add
 - a change of the lecturer's order (R1). A moved step of a mechanism is still a distortion under R8

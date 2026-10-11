@@ -657,6 +657,15 @@ export function makeConfig(overrides: Partial<PipelineConfig> = {}): PipelineCon
 }
 
 /**
+ * Each language that the pipeline can write, with the name that a prompt gives
+ * it. The names are stated here, and not taken from the production code.
+ */
+export const outputLanguageNames = [
+	{ language: "en-GB", name: "British English" },
+	{ language: "en-US", name: "American English" },
+] as const;
+
+/**
  * A {@link makeConfig} configuration with exactly one stage, on
  * {@link openRouterModelId}, for a suite that tests one stage.
  *
@@ -2238,6 +2247,8 @@ type StageReadingEarlierOutputs<TInput, TOutput> = {
 	readonly reply: string | null;
 	/** The fields of the stage's config to replace. The default replaces none. */
 	readonly tuning?: Partial<StageConfig>;
+	/** The language of the notes. The default is the language of the example config. */
+	readonly language?: OutputLanguage;
 };
 
 /**
@@ -2271,6 +2282,7 @@ type StageReadingEarlierOutputsSuite<TOutput> = {
  * @param args.factory - The stage factory.
  * @param args.reply - The stubbed reply.
  * @param args.tuning - The fields of the stage's config to replace.
+ * @param args.language - The language of the notes. The default is the language of the example config.
  * @returns The config of the stage, and readers for the workspace, the stub logger and the completion call of the current test. It also gives a function that runs the stage with the stub client. The run takes the manifest fields to replace. Last, it gives a check that a run makes one call, and that the user message of the call holds a value as JSON. It also gives a check that a run makes one call for each of several values. The calls come in any order, and each call sends one value as the subtopic.
  * @typeParam TInput - The input of the stage.
  * @typeParam TOutput - The output of the stage.
@@ -2281,10 +2293,11 @@ export function useStageReadingEarlierOutputs<TInput, TOutput>({
 	factory,
 	reply,
 	tuning = {},
+	language,
 }: StageReadingEarlierOutputs<TInput, TOutput>): StageReadingEarlierOutputsSuite<TOutput> {
 	const workspace = useTranscribedWorkspace({ prefix: `${stageId}-` });
 	const logged = useStubLogger();
-	const configured = configuringStage({ stageId });
+	const configured = configuringStage({ stageId, language });
 	const config = {
 		...configured,
 		stages: { [stageId]: { ...configured.stages[stageId], ...tuning } },

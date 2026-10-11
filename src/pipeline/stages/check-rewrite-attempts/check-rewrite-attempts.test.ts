@@ -6,10 +6,12 @@ import {
 	itFailsAfterTheThirdUnusableSend,
 	itFailsNamingEachSpoiledFile,
 	openRouterReplyBody,
+	outputLanguageNames,
 	readJsonFile,
 	replyingWhenRequestHolds,
 	rewriteInput,
 	rewrittenParagraphs,
+	sentSystemMessage,
 	structuredTranscriptInput,
 	termCorrectionInput,
 	transcriptSubtopicTexts,
@@ -58,13 +60,34 @@ function checkFile(subtopicId: number): string {
 /** The workspace-relative path of the result file of round 1, stated in full. */
 const roundFile = "Checks/round-1.json";
 
-describe("createCheckRewriteAttemptsStage", () => {
-	const { workspaceRoot, create, run, expectCallsSending } = useStageReadingEarlierOutputs({
-		stageId: STAGE_ID,
-		readsFrom: ["structure-transcript", "correct-terms", "rewrite-subtopics"],
-		factory: createCheckRewriteAttemptsStage,
-		reply: faithfulReply,
+/** The stage under test, the earlier stages that it reads, and the reply that finds no deficiency. */
+const checkerSuite = {
+	stageId: STAGE_ID,
+	readsFrom: ["structure-transcript", "correct-terms", "rewrite-subtopics"],
+	factory: createCheckRewriteAttemptsStage,
+	reply: faithfulReply,
+} as const;
+
+describe.each(outputLanguageNames)("the checker prompt when the notes are in $name", ({
+	language,
+	name,
+}) => {
+	const { create, run } = useStageReadingEarlierOutputs({ ...checkerSuite, language });
+
+	it("should tell the checker the writer's language, and that a spelling of that language is not a deficiency, when the stage checks a subtopic", async () => {
+		await run();
+
+		const prompt = sentSystemMessage(create().mock.calls);
+		expect(prompt).toContain(`The writer also had to write in ${name}.`);
+		expect(prompt).toContain(
+			`- A spelling of ${name} in place of another spelling of the same word, such as "colour" for "color". The text has the transcriber's spelling, which can differ.`,
+		);
 	});
+});
+
+describe("createCheckRewriteAttemptsStage", () => {
+	const { workspaceRoot, create, run, expectCallsSending } =
+		useStageReadingEarlierOutputs(checkerSuite);
 
 	/**
 	 * The absolute path of a file in the workspace of the current test.
@@ -95,7 +118,7 @@ describe("createCheckRewriteAttemptsStage", () => {
 		expect(await readJsonFile(inWorkspace(checkFile(2)))).toStrictEqual({
 			subtopicId: 2,
 			attemptNumber: 1,
-			checkerPromptVersion: "c1",
+			checkerPromptVersion: "c2",
 			deficiencies: [omission],
 			considerations: [consideration],
 		});

@@ -21,3 +21,9 @@
 - [x] At the end of the round, the stage writes `Checks/round-<n>.json` with `round` and `failedSubtopicIds`. An empty list means that each subtopic passed. The file is on disk before the stage returns.
 - [x] A stage that starts again makes no call for a subtopic with a saved check. The user asked on 2026-10-11 for a test of a partly completed stage. The test has two cases: one check is missing, or each check is saved and the round file is missing.
 - [ ] Live run: the user runs the stage on one lecture and judges the faults that the checker found and missed.
+
+## Comments
+
+2026-10-11, live run on Lecture 3 with checker prompt `c1` and writer `google/gemini-3.8-flash`. The checker failed 14 of 17 subtopics and found 56 deficiencies. 22 of them were British spellings, such as "tumour" for "tumor": the writer must write in British English, and `c1` did not tell the checker. Subtopic 4 failed on spelling alone. The other 34 deficiencies were mostly changes of certainty, small additions and dropped qualifiers. The stage made 20 calls and cost $2.48 (368,159 prompt tokens, 192,847 completion tokens).
+
+2026-10-11: the user approved checker prompt `c2`. It names the language of the notes, and says that a spelling of that language is not a deficiency. Next, the user plans to save the Lecture 3 results and run the rewrite again with a Sonnet writer, for comparison.

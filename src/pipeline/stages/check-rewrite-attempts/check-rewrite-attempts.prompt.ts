@@ -4,6 +4,8 @@
    shared rules. So their import blocks are the same line for line. Imports
    cannot be shared, and CLAUDE.md (File Organisation) forbids barrel files.
    Only the imports are exempt. jscpd checks the code below. */
+import type { OutputLanguage } from "../../../types/pipeline.js";
+import { languageName } from "../../../utils/language.js";
 import { CHECKED_WRITER_RULES } from "../checked-writer-rules.js";
 import type { PromptMessages } from "../model-stage.js";
 import { subtopicPromptMessages } from "../rewrite-attempts.js";
@@ -14,10 +16,17 @@ import type { ReplyCorrection } from "../term-corrections.js";
  * The version of the checker prompt. A change to the prompt text gets a new
  * version, so that each check names the prompt that made it.
  */
-export const CHECKER_PROMPT_VERSION = "c1";
+export const CHECKER_PROMPT_VERSION = "c2";
 
-/** The task of the checker, the faults to report and the shape of the reply. */
-const CHECKER_PROMPT = `# Task
+/**
+ * Gives the task of the checker, the faults to report and the shape of the reply.
+ *
+ * @param language - The language of the notes, from `finalOutput.language`. The writer wrote in it.
+ * @returns The checker prompt.
+ */
+function checkerPrompt(language: OutputLanguage): string {
+	const name = languageName({ language });
+	return `# Task
 
 You check a rewrite of one part of a university lecture. The source is what the lecturer said, as a speech-to-text transcriber wrote it. An earlier step corrected some technical terms that the transcriber misheard. A writer then wrote the corrected text as textbook prose. Find each place where the rewrite is not faithful to the source. Do not rewrite or correct anything.
 
@@ -33,6 +42,8 @@ The user message is one JSON object:
 The writer had to follow these rules.
 
 ${CHECKED_WRITER_RULES}
+
+The writer also had to write in ${name}.
 
 # What you report
 
@@ -52,6 +63,7 @@ Treat each correction as right. Do not judge a correction. A rewrite that uses t
 - A [FIGURE] mark where the lecturer points at a slide.
 - Dropped filler, false starts, repetitions that add nothing, jokes, remarks to the audience and course arrangements. When such a passage also states subject matter, a dropped statement is an omission.
 - Different words that keep the meaning, the terms and the certainty exactly.
+- A spelling of ${name} in place of another spelling of the same word, such as "colour" for "color". The text has the transcriber's spelling, which can differ.
 - The order of the points, the paragraphs, style and grammar.
 - A fact that the rewrite could explain better. Report only what is missing, wrong or added.
 
@@ -79,6 +91,7 @@ Reply with a single JSON object and nothing else, in this exact shape:
 }
 
 An empty "deficiencies" list means that the rewrite is faithful.`;
+}
 
 /**
  * The text, the kept corrections and the rewrite that the checker gets for one
@@ -96,9 +109,17 @@ export type MaterialToCheck = {
 /**
  * Builds the messages of the checker call for one subtopic.
  *
- * @param material - The text, the kept corrections and the rewrite of the subtopic.
+ * @param args - The material of the subtopic, and the language.
+ * @param args.material - The text, the kept corrections and the rewrite of the subtopic.
+ * @param args.language - The language of the notes, from `finalOutput.language`.
  * @returns The system and user messages.
  */
-export function buildCheckerMessages(material: MaterialToCheck): PromptMessages {
-	return subtopicPromptMessages({ system: CHECKER_PROMPT, material });
+export function buildCheckerMessages({
+	material,
+	language,
+}: {
+	readonly material: MaterialToCheck;
+	readonly language: OutputLanguage;
+}): PromptMessages {
+	return subtopicPromptMessages({ system: checkerPrompt(language), material });
 }

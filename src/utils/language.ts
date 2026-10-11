@@ -1,9 +1,9 @@
 /**
- * This module checks the output language in the config file and gives the
- * sentence that tells a model which language to write. The config loader checks
- * the tag once. So a stage never gets a language that has no name. Each prompt
- * that names the output language takes the sentence from here, so the prompts
- * cannot word it differently
+ * This module checks the output language in the config file. It gives the name
+ * of the language, and the sentence that tells a model which language to write.
+ * The config loader checks the tag once. So a stage never gets a language that
+ * has no name. Each prompt that names the output language takes the name or the
+ * sentence from here, so the prompts cannot word it differently
  * (technical-design.md §6).
  */
 
@@ -47,5 +47,18 @@ export function unknownLanguageMessage(args: { readonly subject: string }): stri
  * languageRule({ language: "en-GB" }); // → "Write in British English."
  */
 export function languageRule(args: { readonly language: OutputLanguage }): string {
-	return `Write in ${OUTPUT_LANGUAGES[args.language]}.`;
+	return `Write in ${languageName(args)}.`;
+}
+
+/**
+ * Gives the name that a prompt uses for a language, in words and not as a tag.
+ *
+ * @param args - The language to name.
+ * @param args.language - The configured language tag.
+ * @returns The name of the language.
+ * @example
+ * languageName({ language: "en-GB" }); // → "British English"
+ */
+export function languageName(args: { readonly language: OutputLanguage }): string {
+	return OUTPUT_LANGUAGES[args.language];
 }
