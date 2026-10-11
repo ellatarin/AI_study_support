@@ -41,6 +41,7 @@ const STAGE_LABELS: Readonly<Record<StageId, string>> = {
 	"render-slides": "Render slides",
 	"read-slides": "Read slides",
 	"place-slides": "Place slides",
+	"correct-terms": "Correct terms",
 	"rewrite-subtopics": "Rewrite subtopics",
 };
 

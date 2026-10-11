@@ -1,7 +1,7 @@
 /**
  * The slide images that `render-slides` writes and the slide readings that
  * `read-slides` writes, for the stages that read them (technical-design.md §5,
- * `read-slides`, `place-slides` and `rewrite-subtopics`).
+ * `read-slides`, `place-slides` and `correct-terms`).
  */
 
 import { join } from "node:path";

@@ -17,9 +17,27 @@ import { rename, rm } from "node:fs/promises";
 import { basename, dirname, extname, join } from "node:path";
 import type { StageContext } from "../types/pipeline.js";
 import { extractDates, formatDateISO } from "../utils/date.js";
-import { listFileNames } from "../utils/files.js";
+import { listFileNames, listSubdirectoryNames } from "../utils/files.js";
 import { lectureBaseName } from "../utils/naming.js";
 import { type ModuleDirs, moduleDirs, sharedLectureFileDirs } from "./layout.js";
+
+/**
+ * The folders in a module's `Pipeline processing/` folder. A folder in the list
+ * can lack a manifest, so a caller reads each one before it treats it as a lecture.
+ *
+ * @param args - The module.
+ * @param args.moduleRoot - The absolute path of the module folder.
+ * @returns The absolute path of each folder.
+ */
+export async function listWorkspaces({
+	moduleRoot,
+}: {
+	readonly moduleRoot: string;
+}): Promise<readonly string[]> {
+	const processingRoot = moduleDirs({ moduleRoot }).processing;
+	const names = await listSubdirectoryNames(processingRoot);
+	return names.map((name) => join(processingRoot, name));
+}
 
 /**
  * Gives a lecture's base name from the `YYYY-MM-DD` date that the manifest stores.

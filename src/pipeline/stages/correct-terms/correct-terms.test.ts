@@ -22,9 +22,9 @@ import {
 	useStageReadingEarlierOutputs,
 } from "../../fixtures.js";
 import { ResendsExhaustedError } from "../model-stage.js";
-import { createRewriteSubtopicsStage, RewriteSubtopicsError } from "./rewrite-subtopics.js";
+import { CorrectTermsError, createCorrectTermsStage } from "./correct-terms.js";
 
-const STAGE_ID = "rewrite-subtopics";
+const STAGE_ID = "correct-terms";
 
 /** The reason that each stubbed correction gives. */
 const STUBBED_REASON = "The transcriber misheard the term on slide 1.";
@@ -37,7 +37,7 @@ const STUBBED_REASON = "The transcriber misheard the term on slide 1.";
  * @returns The path, relative to the workspace.
  */
 function attemptFile(subtopicId: number): string {
-	return `Rewrite attempts/subtopic-${subtopicId}-attempt-1.json`;
+	return `Term corrections/subtopic-${subtopicId}-attempt-1.json`;
 }
 
 /**
@@ -77,11 +77,11 @@ function replyWith(corrections: readonly Record<string, unknown>[]): string {
 /** The content of the reply with {@link usableCorrection} alone. */
 const usableReply = replyWith([usableCorrection]);
 
-describe("createRewriteSubtopicsStage", () => {
+describe("createCorrectTermsStage", () => {
 	const { workspaceRoot, create, run, expectOneCallSending } = useStageReadingEarlierOutputs({
 		stageId: STAGE_ID,
 		readsFrom: ["structure-transcript", "read-slides", "place-slides"],
-		factory: createRewriteSubtopicsStage,
+		factory: createCorrectTermsStage,
 		reply: usableReply,
 		tuning: { concurrency: 2 },
 	});
@@ -348,7 +348,7 @@ describe("createRewriteSubtopicsStage", () => {
 		],
 		workspaceRoot,
 		run,
-		errorType: RewriteSubtopicsError,
+		errorType: CorrectTermsError,
 		create,
 	});
 

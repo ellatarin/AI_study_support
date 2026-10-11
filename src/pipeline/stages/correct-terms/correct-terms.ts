@@ -1,7 +1,7 @@
 /**
- * The `rewrite-subtopics` stage. It corrects the misheard terms of each subtopic
+ * The `correct-terms` stage. It corrects the misheard terms of each subtopic
  * from the slides placed in it. It saves the first rewrite attempt of each
- * subtopic (technical-design.md §5, `rewrite-subtopics`).
+ * subtopic (technical-design.md §5, `correct-terms`).
  */
 
 /* jscpd:ignore-start -- the model-calling stages import the same pipeline types,
@@ -28,16 +28,16 @@ import { readStageSlidePlacements, readStageStructuredTranscript } from "../stag
 import {
 	buildTermCorrectionMessages,
 	TERM_CORRECTION_PROMPT_VERSION,
-} from "./rewrite-subtopics.prompt.js";
+} from "./correct-terms.prompt.js";
 
 /**
  * The error when an input file is missing or unreadable, or when a saved rewrite
  * attempt is unreadable. A call whose third send is still unusable fails the
  * stage with `ResendsExhaustedError`.
  */
-export class RewriteSubtopicsError extends NamedError {}
+export class CorrectTermsError extends NamedError {}
 
-const STAGE_ID = "rewrite-subtopics";
+const STAGE_ID = "correct-terms";
 
 /** The most words that each form of a correction can have (CONTEXT.md, "Correction"). */
 const MAX_FORM_WORDS = 4;
@@ -49,7 +49,7 @@ type SubtopicWithSlides = {
 };
 
 /** Every subtopic of the structured transcript in lecture order, each with its placed slides. */
-type RewriteInput = { readonly subtopics: readonly SubtopicWithSlides[] };
+type CorrectTermsInput = { readonly subtopics: readonly SubtopicWithSlides[] };
 
 /** One correction as the reply gives it (CONTEXT.md, "Correction"). */
 type ReplyCorrection = {
@@ -70,7 +70,7 @@ type Correction = ReplyCorrection & { readonly occurrencesChanged: number };
 /** A correction that failed a check, and the first check that it failed. */
 type IgnoredCorrection = ReplyCorrection & { readonly ignoredBecause: IgnoredBecause };
 
-/** One rewrite attempt of a subtopic, as the stage writes it (technical-design.md §5, `rewrite-subtopics`). */
+/** One rewrite attempt of a subtopic, as the stage writes it (technical-design.md §5, `correct-terms`). */
 type RewriteAttempt = {
 	readonly subtopicId: number;
 	readonly attemptNumber: number;
@@ -82,8 +82,8 @@ type RewriteAttempt = {
 	readonly correctedText: string;
 };
 
-/** The output of `rewrite-subtopics`. */
-type RewriteSubtopicsOutput = {
+/** The output of `correct-terms`. */
+type CorrectTermsOutput = {
 	/** The rewrite attempt of each subtopic, in lecture order. */
 	readonly attempts: readonly RewriteAttempt[];
 };
@@ -375,11 +375,11 @@ function rewriteAttemptPath({
  *
  * @param context - The stage context.
  * @returns Every subtopic in lecture order, each with the reading of each slide placed in it.
- * @throws {RewriteSubtopicsError} If an input file is missing, unreadable or the wrong shape.
+ * @throws {CorrectTermsError} If an input file is missing, unreadable or the wrong shape.
  */
-async function readRewriteInput(context: StageContext): Promise<RewriteInput> {
-	const fail = (message: string): Error => new RewriteSubtopicsError(message);
-	const purpose = "rewrite the subtopics of";
+async function readCorrectTermsInput(context: StageContext): Promise<CorrectTermsInput> {
+	const fail = (message: string): Error => new CorrectTermsError(message);
+	const purpose = "correct the terms of";
 	const { topics } = await readStageStructuredTranscript({ context, purpose, fail });
 	const { placements } = await readStageSlidePlacements({ context, purpose, fail });
 	const slideNumbers = [...new Set(placements.map((placement) => placement.slideNumber))];
@@ -417,15 +417,15 @@ async function readRewriteInput(context: StageContext): Promise<RewriteInput> {
  * @param args.concurrency - The stage's `concurrency`.
  * @returns The rewrite attempts, the cost of the calls and the files written.
  * @throws {ResendsExhaustedError} If a subtopic's third send is still unusable.
- * @throws {RewriteSubtopicsError} If a saved rewrite attempt is unreadable.
+ * @throws {CorrectTermsError} If a saved rewrite attempt is unreadable.
  */
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger has mutable properties that the rule cannot ignore. CLAUDE.md permits a mutable type that a library requires.
-async function rewriteSubtopics({
+async function correctTerms({
 	input,
 	context,
 	calls,
 	concurrency,
-}: ModelStageRunArgs<RewriteInput>): Promise<StageResult<RewriteSubtopicsOutput>> {
+}: ModelStageRunArgs<CorrectTermsInput>): Promise<StageResult<CorrectTermsOutput>> {
 	const files = input.subtopics.map((entry) => ({
 		...entry,
 		path: rewriteAttemptPath({
@@ -440,7 +440,7 @@ async function rewriteSubtopics({
 		concurrency,
 		readSaved: readerFromCheck(isRewriteAttempt),
 		unreadable: (path) =>
-			new RewriteSubtopicsError(
+			new CorrectTermsError(
 				unreadableSavedFileMessage({
 					path,
 					content: "rewrite attempt",
@@ -471,6 +471,6 @@ async function rewriteSubtopics({
 	};
 }
 
-/** Builds the `rewrite-subtopics` stage from the logger and the OpenAI client of the invocation. */
-export const createRewriteSubtopicsStage: ModelStageFactory<RewriteInput, RewriteSubtopicsOutput> =
-	defineModelStage({ stageId: STAGE_ID, getInput: readRewriteInput, run: rewriteSubtopics });
+/** Builds the `correct-terms` stage from the logger and the OpenAI client of the invocation. */
+export const createCorrectTermsStage: ModelStageFactory<CorrectTermsInput, CorrectTermsOutput> =
+	defineModelStage({ stageId: STAGE_ID, getInput: readCorrectTermsInput, run: correctTerms });

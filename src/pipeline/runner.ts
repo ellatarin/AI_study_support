@@ -29,27 +29,25 @@ import type {
 import {
 	DEFAULT_BATCH_OPTIONS,
 	DEFAULT_PIPELINE_RUN_OPTIONS,
+	ROUNDS_PER_PIPELINE_RUN,
 	STAGE_IDS,
 } from "../types/pipeline.js";
 import { mapWithConcurrency } from "../utils/concurrency.js";
 import { errorMessage } from "../utils/errors.js";
-import {
-	listSubdirectoryNames,
-	readDirSafe,
-	readJsonSafe,
-	writeJsonAtomic,
-} from "../utils/files.js";
+import { listFileNames, readJsonSafe, writeJsonAtomic } from "../utils/files.js";
 import { createStageLogger } from "../utils/logger.js";
 import { isRecord } from "../utils/record.js";
 import { configuredStage } from "../utils/stage-config.js";
 import { isStageAfter } from "../utils/stage-id.js";
+import { runLogsDirPath, type StageInWorkspace, stageDirectoryPaths } from "./layout.js";
+import { listWorkspaces } from "./lecture-files.js";
 import {
-	moduleDirs,
-	runLogsDirPath,
-	type StageInWorkspace,
-	stageDirectoryPaths,
-} from "./layout.js";
-import { patchManifest, readManifest, readManifestSafe, writeManifest } from "./manifest.js";
+	FIRST_ROUND,
+	patchManifest,
+	readManifest,
+	readManifestSafe,
+	writeManifest,
+} from "./manifest.js";
 import { createMoneyFormatter, formatCostReport } from "./reports.js";
 import {
 	isCompletedEntry,
@@ -124,12 +122,6 @@ function decideRunType({
 }
 
 type ModuleQuery = { readonly moduleRoot: string };
-
-async function listWorkspaces({ moduleRoot }: ModuleQuery): Promise<readonly string[]> {
-	const processingRoot = moduleDirs({ moduleRoot }).processing;
-	const names = await listSubdirectoryNames(processingRoot);
-	return names.map((name) => join(processingRoot, name));
-}
 
 /** A lecture workspace and its manifest. */
 type LocatedWorkspace = {
@@ -302,6 +294,7 @@ function skippedEntry({
 	return {
 		status: "skipped",
 		completedAt: completed?.completedAt ?? timestamp,
+		round: completed?.round ?? FIRST_ROUND,
 		configUsed: completed?.configUsed ?? null,
 		cost: completed?.cost ?? null,
 		filesWritten: completed?.filesWritten ?? [],
@@ -403,12 +396,13 @@ function createStageStatusWriter({
 	return {
 		skipped: () =>
 			write({ entry: skippedEntry({ context, stageId, timestamp }), identityChanges: {} }),
-		running: () => write({ entry: { status: "running" }, identityChanges: {} }),
+		running: () => write({ entry: { status: "running", round: FIRST_ROUND }, identityChanges: {} }),
 		complete: ({ configUsed, result }) =>
 			write({
 				entry: {
 					status: "complete",
 					completedAt: timestamp,
+					round: FIRST_ROUND,
 					configUsed,
 					cost: result.cost,
 					filesWritten: result.filesWritten,
@@ -420,6 +414,7 @@ function createStageStatusWriter({
 				entry: {
 					status: "failed",
 					failedAt: timestamp,
+					round: FIRST_ROUND,
 					error,
 					configUsed,
 					cost: null,
@@ -464,7 +459,13 @@ async function runStage({
 		await statusWriter.complete({ configUsed, result });
 		reporter({ event: "stage-completed", stageId, cost: result.cost });
 		return {
-			entry: { action: "ran", status: "complete", configUsed, cost: runLogCost(result.cost) },
+			entry: {
+				action: "ran",
+				status: "complete",
+				configUsed,
+				rounds: ROUNDS_PER_PIPELINE_RUN,
+				cost: runLogCost(result.cost),
+			},
 			context: statusWriter.context(),
 		};
 	} catch (error: unknown) {
@@ -480,6 +481,7 @@ async function runStage({
 				status: "failed",
 				error: message,
 				configUsed,
+				rounds: ROUNDS_PER_PIPELINE_RUN,
 				cost: runLogCost(null),
 			},
 			context: statusWriter.context(),
@@ -603,11 +605,8 @@ function isRunLog(value: unknown): value is RunLog {
 async function readRunLogs(workspaceRoot: string): Promise<readonly RunLog[]> {
 	const runsDir = runLogsDirPath({ workspaceRoot });
 	const runLogs: RunLog[] = [];
-	for (const entry of await readDirSafe(runsDir)) {
-		if (!entry.isFile()) {
-			continue;
-		}
-		const parsed = await readJsonSafe(join(runsDir, entry.name));
+	for (const name of await listFileNames(runsDir)) {
+		const parsed = await readJsonSafe(join(runsDir, name));
 		if (isRunLog(parsed)) {
 			runLogs.push(parsed);
 		}

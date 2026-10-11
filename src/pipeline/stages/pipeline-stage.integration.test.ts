@@ -13,6 +13,7 @@ import {
 	makeManifest,
 	makeStageContext,
 	makeWorkspaceTree,
+	runningEntry,
 	useStubLogger,
 } from "../fixtures.js";
 import {
@@ -75,7 +76,7 @@ describe("isStageComplete", () => {
 
 	it.each<{ readonly scenario: string; readonly entry: StageEntry }>([
 		{ scenario: "has not run", entry: { status: "pending" } },
-		{ scenario: "is still running", entry: { status: "running" } },
+		{ scenario: "is still running", entry: runningEntry },
 		{ scenario: "failed", entry: failedEntry() },
 	])("should report incomplete when the stage $scenario", async ({ entry }) => {
 		await writeOutputFile();

@@ -26,6 +26,7 @@ export const STAGE_IDS = [
 	"render-slides",
 	"read-slides",
 	"place-slides",
+	"correct-terms",
 	"rewrite-subtopics",
 ] as const;
 
@@ -158,6 +159,8 @@ type StageCostAndFiles = {
 
 type StageOutputData = StageCostAndFiles & {
 	readonly configUsed: StageConfigUsed | null;
+	/** The round of the stage's last run. It is 1 outside the rewrite loop (technical-design.md §4.5). */
+	readonly round: number;
 };
 
 type CompletedStageData = StageOutputData & {
@@ -167,7 +170,7 @@ type CompletedStageData = StageOutputData & {
 type StageEntryPending = { readonly status: "pending" };
 
 /** A stage that is running now, or that was running when the invocation stopped. */
-type StageEntryRunning = { readonly status: "running" };
+type StageEntryRunning = { readonly status: "running" } & Pick<StageOutputData, "round">;
 
 type StageEntryFailed = {
 	readonly status: "failed";
@@ -314,9 +317,14 @@ export type RunLogCost = {
 	readonly callCount: number;
 };
 
+/** The number of rounds that each stage that ran records in the run log (technical-design.md §4.6). */
+export const ROUNDS_PER_PIPELINE_RUN = 1;
+
 type RanStageBase = {
 	readonly action: "ran";
 	readonly configUsed: StageConfigUsed | null;
+	/** The number of rounds that the stage ran in the pipeline run. It is 1 outside the rewrite loop (technical-design.md §4.6). */
+	readonly rounds: number;
 	readonly cost: RunLogCost;
 };
 

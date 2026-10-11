@@ -44,6 +44,13 @@ export class ManifestShapeError extends NamedError {}
 export const MANIFEST_VERSION = "1";
 
 /**
+ * The round of a stage entry outside the rewrite loop, and of the first round of
+ * the loop. The runner, the test fixtures and the migration of the stored data
+ * write it (technical-design.md §4.5).
+ */
+export const FIRST_ROUND = 1;
+
+/**
  * A stage map with each stage `pending`, as `source-normalisation` writes it for a
  * new workspace. It is here so `source-normalisation` and the test fixtures make
  * the same map (technical-design.md §4.5).
@@ -136,10 +143,11 @@ function parseManifest({
 }
 
 /**
- * Tells if a parsed `manifest.json` describes a lecture. The check is shallow. It
- * reads only `lectureNumber`, `lectureDate` and `stages`, which each caller that
- * lists the workspaces reads next. A manifest with imperfect stage entries still
- * describes a lecture (technical-design.md §4.5).
+ * The check that a parsed `manifest.json` describes a lecture. It reads
+ * `lectureNumber`, `lectureDate` and `stages`, which each caller that lists the
+ * workspaces reads next. In `stages`, it reads only the `round` of each entry
+ * that is not `pending`. A manifest with such an entry and no `round` fails, so a
+ * pipeline run stops before the runner reads a missing round (technical-design.md §4.5).
  *
  * The lecture date must also be a calendar date. Each lookup finds a lecture by
  * its date, so a date in another form would match nothing and cause no error. The
@@ -157,8 +165,21 @@ function isManifest(value: unknown): value is Manifest {
 		typeof value.lectureNumber === "number" &&
 		typeof value.lectureDate === "string" &&
 		isCalendarDate(value.lectureDate) &&
-		isRecord(value.stages)
+		isRecord(value.stages) &&
+		Object.values(value.stages).every(hasRoundUnlessPending)
 	);
+}
+
+/**
+ * The round check on one stage entry. Each entry that is not `pending` must have
+ * a numeric `round`. An entry that is not an object passes, because
+ * {@link isManifest} judges no other part of an entry.
+ *
+ * @param entry - One parsed stage entry.
+ * @returns `true` when the entry passes the round check.
+ */
+function hasRoundUnlessPending(entry: unknown): boolean {
+	return !isRecord(entry) || entry.status === "pending" || typeof entry.round === "number";
 }
 
 /**

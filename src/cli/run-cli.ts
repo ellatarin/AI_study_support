@@ -15,6 +15,7 @@ import { createMoneyFormatter } from "../pipeline/reports.js";
 import { deriveTimestampId, PipelineRunner } from "../pipeline/runner.js";
 import { audioExtractionParts } from "../pipeline/stages/audio-extraction/audio-extraction.js";
 import { createChooseDivisionStage } from "../pipeline/stages/choose-division/choose-division.js";
+import { createCorrectTermsStage } from "../pipeline/stages/correct-terms/correct-terms.js";
 import { createDeepenSubtopicSplittingStage } from "../pipeline/stages/deepen-subtopic-splitting/deepen-subtopic-splitting.js";
 import { createGroupIntoTopicsStage } from "../pipeline/stages/group-into-topics/group-into-topics.js";
 import { createInitialSubtopicSplittingStage } from "../pipeline/stages/initial-subtopic-splitting/initial-subtopic-splitting.js";
@@ -24,7 +25,6 @@ import { createPlaceSlidesStage } from "../pipeline/stages/place-slides/place-sl
 import { createReadSlidesStage } from "../pipeline/stages/read-slides/read-slides.js";
 import { renderSlidesParts } from "../pipeline/stages/render-slides/render-slides.js";
 import { createRetitleSubtopicsStage } from "../pipeline/stages/retitle-subtopics/retitle-subtopics.js";
-import { createRewriteSubtopicsStage } from "../pipeline/stages/rewrite-subtopics/rewrite-subtopics.js";
 import { createSourceNormalisationStage } from "../pipeline/stages/source-normalisation/source-normalisation.js";
 import { createStructureTranscriptStage } from "../pipeline/stages/structure-transcript/structure-transcript.js";
 import { createTranscriptionStage } from "../pipeline/stages/transcription/transcription.js";
@@ -105,7 +105,7 @@ async function assembleDeps({
 			createSourceFileStage({ logger, ...renderSlidesParts }),
 			createReadSlidesStage({ logger, client }),
 			createPlaceSlidesStage({ logger, client }),
-			createRewriteSubtopicsStage({ logger, client }),
+			createCorrectTermsStage({ logger, client }),
 		],
 		logger,
 		reporter: createPipelineRunReporter({ write, formatMoney }),

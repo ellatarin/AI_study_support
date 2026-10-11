@@ -2,7 +2,15 @@ import { mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import type { Manifest } from "../types/pipeline.js";
-import { captureError, corruptJson, makeManifest, makeTempDir, testLecture } from "./fixtures.js";
+import {
+	captureError,
+	completedEntry,
+	corruptJson,
+	entryBeforeRounds,
+	makeManifest,
+	makeTempDir,
+	testLecture,
+} from "./fixtures.js";
 import { MANIFEST_FILE, workspaceRootFor } from "./layout.js";
 import {
 	MANIFEST_VERSION,
@@ -81,6 +89,14 @@ describe("manifest I/O", () => {
 			{
 				scenario: "dates the lecture to a day that does not exist",
 				content: JSON.stringify({ ...makeManifest(), lectureDate: "2025-02-30" }),
+				expected: ManifestShapeError,
+			},
+			{
+				scenario: "holds a completed stage entry with no round",
+				content: JSON.stringify({
+					...makeManifest(),
+					stages: { "audio-extraction": entryBeforeRounds(completedEntry()) },
+				}),
 				expected: ManifestShapeError,
 			},
 		])("should reject with $expected.name when the manifest $scenario", async ({

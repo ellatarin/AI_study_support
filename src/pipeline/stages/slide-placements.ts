@@ -1,5 +1,5 @@
 /**
- * The slide placements, as `place-slides` writes them. `rewrite-subtopics` reads
+ * The slide placements, as `place-slides` writes them. `correct-terms` reads
  * them (technical-design.md §5, `place-slides`).
  */
 

@@ -44,7 +44,7 @@ import {
 	workspaceRootFor,
 } from "./layout.js";
 import { baseNameForLecture } from "./lecture-files.js";
-import { MANIFEST_VERSION, pendingStages } from "./manifest.js";
+import { FIRST_ROUND, MANIFEST_VERSION, pendingStages } from "./manifest.js";
 import {
 	createOpenRouterClientProvider,
 	API_KEY_VARIABLE as OPENROUTER_KEY_VARIABLE,
@@ -1283,8 +1283,21 @@ export function completedEntry({
 	readonly cost?: StageCost | null;
 	readonly filesWritten?: readonly string[];
 } = {}): StageEntry {
-	return { status, completedAt, configUsed, cost, filesWritten };
+	return { status, completedAt, round: FIRST_ROUND, configUsed, cost, filesWritten };
 }
+
+/**
+ * A stage entry with no `round`, which the migration must bring to the current form.
+ *
+ * @param entry - The entry in the current form.
+ * @returns The same entry with no `round`.
+ */
+export function entryBeforeRounds(entry: StageEntry): Readonly<Record<string, unknown>> {
+	return Object.fromEntries(Object.entries(entry).filter(([field]) => field !== "round"));
+}
+
+/** The stage entry of a stage that is running, or that was running when the invocation stopped. */
+export const runningEntry: StageEntry = { status: "running", round: FIRST_ROUND };
 
 /**
  * The stage entry of a failed stage. It has every field. So a suite tests a
@@ -1303,6 +1316,7 @@ export function failedEntry({
 	return {
 		status: "failed",
 		failedAt: stageCompletedAt,
+		round: FIRST_ROUND,
 		error: "the stage threw",
 		configUsed: null,
 		cost: null,

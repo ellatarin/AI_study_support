@@ -1,7 +1,4 @@
-/**
- * The messages that `rewrite-subtopics` sends (technical-design.md §5,
- * `rewrite-subtopics`). Term correction is the only step built so far.
- */
+/** The messages that `correct-terms` sends (technical-design.md §5, `correct-terms`). */
 
 /* jscpd:ignore-start -- the prompt modules import the same message builder and
    slide reading. So their import blocks are the same line for line. Imports

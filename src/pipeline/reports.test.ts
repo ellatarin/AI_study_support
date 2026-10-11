@@ -12,6 +12,7 @@ import type {
 	StageCost,
 	StageEntry,
 } from "../types/pipeline.js";
+import { ROUNDS_PER_PIPELINE_RUN } from "../types/pipeline.js";
 import {
 	completedEntry,
 	formatTestMoney,
@@ -27,6 +28,7 @@ import {
 	transcriptionModelId,
 } from "./fixtures.js";
 import { stageOutputEntry, workspaceRootFor } from "./layout.js";
+import { FIRST_ROUND } from "./manifest.js";
 import {
 	createMoneyFormatter,
 	formatBatchSummary,
@@ -95,6 +97,7 @@ function judgementEntryFor(modelId = JUDGE_MODEL_ID): StageEntry {
 const failedJudgementEntry: StageEntry = {
 	status: "failed",
 	failedAt: "2025-10-10T09:40:00.000Z",
+	round: FIRST_ROUND,
 	error: JUDGE_FAILURE,
 	configUsed: { modelId: JUDGE_MODEL_ID },
 	cost: null,
@@ -170,6 +173,7 @@ const originalFailure: RunLog = {
 			action: "ran",
 			status: "failed",
 			configUsed: READ_SLIDES_CONFIG,
+			rounds: ROUNDS_PER_PIPELINE_RUN,
 			cost: { costUsd: 0.021, callCount: 5 },
 			error: "Slide 17 conversion failed: 429 rate limit",
 		},
@@ -188,6 +192,7 @@ const runLogs: readonly RunLog[] = [
 				action: "ran",
 				status: "complete",
 				configUsed: READ_SLIDES_CONFIG,
+				rounds: ROUNDS_PER_PIPELINE_RUN,
 				cost: {
 					costUsd: READ_SLIDES_COST_USD,
 					callCount: READ_SLIDES_CALLS,
@@ -205,6 +210,7 @@ const runLogs: readonly RunLog[] = [
 				action: "ran",
 				status: "complete",
 				configUsed: { modelId: "anthropic/claude-opus-4.1" },
+				rounds: ROUNDS_PER_PIPELINE_RUN,
 				cost: { costUsd: 0.89, callCount: 1 },
 			},
 		},
@@ -220,6 +226,7 @@ const runLogs: readonly RunLog[] = [
 				action: "ran",
 				status: "failed",
 				configUsed: { modelId: "openai/gpt-4.1" },
+				rounds: ROUNDS_PER_PIPELINE_RUN,
 				cost: { costUsd: null, callCount: 2 },
 				error: "cost lookup timed out",
 			},
@@ -238,6 +245,7 @@ const runLogs: readonly RunLog[] = [
 				action: "ran",
 				status: "complete",
 				configUsed: { modelId: "meta-llama/llama-3.1-405b" },
+				rounds: ROUNDS_PER_PIPELINE_RUN,
 				cost: { costUsd: null, callCount: 1 },
 			},
 		},
@@ -384,12 +392,19 @@ describe("formatCostReport", () => {
 
 const ran = (status: "complete" | "failed"): RunLogStageEntry =>
 	status === "complete"
-		? { action: "ran", status, configUsed: null, cost: { costUsd: 0.1, callCount: 1 } }
+		? {
+				action: "ran",
+				status,
+				configUsed: null,
+				rounds: ROUNDS_PER_PIPELINE_RUN,
+				cost: { costUsd: 0.1, callCount: 1 },
+			}
 		: {
 				action: "ran",
 				status,
 				error: JUDGE_FAILURE,
 				configUsed: null,
+				rounds: ROUNDS_PER_PIPELINE_RUN,
 				cost: { costUsd: null, callCount: 0 },
 			};
 
