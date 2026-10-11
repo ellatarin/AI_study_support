@@ -20,7 +20,7 @@ import {
 import { readTopics, type Topic } from "./topics.js";
 
 /** The stage that reads: its stage context, and the builder of its error. */
-type ReadingStage = {
+export type ReadingStage = {
 	readonly context: StageContext;
 	/** Builds the reading stage's own error from a message. */
 	readonly fail: (message: string) => Error;

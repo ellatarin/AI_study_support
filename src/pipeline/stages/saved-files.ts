@@ -27,6 +27,17 @@ export type SavedFileReader<TContent> = {
 };
 
 /**
+ * The content of one file, and the cost of the calls that made it. A file read
+ * back from disk has the cost `null`.
+ *
+ * @typeParam TContent - The contents of one file.
+ */
+export type MadeFile<TContent> = {
+	readonly content: TContent;
+	readonly cost: StageCost | null;
+};
+
+/**
  * Gives the message for a saved file that holds nothing readable. The message
  * tells the user to delete the file, because the pipeline does not make a saved
  * file again.
@@ -110,13 +121,11 @@ export async function readOrMakeSavedFiles<TFile extends { readonly path: string
 	readonly files: readonly TFile[];
 	readonly label: string;
 	readonly concurrency: number | undefined;
-	readonly make: (
-		file: TFile,
-	) => Promise<{ readonly content: TContent; readonly cost: StageCost | null }>;
+	readonly make: (file: TFile) => Promise<MadeFile<TContent>>;
 }): Promise<{ readonly contents: readonly TContent[]; readonly cost: StageCost | null }> {
 	const progressBar = createParallelWorkBar({ label, total: files.length });
 	progressBar.start();
-	let outcomes: readonly { readonly content: TContent; readonly cost: StageCost | null }[];
+	let outcomes: readonly MadeFile<TContent>[];
 	try {
 		outcomes = await mapWithConcurrency({
 			items: files,

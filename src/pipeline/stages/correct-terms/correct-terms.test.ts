@@ -1,14 +1,14 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { pathExists } from "../../../utils/files.js";
 import {
 	arrivingTogether,
-	captureError,
+	correctedSubtopicText,
+	itFailsAfterTheThirdUnusableSend,
 	itFailsNamingEachSpoiledFile,
+	noSlideTermCorrection,
 	openRouterReplyBody,
 	readJsonFile,
-	resendPausesTimeoutMs,
 	seedStageOutput,
 	sentSystemMessage,
 	slideDeckPlacements,
@@ -16,32 +16,20 @@ import {
 	slideReadingInput,
 	stageOutputInput,
 	structuredTranscriptInput,
+	termCorrectionFile,
 	trackingInFlight,
 	transcriptStructuredTranscript,
 	transcriptSubtopicTexts,
+	usableTermCorrection,
+	usedTermCorrection,
 	useStageReadingEarlierOutputs,
 } from "../../fixtures.js";
-import { ResendsExhaustedError } from "../model-stage.js";
 import { CorrectTermsError, createCorrectTermsStage } from "./correct-terms.js";
 
 const STAGE_ID = "correct-terms";
 
-/** The reason that each stubbed correction gives. */
-const STUBBED_REASON = "The transcriber misheard the term on slide 1.";
-
 /**
- * The workspace-relative path of the first rewrite attempt of a subtopic. The
- * name is stated in full here, and not taken from the production code.
- *
- * @param subtopicId - The subtopic.
- * @returns The path, relative to the workspace.
- */
-function attemptFile(subtopicId: number): string {
-	return `Term corrections/subtopic-${subtopicId}-attempt-1.json`;
-}
-
-/**
- * One correction of a reply, with {@link STUBBED_REASON}.
+ * One correction of a reply, with the reason of {@link usableTermCorrection}.
  *
  * @param args - The two forms.
  * @param args.wrongForm - The misheard form.
@@ -55,14 +43,8 @@ function correction({
 	readonly wrongForm: string;
 	readonly rightForm: string;
 }): Record<string, unknown> {
-	return { wrongForm, rightForm, reason: STUBBED_REASON };
+	return { wrongForm, rightForm, reason: usableTermCorrection.reason };
 }
-
-/** A correction that passes each check: its wrong form is in subtopic 2, and its right form is the title of slide 1. */
-const usableCorrection = correction({ wrongForm: "cell injury", rightForm: "Cell injury" });
-
-/** The text of subtopic 2 after {@link usableCorrection}. */
-const correctedSubtopicText = "Cell injury and the immune system.";
 
 /**
  * The content of a reply with these corrections.
@@ -74,8 +56,8 @@ function replyWith(corrections: readonly Record<string, unknown>[]): string {
 	return JSON.stringify({ corrections });
 }
 
-/** The content of the reply with {@link usableCorrection} alone. */
-const usableReply = replyWith([usableCorrection]);
+/** The content of the reply with {@link usableTermCorrection} alone. */
+const usableReply = replyWith([usableTermCorrection]);
 
 describe("createCorrectTermsStage", () => {
 	const { workspaceRoot, create, run, expectOneCallSending } = useStageReadingEarlierOutputs({
@@ -93,7 +75,7 @@ describe("createCorrectTermsStage", () => {
 	 * @returns The parsed file.
 	 */
 	function writtenAttempt(subtopicId: number): Promise<unknown> {
-		return readJsonFile(join(workspaceRoot(), attemptFile(subtopicId)));
+		return readJsonFile(join(workspaceRoot(), termCorrectionFile(subtopicId)));
 	}
 
 	/**
@@ -163,39 +145,23 @@ describe("createCorrectTermsStage", () => {
 		await run();
 
 		expect(create()).toHaveBeenCalledTimes(1);
-		expect(await writtenAttempt(1)).toStrictEqual({
-			subtopicId: 1,
-			attemptNumber: 1,
-			termCorrectionPromptVersion: "t1",
-			slideNumbers: [],
-			corrections: [],
-			ignoredCorrections: [],
-			correctedText: transcriptSubtopicTexts[0],
-		});
+		expect(await writtenAttempt(1)).toStrictEqual(noSlideTermCorrection);
 	});
 
 	it("should write the corrections, the slides sent and the corrected text in the first rewrite attempt when the stage completes", async () => {
 		const result = await run();
 
-		expect(result.filesWritten).toStrictEqual([attemptFile(1), attemptFile(2)]);
-		expect(await writtenAttempt(2)).toStrictEqual({
-			subtopicId: 2,
-			attemptNumber: 1,
-			termCorrectionPromptVersion: "t1",
-			slideNumbers: [1, 2],
-			corrections: [{ ...usableCorrection, occurrencesChanged: 1 }],
-			ignoredCorrections: [],
-			correctedText: correctedSubtopicText,
-		});
+		expect(result.filesWritten).toStrictEqual([termCorrectionFile(1), termCorrectionFile(2)]);
+		expect(await writtenAttempt(2)).toStrictEqual(usedTermCorrection);
 	});
 
 	it("should change each occurrence of the wrong form and count the changes when the wrong form occurs more than once", async () => {
 		await seedSecondSubtopicText("cell injury, then more cell injury.");
 
-		const attempt = await attemptAfterReply([usableCorrection]);
+		const attempt = await attemptAfterReply([usableTermCorrection]);
 
 		expect(attempt).toMatchObject({
-			corrections: [{ ...usableCorrection, occurrencesChanged: 2 }],
+			corrections: [{ ...usableTermCorrection, occurrencesChanged: 2 }],
 			correctedText: "Cell injury, then more Cell injury.",
 		});
 	});
@@ -203,12 +169,12 @@ describe("createCorrectTermsStage", () => {
 	it("should change the longer wrong form first, and the shorter one only where it is left, when two wrong forms overlap", async () => {
 		const shorter = correction({ wrongForm: "injury", rightForm: "Injury" });
 
-		const attempt = await attemptAfterReply([shorter, usableCorrection]);
+		const attempt = await attemptAfterReply([shorter, usableTermCorrection]);
 
 		expect(attempt).toMatchObject({
 			corrections: [
 				{ ...shorter, occurrencesChanged: 0 },
-				{ ...usableCorrection, occurrencesChanged: 1 },
+				{ ...usableTermCorrection, occurrencesChanged: 1 },
 			],
 			correctedText: correctedSubtopicText,
 		});
@@ -268,10 +234,10 @@ describe("createCorrectTermsStage", () => {
 		ignored,
 		ignoredBecause,
 	}) => {
-		const attempt = await attemptAfterReply([ignored, usableCorrection]);
+		const attempt = await attemptAfterReply([ignored, usableTermCorrection]);
 
 		expect(attempt).toMatchObject({
-			corrections: [{ ...usableCorrection, occurrencesChanged: 1 }],
+			corrections: [{ ...usableTermCorrection, occurrencesChanged: 1 }],
 			ignoredCorrections: [{ ...ignored, ignoredBecause }],
 			correctedText: correctedSubtopicText,
 		});
@@ -323,12 +289,12 @@ describe("createCorrectTermsStage", () => {
 
 	it("should keep a saved first rewrite attempt and make no call for its subtopic when the stage runs again", async () => {
 		await run();
-		const saved = await readFile(join(workspaceRoot(), attemptFile(2)), "utf8");
+		const saved = await readFile(join(workspaceRoot(), termCorrectionFile(2)), "utf8");
 
 		await run();
 
 		expect(create()).toHaveBeenCalledTimes(1);
-		expect(await readFile(join(workspaceRoot(), attemptFile(2)), "utf8")).toBe(saved);
+		expect(await readFile(join(workspaceRoot(), termCorrectionFile(2)), "utf8")).toBe(saved);
 	});
 
 	it("should leave the files of the earlier stages unchanged when the stage completes", async () => {
@@ -352,13 +318,10 @@ describe("createCorrectTermsStage", () => {
 		create,
 	});
 
-	it("should fail without writing the subtopic's rewrite attempt when the third send is still unusable", {
-		timeout: resendPausesTimeoutMs,
-	}, async () => {
-		create().mockResolvedValue(openRouterReplyBody({ content: JSON.stringify({}) }));
-
-		expect(await captureError(run())).toBeInstanceOf(ResendsExhaustedError);
-		expect(create()).toHaveBeenCalledTimes(3);
-		expect(await pathExists(join(workspaceRoot(), attemptFile(2)))).toBe(false);
+	itFailsAfterTheThirdUnusableSend({
+		run,
+		create,
+		calls: 1,
+		outputPath: () => join(workspaceRoot(), termCorrectionFile(2)),
 	});
 });

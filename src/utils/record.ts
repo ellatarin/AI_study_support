@@ -1,7 +1,7 @@
 /**
- * This module tells if a parsed value has fields to read. The pipeline parses
- * the config file, manifests, run logs and model replies. Each parsed value is
- * `unknown` until a check reads it, and each check starts with this test.
+ * This module checks the shape of a parsed value. The pipeline parses the config
+ * file, manifests, run logs and model replies. Each parsed value is `unknown`
+ * until a check reads it.
  */
 
 /**
@@ -14,6 +14,16 @@
  */
 export function isRecord(value: unknown): value is Record<string, unknown> {
 	return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+/**
+ * Checks that a value is a list of strings.
+ *
+ * @param value - The value to test.
+ * @returns `true` when the value is an array and every entry is a string.
+ */
+export function isStringList(value: unknown): value is readonly string[] {
+	return Array.isArray(value) && value.every((entry) => typeof entry === "string");
 }
 
 /**

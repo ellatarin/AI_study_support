@@ -5,11 +5,10 @@
  */
 
 import { join } from "node:path";
-import type { StageContext } from "../../types/pipeline.js";
 import { listFileNames } from "../../utils/files.js";
-import { isRecord, readerFromCheck } from "../../utils/record.js";
+import { isRecord, isStringList, readerFromCheck } from "../../utils/record.js";
 import { slideFileName, stageDirectoryPath } from "../layout.js";
-import { readInputJson } from "./stage-input.js";
+import { type ReadingStage, readInputJson } from "./stage-input.js";
 
 /** The kind of a slide (CONTEXT.md, "Content-free slide"), as the `read-slides` reply gives it. */
 export type SlideKind = "content-free" | "references" | "subject-matter";
@@ -40,16 +39,6 @@ const SUBJECT_MATTER: SlideKind = "subject-matter";
  */
 export function isSubjectMatter(slide: SlideReading): boolean {
 	return slide.kind === SUBJECT_MATTER;
-}
-
-/**
- * Checks that a value is a list of strings.
- *
- * @param value - The value to test.
- * @returns `true` when every entry is a string.
- */
-function isStringList(value: unknown): value is readonly string[] {
-	return Array.isArray(value) && value.every((entry) => typeof entry === "string");
 }
 
 /**
@@ -128,11 +117,7 @@ export function readSlideReading({
 	context,
 	slideNumber,
 	fail,
-}: {
-	readonly context: StageContext;
-	readonly slideNumber: number;
-	readonly fail: (message: string) => Error;
-}): Promise<SlideReading> {
+}: ReadingStage & { readonly slideNumber: number }): Promise<SlideReading> {
 	return readInputJson({
 		path: slideReadingPath({ workspaceRoot: context.workspaceRoot, slideNumber }),
 		stageId: "read-slides",
@@ -151,13 +136,7 @@ export function readSlideReading({
  * @returns The absolute path of each slide image, in deck order.
  * @throws The error that `fail` builds, if the directory holds no slide image.
  */
-export async function findSlideImages({
-	context,
-	fail,
-}: {
-	readonly context: StageContext;
-	readonly fail: (message: string) => Error;
-}): Promise<readonly string[]> {
+export async function findSlideImages({ context, fail }: ReadingStage): Promise<readonly string[]> {
 	const slideImagesDir = stageDirectoryPath({
 		workspaceRoot: context.workspaceRoot,
 		stageId: "render-slides",

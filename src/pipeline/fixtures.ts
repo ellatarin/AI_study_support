@@ -105,26 +105,59 @@ type RecordedCalls = { readonly mock: { readonly calls: readonly unknown[] } };
  * @param args.pending - The stage run.
  * @param args.create - The completion stub of the stage's client. Only its calls are read.
  * @param args.calls - The number of calls that were in flight. Each is sent three times.
- * @param args.workspaceRoot - The absolute path to the lecture workspace.
- * @param args.stageId - The stage. It must write one output file.
+ * @param args.outputPath - The absolute path of the output file that the failed call would write.
  * @returns A promise that resolves when the checks pass.
  */
 async function expectResendsExhaustedWithoutOutput({
 	pending,
 	create,
 	calls,
-	workspaceRoot,
-	stageId,
+	outputPath,
 }: {
 	readonly pending: Readonly<Promise<unknown>>;
 	readonly create: RecordedCalls;
 	readonly calls: number;
-	readonly workspaceRoot: string;
-	readonly stageId: StageWithOutputFile;
+	readonly outputPath: string;
 }): Promise<void> {
 	expect(await captureError(pending)).toBeInstanceOf(ResendsExhaustedError);
 	expect(create.mock.calls).toHaveLength(MAX_SENDS * calls);
-	expect(await pathExists(stageOutputPath({ workspaceRoot, stageId }))).toBe(false);
+	expect(await pathExists(outputPath)).toBe(false);
+}
+
+/**
+ * Adds the test that a stage of the rewrite loop fails when each reply is
+ * unusable. Each call is sent three times, and the stage writes no file for the
+ * subtopic.
+ *
+ * @param args - The stage run, the stub client, and the file to look for.
+ * @param args.run - Runs the stage.
+ * @param args.create - Gives the completion stub of the current test.
+ * @param args.calls - The number of calls that were in flight. Each is sent three times.
+ * @param args.outputPath - Gives the absolute path of the file of one subtopic in the current test.
+ */
+export function itFailsAfterTheThirdUnusableSend({
+	run,
+	create,
+	calls,
+	outputPath,
+}: {
+	readonly run: () => Promise<unknown>;
+	readonly create: () => StubbedCompletionCall;
+	readonly calls: number;
+	readonly outputPath: () => string;
+}): void {
+	it("should fail without writing the subtopic's file when the third send is still unusable", {
+		timeout: resendPausesTimeoutMs,
+	}, async () => {
+		create().mockResolvedValue(openRouterReplyBody({ content: JSON.stringify({}) }));
+
+		await expectResendsExhaustedWithoutOutput({
+			pending: run(),
+			create: create(),
+			calls,
+			outputPath: outputPath(),
+		});
+	});
 }
 
 /** The pino levels that {@link makeStubLogger} records. */
@@ -933,6 +966,19 @@ export function slideReadingInput(slideNumber: number): InputFile {
 	};
 }
 
+/**
+ * Gives the term-correction file of one subtopic in round 1 as an input file.
+ *
+ * @param subtopicId - The subtopic.
+ * @returns The input file.
+ */
+export function termCorrectionInput(subtopicId: number): InputFile {
+	return {
+		file: `term-correction file of subtopic ${subtopicId}`,
+		path: (workspaceRoot) => join(workspaceRoot, termCorrectionFile(subtopicId)),
+	};
+}
+
 /** The structured transcript as an input file. */
 export const structuredTranscriptInput = stageOutputInput({
 	file: "structured transcript file",
@@ -1197,6 +1243,75 @@ export const slideDeckPlacements: SlidePlacements = {
 		placedBecause: stubbedPlacedBecause,
 	})),
 };
+
+/**
+ * The workspace-relative path of the term-correction file of a subtopic in round
+ * 1. The name is stated in full here, and not taken from the production code.
+ *
+ * @param subtopicId - The subtopic.
+ * @returns The path, relative to the workspace.
+ */
+export function termCorrectionFile(subtopicId: number): string {
+	return `Term corrections/subtopic-${subtopicId}-attempt-1.json`;
+}
+
+/**
+ * A correction that passes each check of `correct-terms`. Its wrong form is in
+ * subtopic 2, and its right form is the title of slide 1.
+ */
+export const usableTermCorrection = {
+	wrongForm: "cell injury",
+	rightForm: "Cell injury",
+	reason: "The transcriber misheard the term on slide 1.",
+} as const;
+
+/** The text of subtopic 2 after {@link usableTermCorrection}. */
+export const correctedSubtopicText = "Cell injury and the immune system.";
+
+/**
+ * The term-correction file of subtopic 1, which has no placed slide. Term
+ * correction made no call, so the text is unchanged.
+ */
+export const noSlideTermCorrection = {
+	subtopicId: 1,
+	attemptNumber: 1,
+	termCorrectionPromptVersion: "t1",
+	slideNumbers: [],
+	corrections: [],
+	ignoredCorrections: [],
+	correctedText: transcriptSubtopicTexts[0],
+} as const;
+
+/** The term-correction file of subtopic 2, as `correct-terms` writes it after {@link usableTermCorrection}. */
+export const usedTermCorrection = {
+	subtopicId: 2,
+	attemptNumber: 1,
+	termCorrectionPromptVersion: "t1",
+	slideNumbers: [1, 2],
+	corrections: [{ ...usableTermCorrection, occurrencesChanged: 1 }],
+	ignoredCorrections: [],
+	correctedText: correctedSubtopicText,
+} as const;
+
+/** The term-correction files that {@link seedEarlierOutputs} writes for `correct-terms`. */
+const termCorrectionAttempts: readonly Readonly<Record<string, unknown>>[] = [
+	noSlideTermCorrection,
+	usedTermCorrection,
+];
+
+/**
+ * Writes each term-correction file into a workspace, as `correct-terms` leaves it.
+ *
+ * @param workspaceRoot - The absolute path to the lecture workspace.
+ * @returns A promise that resolves when every file is written.
+ */
+async function seedTermCorrections(workspaceRoot: string): Promise<void> {
+	for (const attempt of termCorrectionAttempts) {
+		const path = join(workspaceRoot, termCorrectionFile(Number(attempt.subtopicId)));
+		await mkdir(dirname(path), { recursive: true });
+		await writeFile(path, JSON.stringify(attempt));
+	}
+}
 
 /**
  * Writes each slide reading into a workspace, as `read-slides` leaves it.
@@ -1960,6 +2075,7 @@ const EARLIER_OUTPUT_SEEDS = {
 	"read-slides": (workspaceRoot: string) =>
 		seedSlideReadings({ workspaceRoot, readings: slideDeckReadings }),
 	"place-slides": seedingJsonOutput({ stageId: "place-slides", output: slideDeckPlacements }),
+	"correct-terms": seedTermCorrections,
 } as const;
 
 /** An earlier stage whose output {@link seedEarlierOutputs} can write. */
@@ -2010,8 +2126,10 @@ export function useStageReadingDivision<TInput, TOutput>(
 				pending: suite.run(),
 				create: suite.create(),
 				calls,
-				workspaceRoot: suite.workspaceRoot(),
-				stageId: args.stageId,
+				outputPath: stageOutputPath({
+					workspaceRoot: suite.workspaceRoot(),
+					stageId: args.stageId,
+				}),
 			}),
 	};
 }

@@ -1,0 +1,129 @@
+/**
+ * The term-correction files that `correct-terms` writes, for the stages that
+ * write and read them (technical-design.md §5, `correct-terms` and
+ * `rewrite-subtopics`).
+ */
+
+import { isRecord, readerFromCheck } from "../../utils/record.js";
+import { hasRewriteAttemptFields, rewriteAttemptFilePath } from "./rewrite-attempts.js";
+import { type ReadingStage, readInputJson } from "./stage-input.js";
+
+const STAGE_ID = "correct-terms";
+
+/** One correction as the reply gives it (CONTEXT.md, "Correction"). */
+export type ReplyCorrection = {
+	readonly wrongForm: string;
+	readonly rightForm: string;
+	readonly reason: string;
+};
+
+/** The check that a correction failed, in the order that code checks it. */
+export type IgnoredBecause = "form-too-long" | "right-form-not-on-slide" | "wrong-form-not-in-text";
+
+/** A correction that passed each check, and the number of places where it changed the text. */
+export type Correction = ReplyCorrection & { readonly occurrencesChanged: number };
+
+/** A correction that failed a check, and the first check that it failed. */
+type IgnoredCorrection = ReplyCorrection & { readonly ignoredBecause: IgnoredBecause };
+
+/**
+ * The term-correction part of one rewrite attempt of a subtopic, as
+ * `correct-terms` writes it (technical-design.md §5, `correct-terms`).
+ */
+export type TermCorrectionResult = {
+	readonly subtopicId: number;
+	readonly attemptNumber: number;
+	readonly termCorrectionPromptVersion: string;
+	/** The slides placed in the subtopic. An empty list means that term correction made no call. */
+	readonly slideNumbers: readonly number[];
+	readonly corrections: readonly Correction[];
+	readonly ignoredCorrections: readonly IgnoredCorrection[];
+	readonly correctedText: string;
+};
+
+/**
+ * Checks that a value is one correction of a reply: a `wrongForm`, a `rightForm`
+ * and a `reason`, all strings.
+ *
+ * @param value - The value to test.
+ * @returns `true` when the value is a {@link ReplyCorrection}.
+ */
+export function isReplyCorrection(value: unknown): value is ReplyCorrection {
+	return (
+		isRecord(value) &&
+		typeof value.wrongForm === "string" &&
+		typeof value.rightForm === "string" &&
+		typeof value.reason === "string"
+	);
+}
+
+/**
+ * Checks that a parsed file is a term-correction result.
+ *
+ * @param value - The parsed file.
+ * @returns `true` when the value is a {@link TermCorrectionResult}.
+ */
+export function isTermCorrectionResult(value: unknown): value is TermCorrectionResult {
+	return (
+		hasRewriteAttemptFields(value) &&
+		typeof value.termCorrectionPromptVersion === "string" &&
+		Array.isArray(value.slideNumbers) &&
+		value.slideNumbers.every((slideNumber) => typeof slideNumber === "number") &&
+		Array.isArray(value.corrections) &&
+		value.corrections.every(
+			(entry) =>
+				isRecord(entry) && typeof entry.occurrencesChanged === "number" && isReplyCorrection(entry),
+		) &&
+		Array.isArray(value.ignoredCorrections) &&
+		value.ignoredCorrections.every(
+			(entry) =>
+				isRecord(entry) && typeof entry.ignoredBecause === "string" && isReplyCorrection(entry),
+		) &&
+		typeof value.correctedText === "string"
+	);
+}
+
+/** The subtopic and the rewrite attempt of one term-correction file. */
+type TermCorrectionFile = {
+	readonly subtopicId: number;
+	/** The number of the rewrite attempt, from 1. */
+	readonly attemptNumber: number;
+};
+
+/**
+ * Gives the path of the term-correction file of one rewrite attempt of a subtopic.
+ *
+ * @param args - The workspace, the subtopic and the rewrite attempt.
+ * @param args.workspaceRoot - The absolute path to the lecture workspace.
+ * @param args.subtopicId - The subtopic.
+ * @param args.attemptNumber - The number of the rewrite attempt, from 1.
+ * @returns The absolute path of the term-correction file.
+ */
+function termCorrectionPath(args: TermCorrectionFile & { readonly workspaceRoot: string }): string {
+	return rewriteAttemptFilePath({ ...args, stageId: STAGE_ID });
+}
+
+/**
+ * Reads the term-correction file of one rewrite attempt of a subtopic.
+ *
+ * @param args - The stage context, the subtopic, the rewrite attempt, and the error to raise.
+ * @param args.context - The stage context.
+ * @param args.subtopicId - The subtopic.
+ * @param args.attemptNumber - The number of the rewrite attempt, from 1.
+ * @param args.fail - Builds the reading stage's error from a message.
+ * @returns The term-correction result.
+ * @throws The error that `fail` builds, if the file is missing, not JSON or not a term-correction result.
+ */
+export function readTermCorrectionResult({
+	context,
+	fail,
+	...file
+}: TermCorrectionFile & ReadingStage): Promise<TermCorrectionResult> {
+	return readInputJson({
+		path: termCorrectionPath({ workspaceRoot: context.workspaceRoot, ...file }),
+		stageId: STAGE_ID,
+		fail,
+		read: readerFromCheck(isTermCorrectionResult),
+		shape: "a term-correction result",
+	});
+}

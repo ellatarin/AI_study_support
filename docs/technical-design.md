@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.80-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
+**Suite version:** 1.81-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
 **Date:** 2026-10-11
 **Status:** For review
 
@@ -1560,10 +1560,10 @@ The file of a rewrite attempt holds these fields:
 
 ### `rewrite-subtopics` — each subtopic as prose
 
-**Input:** `Term corrections/`, and in a later round the checks of the round before
+**Input:** `Structured transcript/structured-transcript.json`, `Term corrections/`, and in a later round the checks of the round before
 **Output:** `Rewrites/subtopic-<id>-attempt-<n>.json` for each subtopic in each round
 
-The writer gets the corrected text of one subtopic, and nothing else: no title, no slides and no other subtopic. It writes the rewritten subtopic (CONTEXT.md, "Rewritten subtopic"):
+The stage takes the list of subtopics from the structured transcript. So a missing term-correction file fails the stage, and the error names the file. The writer gets the corrected text of one subtopic, and nothing else: no title, no slides and no other subtopic. It writes the rewritten subtopic (CONTEXT.md, "Rewritten subtopic"):
 
 - paragraphs with no heading
 - every point in the lecturer's order
@@ -1844,7 +1844,8 @@ Each prefix is matched literally, so one carrying a pattern character means itse
       "modelId": "google/gemini-3.8-flash",       // the writer: one call for each subtopic
       "temperature": null,
       "maxTokens": null,
-      "concurrency": 5
+      "concurrency": 10,                          // subtopics rewritten at once
+      "sendGapSeconds": 0.25                      // the least time between two sends of the stage
     },
     "check-rewrite-attempts": {
       "modelId": "openai/gpt-5.6-sol-pro",        // the checker: from a different company from the writer
