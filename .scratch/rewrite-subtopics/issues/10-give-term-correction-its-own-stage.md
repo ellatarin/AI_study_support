@@ -4,7 +4,7 @@
 
 **Blocked by:** none
 
-**Status:** ready-for-agent
+**Status:** resolved
 
 - [x] `correct-terms` has its own entry in `STAGE_IDS`, `STAGE_FILES`, the cost-report labels and the config. It comes after `place-slides`. Its folder is `Term corrections/`, and its files are `subtopic-<id>-attempt-<n>.json`.
 - [x] `correct-terms` keeps the behaviour and the tests of ticket 05. Only its stage id, its folder and its config entry change.
@@ -15,4 +15,4 @@
 - [x] A one-time migration script sets `round` to 1 in each stage entry of each manifest in each configured module. The user runs it, or tells the agent to run it. It also sets `rounds` to 1 in each run log entry of a stage that ran. The command is `pnpm tsx src/migrations/run-add-rounds-and-correct-terms.ts`.
 - [x] The same script moves the term corrections of each lecture that ran them. It renames the stage entry `rewrite-subtopics` to `correct-terms`, the folder `Rewrite attempts/` to `Term corrections/`, and each path in `filesWritten`. It renames the stage id in each run log, so the cost report keeps the cost of term correction.
 - [x] The script changes nothing in a lecture that is already in the new form, so a second run of it is safe.
-- [ ] After the migration, a plain `run` on lectures 3 and 4 skips `correct-terms`. The user does this run.
+- [x] After the migration, a plain `run` on lectures 3 and 4 skips `correct-terms`. The user does this run.
