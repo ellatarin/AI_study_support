@@ -1878,7 +1878,8 @@ Each prefix is matched literally, so one carrying a pattern character means itse
       "modelId": "openai/gpt-5.6-sol-pro",        // the checker: from a different company from the writer
       "temperature": null,
       "maxTokens": null,
-      "concurrency": 5
+      "concurrency": 10,                          // subtopics checked at once
+      "sendGapSeconds": 0.25                      // the least time between two sends of the stage
     }
   },
   "rewriting": {
