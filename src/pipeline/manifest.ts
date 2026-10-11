@@ -45,8 +45,7 @@ export const MANIFEST_VERSION = "1";
 
 /**
  * The round of a stage entry outside the rewrite loop, and of the first round of
- * the loop. The runner, the test fixtures and the migration of the stored data
- * write it (technical-design.md §4.5).
+ * the loop. The runner and the test fixtures write it (technical-design.md §4.5).
  */
 export const FIRST_ROUND = 1;
 

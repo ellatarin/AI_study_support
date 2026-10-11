@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.79-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
+**Suite version:** 1.80-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
 **Date:** 2026-10-11
 **Status:** For review
 
@@ -535,7 +535,7 @@ MANIFEST_VERSION: string   // "1" — the schema version stamped into every mani
 // `version` back to notice. Bumping it here bumps what the suites seed, so a migration is tested against the
 // version it migrates from.
 FIRST_ROUND: number   // 1 — the round of a stage entry outside the rewrite loop, and of the loop's first round
-// The runner, the test fixtures and the migration of the stored data all write it.
+// The runner and the test fixtures both write it.
 pendingStages(): Manifest["stages"]   // every stage `pending`, as source-normalisation writes it for a new workspace
 // Beside the version and for the same reason: source-normalisation writes this map and the fixtures seed one, and each had
 // been building its own. Nothing reads the map back in a way that would notice the two drifting apart.
@@ -668,15 +668,6 @@ Each stage entry records `configUsed`, a `StageConfigUsed`. It holds the model I
 The example stops in round 2, after `correct-terms` and before `rewrite-subtopics`. The entry of `rewrite-subtopics` still records round 1, so the runner runs it next.
 
 **The round of each stage entry.** Each stage entry that is not `pending` records the round of the stage's last run: `running`, `complete`, `failed` and `skipped` alike. A `pending` entry has no round, because the stage has not run since it was created or reset. A stage outside the rewrite loop always records round 1. A stage of the rewrite loop records the round that it last did. A stage entry never goes back to `pending` during a pipeline run. A later round raises the round in place (§4.7, "The rewrite loop").
-
-**The migration of the stored data.** `src/migrations/add-rounds-and-correct-terms.ts` brings each workspace of each configured module to this form. The user runs it once with `pnpm tsx src/migrations/run-add-rounds-and-correct-terms.ts`, before a pipeline run. It does three things:
-
-1. It gives `round: 1` to each stage entry that is not `pending`, and `rounds: 1` to each run log entry of a stage that ran.
-2. When a manifest holds the term corrections under `rewrite-subtopics` and has no `correct-terms` entry, it moves them to `correct-terms`. It moves the folder `Rewrite attempts/` to `Term corrections/` and changes each path in `filesWritten`. It also renames the stage id in each run log, so the cost report keeps the cost of term correction.
-3. It writes the manifest last. A run that stops earlier leaves the old entry, and the next run finishes the move.
-
-A second run changes nothing. A manifest with a `correct-terms` entry keeps its `rewrite-subtopics` entry, which is the entry of the writer stage.
-
 **`sent-back` is a status of `check-rewrite-attempts` only.** It means that the check finished a round, that subtopics failed, and that rounds are left. `complete` keeps one meaning for every stage: the stage finished, and its output can be used. So a lecture whose check is `sent-back` is not past the rewrite loop. When subtopics fail in the last round, the check is `failed`, with an error that names each failed subtopic and its faults.
 
 The `cost` of a stage of the rewrite loop is the total of all its rounds since its last reset. Its output on disk holds the files of each of those rounds, so the cost of each round is part of that output.
@@ -895,8 +886,8 @@ Removing one lecture's file lives here for the same reason. Every directory a le
 // src/pipeline/lecture-files.ts
 listWorkspaces(args: { moduleRoot: string }): Promise<readonly string[]>
 // The absolute path of each folder in the module's `Pipeline processing/`. A folder in the list can lack a
-// manifest, so each caller reads it before it treats it as a lecture. The runner and the migration of the
-// stored data use it (§4.4, "Stage cleanup boundaries").
+// manifest, so each caller reads it before it treats it as a lecture. The runner uses it (§4.4, "Stage
+// cleanup boundaries").
 baseNameForLecture(args: { lectureNumber: number; title: string; lectureDate: string }): string
 // `lectureBaseName` (§3.2) for a caller holding the date as the `YYYY-MM-DD` string the manifest stores.
 // Both callers that move a lecture hold it in that form, so the conversion is made here rather than at each:

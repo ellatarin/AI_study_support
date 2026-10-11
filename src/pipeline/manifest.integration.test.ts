@@ -6,7 +6,6 @@ import {
 	captureError,
 	completedEntry,
 	corruptJson,
-	entryBeforeRounds,
 	makeManifest,
 	makeTempDir,
 	testLecture,
@@ -22,6 +21,11 @@ import {
 	readManifestSafe,
 	writeManifest,
 } from "./manifest.js";
+
+/** A completed stage entry with no `round`, which the manifest check rejects. */
+const completedEntryWithoutRound = Object.fromEntries(
+	Object.entries(completedEntry()).filter(([field]) => field !== "round"),
+);
 
 describe("manifest I/O", () => {
 	let workspaceRoot: string;
@@ -95,7 +99,7 @@ describe("manifest I/O", () => {
 				scenario: "holds a completed stage entry with no round",
 				content: JSON.stringify({
 					...makeManifest(),
-					stages: { "audio-extraction": entryBeforeRounds(completedEntry()) },
+					stages: { "audio-extraction": completedEntryWithoutRound },
 				}),
 				expected: ManifestShapeError,
 			},
