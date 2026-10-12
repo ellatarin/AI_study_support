@@ -1,0 +1,23 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite states that the cervix is seen 'alongside' the endocervical canal, turning the lecturer's deictic gesture ('here') into a specific spatial description not given in the spoken text.",
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "rewritePassage": "and the cervix is seen alongside it."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here",
+      "reason": "Omission of the lecturer's conversational aside pointing out specific individual cells to the audience in the figure is an allowed omission of remarks to the audience."
+    },
+    {
+      "sourcePassage": "So when HPV infection occurs, you can get a precursor lesion that is here",
+      "reason": "'at this site' in the rewrite refers directly back to the previously established squamocolumnar junction, which is where the text states HPV infection occurs."
+    }
+  ]
+}

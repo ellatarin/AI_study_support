@@ -1,0 +1,89 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite changes the lecturer's broad claim about comparing 'any two things' into a narrower claim about comparing 'two species'.",
+      "sourcePassage": "if you compare any two things, you're going to find differences.",
+      "rewritePassage": "any comparison between two species will reveal differences."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite makes an incomplete statement complete by choosing one reading, adding 'tumours of the' before 'skin and connective tissues'.",
+      "sourcePassage": "along with skin and connective tissues,",
+      "rewritePassage": "along with tumours of the skin and connective tissues,"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite makes an incomplete statement complete by adding 'the pattern in', clarifying what dogs are being compared to.",
+      "sourcePassage": "which is different from people.",
+      "rewritePassage": "which differs from the pattern in people."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite makes an unclear statement clear by adding 'and are' to separate the claims that the tumours arise from injections and that they are proposed to be due to the adjuvant.",
+      "sourcePassage": "This is from injections proposed to be due to the adjuvant",
+      "rewritePassage": "Such tumours arise from injections and are proposed to be due to the adjuvant"
+    },
+    {
+      "deficiencyType": "omission",
+      "description": "The rewrite omits the word 'also', which states the fact that the adjuvant is added in addition to something else.",
+      "sourcePassage": "that is also added with the injection.",
+      "rewritePassage": "that is added with the injection."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite makes an incomplete statement complete by adding the noun 'tissues' to the adjective 'hematopoietic'.",
+      "sourcePassage": "digestive tissues, hematopoietic, and skin",
+      "rewritePassage": "digestive tissues, hematopoietic tissues and skin"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite changes the phrase 'thing that was quite interesting to note' into 'notable difference'.",
+      "sourcePassage": "The only thing that was quite interesting to note here is that",
+      "rewritePassage": "The one notable difference is that"
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds the link word 'so', stating a result/causal link between a problem in differentiation and ending up with a tumour, which the text only placed next to each other using 'and'.",
+      "sourcePassage": "and end up with a tumor",
+      "rewritePassage": "and so with a tumour"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Just a slide about the incidence in companion animals since I found this slide some time ago, which is to say that",
+      "reason": "Dropped remarks about the lecture materials."
+    },
+    {
+      "sourcePassage": "very, very prevalent",
+      "reason": "Dropped repetition."
+    },
+    {
+      "sourcePassage": "And similarly, in cats,",
+      "reason": "The omission of 'similarly' drops a transition word rather than a factual link."
+    },
+    {
+      "sourcePassage": "You'll be happy to hear he's doing fine now",
+      "reason": "Dropped a direct remark to the audience."
+    },
+    {
+      "sourcePassage": "will become a malignant tumor.",
+      "reason": "'becomes malignant' is a synonym that means exactly the same thing without redundancy."
+    },
+    {
+      "sourcePassage": "any organism or any animal that has-- any organism, rather,",
+      "reason": "Dropped a false start."
+    },
+    {
+      "sourcePassage": "all of these animals,",
+      "reason": "Dropped a redundant summarising apposition that does not contain a unique fact."
+    },
+    {
+      "sourcePassage": "as I said,",
+      "reason": "Dropped a remark referencing a previous part of the lecture."
+    }
+  ]
+}

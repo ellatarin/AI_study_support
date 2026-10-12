@@ -1,0 +1,35 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer refers to 'adolescence and maturation', but the rewrite replaces 'adolescence' with 'differentiation'.",
+      "sourcePassage": "because obviously during adolescence and maturation, this occurs from infancy to adulthood.",
+      "rewritePassage": "because differentiation and maturation also occur from infancy to adulthood."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite turns the lecturer's pointing words ('here now') into a description of the slide ('In the image of the invasive tissue') that the lecturer did not provide.",
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes.",
+      "rewritePassage": "In the image of the invasive tissue, the cells are of different shapes and sizes."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer says 'invading stroma', which the rewrite alters to 'invaded stroma'.",
+      "sourcePassage": "into the invading stroma.",
+      "rewritePassage": "into the invaded stroma."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "most of your lineage specification and your expansive growth has happened during embryogenesis, during the time that you were born.",
+      "reason": "The phrase 'during the time that you were born' was omitted as a false start or misspeaking for the period preceding birth/embryogenesis."
+    },
+    {
+      "sourcePassage": "It gives them structure and provides a signaling and basis for their adherence to this layer.",
+      "reason": "The rewrite reads 'signalling basis' rather than 'signaling and basis', treating the word 'and' as a spoken stumble or false start."
+    }
+  ]
+}

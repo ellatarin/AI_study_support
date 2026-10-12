@@ -1,0 +1,57 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "omission",
+      "description": "The rewrite omits the lecturer's mention of adolescence as a time when development and differentiation occur.",
+      "sourcePassage": "because obviously during adolescence and maturation, this occurs from infancy to adulthood.",
+      "rewritePassage": "because differentiation and maturation also occur from infancy to adulthood."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite changes the role of 'maturation' from a time period during which differentiation occurs to a process that occurs alongside differentiation.",
+      "sourcePassage": "during adolescence and maturation, this occurs",
+      "rewritePassage": "differentiation and maturation also occur"
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds a link ('so that') stating that the cells are arranged with the result or purpose of looking uniform, whereas the text just puts the two statements next to each other.",
+      "sourcePassage": "You'll see that the epithelial cells here are arranged. They look fairly uniform in shape and size.",
+      "rewritePassage": "in which the epithelial cells are arranged so that they look fairly uniform in shape and size"
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite turns the lecturer's pointing words into a description ('image of the invasive tissue') that the lecturer did not give.",
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes.",
+      "rewritePassage": "In the image of the invasive tissue, the cells are of different shapes and sizes."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite drops the word 'and', making 'signalling' modify 'basis', which changes its role in the sentence.",
+      "sourcePassage": "provides a signaling and basis for their adherence",
+      "rewritePassage": "provides a signalling basis for their adherence"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite changes the term 'invading' to 'invaded'.",
+      "sourcePassage": "into the invading stroma.",
+      "rewritePassage": "into the invaded stroma."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "during embryogenesis, during the time that you were born.",
+      "reason": "The phrase 'during the time that you were born' was dropped as a confusing false start or filler."
+    },
+    {
+      "sourcePassage": "so they're apical basal regulation in terms of the orientation of those cells within the tissue.",
+      "reason": "The rewrite uses 'which reflects' to correct the lecturer's ungrammatical phrasing, keeping the intended meaning."
+    },
+    {
+      "sourcePassage": "They have come in, they have lost this architecture,",
+      "reason": "The phrase 'They have come in' was dropped as a false start for the list of actions that follows."
+    }
+  ]
+}

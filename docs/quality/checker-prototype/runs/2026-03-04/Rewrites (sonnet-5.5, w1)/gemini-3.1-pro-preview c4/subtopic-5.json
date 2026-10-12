@@ -1,0 +1,20 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay. So with these tools in hand, I think the important concept to try and get across is",
+      "reason": "The introductory filler and reference to previous tools were dropped, which is an allowed change for style."
+    },
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals",
+      "reason": "This is a remark about the course, so it is an allowed omission."
+    },
+    {
+      "sourcePassage": "where a surgeon can see just by holding or touching a tumor",
+      "reason": "The change to 'since a surgeon can tell' clarifies the colloquial use of 'where' and 'see' without altering the subject matter."
+    }
+  ]
+}

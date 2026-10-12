@@ -1,0 +1,51 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite changes a remark about what the audience saw into a factual statement that the pre-cancerous states are present.",
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "rewritePassage": "The different pre-cancerous states are present,"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The text describes cells as being 'for invading', indicating a potential or purpose, but the rewrite definitively states that they 'invade'.",
+      "sourcePassage": "shedding cells for invading into other parts of the body.",
+      "rewritePassage": "shedding cells that invade other parts of the body."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite narrows the claim that cervical screening is the best by restricting it only to the screening methods discussed.",
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "rewritePassage": "Of the screening methods discussed, cervical screening is the best."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds a link ('such as') to indicate that showing symptoms is an example of a reason, which the text does not state.",
+      "sourcePassage": "or there's some reason if you're showing symptoms.",
+      "rewritePassage": "or some other reason, such as the patient showing symptoms."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The text contains a grammatically disconnected statement linking people who go for screening with a false positive rate. The rewrite makes this clear by choosing an interpretation that the people are 'affected by' the false positive rate.",
+      "sourcePassage": "because many of the people that do go for screening and then for further treatment, it has a very, very high false positive rate.",
+      "rewritePassage": "because many of the people who go for screening and then for further treatment are affected by a very high false positive rate."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "this is an ulcerated cauliflower structure,",
+      "reason": "Adding '-like' to 'cauliflower' uses different words with exactly the same meaning."
+    },
+    {
+      "sourcePassage": "it has a very, very high false positive rate.",
+      "reason": "Dropping the repetition of the word 'very' is an allowed change."
+    },
+    {
+      "sourcePassage": "It is not a very, very good test,",
+      "reason": "Dropping the repetition of the word 'very' is an allowed change."
+    }
+  ]
+}

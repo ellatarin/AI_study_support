@@ -1,0 +1,39 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite changes what ranges from molecular mechanisms to the patient experience. In the text, it is the students' differing interests that span these topics, whereas the rewrite states that the lectures themselves range across these topics.",
+      "sourcePassage": "Because from the molecular mechanisms to the patient experience and to the evolution of personalized medicine and what that entails, you're all going to be having different things that you're interested in.",
+      "rewritePassage": "from the lectures, which range from molecular mechanisms to the patient experience and the evolution of personalized medicine and what that entails."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds a link of inclusion by stating that recognizing invasion and metastasis \"involves\" comparing benign and malignant tumours, whereas the text only uses \"So\" to connect the two statements as consecutive actions or consequences.",
+      "sourcePassage": "And then really, the big takeaway message from today is going to be the ability to recognize what invasion and metastasis looks like with regard to the start of the tumor to the end point. So you're going to be comparing the differences between benign and malignant tumors",
+      "rewritePassage": "The main takeaway message of the lecture is the ability to recognize what invasion and metastasis look like, from the start of the tumour to the end point. This involves comparing benign and malignant tumours."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite turns a statement about the students' future capability to make a visual link into a passive statement that the link is made in the practicals.",
+      "sourcePassage": "So you're going to be able to link this visually in the practicals.",
+      "rewritePassage": "This is linked visually in the practicals."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "because it has such an impact",
+      "reason": "The rewrite omits this repetition at the end of the sentence because it already included the same point in the preceding sentence."
+    },
+    {
+      "sourcePassage": "that you're going to be able to come up with.",
+      "reason": "The rewrite changes this to \"that can be developed,\" which is an allowed stylistic paraphrase."
+    },
+    {
+      "sourcePassage": "to look from of the progression of tumor",
+      "reason": "The text contains garbled phrasing, which the rewrite legitimately corrects to \"following the progression of a tumour\" to clarify the grammar and meaning."
+    }
+  ]
+}

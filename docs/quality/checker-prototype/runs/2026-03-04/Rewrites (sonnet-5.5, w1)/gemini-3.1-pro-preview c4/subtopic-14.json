@@ -1,0 +1,24 @@
+{
+  "subtopicId": 14,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, so what does this look like in the clinic? [chuckles] I call this the four horsemen.",
+      "reason": "The rewrite changes the first-person phrasing and question to a passive statement ('the presentation of cancer can be summarised as'). This drops the conversational style but exactly preserves the meaning and the subject matter."
+    },
+    {
+      "sourcePassage": "But very much, tumors can be indirect",
+      "reason": "The rewrite says 'Tumours can also present indirectly'. This uses more appropriate terminology ('present' instead of 'be') with exactly the same meaning."
+    },
+    {
+      "sourcePassage": "So in thinking about this, we try to jump the gun and try to screen",
+      "reason": "The rewrite translates 'So in thinking about this' to 'For this reason, the approach is to'. 'So' functions as a causal link in the source text, making 'For this reason' a valid rephrasing."
+    },
+    {
+      "sourcePassage": "before it becomes malignant, before it becomes something that's very, very hard to treat, and there's diminishing returns on said treatment.",
+      "reason": "The rewrite uses 'when there are diminishing returns' instead of 'and there's diminishing returns'. Both phrases locate the 'diminishing returns' at the later stage when the cancer has become malignant and very hard to treat, meaning the logic is completely preserved. The repeated 'very' is treated as a dropped repetition."
+    }
+  ]
+}

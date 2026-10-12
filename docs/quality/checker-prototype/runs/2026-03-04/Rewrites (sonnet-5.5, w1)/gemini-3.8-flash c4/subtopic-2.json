@@ -1,0 +1,33 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds 'that is', explicitly defining acetylation or deacetylation as the state of transcription within the cell, whereas the text merely juxtaposes the two phrases without stating that they are the same.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The text states that 'they' (referring to the human viruses) can predispose to chronic inflammatory events, whereas the rewrite changes and broadens the cause to 'infection'.",
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events",
+      "rewritePassage": "There are about seven different human viruses that precipitate cancer, and infection can also predispose to chronic inflammatory events"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "I'm sure you've seen a cartoon that looks like this many times.",
+      "reason": "Rendered as 'the familiar cartoon', which retains the same meaning while dropping direct address to the audience."
+    },
+    {
+      "sourcePassage": "So I've just made this kind of a much simpler diagram, if you like.",
+      "reason": "Rendered impersonally as 'A much simpler diagram can be made', which conveys the same subject matter in textbook style."
+    },
+    {
+      "sourcePassage": "So there's a lot of changes that occur, and as I said, we don't know pretty much because of this when they occur.",
+      "reason": "Rendered faithfully as 'Many changes therefore occur, and because of this it is largely not known when they occur.'"
+    }
+  ]
+}

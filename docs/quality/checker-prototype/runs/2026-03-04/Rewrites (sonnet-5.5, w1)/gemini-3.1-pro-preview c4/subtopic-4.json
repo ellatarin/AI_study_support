@@ -1,0 +1,31 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite asserts that the slice through the tumour illustrates the practice of explanting it, which the text does not state. The text merely introduces the image of the slice next to the statement about explanting, and the rewrite turns pointing words into a description that the lecturer did not give.",
+      "sourcePassage": "Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "rewritePassage": "A slice through a tumour, with a stain to show the morphology, illustrates this [FIGURE]."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "This is a remark to the audience and was correctly omitted."
+    },
+    {
+      "sourcePassage": "as you might imagine",
+      "reason": "This is filler and was correctly omitted."
+    },
+    {
+      "sourcePassage": "other things",
+      "reason": "Replaced with 'other components', which uses different words with exactly the same meaning in this context."
+    },
+    {
+      "sourcePassage": "So when HeLa cells, which were the first tumor cells to grow in culture, did that, this was very much a surprise.",
+      "reason": "The rewrite changes the structure to 'HeLa cells were the first tumour cells to grow in culture, and so this was very much a surprise', which drops 'did that' but retains exactly the same meaning."
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The term 'site' was changed to 'route'.",
+      "sourcePassage": "or also this transcoelomic site from across a cavity",
+      "rewritePassage": "or by a transcoelomic route, across a cavity"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The hedge 'I think' was removed from the scientific claim.",
+      "sourcePassage": "And I think one of the tumors that does this quite frequently is ovarian cancer, for example.",
+      "rewritePassage": "One tumour that does this quite frequently is ovarian cancer, for example."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "Omitted as allowed conversational remark and personal reminder to the audience."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here, and then you can often see sometimes the tumor cells are actually present within a lymphatic duct.",
+      "reason": "'You see your tumor cells are here' is conversational pointing at the slide rather than a distinct factual claim omitted from the rewrite."
+    },
+    {
+      "sourcePassage": "which will be quite difficult for the patient, if not lethal.",
+      "reason": "Changing 'will' to 'would' is an allowed grammatical adjustment fitting the conditional/hypothetical prose context."
+    }
+  ]
+}

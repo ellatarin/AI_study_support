@@ -1,0 +1,33 @@
+{
+  "subtopicId": 7,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite turns the lecturer's pointing words into a description of the tumour's physical position relative to the uterus that the lecturer did not explicitly state.",
+      "sourcePassage": "You can see that the tumor is here. This is the outer surface of the uterus.",
+      "rewritePassage": "The tumour lies next to the outer surface of the uterus,"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite changes the term 'circumspect' to 'circumscribed'. Although it is likely what the lecturer meant, substituting a different term that changes the literal wording to make the statement complete/clear is a forbidden distortion.",
+      "sourcePassage": "circumspect",
+      "rewritePassage": "circumscribed"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "These are quite rare.",
+      "reason": "The rewrite turns this plural into 'which is quite rare' referring to 'a malignant case'. This preserves the meaning correctly."
+    },
+    {
+      "sourcePassage": "So that is what invasion would look like,",
+      "reason": "This is a repetition of the preceding sentence ('So you can see this is what the invasion looks like') and is an allowed omission."
+    },
+    {
+      "sourcePassage": "necessarily",
+      "reason": "The word 'necessarily' was dropped from 'difficult to necessarily find', which is an allowed change that removes awkward phrasing without altering the core meaning."
+    }
+  ]
+}

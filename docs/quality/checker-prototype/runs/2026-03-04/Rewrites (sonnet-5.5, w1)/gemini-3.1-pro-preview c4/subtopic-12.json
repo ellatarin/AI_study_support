@@ -1,0 +1,43 @@
+{
+  "subtopicId": 12,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds a causal link ('because'), stating that benign tumours are extremely common because it takes a great deal for them to become malignant, which the text does not state.",
+      "sourcePassage": "So benign tumors are actually incredibly common. Right? So it actually takes a lot for a benign tumor to become malignant",
+      "rewritePassage": "Benign tumours are extremely common, because it takes a great deal for a benign tumour to become malignant"
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite states that moles are overgrowths of tissues. The text states that lipomas, fibroids, and warts are overgrowths of tissues, but mentions moles separately afterwards without applying this description to them.",
+      "sourcePassage": "you'll see things like lipomas. There are fibroids that we were talking about, warts. All of these are overgrowths of tissues. Moles, I mean, who doesn't have moles?",
+      "rewritePassage": "Examples include lipomas, fibroids, warts and moles, all of which are overgrowths of tissues."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite replaces the pointing word 'this' with 'A further slide', which is a description that the lecturer did not give.",
+      "sourcePassage": "And then this is, if you like, the percentage of tumors that result in deaths.",
+      "rewritePassage": "A further slide shows the percentage of tumours that result in deaths."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So just talking about incidence, about how often various tumors arise.",
+      "reason": "The rewrite says 'Incidence describes how often...', which accurately treats the apposition in the text as a definition, avoiding an unwarranted change."
+    },
+    {
+      "sourcePassage": "But malignant tumors, for example, originating from mesenchymal lineage cell types, they're extremely rare.",
+      "reason": "The omission of 'for example' does not alter the factual meaning, as the rewrite still identifies mesenchymal origin tumours as a specific subset of malignant tumours."
+    },
+    {
+      "sourcePassage": "So I've just put these numbers up just so that you can have a sense.",
+      "reason": "The rewrite's addition of 'of incidence' safely contextualises the statement by recalling the defined topic established in the lecture's opening sentence."
+    },
+    {
+      "sourcePassage": "So, and just a-- Oops. Oh, God. It doesn't go backwards. Here we go.",
+      "reason": "These remarks are dropped filler and false starts regarding the presentation slides, which is an allowed change."
+    }
+  ]
+}

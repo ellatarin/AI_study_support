@@ -1,0 +1,37 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite inserts the causal word 'therefore' to link the small size of the niche to the tumour interfering with the bone marrow, whereas the text merely places the two statements next to each other without explicitly stating that one causes the other.",
+      "sourcePassage": "This niche is not very big. This will interfere with your bone marrow",
+      "rewritePassage": "This niche is not very big. The tumour will therefore interfere with the bone marrow"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "A meningioma is a type of tumour, but the rewrite describes it as an anatomical location in which a tumour occurs ('when the tumour occurs in a meningioma'), altering the grammatical and functional role of the term.",
+      "sourcePassage": "Only 10% of these deaths, generally, if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "rewritePassage": "when the tumour occurs in a meningioma or in the liver."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "And if you think about them in the different settings in which they occur",
+      "reason": "The sentence 'Other effects depend on the site' carries forward the lecturer's earlier statement about different settings/sites to structure the subsequent examples, rather than introducing a new substantive fact."
+    },
+    {
+      "sourcePassage": "tumors in bones lead to erosion of that bone function",
+      "reason": "'erosion of the bone' conveys the same meaning as 'erosion of that bone function', especially since the lecturer later refers to 'erosion of bones'."
+    },
+    {
+      "sourcePassage": "And also this competition with the normal",
+      "reason": "Expanding 'the normal' to 'normal tissue' clarifies the elliptical phrasing while preserving the intended meaning in the context of cell competition."
+    },
+    {
+      "sourcePassage": "you saw that enormous cauliflower structure within the colon",
+      "reason": "'the enormous cauliflower-like structure seen within the colon' retains the lecturer's description of a slide or specimen while adapting spoken lecture phrasing to written prose."
+    }
+  ]
+}

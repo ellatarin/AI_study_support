@@ -1,0 +1,79 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds the contrastive word 'whereas' to state a link between a meningioma causing pressure and a lung carcinoma causing blockage, which the text simply juxtaposes.",
+      "sourcePassage": "things like a meningioma will cause pressure. Things like a lung carcinoma will cause blockage.",
+      "rewritePassage": "a meningioma will cause pressure, whereas a lung carcinoma will cause blockage."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite uses 'which' to state a causal link, making the build-up of secretions the cause of breathing difficulties and the breeding ground for infection. In the text, these are listed independently alongside the build-up as parallel effects.",
+      "sourcePassage": "this builds up secretions within the lungs, makes it harder for people to breathe, is a breeding ground for infection.",
+      "rewritePassage": "this leads to a build-up of secretions within the lungs, which makes breathing harder and provides a breeding ground for infection."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite introduces a general statement that other effects depend on the site, which the lecturer did not state.",
+      "sourcePassage": null,
+      "rewritePassage": "Other effects depend on the site."
+    },
+    {
+      "deficiencyType": "omission",
+      "description": "The rewrite omits the word 'function' when describing what tumours in the bones erode.",
+      "sourcePassage": "erosion of that bone function",
+      "rewritePassage": "erosion of the bone"
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite uses a colon to state a link between ulceration and the cauliflower-like structure, implying one explains or defines the other, whereas the text just lists them sequentially without a stated link.",
+      "sourcePassage": "Also ulceration, you saw that enormous cauliflower structure within the colon.",
+      "rewritePassage": "Ulceration is another effect: the enormous cauliflower-like structure seen within the colon"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite clarifies the text's incomplete phrase 'the normal' by specifying 'normal tissue', choosing one clear reading.",
+      "sourcePassage": "this competition with the normal",
+      "rewritePassage": "Competition with normal tissue"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite clarifies the text's unclear statement 'these will interfere' by specifying that the tumour will interfere with the haematopoietic stem cells, choosing one clear reading.",
+      "sourcePassage": "the hematopoietic stem cells that are there, these will interfere.",
+      "rewritePassage": "where the haematopoietic stem cells are located, will interfere with them."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds the word 'therefore' to state a causal link between the niche not being very big and the tumour interfering with the bone marrow, which the text does not state.",
+      "sourcePassage": "This niche is not very big. This will interfere with your bone marrow",
+      "rewritePassage": "This niche is not very big. The tumour will therefore interfere with the bone marrow"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite distorts the text by stating that a tumour occurs 'in a meningioma', whereas the text refers to the meningioma itself as an example of a tumour.",
+      "sourcePassage": "if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "rewritePassage": "when the tumour occurs in a meningioma or in the liver."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Well, as I was hinting at, it interferes with normal functions.",
+      "reason": "Replacing the pronoun 'it' with its unambiguous antecedent 'cancer' is an allowed change that does not alter the meaning."
+    },
+    {
+      "sourcePassage": "This all sounds very terrible in terms of ways in which to die. So there's lots of pain and debilitation,",
+      "reason": "The text uses 'So' to link the terrible ways to die with the specific symptoms, which the rewrite equivalently represents using a colon, adding no new link."
+    },
+    {
+      "sourcePassage": "As I said, the bone marrow will fail altogether",
+      "reason": "Dropping the conversational repetition 'As I said' is an allowed omission of a remark to the audience."
+    },
+    {
+      "sourcePassage": "So it's not very good.",
+      "reason": "This is a filler remark by the lecturer, and dropping such remarks is an allowed change."
+    }
+  ]
+}

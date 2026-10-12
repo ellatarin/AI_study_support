@@ -1,0 +1,27 @@
+{
+  "subtopicId": 10,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite explicitly matches lipomas to fat and leiomyomas to smooth muscle, clarifying an incomplete and unclear statement of the text.",
+      "sourcePassage": "So the fat, smooth muscle or papillomas in the skin",
+      "rewritePassage": "lipomas in fat, leiomyomas in smooth muscle, papillomas in the skin"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Okay? So just so that we're all on the same page in terms of nomenclature,",
+      "reason": "This is introductory filler and a remark to the audience, which is allowed to be dropped."
+    },
+    {
+      "sourcePassage": "things like",
+      "reason": "This is a filler phrase rather than a scientific hedge in this context, so it is allowed to be removed."
+    },
+    {
+      "sourcePassage": "So these are these different tumor types",
+      "reason": "This is a summarizing repetition/filler, so it was permissibly dropped."
+    }
+  ]
+}

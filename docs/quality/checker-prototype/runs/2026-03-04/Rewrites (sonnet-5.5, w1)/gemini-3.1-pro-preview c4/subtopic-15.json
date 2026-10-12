@@ -1,0 +1,39 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite turns the lecturer's pointing words into a spatial description ('alongside it') that the lecturer did not give.",
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "rewritePassage": "and the cervix is seen alongside it."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The text makes an unclear or incomplete statement that the canal 'goes between' the singular 'neck of the womb'. The rewrite makes this statement clear by choosing the reading 'runs through', which is forbidden.",
+      "sourcePassage": "here is the endocervical canal that it goes between the neck of the womb.",
+      "rewritePassage": "the endocervical canal runs through the neck of the womb,"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite changes the verb 'is' to 'has', and changes the verb 'has' to 'form'. This alters the stated relationships between the ectocervix, its squamous cells, and the protective layer.",
+      "sourcePassage": "which is more squamous cells, which has more of a protective layer,",
+      "rewritePassage": "has more squamous cells, which form more of a protective layer"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "because this is what is so interesting to look at,",
+      "reason": "This is a remark to the audience / filler, which can be dropped."
+    },
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here,",
+      "reason": "The lecturer is pointing to specific examples in the figure to illustrate the general rule that mitotic cells occur at the basement layer. The rewrite states the general rule, and omitting the pointing at specific examples is allowed."
+    },
+    {
+      "sourcePassage": "So this has done very well.",
+      "reason": "This is a repetition of the idea that screening is a success story due to the rates of death coming down, which is adequately covered in the rewrite."
+    }
+  ]
+}

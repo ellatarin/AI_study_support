@@ -1,0 +1,24 @@
+{
+  "subtopicId": 14,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, so what does this look like in the clinic?",
+      "reason": "Rendered as 'In the clinic, the presentation of cancer can be summarised as...', which converts the rhetorical question and colloquial phrasing into standard academic style while preserving the meaning given the topic."
+    },
+    {
+      "sourcePassage": "tumors can be indirect",
+      "reason": "Rendered as 'Tumours can also present indirectly', which is standard clinical terminology for the same concept."
+    },
+    {
+      "sourcePassage": "So in thinking about this",
+      "reason": "Rendered as 'For this reason', which faithfully represents the transitional and causal link established by 'So' in the source text."
+    },
+    {
+      "sourcePassage": "how you might roll this out across a population",
+      "reason": "Rendered as 'how screening might be rolled out across a population', where 'screening' clarifies the demonstrative pronoun 'this' directly referring to screening introduced in the preceding sentence."
+    }
+  ]
+}

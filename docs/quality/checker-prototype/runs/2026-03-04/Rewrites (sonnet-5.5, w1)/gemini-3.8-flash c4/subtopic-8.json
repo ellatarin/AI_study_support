@@ -1,0 +1,53 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer says 'So it's defined as...', leaving the referent of 'it' ambiguous between 'invasion' and 'malignancy'. The rewrite resolves this unclear statement by specifying that 'malignancy' is defined as the ability to invade surrounding tissue.",
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "rewritePassage": "Invasion and malignancy are very important diagnostically, and malignancy is defined as the ability to invade the surrounding tissue."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The text merely places two statements next to each other ('many of them never metastasize. They never survive in the secondary site.'). The rewrite adds the causal conjunction 'because', creating an explicit causal link that the text did not state.",
+      "sourcePassage": "many of them never metastasize. They never survive in the secondary site.",
+      "rewritePassage": "Many never metastasise, because they never survive at the secondary site."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite replaces the lecturer's pointing word 'this' with 'Invasion', adding a specific description that the lecturer did not state.",
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "rewritePassage": "Invasion is therefore probably an obligatory step in arriving at a malignant, metastasising tumour."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite turns the lecturer's pointing phrase 'over here' into the descriptive phrase 'Elsewhere in the same lesion', asserting that it is part of the same lesion, which the lecturer did not specify.",
+      "sourcePassage": "You'll see that over here you have the adenoma which has progressed into an adenocarcinoma.",
+      "rewritePassage": "Elsewhere in the same lesion is the adenoma, which has progressed into an adenocarcinoma"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "But the question is, of course, you would then be interested in figuring out whether or not there would be secondary metastases across the body.",
+      "reason": "Omitted as a rhetorical remark/transition to the audience before returning to the slide description; metastasis is discussed in detail in subsequent paragraphs."
+    },
+    {
+      "sourcePassage": "Obviously, again, you're limited into where you're biopsying and what that looks like.",
+      "reason": "'and what that looks like' was dropped as conversational filler accompanying the limitation of biopsy location."
+    },
+    {
+      "sourcePassage": "and you'll be able to look at this in great detail in the practicals",
+      "reason": "Dropped as a remark about the course/practicals."
+    },
+    {
+      "sourcePassage": "and it's important for you to look at this within the practicals as well",
+      "reason": "Dropped as a remark about the course/practicals."
+    },
+    {
+      "sourcePassage": "muscularis mucosa",
+      "reason": "Replaced by 'muscularis mucosae' in accordance with the provided term correction."
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "omission",
+      "description": "The rewrite omits the lecturer's statement about being interested in figuring out whether there would be secondary metastases across the body.",
+      "sourcePassage": "But the question is, of course, you would then be interested in figuring out whether or not there would be secondary metastases across the body.",
+      "rewritePassage": null
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The text uses the ambiguous pronoun 'it's', which could refer to invasion or malignancy. The rewrite makes this unclear statement clear by specifying 'malignancy'.",
+      "sourcePassage": "So it's defined as the ability to invade the surrounding tissue.",
+      "rewritePassage": "and malignancy is defined as the ability to invade the surrounding tissue."
+    },
+    {
+      "deficiencyType": "omission",
+      "description": "The rewrite omits the limitation regarding 'what that looks like' when discussing the biopsy.",
+      "sourcePassage": "and what that looks like.",
+      "rewritePassage": "The diagnosis is limited by where the biopsy is taken."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The text places two statements next to each other. The rewrite links them with 'because', stating a causal link not explicitly given in the text.",
+      "sourcePassage": "but many of them never metastasize. They never survive in the secondary site.",
+      "rewritePassage": "Many never metastasise, because they never survive at the secondary site."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite turns the pointing word 'this' into the description 'Invasion', which the lecturer did not give.",
+      "sourcePassage": "So this is probably an obligatory step",
+      "rewritePassage": "Invasion is therefore probably an obligatory step"
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite turns the pointing word 'this' into the description 'a lesion', which the lecturer did not give.",
+      "sourcePassage": "because this is not necessarily an adenoma",
+      "rewritePassage": "because a lesion is not necessarily an adenoma"
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite turns the pointing phrase 'over here' into the description 'Elsewhere in the same lesion', which the lecturer did not give.",
+      "sourcePassage": "You'll see that over here you have the adenoma",
+      "rewritePassage": "Elsewhere in the same lesion is the adenoma"
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds the phrase 'from their appearance' and links two consecutive statements with 'since', neither of which was stated in the text.",
+      "sourcePassage": "You wouldn't necessarily be able to say anything on two words about either of these. They both look like little cauliflowers that are sticking out into the lumen.",
+      "rewritePassage": "Nothing could necessarily be said about either from their appearance, since both look like little cauliflowers sticking out into the lumen."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So our question is, what is going on here?",
+      "reason": "This is a rhetorical question that acts as filler, as it is immediately followed by the specific questions the lecturer intends to ask, so dropping it is an allowed change."
+    },
+    {
+      "sourcePassage": "Okay, so here you see everything that's on a stalk. You're looking again at the normal epithelium, and you're looking at the basement membrane here to understand whether or not any invasion has occurred.",
+      "reason": "This repeats the immediately preceding statement about examining the normal epithelium and muscularis mucosae for invasion, so omitting it is allowed as dropping a repetition."
+    },
+    {
+      "sourcePassage": "The submucosa is here",
+      "reason": "The rewrite changes this to 'the submucosa lies beneath it', adding a spatial relationship, but this relationship was already explicitly stated earlier in the text ('under here the submucosa'), so it is not an unsourced addition."
+    }
+  ]
+}

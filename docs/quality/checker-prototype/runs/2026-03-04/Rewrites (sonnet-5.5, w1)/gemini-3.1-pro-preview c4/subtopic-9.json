@@ -1,0 +1,33 @@
+{
+  "subtopicId": 9,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite changes the specific subject 'this meningioma' to a general subject 'A meningioma', which widens the scope of the claim from a specific instance to meningiomas in general.",
+      "sourcePassage": "So this meningioma obviously is occurring within the skull.",
+      "rewritePassage": "A meningioma occurs within the skull,"
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds the word 'so' to explicitly state a causal link between the skull being a confined space and the tumour putting pressure on the brain, whereas the text only places the statements next to each other.",
+      "sourcePassage": "The skull is a confined space. This would put an enormous amount of pressure",
+      "rewritePassage": "which is a confined space, so it puts an enormous amount of pressure"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "everybody gets very nervous about what that diagnosis is going to look like.",
+      "reason": "Paraphrasing this to 'there is considerable anxiety about the diagnosis' uses different words with exactly the same meaning, which is allowed."
+    },
+    {
+      "sourcePassage": "But things like the smooth muscle fibroid that I showed you,",
+      "reason": "Changing this to 'whereas a smooth muscle fibroid, as shown earlier' is a valid paraphrase that uses different words with the same meaning and correctly translates the lecturer's reference to the slide."
+    },
+    {
+      "sourcePassage": "So things like meningiomas can cause that.",
+      "reason": "The rewrite changes this to 'Meningiomas can therefore have this effect', which correctly keeps the meaning of the result link ('So' to 'therefore') and the reference ('that' to 'this effect')."
+    }
+  ]
+}

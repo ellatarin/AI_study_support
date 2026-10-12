@@ -16,6 +16,69 @@ type CheckerPromptVersion = {
 	readonly prompt: (name: string) => string;
 };
 
+/** The section that says what the user message holds, the same in each version. */
+const WHAT_YOU_GET = `# What you get
+
+The user message is one JSON object:
+- "text" is what the lecturer said, before term correction.
+- "corrections" is the list of term corrections. Each has "wrongForm", the form in "text", "rightForm", the form that replaced it, and "reason".
+- "rewrite" is the list of paragraphs that the writer wrote.`;
+
+/**
+ * Builds the line that allows a spelling of the notes' language, the same in each version.
+ *
+ * @param name - The name of the notes' language.
+ * @returns The line.
+ */
+function spellingAllowance(name: string): string {
+	return `- A spelling of ${name} in place of another spelling of the same word, such as "colour" for "color". The text has the transcriber's spelling, which can differ.`;
+}
+
+/**
+ * Builds the task section of the versions from c3, which judge the rewrite
+ * without the writer's rules.
+ *
+ * @param name - The name of the notes' language.
+ * @returns The section.
+ */
+function lecturerTask(name: string): string {
+	return `# Task
+
+You check a rewrite of one part of a university lecture. The source is what the lecturer said, as a speech-to-text transcriber wrote it. An earlier step corrected some technical terms that the transcriber misheard. A writer then wrote the corrected text as textbook prose in ${name}. Find each place where the rewrite does not say what the lecturer said. Do not rewrite or correct anything.`;
+}
+
+/** The line of the versions from c3 that allows dropped material that is not subject matter. */
+const NOT_SUBJECT_MATTER_ALLOWANCE =
+	"- Dropped filler, false starts, repetitions, jokes, remarks to the audience, and statements about the course or the lecture. When such a passage also states subject matter, a dropped statement is an omission.";
+
+/** The line of the versions from c3 that allows changes of form. */
+const FORM_ALLOWANCE = "- A [FIGURE] mark, the order of the points, the paragraphs, style and grammar.";
+
+/** The considerations and reply format sections of the versions from c3, which ask for both quotes and no rule. */
+const QUOTED_REPLY = `# Considerations
+
+For each passage that you examined and did not report, add a consideration with the reason.
+
+# Reply format
+
+Reply with a single JSON object and nothing else, in this exact shape:
+
+{
+  "deficiencies": [
+    {
+      "deficiencyType": "omission" or "distortion" or "unsourced-addition",
+      "description": what is wrong,
+      "sourcePassage": the words of "text" that the fault is about, copied exactly. For an unsourced addition, the words of "text" that the addition is built on, or null when there are none,
+      "rewritePassage": the words of the rewrite that the fault is about, copied exactly. For an omission, the words of the rewrite where the fact should be, or null when there are none
+    }
+  ],
+  "considerations": [
+    { "sourcePassage": the words of "text", copied exactly, "reason": why you did not report it }
+  ]
+}
+
+An empty "deficiencies" list means that the rewrite is faithful.`;
+
 const CHECKER_PROMPTS: Readonly<Record<string, CheckerPromptVersion>> = {
 	c2: {
 		changed:
@@ -24,12 +87,7 @@ const CHECKER_PROMPTS: Readonly<Record<string, CheckerPromptVersion>> = {
 
 You check a rewrite of one part of a university lecture. The source is what the lecturer said, as a speech-to-text transcriber wrote it. An earlier step corrected some technical terms that the transcriber misheard. A writer then wrote the corrected text as textbook prose. Find each place where the rewrite is not faithful to the source. Do not rewrite or correct anything.
 
-# What you get
-
-The user message is one JSON object:
-- "text" is what the lecturer said, before term correction.
-- "corrections" is the list of term corrections. Each has "wrongForm", the form in "text", "rightForm", the form that replaced it, and "reason".
-- "rewrite" is the list of paragraphs that the writer wrote.
+${WHAT_YOU_GET}
 
 # The writer's rules
 
@@ -87,7 +145,7 @@ Treat each correction as right. Do not judge a correction. A rewrite that uses t
 - A [FIGURE] mark where the lecturer points at a slide.
 - Dropped filler, false starts, repetitions that add nothing, jokes, remarks to the audience and course arrangements. When such a passage also states subject matter, a dropped statement is an omission.
 - Different words that keep the meaning, the terms and the certainty exactly.
-- A spelling of ${name} in place of another spelling of the same word, such as "colour" for "color". The text has the transcriber's spelling, which can differ.
+${spellingAllowance(name)}
 - The order of the points, the paragraphs, style and grammar.
 - A fact that the rewrite could explain better. Report only what is missing, wrong or added.
 
@@ -119,16 +177,9 @@ An empty "deficiencies" list means that the rewrite is faithful.`,
 	c3: {
 		changed:
 			"Drops the writer's rules for one test: would a student learn something different. Names causal, defining and equating links, says that a link can be one word, drops the rule field and asks for the quote of an omission and of an unsourced addition.",
-		prompt: (name) => `# Task
+		prompt: (name) => `${lecturerTask(name)}
 
-You check a rewrite of one part of a university lecture. The source is what the lecturer said, as a speech-to-text transcriber wrote it. An earlier step corrected some technical terms that the transcriber misheard. A writer then wrote the corrected text as textbook prose in ${name}. Find each place where the rewrite does not say what the lecturer said. Do not rewrite or correct anything.
-
-# What you get
-
-The user message is one JSON object:
-- "text" is what the lecturer said, before term correction.
-- "corrections" is the list of term corrections. Each has "wrongForm", the form in "text", "rightForm", the form that replaced it, and "reason".
-- "rewrite" is the list of paragraphs that the writer wrote.
+${WHAT_YOU_GET}
 
 # What you report
 
@@ -145,34 +196,65 @@ Treat each correction as right. A rewrite that uses the right form of a correcti
 # What you do not report
 
 Do not report a change that leaves the scientific content as it was. Examples:
-- Dropped filler, false starts, repetitions, jokes, remarks to the audience, and statements about the course or the lecture. When such a passage also states subject matter, a dropped statement is an omission.
+${NOT_SUBJECT_MATTER_ALLOWANCE}
 - Different words with the same meaning.
-- A spelling of ${name} in place of another spelling of the same word, such as "colour" for "color". The text has the transcriber's spelling, which can differ.
-- A [FIGURE] mark, the order of the points, the paragraphs, style and grammar.
+${spellingAllowance(name)}
+${FORM_ALLOWANCE}
 
-# Considerations
+${QUOTED_REPLY}`,
+	},
+	c4: {
+		changed:
+			"Adds a Process section that compares one statement at a time and reports a change when in doubt. Splits the faults into Forbidden changes and Allowed changes. Names a link that the text only suggests, a cause that becomes wider or narrower, a term with a changed role, an unclear statement made clear, and what a figure shows. Gives two example words of a link. Asks for exactly the same meaning. Has no allowance for the repair of a misheard word.",
+		prompt: (name) => `${lecturerTask(name)}
 
-For each passage that you examined and did not report, add a consideration with the reason.
+${WHAT_YOU_GET}
 
-# Reply format
+# Process
 
-Reply with a single JSON object and nothing else, in this exact shape:
+1. Read the text and the rewrite.
+2. Take each statement of the text in turn. Find the statement in the rewrite. Compare the two.
+3. Take each statement of the rewrite in turn. Find its source in the text. Compare the two.
+4. For each difference, find it in "Forbidden changes" or in "Allowed changes".
+5. Report each forbidden change. When you are not sure whether a change is forbidden, report it.
 
-{
-  "deficiencies": [
-    {
-      "deficiencyType": "omission" or "distortion" or "unsourced-addition",
-      "description": what is wrong,
-      "sourcePassage": the words of "text" that the fault is about, copied exactly. For an unsourced addition, the words of "text" that the addition is built on, or null when there are none,
-      "rewritePassage": the words of the rewrite that the fault is about, copied exactly. For an omission, the words of the rewrite where the fact should be, or null when there are none
-    }
-  ],
-  "considerations": [
-    { "sourcePassage": the words of "text", copied exactly, "reason": why you did not report it }
-  ]
-}
+Do not judge a paragraph as a whole. A paragraph of the rewrite can keep the main points of the text and still change one statement. A student who reads that paragraph learns the changed statement.
 
-An empty "deficiencies" list means that the rewrite is faithful.`,
+# Forbidden changes
+
+Report each of these changes, even when the changed statement is true.
+
+## Omissions
+
+- A fact, an observation, a step of reasoning or a causal link of the text is not in the rewrite.
+- What the lecturer says that a figure shows is not in the rewrite. A statement of what a figure shows is subject matter, not a remark to the audience.
+
+## Unsourced additions
+
+- The rewrite states a fact that the text does not state.
+- The rewrite states a link between two statements, and the text does not state that link. A link can be a cause, a result, a definition, or a statement that two things are the same.
+- One word can state a link. For example, "hence" states a cause, and "namely" states that two things are the same. A rewrite that adds such a word adds a link.
+- When the text only puts two statements next to each other, the text does not state a link between them.
+- The rewrite turns the lecturer's pointing words, such as "here" and "this", into a description that the lecturer did not give.
+
+## Distortions
+
+- A changed term, name or number.
+- A causal claim with a changed cause or effect. A cause that becomes wider or narrower is a changed cause.
+- A term that keeps its words but gets a different role in the sentence.
+- A hedge removed from a scientific claim.
+- An unclear or incomplete statement of the text that the rewrite makes clear or complete. The rewrite chose one reading, even when that reading is likely.
+
+# Allowed changes
+
+Do not report these changes:
+${NOT_SUBJECT_MATTER_ALLOWANCE}
+- Different words with exactly the same meaning.
+${spellingAllowance(name)}
+${FORM_ALLOWANCE}
+- The right form of a term correction in place of its wrong form. Treat each correction as right.
+
+${QUOTED_REPLY}`,
 	},
 };
 

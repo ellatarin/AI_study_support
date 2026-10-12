@@ -1,0 +1,33 @@
+{
+  "subtopicId": 12,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite introduces an unsourced causal link ('because'), claiming that benign tumours are extremely common because it takes a great deal for them to become malignant.",
+      "sourcePassage": "So benign tumors are actually incredibly common. Right? So it actually takes a lot for a benign tumor to become malignant in terms of, as I said, the number of changes that have to happen within a tumor.",
+      "rewritePassage": "Benign tumours are extremely common, because it takes a great deal for a benign tumour to become malignant, given the number of changes that have to happen within a tumour."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite turns the lecturer's pointing word 'this' into the specific description 'A further slide', which the lecturer did not state.",
+      "sourcePassage": "And then this is, if you like, the percentage of tumors that result in deaths.",
+      "rewritePassage": "A further slide shows the percentage of tumours that result in deaths."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So I've just put these numbers up just so that you can have a sense.",
+      "reason": "The rewrite's phrasing 'The numbers shown give a sense of incidence' draws directly on the lecturer's introductory framing ('talking about incidence, about how often various tumors arise') and does not introduce an unsourced concept."
+    },
+    {
+      "sourcePassage": "So liver cancer and nasopharyngeal carcinomas are very big in Chinese populations.",
+      "reason": "The rewrite renders 'very big' as 'very common', which uses different words with the same meaning in this epidemiological context."
+    },
+    {
+      "sourcePassage": "So, and just a-- Oops. Oh, God. It doesn't go backwards. Here we go.",
+      "reason": "Omitted as allowed conversational filler, technical mishap, and remarks to the audience that do not convey subject matter."
+    }
+  ]
+}

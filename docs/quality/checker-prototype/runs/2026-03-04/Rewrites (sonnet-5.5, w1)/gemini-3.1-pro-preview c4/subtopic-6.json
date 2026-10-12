@@ -1,0 +1,41 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite changes the term 'site' to 'route', fixing an unclear statement in the text.",
+      "sourcePassage": "or also this transcoelomic site from across a cavity",
+      "rewritePassage": "or by a transcoelomic route, across a cavity"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite removes the hedge 'I think' from the scientific statement about ovarian cancer.",
+      "sourcePassage": "And I think one of the tumors that does this quite frequently is ovarian cancer",
+      "rewritePassage": "One tumour that does this quite frequently is ovarian cancer"
+    },
+    {
+      "deficiencyType": "omission",
+      "description": "The rewrite omits the lecturer's observation of the main tumour cells on the slide before noting their presence in the lymphatic duct.",
+      "sourcePassage": "You see your tumor cells are here, and then",
+      "rewritePassage": null
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite changes a definitive statement about a specific cell on a slide ('this tumor cell has') into a hypothetical, general statement ('a tumour cell may have').",
+      "sourcePassage": "this tumor cell has the appearance of an adenomatous tumor or glandular tumor.",
+      "rewritePassage": "a tumour cell may have the appearance of an adenomatous or glandular tumour,"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "This is dropped because it is a remark to the audience/lecturer's note to themselves, which is an allowed change."
+    },
+    {
+      "sourcePassage": "Similarly, here you have a brain, and what you have here is a breast cancer that's metastasized to the brain.",
+      "reason": "The pointing words 'here you have a brain' are omitted, but the fact that the secondary tumour is in the brain is fully preserved in the rewrite."
+    }
+  ]
+}
