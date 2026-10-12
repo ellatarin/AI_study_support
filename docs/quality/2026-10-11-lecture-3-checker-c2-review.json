@@ -410,5 +410,33 @@
 			"userVerdict": "does-not-matter",
 			"agentVerdict": "minor"
 		}
+	],
+	"addedFaults": [
+		{
+			"fault": "11.A",
+			"subtopicId": 11,
+			"deficiencyType": "distortion",
+			"description": "The rewrite mistakenly treats a meningioma as a location or organ where a tumour can occur, whereas a meningioma is itself a type of tumour.",
+			"sourcePassage": "if they're occurring in things like the meningioma that I was telling you about",
+			"rewritePassage": "when the tumour occurs in a meningioma",
+			"foundBy": [
+				"gemini-3.1-pro c2 (pipeline)",
+				"gemini-3.1-pro-preview c3",
+				"gemini-3.8-flash c3"
+			],
+			"userVerdict": "matters",
+			"agentVerdict": "useful"
+		},
+		{
+			"fault": "15.A",
+			"subtopicId": 15,
+			"deficiencyType": "distortion",
+			"description": "The rewrite turns the lecturer's qualified identification of the women still dying from cervical cancer into a categorical claim that all such women belong to one of these two groups.",
+			"sourcePassage": "but the, if you like, the women that are still dying of cervical cancer would be the ones that either are not followed up after their screen or that have declined screening altogether.",
+			"rewritePassage": "The women who are still dying of cervical cancer are those who are either not followed up after their screen or who have declined screening altogether.",
+			"foundBy": ["gpt-5.6-sol-pro c3"],
+			"userVerdict": "does-not-matter",
+			"agentVerdict": "minor"
+		}
 	]
 }

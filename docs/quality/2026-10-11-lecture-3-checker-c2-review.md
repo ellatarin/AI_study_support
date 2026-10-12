@@ -72,6 +72,17 @@ The user and the agent agree on every fault except fault 2.2.
 
 **Fault 2.2.** The lecturer said that about seven human viruses can predispose to chronic inflammation. The rewrite says that infection can. The agent judged the meaning almost the same. The user marked it *matters*. The user's verdict stands: the rewrite changes the subject of a causal claim, from one named agent to a wider class. So a change to the subject of a causal claim is a fault, also when the claim stays near to true.
 
+## Faults that later checkers found
+
+Other checkers ran on the same rewrites on 2026-10-12. The user marked two of their faults that checker c2 did not report. The `addedFaults` list of the data file holds them, with the checkers that found each one. The letter in the name shows that the fault is not one of the c2 checker's own.
+
+| Fault | Kind | The finding, in short | User | Agent |
+|---|---|---|---|---|
+| 11.A | distortion | A meningioma, which is a tumour, becomes a place where a tumour occurs | matters | useful |
+| 15.A | distortion | "Would be the ones" becomes "are those", which removes the hedge | does not matter | minor |
+
+With 11.A, the key has eight faults that matter.
+
 ## What the review means for checker prompt c3
 
 The checker should report:

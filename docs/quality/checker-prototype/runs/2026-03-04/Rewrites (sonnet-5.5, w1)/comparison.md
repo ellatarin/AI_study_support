@@ -2,15 +2,15 @@
 
 | Checker | Faults | Subtopics failed | Subtopics checked | Faults that matter found | Cost |
 | --- | --- | --- | --- | --- | --- |
-| gemini-3.1-pro-preview c3 | 4 | 3 | 17 | 2 of 7 | $0.68 |
-| gemini-3.8-flash c3 | 2 | 2 | 17 | 1 of 7 | $0.12 |
-| gpt-5.6-sol-pro c3 | 13 | 10 | 17 | 3 of 7 | $1.17 |
-| gemini-3.1-pro, c2 (pipeline) | 24 | 8 | 17 | 4 of 7 | $1.33 |
-| gemini-3.8-flash, c2 (pipeline) | 8 | 4 | 17 | 3 of 7 | $0.34 |
-| gemini-3.8-flash, c3 (pipeline) | 1 | 1 | 17 | 1 of 7 | $0.15 |
-| sol-pro, c2 (pipeline) | 36 | 15 | 17 | 7 of 7 | $2.31 |
-| sonnet-5.5, c2 (pipeline) | 4 | 4 | 17 | 1 of 7 | $0.53 |
-| terra-pro, c2 (pipeline) | 42 | 13 | 14 | 4 of 7 | $2.72 |
+| gemini-3.1-pro-preview c3 | 4 | 3 | 17 | 3 of 8 | $0.68 |
+| gemini-3.8-flash c3 | 2 | 2 | 17 | 2 of 8 | $0.12 |
+| gpt-5.6-sol-pro c3 | 13 | 10 | 17 | 3 of 8 | $1.17 |
+| gemini-3.1-pro, c2 (pipeline) | 24 | 8 | 17 | 5 of 8 | $1.33 |
+| gemini-3.8-flash, c2 (pipeline) | 8 | 4 | 17 | 3 of 8 | $0.34 |
+| gemini-3.8-flash, c3 (pipeline) | 1 | 1 | 17 | 1 of 8 | $0.15 |
+| sol-pro, c2 (pipeline) | 36 | 15 | 17 | 7 of 8 | $2.31 |
+| sonnet-5.5, c2 (pipeline) | 4 | 4 | 17 | 1 of 8 | $0.53 |
+| terra-pro, c2 (pipeline) | 42 | 13 | 14 | 4 of 8 | $2.72 |
 
 ## Faults that matter
 
@@ -23,32 +23,24 @@
 | 8.1 | yes | no | yes | yes | no | no | yes | yes | yes |
 | 12.1 | no | yes | no | no | yes | yes | yes | no | no |
 | 15.1 | no | no | no | no | no | no | yes | no | yes |
+| 11.A | yes | yes | no | yes | no | no | no | no | no |
 
 ## Faults outside the key
 
-### gemini-3.1-pro-preview c3: 1 fault outside the key
+### gemini-3.1-pro-preview c3: 0 faults outside the key
 
-- **11**, distortion: The rewrite mistakenly treats a meningioma as a location or organ where a tumour can occur, whereas a meningioma is itself a type of tumour.
-  - Source: if they're occurring in things like the meningioma that I was telling you about
-  - Rewrite: when the tumour occurs in a meningioma
 
-### gemini-3.8-flash c3: 1 fault outside the key
 
-- **11**, distortion: The rewrite states that a tumour occurs in a meningioma, treating a meningioma as an anatomical site or organ, whereas a meningioma is itself a type of tumour.
-  - Source: Only 10% of these deaths, generally, if they're occurring in things like the meningioma that I was telling you about or in the liver.
-  - Rewrite: Only 10% of deaths are generally caused in this way, for example when the tumour occurs in a meningioma or in the liver.
+### gemini-3.8-flash c3: 0 faults outside the key
 
-### gpt-5.6-sol-pro c3: 1 fault outside the key
 
-- **15**, distortion: The rewrite turns the lecturer's qualified identification of the women still dying from cervical cancer into a categorical claim that all such women belong to one of these two groups.
-  - Source: but the, if you like, the women that are still dying of cervical cancer would be the ones that either are not followed up after their screen or that have declined screening altogether.
-  - Rewrite: The women who are still dying of cervical cancer are those who are either not followed up after their screen or who have declined screening altogether.
 
-### gemini-3.1-pro, c2 (pipeline): 10 faults outside the key
+### gpt-5.6-sol-pro c3: 0 faults outside the key
 
-- **11**, distortion: The rewrite states that a tumour occurs inside a meningioma, whereas the text gives the meningioma as an example of a tumour.
-  - Source: occurring in things like the meningioma that I was telling you about
-  - Rewrite: when the tumour occurs in a meningioma
+
+
+### gemini-3.1-pro, c2 (pipeline): 9 faults outside the key
+
 - **13**, distortion: The rewrite replaces the general word "things" with the more precise biological term "species".
   - Source: if you compare any two things
   - Rewrite: any comparison between two species
@@ -100,7 +92,7 @@
   - Source: you can have a benign tumor like this one, which has a capsule around it.
   - Rewrite: a benign tumour may have a capsule around it.
 
-### terra-pro, c2 (pipeline): 19 faults outside the key
+### terra-pro, c2 (pipeline): 18 faults outside the key
 
 - **1**, distortion: The rewrite removes the lecturer's qualification "hopefully" and therefore presents students' grasp of the learning outcomes with greater certainty.
   - Source: And we have these learning outcomes that hopefully you should be able to grasp by the end of each of the specific lectures.
@@ -114,9 +106,6 @@
 - **15**, unsourced-addition: The rewrite adds that the cervix is seen "alongside" the endocervical canal. The source identifies both structures in the diagram but does not state this spatial relationship.
   - Source: none
   - Rewrite: the cervix is seen alongside it
-- **15**, distortion: The source uses "would be" when identifying the women still dying of cervical cancer, whereas the rewrite states this categorically as "are".
-  - Source: the women that are still dying of cervical cancer would be the ones that either are not followed up after their screen or that have declined screening altogether
-  - Rewrite: The women who are still dying of cervical cancer are those who are either not followed up after their screen or who have declined screening altogether.
 - **16**, distortion: The rewrite removes the lecturer's additional uncertainty that the tumour is "probably" already malignant.
   - Source: And the blood, of course, would be arising from the fact that this is an ulcerated cauliflower structure, if you like, an ulcerated tumor, and very likely to probably already be malignant.
   - Rewrite: The blood would arise from the fact that this is an ulcerated cauliflower-like structure, an ulcerated tumour, which is very likely to be malignant already.

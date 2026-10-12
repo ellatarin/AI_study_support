@@ -228,7 +228,7 @@ async function readCheckers({
  * Reads the answer key of a lecture and rewrites folder.
  *
  * @param key - The lecture and the rewrites folder, joined by "/".
- * @returns The faults of the key.
+ * @returns The faults of the key: the faults of the review, then the faults that later checkers found.
  * @throws Error when the lecture and rewrites folder have no key.
  */
 async function readAnswerKey(key: string): Promise<readonly KeyFault[]> {
@@ -240,7 +240,8 @@ async function readAnswerKey(key: string): Promise<readonly KeyFault[]> {
 	if (!isRecord(review) || !Array.isArray(review.faults)) {
 		throw new Error(`${path} has no list of faults`);
 	}
-	return review.faults as readonly KeyFault[];
+	const addedFaults = Array.isArray(review.addedFaults) ? review.addedFaults : [];
+	return [...review.faults, ...addedFaults] as readonly KeyFault[];
 }
 
 /**
