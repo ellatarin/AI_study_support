@@ -1,0 +1,24 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c21",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "if you compare any two things, you're going to find differences",
+      "reason": "Rendering 'any two things' as 'two species' accurately reflects the context of comparing companion animal tumours to human tumours."
+    },
+    {
+      "sourcePassage": "You'll be happy to hear he's doing fine now after his surgery.",
+      "reason": "The removal of 'You'll be happy to hear' is an allowed omission of a remark to the audience."
+    },
+    {
+      "sourcePassage": "The only thing that was quite interesting to note here is that the rate of malignant tumors is about fivefold higher in reptiles compared to mammals.",
+      "reason": "Rephrasing 'The only thing that was quite interesting to note here' as 'The one notable difference' is a faithful stylistic rephrasing in the context of comparing reptiles and mammals after discussing their similarities."
+    },
+    {
+      "sourcePassage": "hematopoietic",
+      "reason": "Expanding 'hematopoietic' to 'hematopoietic tissues' maintains the parallel structure of 'digestive tissues' and 'skin' and is scientifically accurate."
+    }
+  ]
+}

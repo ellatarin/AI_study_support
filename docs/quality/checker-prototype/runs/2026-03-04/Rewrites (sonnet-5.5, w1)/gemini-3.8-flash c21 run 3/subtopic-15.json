@@ -1,0 +1,20 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c21",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here",
+      "reason": "This is a remark directing the audience's attention to specific individual cells shown on the slide, and the general biological point that mitotic cells are restricted to the basement layer is fully retained in the rewrite."
+    },
+    {
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "reason": "The rewrite phrasing 'and the cervix is seen alongside it' is a scientifically accurate rendering of the histological slide the lecturer is pointing to."
+    },
+    {
+      "sourcePassage": "If you'll notice here from the 1950s to, this is only to 2000",
+      "reason": "The phrasing 'From the 1950s to 2000' faithfully conveys the date range of the data presented without losing material content."
+    }
+  ]
+}

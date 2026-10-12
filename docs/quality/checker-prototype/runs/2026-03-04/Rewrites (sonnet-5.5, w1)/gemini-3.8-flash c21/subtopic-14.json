@@ -1,0 +1,16 @@
+{
+  "subtopicId": 14,
+  "checkerPromptVersion": "c21",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, so what does this look like in the clinic? [chuckles] I call this the four horsemen.",
+      "reason": "The rewrite formulates this as 'In the clinic, the presentation of cancer can be summarised as the \"four horsemen\"', which appropriately formalises the rhetorical question and chuckling while retaining the substantive meaning."
+    },
+    {
+      "sourcePassage": "So in thinking about this, we try to jump the gun and try to screen for different cancers before we get to a malignant state",
+      "reason": "The idiom 'jump the gun' is retained and appropriately integrated into the formalised sentence structure without changing its meaning."
+    }
+  ]
+}

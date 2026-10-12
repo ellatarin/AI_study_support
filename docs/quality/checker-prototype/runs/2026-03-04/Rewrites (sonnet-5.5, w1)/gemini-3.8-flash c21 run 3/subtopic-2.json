@@ -1,0 +1,33 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c21",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite inserts 'that is', presenting 'the state of transcription within the cell itself' as a definition or equivalent of 'acetylation or deacetylation'. In the source text, the lecturer lists these as separate items or features without equating them.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The source text states that 'they' (the human viruses that precipitate cancer) can also predispose to chronic inflammatory events. The rewrite widens the cause from these viruses to 'infection' in general.",
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events that can also help to give rise to cancer.",
+      "rewritePassage": "There are about seven different human viruses that precipitate cancer, and infection can also predispose to chronic inflammatory events, which can also help to give rise to cancer."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "I'm sure you've seen a cartoon that looks like this many times.",
+      "reason": "The reference to the audience seeing a cartoon many times is an audience remark, which is permitted to be rephrased as 'the familiar cartoon'."
+    },
+    {
+      "sourcePassage": "So hopefully, in order to try and address some of these questions, we will start at the beginning. [chuckles]",
+      "reason": "The speaker's remark about how the lecture/course will proceed is meta-talk, and rephrasing it to 'the discussion starts at the beginning' while omitting '[chuckles]' is an allowed change."
+    },
+    {
+      "sourcePassage": "The idea that a normal cell, starting off here, acquires a mutation, and maybe a second mutation, and it becomes slightly abnormal. And then adds another mutation, becoming slightly more abnormal on this journey towards a malignancy.",
+      "reason": "The insertion of the [FIGURE] mark to indicate where the lecturer is referring to a cartoon/diagram is an allowed change."
+    }
+  ]
+}

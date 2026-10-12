@@ -1,0 +1,24 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c21",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "reason": "The rewrite resolves the deictic pronoun 'this' to 'Invasion' ('Invasion is therefore probably an obligatory step in arriving at a malignant, metastasising tumour.'). This is scientifically correct, as local invasion is an established prerequisite step for distant metastasis."
+    },
+    {
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "The rewrite renders 'it's defined as' as 'malignancy is defined as the ability to invade the surrounding tissue', which correctly captures the standard pathological definition."
+    },
+    {
+      "sourcePassage": "You'll see that over here you have the adenoma which has progressed into an adenocarcinoma.",
+      "reason": "The rewrite translates the spatial pointing phrase 'over here' into 'Elsewhere in the same lesion', which accurately reflects the histological section being described."
+    },
+    {
+      "sourcePassage": "muscularis mucosa",
+      "reason": "Replaced with 'muscularis mucosae' in accordance with the provided corrections list."
+    }
+  ]
+}

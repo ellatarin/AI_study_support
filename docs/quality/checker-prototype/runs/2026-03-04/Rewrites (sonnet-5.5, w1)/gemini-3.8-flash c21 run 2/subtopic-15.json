@@ -1,0 +1,20 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c21",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "what you're looking at here, here is the endocervical canal that it goes between the neck of the womb. Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "reason": "The rewrite renders this as 'Histologically, the endocervical canal runs through the neck of the womb, and the cervix is seen alongside it.' This appropriately resolves the lecturer's pointing words into a scientifically accurate histological description."
+    },
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here",
+      "reason": "This is a casual remark pointing out specific individual cells on the slide illustrating the rule that mitotic cells occur at the basement layer; omitting this specific pointing is permissible as filler/audience direction."
+    },
+    {
+      "sourcePassage": "The uterus is here in this diagram, and as you know, it hangs down into the vaginal canal.",
+      "reason": "The rewrite says 'The cervix is the neck of the womb. The uterus hangs down into the vaginal canal, as shown in the diagram. [FIGURE]'. While the lecturer slightly conflates/simplifies anatomical relationships (the cervix of the uterus projects into the vagina), the rewrite remains entirely faithful to the lecturer's wording."
+    }
+  ]
+}

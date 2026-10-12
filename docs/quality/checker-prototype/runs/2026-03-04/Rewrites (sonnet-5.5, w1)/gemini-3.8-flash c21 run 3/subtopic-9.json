@@ -1,0 +1,20 @@
+{
+  "subtopicId": 9,
+  "checkerPromptVersion": "c21",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Obviously, when there is a suspicion of cancer or of a tumor, everybody gets very nervous about what that diagnosis is going to look like.",
+      "reason": "The rewrite changes the informal conversational phrasing to formal prose ('there is considerable anxiety about the diagnosis'), which conveys the same meaning without altering facts."
+    },
+    {
+      "sourcePassage": "smooth muscle fibroid that I showed you",
+      "reason": "The rewrite's phrasing 'a smooth muscle fibroid, as shown earlier' correctly references the previously shown example in textbook style."
+    },
+    {
+      "sourcePassage": "So this meningioma obviously is occurring within the skull. The skull is a confined space. This would put an enormous amount of pressure on the brain and the surrounding structures and would cause and has caused Has caused death in this case.",
+      "reason": "The rewrite faithfully retains all scientific facts, including the specific case mentioned where death was caused by the meningioma."
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c21",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay. So with these tools in hand, I think the important concept to try and get across is invasion and metastasis.",
+      "reason": "The introductory conversational phrase ('Okay. So with these tools in hand') was removed as filler, and 'concept' was grammatically adjusted to the plural 'concepts' to match both invasion and metastasis."
+    },
+    {
+      "sourcePassage": "What they termed the movable tumor. And a movable tumor is exactly like what it sounds. Surgeons would find that that tumor could move within the tissue or an immovable tumor.",
+      "reason": "The spoken trailing phrase 'or an immovable tumor' was reordered to pair naturally with 'the movable tumour' earlier in the paragraph, which is an allowed change in sentence order."
+    },
+    {
+      "sourcePassage": "And you'll hear this kind of terminology even now, where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable.",
+      "reason": "The phrasing 'where a surgeon can see' is rendered as 'since a surgeon can tell'. Linking the ongoing use of this terminology to the surgeon's ability to assess mobility by touch is clinically accurate and preserves the lecturer's intended explanation."
+    },
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals",
+      "reason": "Omitted as an allowed change because it is a direct remark to the audience regarding the lecture and course practicals."
+    }
+  ]
+}

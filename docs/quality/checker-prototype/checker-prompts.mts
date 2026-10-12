@@ -55,6 +55,9 @@ const NOT_SUBJECT_MATTER_ALLOWANCE =
 const CAUSAL_DISTORTION =
 	"- A causal claim with a changed cause or effect. A cause that becomes wider or narrower is a changed cause.";
 
+/** The forbidden-distortion line of c21 for a changed cause, which stays forbidden when the new cause is correct. */
+const CORRECT_CAUSE_DISTORTION = `${CAUSAL_DISTORTION} A changed cause stays forbidden, even when the new cause is correct.`;
+
 /** The forbidden distortion of c14 for a changed cause or effect, with an example from another subject and a note on pronouns. */
 const WIDER_CAUSE_WITH_EXAMPLE = `${CAUSAL_DISTORTION} For example, the speaker says that two named software faults crash the server and that they also slow the database, and the rewrite says that software faults slow the database. This is a fault even when the rewrite only replaces a pronoun such as "they".`;
 
@@ -600,6 +603,21 @@ ${QUOTED_REPLY}`,
 				omissions: C7_OMISSIONS,
 				reply: QUOTED_REPLY,
 				causalDistortion: CAUSAL_DISTORTION,
+			}),
+	},
+	c21: {
+		changed:
+			'Adds to the changed-cause line of c20: "A changed cause stays forbidden, even when the new cause is correct."',
+		prompt: (name) =>
+			learningIssuePrompt({
+				name,
+				correctionAllowance: CORRECT_STATEMENT_ALLOWANCE,
+				unsourcedAdditions: CHECKED_DESCRIPTION_ADDITIONS,
+				formAllowance: FIGURE_SENTENCE_ALLOWANCE,
+				mergingDistortion: MERGING_WITH_EXAMPLE,
+				omissions: C7_OMISSIONS,
+				reply: QUOTED_REPLY,
+				causalDistortion: CORRECT_CAUSE_DISTORTION,
 			}),
 	},
 };

@@ -1,0 +1,24 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c21",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Other effects depend on the site.",
+      "reason": "This sentence introduces the second paragraph as a transitional phrasing that connects to the lecturer's earlier mention of tumours in 'different settings in which they occur' and introduces the site-specific examples (bile ducts in the liver, bones, colon) without adding unsourced factual information."
+    },
+    {
+      "sourcePassage": "erosion of that bone function, so you can get fractures",
+      "reason": "The rewrite renders this as 'erosion of the bone, so that fractures can occur', which corrects the lecturer's awkward phrasing to standard, scientifically accurate terminology."
+    },
+    {
+      "sourcePassage": "you saw that enormous cauliflower structure within the colon",
+      "reason": "The rewrite renders this as 'the enormous cauliflower-like structure seen within the colon', adapting a remark referencing a visual aid or prior lecture material into textbook prose."
+    },
+    {
+      "sourcePassage": "if they're occurring in things like the meningioma that I was telling you about or in the liver",
+      "reason": "The rewrite phrases this as 'when the tumour occurs in a meningioma or in the liver', faithfully reflecting the lecturer's phrasing despite the informal categorization."
+    }
+  ]
+}

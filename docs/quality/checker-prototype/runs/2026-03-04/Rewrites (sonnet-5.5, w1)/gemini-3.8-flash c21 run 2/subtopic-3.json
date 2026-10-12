@@ -1,0 +1,27 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c21",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The term 'adolescence' was changed to 'differentiation', stating that 'differentiation and maturation' occur from infancy to adulthood rather than 'adolescence and maturation'.",
+      "sourcePassage": "because obviously during adolescence and maturation, this occurs from infancy to adulthood.",
+      "rewritePassage": "because differentiation and maturation also occur from infancy to adulthood."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Here at this stage here, most of your growth, really, most of your lineage specification and your expansive growth has happened during embryogenesis, during the time that you were born.",
+      "reason": "The phrase 'during the time that you were born' contradicts 'during embryogenesis' and 'growth in the womb', representing a slip of the tongue by the lecturer that was safely omitted."
+    },
+    {
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes. They have come in, they have lost this architecture, moved over the basement membrane and invaded and are growing within the stroma.",
+      "reason": "The rewrite introduces 'In the image of the invasive tissue' to resolve the lecturer's pointing word 'here', which is fully supported by the text's description of cells invading the stroma."
+    },
+    {
+      "sourcePassage": "which would be here into the invading stroma.",
+      "reason": "The rewrite changes 'invading stroma' to 'invaded stroma'. This corrects a slip of the tongue by the lecturer, as the stroma is the tissue being invaded by the tumour cells, making the correction scientifically accurate."
+    }
+  ]
+}

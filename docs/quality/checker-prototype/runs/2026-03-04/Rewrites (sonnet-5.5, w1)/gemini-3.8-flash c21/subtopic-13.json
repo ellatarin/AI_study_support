@@ -1,0 +1,28 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c21",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "The only thing that was quite interesting to note here is that the rate of malignant tumors is about fivefold higher in reptiles compared to mammals.",
+      "reason": "Rendering 'The only thing that was quite interesting to note here' as 'The one notable difference' accurately reflects the contrast with the previously described similarities across taxa without distorting the meaning."
+    },
+    {
+      "sourcePassage": "You'll see that digestive tissues, hematopoietic, and skin are the three main categories in terms of where cancers arise.",
+      "reason": "Expanding 'hematopoietic' to 'hematopoietic tissues' is standard phrasing following 'digestive tissues' and conveys the exact same scientific meaning."
+    },
+    {
+      "sourcePassage": "And this is my cat, who also ended up with a feline injection site sarcoma.",
+      "reason": "Referring to 'The lecturer's own cat' adapts the first-person conversational remark into third-person textbook prose without altering the facts."
+    },
+    {
+      "sourcePassage": "Just a slide about the incidence in companion animals since I found this slide some time ago",
+      "reason": "Omitted as meta-talk and conversational filler about the lecture slides."
+    },
+    {
+      "sourcePassage": "You'll be happy to hear he's doing fine now after his surgery.",
+      "reason": "Dropping 'You'll be happy to hear' removes a direct remark to the audience while retaining the factual update that the cat recovered after surgery."
+    }
+  ]
+}

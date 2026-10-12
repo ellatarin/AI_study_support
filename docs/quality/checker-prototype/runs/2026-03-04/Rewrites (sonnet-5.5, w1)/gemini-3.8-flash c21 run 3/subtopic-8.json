@@ -1,0 +1,24 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c21",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "muscularis mucosa",
+      "reason": "Replaced with 'muscularis mucosae' in accordance with the provided technical term correction."
+    },
+    {
+      "sourcePassage": "and you'll be able to look at this in great detail in the practicals",
+      "reason": "Omitted because references to course practicals and teaching logistics are allowed omissions (statements about the course or lecture)."
+    },
+    {
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "The rewrite specifies 'malignancy is defined as the ability to invade the surrounding tissue'. Resolving 'it' to malignancy is scientifically correct, as invasive capacity defines malignancy."
+    },
+    {
+      "sourcePassage": "You wouldn't necessarily be able to say anything on two words about either of these. They both look like little cauliflowers that are sticking out into the lumen.",
+      "reason": "The rewrite states 'Nothing could necessarily be said about either from their appearance, since both look like little cauliflowers sticking out into the lumen', smoothly rendering the transcriber's garbled phrase ('on two words') while keeping the lecturer's intended meaning."
+    }
+  ]
+}

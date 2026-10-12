@@ -1,0 +1,32 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c21",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So for our purposes, what we're going to use is the muscularis mucosa here as our proxy for the basement membrane",
+      "reason": "The rewrite changes 'muscularis mucosa' to 'muscularis mucosae' according to the provided term corrections."
+    },
+    {
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "Resolving 'it's defined as' to 'malignancy is defined as' is scientifically correct, as the biological definition distinguishing malignant from benign neoplasms is the ability to invade adjacent tissue."
+    },
+    {
+      "sourcePassage": "So significant numbers of them are released, but many of them never metastasize. They never survive in the secondary site.",
+      "reason": "Connecting these two statements with 'because' is scientifically correct and accurately reflects the text's explanation of why secondary tumour cells fail to form metastases."
+    },
+    {
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "reason": "Resolving 'this' to 'Invasion' is scientifically correct, as local invasion of surrounding tissue is the necessary precursor step to distant metastasis."
+    },
+    {
+      "sourcePassage": "The submucosa is here, and you'll see that there isn't any invasion that has occurred.",
+      "reason": "Writing 'the submucosa lies beneath it' accurately reflects the anatomical description given earlier in the text ('under here the submucosa')."
+    },
+    {
+      "sourcePassage": "and you'll be able to look at this in great detail in the practicals",
+      "reason": "Omitted as an administrative remark to the audience regarding course practicals."
+    }
+  ]
+}

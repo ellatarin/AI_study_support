@@ -1,0 +1,27 @@
+{
+  "subtopicId": 7,
+  "checkerPromptVersion": "c21",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite resolves the lecturer's deictic pointing words ('the tumor is here. This is the outer surface of the uterus') into a spatial relationship ('The tumour lies next to the outer surface of the uterus') that the text does not state or show to be correct.",
+      "sourcePassage": "You can see that the tumor is here. This is the outer surface of the uterus.",
+      "rewritePassage": "The tumour lies next to the outer surface of the uterus"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So you can see again that this is actually circumspect and very separate from the surrounding stroma and the surrounding tissue.",
+      "reason": "The lecturer's use of 'circumspect' is an obvious speech error for 'circumscribed' when describing a well-demarcated benign tumour; substituting the scientifically correct term is an allowed change."
+    },
+    {
+      "sourcePassage": "So contrast this fibroid that you're seeing here, this leiomyoma, with a malignant case.",
+      "reason": "The text explicitly equates the fibroid with leiomyoma, so referring to it as 'This fibroid, a leiomyoma' is faithful."
+    },
+    {
+      "sourcePassage": "Movable, and literally, you can scoop it out with no damage to the surrounding tissue. All right? So a benign tumor.",
+      "reason": "Dropping conversational markers ('All right? So a benign tumor') is an allowed omission of lecture filler."
+    }
+  ]
+}

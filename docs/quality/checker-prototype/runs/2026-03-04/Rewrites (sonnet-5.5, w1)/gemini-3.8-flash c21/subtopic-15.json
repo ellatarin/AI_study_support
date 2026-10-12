@@ -1,0 +1,24 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c21",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "The uterus is here in this diagram, and as you know, it hangs down into the vaginal canal.",
+      "reason": "The reference to the diagram is preserved with a [FIGURE] marker and standard prose phrasing."
+    },
+    {
+      "sourcePassage": "what you're looking at here, here is the endocervical canal that it goes between the neck of the womb. Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "reason": "The rewrite renders the spoken pointing phrasing into standard anatomical prose ('runs through the neck of the womb, and the cervix is seen alongside it'), which is scientifically accurate and preserves the meaning."
+    },
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here",
+      "reason": "Omission of the lecturer's direct remark pointing out specific individual cells on a slide is an allowed change regarding remarks to the audience and demonstrative pointing."
+    },
+    {
+      "sourcePassage": "If you'll notice here from the 1950s to, this is only to 2000, you'll see that the rates of death in cervical cancer came down",
+      "reason": "The phrase 'From the 1950s to 2000' faithfully conveys the time period without loss of meaning."
+    }
+  ]
+}

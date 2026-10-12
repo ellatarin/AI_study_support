@@ -1,0 +1,24 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c21",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "The reference to what the audience saw in a previous slide or discussion is appropriately adapted to 'The different pre-cancerous states are present' without losing subject matter."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "The phrase 'Of the screening methods discussed, cervical screening is the best' captures the lecturer's comparative statement and recap without introducing unsourced claims."
+    },
+    {
+      "sourcePassage": "ulcerated cauliflower structure, if you like",
+      "reason": "Rendered as 'ulcerated cauliflower-like structure', which accurately reflects the lecturer's colloquial simile."
+    },
+    {
+      "sourcePassage": "for invading into other parts of the body",
+      "reason": "Phrased as 'that invade other parts of the body', preserving the meaning and causal link."
+    }
+  ]
+}

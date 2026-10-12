@@ -1,0 +1,33 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c21",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite inserts 'that is', thereby asserting that acetylation or deacetylation is the state of transcription, whereas the lecturer merely listed both phrases without stating an equivalence.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The text states that the seven human viruses ('they') can predispose to chronic inflammatory events, but the rewrite widens the cause from those viruses to 'infection' in general.",
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events that can also help to give rise to cancer.",
+      "rewritePassage": "There are about seven different human viruses that precipitate cancer, and infection can also predispose to chronic inflammatory events, which can also help to give rise to cancer."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "The idea that a normal cell, starting off here, acquires a mutation, and maybe a second mutation, and it becomes slightly abnormal. And then adds another mutation, becoming slightly more abnormal on this journey towards a malignancy.",
+      "reason": "Faithfully rendered in the rewrite along with an appropriate [FIGURE] mark reflecting the lecturer's pointing words."
+    },
+    {
+      "sourcePassage": "And when I say gene changes, I'm using a very broad term to encompass things like mutations. And again, this is still a very broad term because we're talking about things like base substitutions, base pair changes, small deletions, small insertions to whole chromosome losses, chromosomal translocations, aneuploidy, polyploidy.",
+      "reason": "All specific examples of genetic mutations and chromosomal alterations are preserved accurately in the rewrite."
+    },
+    {
+      "sourcePassage": "So there's a lot of changes that occur, and as I said, we don't know pretty much because of this when they occur. It actually raises a lot of questions.",
+      "reason": "The causal link 'because of this' and the list of rhetorical questions raised by the model are faithfully preserved in the final paragraph."
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c21",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "The reference to the audience having seen the states ('You saw...') was adapted to 'The different pre-cancerous states are present', appropriately removing meta-commentary directed at the audience."
+    },
+    {
+      "sourcePassage": "an ulcerated cauliflower structure, if you like",
+      "reason": "The rewrite phrases this as 'an ulcerated cauliflower-like structure', which accurately captures the lecturer's figurative description ('if you like')."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "The rewrite renders this as 'Of the screening methods discussed, cervical screening is the best', which faithfully reflects the conversational reference to previously discussed screening without adding unsourced facts."
+    },
+    {
+      "sourcePassage": "because many of the people that do go for screening and then for further treatment, it has a very, very high false positive rate.",
+      "reason": "The rewrite cleans up the lecturer's broken sentence structure into 'because many of the people who go for screening and then for further treatment are affected by a very high false positive rate', preserving the original meaning."
+    }
+  ]
+}

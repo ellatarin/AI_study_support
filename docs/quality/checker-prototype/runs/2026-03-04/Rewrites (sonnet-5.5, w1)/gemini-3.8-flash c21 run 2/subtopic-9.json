@@ -1,0 +1,24 @@
+{
+  "subtopicId": 9,
+  "checkerPromptVersion": "c21",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Obviously, when there is a suspicion of cancer or of a tumor, everybody gets very nervous about what that diagnosis is going to look like.",
+      "reason": "The rewrite renders this as 'When cancer or a tumour is suspected, there is considerable anxiety about the diagnosis', which conveys the same meaning in textbook style without altering facts."
+    },
+    {
+      "sourcePassage": "smooth muscle fibroid that I showed you, that almost never progresses to a leiomyosarcoma.",
+      "reason": "The reference to an earlier visual demonstration is adapted as 'as shown earlier... [FIGURE]', which is an allowed change."
+    },
+    {
+      "sourcePassage": "So this meningioma obviously is occurring within the skull. The skull is a confined space. This would put an enormous amount of pressure on the brain and the surrounding structures and would cause and has caused Has caused death in this case.",
+      "reason": "The rewrite generalises 'this meningioma' to 'A meningioma' while retaining the specific reference to 'in this case it caused death', faithfully preserving the lecturer's explanation and case reference."
+    },
+    {
+      "sourcePassage": "Also, pituitary adenomas release a lot of hormones and can cause death in that way.",
+      "reason": "The phrasing 'release large amounts of hormones' is an exact stylistic equivalent of 'release a lot of hormones'."
+    }
+  ]
+}

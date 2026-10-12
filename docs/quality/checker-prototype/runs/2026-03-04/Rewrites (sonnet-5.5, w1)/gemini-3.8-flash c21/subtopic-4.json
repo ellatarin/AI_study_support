@@ -1,0 +1,28 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c21",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "reason": "The rewrite phrases this as 'A slice through a tumour, with a stain to show the morphology, illustrates this [FIGURE]', replacing the lecturer's deictic reference to a slide with an appropriate figure callout, which is permitted."
+    },
+    {
+      "sourcePassage": "Primary cells really don't grow in culture.",
+      "reason": "Changing 'really don't grow' to 'do not grow' removes conversational emphasis rather than a scientific hedge, and accurately reflects the text."
+    },
+    {
+      "sourcePassage": "throw it into a plastic tissue culture dish",
+      "reason": "Replacing the colloquial 'throw it into' with 'are placed in' is an allowed stylistic adjustment."
+    },
+    {
+      "sourcePassage": "contributions of things like the stroma and other things",
+      "reason": "The rewrite renders this as 'contributions of things such as the stroma and other components', which is a stylistic replacement of the vague colloquial 'other things'."
+    },
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "This is an aside/remark to the audience and was correctly omitted."
+    }
+  ]
+}

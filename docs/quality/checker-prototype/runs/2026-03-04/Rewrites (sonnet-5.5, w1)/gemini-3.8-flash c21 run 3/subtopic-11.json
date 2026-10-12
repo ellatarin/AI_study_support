@@ -1,0 +1,24 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c21",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Things like obstruction of the bile ducts in the liver interferes with digestion.",
+      "reason": "The introductory clause 'Other effects depend on the site' serves as a stylistic transitional phrase linking the preceding discussion of airway blockage to the subsequent examples of liver, bone, and colon manifestations; it introduces no unsourced scientific claims."
+    },
+    {
+      "sourcePassage": "tumors in bones lead to erosion of that bone function",
+      "reason": "The rewrite renders this as 'erosion of the bone', which corrects a slight verbal slip by the lecturer to a scientifically accurate phrasing, which is an allowed change."
+    },
+    {
+      "sourcePassage": "you saw that enormous cauliflower structure within the colon",
+      "reason": "The rewrite adapts the lecturer's reference to a visual aid into 'the enormous cauliflower-like structure seen within the colon', retaining the descriptive subject matter while removing direct address to the audience."
+    },
+    {
+      "sourcePassage": "Only 10% of these deaths, generally, if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "reason": "The rewrite phrase 'when the tumour occurs in a meningioma or in the liver' closely mirrors the lecturer's wording ('if they're occurring in things like the meningioma... or in the liver') and accurately captures the intended point that only around 10% of cancer deaths are caused by primary tumours."
+    }
+  ]
+}

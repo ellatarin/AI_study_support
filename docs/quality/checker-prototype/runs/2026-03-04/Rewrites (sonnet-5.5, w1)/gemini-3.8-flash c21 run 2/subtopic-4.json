@@ -1,0 +1,31 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c21",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite states that the stained slice through a tumour 'illustrates this' (referring to biologists explanting the tumour), creating an unsourced link between the slice and tumour explantation that the lecturer did not make.",
+      "sourcePassage": "often they will explant the tumor. Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "rewritePassage": "illustrates this [FIGURE]"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "Omitted remark to the audience / filler, which is an allowed change."
+    },
+    {
+      "sourcePassage": "throw it into a plastic tissue culture dish",
+      "reason": "Rewritten as 'the cells are placed in a plastic tissue culture dish', which is an allowed change of style to textbook prose."
+    },
+    {
+      "sourcePassage": "Primary cells really don't grow in culture.",
+      "reason": "Dropping the conversational intensifier 'really' in 'Primary cells do not grow in culture' is an allowed stylistic change."
+    },
+    {
+      "sourcePassage": "the contributions of things like the stroma and other things",
+      "reason": "'other things' is rendered as 'other components', which preserves the intended meaning in textbook style."
+    }
+  ]
+}

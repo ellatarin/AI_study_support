@@ -1,0 +1,24 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c21",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay. So with these tools in hand, I think the important concept to try and get across is invasion and metastasis.",
+      "reason": "The introductory conversational framing and reference to prior tools were omitted as meta-lecture commentary, and 'concept' was appropriately pluralised to 'concepts' to match 'invasion and metastasis'."
+    },
+    {
+      "sourcePassage": "back in, I don't know,",
+      "reason": "Omitted as conversational filler."
+    },
+    {
+      "sourcePassage": "where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable.",
+      "reason": "The rewrite renders this with 'since a surgeon can tell...', which interprets 'where' in its explanatory/causal context. Even if viewed as an explicit causal link, it is scientifically correct regarding why this clinical terminology remains in use."
+    },
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals,",
+      "reason": "Omitted as an allowed change, being a remark directed to the audience concerning course practicals."
+    }
+  ]
+}

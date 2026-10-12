@@ -1,0 +1,27 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c21",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer specifies that these processes occur during 'adolescence and maturation', but the rewrite changes 'adolescence' to 'differentiation'.",
+      "sourcePassage": "during adolescence and maturation, this occurs from infancy to adulthood",
+      "rewritePassage": "differentiation and maturation also occur from infancy to adulthood"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "during embryogenesis, during the time that you were born",
+      "reason": "The lecturer's phrase 'during the time that you were born' was dropped as a slip or false start, as embryogenesis takes place before birth."
+    },
+    {
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes. They have come in, they have lost this architecture, moved over the basement membrane and invaded and are growing within the stroma.",
+      "reason": "The phrase 'In the image of the invasive tissue' is an allowed description of what the lecturer is pointing to on the slide."
+    },
+    {
+      "sourcePassage": "into the invading stroma",
+      "reason": "The change from 'invading stroma' to 'invaded stroma' is an allowed correction of a slip of the tongue by the lecturer, as the stroma is invaded by the epithelial cells rather than being the invading entity."
+    }
+  ]
+}

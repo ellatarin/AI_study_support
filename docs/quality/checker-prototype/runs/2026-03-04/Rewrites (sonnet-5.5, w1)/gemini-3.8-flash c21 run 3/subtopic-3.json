@@ -1,0 +1,27 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c21",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite replaces 'adolescence' with 'differentiation', changing the stated life stage and omitting the reference to adolescence.",
+      "sourcePassage": "obviously during adolescence and maturation, this occurs from infancy to adulthood.",
+      "rewritePassage": "differentiation and maturation also occur from infancy to adulthood."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "during embryogenesis, during the time that you were born.",
+      "reason": "The phrase 'during the time that you were born' was omitted as a false start or slip by the lecturer, as the context is prenatal embryogenesis."
+    },
+    {
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes.",
+      "reason": "The rewrite resolves the lecturer's pointing words to 'In the image of the invasive tissue', which is justified by the lecturer's description of the cells having invaded the stroma."
+    },
+    {
+      "sourcePassage": "into the invading stroma.",
+      "reason": "The rewrite changes 'invading stroma' to 'invaded stroma', which is an allowed correction of a slip of the tongue by the lecturer to state what is scientifically correct."
+    }
+  ]
+}

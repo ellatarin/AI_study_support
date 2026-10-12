@@ -1,0 +1,27 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c21",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite inserts 'that is', equating acetylation or deacetylation with the state of transcription within the cell itself. The text does not state that these two things are the same, and scientifically, acetylation/deacetylation is a chemical modification rather than the transcriptional state itself.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, so we're just going to start here with our core idea. I'm sure you've seen a cartoon that looks like this many times.",
+      "reason": "Omitted conversational opening and remark to the audience, which are allowed omissions."
+    },
+    {
+      "sourcePassage": "Certain tumors can arise from infectious agents like viruses. There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events that can also help to give rise to cancer.",
+      "reason": "Changing the pronoun 'they' (referring to viruses/infectious agents) to 'infection can also predispose' preserves the meaning and is scientifically accurate."
+    },
+    {
+      "sourcePassage": "So I've just made this kind of a much simpler diagram, if you like.",
+      "reason": "Replacing conversational phrasing with a [FIGURE] mark and passive phrasing is an allowed stylistic change."
+    }
+  ]
+}

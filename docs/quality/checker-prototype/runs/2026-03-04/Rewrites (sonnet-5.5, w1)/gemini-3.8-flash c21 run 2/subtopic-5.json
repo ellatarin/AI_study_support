@@ -1,0 +1,16 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c21",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals",
+      "reason": "This is a remark to the audience and a statement about the course, so its omission is an allowed change."
+    },
+    {
+      "sourcePassage": "where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable",
+      "reason": "The rewrite renders 'where a surgeon can see' as 'since a surgeon can tell'. In this context, 'where' introduces the rationale for why the terminology remains in use, and 'tell' has the same meaning as 'see' (discern/determine), representing an allowed stylistic phrasing."
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c21",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "This is a personal remark / reminder by the lecturer to themselves, so dropping it is an allowed change."
+    },
+    {
+      "sourcePassage": "or also this transcoelomic site from across a cavity, across a pleural cavity, for example, across the abdomen.",
+      "reason": "The lecturer refers to routes of spread earlier in the sentence ('via a number of routes') and mistakenly says 'site' before describing transcoelomic spread; rendering this as 'by a transcoelomic route' is scientifically correct and matches the text's classification."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here, and then you can often see sometimes the tumor cells are actually present within a lymphatic duct.",
+      "reason": "The phrase 'You see your tumor cells are here' is a deictic remark pointing at a slide or diagram; condensing this to 'the tumour cells can often be seen present within a lymphatic duct' preserves the substantive histological observation."
+    },
+    {
+      "sourcePassage": "Similarly, here you have a brain, and what you have here is a breast cancer that's metastasized to the brain.",
+      "reason": "The rewrite phrases this as 'The other is a breast cancer that has metastasized to the brain', preserving both the organ (brain) and the primary cancer type (breast cancer) while removing conversational filler and pointing phrases."
+    }
+  ]
+}
