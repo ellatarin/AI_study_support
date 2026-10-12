@@ -1,0 +1,20 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c17",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "The only thing that was quite interesting to note here is that the rate of malignant tumors is about fivefold higher in reptiles compared to mammals.",
+      "reason": "The rewrite renders this as 'The one notable difference is that the rate of malignant tumours is about fivefold higher in reptiles than in mammals', which naturally paraphrases the speaker's observation comparing reptiles to mammals without altering the scientific meaning."
+    },
+    {
+      "sourcePassage": "And this is my cat, who also ended up with a feline injection site sarcoma. This is from injections proposed to be due to the adjuvant that is also added with the injection. You'll be happy to hear he's doing fine now after his surgery.",
+      "reason": "The rewrite adapts the lecturer's personal conversational anecdote into objective third-person prose ('The lecturer's own cat...') and omits the remark to the audience ('You'll be happy to hear'), which is an allowed change."
+    },
+    {
+      "sourcePassage": "hematopoietic",
+      "reason": "The rewrite adds 'tissues' to match 'digestive tissues' and 'skin' as cancer categories, which accurately reflects the parallel structure without introducing new unsourced facts."
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c18",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite states 'when the tumour occurs in a meningioma or in the liver', incorrectly framing 'meningioma' as an anatomical site or organ in which a tumour arises. In the source text, a meningioma is the tumour itself, and 'they' in 'if they're occurring in things like the meningioma... or in the liver' refers to deaths resulting from such conditions.",
+      "sourcePassage": "Only 10% of these deaths, generally, if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "rewritePassage": "for example when the tumour occurs in a meningioma or in the liver."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Things like obstruction of the bile ducts in the liver interferes with digestion.",
+      "reason": "The introductory sentence 'Other effects depend on the site' acts as a transitional topic sentence reflecting the source text's discussion of tumours in different anatomical settings, so it was not reported as an unsourced addition."
+    },
+    {
+      "sourcePassage": "you saw that enormous cauliflower structure within the colon. This causes a lot of bleeding and can lead to anemia.",
+      "reason": "Converting the lecturer's conversational reference to an earlier visual ('you saw that enormous cauliflower structure') into 'the enormous cauliflower-like structure seen within the colon' is an acceptable stylistic change."
+    },
+    {
+      "sourcePassage": "And also this competition with the normal, if you have a tumor that is occurring in some of the blood compartments, the hematopoietic stem cells that are there, these will interfere.",
+      "reason": "Clarifying 'competition with the normal' as 'Competition with normal tissue is also a factor' and that the tumour interferes with haematopoietic stem cells accurately conveys the lecturer's explanation without distorting meaning."
+    },
+    {
+      "sourcePassage": "erosion of that bone function, so you can get fractures",
+      "reason": "'erosion of the bone, so that fractures can occur' conveys the same pathological process described by the lecturer, who also later refers to 'erosion of bones'."
+    }
+  ]
+}

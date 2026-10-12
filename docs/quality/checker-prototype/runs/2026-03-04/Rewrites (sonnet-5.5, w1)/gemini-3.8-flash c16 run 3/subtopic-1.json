@@ -1,0 +1,20 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c16",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, everyone, shall we get started? Yes. You're very welcome, all of you, to Cancer Biology.",
+      "reason": "Omitted conversational opening and greeting to the audience, which is an allowed change."
+    },
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there.",
+      "reason": "Rendered as 'The learning outcomes for this lecture are as follows', adapting the lecturer's deictic reference to a slide into standard textbook prose without altering the meaning."
+    },
+    {
+      "sourcePassage": "So I tag-teamed these lectures with Professor Turner, and so she will also be teaching three of these lectures.",
+      "reason": "Rendered as 'The lectures are shared with Professor Turner, who teaches three of the six', which accurately captures the meaning of the colloquial term 'tag-teamed'."
+    }
+  ]
+}

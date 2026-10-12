@@ -1,0 +1,29 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c17",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite inserts 'that is', explicitly defining acetylation or deacetylation as the state of transcription within the cell itself, which introduces an unsourced equivalence link between distinct biological concepts.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself.",
+      "caseForForbidden": "Adding 'that is' asserts that acetylation or deacetylation is the same thing as the state of transcription, creating an unsourced definitional link not made by the lecturer.",
+      "caseForAllowed": "The phrase 'that is' was used merely to smooth the transcript's comma into prose by treating the subsequent words as an appositive explanation."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events that can also help to give rise to cancer.",
+      "reason": "The rewrite changes 'they' to 'infection' ('and infection can also predispose to chronic inflammatory events'), but this maintains the core idea introduced at the start of the paragraph that infection leads to these downstream effects without substantially altering the scientific meaning."
+    },
+    {
+      "sourcePassage": "So there's a lot of changes that occur, and as I said, we don't know pretty much because of this when they occur.",
+      "reason": "The rewrite renders 'So' as 'therefore' ('Many changes therefore occur'), which functions as a summary transition reflecting the preceding list of genetic and epigenetic changes rather than introducing an unsupported causal claim."
+    },
+    {
+      "sourcePassage": "So I've just made this kind of a much simpler diagram, if you like. Simplicity can help frame our thinking, but it will also end up losing a lot of details. So, as I said, you start off with a normal cell, and a bunch of mutations happen over time, and you go from normal to malignant.",
+      "reason": "The rewrite links the simpler diagram with what it depicts and inserts a [FIGURE] marker, which accurately reflects the lecturer's direct description of the diagram."
+    }
+  ]
+}

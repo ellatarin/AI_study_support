@@ -1,0 +1,29 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c17",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite states that death can occur 'when the tumour occurs in a meningioma', treating a meningioma as an anatomical location where a tumour arises rather than as the tumour itself.",
+      "sourcePassage": "Only 10% of these deaths, generally, if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "rewritePassage": "when the tumour occurs in a meningioma or in the liver",
+      "caseForForbidden": "A meningioma is a tumour of the meninges rather than a bodily site in which a tumour can occur, so assigning 'meningioma' the role of an anatomical site distorts the medical terminology.",
+      "caseForAllowed": "The lecturer said 'if they're occurring in things like the meningioma', and the rewrite simply interpreted the pronoun 'they' as referring to tumours."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Things like obstruction of the bile ducts in the liver interferes with digestion.",
+      "reason": "The introductory sentence 'Other effects depend on the site' was added to structure the paragraph following the lecturer's discussion of different anatomical settings, serving as a stylistic transition rather than an unsourced factual claim."
+    },
+    {
+      "sourcePassage": "And also this competition with the normal, if you have a tumor that is occurring in some of the blood compartments, the hematopoietic stem cells that are there, these will interfere.",
+      "reason": "The rewrite's phrasing 'Competition with normal tissue is also a factor' accurately expresses the meaning of the lecturer's incomplete phrasing 'competition with the normal' in the context of haematopoietic stem cells."
+    },
+    {
+      "sourcePassage": "you saw that enormous cauliflower structure within the colon",
+      "reason": "Changing 'cauliflower structure' to 'cauliflower-like structure seen within the colon' is an allowed stylistic rewording referring to the same visual feature previously shown."
+    }
+  ]
+}

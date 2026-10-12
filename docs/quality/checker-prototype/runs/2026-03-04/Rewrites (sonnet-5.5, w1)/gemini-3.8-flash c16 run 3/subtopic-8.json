@@ -1,0 +1,37 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c16",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite resolves the ambiguous pronoun 'it' to 'malignancy', choosing one specific reading when the lecturer's spoken statement ('invasion and malignancy are really, really important diagnostically. So it's defined as...') left the referent unclear.",
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "rewritePassage": "Invasion and malignancy are very important diagnostically, and malignancy is defined as the ability to invade the surrounding tissue.",
+      "caseForHarm": "A student reading the rewrite learns that 'malignancy' is specifically defined solely as the ability to invade surrounding tissue, whereas the lecturer may have been referring to 'invasion' (or invasiveness) or loosely conflating the two terms.",
+      "caseAgainstHarm": "Defining invasion as 'the ability to invade' would be circular, so malignancy is the only biologically and logically coherent antecedent, meaning the student learns the intended concept."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite introduces an explicit causal conjunction ('because') linking the failure to metastasise with the failure to survive at the secondary site, whereas the text merely presents them as two juxtaposed statements.",
+      "sourcePassage": "many of them never metastasize. They never survive in the secondary site.",
+      "rewritePassage": "Many never metastasise, because they never survive at the secondary site.",
+      "caseForHarm": "By adding an explicit causal link, the rewrite asserts that failure to survive at the distant site is the definitive cause of shed cells failing to metastasise, potentially obscuring other biological barriers in the metastatic cascade.",
+      "caseAgainstHarm": "Failing to survive at a secondary site is inherently why shed cells cannot establish metastases, so the causal link is self-evident from the text."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "reason": "The rewrite renders 'this' as 'Invasion', which is supported by the surrounding discussion of local invasion preceding metastasis."
+    },
+    {
+      "sourcePassage": "You'll see that over here you have the adenoma which has progressed into an adenocarcinoma. So one is growing out of the other.",
+      "reason": "The rewrite renders the spatial pointing 'over here' as 'Elsewhere in the same lesion', which faithfully reflects the lecturer's explanation that both components coexist within the same tissue section."
+    },
+    {
+      "sourcePassage": "Obviously, again, you're limited into where you're biopsying and what that looks like.",
+      "reason": "The rewrite phrases this as 'The diagnosis is limited by where the biopsy is taken', omitting 'and what that looks like' as conversational padding that refers to the sampled appearance."
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c16",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "if you compare any two things, you're going to find differences",
+      "reason": "The rewrite phrases this as 'any comparison between two species will reveal differences', which contextualises 'two things' to the species being compared (dogs/cats and humans) without altering the meaning or introducing an unsupported scientific claim."
+    },
+    {
+      "sourcePassage": "And this is my cat, who also ended up with a feline injection site sarcoma.",
+      "reason": "The rewrite renders the personal reference in the third person as 'The lecturer's own cat developed a feline injection site sarcoma', which is an acceptable stylistic transformation from spoken lecture to textbook prose."
+    },
+    {
+      "sourcePassage": "digestive tissues, hematopoietic, and skin",
+      "reason": "The rewrite adds 'tissues' after 'hematopoietic' ('digestive tissues, hematopoietic tissues and skin'), which is an acceptable grammatical completion parallel to 'digestive tissues'."
+    },
+    {
+      "sourcePassage": "The only thing that was quite interesting to note here is that the rate of malignant tumors is about fivefold higher in reptiles compared to mammals.",
+      "reason": "The rewrite frames this as 'The one notable difference is that the rate of malignant tumours is about fivefold higher in reptiles than in mammals', which accurately reflects the comparative context discussed by the lecturer."
+    }
+  ]
+}

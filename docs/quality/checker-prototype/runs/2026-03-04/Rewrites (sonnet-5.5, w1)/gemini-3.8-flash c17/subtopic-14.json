@@ -1,0 +1,20 @@
+{
+  "subtopicId": 14,
+  "checkerPromptVersion": "c17",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, so what does this look like in the clinic? [chuckles] I call this the four horsemen.",
+      "reason": "The rewrite frames this as 'In the clinic, the presentation of cancer can be summarised as the \"four horsemen\"', which appropriately converts conversational lecture phrasing and rhetorical framing into textbook prose without introducing unsourced facts."
+    },
+    {
+      "sourcePassage": "tumors can be indirect if they're occurring in non-screenable or non-palpable areas.",
+      "reason": "The rewrite uses 'Tumours can also present indirectly if they occur in non-screenable or non-palpable areas', which accurately reflects the lecturer's meaning."
+    },
+    {
+      "sourcePassage": "So obviously, the idea is you want to find the cancer, and you want to find it at an earlier state, a state at which it can be treatable, right, before it becomes malignant, before it becomes something that's very, very hard to treat, and there's diminishing returns on said treatment.",
+      "reason": "The rewrite condenses conversational repetition ('you want to find the cancer, and you want to find it at an earlier state') into 'The idea is to find the cancer at an earlier state', retaining all substantive information and clinical reasoning."
+    }
+  ]
+}

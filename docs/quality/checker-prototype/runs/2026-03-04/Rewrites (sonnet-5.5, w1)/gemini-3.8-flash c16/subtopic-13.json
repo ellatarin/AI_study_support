@@ -1,0 +1,24 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c16",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "The only thing that was quite interesting to note here is that the rate of malignant tumors is about fivefold higher in reptiles compared to mammals.",
+      "reason": "The rewrite renders this as 'The one notable difference is that the rate of malignant tumours is about fivefold higher in reptiles than in mammals', which faithfully captures the meaning in context without introducing an unsourced claim."
+    },
+    {
+      "sourcePassage": "And this is my cat, who also ended up with a feline injection site sarcoma.",
+      "reason": "The rewrite changes the first-person reference to third-person ('The lecturer's own cat developed a feline injection site sarcoma') to suit standard textbook prose."
+    },
+    {
+      "sourcePassage": "if you compare any two things, you're going to find differences.",
+      "reason": "The rewrite renders 'two things' as 'two species' in the context of comparing dogs and cats to humans, which preserves the intended scientific meaning."
+    },
+    {
+      "sourcePassage": "mammary tumors seem to be very, very prevalent, along with skin and connective tissues",
+      "reason": "The rewrite clarifies 'tumours of the skin and connective tissues', which directly reflects the parallel construction of tumour types being discussed."
+    }
+  ]
+}

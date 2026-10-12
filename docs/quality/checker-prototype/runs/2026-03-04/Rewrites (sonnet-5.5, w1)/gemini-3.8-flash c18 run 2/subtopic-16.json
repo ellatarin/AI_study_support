@@ -1,0 +1,20 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c18",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states. Ideally, you'd like to catch these benign states.",
+      "reason": "The reference to what the audience saw earlier ('You saw') was appropriately converted to objective textbook prose ('The different pre-cancerous states are present') without losing the scientific meaning."
+    },
+    {
+      "sourcePassage": "ulcerated cauliflower structure, if you like",
+      "reason": "'ulcerated cauliflower-like structure' accurately conveys the speaker's colloquial qualification ('if you like') in formal textbook style."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "'Of the screening methods discussed, cervical screening is the best' captures the lecturer's conversational callback without adding unsourced information."
+    }
+  ]
+}

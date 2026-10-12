@@ -1,0 +1,33 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c16",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite states that 'the tumour occurs in a meningioma', treating a meningioma as an anatomical location where a tumour arises rather than the tumour itself.",
+      "sourcePassage": "Only 10% of these deaths, generally, if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "rewritePassage": "when the tumour occurs in a meningioma or in the liver",
+      "caseForHarm": "A student learning oncology may wrongly conclude that a meningioma is an anatomical structure or organ in which tumours can develop, rather than a tumour of the meninges.",
+      "caseAgainstHarm": "The lecturer loosely paired 'the meningioma' and 'the liver' using the phrase 'occurring in things like', and the rewrite merely attempts to follow the lecturer's phrasing."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Things like obstruction of the bile ducts in the liver interferes with digestion.",
+      "reason": "The introductory clause 'Other effects depend on the site' in the rewrite serves as a stylistic transition connecting the examples to the lecturer's earlier point about different anatomical settings, rather than introducing an unsourced medical fact."
+    },
+    {
+      "sourcePassage": "tumors in bones lead to erosion of that bone function, so you can get fractures",
+      "reason": "Changing 'erosion of that bone function' to 'erosion of the bone' standardises a spoken slip into conventional prose without altering the intended clinical meaning."
+    },
+    {
+      "sourcePassage": "Also ulceration, you saw that enormous cauliflower structure within the colon.",
+      "reason": "The rewrite's 'cauliflower-like structure seen within the colon' accurately captures the speaker's reference to a visual demonstration shown earlier in the lecture."
+    },
+    {
+      "sourcePassage": "And also this competition with the normal, if you have a tumor that is occurring in some of the blood compartments",
+      "reason": "Expanding 'competition with the normal' to 'Competition with normal tissue' is a faithful rendering of the lecturer's elliptical phrasing."
+    }
+  ]
+}

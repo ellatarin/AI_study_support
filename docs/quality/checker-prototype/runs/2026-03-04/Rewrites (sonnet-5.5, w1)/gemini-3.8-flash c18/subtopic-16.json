@@ -1,0 +1,20 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c18",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "The rewrite changes this direct reference to visual material shown to the audience into 'The different pre-cancerous states are present', which is an acceptable adaptation of a spoken remark referencing lecture slides."
+    },
+    {
+      "sourcePassage": "and very likely to probably already be malignant.",
+      "reason": "The phrasing 'very likely to probably' is a spoken pleonasm/false start; simplifying it to 'very likely to be malignant already' preserves the epistemic hedge without distorting the scientific claim."
+    },
+    {
+      "sourcePassage": "or there's some reason if you're showing symptoms.",
+      "reason": "Rewriting this as 'or some other reason, such as the patient showing symptoms' accurately renders the conversational phrasing into standard textbook prose."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c17",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "The phrase 'The different pre-cancerous states are present' rephrases the lecturer's conversational reference to a previously seen slide/figure into standard textbook prose without altering the factual meaning."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "The rewrite 'Of the screening methods discussed, cervical screening is the best' captures the lecturer's retrospective remark ('as I said') accurately in written form."
+    },
+    {
+      "sourcePassage": "an ulcerated cauliflower structure, if you like, an ulcerated tumor",
+      "reason": "The rewrite renders this as 'an ulcerated cauliflower-like structure, an ulcerated tumour', retaining the descriptive analogy while omitting conversational filler ('if you like')."
+    }
+  ]
+}

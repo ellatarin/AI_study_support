@@ -61,24 +61,63 @@ const WIDER_CAUSE_WITH_EXAMPLE = `${CAUSAL_DISTORTION} For example, the speaker 
 /** The line of the versions from c3 that allows changes of form. */
 const FORM_ALLOWANCE = "- A [FIGURE] mark, the order of the points, the paragraphs, style and grammar.";
 
+/** The description instruction of the versions from c3. */
+const WHAT_IS_WRONG = "what is wrong";
+
+/** The description instruction of c18, which asks what might be wrong in place of what is wrong. */
+const MIGHT_BE_WRONG = "what might be wrong";
+
 /** The considerations and reply format sections of the versions from c3, which ask for both quotes and no rule. */
-const QUOTED_REPLY = quotedReply("");
+const QUOTED_REPLY = quotedReply({ description: WHAT_IS_WRONG, lastField: "" });
 
 /** The considerations and reply format of c13, which add a score of how sure the checker is that a fault harms a student's learning. */
-const CONFIDENCE_REPLY = quotedReply(`,
-      "confidence": how sure you are, as a whole number from 1 to 10, that a student who reads the rewrite would learn something wrong or miss something that the lecturer taught. 1 means that you are almost sure the student would not. 10 means that you are sure the student would`);
+const CONFIDENCE_REPLY = quotedReply({
+	description: WHAT_IS_WRONG,
+	lastField: `,
+      "confidence": how sure you are, as a whole number from 1 to 10, that a student who reads the rewrite would learn something wrong or miss something that the lecturer taught. 1 means that you are almost sure the student would not. 10 means that you are sure the student would`,
+});
 
 /** The considerations and reply format of c15, which add what a student would learn wrong or miss because of each fault. */
-const STUDENT_HARM_REPLY = quotedReply(`,
-      "studentHarm": in one sentence, what a student who reads the rewrite would learn wrong or miss because of this change, or "nothing" when the student learns the same`);
+const STUDENT_HARM_REPLY = quotedReply({
+	description: WHAT_IS_WRONG,
+	lastField: `,
+      "studentHarm": in one sentence, what a student who reads the rewrite would learn wrong or miss because of this change, or "nothing" when the student learns the same`,
+});
+
+/** The considerations and reply format of c16, which add the strongest case for and against harm to a student's learning. */
+const CASE_FOR_AND_AGAINST_REPLY = quotedReply({
+	description: WHAT_IS_WRONG,
+	lastField: `,
+      "caseForHarm": in one sentence, the strongest reason that a student who reads the rewrite would learn something wrong or miss something that the lecturer taught,
+      "caseAgainstHarm": in one sentence, the strongest reason that the student learns the same thing, for example because the change is correct, repairs a slip, or keeps the meaning`,
+});
+
+/** The considerations and reply format of c17, which add the strongest case that each change is forbidden and that it is allowed. */
+const FORBIDDEN_OR_ALLOWED_REPLY = quotedReply({
+	description: WHAT_IS_WRONG,
+	lastField: `,
+      "caseForForbidden": in one sentence, the strongest reason that this change is one of the forbidden changes,
+      "caseForAllowed": in one sentence, the strongest reason that this change is one of the allowed changes`,
+});
+
+/** The considerations and reply format of c18, whose description asks what might be wrong. */
+const MIGHT_BE_WRONG_REPLY = quotedReply({ description: MIGHT_BE_WRONG, lastField: "" });
 
 /**
  * Builds the considerations and reply format sections of the versions from c3.
  *
- * @param lastField - The text after the rewrite passage of a deficiency: a further field, or nothing.
+ * @param args - The description instruction and the further fields.
+ * @param args.description - What the checker writes in the description of a deficiency.
+ * @param args.lastField - The text after the rewrite passage of a deficiency: further fields, or nothing.
  * @returns The sections.
  */
-function quotedReply(lastField: string): string {
+function quotedReply({
+	description,
+	lastField,
+}: {
+	readonly description: string;
+	readonly lastField: string;
+}): string {
 	return `# Considerations
 
 For each passage that you examined and did not report, add a consideration with the reason.
@@ -91,7 +130,7 @@ Reply with a single JSON object and nothing else, in this exact shape:
   "deficiencies": [
     {
       "deficiencyType": "omission" or "distortion" or "unsourced-addition",
-      "description": what is wrong,
+      "description": ${description},
       "sourcePassage": the words of "text" that the fault is about, copied exactly. For an unsourced addition, the words of "text" that the addition is built on, or null when there are none,
       "rewritePassage": the words of the rewrite that the fault is about, copied exactly. For an omission, the words of the rewrite where the fact should be, or null when there are none${lastField}
     }
@@ -462,6 +501,48 @@ ${QUOTED_REPLY}`,
 				mergingDistortion: MERGING_WITH_EXAMPLE,
 				omissions: C7_OMISSIONS,
 				reply: STUDENT_HARM_REPLY,
+				causalDistortion: CAUSAL_DISTORTION,
+			}),
+	},
+	c16: {
+		changed:
+			'Starts again from c10. Asks with each deficiency for "caseForHarm" and "caseAgainstHarm": in one sentence each, the strongest reason that a student would or would not learn something wrong or miss something.',
+		prompt: (name) =>
+			learningIssuePrompt({
+				name,
+				unsourcedAdditions: CHECKED_DESCRIPTION_ADDITIONS,
+				formAllowance: FIGURE_SENTENCE_ALLOWANCE,
+				mergingDistortion: MERGING_WITH_EXAMPLE,
+				omissions: C7_OMISSIONS,
+				reply: CASE_FOR_AND_AGAINST_REPLY,
+				causalDistortion: CAUSAL_DISTORTION,
+			}),
+	},
+	c17: {
+		changed:
+			'Starts again from c10. Asks with each deficiency for "caseForForbidden" and "caseForAllowed": in one sentence each, the strongest reason that the change is one of the forbidden changes, and that it is one of the allowed changes.',
+		prompt: (name) =>
+			learningIssuePrompt({
+				name,
+				unsourcedAdditions: CHECKED_DESCRIPTION_ADDITIONS,
+				formAllowance: FIGURE_SENTENCE_ALLOWANCE,
+				mergingDistortion: MERGING_WITH_EXAMPLE,
+				omissions: C7_OMISSIONS,
+				reply: FORBIDDEN_OR_ALLOWED_REPLY,
+				causalDistortion: CAUSAL_DISTORTION,
+			}),
+	},
+	c18: {
+		changed:
+			'Starts again from c10. Asks in the description for "what might be wrong" in place of "what is wrong".',
+		prompt: (name) =>
+			learningIssuePrompt({
+				name,
+				unsourcedAdditions: CHECKED_DESCRIPTION_ADDITIONS,
+				formAllowance: FIGURE_SENTENCE_ALLOWANCE,
+				mergingDistortion: MERGING_WITH_EXAMPLE,
+				omissions: C7_OMISSIONS,
+				reply: MIGHT_BE_WRONG_REPLY,
 				causalDistortion: CAUSAL_DISTORTION,
 			}),
 	},

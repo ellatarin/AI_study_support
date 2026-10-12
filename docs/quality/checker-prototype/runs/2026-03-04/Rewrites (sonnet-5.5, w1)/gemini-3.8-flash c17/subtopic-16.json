@@ -1,0 +1,20 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c17",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "The reference to audience perception ('You saw...') was rephrased into an objective statement about pre-cancerous states being present, which is an allowed removal of audience-directed address."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "The rewrite phrases this as 'Of the screening methods discussed, cervical screening is the best', which accurately captures the lecturer's comparative statement without introducing new claims."
+    },
+    {
+      "sourcePassage": "ulcerated cauliflower structure, if you like, an ulcerated tumor",
+      "reason": "'if you like' is filler/conversational hedge, properly converted to 'cauliflower-like structure'."
+    }
+  ]
+}

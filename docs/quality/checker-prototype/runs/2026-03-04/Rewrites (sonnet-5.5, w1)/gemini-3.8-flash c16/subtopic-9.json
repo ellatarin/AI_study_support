@@ -1,0 +1,16 @@
+{
+  "subtopicId": 9,
+  "checkerPromptVersion": "c16",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So this meningioma obviously is occurring within the skull.",
+      "reason": "The rewrite generalises 'this meningioma obviously is occurring within the skull' to 'A meningioma occurs within the skull', while retaining the specific case reference ('in this case it caused death'). This accurately preserves the lecturer's meaning without introducing unsourced claims or distorting the facts."
+    },
+    {
+      "sourcePassage": "the smooth muscle fibroid that I showed you",
+      "reason": "The reference to showing a fibroid is rendered as 'as shown earlier' alongside a [FIGURE] mark, which is an allowed change for presentation and referencing previous visuals."
+    }
+  ]
+}

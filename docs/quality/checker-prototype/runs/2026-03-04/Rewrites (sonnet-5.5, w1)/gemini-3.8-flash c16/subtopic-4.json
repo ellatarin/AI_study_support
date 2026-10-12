@@ -1,0 +1,29 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c16",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite links the stained slice to the preceding sentence about explanting tumours by asserting that it 'illustrates this', whereas the text presents the slice simply as an image for observing morphology without stating that it illustrates tumour explantation.",
+      "sourcePassage": "often they will explant the tumor. Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "rewritePassage": "A slice through a tumour, with a stain to show the morphology, illustrates this [FIGURE].",
+      "caseForHarm": "A student may incorrectly believe that a stained histological section illustrates the procedure or concept of explanting a tumour rather than simply showing tumour morphology.",
+      "caseAgainstHarm": "The phrase 'illustrates this' can be understood as an awkward phrasing to introduce the figure rather than an assertion that histological staining illustrates explantation."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Primary cells really don't grow in culture.",
+      "reason": "Omitting the word 'really' removes an emphatic colloquial filler rather than a scientific hedge."
+    },
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "Omitted as an aside to the audience / procedural remark about lecture timing."
+    },
+    {
+      "sourcePassage": "with regard to the contributions of things like the stroma and other things.",
+      "reason": "Changing 'other things' to 'other components' is an allowed stylistic refinement that preserves meaning."
+    }
+  ]
+}

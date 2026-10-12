@@ -1,0 +1,37 @@
+{
+  "subtopicId": 7,
+  "checkerPromptVersion": "c18",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite converts the lecturer's pointing words ('the tumor is here. This is the outer surface of the uterus') into a spatial description ('lies next to the outer surface') that the text does not state.",
+      "sourcePassage": "You can see that the tumor is here. This is the outer surface of the uterus.",
+      "rewritePassage": "The tumour lies next to the outer surface of the uterus"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The word 'circumspect' was changed to 'circumscribed' without a term correction, choosing a likely reading to correct an erroneous or unclear word in the text.",
+      "sourcePassage": "this is actually circumspect and very separate",
+      "rewritePassage": "The tumour is therefore circumscribed and very separate"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Movable, and literally, you can scoop it out with no damage to the surrounding tissue.",
+      "reason": "The rewrite renders this into passive textbook prose ('the tumour is movable, and it can literally be scooped out with no damage to the surrounding tissue') while preserving the exact meaning."
+    },
+    {
+      "sourcePassage": "has, if you like, invaded within this tissue.",
+      "reason": "'has, in a sense, invaded this tissue' is an acceptable stylistic rewording of the lecturer's hedge 'if you like'."
+    },
+    {
+      "sourcePassage": "So contrast this fibroid that you're seeing here, this leiomyoma, with a malignant case.",
+      "reason": "The rewrite formats 'fibroid, a leiomyoma' appropriately without introducing unsourced information."
+    },
+    {
+      "sourcePassage": "you wouldn't be sampling all over the body",
+      "reason": "Rendered as 'the whole body would not be sampled', which accurately conveys the original meaning in formal British English."
+    }
+  ]
+}

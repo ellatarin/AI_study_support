@@ -1,0 +1,29 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c18",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds 'that is', thereby asserting that acetylation or deacetylation is the state of transcription within the cell itself, adding an equivalence link not stated in the source text.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds 'therefore', creating a causal link between the previous facts and the occurrence of changes, whereas 'So' in the text was merely a discourse marker.",
+      "sourcePassage": "So there's a lot of changes that occur",
+      "rewritePassage": "Many changes therefore occur"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "and they can also predispose to chronic inflammatory events that can also help to give rise to cancer.",
+      "reason": "The rewrite replaces 'they' with 'infection'. Because the lecturer introduced this point with 'gene changes can also arise from infection', rephrasing the pronoun as 'infection' does not improperly distort the meaning."
+    },
+    {
+      "sourcePassage": "The idea that a normal cell, starting off here, acquires a mutation",
+      "reason": "The conversational pointing word 'starting off here' was dropped, which is an allowed change for spoken filler."
+    }
+  ]
+}

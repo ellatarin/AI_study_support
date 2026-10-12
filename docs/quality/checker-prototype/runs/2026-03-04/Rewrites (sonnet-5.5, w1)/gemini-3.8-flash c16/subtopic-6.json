@@ -1,0 +1,24 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c16",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "This is an aside/remark by the lecturer to themselves and the audience, so omitting it is an allowed change."
+    },
+    {
+      "sourcePassage": "And I think one of the tumors that does this quite frequently is ovarian cancer, for example.",
+      "reason": "The phrase 'I think' functions here as conversational filler rather than a substantive scientific hedge, so omitting it does not alter the factual meaning of the statement."
+    },
+    {
+      "sourcePassage": "or also this transcoelomic site from across a cavity",
+      "reason": "The lecturer introduces 'a number of routes' at the start of the sentence; phrasing this as 'by a transcoelomic route' preserves the meaning and resolves the grammatical slip."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here, and then you can often see sometimes the tumor cells are actually present within a lymphatic duct.",
+      "reason": "The pointing phrase 'You see your tumor cells are here' refers to the visual slide, and the core histological finding (presence of tumour cells within a lymphatic duct) is fully conveyed in the rewrite."
+    }
+  ]
+}

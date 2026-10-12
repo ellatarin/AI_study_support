@@ -1,0 +1,24 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c17",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "reason": "The rewrite renders 'this' as 'Invasion' ('Invasion is therefore probably an obligatory step in arriving at a malignant, metastasising tumour.'). This is permissible because the surrounding text establishes invasion as the intervening step between benign lesions and metastatic spread."
+    },
+    {
+      "sourcePassage": "You'll see that over here you have the adenoma which has progressed into an adenocarcinoma.",
+      "reason": "The rewrite replaces 'over here' with 'Elsewhere in the same lesion'. This is allowed because the lecturer describes examining different parts of the same sliced polyp, noting an adenocarcinoma component developing out of the adenoma."
+    },
+    {
+      "sourcePassage": "and you'll be able to look at this in great detail in the practicals",
+      "reason": "Omitted as an allowed change because it is a remark about the course practicals rather than scientific subject matter."
+    },
+    {
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "The rewrite phrases this as 'malignancy is defined as the ability to invade the surrounding tissue', which faithfully reflects the lecturer's meaning in context."
+    }
+  ]
+}

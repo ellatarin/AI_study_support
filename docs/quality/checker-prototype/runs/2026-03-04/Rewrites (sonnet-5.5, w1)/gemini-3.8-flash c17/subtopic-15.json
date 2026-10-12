@@ -1,0 +1,25 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c17",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds a spatial relationship, claiming that the cervix is seen 'alongside' the endocervical canal, which is not stated in the text and converts a pointing gesture into an unverified description.",
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "rewritePassage": "and the cervix is seen alongside it",
+      "caseForForbidden": "The rewrite turns the lecturer's deictic pointing word into a specific spatial description ('alongside it') that the original text does not state.",
+      "caseForAllowed": "The clause simply attempts to translate the lecturer's demonstrative pointing to separate features on a histological slide into coherent textbook prose."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here",
+      "reason": "This is a conversational remark pointing out individual example cells on an image slide, while the substantive scientific claim that mitotic cells occur at the basement layer was fully retained."
+    },
+    {
+      "sourcePassage": "and you'll see this in your practicals",
+      "reason": "Although this is a remark about the course/practical sessions, retaining it as textbook prose ('and it will be seen in the practicals') does not introduce any distortion or forbidden change."
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c18",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "The text states 'it's defined as the ability to invade the surrounding tissue' immediately following 'invasion and malignancy'. In pathology and in the context of the lecture, malignancy is characterized by the capacity to invade surrounding tissue, so clarifying 'it' as 'malignancy' accurately reflects the meaning rather than introducing a distortion."
+    },
+    {
+      "sourcePassage": "But the question is, of course, you would then be interested in figuring out whether or not there would be secondary metastases across the body.",
+      "reason": "This rhetorical aside was dropped as a conversational remark/false start, as the lecturer immediately redirects attention back to the histological slide, and the subject of secondary metastases across the body is addressed in detail in the following paragraphs."
+    },
+    {
+      "sourcePassage": "So significant numbers of them are released, but many of them never metastasize. They never survive in the secondary site.",
+      "reason": "Connecting these adjacent statements with 'because' ('Many never metastasise, because they never survive at the secondary site') makes explicit the direct causal relationship expressed by the lecturer without introducing unsourced factual content."
+    },
+    {
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "reason": "Resolving 'this' to 'Invasion' ('Invasion is therefore probably an obligatory step in arriving at a malignant, metastasising tumour') is directly supported by the context of the preceding discussion regarding local invasion preceding metastasis."
+    }
+  ]
+}

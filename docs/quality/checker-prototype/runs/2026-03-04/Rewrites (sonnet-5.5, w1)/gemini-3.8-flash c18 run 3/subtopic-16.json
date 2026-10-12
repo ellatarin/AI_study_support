@@ -1,0 +1,16 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c18",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "The lecturer's reference to what the audience previously saw is a remark to the audience and recap of earlier material, adapted neutrally into textbook prose without losing factual content."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "The rewrite phrases this as 'Of the screening methods discussed, cervical screening is the best', which faithfully reflects the lecturer's comparative statement and reminder of earlier discussion."
+    }
+  ]
+}

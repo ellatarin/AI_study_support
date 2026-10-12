@@ -1,0 +1,20 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c17",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "The reference to what the audience saw earlier in the lecture is a remark to the audience / lecture reference, and rendering it as 'The different pre-cancerous states are present' maintains the subject matter without adding unsourced facts."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "Expanding 'as I said' into 'Of the screening methods discussed, cervical screening is the best' is an allowed stylistic phrasing to clarify the lecturer's back-reference without introducing new scientific claims."
+    },
+    {
+      "sourcePassage": "an ulcerated cauliflower structure, if you like, an ulcerated tumor",
+      "reason": "'an ulcerated cauliflower-like structure, an ulcerated tumour' conveys the exact same meaning as the lecturer's figurative description."
+    }
+  ]
+}

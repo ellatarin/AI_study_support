@@ -1,0 +1,20 @@
+{
+  "subtopicId": 9,
+  "checkerPromptVersion": "c18",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So this meningioma obviously is occurring within the skull. The skull is a confined space. This would put an enormous amount of pressure on the brain and the surrounding structures and would cause and has caused Has caused death in this case.",
+      "reason": "The lecturer's demonstrative reference to 'this meningioma' and 'in this case' is adapted to textbook prose as 'A meningioma occurs within the skull... and in this case it caused death'. This conveys the same clinical scenario and causal reasoning without introducing unsourced claims or distortions."
+    },
+    {
+      "sourcePassage": "But things like the smooth muscle fibroid that I showed you, that almost never progresses to a leiomyosarcoma.",
+      "reason": "The reference to the earlier presentation of a fibroid is rendered as 'as shown earlier' alongside a [FIGURE] placeholder, which is an allowed stylistic adaptation."
+    },
+    {
+      "sourcePassage": "constricting on the processes of normal tissues that are adjacent to them",
+      "reason": "Phrased as 'constricting the processes of the normal tissues adjacent to them', which is an allowable grammatical cleanup that preserves the intended meaning."
+    }
+  ]
+}

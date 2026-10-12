@@ -1,0 +1,37 @@
+{
+  "subtopicId": 7,
+  "checkerPromptVersion": "c17",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite converts the lecturer's pointing words into a specific spatial relationship ('lies next to') that is not stated in the text.",
+      "sourcePassage": "You can see that the tumor is here. This is the outer surface of the uterus.",
+      "rewritePassage": "The tumour lies next to the outer surface of the uterus",
+      "caseForForbidden": "The rewrite turns deictic pointing gestures into a concrete anatomical description that the lecturer never gave and that the text does not verify.",
+      "caseForAllowed": "Describing the tumour as lying next to the outer surface is an intuitive interpretation of the lecturer pointing out both structures in immediate succession."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite replaces 'circumspect' with 'circumscribed' without a corresponding entry in the term corrections.",
+      "sourcePassage": "So you can see again that this is actually circumspect and very separate from the surrounding stroma and the surrounding tissue.",
+      "rewritePassage": "The tumour is therefore circumscribed and very separate from the surrounding stroma and the surrounding tissue.",
+      "caseForForbidden": "Changing an uncorrected word to a standard medical term alters the wording of the source text and resolves an unclear statement without authorization.",
+      "caseForAllowed": "'Circumspect' is an obvious transcription error or slip of the tongue for 'circumscribed', and using the correct medical term restores the clear intended meaning."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So if you zoom into what this actually looks like on the slide, taking this section here, what you find is normal muscle here, but interleaving within that, you have these stripes of the malignant tumor that are within the normal muscle.",
+      "reason": "The rewrite renders this as 'In a zoomed-in view of the section, normal muscle is present, but interleaved within it are stripes of the malignant tumour lying within the normal muscle', which faithfully conveys the lecturer's description without adding unsourced facts."
+    },
+    {
+      "sourcePassage": "Movable, and literally, you can scoop it out with no damage to the surrounding tissue. All right? So a benign tumor.",
+      "reason": "The rewrite adapts this spoken phrasing into passive textbook prose ('the tumour is movable, and it can literally be scooped out with no damage to the surrounding tissue'), which is an allowed change of style and grammar."
+    },
+    {
+      "sourcePassage": "I guess the other thing you have to bear in mind is that when a patient would come and get a biopsy, very often, for example, with breast cancers, you might sample the adjacent lymph node, but you wouldn't be sampling all over the body, so it might be difficult to necessarily find all of the possible secondary tumors unless there is some other physical sign that you can detect.",
+      "reason": "The rewrite drops conversational fillers like 'I guess' and slightly streamlines the phrasing while preserving every clinical observation and step of reasoning."
+    }
+  ]
+}

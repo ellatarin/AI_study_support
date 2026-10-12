@@ -1,0 +1,20 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c16",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "Replacing the lecturer's conversational reference to prior slides ('You saw...') with an introductory clause about pre-cancerous states is an acceptable stylistic transformation that drops audience-directed remarks."
+    },
+    {
+      "sourcePassage": "ulcerated cauliflower structure, if you like",
+      "reason": "Rendering 'cauliflower structure, if you like' as 'cauliflower-like structure' accurately captures the speaker's colloquial simile."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "Rendering 'as I said, the cervix is best' as 'Of the screening methods discussed, cervical screening is the best' preserves the meaning and refers to previous lecture content without adding unsupported facts."
+    }
+  ]
+}

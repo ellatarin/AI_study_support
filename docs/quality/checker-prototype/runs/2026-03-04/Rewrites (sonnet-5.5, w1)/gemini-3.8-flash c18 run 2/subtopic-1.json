@@ -1,0 +1,20 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c18",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there.",
+      "reason": "The reference to the slide listing the outcomes is introductory/presentation phrasing; framing the outcomes that follow in the text as 'The learning outcomes for this lecture are as follows' accurately conveys the lecture content."
+    },
+    {
+      "sourcePassage": "Right. So I tag-teamed these lectures with Professor Turner, and so she will also be teaching three of these lectures.",
+      "reason": "The rewording 'The lectures are shared with Professor Turner, who teaches three of the six' accurately conveys the meaning without distortion or omission."
+    },
+    {
+      "sourcePassage": "So you're going to be able to link this visually in the practicals.",
+      "reason": "Preserved faithfully in the rewrite as 'This is linked visually in the practicals.'"
+    }
+  ]
+}

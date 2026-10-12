@@ -1,0 +1,33 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c17",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite replaces 'adolescence' with 'differentiation', changing 'adolescence and maturation' to 'differentiation and maturation'.",
+      "sourcePassage": "during adolescence and maturation, this occurs from infancy to adulthood",
+      "rewritePassage": "differentiation and maturation also occur from infancy to adulthood",
+      "caseForForbidden": "The lecturer specifically referred to development occurring during adolescence, but the rewrite changed the term 'adolescence' to 'differentiation'.",
+      "caseForAllowed": "The rewrite interpreted the pronoun 'this' as referring to the ongoing differentiation mentioned in the previous sentence, with adolescence subsumed under the span from infancy to adulthood."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "during the time that you were born",
+      "reason": "Omitted because it was a spoken slip or false start immediately following the statement that expansive growth happens during embryogenesis."
+    },
+    {
+      "sourcePassage": "provides a signaling and basis",
+      "reason": "Rendered as 'provides a signalling basis', which straightforwardly repairs a minor spoken stumble without altering the meaning."
+    },
+    {
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes. They have come in, they have lost this architecture, moved over the basement membrane and invaded and are growing within the stroma.",
+      "reason": "The rewrite introduces 'In the image of the invasive tissue', which describes the visual reference; this is permitted because the text itself explicitly states that the cells have invaded into the stroma."
+    },
+    {
+      "sourcePassage": "into the invading stroma",
+      "reason": "The rewrite uses 'into the invaded stroma', correcting an obvious slip of the tongue by the lecturer (since the stroma is invaded by the epithelial cells, not invading them)."
+    }
+  ]
+}

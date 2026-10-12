@@ -1,0 +1,29 @@
+{
+  "subtopicId": 12,
+  "checkerPromptVersion": "c17",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite inserts the causal conjunction 'because' to link the prevalence of benign tumours to the difficulty of their becoming malignant, creating a causal relationship not stated in the source text.",
+      "sourcePassage": "So benign tumors are actually incredibly common. Right? So it actually takes a lot for a benign tumor to become malignant in terms of, as I said, the number of changes that have to happen within a tumor. So they're extremely common",
+      "rewritePassage": "Benign tumours are extremely common, because it takes a great deal for a benign tumour to become malignant",
+      "caseForForbidden": "The conjunction 'because' introduces an unsourced causal link between benign tumours being common and the requirement of multiple changes for malignant transformation.",
+      "caseForAllowed": "The speaker's conversational transition 'So it actually takes a lot... So they're extremely common' could be read as implying a logical connection between the two points."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So I've just put these numbers up just so that you can have a sense.",
+      "reason": "The rewrite renders this as 'The numbers shown give a sense of incidence', which accurately captures the content pointing to the displayed data alongside the inserted [FIGURE] mark."
+    },
+    {
+      "sourcePassage": "And then this is, if you like, the percentage of tumors that result in deaths.",
+      "reason": "The rewrite introduces 'A further slide shows the percentage of tumours that result in deaths', which is an acceptable representation of the lecturer's deictic reference to the upcoming slide."
+    },
+    {
+      "sourcePassage": "Oops. Oh, God. It doesn't go backwards. Here we go.",
+      "reason": "Omitted as conversational remarks and technical difficulties during the lecture."
+    }
+  ]
+}

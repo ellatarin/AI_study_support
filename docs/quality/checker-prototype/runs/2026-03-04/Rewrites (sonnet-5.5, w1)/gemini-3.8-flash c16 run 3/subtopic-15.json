@@ -1,0 +1,25 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c16",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds the spatial description 'alongside it', converting the lecturer's deictic gesture into an unsourced relationship that is anatomically misleading.",
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "rewritePassage": "and the cervix is seen alongside it",
+      "caseForHarm": "A student reading this may incorrectly conclude that the cervix is a separate anatomical structure lying adjacent to the endocervical canal, rather than understanding that the canal is a lumen passing within the cervix itself.",
+      "caseAgainstHarm": "The writer is merely interpreting the lecturer's pointing gesture on a two-dimensional histological section, where the tissue of the cervix is visible on either side of the endocervical canal lumen."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here, but the cells, as they differentiate, they turn over on their sides, they get thin, and they get flat, and their nuclei become very small.",
+      "reason": "The specific pointing out of two individual mitotic cells on the diagram was omitted, but the core fact that mitotic cells occur at the basement layer was fully retained, making the omission a harmless removal of live demonstrative pointing."
+    },
+    {
+      "sourcePassage": "The uterus is here in this diagram, and as you know, it hangs down into the vaginal canal.",
+      "reason": "The lecturer stated that the uterus hangs down into the vaginal canal, and the rewrite faithfully preserved this claim despite it being a slight anatomical imprecision by the speaker."
+    }
+  ]
+}

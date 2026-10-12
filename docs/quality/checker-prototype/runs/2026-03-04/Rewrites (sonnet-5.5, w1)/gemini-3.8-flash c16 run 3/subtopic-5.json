@@ -1,0 +1,20 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c16",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals",
+      "reason": "This is a remark about the course or practical sessions, which is explicitly allowed to be omitted."
+    },
+    {
+      "sourcePassage": "Okay. So with these tools in hand",
+      "reason": "This refers to the context or progression of the lecture, so omitting it is an allowed change."
+    },
+    {
+      "sourcePassage": "where a surgeon can see just by holding or touching a tumor",
+      "reason": "The rewrite uses 'since a surgeon can tell just by holding or touching a tumour', which naturally translates the colloquial connective 'where' and perceptual 'see' into formal written English without distorting the meaning."
+    }
+  ]
+}

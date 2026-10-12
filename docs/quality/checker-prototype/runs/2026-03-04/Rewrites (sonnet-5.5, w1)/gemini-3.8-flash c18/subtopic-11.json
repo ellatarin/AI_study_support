@@ -1,0 +1,27 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c18",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite treats 'meningioma' as an anatomical site in which a tumour occurs ('when the tumour occurs in a meningioma'), whereas a meningioma is itself a type of tumour, as noted earlier in the lecture.",
+      "sourcePassage": "Only 10% of these deaths, generally, if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "rewritePassage": "for example when the tumour occurs in a meningioma or in the liver."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "And if you think about them in the different settings in which they occur",
+      "reason": "The sentence 'Other effects depend on the site' at the start of the second paragraph re-states this context for the examples that follow."
+    },
+    {
+      "sourcePassage": "you saw that enormous cauliflower structure within the colon",
+      "reason": "The phrasing 'the enormous cauliflower-like structure seen within the colon' adapts the spoken reference to a visual aid into textbook prose without introducing unsupported facts."
+    },
+    {
+      "sourcePassage": "And also this competition with the normal",
+      "reason": "The rewrite's 'Competition with normal tissue is also a factor' conveys the meaning of 'the normal' in the context of haematopoietic stem cells competing in the bone marrow niche."
+    }
+  ]
+}

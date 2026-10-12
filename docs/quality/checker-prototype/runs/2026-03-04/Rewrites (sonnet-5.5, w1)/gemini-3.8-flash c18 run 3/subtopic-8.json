@@ -1,0 +1,24 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c18",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "reason": "The rewrite replaces the pronoun 'this' with 'Invasion' ('Invasion is therefore probably an obligatory step in arriving at a malignant, metastasising tumour'). The preceding discussion explains that tumours do not produce widespread metastases without having first invaded, making it clear from the text that invasion is the obligatory step referred to."
+    },
+    {
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "The rewrite renders 'it's defined as' as 'malignancy is defined as the ability to invade the surrounding tissue'. In this context, defining invasion as the ability to invade would be tautological, whereas defining malignancy by invasive capacity reflects the clear sense of the passage."
+    },
+    {
+      "sourcePassage": "But the question is, of course, you would then be interested in figuring out whether or not there would be secondary metastases across the body.",
+      "reason": "This brief rhetorical question is a false start before returning to the slide ('So, if you look microscopically...'). The topic of metastasis is subsequently addressed in full in the following paragraph."
+    },
+    {
+      "sourcePassage": "You'll see that over here you have the adenoma which has progressed into an adenocarcinoma. So one is growing out of the other.",
+      "reason": "The rewrite describes this as 'Elsewhere in the same lesion is the adenoma, which has progressed into an adenocarcinoma', which accurately translates the speaker's deictic gesture ('over here') within the histological section being discussed."
+    }
+  ]
+}

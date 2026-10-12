@@ -1,0 +1,25 @@
+{
+  "subtopicId": 12,
+  "checkerPromptVersion": "c17",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite introduces a causal link ('because') stating that benign tumours are extremely common because it takes a great deal for them to become malignant, which is not stated in the source text.",
+      "sourcePassage": "So benign tumors are actually incredibly common. Right? So it actually takes a lot for a benign tumor to become malignant in terms of, as I said, the number of changes that have to happen within a tumor.",
+      "rewritePassage": "Benign tumours are extremely common, because it takes a great deal for a benign tumour to become malignant, given the number of changes that have to happen within a tumour.",
+      "caseForForbidden": "The lecturer mentions the frequency of benign tumours and the difficulty of malignant transformation as separate observations, so adding 'because' creates an unsourced causal connection.",
+      "caseForAllowed": "The conjunction 'because' merely interprets the conversational flow of the speaker's sequential points introduced by 'So'."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "And then this is, if you like, the percentage of tumors that result in deaths. As you can see, lung cancer is still pretty difficult to treat, and accounts for most of the deaths. But bowel, prostate, and breast are still up there as major causes of mortality. So, and just a-- Oops. Oh, God. It doesn't go backwards.",
+      "reason": "The phrase 'A further slide shows' correctly infers the medium from the lecturer's remarks ('put these numbers up', 'As you can see', 'It doesn't go backwards') and accurately describes the visual presentation."
+    },
+    {
+      "sourcePassage": "So just talking about incidence, about how often various tumors arise. ... So I've just put these numbers up just so that you can have a sense.",
+      "reason": "Describing the numbers as giving 'a sense of incidence' faithfully combines the lecturer's opening topic with their explanation of the displayed figures."
+    }
+  ]
+}

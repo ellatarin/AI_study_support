@@ -1,0 +1,24 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c18",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "The singular pronoun 'it' in the text refers back to 'malignancy', as invasiveness is the defining characteristic of malignancy (and invasion was already defined earlier as penetrating the basement membrane). Clarifying 'it' as 'malignancy' does not distort the meaning."
+    },
+    {
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "reason": "Resolving 'this' to 'Invasion' is supported by the immediate context, where the lecturer explains that a tumour cannot metastasise without invading first and that finding metastases without local invasion indicates a sampling issue."
+    },
+    {
+      "sourcePassage": "But the question is, of course, you would then be interested in figuring out whether or not there would be secondary metastases across the body.",
+      "reason": "This rhetorical transition is immediately abandoned by the lecturer to return to histological details of the primary muscle invasion, and the substantive discussion of secondary metastases is fully developed in the subsequent paragraphs."
+    },
+    {
+      "sourcePassage": "You'll see that over here you have the adenoma which has progressed into an adenocarcinoma. So one is growing out of the other.",
+      "reason": "The rewrite renders the deixis 'over here' as 'Elsewhere in the same lesion', which accurately reflects the histological section of the tumour being discussed."
+    }
+  ]
+}

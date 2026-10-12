@@ -1,0 +1,29 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c17",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite asserts that the slice through a tumour 'illustrates this' (referring to the explantation of tumours), establishing an explanatory link that the lecturer did not make.",
+      "sourcePassage": "Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "rewritePassage": "A slice through a tumour, with a stain to show the morphology, illustrates this [FIGURE].",
+      "caseForForbidden": "The text merely notes what the slide shows rather than stating that it illustrates tumour explantation, so adding 'illustrates this' creates an unsourced link between the figure and the preceding concept.",
+      "caseForAllowed": "The phrase 'illustrates this' functions simply as textbook phrasing to introduce the figure based on the lecturer's pointing word 'Here'."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Primary cells really don't grow in culture.",
+      "reason": "Omitting 'really' does not remove a scientific hedge because here it is used as an informal intensifier rather than a qualification of uncertainty."
+    },
+    {
+      "sourcePassage": "stroma and other things",
+      "reason": "Replacing 'other things' with 'other components' preserves the original meaning in a textbook register without introducing new factual claims."
+    },
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "Omitting the lecturer's remark about lecture mechanics and timekeeping is an allowed omission."
+    }
+  ]
+}

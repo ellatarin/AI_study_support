@@ -1,0 +1,20 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c18",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "This is a personal remark / filler by the lecturer and is legitimately omitted."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here, and then you can often see sometimes the tumor cells are actually present within a lymphatic duct.",
+      "reason": "The pointing phrase 'You see your tumor cells are here' refers to an image/slide and is safely omitted in the textbook rewrite, which retains the core observation that tumour cells can be present within a lymphatic duct."
+    },
+    {
+      "sourcePassage": "or also this transcoelomic site from across a cavity",
+      "reason": "The rewrite phrases this as 'by a transcoelomic route, across a cavity' to maintain parallel phrasing with the previously listed 'routes' introduced in the sentence, preserving the lecturer's meaning."
+    }
+  ]
+}

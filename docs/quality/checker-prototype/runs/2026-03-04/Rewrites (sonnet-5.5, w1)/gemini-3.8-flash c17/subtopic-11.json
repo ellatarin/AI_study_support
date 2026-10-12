@@ -1,0 +1,28 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c17",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Only 10% of these deaths, generally, if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "reason": "The rewrite phrases this as 'when the tumour occurs in a meningioma or in the liver'. Although a meningioma is itself a tumour rather than an anatomical location, the phrasing directly mirrors the lecturer's own colloquial construction ('if they're occurring in things like the meningioma... or in the liver') rather than introducing an unsourced distortion."
+    },
+    {
+      "sourcePassage": "the hematopoietic stem cells that are there, these will interfere. This niche is not very big. This will interfere with your bone marrow",
+      "reason": "The lecturer's spoken syntax has a slight false start ('these will interfere'), which the rewrite renders as 'A tumour occurring in the blood compartments, where the haematopoietic stem cells are located, will interfere with them. This niche is not very big. The tumour will therefore interfere with the bone marrow'. This captures the lecturer's clear intended meaning of tumour competition in the marrow niche without adding unsourced facts."
+    },
+    {
+      "sourcePassage": "Things like obstruction of the bile ducts in the liver interferes with digestion.",
+      "reason": "The rewrite introduces this sentence with 'Other effects depend on the site', which serves as an allowed stylistic transition linking back to the lecturer's earlier point about tumours in 'different settings in which they occur'."
+    },
+    {
+      "sourcePassage": "erosion of that bone function, so you can get fractures",
+      "reason": "The rewrite expresses this as 'erosion of the bone, so that fractures can occur', which conveys the same medical meaning using standard phrasing and is further supported by the lecturer later mentioning 'erosion of bones'."
+    },
+    {
+      "sourcePassage": "Also ulceration, you saw that enormous cauliflower structure within the colon.",
+      "reason": "The rewrite renders this as 'Ulceration is another effect: the enormous cauliflower-like structure seen within the colon', accurately converting the lecturer's audience reference ('you saw') into textbook prose."
+    }
+  ]
+}

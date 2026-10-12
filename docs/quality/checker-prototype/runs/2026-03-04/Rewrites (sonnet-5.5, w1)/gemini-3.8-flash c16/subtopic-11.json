@@ -1,0 +1,24 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c16",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Other effects depend on the site.",
+      "reason": "This is a transitional topic sentence introducing the specific examples of sites (liver, bone) that the lecturer provides, reflecting the earlier statement about tumours in different settings, and adds no unsourced factual claims."
+    },
+    {
+      "sourcePassage": "erosion of that bone function, so you can get fractures",
+      "reason": "The rewrite renders this as 'erosion of the bone, so that fractures can occur', which smoothly cleans up a minor spoken slip while preserving the clinical meaning."
+    },
+    {
+      "sourcePassage": "you saw that enormous cauliflower structure within the colon",
+      "reason": "Rendering this as 'the enormous cauliflower-like structure seen within the colon' appropriately adapts a direct remark to the lecture audience without altering the subject matter."
+    },
+    {
+      "sourcePassage": "Only 10% of these deaths, generally, if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "reason": "The rewrite conveys this as 'Only 10% of deaths are generally caused in this way, for example when the tumour occurs in a meningioma or in the liver', which faithfully tracks the lecturer's phrasing and intended meaning regarding primary tumour deaths."
+    }
+  ]
+}

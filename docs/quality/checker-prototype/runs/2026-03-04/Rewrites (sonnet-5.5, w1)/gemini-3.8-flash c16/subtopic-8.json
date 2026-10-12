@@ -1,0 +1,28 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c16",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "The rewrite resolves the pronoun 'it' to 'malignancy' ('malignancy is defined as the ability to invade the surrounding tissue'). This is the standard histological definition intended by the lecturer, so resolving the pronoun does not distort the meaning or harm student learning."
+    },
+    {
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "reason": "The rewrite resolves 'this' to 'Invasion' ('Invasion is therefore probably an obligatory step in arriving at a malignant, metastasising tumour.'). In context, the lecturer was explaining that invasion precedes metastasis, making this resolution accurate and clear."
+    },
+    {
+      "sourcePassage": "The submucosa is here, and you'll see that there isn't any invasion that has occurred.",
+      "reason": "The rewrite states 'the submucosa lies beneath it', which derives directly from the earlier explanation of gut layer anatomy ('muscularis mucosa... underneath the epithelium. And then you have under here the submucosa')."
+    },
+    {
+      "sourcePassage": "You'll see that over here you have the adenoma which has progressed into an adenocarcinoma. So one is growing out of the other.",
+      "reason": "The rewrite renders 'over here' as 'Elsewhere in the same lesion', which accurately reflects the lecturer's observation that the adenocarcinoma component is developing directly out of the adenomatous polyp being examined on the slide."
+    },
+    {
+      "sourcePassage": "But the question is, of course, you would then be interested in figuring out whether or not there would be secondary metastases across the body.",
+      "reason": "This rhetorical transition raised between microscopic observations is expanded and addressed systematically in the following paragraphs discussing metastasis, so its omission at this specific point does not omit any substantive content."
+    }
+  ]
+}

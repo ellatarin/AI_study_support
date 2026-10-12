@@ -1,0 +1,24 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c17",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "The text mentions 'invasion and malignancy' and follows with the singular 'it's defined as'. The rewrite specifies 'malignancy is defined as the ability to invade the surrounding tissue', which accurately reflects the medical definition and the lecturer's criterion throughout the passage (that invasiveness determines malignancy)."
+    },
+    {
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "reason": "The rewrite renders 'this' as 'Invasion is therefore probably an obligatory step in arriving at a malignant, metastasising tumour'. The entire preceding explanation addresses why invasion must occur before metastases can establish, so identifying 'this' as invasion is directly substantiated by the text."
+    },
+    {
+      "sourcePassage": "You'll see that over here you have the adenoma which has progressed into an adenocarcinoma. So one is growing out of the other.",
+      "reason": "The rewrite phrases 'over here' as 'Elsewhere in the same lesion', which accurately conveys that the lecturer is pointing to a different area of the same polyp section showing the adenoma component alongside the adenocarcinoma component."
+    },
+    {
+      "sourcePassage": "But the question is, of course, you would then be interested in figuring out whether or not there would be secondary metastases across the body.",
+      "reason": "This rhetorical transition remark to the audience is omitted at this specific point in the histology description, but the subject of secondary metastases across the body is fully covered in the immediately following paragraphs."
+    }
+  ]
+}

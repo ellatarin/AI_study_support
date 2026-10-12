@@ -1,0 +1,20 @@
+{
+  "subtopicId": 9,
+  "checkerPromptVersion": "c17",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Obviously, when there is a suspicion of cancer or of a tumor, everybody gets very nervous about what that diagnosis is going to look like.",
+      "reason": "The rewrite renders this conversational remark as 'When cancer or a tumour is suspected, there is considerable anxiety about the diagnosis', which accurately conveys the original meaning in textbook prose."
+    },
+    {
+      "sourcePassage": "smooth muscle fibroid that I showed you",
+      "reason": "The phrase 'as shown earlier' alongside the insertion of the '[FIGURE]' mark appropriately reflects the lecturer's retrospective reference to a displayed image."
+    },
+    {
+      "sourcePassage": "So this meningioma obviously is occurring within the skull. The skull is a confined space. This would put an enormous amount of pressure on the brain and the surrounding structures and would cause and has caused Has caused death in this case. So things like meningiomas can cause that.",
+      "reason": "The rewrite faithfully retains both the general principle and the specific reference to 'in this case'."
+    }
+  ]
+}

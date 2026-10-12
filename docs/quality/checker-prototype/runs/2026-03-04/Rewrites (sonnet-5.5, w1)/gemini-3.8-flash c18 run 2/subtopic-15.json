@@ -1,0 +1,23 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c18",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite converts the lecturer's deictic pointing ('you're looking at the cervix here') into an unstated spatial description ('and the cervix is seen alongside it'), which is not supported by the text.",
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "rewritePassage": "and the cervix is seen alongside it"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here",
+      "reason": "This is a conversational remark directing the audience to specific locations on a slide during the lecture; the underlying factual claim that mitotic cells are restricted to the basement layer is retained."
+    },
+    {
+      "sourcePassage": "and as you know",
+      "reason": "This is an incidental remark to the audience and its omission is allowed."
+    }
+  ]
+}

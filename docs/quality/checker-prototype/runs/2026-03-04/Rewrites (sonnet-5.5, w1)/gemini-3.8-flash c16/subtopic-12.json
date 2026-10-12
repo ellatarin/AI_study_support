@@ -1,0 +1,29 @@
+{
+  "subtopicId": 12,
+  "checkerPromptVersion": "c16",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite inserts an unsourced causal link ('because') asserting that the high incidence of benign tumours is caused by the difficulty of them becoming malignant.",
+      "sourcePassage": "So benign tumors are actually incredibly common. Right? So it actually takes a lot for a benign tumor to become malignant in terms of, as I said, the number of changes that have to happen within a tumor. So they're extremely common",
+      "rewritePassage": "Benign tumours are extremely common, because it takes a great deal for a benign tumour to become malignant, given the number of changes that have to happen within a tumour.",
+      "caseForHarm": "A student reading the rewrite would incorrectly learn that benign tumours arise frequently because malignant transformation is difficult, rather than understanding these as two distinct observations made by the lecturer.",
+      "caseAgainstHarm": "The lecturer immediately follows the statement about benign tumours being common with the statement about malignant progression, which could be interpreted as an intended explanation."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "There are fibroids that we were talking about, warts. All of these are overgrowths of tissues. Moles, I mean, who doesn't have moles?",
+      "reason": "The rewrite groups moles together with lipomas, fibroids, and warts under 'all of which are overgrowths of tissues', which preserves the lecturer's intended categorisation of these common benign lesions."
+    },
+    {
+      "sourcePassage": "So liver cancer and nasopharyngeal carcinomas are very big in Chinese populations.",
+      "reason": "The rewrite renders 'very big' as 'very common', which faithfully reflects the intended meaning of prevalence in this epidemiological context."
+    },
+    {
+      "sourcePassage": "And then this is, if you like, the percentage of tumors that result in deaths.",
+      "reason": "The rewrite describes this as 'A further slide shows the percentage of tumours that result in deaths', which accurately reflects the lecturer's statement indicating what the visual display represents."
+    }
+  ]
+}

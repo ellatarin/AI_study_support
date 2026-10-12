@@ -1,0 +1,20 @@
+{
+  "subtopicId": 9,
+  "checkerPromptVersion": "c17",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "everybody gets very nervous about what that diagnosis is going to look like",
+      "reason": "The rewrite phrases this as 'there is considerable anxiety about the diagnosis', which conveys the same meaning in textbook prose."
+    },
+    {
+      "sourcePassage": "smooth muscle fibroid that I showed you",
+      "reason": "The rewrite renders this as 'a smooth muscle fibroid, as shown earlier' followed by '[FIGURE]', which faithfully reflects the lecturer's reference to a previously shown image without altering factual content."
+    },
+    {
+      "sourcePassage": "So this meningioma obviously is occurring within the skull. The skull is a confined space. This would put an enormous amount of pressure on the brain and the surrounding structures and would cause and has caused Has caused death in this case.",
+      "reason": "The rewrite condenses and standardises this spoken explanation into 'A meningioma occurs within the skull, which is a confined space, so it puts an enormous amount of pressure on the brain and the surrounding structures, and in this case it caused death', accurately preserving all facts and causal connections."
+    }
+  ]
+}

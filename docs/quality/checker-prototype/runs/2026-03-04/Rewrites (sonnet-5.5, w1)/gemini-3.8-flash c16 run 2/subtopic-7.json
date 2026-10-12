@@ -1,0 +1,25 @@
+{
+  "subtopicId": 7,
+  "checkerPromptVersion": "c16",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite converts the lecturer's deictic pointing to the tumour and the outer surface into a specific descriptive relationship, asserting that the tumour lies next to the outer surface of the uterus.",
+      "sourcePassage": "You can see that the tumor is here. This is the outer surface of the uterus.",
+      "rewritePassage": "The tumour lies next to the outer surface of the uterus",
+      "caseForHarm": "A student reading the rewrite may believe that this benign tumour typically or specifically arises directly adjacent to the external surface of the uterus, an anatomical detail not stated by the lecturer.",
+      "caseAgainstHarm": "The lecturer was orienting the audience to a visual specimen showing the outer uterine surface and the tumour, making the phrasing a natural descriptive synthesis of the demonstration."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So you can see again that this is actually circumspect and very separate from the surrounding stroma and the surrounding tissue.",
+      "reason": "The lecturer said 'circumspect', which is an obvious slip of the tongue for the pathological term 'circumscribed'. Rendering this as 'circumscribed' corrects the speaker's slip without distorting the intended teaching point."
+    },
+    {
+      "sourcePassage": "So you can see again that this is actually circumspect",
+      "reason": "The word 'therefore' in 'The tumour is therefore circumscribed' captures the lecturer's inferential 'So you can see' without adding an unsupported causal claim."
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "subtopicId": 12,
+  "checkerPromptVersion": "c17",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite introduces an unsourced causal link with 'because', asserting that benign tumours are common because it takes a lot for them to become malignant.",
+      "sourcePassage": "So benign tumors are actually incredibly common. Right? So it actually takes a lot for a benign tumor to become malignant in terms of, as I said, the number of changes that have to happen within a tumor.",
+      "rewritePassage": "Benign tumours are extremely common, because it takes a great deal for a benign tumour to become malignant, given the number of changes that have to happen within a tumour.",
+      "caseForForbidden": "The addition of 'because' establishes a causal relationship between two separate statements that was not asserted by the lecturer.",
+      "caseForAllowed": "The word 'because' could be seen as an attempt to connect two adjacent sentences linked by the conversational connector 'So'."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So I've just put these numbers up just so that you can have a sense.",
+      "reason": "The rewrite phrases this as 'The numbers shown give a sense of incidence', which accurately reflects the topic of incidence introduced at the start of the section alongside the visual slide."
+    },
+    {
+      "sourcePassage": "And then this is, if you like, the percentage of tumors that result in deaths.",
+      "reason": "The rewrite adds '[FIGURE]' and refers to 'A further slide', which is an allowed formulation describing the visual material referenced by the lecturer."
+    },
+    {
+      "sourcePassage": "Moles, I mean, who doesn't have moles? I mean, so these are very common.",
+      "reason": "The rhetorical question and repeated conversational remarks are dropped as allowed changes."
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "subtopicId": 7,
+  "checkerPromptVersion": "c18",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite resolves the lecturer's deictic pointing words ('the tumor is here. This is the outer surface of the uterus') into a specific anatomical location ('lies next to the outer surface of the uterus') that the text does not state or verify.",
+      "sourcePassage": "You can see that the tumor is here. This is the outer surface of the uterus.",
+      "rewritePassage": "The tumour lies next to the outer surface of the uterus"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So you can see again that this is actually circumspect and very separate from the surrounding stroma and the surrounding tissue.",
+      "reason": "'Circumscribed' is an acceptable correction of the transcriber's mishearing of 'circumspect', and 'therefore' reflects the lecturer's deductive conclusion ('So you can see again that...')."
+    },
+    {
+      "sourcePassage": "and has, if you like, invaded within this tissue.",
+      "reason": "Translating 'if you like' to 'in a sense' faithfully preserves the lecturer's conversational hedge."
+    },
+    {
+      "sourcePassage": "All right? So a benign tumor.",
+      "reason": "Omitted as conversational check and repetition."
+    }
+  ]
+}

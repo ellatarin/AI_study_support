@@ -1,0 +1,20 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c18",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, everyone, shall we get started? Yes. You're very welcome, all of you, to Cancer Biology.",
+      "reason": "Conversational opening and greetings to the audience are legitimately omitted under allowed changes."
+    },
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there.",
+      "reason": "The pointing gesture/reference to listed slides is rephrased as introductory textbook prose ('The learning outcomes for this lecture are as follows') without adding new factual claims."
+    },
+    {
+      "sourcePassage": "So if you really want to become a serious cancer biologist and oncologist in training, then you really have to embrace kind of the full picture in terms of etiologies, treatments, and the patient experience, because they will inform one the other.",
+      "reason": "Faithfully rendered in British English style with equivalent meaning and without distortion."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "subtopicId": 14,
+  "checkerPromptVersion": "c18",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "I call this the four horsemen. You show up with something that's itchy, crusty, lumpy, or bloody.",
+      "reason": "The rewrite phrases this as 'the presentation of cancer can be summarised as the \"four horsemen\": a patient shows up with something that is itchy, crusty, lumpy or bloody', which accurately reflects the subject matter established later in the passage ('screen for different cancers', 'find the cancer')."
+    },
+    {
+      "sourcePassage": "tumors can be indirect if they're occurring in non-screenable or non-palpable areas.",
+      "reason": "The rewrite renders this as 'Tumours can also present indirectly if they occur in non-screenable or non-palpable areas', which is standard clinical terminology for the same meaning."
+    },
+    {
+      "sourcePassage": "even though it's the goal of the NHS to be able to diagnose earlier and quicker.",
+      "reason": "The rewrite uses 'more quickly' instead of 'quicker', which is a standard grammatical adjustment."
+    }
+  ]
+}

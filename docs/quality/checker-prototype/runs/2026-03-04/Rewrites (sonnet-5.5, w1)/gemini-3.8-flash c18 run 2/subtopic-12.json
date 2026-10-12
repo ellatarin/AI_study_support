@@ -1,0 +1,27 @@
+{
+  "subtopicId": 12,
+  "checkerPromptVersion": "c18",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite introduces a causal relationship by stating that benign tumours are extremely common 'because' it takes a great deal for them to become malignant. The source text mentions these as separate observations without asserting that one causes the other.",
+      "sourcePassage": "So benign tumors are actually incredibly common. Right? So it actually takes a lot for a benign tumor to become malignant in terms of, as I said, the number of changes that have to happen within a tumor.",
+      "rewritePassage": "Benign tumours are extremely common, because it takes a great deal for a benign tumour to become malignant"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So liver cancer and nasopharyngeal carcinomas are very big in Chinese populations.",
+      "reason": "Replacing 'very big' with 'very common' accurately captures the speaker's meaning in the context of disease prevalence."
+    },
+    {
+      "sourcePassage": "So I've just put these numbers up just so that you can have a sense.",
+      "reason": "Rendering this as 'The numbers shown give a sense of incidence' is faithful to the topic of incidence introduced at the beginning of the passage."
+    },
+    {
+      "sourcePassage": "So, and just a-- Oops. Oh, God. It doesn't go backwards. Here we go.",
+      "reason": "This is filler and a remark to the audience regarding slide navigation, which is permitted to be dropped."
+    }
+  ]
+}

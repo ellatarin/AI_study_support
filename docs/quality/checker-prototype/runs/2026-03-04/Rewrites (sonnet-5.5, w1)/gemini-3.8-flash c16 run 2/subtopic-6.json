@@ -1,0 +1,24 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c16",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "This is a meta-remark made by the lecturer to the audience / self-reminder, which is an allowed omission."
+    },
+    {
+      "sourcePassage": "or also this transcoelomic site from across a cavity",
+      "reason": "The lecturer said 'routes, either through the lymphatics or through the blood circulation... or also this transcoelomic site', and phrasing this as 'by a transcoelomic route' maintains parallel structure for the list of routes described."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here, and then you can often see sometimes the tumor cells are actually present within a lymphatic duct.",
+      "reason": "The phrase 'You see your tumor cells are here' represents deictic pointing to a slide/micrograph, which is cleanly rendered as describing the cells present within a lymphatic duct alongside a figure placeholder."
+    },
+    {
+      "sourcePassage": "And I think one of the tumors that does this quite frequently is ovarian cancer, for example.",
+      "reason": "Dropping the conversational opener 'And I think' is an allowed removal of colloquial filler rather than the removal of a scientific hedge."
+    }
+  ]
+}

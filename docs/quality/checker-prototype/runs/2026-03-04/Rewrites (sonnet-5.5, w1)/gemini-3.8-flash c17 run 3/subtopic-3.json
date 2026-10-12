@@ -1,0 +1,33 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c17",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The developmental stage 'adolescence' was changed to the biological process 'differentiation'.",
+      "sourcePassage": "because obviously during adolescence and maturation, this occurs from infancy to adulthood.",
+      "rewritePassage": "because differentiation and maturation also occur from infancy to adulthood.",
+      "caseForForbidden": "The rewrite replaces 'adolescence', a specific developmental period, with 'differentiation', which changes a technical term and alters the meaning of the developmental timeline.",
+      "caseForAllowed": "The writer may have understood 'this occurs' to refer to the process of differentiation, but replacing 'adolescence' entirely changes the stated conditions."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "during embryogenesis, during the time that you were born.",
+      "reason": "The phrase 'during the time that you were born' is a conversational false start or clarification immediately following 'embryogenesis', and omitting it is an allowed removal of disfluency."
+    },
+    {
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes.",
+      "reason": "The rewrite renders 'here now' as 'In the image of the invasive tissue', which is explicitly confirmed by the surrounding context where the cells have invaded the stroma."
+    },
+    {
+      "sourcePassage": "provides a signaling and basis for their adherence to this layer.",
+      "reason": "'signaling and basis' was smoothed to 'signalling basis' to correct a spoken disfluency without changing the underlying meaning."
+    },
+    {
+      "sourcePassage": "which would be here into the invading stroma.",
+      "reason": "Changing 'invading stroma' to 'invaded stroma' corrects a slip of the tongue, as the surrounding text establishes that the cancer cells are invading into the stroma."
+    }
+  ]
+}

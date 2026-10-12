@@ -1,0 +1,20 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c16",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "The reference to what the audience saw on previous slides was adapted into a neutral expository statement ('The different pre-cancerous states are present') to remove conversational lecture remarks."
+    },
+    {
+      "sourcePassage": "shedding cells for invading into other parts of the body.",
+      "reason": "The phrasing 'shedding cells that invade other parts of the body' preserves the meaning and biological mechanism without distortion."
+    },
+    {
+      "sourcePassage": "because many of the people that do go for screening and then for further treatment, it has a very, very high false positive rate.",
+      "reason": "The anacoluthon in the spoken sentence was cleaned up into grammatical textbook prose ('are affected by a very high false positive rate') without altering the intended meaning."
+    }
+  ]
+}

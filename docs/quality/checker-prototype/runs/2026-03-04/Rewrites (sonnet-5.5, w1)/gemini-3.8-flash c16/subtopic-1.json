@@ -1,0 +1,16 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c16",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there.",
+      "reason": "The phrase 'listed there' refers to a lecture slide. Adapting this conversational pointer to standard textbook introductory phrasing ('The learning outcomes for this lecture are as follows') is an allowed stylistic change."
+    },
+    {
+      "sourcePassage": "So I tag-teamed these lectures with Professor Turner, and so she will also be teaching three of these lectures.",
+      "reason": "The rewrite states that the lectures are shared with Professor Turner, who teaches three of the six, which accurately conveys the meaning of the colloquial term 'tag-teamed' in the context of the six lectures mentioned earlier."
+    }
+  ]
+}

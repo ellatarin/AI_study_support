@@ -1,0 +1,29 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c16",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite replaces 'adolescence' with 'differentiation', altering the developmental stage referred to by the lecturer.",
+      "sourcePassage": "because obviously during adolescence and maturation, this occurs from infancy to adulthood.",
+      "rewritePassage": "because differentiation and maturation also occur from infancy to adulthood.",
+      "caseForHarm": "A student misses the lecturer's explicit reference to adolescence as a key period of growth and maturation occurring after birth.",
+      "caseAgainstHarm": "The lecturer's phrase 'this occurs' referred back to development and differentiation, so the rewrite simply restates the underlying biological processes that continue from infancy to adulthood."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "which would be here into the invading stroma.",
+      "reason": "The lecturer's phrase 'invading stroma' was a slip of the tongue for the stroma that is being invaded by the tumour cells, so writing 'invaded stroma' appropriately repairs the slip."
+    },
+    {
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes.",
+      "reason": "The rewrite's phrasing 'In the image of the invasive tissue' accurately reflects the subject matter of the slide being described, as the lecturer immediately explains that these cells have 'invaded and are growing within the stroma'."
+    },
+    {
+      "sourcePassage": "during embryogenesis, during the time that you were born.",
+      "reason": "The phrase 'during the time that you were born' was dropped as a spoken slip or false start correcting to/from embryogenesis."
+    }
+  ]
+}

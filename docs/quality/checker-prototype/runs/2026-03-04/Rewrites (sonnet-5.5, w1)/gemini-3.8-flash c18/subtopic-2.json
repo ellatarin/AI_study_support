@@ -1,0 +1,33 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c18",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite inserts 'that is', asserting that acetylation or deacetylation is the state of transcription within the cell itself. The original text does not state that these two things are the same.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The causal agent is changed: the original text states that 'they' (the human viruses) can predispose to chronic inflammatory events, whereas the rewrite broadens this cause to 'infection'.",
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events that can also help to give rise to cancer.",
+      "rewritePassage": "There are about seven different human viruses that precipitate cancer, and infection can also predispose to chronic inflammatory events, which can also help to give rise to cancer."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "I'm sure you've seen a cartoon that looks like this many times. The idea that a normal cell, starting off here, acquires a mutation, and maybe a second mutation, and it becomes slightly abnormal. And then adds another mutation, becoming slightly more abnormal on this journey towards a malignancy.",
+      "reason": "The rewrite renders the spoken description into textbook prose and appends a [FIGURE] mark, which is an allowed change."
+    },
+    {
+      "sourcePassage": "So I've just made this kind of a much simpler diagram, if you like. Simplicity can help frame our thinking, but it will also end up losing a lot of details. So, as I said, you start off with a normal cell, and a bunch of mutations happen over time, and you go from normal to malignant.",
+      "reason": "The rewrite faithfully captures the mention of a simpler diagram, its pros and cons, and cell progression, supported by a permitted [FIGURE] mark."
+    },
+    {
+      "sourcePassage": "So there's a lot of changes that occur, and as I said, we don't know pretty much because of this when they occur. It actually raises a lot of questions.",
+      "reason": "The rhetorical questions and summary remarks are preserved faithfully in the rewrite."
+    }
+  ]
+}

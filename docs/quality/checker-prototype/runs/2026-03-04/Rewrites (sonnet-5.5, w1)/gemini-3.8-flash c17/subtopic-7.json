@@ -1,0 +1,41 @@
+{
+  "subtopicId": 7,
+  "checkerPromptVersion": "c17",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite states that the tumour lies next to the outer surface of the uterus, converting the lecturer's deictic pointing gestures into a specific spatial description not given in the text.",
+      "sourcePassage": "You can see that the tumor is here. This is the outer surface of the uterus.",
+      "rewritePassage": "The tumour lies next to the outer surface of the uterus",
+      "caseForForbidden": "The rewrite turns the lecturer's pointing words ('here' and 'This') into a spatial relationship ('lies next to') that the text does not state.",
+      "caseForAllowed": "The spatial relation can be inferred from the lecturer pointing to both structures consecutively on the slide."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite replaces the word 'circumspect' with the medical term 'circumscribed' without an entry in the term corrections list.",
+      "sourcePassage": "circumspect",
+      "rewritePassage": "circumscribed",
+      "caseForForbidden": "The rewrite alters a term in the text to resolve an error or malapropism without authorization from the term corrections list.",
+      "caseForAllowed": "The lecturer or speech-to-text system clearly substituted 'circumspect' for the standard pathological descriptor 'circumscribed', so the change merely fixes an obvious slip."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So just again, to contrast what this looks like for the patient, you can have a benign tumor like this one, which has a capsule around it.",
+      "reason": "The rewrite generalizes 'like this one, which has a capsule around it' to 'a benign tumour may have a capsule around it', which is an allowed stylistic phrasing."
+    },
+    {
+      "sourcePassage": "So you can see again that this is actually circumspect and very separate from the surrounding stroma and the surrounding tissue.",
+      "reason": "The rewrite's use of 'therefore' was considered as a potential unsourced causal link, but it functions here as a discourse connector summarizing the observable result of tissue separation."
+    },
+    {
+      "sourcePassage": "and has, if you like, invaded within this tissue.",
+      "reason": "Translating the colloquial hedge 'if you like' to 'in a sense' is an allowed change of words with the same meaning."
+    },
+    {
+      "sourcePassage": "so it might be difficult to necessarily find all of the possible secondary tumors unless there is some other physical sign that you can detect.",
+      "reason": "Omitting 'necessarily' and rendering 'so' as 'therefore' preserves the causal reasoning of the original text."
+    }
+  ]
+}

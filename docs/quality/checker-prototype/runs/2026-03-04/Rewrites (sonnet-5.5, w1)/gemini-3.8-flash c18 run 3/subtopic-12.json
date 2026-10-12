@@ -1,0 +1,23 @@
+{
+  "subtopicId": 12,
+  "checkerPromptVersion": "c18",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite introduces a causal link ('because') between benign tumours being common and the requirement of many changes for a benign tumour to become malignant, but the lecturer does not state that one causes the other.",
+      "sourcePassage": "So benign tumors are actually incredibly common. Right? So it actually takes a lot for a benign tumor to become malignant in terms of, as I said, the number of changes that have to happen within a tumor.",
+      "rewritePassage": "Benign tumours are extremely common, because it takes a great deal for a benign tumour to become malignant, given the number of changes that have to happen within a tumour."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So I've just put these numbers up just so that you can have a sense.",
+      "reason": "The rewrite connects 'numbers' to 'incidence' ('give a sense of incidence'), which reflects the topic introduced at the start of the lecture excerpt ('talking about incidence')."
+    },
+    {
+      "sourcePassage": "And then this is, if you like, the percentage of tumors that result in deaths.",
+      "reason": "Phrasing this as 'A further slide shows the percentage of tumours that result in deaths' accurately captures the lecturer's deictic reference to a presentation slide."
+    }
+  ]
+}

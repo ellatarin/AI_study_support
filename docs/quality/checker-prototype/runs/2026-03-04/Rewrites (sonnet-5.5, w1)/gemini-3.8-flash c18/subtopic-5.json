@@ -1,0 +1,20 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c18",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals",
+      "reason": "This is a statement about the course or practicals and is allowed to be omitted."
+    },
+    {
+      "sourcePassage": "And you'll hear this kind of terminology even now, where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable.",
+      "reason": "The rewrite renders this as 'This terminology is still heard now, since a surgeon can tell just by holding or touching a tumour whether it is movable or immovable.' The use of 'since' explains the context given by the speaker's 'where' without introducing an unsupported or misleading causal claim."
+    },
+    {
+      "sourcePassage": "Okay. So with these tools in hand, I think the important concept to try and get across is invasion and metastasis.",
+      "reason": "Introductory conversational framing and lecture-guiding phrases ('with these tools in hand', 'I think the important concept to try and get across') were omitted or condensed into textbook style as allowed changes."
+    }
+  ]
+}

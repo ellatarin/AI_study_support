@@ -1,0 +1,16 @@
+{
+  "subtopicId": 14,
+  "checkerPromptVersion": "c18",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, so what does this look like in the clinic? [chuckles] I call this the four horsemen.",
+      "reason": "The rewrite frames this as 'the presentation of cancer can be summarised as the \"four horsemen\"', which appropriately contextualises the lecturer's informal question and metaphor based on the immediate context of tumour and cancer diagnosis."
+    },
+    {
+      "sourcePassage": "tumors can be indirect if they're occurring in non-screenable or non-palpable areas.",
+      "reason": "The rewrite phrases this as 'Tumours can also present indirectly if they occur in non-screenable or non-palpable areas', which accurately reflects the meaning."
+    }
+  ]
+}

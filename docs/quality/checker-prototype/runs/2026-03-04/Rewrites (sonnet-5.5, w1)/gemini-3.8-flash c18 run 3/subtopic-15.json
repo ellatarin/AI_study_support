@@ -1,0 +1,23 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c18",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite translates the lecturer's pointing words ('this is the endocervical canal here, and so you're looking at the cervix here') into the spatial description 'seen alongside it'. The text does not state that the cervix is seen alongside the canal (the canal is located within the cervix), so this adds an unsourced description.",
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "rewritePassage": "and the cervix is seen alongside it"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here",
+      "reason": "This is a demonstrative remark pointing out specific individual cells on the lecture slide to the audience, so omitting it from the prose is an allowed change."
+    },
+    {
+      "sourcePassage": "So what this looks like histologically, because this is what is so interesting to look at",
+      "reason": "This is conversational filler and an informal remark to the audience, which may be omitted."
+    }
+  ]
+}

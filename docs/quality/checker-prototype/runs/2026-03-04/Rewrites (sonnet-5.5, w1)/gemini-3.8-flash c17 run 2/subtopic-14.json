@@ -1,0 +1,20 @@
+{
+  "subtopicId": 14,
+  "checkerPromptVersion": "c17",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, so what does this look like in the clinic? [chuckles] I call this the four horsemen. You show up with something that's itchy, crusty, lumpy, or bloody.",
+      "reason": "The rewrite phrases this as 'In the clinic, the presentation of cancer can be summarised as the \"four horsemen\": a patient shows up with something that is itchy, crusty, lumpy or bloody.', which correctly specifies the subject based on the subsequent discussion of tumours and cancers without introducing unsupported facts."
+    },
+    {
+      "sourcePassage": "tumors can be indirect if they're occurring in non-screenable or non-palpable areas.",
+      "reason": "The rewrite renders this as 'Tumours can also present indirectly if they occur in non-screenable or non-palpable areas.', which adopts textbook register and British spelling ('tumours') without altering the meaning."
+    },
+    {
+      "sourcePassage": "So in thinking about this, we try to jump the gun and try to screen for different cancers before we get to a malignant state",
+      "reason": "The rewrite translates the conversational transition 'So in thinking about this' to 'For this reason, the approach is...', preserving the causal link stated in the text."
+    }
+  ]
+}

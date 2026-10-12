@@ -1,0 +1,20 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c17",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "This is a personal remark/meta-commentary by the lecturer and is appropriately omitted according to the allowed changes."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here, and then you can often see sometimes the tumor cells are actually present within a lymphatic duct.",
+      "reason": "The lecturer's deictic pointing ('are here') during slide demonstration is represented faithfully by describing the presence of cells in the lymphatic duct and inserting a figure marker."
+    },
+    {
+      "sourcePassage": "or also this transcoelomic site from across a cavity",
+      "reason": "The text lists 'routes' ('routes, either through the lymphatics or through the blood circulation... or also this transcoelomic site'), so referring to a 'transcoelomic route' maintains the intended meaning."
+    }
+  ]
+}

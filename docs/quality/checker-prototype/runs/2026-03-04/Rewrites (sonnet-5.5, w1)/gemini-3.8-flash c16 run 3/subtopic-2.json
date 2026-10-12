@@ -1,0 +1,37 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c16",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite inserts 'that is', asserting an equivalence between acetylation/deacetylation and the overall state of transcription within the cell.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself.",
+      "caseForHarm": "A student reading the rewrite may believe that acetylation and deacetylation are synonymous with the state of transcription itself, rather than modifications that regulate or correlate with transcription.",
+      "caseAgainstHarm": "The lecturer uttered the phrases in immediate apposition, making 'that is' a reasonable interpretation of the speaker's clarifying thought."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite replaces the pronoun 'they' (referring to the human viruses) with 'infection', widening the cause of chronic inflammatory events from those specific viruses to infection generally.",
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events that can also help to give rise to cancer.",
+      "rewritePassage": "There are about seven different human viruses that precipitate cancer, and infection can also predispose to chronic inflammatory events, which can also help to give rise to cancer.",
+      "caseForHarm": "A student could understand that any infection can predispose to cancer-causing chronic inflammation, whereas the lecturer explicitly attributed this to the human viruses mentioned.",
+      "caseAgainstHarm": "The paragraph introduced infection as the overarching topic, so attributing the predisposition to infection captures the broader context intended by the lecturer."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "I'm sure you've seen a cartoon that looks like this many times.",
+      "reason": "Rendered as 'the familiar cartoon', which retains the meaning of a cartoon that students have seen many times."
+    },
+    {
+      "sourcePassage": "So I've just made this kind of a much simpler diagram, if you like.",
+      "reason": "Rendered as 'A much simpler diagram can be made', omitting conversational filler while preserving the reference to the simplified diagram and adding the appropriate [FIGURE] tag."
+    },
+    {
+      "sourcePassage": "and as I said, we don't know pretty much because of this when they occur.",
+      "reason": "Rendered as 'and because of this it is largely not known when they occur', accurately conveying the causal link and scientific uncertainty expressed by the speaker."
+    }
+  ]
+}

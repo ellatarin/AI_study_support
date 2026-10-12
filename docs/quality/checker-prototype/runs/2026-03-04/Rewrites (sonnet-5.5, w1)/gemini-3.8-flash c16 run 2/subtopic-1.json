@@ -1,0 +1,20 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c16",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there.",
+      "reason": "The lecturer points to learning outcomes listed on a slide and proceeds to read them out; the rewrite introduces the spoken learning outcomes with 'The learning outcomes for this lecture are as follows', which is an allowed stylistic transition rather than an unsourced addition."
+    },
+    {
+      "sourcePassage": "So you're going to be comparing the differences between benign and malignant tumors",
+      "reason": "The transition 'This involves comparing benign and malignant tumours' connects this point to the preceding takeaway message about invasion and metastasis, reflecting the lecturer's conversational flow without distorting the scientific content."
+    },
+    {
+      "sourcePassage": "Okay, everyone, shall we get started? Yes. You're very welcome, all of you, to Cancer Biology.",
+      "reason": "Omitted conversational greetings and remarks to the audience are allowed changes."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c17",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, everyone, shall we get started? Yes. You're very welcome, all of you, to Cancer Biology.",
+      "reason": "Conversational opening remarks, greetings, and filler were omitted in accordance with the allowed changes."
+    },
+    {
+      "sourcePassage": "So I tag-teamed these lectures with Professor Turner, and so she will also be teaching three of these lectures.",
+      "reason": "Faithfully conveyed as sharing the lectures with Professor Turner, who teaches three of the six."
+    },
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there. So you're going to be able to recognize that due to an accumulation of genetic changes, cancers are arising from a failure of normal cellular differentiation.",
+      "reason": "Directly adapted into textbook prose detailing the lecture's learning outcomes."
+    }
+  ]
+}

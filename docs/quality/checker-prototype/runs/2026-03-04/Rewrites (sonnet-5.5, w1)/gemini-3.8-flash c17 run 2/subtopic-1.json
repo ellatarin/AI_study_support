@@ -1,0 +1,20 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c17",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, everyone, shall we get started? Yes. You're very welcome, all of you, to Cancer Biology.",
+      "reason": "Omitted conversational opening and welcome to the lecture, which are permitted omissions of filler and remarks to the audience."
+    },
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there.",
+      "reason": "The deictic reference ('listed there', indicating a slide or board) was adapted into standard textbook prose as 'The learning outcomes for this lecture are as follows.', which is an allowed stylistic adjustment."
+    },
+    {
+      "sourcePassage": "Right. So I tag-teamed these lectures with Professor Turner, and so she will also be teaching three of these lectures.",
+      "reason": "Phrasing transformed from conversational first-person ('I tag-teamed') to third-person formal style ('The lectures are shared with Professor Turner, who teaches three of the six.'), which is an allowed change in style."
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c16",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The word 'since' establishes a causal relationship between a surgeon being able to feel the tumour and the terminology still being heard today, whereas the original text used 'where' merely to describe the context in which the terminology is encountered.",
+      "sourcePassage": "And you'll hear this kind of terminology even now, where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable.",
+      "rewritePassage": "This terminology is still heard now, since a surgeon can tell just by holding or touching a tumour whether it is movable or immovable.",
+      "caseForHarm": "A student reading the rewrite may believe the lecturer provided an explicit causal explanation for the historical terminology's survival rather than simply describing the clinical setting where it is used.",
+      "caseAgainstHarm": "In colloquial speech, 'where' is frequently used to loosely explain or justify a preceding remark, so 'since' preserves the natural sense of the spoken explanation without distorting any medical facts."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals",
+      "reason": "This is an omitted remark directed to the students about their course practicals, which is explicitly permitted under allowed changes."
+    },
+    {
+      "sourcePassage": "Okay. So with these tools in hand, I think the important concept to try and get across is invasion and metastasis.",
+      "reason": "The introductory conversational framing and reference to prior tools were condensed into 'The important concepts to establish next are invasion and metastasis', which removes conversational filler while retaining the concepts."
+    },
+    {
+      "sourcePassage": "Right. So, what does that mean for the patient? Well, the invasion,",
+      "reason": "The rhetorical question and conversational fillers were streamlined to 'For the patient, invasion,', which is an allowed stylistic change."
+    }
+  ]
+}

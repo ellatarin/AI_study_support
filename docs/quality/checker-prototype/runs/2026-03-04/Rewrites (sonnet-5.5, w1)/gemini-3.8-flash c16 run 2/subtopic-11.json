@@ -1,0 +1,29 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c16",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite describes a tumour occurring 'in a meningioma', treating 'meningioma' as an anatomical site rather than the tumour itself.",
+      "sourcePassage": "if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "rewritePassage": "for example when the tumour occurs in a meningioma or in the liver.",
+      "caseForHarm": "A student may incorrectly learn that a meningioma is a bodily organ or tissue site where a tumour can develop, rather than being a tumour type itself.",
+      "caseAgainstHarm": "A student would understand from the earlier mention of meningioma as a tumour causing pressure that the phrasing is simply a minor syntactic slip derived from the lecturer's loose spoken phrasing."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Things like obstruction of the bile ducts in the liver interferes with digestion.",
+      "reason": "The introductory sentence 'Other effects depend on the site' was added at the start of the paragraph, but this merely restates the lecturer's earlier framing ('in the different settings in which they occur') to introduce the examples that follow."
+    },
+    {
+      "sourcePassage": "if tumors in bones lead to erosion of that bone function, so you can get fractures",
+      "reason": "The rewrite changes 'erosion of that bone function' to 'erosion of the bone', which accurately conveys the physical erosion leading to fractures described by the lecturer."
+    },
+    {
+      "sourcePassage": "Also ulceration, you saw that enormous cauliflower structure within the colon.",
+      "reason": "The rewrite renders this as 'the enormous cauliflower-like structure seen within the colon', which appropriately adapts the spoken reference to a visual aid into descriptive textbook prose."
+    }
+  ]
+}

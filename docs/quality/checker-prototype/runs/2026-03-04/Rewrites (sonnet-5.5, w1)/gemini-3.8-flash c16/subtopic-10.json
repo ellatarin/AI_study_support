@@ -1,0 +1,16 @@
+{
+  "subtopicId": 10,
+  "checkerPromptVersion": "c16",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So the fat, smooth muscle or papillomas in the skin, and adenomas, as we were talking about in the colon.",
+      "reason": "The lecturer previously listed 'lipoma, leiomyoma, papilloma, and adenomas' and immediately followed up with their corresponding tissues ('fat, smooth muscle or papillomas in the skin, and adenomas'). Making the 1-to-1 pairing explicit ('lipomas in fat, leiomyomas in smooth muscle...') faithfully preserves the meaning without adding new factual claims."
+    },
+    {
+      "sourcePassage": "Okay? So just so that we're all on the same page in terms of nomenclature",
+      "reason": "Omitted conversational introductory remark to the audience, which is an allowed change."
+    }
+  ]
+}

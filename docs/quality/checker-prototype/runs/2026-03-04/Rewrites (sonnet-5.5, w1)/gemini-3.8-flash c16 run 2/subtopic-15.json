@@ -1,0 +1,33 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c16",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite turns the lecturer's deictic statement ('you're looking at the cervix here') into the spatial description 'alongside it', stating that the cervix is seen alongside the endocervical canal, which is not stated in the text.",
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "rewritePassage": "and the cervix is seen alongside it",
+      "caseForHarm": "A student may develop a confused anatomical understanding, inferring that the cervix is an adjacent structure lying beside the endocervical canal rather than the organ containing the canal.",
+      "caseAgainstHarm": "On a histological slide of the endocervical canal, the cervical tissue appears bordering or alongside the canal's lumen, making this a benign description of the histology slide being viewed."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "The uterus is here in this diagram, and as you know, it hangs down into the vaginal canal.",
+      "reason": "The rewrite states that the uterus hangs down into the vaginal canal as shown in the diagram, faithfully reflecting what the lecturer said without alteration."
+    },
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here, but the cells, as they differentiate, they turn over on their sides, they get thin, and they get flat, and their nuclei become very small.",
+      "reason": "Omitting the lecturer's conversational pointing out of specific individual mitotic cells on the slide is permissible under the dropping of visual pointing remarks, while the core scientific fact that mitotic cells occur at the basement layer is retained."
+    },
+    {
+      "sourcePassage": "when HPV infection occurs, you can get a precursor lesion that is here",
+      "reason": "Rendering 'here' as 'at this site' refers back to the junction mentioned immediately prior, which directly reflects the lecturer's intended reference without adding unsupported information."
+    },
+    {
+      "sourcePassage": "If you'll notice here from the 1950s to, this is only to 2000, you'll see that the rates of death in cervical cancer came down, particularly amongst older women.",
+      "reason": "Dropped conversational filler ('If you'll notice here', 'this is only to') is allowed, and the facts and dates are accurately preserved."
+    }
+  ]
+}

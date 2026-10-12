@@ -1,0 +1,29 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c17",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite converts the lecturer's deictic pointing to the slide into an unsourced spatial description, stating that the cervix is seen 'alongside' the endocervical canal.",
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "rewritePassage": "and the cervix is seen alongside it",
+      "caseForForbidden": "The rewrite turns pointing words into a specific spatial description that is not stated in the text and is anatomically misleading.",
+      "caseForAllowed": "The phrasing is merely an editorial attempt to describe what appears in the histological section."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here",
+      "reason": "This is a remark directing the audience to specific examples on the slide, and the general subject matter (that mitotic cells are located at the basement layer) is fully preserved in the rewrite."
+    },
+    {
+      "sourcePassage": "The uterus is here in this diagram, and as you know, it hangs down into the vaginal canal.",
+      "reason": "The reference to the diagram was preserved with an appropriate [FIGURE] tag, and dropped filler phrases ('and as you know') are allowed changes."
+    },
+    {
+      "sourcePassage": "from the 1950s to, this is only to 2000, you'll see that the rates of death in cervical cancer came down",
+      "reason": "The factual date range and trend were preserved faithfully without conversational false starts and pointing words."
+    }
+  ]
+}

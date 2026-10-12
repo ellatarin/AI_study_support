@@ -1,0 +1,29 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c18",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite inserts 'that is', presenting 'the state of transcription within the cell itself' as a definition or equivalent of 'acetylation or deacetylation', a link not stated in the source text.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The source text states that 'they' (the human viruses that precipitate cancer) can predispose to chronic inflammatory events, whereas the rewrite widens the cause of this effect to 'infection' in general.",
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events that can also help to give rise to cancer.",
+      "rewritePassage": "There are about seven different human viruses that precipitate cancer, and infection can also predispose to chronic inflammatory events, which can also help to give rise to cancer."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So there's a lot of changes that occur, and as I said, we don't know pretty much because of this when they occur.",
+      "reason": "The rewrite renders the conversational 'So' as 'Many changes therefore occur', which summarizes the preceding cataloguing of genetic, epigenetic, and infectious changes rather than introducing an improper causal link."
+    },
+    {
+      "sourcePassage": "I'm sure you've seen a cartoon that looks like this many times.",
+      "reason": "The rewrite condenses this to 'the familiar cartoon [FIGURE]', appropriately capturing the reference to the figure and audience familiarity without introducing unsourced claims."
+    }
+  ]
+}

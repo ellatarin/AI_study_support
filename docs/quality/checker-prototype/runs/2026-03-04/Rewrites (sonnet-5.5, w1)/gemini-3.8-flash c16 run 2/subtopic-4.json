@@ -1,0 +1,16 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c16",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "reason": "The rewrite renders this as 'A slice through a tumour, with a stain to show the morphology, illustrates this [FIGURE].' It faithfully preserves the lecturer's description of what the slide shows while integrating the figure marker and connecting to the explanting context."
+    },
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "This is a dropped remark to the audience / lecturer filler, which is an allowed omission."
+    }
+  ]
+}

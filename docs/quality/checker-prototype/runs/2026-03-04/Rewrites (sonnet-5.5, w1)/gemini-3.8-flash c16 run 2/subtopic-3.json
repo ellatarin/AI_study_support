@@ -1,0 +1,33 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c16",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite changes the term 'adolescence' to 'differentiation', stating that 'differentiation and maturation also occur' instead of noting that development and differentiation continue 'during adolescence and maturation'.",
+      "sourcePassage": "during adolescence and maturation, this occurs from infancy to adulthood.",
+      "rewritePassage": "differentiation and maturation also occur from infancy to adulthood.",
+      "caseForHarm": "A student reading the rewrite misses the lecturer's explicit reference to adolescence as a key stage of post-infancy growth and maturation.",
+      "caseAgainstHarm": "The lecturer's phrase 'this occurs' referred back to differentiation, so stating that differentiation and maturation continue from infancy to adulthood conveys the intended biological point that developmental differentiation is not confined to the womb."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "during the time that you were born.",
+      "reason": "Omitted as an obvious conversational slip or false start by the lecturer, who had just correctly stated that this occurs during embryogenesis (prior to birth)."
+    },
+    {
+      "sourcePassage": "provides a signaling and basis for their adherence to this layer.",
+      "reason": "The phrase 'signalling basis' resolves the speaker's disjointed wording ('a signaling and basis') without changing the meaning."
+    },
+    {
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes. They have come in, they have lost this architecture, moved over the basement membrane and invaded and are growing within the stroma.",
+      "reason": "Resolving the pointing words 'here now' to 'In the image of the invasive tissue' is fully substantiated by the text, which explains that the cells have invaded into the stroma."
+    },
+    {
+      "sourcePassage": "into the invading stroma.",
+      "reason": "Changing 'invading stroma' to 'invaded stroma' corrects a clear slip of the tongue by the speaker, as the stroma is the structure being invaded by deranged cells, not the invading entity."
+    }
+  ]
+}

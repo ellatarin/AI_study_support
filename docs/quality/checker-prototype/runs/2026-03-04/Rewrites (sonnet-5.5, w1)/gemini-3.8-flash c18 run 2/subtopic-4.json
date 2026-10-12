@@ -1,0 +1,31 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c18",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds an unsourced link by stating that the slice through a tumour 'illustrates this' (referring to biologists explanting tumours), whereas the lecturer introduced the slice and stain as an observation of tumour morphology without asserting that it illustrates explantation.",
+      "sourcePassage": "often they will explant the tumor. Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "rewritePassage": "illustrates this [FIGURE]"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "Omitted as allowed conversational filler and remark about the lecture."
+    },
+    {
+      "sourcePassage": "Primary cells really don't grow in culture.",
+      "reason": "The word 'really' is used here as an intensifier rather than a scientific hedge, so its omission in 'Primary cells do not grow in culture' does not constitute an unhedged distortion."
+    },
+    {
+      "sourcePassage": "If you just take any cells out of your body and you disaggregate some of your tissue and throw it into a plastic tissue culture dish, most of those cells, in fact, all of those cells will not grow.",
+      "reason": "Converting the lecturer's informal second-person phrasing into formal passive textbook prose is an allowed stylistic change."
+    },
+    {
+      "sourcePassage": "with regard to the contributions of things like the stroma and other things.",
+      "reason": "Rendering 'other things' as 'other components' preserves the original meaning and is an allowed stylistic change."
+    }
+  ]
+}

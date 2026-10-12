@@ -1,0 +1,37 @@
+{
+  "subtopicId": 7,
+  "checkerPromptVersion": "c16",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite resolves the lecturer's deictic pointing to two features into a specific spatial relationship by stating that the tumour lies next to the outer surface of the uterus.",
+      "sourcePassage": "You can see that the tumor is here. This is the outer surface of the uterus.",
+      "rewritePassage": "The tumour lies next to the outer surface of the uterus",
+      "caseForHarm": "A student may learn an incorrect anatomical location for this fibroid, assuming it was specifically positioned adjacent to the outer surface rather than simply shown alongside the uterine surface on the visual slide.",
+      "caseAgainstHarm": "The lecturer was orienting the audience to the slide by indicating the tumour and the outer boundary of the organ, making the descriptive phrasing a natural reading of the demonstrative pointing."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite replaces the word 'circumspect' with the medical term 'circumscribed' without an entry in the corrections list.",
+      "sourcePassage": "So you can see again that this is actually circumspect and very separate from the surrounding stroma and the surrounding tissue.",
+      "rewritePassage": "The tumour is therefore circumscribed and very separate from the surrounding stroma and the surrounding tissue.",
+      "caseForHarm": "A student may believe the lecturer explicitly used the formal pathological term 'circumscribed' when describing the gross margins of the tumour.",
+      "caseAgainstHarm": "The lecturer committed an obvious slip of the tongue (or was misheard by the transcriber), and substituting 'circumscribed' repairs the error and conveys the accurate pathological concept."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So contrast this fibroid that you're seeing here, this leiomyoma, with a malignant case.",
+      "reason": "The rewrite renders this as 'This fibroid, a leiomyoma, can be contrasted with a malignant case', correctly preserving the synonymous apposition between fibroid and leiomyoma."
+    },
+    {
+      "sourcePassage": "and has, if you like, invaded within this tissue.",
+      "reason": "The rewrite renders 'if you like' as 'in a sense', faithfully maintaining the lecturer's conversational hedge."
+    },
+    {
+      "sourcePassage": "you wouldn't be sampling all over the body",
+      "reason": "The change to passive voice ('the whole body would not be sampled') preserves the meaning without adding or omitting information."
+    }
+  ]
+}

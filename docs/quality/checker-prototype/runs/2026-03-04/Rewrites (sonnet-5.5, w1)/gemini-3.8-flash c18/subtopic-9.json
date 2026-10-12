@@ -1,0 +1,20 @@
+{
+  "subtopicId": 9,
+  "checkerPromptVersion": "c18",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Obviously, when there is a suspicion of cancer or of a tumor, everybody gets very nervous about what that diagnosis is going to look like.",
+      "reason": "The rewrite translates 'everybody gets very nervous about what that diagnosis is going to look like' into formal academic prose as 'there is considerable anxiety about the diagnosis', preserving the meaning without distortion."
+    },
+    {
+      "sourcePassage": "So this meningioma obviously is occurring within the skull. The skull is a confined space. This would put an enormous amount of pressure on the brain and the surrounding structures and would cause and has caused Has caused death in this case.",
+      "reason": "The rewrite rephrases the lecturer's direct reference to a specific specimen/case ('this meningioma') into a general statement followed by the specific outcome ('in this case it caused death'), which retains all factual and causal details from the original spoken text."
+    },
+    {
+      "sourcePassage": "But things like the smooth muscle fibroid that I showed you, that almost never progresses to a leiomyosarcoma.",
+      "reason": "Inserting a [FIGURE] marker and adapting 'that I showed you' to 'as shown earlier' is an allowed stylistic convention representing visual references."
+    }
+  ]
+}

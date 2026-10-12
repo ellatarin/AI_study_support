@@ -1,0 +1,20 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c16",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "reason": "The rewrite formats the reference to the slide as 'A slice through a tumour, with a stain to show the morphology, illustrates this [FIGURE]', which accurately conveys what the figure shows without introducing unsourced claims."
+    },
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "Omitted as an offhand remark to the audience / spoken filler."
+    },
+    {
+      "sourcePassage": "other things",
+      "reason": "Rendered as 'other components' alongside the stroma, which preserves the original meaning without distorting the scientific content."
+    }
+  ]
+}

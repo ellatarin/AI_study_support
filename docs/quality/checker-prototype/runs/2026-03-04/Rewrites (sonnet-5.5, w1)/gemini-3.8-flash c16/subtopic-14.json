@@ -1,0 +1,20 @@
+{
+  "subtopicId": 14,
+  "checkerPromptVersion": "c16",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, so what does this look like in the clinic? [chuckles] I call this the four horsemen.",
+      "reason": "The rewrite frames this as 'In the clinic, the presentation of cancer can be summarised as the \"four horsemen\"', which appropriately specifies the subject context ('presentation of cancer') from the conversational prompt without introducing an unsourced factual claim."
+    },
+    {
+      "sourcePassage": "tumors can be indirect",
+      "reason": "The rewrite uses 'Tumours can also present indirectly', which correctly reflects the clinical meaning using standard British English medical phrasing."
+    },
+    {
+      "sourcePassage": "diagnose earlier and quicker",
+      "reason": "The rewrite uses 'diagnose earlier and more quickly', which is a grammatical adjustment in British English preserving the identical meaning."
+    }
+  ]
+}

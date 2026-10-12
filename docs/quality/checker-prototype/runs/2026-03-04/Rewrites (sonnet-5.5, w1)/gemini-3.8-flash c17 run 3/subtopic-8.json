@@ -1,0 +1,20 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c17",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "The rewrite specifies that 'malignancy is defined as the ability to invade the surrounding tissue'. In context, 'malignancy' is the pathological concept defined by invasive potential, whereas 'invasion' cannot be defined as the ability to invade. Resolving the singular pronoun 'it' to 'malignancy' preserves the lecturer's meaning rather than introducing an unsourced addition."
+    },
+    {
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "reason": "The rewrite states 'Invasion is therefore probably an obligatory step in arriving at a malignant, metastasising tumour.' The preceding context explicitly discusses tumors that invade before metastasizing and the contrast between benign lesions and tumors that invade and metastasize, showing that 'this' refers to invasion."
+    },
+    {
+      "sourcePassage": "You'll see that over here you have the adenoma which has progressed into an adenocarcinoma. So one is growing out of the other.",
+      "reason": "The rewrite renders 'over here' as 'Elsewhere in the same lesion is the adenoma'. This is an accurate contextual rendering of the lecturer pointing to different areas within the same histological section of the polyp."
+    }
+  ]
+}

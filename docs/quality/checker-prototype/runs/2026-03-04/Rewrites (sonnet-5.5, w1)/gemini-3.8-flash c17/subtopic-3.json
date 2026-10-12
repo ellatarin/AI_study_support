@@ -1,0 +1,33 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c17",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite replaces the developmental stage 'adolescence' with 'differentiation'.",
+      "sourcePassage": "because obviously during adolescence and maturation, this occurs from infancy to adulthood.",
+      "rewritePassage": "because differentiation and maturation also occur from infancy to adulthood.",
+      "caseForForbidden": "The rewrite substitutes the life stage 'adolescence' with the cellular process 'differentiation', altering a specific term used by the lecturer.",
+      "caseForAllowed": "The rewrite clarifies the pronoun 'this' by pulling forward 'differentiation' from the previous sentence while viewing 'adolescence' as already covered by the span 'from infancy to adulthood'."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "during the time that you were born.",
+      "reason": "Omitted as a spoken slip of the tongue or self-correction following 'during embryogenesis'."
+    },
+    {
+      "sourcePassage": "provides a signaling and basis for their adherence to this layer.",
+      "reason": "The phrase was smoothed into 'provides a signalling basis for their adherence to this layer' without altering the substantive scientific meaning."
+    },
+    {
+      "sourcePassage": "moving into this kind of configuration where the cell is growing into the stroma, and also in this kind of deranged manner. And you can see here now the cells are all of different shapes and sizes.",
+      "reason": "The phrase 'In the image of the invasive tissue' resolves the lecturer's deictic reference using details directly confirmed in the immediate context ('invaded and are growing within the stroma')."
+    },
+    {
+      "sourcePassage": "past the basement membrane, which would be here into the invading stroma.",
+      "reason": "Changing 'invading stroma' to 'invaded stroma' corrects an imprecise spoken participle where the lecturer meant the stroma being invaded by the tumour cells."
+    }
+  ]
+}

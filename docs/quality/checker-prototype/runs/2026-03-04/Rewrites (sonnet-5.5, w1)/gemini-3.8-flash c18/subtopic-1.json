@@ -1,0 +1,20 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c18",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, everyone, shall we get started? Yes. You're very welcome, all of you, to Cancer Biology.",
+      "reason": "Conversational opening and greeting to the audience were omitted or condensed into standard introductory prose, which is permitted as dropped filler/remarks to the audience."
+    },
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there.",
+      "reason": "The reference to a slide ('listed there') was rephrased as an introductory clause ('are as follows'), which is an allowed stylistic adjustment."
+    },
+    {
+      "sourcePassage": "tumor",
+      "reason": "Spelling converted to British English 'tumour', which is explicitly allowed."
+    }
+  ]
+}

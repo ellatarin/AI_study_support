@@ -1,0 +1,24 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c18",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Things like obstruction of the bile ducts in the liver interferes with digestion.",
+      "reason": "The rewrite introduces this paragraph with 'Other effects depend on the site.', which serves as a natural transitional topic sentence reflecting the speaker's ongoing discussion of tumours in various anatomical settings (liver, bone, colon)."
+    },
+    {
+      "sourcePassage": "Also ulceration, you saw that enormous cauliflower structure within the colon.",
+      "reason": "The rewrite renders 'you saw that enormous cauliflower structure within the colon' as 'the enormous cauliflower-like structure seen within the colon', adapting the lecturer's direct remark to the audience into objective textbook prose."
+    },
+    {
+      "sourcePassage": "And also this competition with the normal, if you have a tumor that is occurring in some of the blood compartments",
+      "reason": "The rewrite completes the elliptical phrase 'competition with the normal' as 'Competition with normal tissue is also a factor', which faithfully expresses the intended meaning."
+    },
+    {
+      "sourcePassage": "Only 10% of these deaths, generally, if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "reason": "The rewrite states 'for example when the tumour occurs in a meningioma or in the liver', which faithfully tracks the lecturer's own phrasing ('if they're occurring in things like the meningioma ... or in the liver')."
+    }
+  ]
+}

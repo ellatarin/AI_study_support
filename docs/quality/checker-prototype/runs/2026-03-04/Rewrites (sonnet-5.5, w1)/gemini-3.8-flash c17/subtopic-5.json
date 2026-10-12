@@ -1,0 +1,20 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c17",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals",
+      "reason": "This is an administrative remark directed to the student audience about upcoming practical classes, which is permitted to be omitted."
+    },
+    {
+      "sourcePassage": "And you'll hear this kind of terminology even now, where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable.",
+      "reason": "The rewrite renders 'where' as 'since' ('This terminology is still heard now, since a surgeon can tell...'), capturing the explanatory sense of the spoken text without introducing an unsourced factual claim."
+    },
+    {
+      "sourcePassage": "Okay. So with these tools in hand, I think the important concept to try and get across is",
+      "reason": "The introductory conversational framing and reference to prior tools were condensed into 'The important concepts to establish next are', which is an allowed stylistic transition."
+    }
+  ]
+}

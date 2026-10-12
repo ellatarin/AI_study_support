@@ -1,0 +1,31 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c18",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer refers to 'adolescence and maturation' as a developmental period from infancy to adulthood, but the rewrite replaces 'adolescence' with 'differentiation'.",
+      "sourcePassage": "during adolescence and maturation, this occurs from infancy to adulthood.",
+      "rewritePassage": "differentiation and maturation also occur from infancy to adulthood."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "during embryogenesis, during the time that you were born.",
+      "reason": "The phrase 'during the time that you were born' following 'during embryogenesis' is a false start or verbal slip that was omitted in the rewrite."
+    },
+    {
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes. They have come in, they have lost this architecture, moved over the basement membrane and invaded and are growing within the stroma.",
+      "reason": "The rewrite phrase 'In the image of the invasive tissue' interprets the deictic word 'here', which is permissible because the lecturer explicitly describes the tissue as having invaded the stroma."
+    },
+    {
+      "sourcePassage": "provides a signaling and basis for their adherence to this layer.",
+      "reason": "The rewrite renders this as 'provides a signalling basis', which smooths a minor verbal stumble without changing the factual meaning."
+    },
+    {
+      "sourcePassage": "which would be here into the invading stroma.",
+      "reason": "The rewrite changes 'invading stroma' to 'invaded stroma', correcting an apparent verbal slip since the cancer cells invade the stroma."
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c17",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite treats 'meningioma' as an anatomical site in which a tumour can occur, rather than as a primary tumour itself.",
+      "sourcePassage": "Only 10% of these deaths, generally, if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "rewritePassage": "Only 10% of deaths are generally caused in this way, for example when the tumour occurs in a meningioma or in the liver.",
+      "caseForForbidden": "A meningioma is itself a tumour rather than an anatomical organ, so stating that 'the tumour occurs in a meningioma' distorts the medical subject matter and changes the grammatical role of the term.",
+      "caseForAllowed": "The rewrite merely attempts to tidy the lecturer's colloquial phrasing ('if they're occurring in things like the meningioma... or in the liver') by resolving the pronoun 'they' as the tumour."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Things like obstruction of the bile ducts in the liver interferes with digestion.",
+      "reason": "The sentence 'Other effects depend on the site.' was added as an introductory topic sentence linking to the earlier discussion of 'different settings in which they occur', which is an allowed paragraphing and stylistic choice."
+    },
+    {
+      "sourcePassage": "things like if tumors in bones lead to erosion of that bone function, so you can get fractures",
+      "reason": "The rewrite renders this as 'erosion of the bone, so that fractures can occur', which smoothly corrects a spoken slip ('erosion of that bone function') without losing any factual information."
+    },
+    {
+      "sourcePassage": "Also ulceration, you saw that enormous cauliflower structure within the colon.",
+      "reason": "Rendering 'cauliflower structure' as 'cauliflower-like structure' and adapting the lecture audience reference 'you saw' into textbook prose ('seen within the colon') are allowed stylistic changes."
+    }
+  ]
+}

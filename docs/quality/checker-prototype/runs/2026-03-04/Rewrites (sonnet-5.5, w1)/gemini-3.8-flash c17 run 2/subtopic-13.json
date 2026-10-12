@@ -1,0 +1,20 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c17",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "And this is my cat, who also ended up with a feline injection site sarcoma.",
+      "reason": "The rewrite changes the first-person reference to third-person ('The lecturer's own cat developed a feline injection site sarcoma'), which is an acceptable stylistic adaptation for textbook prose."
+    },
+    {
+      "sourcePassage": "along with skin and connective tissues",
+      "reason": "The rewrite expands this to 'tumours of the skin and connective tissues', which accurately reflects the meaning of the spoken phrase in context without adding unsourced information."
+    },
+    {
+      "sourcePassage": "Just a slide about the incidence in companion animals since I found this slide some time ago",
+      "reason": "Omission of conversational meta-commentary regarding the slide and when the lecturer found it is permitted as dropped filler/remarks to the audience."
+    }
+  ]
+}

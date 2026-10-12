@@ -1,0 +1,20 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c18",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here",
+      "reason": "This is a remark to the audience pointing directly at specific cells on a slide during the lecture; the underlying factual claim that mitotic cells occur only at the basement layer in normal epithelium is fully captured in the rewrite."
+    },
+    {
+      "sourcePassage": "histologically, because this is what is so interesting to look at",
+      "reason": "This is a subjective conversational remark and filler by the lecturer, appropriately omitted from textbook prose."
+    },
+    {
+      "sourcePassage": "this is only to 2000",
+      "reason": "The date range is accurately represented in the rewrite as 'From the 1950s to 2000'."
+    }
+  ]
+}

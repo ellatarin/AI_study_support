@@ -1,0 +1,29 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c17",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite asserts that the slice through a tumour illustrates explanting the tumour ('illustrates this'), creating a link between the slice and explantation that the lecturer did not make.",
+      "sourcePassage": "Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "rewritePassage": "A slice through a tumour, with a stain to show the morphology, illustrates this [FIGURE].",
+      "caseForForbidden": "The rewrite links the figure of a stained tumour slice to the preceding statement about explanting tumours by claiming it 'illustrates this', which adds an unsourced conceptual connection not present in the lecture.",
+      "caseForAllowed": "The phrase 'illustrates this' is simply stylistic boilerplate used to introduce the figure showing the tumour slice and stain."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "This was omitted as it is a remark to the audience and filler."
+    },
+    {
+      "sourcePassage": "things like the stroma and other things",
+      "reason": "The change from 'other things' to 'other components' is an acceptable stylistic rephrasing with equivalent meaning."
+    },
+    {
+      "sourcePassage": "Primary cells really don't grow in culture.",
+      "reason": "Removing the conversational intensifier 'really' is an allowed stylistic change that does not weaken or alter the scientific claim."
+    }
+  ]
+}

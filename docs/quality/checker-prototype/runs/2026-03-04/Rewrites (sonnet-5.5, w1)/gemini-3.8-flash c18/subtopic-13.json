@@ -1,0 +1,24 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c18",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "if you compare any two things, you're going to find differences",
+      "reason": "The rewrite phrases this as 'any comparison between two species will reveal differences', which faithfully captures the context of comparing dogs and cats to humans without introducing an unsourced claim."
+    },
+    {
+      "sourcePassage": "digestive tissues, hematopoietic, and skin are the three main categories in terms of where cancers arise",
+      "reason": "Expanding 'hematopoietic' to 'hematopoietic tissues' aligns with the preceding 'digestive tissues' and is a natural stylistic completion rather than an unsourced addition."
+    },
+    {
+      "sourcePassage": "The only thing that was quite interesting to note here is that the rate of malignant tumors is about fivefold higher in reptiles compared to mammals.",
+      "reason": "Phrasing this as 'The one notable difference is that the rate of malignant tumours is about fivefold higher in reptiles than in mammals' accurately reflects the contrast being made in the comparison without distortion."
+    },
+    {
+      "sourcePassage": "And this is my cat, who also ended up with a feline injection site sarcoma... You'll be happy to hear he's doing fine now after his surgery.",
+      "reason": "Converting the speaker's first-person anecdote into third-person textbook style ('The lecturer's own cat...') and dropping remarks to the audience ('You'll be happy to hear') are allowed stylistic changes."
+    }
+  ]
+}

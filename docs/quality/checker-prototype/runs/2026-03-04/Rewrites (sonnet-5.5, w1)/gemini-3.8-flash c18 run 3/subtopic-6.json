@@ -1,0 +1,28 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c18",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "This is an allowed omission of an aside / joke / remark to the audience."
+    },
+    {
+      "sourcePassage": "And I think one of the tumors that does this quite frequently is ovarian cancer, for example.",
+      "reason": "The removal of 'And I think' is allowed as conversational filler rather than the removal of a scientific hedge, since transcoelomic spread in ovarian cancer is an established medical fact."
+    },
+    {
+      "sourcePassage": "or also this transcoelomic site from across a cavity",
+      "reason": "The lecturer explicitly introduces 'a number of routes' ('either through the lymphatics or through the blood circulation... or also this transcoelomic site from across a cavity'); rendering this parallel item as 'by a transcoelomic route' preserves the intended meaning and list structure."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here, and then you can often see sometimes the tumor cells are actually present within a lymphatic duct.",
+      "reason": "Omitting the conversational deictic reference ('You see your tumor cells are here') while retaining the core histological observation that tumour cells are present within a lymphatic duct is an allowed stylistic compression."
+    },
+    {
+      "sourcePassage": "Similarly, here you have a brain, and what you have here is a breast cancer that's metastasized to the brain.",
+      "reason": "Replacing the pointing words ('here you have a brain, and what you have here is...') with 'The other is a breast cancer that has metastasized to the brain' retains all factual subject matter while removing spoken deictics."
+    }
+  ]
+}

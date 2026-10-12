@@ -1,0 +1,29 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c16",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite replaces 'adolescence' with 'differentiation', stating that 'differentiation and maturation' occur from infancy to adulthood rather than 'adolescence and maturation'.",
+      "sourcePassage": "during adolescence and maturation, this occurs from infancy to adulthood.",
+      "rewritePassage": "differentiation and maturation also occur from infancy to adulthood.",
+      "caseForHarm": "A student reading the rewrite misses the lecturer's specific identification of adolescence as a stage of continued maturation between infancy and adulthood.",
+      "caseAgainstHarm": "The rewrite preserves the core idea that developmental processes continue from infancy to adulthood, framing it in terms of differentiation which is the primary subject of the discussion."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "into the invading stroma.",
+      "reason": "The rewrite changes this to 'into the invaded stroma', which corrects an apparent verbal slip by the lecturer (as the tumour cells invade the stroma, making the stroma the invaded entity) and prevents student confusion."
+    },
+    {
+      "sourcePassage": "during the time that you were born.",
+      "reason": "Omitted as a spoken slip or false start that is immediately clarified by the lecturer's explanation that this expansive growth occurs 'obviously in the womb'."
+    },
+    {
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes.",
+      "reason": "The rewrite resolves the pointing word 'here' to 'In the image of the invasive tissue', which is justified by the text because the lecturer immediately explains that these cells have 'invaded and are growing within the stroma'."
+    }
+  ]
+}

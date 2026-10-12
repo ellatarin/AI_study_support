@@ -1,0 +1,31 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c18",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite replaces 'adolescence' with 'differentiation', claiming that 'differentiation and maturation also occur from infancy to adulthood' instead of 'adolescence and maturation'.",
+      "sourcePassage": "because obviously during adolescence and maturation, this occurs from infancy to adulthood.",
+      "rewritePassage": "because differentiation and maturation also occur from infancy to adulthood."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "during embryogenesis, during the time that you were born.",
+      "reason": "The phrase 'during the time that you were born' was omitted as a verbal slip or false start that is immediately clarified by the subsequent mention of growth occurring 'in the womb'."
+    },
+    {
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes.",
+      "reason": "The rewrite's phrasing 'In the image of the invasive tissue' resolves pointing words ('here now'), which is permitted because the text explicitly establishes that the cells have invaded and are growing within the stroma."
+    },
+    {
+      "sourcePassage": "provides a signaling and basis for their adherence to this layer.",
+      "reason": "The omission of 'and' in 'signalling basis' treats 'and' as a spoken disfluency without distorting the scientific meaning."
+    },
+    {
+      "sourcePassage": "which would be here into the invading stroma.",
+      "reason": "Changing 'invading stroma' to 'invaded stroma' rectifies an obvious verbal slip by the speaker, since the surrounding text makes clear that the epithelial cells are the ones doing the invading into the stroma."
+    }
+  ]
+}

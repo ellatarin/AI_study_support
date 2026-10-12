@@ -1,0 +1,20 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c16",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "The rewrite replaces the direct address referencing earlier visual material with 'The different pre-cancerous states are present', which maintains the factual content without the spoken-lecture context."
+    },
+    {
+      "sourcePassage": "ulcerated cauliflower structure, if you like",
+      "reason": "The rewrite rephrases this as 'ulcerated cauliflower-like structure', converting the conversational colloquialism into standard prose with the same meaning."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "The rewrite phrases this as 'Of the screening methods discussed, cervical screening is the best', which faithfully reflects the context of comparing screening modalities."
+    }
+  ]
+}

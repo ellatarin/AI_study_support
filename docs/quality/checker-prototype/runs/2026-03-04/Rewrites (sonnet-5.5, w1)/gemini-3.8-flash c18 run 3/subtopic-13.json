@@ -1,0 +1,20 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c18",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "if you compare any two things, you're going to find differences",
+      "reason": "The rewrite renders this general remark in context as 'although any comparison between two species will reveal differences', which preserves the intended meaning in British textbook prose without distorting the scientific content."
+    },
+    {
+      "sourcePassage": "The only thing that was quite interesting to note here is that the rate of malignant tumors is about fivefold higher in reptiles compared to mammals.",
+      "reason": "The rewrite phrases this as 'The one notable difference is that the rate of malignant tumours is about fivefold higher in reptiles than in mammals', accurately capturing 'interesting to note' as 'notable' and the comparison as a difference."
+    },
+    {
+      "sourcePassage": "digestive tissues, hematopoietic, and skin",
+      "reason": "The rewrite completes the parallel phrasing to 'digestive tissues, hematopoietic tissues and skin', which is an allowed grammatical/stylistic adjustment."
+    }
+  ]
+}

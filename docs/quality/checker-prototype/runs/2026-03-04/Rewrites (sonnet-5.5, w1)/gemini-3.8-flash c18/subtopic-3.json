@@ -1,0 +1,27 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c18",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer refers to 'adolescence and maturation', but the rewrite replaces 'adolescence' with 'differentiation'.",
+      "sourcePassage": "during adolescence and maturation, this occurs from infancy to adulthood",
+      "rewritePassage": "differentiation and maturation also occur from infancy to adulthood"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "during the time that you were born",
+      "reason": "This is a speech slip/false start immediately clarified by 'in the womb', so its omission is allowed."
+    },
+    {
+      "sourcePassage": "provides a signaling and basis for their adherence",
+      "reason": "Smoothing this disfluent phrasing to 'provides a signalling basis for their adherence' is an allowed grammatical improvement."
+    },
+    {
+      "sourcePassage": "into the invading stroma",
+      "reason": "The change to 'invaded stroma' reflects the lecturer's clear meaning that the cells are invading into the stroma, correcting a slip of speech."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c17",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals",
+      "reason": "This is a direct remark to the audience regarding practical coursework, which is permitted to be omitted."
+    },
+    {
+      "sourcePassage": "where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable",
+      "reason": "Rendered as 'since a surgeon can tell just by holding or touching a tumour whether it is movable or immovable', which accurately captures the explanatory meaning of 'where' and the sense of 'see' as discerning/determining."
+    },
+    {
+      "sourcePassage": "Okay. So with these tools in hand, I think the important concept to try and get across is",
+      "reason": "The introductory phrasing represents conversational filler and lecture framing, which may be streamlined to textbook prose."
+    }
+  ]
+}
