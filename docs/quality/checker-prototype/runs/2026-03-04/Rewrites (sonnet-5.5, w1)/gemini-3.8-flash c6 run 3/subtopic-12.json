@@ -1,0 +1,29 @@
+{
+  "subtopicId": 12,
+  "checkerPromptVersion": "c6",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite introduces an unsourced causal link using 'because' to connect the high incidence of benign tumours with the difficulty of a benign tumour becoming malignant, whereas the lecturer merely stated these as separate facts.",
+      "sourcePassage": "So benign tumors are actually incredibly common. Right? So it actually takes a lot for a benign tumor to become malignant in terms of, as I said, the number of changes that have to happen within a tumor.",
+      "rewritePassage": "Benign tumours are extremely common, because it takes a great deal for a benign tumour to become malignant, given the number of changes that have to happen within a tumour."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite turns the lecturer's pointing word 'this' into a description ('A further slide shows') specifying the medium as a slide, which the lecturer did not state.",
+      "sourcePassage": "And then this is, if you like, the percentage of tumors that result in deaths.",
+      "rewritePassage": "A further slide shows the percentage of tumours that result in deaths."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So I've just put these numbers up just so that you can have a sense.",
+      "reason": "The rewrite phrases this as 'give a sense of incidence', which draws directly on the lecturer's opening framing ('So just talking about incidence, about how often various tumors arise') and does not introduce an unsourced concept."
+    },
+    {
+      "sourcePassage": "Oops. Oh, God. It doesn't go backwards. Here we go.",
+      "reason": "This is a dropped technical mishap/filler remark to the audience and contains no subject matter."
+    }
+  ]
+}

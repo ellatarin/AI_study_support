@@ -1,0 +1,29 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c6",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite inserts 'that is', which defines or equates acetylation and deacetylation with the state of transcription within the cell, creating a link not present in the spoken text.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The text states that 'they' (referring to the human viruses) can predispose to chronic inflammatory events, but the rewrite widens the cause to 'infection'.",
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events",
+      "rewritePassage": "There are about seven different human viruses that precipitate cancer, and infection can also predispose to chronic inflammatory events"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So there's a lot of changes that occur, and as I said, we don't know pretty much because of this when they occur.",
+      "reason": "The rewrite translates the conversational transition 'So' into 'therefore' ('Many changes therefore occur...'), which could be viewed as adding a causal link, but in context it reflects the lecturer's summing-up of the preceding catalogue of changes."
+    },
+    {
+      "sourcePassage": "So hopefully, in order to try and address some of these questions, we will start at the beginning.",
+      "reason": "The rewrite changes 'we will start at the beginning' to 'the discussion starts at the beginning', which is an allowed stylistic shift from first-person lecture speech to textbook prose."
+    }
+  ]
+}

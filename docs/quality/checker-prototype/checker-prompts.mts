@@ -83,20 +83,31 @@ An empty "deficiencies" list means that the rewrite is faithful.`;
 const DEFINED_REMARK_ALLOWANCE =
 	"- Dropped filler, false starts, repetitions, jokes, remarks to the audience, and statements about the course or the lecture. A remark to the audience says nothing about the subject, such as a greeting. A sentence that names a structure, a cell or a process, or that asks a question about the subject, is subject matter, even when the lecturer speaks to the students. When such a passage also states subject matter, a dropped statement is an omission.";
 
+/** The forbidden omissions of c4 and c5. */
+const C4_OMISSIONS = `- A fact, an observation, a step of reasoning or a causal link of the text is not in the rewrite.
+- What the lecturer says that a figure shows is not in the rewrite. A statement of what a figure shows is subject matter, not a remark to the audience.`;
+
+/** The forbidden omissions of c6, which add a statement that a general statement keeps in place of the missing one. */
+const KEPT_GENERAL_OMISSIONS = `${C4_OMISSIONS}
+- A statement of the text is missing from the rewrite, and the rewrite keeps only a related or more general statement. A general rule does not replace an example that the lecturer gives.`;
+
 /**
  * Builds the prompt of the versions from c4, which compare one statement at a
  * time and list the forbidden and the allowed changes.
  *
- * @param args - The language and the allowance for dropped material.
+ * @param args - The language, the forbidden omissions and the allowance for dropped material.
  * @param args.name - The name of the notes' language.
+ * @param args.omissions - The lines of the forbidden omissions.
  * @param args.notSubjectMatterAllowance - The allowed-change line for dropped material that is not subject matter.
  * @returns The prompt.
  */
 function forbiddenChangesPrompt({
 	name,
+	omissions,
 	notSubjectMatterAllowance,
 }: {
 	readonly name: string;
+	readonly omissions: string;
 	readonly notSubjectMatterAllowance: string;
 }): string {
 	return `${lecturerTask(name)}
@@ -119,8 +130,7 @@ Report each of these changes, even when the changed statement is true.
 
 ## Omissions
 
-- A fact, an observation, a step of reasoning or a causal link of the text is not in the rewrite.
-- What the lecturer says that a figure shows is not in the rewrite. A statement of what a figure shows is subject matter, not a remark to the audience.
+${omissions}
 
 ## Unsourced additions
 
@@ -278,13 +288,31 @@ ${QUOTED_REPLY}`,
 		changed:
 			"Adds a Process section that compares one statement at a time and reports a change when in doubt. Splits the faults into Forbidden changes and Allowed changes. Names a link that the text only suggests, a cause that becomes wider or narrower, a term with a changed role, an unclear statement made clear, and what a figure shows. Gives two example words of a link. Asks for exactly the same meaning. Has no allowance for the repair of a misheard word.",
 		prompt: (name) =>
-			forbiddenChangesPrompt({ name, notSubjectMatterAllowance: NOT_SUBJECT_MATTER_ALLOWANCE }),
+			forbiddenChangesPrompt({
+				name,
+				omissions: C4_OMISSIONS,
+				notSubjectMatterAllowance: NOT_SUBJECT_MATTER_ALLOWANCE,
+			}),
 	},
 	c5: {
 		changed:
 			"Says what a remark to the audience is: a sentence that says nothing about the subject. A sentence that names a structure, a cell or a process, or asks a question about the subject, is subject matter.",
 		prompt: (name) =>
-			forbiddenChangesPrompt({ name, notSubjectMatterAllowance: DEFINED_REMARK_ALLOWANCE }),
+			forbiddenChangesPrompt({
+				name,
+				omissions: C4_OMISSIONS,
+				notSubjectMatterAllowance: DEFINED_REMARK_ALLOWANCE,
+			}),
+	},
+	c6: {
+		changed:
+			"Starts again from c4, without the c5 line. Adds a forbidden omission: a missing statement when the rewrite keeps only a related or more general statement. A general rule does not replace an example that the lecturer gives.",
+		prompt: (name) =>
+			forbiddenChangesPrompt({
+				name,
+				omissions: KEPT_GENERAL_OMISSIONS,
+				notSubjectMatterAllowance: NOT_SUBJECT_MATTER_ALLOWANCE,
+			}),
 	},
 };
 

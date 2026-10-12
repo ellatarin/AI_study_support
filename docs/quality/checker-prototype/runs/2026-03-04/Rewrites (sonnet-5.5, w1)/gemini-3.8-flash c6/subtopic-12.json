@@ -1,0 +1,23 @@
+{
+  "subtopicId": 12,
+  "checkerPromptVersion": "c6",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite introduces a causal link ('because') between benign tumours being common and the requirement for many changes for a benign tumour to become malignant. The lecturer merely juxtaposes these two observations without stating that one causes the other.",
+      "sourcePassage": "So benign tumors are actually incredibly common. Right? So it actually takes a lot for a benign tumor to become malignant in terms of, as I said, the number of changes that have to happen within a tumor.",
+      "rewritePassage": "Benign tumours are extremely common, because it takes a great deal for a benign tumour to become malignant, given the number of changes that have to happen within a tumour."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "and you'll see things like lipomas. There are fibroids that we were talking about, warts. All of these are overgrowths of tissues. Moles, I mean, who doesn't have moles?",
+      "reason": "The rewrite groups moles alongside lipomas, fibroids, and warts under 'all of which are overgrowths of tissues', whereas the lecturer stated 'All of these are overgrowths of tissues' just before mentioning moles. In context, moles were brought up as another example of these benign overgrowths, so this consolidation does not introduce unstated subject matter."
+    },
+    {
+      "sourcePassage": "And then this is, if you like, the percentage of tumors that result in deaths.",
+      "reason": "The rewrite renders 'this is' as 'A further slide shows... [FIGURE]'. This frames the visual presentation element referenced by the lecturer without adding unstated scientific claims."
+    }
+  ]
+}

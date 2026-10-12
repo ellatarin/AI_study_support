@@ -1,0 +1,39 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c6",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite replaces \"adolescence\" with \"differentiation\".",
+      "sourcePassage": "obviously during adolescence and maturation, this occurs from infancy to adulthood.",
+      "rewritePassage": "differentiation and maturation also occur from infancy to adulthood."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite turns the lecturer's pointing words (\"here now\") into a descriptive phrase (\"In the image of the invasive tissue\") that the lecturer did not state.",
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes.",
+      "rewritePassage": "In the image of the invasive tissue, the cells are of different shapes and sizes."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite changes \"invading stroma\" to \"invaded stroma\".",
+      "sourcePassage": "past the basement membrane, which would be here into the invading stroma.",
+      "rewritePassage": "past the basement membrane into the invaded stroma."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "during the time that you were born",
+      "reason": "Omitted as a slip of the tongue or false start immediately restated and clarified as occurring in the womb and from infancy to adulthood."
+    },
+    {
+      "sourcePassage": "so they're apical basal regulation in terms of the orientation of those cells within the tissue",
+      "reason": "The rewording to 'which reflects apical-basal regulation of the orientation of the cells within the tissue' repairs the spoken grammar without changing the meaning."
+    },
+    {
+      "sourcePassage": "provides a signaling and basis for their adherence to this layer",
+      "reason": "'signalling basis' resolves the spoken false start 'signaling and basis'."
+    }
+  ]
+}

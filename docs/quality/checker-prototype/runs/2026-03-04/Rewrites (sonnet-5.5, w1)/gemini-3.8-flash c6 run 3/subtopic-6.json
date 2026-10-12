@@ -1,0 +1,16 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c6",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "This is a humorous personal remark to the audience and was legitimately omitted as filler."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here, and then you can often see sometimes the tumor cells are actually present within a lymphatic duct.",
+      "reason": "The phrase 'You see your tumor cells are here' is a deictic remark pointing at a slide illustration rather than substantive content, and its omission alongside the insertion of a figure reference is permissible."
+    }
+  ]
+}

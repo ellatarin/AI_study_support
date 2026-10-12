@@ -1,0 +1,24 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c6",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "The lecturer's remark referencing what the audience previously saw was converted into textbook prose ('The different pre-cancerous states are present') without altering the factual meaning."
+    },
+    {
+      "sourcePassage": "ulcerated cauliflower structure, if you like",
+      "reason": "'cauliflower-like structure' accurately captures the lecturer's colloquial phrasing ('cauliflower structure, if you like')."
+    },
+    {
+      "sourcePassage": "or there's some reason if you're showing symptoms",
+      "reason": "'or some other reason, such as the patient showing symptoms' accurately renders the lecturer's conversational phrasing into grammatical prose without changing the meaning."
+    },
+    {
+      "sourcePassage": "very, very",
+      "reason": "The reduction of repeated spoken intensifiers ('very, very') to a single 'very' is an allowed removal of spoken repetition."
+    }
+  ]
+}

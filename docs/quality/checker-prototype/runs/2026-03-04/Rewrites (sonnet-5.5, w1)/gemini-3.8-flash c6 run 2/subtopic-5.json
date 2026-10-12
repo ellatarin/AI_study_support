@@ -1,0 +1,27 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c6",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite uses 'since' to introduce a causal relationship between the terminology still being heard today and a surgeon being able to tell whether a tumour is movable, whereas the source text only uses 'where' to describe the context.",
+      "sourcePassage": "And you'll hear this kind of terminology even now, where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable.",
+      "rewritePassage": "This terminology is still heard now, since a surgeon can tell just by holding or touching a tumour whether it is movable or immovable."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals",
+      "reason": "This is a remark directed to the students about their coursework/practicals, which is an allowed omission."
+    },
+    {
+      "sourcePassage": "So with these tools in hand, I think the important concept to try and get across is invasion and metastasis.",
+      "reason": "The introductory conversational framing and reference to prior tools were omitted as conversational filler, and 'concept' was grammatically adjusted to plural 'concepts'."
+    },
+    {
+      "sourcePassage": "back in, I don't know, when surgery was first coming into its own",
+      "reason": "'I don't know' was omitted as spoken filler/hesitation."
+    }
+  ]
+}

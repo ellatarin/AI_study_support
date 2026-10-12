@@ -1,0 +1,35 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c6",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer refers to a 'transcoelomic site', but the rewrite changes the term to 'transcoelomic route'.",
+      "sourcePassage": "or also this transcoelomic site from across a cavity",
+      "rewritePassage": "or by a transcoelomic route, across a cavity"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The hedge 'I think' was removed from the scientific claim regarding ovarian cancer spreading transcoelomically.",
+      "sourcePassage": "And I think one of the tumors that does this quite frequently is ovarian cancer, for example.",
+      "rewritePassage": "One tumour that does this quite frequently is ovarian cancer, for example."
+    },
+    {
+      "deficiencyType": "omission",
+      "description": "The rewrite omits what the figure shows regarding the main tumour cells ('You see your tumor cells are here'), retaining only the observation of tumour cells within a lymphatic duct.",
+      "sourcePassage": "You see your tumor cells are here, and then you can often see sometimes the tumor cells are actually present within a lymphatic duct.",
+      "rewritePassage": "the tumour cells can often be seen present within a lymphatic duct."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "Dropped self-reminder and joke, which is allowed under dropped filler, jokes, and remarks to the audience."
+    },
+    {
+      "sourcePassage": "Obviously, the liver is normally a reddish-brown color, and all of these white lumps within the liver are secondary tumors.",
+      "reason": "Faithfully retained as a description of what the macroscopic organ example shows."
+    }
+  ]
+}

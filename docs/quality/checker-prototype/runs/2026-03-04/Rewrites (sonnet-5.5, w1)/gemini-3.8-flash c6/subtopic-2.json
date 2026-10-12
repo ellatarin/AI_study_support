@@ -1,0 +1,33 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c6",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite inserts 'that is,', establishing an explicit link of equivalence or definition between acetylation/deacetylation and the state of transcription, whereas the source text merely juxtaposes them without asserting that link.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer states that 'they' (referring to the human viruses) can predispose to chronic inflammatory events, but the rewrite changes the agent/cause to 'infection'.",
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events",
+      "rewritePassage": "There are about seven different human viruses that precipitate cancer, and infection can also predispose to chronic inflammatory events"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, so we're just going to start here with our core idea. I'm sure you've seen a cartoon that looks like this many times.",
+      "reason": "Omission of conversational filler, pointing words ('here', 'like this'), and remarks to the audience ('I'm sure you've seen...') is allowed."
+    },
+    {
+      "sourcePassage": "So I've just made this kind of a much simpler diagram, if you like.",
+      "reason": "Rendered in the passive voice ('A much simpler diagram can be made') as an allowed stylistic adjustment."
+    },
+    {
+      "sourcePassage": "So hopefully, in order to try and address some of these questions, we will start at the beginning. [chuckles]",
+      "reason": "Shift from first-person conversational address to textbook style ('the discussion starts at the beginning') and dropping laughter are allowed changes."
+    }
+  ]
+}

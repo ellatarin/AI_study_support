@@ -1,0 +1,16 @@
+{
+  "subtopicId": 9,
+  "checkerPromptVersion": "c6",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So this meningioma obviously is occurring within the skull. The skull is a confined space. This would put an enormous amount of pressure on the brain and the surrounding structures and would cause and has caused Has caused death in this case. So things like meningiomas can cause that.",
+      "reason": "The lecturer speaks of a specific meningioma ('this meningioma') while also generalising ('things like meningiomas can cause that'). The rewrite renders this as 'A meningioma occurs within the skull, which is a confined space, so it puts an enormous amount of pressure on the brain and the surrounding structures, and in this case it caused death. Meningiomas can therefore have this effect.' Although the phrasing shifts from demonstrative to generic before referencing 'this case', it accurately preserves both the specific illustration and the generalised principle without altering meaning."
+    },
+    {
+      "sourcePassage": "Obviously, when there is a suspicion of cancer or of a tumor, everybody gets very nervous about what that diagnosis is going to look like.",
+      "reason": "Rendered into academic register as 'When cancer or a tumour is suspected, there is considerable anxiety about the diagnosis', which conveys the same meaning without omitting factual content."
+    }
+  ]
+}

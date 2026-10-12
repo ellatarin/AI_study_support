@@ -1,0 +1,31 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c6",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite states that the cervix is seen 'alongside' the endocervical canal, turning the lecturer's pointing word ('here') into a spatial relationship that the lecturer did not state.",
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "rewritePassage": "and the cervix is seen alongside it"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here",
+      "reason": "This is pointing to specific instances of mitotic cells on the slide to illustrate that they occur at the basement layer, which is captured by 'Mitotic cells occur only at the basement layer.'"
+    },
+    {
+      "sourcePassage": "because this is what is so interesting to look at",
+      "reason": "Dropped as an informal remark or conversational filler by the lecturer."
+    },
+    {
+      "sourcePassage": "and as you know",
+      "reason": "Dropped as a conversational remark to the audience."
+    },
+    {
+      "sourcePassage": "So this has done very well.",
+      "reason": "Dropped as conversational filler repeating that screening has been a success."
+    }
+  ]
+}

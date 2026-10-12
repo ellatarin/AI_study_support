@@ -1,0 +1,39 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c6",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The text places the statement that many released cells never metastasise next to the statement that they never survive in the secondary site without stating a causal link between them. The rewrite adds 'because', creating an unsourced causal link.",
+      "sourcePassage": "So significant numbers of them are released, but many of them never metastasize. They never survive in the secondary site.",
+      "rewritePassage": "Many never metastasise, because they never survive at the secondary site."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The text uses the pointing word 'this' ('this is probably an obligatory step'). The rewrite turns this into the explicit description 'Invasion', which the lecturer did not state.",
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "rewritePassage": "Invasion is therefore probably an obligatory step in arriving at a malignant, metastasising tumour."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite turns the lecturer's deictic pointing words ('over here') into the descriptive phrase 'Elsewhere in the same lesion', which the lecturer did not give.",
+      "sourcePassage": "You'll see that over here you have the adenoma which has progressed into an adenocarcinoma.",
+      "rewritePassage": "Elsewhere in the same lesion is the adenoma, which has progressed into an adenocarcinoma, so that one is growing out of the other."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "But the question is, of course, you would then be interested in figuring out whether or not there would be secondary metastases across the body.",
+      "reason": "This is a rhetorical remark introducing the question of metastasis, which is temporarily deferred as the lecturer continues describing the microscopic view of local muscle invasion, and then fully explored in the subsequent paragraphs."
+    },
+    {
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "Resolving 'it' to 'malignancy' is standard grammatical pronoun resolution rather than an unsourced addition, as defining invasion as the ability to invade would be tautological."
+    },
+    {
+      "sourcePassage": "muscularis mucosa",
+      "reason": "The replacement with 'muscularis mucosae' matches the correction provided in the technical corrections list."
+    }
+  ]
+}

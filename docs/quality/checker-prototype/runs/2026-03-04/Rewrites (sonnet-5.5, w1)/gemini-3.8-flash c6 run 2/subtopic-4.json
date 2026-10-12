@@ -1,0 +1,20 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c6",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "reason": "The lecturer's deictic reference to a slide is rendered faithfully as a description of a tumour slice and stain with an allowed [FIGURE] placeholder."
+    },
+    {
+      "sourcePassage": "Primary cells really don't grow in culture.",
+      "reason": "Dropping the conversational intensifier 'really' preserves the exact factual meaning without removing a scientific hedge."
+    },
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "This is a dropped conversational aside/remark about the lecture mechanics, which is an allowed omission."
+    }
+  ]
+}

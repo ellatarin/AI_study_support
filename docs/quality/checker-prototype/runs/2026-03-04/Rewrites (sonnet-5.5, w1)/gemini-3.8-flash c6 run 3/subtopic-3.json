@@ -1,0 +1,41 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c6",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The text states 'during adolescence and maturation', but the rewrite replaces 'adolescence' with 'differentiation' ('differentiation and maturation').",
+      "sourcePassage": "because obviously during adolescence and maturation, this occurs from infancy to adulthood.",
+      "rewritePassage": "because differentiation and maturation also occur from infancy to adulthood."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite converts the lecturer's deictic phrasing ('here now') into a description ('In the image of the invasive tissue') that the lecturer did not give.",
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes.",
+      "rewritePassage": "In the image of the invasive tissue, the cells are of different shapes and sizes."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The text states 'provides a signaling and basis for their adherence', treating signaling and basis as coordinated elements, whereas the rewrite turns 'signalling' into an adjective modifying 'basis' ('signalling basis').",
+      "sourcePassage": "provides a signaling and basis for their adherence to this layer",
+      "rewritePassage": "provides a signalling basis for their adherence to this layer"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The text refers to the 'invading stroma', which the rewrite changes to 'invaded stroma'.",
+      "sourcePassage": "into the invading stroma",
+      "rewritePassage": "into the invaded stroma"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "during the time that you were born",
+      "reason": "Omitted as a slip of the tongue or self-correction immediately preceding 'a lot of your development and differentiation occurs obviously in the womb'."
+    },
+    {
+      "sourcePassage": "so they're apical basal regulation in terms of the orientation of those cells within the tissue",
+      "reason": "The ungrammatical spoken phrase was adjusted to 'which reflects apical-basal regulation of the orientation of the cells within the tissue' for grammar and style without altering the intended meaning."
+    }
+  ]
+}

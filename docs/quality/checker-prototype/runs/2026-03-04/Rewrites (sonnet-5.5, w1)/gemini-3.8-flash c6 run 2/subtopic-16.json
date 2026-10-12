@@ -1,0 +1,24 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c6",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "The lecturer refers to pre-cancerous states shown earlier. The rewrite adapts this reference to textbook prose without introducing new claims or omitting subject-matter details."
+    },
+    {
+      "sourcePassage": "an ulcerated cauliflower structure, if you like",
+      "reason": "The rewrite renders this as 'an ulcerated cauliflower-like structure', which accurately conveys 'cauliflower structure, if you like'."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "The rewrite phrases this as 'Of the screening methods discussed, cervical screening is the best', which faithfully captures 'as I said' in the context of the preceding discussion of screening types."
+    },
+    {
+      "sourcePassage": "or there's some reason if you're showing symptoms",
+      "reason": "The rewrite renders this as 'or some other reason, such as the patient showing symptoms', which preserves the original meaning."
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c6",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer made a general remark that comparing 'any two things' will reveal differences, whereas the rewrite changes and narrows this to 'any comparison between two species'.",
+      "sourcePassage": "if you compare any two things, you're going to find differences",
+      "rewritePassage": "any comparison between two species will reveal differences"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer stated that the fivefold higher rate in reptiles was 'the only thing that was quite interesting to note here', but the rewrite characterizes it as '[t]he one notable difference', asserting that it is the sole notable difference between the groups.",
+      "sourcePassage": "The only thing that was quite interesting to note here is that the rate of malignant tumors is about fivefold higher in reptiles compared to mammals.",
+      "rewritePassage": "The one notable difference is that the rate of malignant tumours is about fivefold higher in reptiles than in mammals"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "they very much get similar tumors to us",
+      "reason": "Rendering 'to us' as 'those of humans' adapts the spoken lecture style into textbook prose with the exact same meaning."
+    },
+    {
+      "sourcePassage": "mammary tumors seem to be very, very prevalent",
+      "reason": "Dropping the second 'very' removes a spoken repetition/emphasis without altering the meaning."
+    },
+    {
+      "sourcePassage": "And this is my cat, who also ended up with a feline injection site sarcoma.",
+      "reason": "Shifting from first-person 'my cat' to 'The lecturer's own cat' is an allowed stylistic change for textbook prose."
+    },
+    {
+      "sourcePassage": "You'll be happy to hear he's doing fine now after his surgery.",
+      "reason": "Omitting 'You'll be happy to hear' drops a direct remark to the audience while retaining the factual claim that the cat is doing fine after surgery."
+    },
+    {
+      "sourcePassage": "digestive tissues, hematopoietic, and skin",
+      "reason": "Writing 'hematopoietic tissues' completes the elliptical spoken phrasing to match 'digestive tissues' in parallel structure."
+    }
+  ]
+}

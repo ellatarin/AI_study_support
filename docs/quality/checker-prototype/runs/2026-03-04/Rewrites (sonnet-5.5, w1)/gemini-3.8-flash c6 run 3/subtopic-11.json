@@ -1,0 +1,27 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c6",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite states 'when the tumour occurs in a meningioma', treating a meningioma as an anatomical site where a tumour develops, whereas in the lecture a meningioma is given as an example of a primary tumour itself.",
+      "sourcePassage": "Only 10% of these deaths, generally, if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "rewritePassage": "for example when the tumour occurs in a meningioma or in the liver"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "And things like if tumors in bones lead to erosion of that bone function, so you can get fractures, and this causes an immense amount of pain.",
+      "reason": "The rewrite renders 'erosion of that bone function' as 'erosion of the bone'. Later in the lecture, the lecturer explicitly refers to 'erosion of bones', so this change reflects the lecturer's meaning and natural phrasing rather than a distortion."
+    },
+    {
+      "sourcePassage": "And if you think about them in the different settings in which they occur",
+      "reason": "The sentence 'Other effects depend on the site' at the start of paragraph 2 restates the lecturer's framing from earlier in the explanation ('different settings in which they occur') to introduce the remaining examples."
+    },
+    {
+      "sourcePassage": "Also ulceration, you saw that enormous cauliflower structure within the colon. This causes a lot of bleeding and can lead to anemia.",
+      "reason": "The rewrite changes 'cauliflower structure' to 'cauliflower-like structure seen within the colon', which conveys the same meaning as the lecturer describing a visual structure shown to the audience."
+    }
+  ]
+}

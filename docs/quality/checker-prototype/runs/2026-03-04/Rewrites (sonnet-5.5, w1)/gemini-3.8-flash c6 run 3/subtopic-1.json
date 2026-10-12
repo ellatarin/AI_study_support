@@ -1,0 +1,31 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c6",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite states that recognizing invasion and metastasis involves comparing benign and malignant tumours, adding a link between the two statements. In the source text, comparing the differences between benign and malignant tumours is simply another topic or activity mentioned using the discourse marker 'So', not an entailment or component of recognizing invasion and metastasis.",
+      "sourcePassage": "the big takeaway message from today is going to be the ability to recognize what invasion and metastasis looks like with regard to the start of the tumor to the end point. So you're going to be comparing the differences between benign and malignant tumors",
+      "rewritePassage": "The main takeaway message of the lecture is the ability to recognize what invasion and metastasis look like, from the start of the tumour to the end point. This involves comparing benign and malignant tumours."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Actually, when you tell people that you're working on cancer, they're all incredibly grateful for you for taking on such a difficult disease because it has such an impact.",
+      "reason": "The clause 'because it has such an impact' is a repetition of the earlier statement 'because of obviously the impact that cancer has on society', and dropping repetitions is an allowed change."
+    },
+    {
+      "sourcePassage": "Why haven't you solved this problem yet? Why is there no cure for cancer?\" Or, \"Will there ever be a cure for cancer?\" So it is with great hope that these next six lectures will give you some information so that you can actually answer that question when people ask you.",
+      "reason": "The lecturer lists three questions and then refers back to them as 'that question'. Rendering this as 'these questions' faithfully captures the reference without distorting the meaning."
+    },
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there.",
+      "reason": "The rewrite renders this as 'The learning outcomes for this lecture are as follows', adapting the lecturer's conversational reference to a slide into standard textbook introductory phrasing."
+    },
+    {
+      "sourcePassage": "And then for today, especially from a clinical point of view, we're going to explain why detection works in different subtypes of tumors.",
+      "reason": "The omission of 'especially' in 'from a clinical point of view' is treated as dropped conversational emphasis in a statement about the lecture."
+    }
+  ]
+}

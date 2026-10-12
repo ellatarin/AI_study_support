@@ -1,0 +1,27 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c6",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite uses 'since' to assert a causal link explaining why the terminology is still used today, whereas the text used 'where' merely to describe the clinical situation in which it is heard.",
+      "sourcePassage": "And you'll hear this kind of terminology even now, where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable.",
+      "rewritePassage": "This terminology is still heard now, since a surgeon can tell just by holding or touching a tumour whether it is movable or immovable."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals",
+      "reason": "This is a remark about the course and practical sessions, which is an allowed omission."
+    },
+    {
+      "sourcePassage": "Okay. So with these tools in hand, I think the important concept to try and get across is invasion and metastasis.",
+      "reason": "The introductory framing ('Okay. So with these tools in hand, I think...') consists of conversational filler and lecture-management remarks, which can be omitted or rephrased."
+    },
+    {
+      "sourcePassage": "Surgeons would find that that tumor could move within the tissue or an immovable tumor.",
+      "reason": "The spoken sentence was grammatically disjointed; structuring it clearly into descriptions of movable and immovable tumours is an allowed grammatical/stylistic rephrasing."
+    }
+  ]
+}

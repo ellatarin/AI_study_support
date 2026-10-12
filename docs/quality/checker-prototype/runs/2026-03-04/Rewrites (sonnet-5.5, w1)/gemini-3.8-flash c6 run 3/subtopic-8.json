@@ -1,0 +1,27 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c6",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The lecturer uses the pointing word 'this' ('this is probably an obligatory step'), which could refer to a precursor stage or local invasion, but the rewrite specifies this as 'Invasion', turning a pointing word into a description not explicitly given by the lecturer.",
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "rewritePassage": "Invasion is therefore probably an obligatory step in arriving at a malignant, metastasising tumour."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "The rewrite specifies 'malignancy is defined as...', which correctly resolves the singular pronoun 'it' in context, as defining 'invasion' as 'the ability to invade' would be a direct tautology."
+    },
+    {
+      "sourcePassage": "You'll see that over here you have the adenoma which has progressed into an adenocarcinoma. So one is growing out of the other.",
+      "reason": "The phrase 'Elsewhere in the same lesion' replaces the pointing phrase 'over here', but this is supported by the subsequent statement that 'one is growing out of the other'."
+    },
+    {
+      "sourcePassage": "Obviously, again, you're limited into where you're biopsying and what that looks like.",
+      "reason": "'and what that looks like' is an informal filler phrase rather than a distinct clinical fact, so condensing this to 'The diagnosis is limited by where the biopsy is taken' is an allowed change."
+    }
+  ]
+}

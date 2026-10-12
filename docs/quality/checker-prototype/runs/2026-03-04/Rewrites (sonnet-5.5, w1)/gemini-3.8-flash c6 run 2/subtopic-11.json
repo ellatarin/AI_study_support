@@ -1,0 +1,33 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c6",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds a general assertion that other effects depend on the site, which is not stated in the text.",
+      "sourcePassage": null,
+      "rewritePassage": "Other effects depend on the site."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "A meningioma is itself a tumour (of the meninges), not an anatomical location. The rewrite states that a tumour occurs in a meningioma, misrepresenting meningioma as a site where tumours develop.",
+      "sourcePassage": "Only 10% of these deaths, generally, if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "rewritePassage": "when the tumour occurs in a meningioma or in the liver"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "erosion of that bone function, so you can get fractures",
+      "reason": "The rewrite renders this as 'erosion of the bone, so that fractures can occur'. Later in the transcript, the lecturer explicitly refers to 'erosion of bones', so this change clarifies the lecturer's phrasing without distorting the scientific meaning."
+    },
+    {
+      "sourcePassage": "Also ulceration, you saw that enormous cauliflower structure within the colon. This causes a lot of bleeding and can lead to anemia.",
+      "reason": "The reference to 'you saw' is a remark to the audience regarding a visual aid. Adapting it to 'the enormous cauliflower-like structure seen within the colon' maintains the substantive description while removing the spoken presentation artifact."
+    },
+    {
+      "sourcePassage": "And also this competition with the normal, if you have a tumor that is occurring in some of the blood compartments",
+      "reason": "'Competition with the normal' is rewritten as 'Competition with normal tissue'. In context, 'the normal' refers to normal cells or tissues, so adding 'tissue' conveys the same meaning."
+    }
+  ]
+}

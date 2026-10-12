@@ -1,0 +1,23 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c6",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds that the cervix is seen 'alongside' the endocervical canal, converting the lecturer's pointing words into a spatial description not provided in the text.",
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "rewritePassage": "and the cervix is seen alongside it."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here",
+      "reason": "This is a demonstration pointing to specific visual instances on a slide illustrating the stated rule that mitotic cells occur at the basement layer, combined with conversational remarks to the audience."
+    },
+    {
+      "sourcePassage": "and you'll see this in your practicals.",
+      "reason": "The rewrite retains this remark about the practicals, which is faithful to the text."
+    }
+  ]
+}

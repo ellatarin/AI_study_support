@@ -1,0 +1,24 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c6",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "This is a meta-remark / personal note by the lecturer about their own presentation habit, so it is an allowed omission."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here, and then you can often see sometimes the tumor cells are actually present within a lymphatic duct.",
+      "reason": "The deictic phrase 'You see your tumor cells are here' refers to the primary tumor mass on the slide being pointed at, which is replaced by the [FIGURE] reference and summarized appropriately without losing key factual information."
+    },
+    {
+      "sourcePassage": "or also this transcoelomic site from across a cavity",
+      "reason": "The phrasing 'or by a transcoelomic route, across a cavity' preserves the exact meaning intended by the lecturer when listing routes of spread."
+    },
+    {
+      "sourcePassage": "And I think one of the tumors that does this quite frequently is ovarian cancer, for example.",
+      "reason": "'I think' is conversational filler here rather than a scientific hedge on the factual claim that ovarian cancer frequently spreads transcoelomically."
+    }
+  ]
+}

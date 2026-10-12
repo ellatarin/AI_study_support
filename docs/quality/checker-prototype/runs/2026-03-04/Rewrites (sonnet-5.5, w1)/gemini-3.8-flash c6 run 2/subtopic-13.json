@@ -1,0 +1,24 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c6",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Just a slide about the incidence in companion animals since I found this slide some time ago",
+      "reason": "This is a remark about the presentation slide and can be omitted as meta-commentary."
+    },
+    {
+      "sourcePassage": "You'll be happy to hear he's doing fine now after his surgery.",
+      "reason": "The direct address to the audience ('You'll be happy to hear') is conversational phrasing that was appropriately adapted to 'The cat is doing fine after surgery.'"
+    },
+    {
+      "sourcePassage": "very, very prevalent",
+      "reason": "Simplifying the repeated intensifier 'very, very' to 'very prevalent' is an acceptable stylistic choice that preserves the meaning."
+    },
+    {
+      "sourcePassage": "digestive tissues, hematopoietic, and skin",
+      "reason": "Adding 'tissues' to make 'hematopoietic tissues' is standard English parallel phrasing based directly on 'digestive tissues' in the source."
+    }
+  ]
+}

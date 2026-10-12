@@ -1,0 +1,23 @@
+{
+  "subtopicId": 9,
+  "checkerPromptVersion": "c6",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer describes a specific case of a meningioma shown to the class ('this meningioma') that grew in the skull, put enormous pressure on the brain, and caused death, concluding that meningiomas can produce such effects. The rewrite states as a general rule that 'A meningioma occurs within the skull, which is a confined space, so it puts an enormous amount of pressure on the brain and the surrounding structures', wrongly implying that all meningiomas exert enormous pressure on the brain.",
+      "sourcePassage": "So this meningioma obviously is occurring within the skull. The skull is a confined space. This would put an enormous amount of pressure on the brain and the surrounding structures and would cause and has caused Has caused death in this case. So things like meningiomas can cause that.",
+      "rewritePassage": "A meningioma occurs within the skull, which is a confined space, so it puts an enormous amount of pressure on the brain and the surrounding structures, and in this case it caused death."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Obviously, when there is a suspicion of cancer or of a tumor, everybody gets very nervous about what that diagnosis is going to look like.",
+      "reason": "The rewrite renders this as 'When cancer or a tumour is suspected, there is considerable anxiety about the diagnosis', which is an allowed stylistic adaptation of conversational lecture speech into textbook prose."
+    },
+    {
+      "sourcePassage": "But things like the smooth muscle fibroid that I showed you, that almost never progresses to a leiomyosarcoma.",
+      "reason": "The writer converted the lecturer's past demonstration ('that I showed you') into 'as shown earlier' followed by a '[FIGURE]' tag, which is permitted as an allowed change."
+    }
+  ]
+}
