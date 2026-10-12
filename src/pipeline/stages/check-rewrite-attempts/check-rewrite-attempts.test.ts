@@ -120,9 +120,20 @@ describe("createCheckRewriteAttemptsStage", () => {
 	});
 
 	it.each([
-		{ passage: "no rewrite passage", deficiency: omission },
-		{ passage: "a rewrite passage", deficiency: { ...omission, rewritePassage: rewriteQuote } },
-	])("should write the deficiencies, the considerations and the checker prompt version in the check of each subtopic when an omission gives $passage", async ({
+		{ found: "an omission with no rewrite passage", deficiency: omission },
+		{
+			found: "an omission with a rewrite passage",
+			deficiency: { ...omission, rewritePassage: rewriteQuote },
+		},
+		{
+			found: "an unsourced addition with a source passage",
+			deficiency: {
+				...omission,
+				deficiencyType: "unsourced-addition",
+				rewritePassage: rewriteQuote,
+			},
+		},
+	])("should write the deficiencies, the considerations and the checker prompt version in the check of each subtopic when the checker finds $found", async ({
 		deficiency,
 	}) => {
 		create().mockResolvedValue(openRouterReplyBody({ content: replyFinding(deficiency) }));
@@ -202,12 +213,8 @@ describe("createCheckRewriteAttemptsStage", () => {
 			reply: { deficiencies: [{ ...omission, rule: "R10" }] },
 		},
 		{
-			problem: "gives a source passage for an unsourced addition",
-			reply: {
-				deficiencies: [
-					{ ...omission, deficiencyType: "unsourced-addition", rewritePassage: rewriteQuote },
-				],
-			},
+			problem: "gives no rewrite passage for an unsourced addition",
+			reply: { deficiencies: [{ ...omission, deficiencyType: "unsourced-addition" }] },
 		},
 		{
 			problem: "gives no rewrite passage for a distortion",

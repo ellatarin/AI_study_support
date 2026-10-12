@@ -72,7 +72,8 @@ type Deficiency = { readonly rule: string; readonly description: string } & (
 	  }
 	| {
 			readonly deficiencyType: "unsourced-addition";
-			readonly sourcePassage: null;
+			/** The source sentences that the addition is built on, or `null` when the checker quotes none. */
+			readonly sourcePassage: string | null;
 			readonly rewritePassage: string;
 	  }
 );
@@ -86,8 +87,8 @@ type CheckerReply = {
 	readonly considerations: readonly Consideration[];
 };
 
-/** The form of one passage of a deficiency: a quote, `null`, or either of the two. */
-type PassageForm = "quote" | "null" | "quote or null";
+/** The form of one passage of a deficiency: a quote, or either a quote or `null`. */
+type PassageForm = "quote" | "quote or null";
 
 /** The form of each passage that a deficiency of each type gives. */
 const PASSAGE_FORMS: Readonly<
@@ -98,7 +99,7 @@ const PASSAGE_FORMS: Readonly<
 > = {
 	omission: { source: "quote", rewrite: "quote or null" },
 	distortion: { source: "quote", rewrite: "quote" },
-	"unsourced-addition": { source: "null", rewrite: "quote" },
+	"unsourced-addition": { source: "quote or null", rewrite: "quote" },
 };
 
 /**
@@ -117,14 +118,7 @@ function isPassageAsTyped({
 	readonly form: PassageForm;
 }): boolean {
 	const isQuote = typeof passage === "string";
-	switch (form) {
-		case "quote":
-			return isQuote;
-		case "null":
-			return passage === null;
-		case "quote or null":
-			return isQuote || passage === null;
-	}
+	return form === "quote" ? isQuote : isQuote || passage === null;
 }
 
 /**
