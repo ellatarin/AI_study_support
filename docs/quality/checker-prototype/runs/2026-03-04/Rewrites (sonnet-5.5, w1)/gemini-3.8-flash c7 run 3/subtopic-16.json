@@ -1,0 +1,20 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c7",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "The reference to what the audience saw previously on slides/lecture is appropriately recast as textbook prose without altering the factual meaning."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "'As I said' referring to previous lecture content is appropriately rendered as 'Of the screening methods discussed, cervical screening is the best.'"
+    },
+    {
+      "sourcePassage": "Right? So already potentially shedding cells for invading into other parts of the body. Right?",
+      "reason": "Rhetorical questions and conversational markers are removed while preserving the causal statement about shedding cells."
+    }
+  ]
+}

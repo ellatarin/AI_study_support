@@ -1,0 +1,24 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c7",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, everyone, shall we get started? Yes. You're very welcome, all of you, to Cancer Biology.",
+      "reason": "Omitted conversational opening and welcome, which are allowed omissions of filler and remarks to the audience."
+    },
+    {
+      "sourcePassage": "Actually, when you tell people that you're working on cancer, they're all incredibly grateful for you for taking on such a difficult disease because it has such an impact.",
+      "reason": "The clause 'because it has such an impact' is repeated from the previous sentence and functions as conversational filler/explanation of public gratitude; its omission does not lose substantive scientific content."
+    },
+    {
+      "sourcePassage": "Right. So I tag-teamed these lectures with Professor Turner, and so she will also be teaching three of these lectures.",
+      "reason": "Paraphrased as administrative course information that the lectures are shared with Professor Turner, who teaches three of the six."
+    },
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there.",
+      "reason": "Conversational reference to a slide or handout, appropriately adapted into textbook style as 'The learning outcomes for this lecture are as follows'."
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "subtopicId": 7,
+  "checkerPromptVersion": "c7",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The text does not state that the tumour lies next to the outer surface of the uterus; the lecturer is pointing out the tumour and the outer surface of the uterus as separate locations on a visual specimen.",
+      "sourcePassage": "You can see that the tumor is here. This is the outer surface of the uterus.",
+      "rewritePassage": "The tumour lies next to the outer surface of the uterus"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite replaces 'circumspect' with 'circumscribed'. Although 'circumscribed' is the likely intended medical term, resolving an unclear or misspoken word that was not provided in the corrections list constitutes a distortion.",
+      "sourcePassage": "this is actually circumspect and very separate",
+      "rewritePassage": "The tumour is therefore circumscribed"
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds 'therefore', establishing a causal or consequential link implying that the tumour is circumscribed and separate as a result of the fixation and staining process, whereas the text used 'So you can see' as an observational remark demonstrating that the tumour had not invaded.",
+      "sourcePassage": "has actually caused the tumor, which is, as I said, not invaded into the surrounding tissue to separate away from the normal muscle. So you can see again that this is actually circumspect and very separate from the surrounding stroma and the surrounding tissue.",
+      "rewritePassage": "The tumour is therefore circumscribed and very separate from the surrounding stroma and the surrounding tissue."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "All right? So a benign tumor.",
+      "reason": "Omitted as conversational filler and rhetorical repetition."
+    },
+    {
+      "sourcePassage": "and has, if you like, invaded within this tissue.",
+      "reason": "'if you like' was rephrased as 'in a sense', which preserves the lecturer's hedging."
+    },
+    {
+      "sourcePassage": "interleaving within that",
+      "reason": "Changed to 'interleaved within it', which is an allowed grammatical adjustment."
+    }
+  ]
+}

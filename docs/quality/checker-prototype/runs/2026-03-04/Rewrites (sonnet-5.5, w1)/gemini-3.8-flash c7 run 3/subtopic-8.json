@@ -1,0 +1,24 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c7",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "The text uses the pronoun 'it' after mentioning both invasion and malignancy. Defining malignancy as the ability to invade surrounding tissue is the standard pathological definition and faithfully conveys the lecturer's intended meaning without distorting the scientific content."
+    },
+    {
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "reason": "The rewrite renders 'this' as 'Invasion', which directly refers back to the process of local invasion being discussed in the context of the stepwise metastatic cascade, preserving the causal reasoning of the lecturer."
+    },
+    {
+      "sourcePassage": "What about the little one that was next to it? You'll see that they look the same.",
+      "reason": "The rewrite renders this as 'The smaller polyp next to it looks the same', referencing the smaller polyps/cauliflowers introduced earlier in the passage."
+    },
+    {
+      "sourcePassage": "and you'll be able to look at this in great detail in the practicals",
+      "reason": "Omitted as an administrative remark to the audience regarding practical course sessions, which is permitted under allowed changes."
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c7",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite replaces the developmental stage 'adolescence' with 'differentiation', stating that 'differentiation and maturation also occur from infancy to adulthood' instead of 'adolescence and maturation'.",
+      "sourcePassage": "because obviously during adolescence and maturation, this occurs from infancy to adulthood.",
+      "rewritePassage": "because differentiation and maturation also occur from infancy to adulthood."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "which would be here into the invading stroma.",
+      "reason": "The lecturer referred to the stroma as the 'invading stroma', which was a slip of the tongue as the tumor cells are the ones invading the stroma. The rewrite's 'invaded stroma' captures the clear intended meaning."
+    },
+    {
+      "sourcePassage": "It gives them structure and provides a signaling and basis for their adherence to this layer.",
+      "reason": "The rewrite renders 'a signaling and basis' as 'a signalling basis', smoothing spoken grammar/stumble without changing the factual meaning."
+    },
+    {
+      "sourcePassage": "has happened during embryogenesis, during the time that you were born.",
+      "reason": "The phrase 'during the time that you were born' was dropped as a spoken slip or false start, as the context clarifies that expansive growth and lineage specification occur during embryogenesis in the womb."
+    }
+  ]
+}

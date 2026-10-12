@@ -1,0 +1,33 @@
+{
+  "subtopicId": 7,
+  "checkerPromptVersion": "c7",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The text does not state that the tumour lies next to the outer surface of the uterus; the lecturer was pointing to the tumour and the outer surface of the uterus as separate visual references.",
+      "sourcePassage": "You can see that the tumor is here. This is the outer surface of the uterus.",
+      "rewritePassage": "The tumour lies next to the outer surface of the uterus"
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The word 'therefore' creates an unsourced causal link, indicating that the tumour is circumscribed as a result of the fixation and staining process, whereas the lecturer only explained that the preparation artefact made its separation visible.",
+      "sourcePassage": "has actually caused the tumor, which is, as I said, not invaded into the surrounding tissue to separate away from the normal muscle. So you can see again that this is actually circumspect and very separate from the surrounding stroma and the surrounding tissue.",
+      "rewritePassage": "The tumour is therefore circumscribed and very separate from the surrounding stroma and the surrounding tissue."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "this is actually circumspect and very separate",
+      "reason": "The rewrite renders 'circumspect' as 'circumscribed'. Although not listed in the term corrections, 'circumspect' is an obvious slip of the tongue or transcription error for the standard pathological descriptor 'circumscribed', so using the correct term does not harm student learning."
+    },
+    {
+      "sourcePassage": "so it might be difficult to necessarily find all of the possible secondary tumors unless there is some other physical sign that you can detect.",
+      "reason": "The rewrite renders 'so' as 'therefore' ('It might therefore be difficult...'), which faithfully preserves the existing causal link stated in the lecture."
+    },
+    {
+      "sourcePassage": "Movable, and literally, you can scoop it out with no damage to the surrounding tissue. All right? So a benign tumor.",
+      "reason": "The rephrasing into standard textbook prose faithfully conveys the clinical characteristics described by the lecturer while removing conversational filler."
+    }
+  ]
+}

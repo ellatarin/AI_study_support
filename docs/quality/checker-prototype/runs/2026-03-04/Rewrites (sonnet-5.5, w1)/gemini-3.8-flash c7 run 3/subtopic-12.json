@@ -1,0 +1,23 @@
+{
+  "subtopicId": 12,
+  "checkerPromptVersion": "c7",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite introduces the causal conjunction 'because', asserting that benign tumours are common because it takes a lot for them to become malignant. The source text mentions both statements separately and does not assert a causal link between them.",
+      "sourcePassage": "So benign tumors are actually incredibly common. Right? So it actually takes a lot for a benign tumor to become malignant in terms of, as I said, the number of changes that have to happen within a tumor.",
+      "rewritePassage": "Benign tumours are extremely common, because it takes a great deal for a benign tumour to become malignant, given the number of changes that have to happen within a tumour."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "But malignant tumors, for example, originating from mesenchymal lineage cell types, they're extremely rare.",
+      "reason": "The omission of 'for example' in the rewrite ('Malignant tumours originating from mesenchymal lineage cell types are extremely rare') does not materially distort the scientific meaning or mislead the student."
+    },
+    {
+      "sourcePassage": "So I've just put these numbers up just so that you can have a sense.",
+      "reason": "The rewrite phrase 'give a sense of incidence' is derived directly from the lecturer introducing the topic as 'talking about incidence, about how often various tumors arise'."
+    }
+  ]
+}

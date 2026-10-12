@@ -1,0 +1,20 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c7",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there.",
+      "reason": "The lecturer's reference to a slide ('listed there') was adapted to 'The learning outcomes for this lecture are as follows.', which is an allowed stylistic transition for textbook prose."
+    },
+    {
+      "sourcePassage": "So you're going to be comparing the differences between benign and malignant tumors",
+      "reason": "Rewritten as 'This involves comparing benign and malignant tumours.', which preserves the meaning accurately while converting spoken delivery into third-person textbook style."
+    },
+    {
+      "sourcePassage": "tumor",
+      "reason": "Spelled as 'tumour' in the rewrite, which is an allowed change to British English spelling."
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c7",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "The reference to what the audience saw on previous slides/visuals was adapted into standard expository prose ('The different pre-cancerous states are present') without omitting essential scientific content."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "The rewrite phrases this as 'Of the screening methods discussed, cervical screening is the best', which correctly captures the context of the comparison established by the lecturer's 'as I said' without adding unprompted facts."
+    },
+    {
+      "sourcePassage": "because many of the people that do go for screening and then for further treatment, it has a very, very high false positive rate.",
+      "reason": "The lecturer's anacoluthon/broken sentence structure is appropriately regularised into grammatical textbook prose without altering the factual meaning."
+    },
+    {
+      "sourcePassage": "very likely to probably already be malignant.",
+      "reason": "Simplifying the duplicate hedge 'very likely to probably' to 'very likely to be' preserves the scientific uncertainty without distorting the claim."
+    }
+  ]
+}

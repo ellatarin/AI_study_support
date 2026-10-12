@@ -1,0 +1,20 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c7",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "This is an aside/remark to the audience by the lecturer and is safely omitted per allowed changes."
+    },
+    {
+      "sourcePassage": "or also this transcoelomic site from across a cavity, across a pleural cavity, for example, across the abdomen",
+      "reason": "The rewrite frames this as 'by a transcoelomic route, across a cavity, for example across a pleural cavity or across the abdomen', which accurately captures the lecture's list of routes of tumour spread."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here, and then you can often see sometimes the tumor cells are actually present within a lymphatic duct.",
+      "reason": "The direct reference to the slide presentation ('are here') is appropriately condensed into textbook prose with a [FIGURE] marker."
+    }
+  ]
+}

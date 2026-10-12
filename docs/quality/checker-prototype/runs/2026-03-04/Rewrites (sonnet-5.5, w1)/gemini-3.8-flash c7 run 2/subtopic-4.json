@@ -1,0 +1,20 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c7",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "This is a dropped remark to the audience and lecture administration/filler, which is an allowed change."
+    },
+    {
+      "sourcePassage": "Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "reason": "Rendered as 'A slice through a tumour, with a stain to show the morphology, illustrates this [FIGURE]', which faithfully captures what the figure shows along with the standard [FIGURE] marker."
+    },
+    {
+      "sourcePassage": "Primary cells really don't grow in culture.",
+      "reason": "'really' functions here as a colloquial intensifier rather than a scientific hedge, so 'Primary cells do not grow in culture' is an acceptable stylistic rendering."
+    }
+  ]
+}

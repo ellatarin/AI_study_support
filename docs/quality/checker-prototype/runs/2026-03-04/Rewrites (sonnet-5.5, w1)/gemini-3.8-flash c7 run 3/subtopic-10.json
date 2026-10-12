@@ -1,0 +1,16 @@
+{
+  "subtopicId": 10,
+  "checkerPromptVersion": "c7",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So the fat, smooth muscle or papillomas in the skin, and adenomas, as we were talking about in the colon.",
+      "reason": "The rewrite pairs 'lipomas' with 'fat' and 'leiomyomas' with 'smooth muscle', directly reflecting the lecturer's parallel list of examples and their corresponding tissues without adding new factual claims."
+    },
+    {
+      "sourcePassage": "Okay? So just so that we're all on the same page in terms of nomenclature, and of course, with any naming system, there are always exceptions to every rule.",
+      "reason": "Conversational opening remarks were omitted in accordance with the allowed changes for dropped filler and audience remarks."
+    }
+  ]
+}

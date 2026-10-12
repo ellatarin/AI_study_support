@@ -1,0 +1,16 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c7",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals",
+      "reason": "This is a remark to the audience regarding the course and practical sessions, which is an allowed omission."
+    },
+    {
+      "sourcePassage": "where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable",
+      "reason": "The rewrite renders 'can see just by holding or touching' as 'can tell just by holding or touching', which accurately reflects the meaning of the colloquial use of 'see' in this context without altering the sense."
+    }
+  ]
+}

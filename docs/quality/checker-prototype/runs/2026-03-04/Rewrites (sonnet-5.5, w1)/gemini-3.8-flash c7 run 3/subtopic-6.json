@@ -1,0 +1,20 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c7",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "This is a meta-comment/joke to the audience and was appropriately omitted."
+    },
+    {
+      "sourcePassage": "And I think one of the tumors that does this quite frequently is ovarian cancer, for example.",
+      "reason": "The phrase 'I think' functions here as conversational filler rather than a substantive scientific hedge, so stating 'One tumour that does this quite frequently is ovarian cancer, for example' is an acceptable stylistic conversion."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here, and then you can often see sometimes the tumor cells are actually present within a lymphatic duct.",
+      "reason": "Deictic spoken remarks referring directly to pointing on a slide ('You see your tumor cells are here') were streamlined into standard textbook prose with an inserted [FIGURE] tag."
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c7",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The text states that 'this is probably an obligatory step', where the referent of 'this' is unclear following the lecturer's remarks on shedding, metastasis, and sampling. The rewrite resolves this unclear statement by explicitly identifying 'Invasion' as the obligatory step.",
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "rewritePassage": "Invasion is therefore probably an obligatory step in arriving at a malignant, metastasising tumour."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "The rewrite renders 'it's defined' as 'malignancy is defined as the ability to invade the surrounding tissue'. This was not reported as a distortion because the ability to invade surrounding tissue is the standard defining criterion distinguishing malignant tumours from benign ones, making 'malignancy' the clear semantic referent of 'it'."
+    },
+    {
+      "sourcePassage": "But the question is, of course, you would then be interested in figuring out whether or not there would be secondary metastases across the body.",
+      "reason": "This rhetorical aside was omitted in paragraph 3, but the topic of secondary metastases is picked up and discussed in detail in subsequent paragraphs; in context, this was a false start / conversational tangent before the lecturer returned to microscopic examination of the primary tumour."
+    },
+    {
+      "sourcePassage": "You'll see that over here you have the adenoma which has progressed into an adenocarcinoma. So one is growing out of the other.",
+      "reason": "The rewrite translates the deictic spoken phrase 'over here' into 'Elsewhere in the same lesion'. This is an acceptable stylistic accommodation for written text, as the lecturer had already explained that the adenocarcinoma arose out of the adenoma in that specimen."
+    }
+  ]
+}

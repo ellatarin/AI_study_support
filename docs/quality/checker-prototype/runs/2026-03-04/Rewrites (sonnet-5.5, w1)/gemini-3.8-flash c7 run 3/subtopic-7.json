@@ -1,0 +1,33 @@
+{
+  "subtopicId": 7,
+  "checkerPromptVersion": "c7",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite states that the tumour 'lies next to the outer surface of the uterus', adding a specific spatial relationship that the text does not state (the lecturer merely points out the tumour and the outer surface separately as 'the tumor is here' and 'This is the outer surface of the uterus').",
+      "sourcePassage": "You can see that the tumor is here. This is the outer surface of the uterus.",
+      "rewritePassage": "The tumour lies next to the outer surface of the uterus"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The text uses the term 'circumspect', whereas the rewrite replaces it with 'circumscribed'. Even though 'circumscribed' is the appropriate medical description, it was not provided in the corrections list, making this an unauthorized term change.",
+      "sourcePassage": "So you can see again that this is actually circumspect and very separate from the surrounding stroma and the surrounding tissue.",
+      "rewritePassage": "The tumour is therefore circumscribed and very separate from the surrounding stroma and the surrounding tissue."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "very common in post-menopausal women",
+      "reason": "Although fibroids typically occur in pre-menopausal women and regress after menopause, the lecturer specifically stated 'post-menopausal women' and the rewrite faithfully preserved this statement."
+    },
+    {
+      "sourcePassage": "Movable, and literally, you can scoop it out with no damage to the surrounding tissue.",
+      "reason": "The change to passive voice ('it can literally be scooped out with no damage to the surrounding tissue') is an allowed grammatical and stylistic modification."
+    },
+    {
+      "sourcePassage": "you wouldn't be sampling all over the body",
+      "reason": "The phrasing 'the whole body would not be sampled' carries the same meaning as 'you wouldn't be sampling all over the body', which is an allowed change of wording."
+    }
+  ]
+}

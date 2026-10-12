@@ -1,0 +1,20 @@
+{
+  "subtopicId": 14,
+  "checkerPromptVersion": "c7",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, so what does this look like in the clinic? [chuckles] I call this the four horsemen.",
+      "reason": "The rewrite frames this as 'In the clinic, the presentation of cancer can be summarised as the \"four horsemen\"', which accurately conveys the lecturer's meaning while dropping colloquialisms and conversational elements."
+    },
+    {
+      "sourcePassage": "a tumor could be visible if you're lucky or palpable",
+      "reason": "The spelling 'tumour' in the rewrite is standard British English, which is explicitly permitted."
+    },
+    {
+      "sourcePassage": "So obviously, the idea is you want to find the cancer, and you want to find it at an earlier state, a state at which it can be treatable, right, before it becomes malignant, before it becomes something that's very, very hard to treat, and there's diminishing returns on said treatment.",
+      "reason": "The rewrite condenses the repetition into standard textbook prose without omitting any substantive conditions or caveats."
+    }
+  ]
+}

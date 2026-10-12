@@ -1,0 +1,24 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c7",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "This is a personal remark / joke by the lecturer to themselves and the audience, which is an allowed omission."
+    },
+    {
+      "sourcePassage": "And I think one of the tumors that does this quite frequently is ovarian cancer, for example.",
+      "reason": "The phrase 'I think' functions here as conversational filler when recalling an example rather than a scientific hedge on the factual claim, so dropping it is permitted."
+    },
+    {
+      "sourcePassage": "or also this transcoelomic site from across a cavity",
+      "reason": "Rendering this as 'by a transcoelomic route' aligns with the lecturer's opening framing ('via a number of routes') without altering the meaning."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here, and then you can often see sometimes the tumor cells are actually present within a lymphatic duct.",
+      "reason": "The words 'You see your tumor cells are here' were conversational pointing towards the slide, while the core observation that tumour cells are seen within a lymphatic duct is fully preserved."
+    }
+  ]
+}

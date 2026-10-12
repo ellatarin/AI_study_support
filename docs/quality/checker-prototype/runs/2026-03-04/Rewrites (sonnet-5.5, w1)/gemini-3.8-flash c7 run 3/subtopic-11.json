@@ -1,0 +1,37 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c7",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite states 'when the tumour occurs in a meningioma', which incorrectly treats a meningioma as an anatomical site where a tumour can arise, rather than a tumour itself.",
+      "sourcePassage": "Only 10% of these deaths, generally, if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "rewritePassage": "when the tumour occurs in a meningioma or in the liver."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite inserts 'therefore' to establish a causal connection between the small size of the niche and the tumour interfering with the bone marrow, but the text presents these as juxtaposed observations without stating a causal link.",
+      "sourcePassage": "This niche is not very big. This will interfere with your bone marrow, and it will result in things like infection and anemia as well.",
+      "rewritePassage": "The tumour will therefore interfere with the bone marrow, and this results in infection and anaemia as well."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Things like obstruction of the bile ducts in the liver interferes with digestion.",
+      "reason": "The introductory sentence 'Other effects depend on the site.' acts as a stylistic transition grouping site-specific examples (liver, bone, colon) and echoes the text's earlier discussion of different settings, rather than introducing an unsupported factual claim."
+    },
+    {
+      "sourcePassage": "erosion of that bone function, so you can get fractures",
+      "reason": "The rewrite phrases this as 'erosion of the bone, so that fractures can occur'. Later in the text the lecturer refers directly to 'erosion of bones', so this change merely fixes a spoken slip of the tongue."
+    },
+    {
+      "sourcePassage": "you saw that enormous cauliflower structure within the colon.",
+      "reason": "'You saw' is a conversational reference to a previously displayed slide or visual; converting it to 'the enormous cauliflower-like structure seen within the colon' retains the descriptive information while removing the direct address to the audience."
+    },
+    {
+      "sourcePassage": "And also this competition with the normal",
+      "reason": "Expanding 'the normal' to 'normal tissue' in 'Competition with normal tissue is also a factor' captures the exact intended meaning in context without altering the subject matter."
+    }
+  ]
+}

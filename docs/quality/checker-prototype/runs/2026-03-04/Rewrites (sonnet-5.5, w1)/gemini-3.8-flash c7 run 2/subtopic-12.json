@@ -1,0 +1,27 @@
+{
+  "subtopicId": 12,
+  "checkerPromptVersion": "c7",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite introduces an unsourced causal link using 'because', asserting that benign tumours are extremely common because it takes a great deal for them to become malignant, a link not stated by the lecturer.",
+      "sourcePassage": "So benign tumors are actually incredibly common. Right? So it actually takes a lot for a benign tumor to become malignant in terms of, as I said, the number of changes that have to happen within a tumor.",
+      "rewritePassage": "Benign tumours are extremely common, because it takes a great deal for a benign tumour to become malignant"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So I've just put these numbers up just so that you can have a sense.",
+      "reason": "The addition of 'of incidence' in the rewrite reflects the overarching topic established in the opening sentence ('So just talking about incidence')."
+    },
+    {
+      "sourcePassage": "So liver cancer and nasopharyngeal carcinomas are very big in Chinese populations.",
+      "reason": "Rewording 'very big' to 'very common' preserves the original meaning without introducing a distortion."
+    },
+    {
+      "sourcePassage": "And then this is, if you like, the percentage of tumors that result in deaths.",
+      "reason": "Phrasing this as 'A further slide shows...' accompanied by a '[FIGURE]' tag is an allowed representation of visual presentation material referenced by the lecturer."
+    }
+  ]
+}

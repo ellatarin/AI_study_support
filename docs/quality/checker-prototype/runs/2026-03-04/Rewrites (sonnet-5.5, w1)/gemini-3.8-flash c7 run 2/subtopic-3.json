@@ -1,0 +1,27 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c7",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The text states 'during adolescence and maturation', but the rewrite replaces 'adolescence' with 'differentiation'.",
+      "sourcePassage": "because obviously during adolescence and maturation, this occurs from infancy to adulthood.",
+      "rewritePassage": "because differentiation and maturation also occur from infancy to adulthood."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Here at this stage here, most of your growth, really, most of your lineage specification and your expansive growth has happened during embryogenesis, during the time that you were born.",
+      "reason": "The phrase 'during the time that you were born' is a spoken slip or clarification of the pre-birth period (embryogenesis), so omitting it in favor of 'during embryogenesis' is treated as an allowed removal of spoken repetition/filler."
+    },
+    {
+      "sourcePassage": "It gives them structure and provides a signaling and basis for their adherence to this layer.",
+      "reason": "'provides a signalling basis' in the rewrite is an acceptable stylistic smoothing of the spoken phrasing 'provides a signaling and basis'."
+    },
+    {
+      "sourcePassage": "which would be here into the invading stroma.",
+      "reason": "Changing 'invading stroma' to 'invaded stroma' corrects a natural slip of the tongue where the stroma is the passive tissue being invaded by deranged cells, which does not alter the intended meaning."
+    }
+  ]
+}

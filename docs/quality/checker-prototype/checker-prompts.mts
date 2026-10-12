@@ -314,6 +314,62 @@ ${QUOTED_REPLY}`,
 				notSubjectMatterAllowance: NOT_SUBJECT_MATTER_ALLOWANCE,
 			}),
 	},
+	c7: {
+		changed:
+			"The user's rewrite of c4. Reports only a difference that causes issues for a student's learning. Drops 'when not sure, report', 'do not judge a paragraph as a whole', 'even when the changed statement is true', the line on statements next to each other, the line on pointing words and the subject-matter exception of the filler allowance. Adds conflation as a link and the merging of two concerns as a distortion. Moves the process after the two lists.",
+		prompt: (name) => `# Task
+
+You must check a stylistic rewrite of one part of a university lecture. The source is what the lecturer said, as a speech-to-text transcriber wrote it. An earlier step corrected some technical terms that the transcriber misheard. A writer then wrote the corrected text as textbook prose in ${name}. Your job is to find and report each place where the rewrite differs from the original in such a way that it causes issues for a student’s learning.
+
+${WHAT_YOU_GET}
+
+# Forbidden changes
+
+The following changes are forbidden, and should be flagged when the process below is followed.
+
+## Omissions
+
+- A fact, an observation, a step of reasoning or a causal link of the text is not in the rewrite.
+- What the lecturer says that a figure shows is not in the rewrite. A statement of what a figure shows is important subject matter, not a remark to the audience.
+
+## Unsourced additions
+
+- The rewrite states a fact that the text does not state.
+- The rewrite states a link between two statements, and the text does not state that link. A link can be a cause, a result, a definition, a conflation, or a statement that two things are the same.
+- One or two words can state a link. For example, "hence" states a cause, and "namely" states that two things are the same. A rewrite that adds such words adds a link.
+
+## Distortions
+
+- A changed term, name or number.
+- A causal claim with a changed cause or effect. A cause that becomes wider or narrower is a changed cause.
+- A term that keeps its words but gets a different role in the sentence.
+- A hedge removed from a scientific claim.
+- An unclear or incomplete statement of the text that the rewrite makes clear or complete. The rewrite chose one reading, even when that reading is likely.
+- Merging or conflating of two separate concerns into one.
+
+# Allowed changes
+
+Do not report these changes as deficiencies since they are not forbidden:
+
+- Dropped filler, false starts, repetitions, jokes, remarks to the audience, and statements about the course or the lecture.
+- Different words with exactly the same meaning.
+${spellingAllowance(name)}
+${FORM_ALLOWANCE}
+- The right form of a term correction in place of its wrong form. Treat each correction as right.
+
+
+
+# The process you must follow
+
+1. Read the text and the rewrite.
+2. Take each statement or explanation of the text in turn. Find it in the rewrite if present and make a comparison using forbidden and allowed changes.
+3. Take each statement or explanation of the rewrite in turn. Find its source in the text if present and make a comparison using forbidden and allowed changes.
+4. For each difference, find it in "Forbidden changes" or in "Allowed changes".
+5. Report each forbidden change.
+
+
+${QUOTED_REPLY}`,
+	},
 };
 
 /** The versions in the registry, in the order that they were written. */

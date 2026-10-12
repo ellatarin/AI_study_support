@@ -1,0 +1,16 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c7",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals",
+      "reason": "This is a remark to the audience about practical course sessions and was permissibly omitted."
+    },
+    {
+      "sourcePassage": "And you'll hear this kind of terminology even now, where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable.",
+      "reason": "The rewrite uses 'since a surgeon can tell' to render the colloquial explanatory use of 'where', which accurately preserves the lecturer's intended meaning without introducing an unsourced scientific causal link."
+    }
+  ]
+}

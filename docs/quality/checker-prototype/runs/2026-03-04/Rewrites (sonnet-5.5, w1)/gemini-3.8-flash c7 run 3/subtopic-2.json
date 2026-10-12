@@ -1,0 +1,27 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c7",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite inserts 'that is', stating that acetylation or deacetylation is the state of transcription within the cell itself, thereby adding an explicit link/definition not made in the original text.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events that can also help to give rise to cancer.",
+      "reason": "The rewrite phrases 'they can also predispose' as 'infection can also predispose to chronic inflammatory events', which faithfully reflects the context of viral infections discussed by the lecturer."
+    },
+    {
+      "sourcePassage": "I'm sure you've seen a cartoon that looks like this many times.",
+      "reason": "Rendered as 'the familiar cartoon', which conveys the same meaning as having seen it many times."
+    },
+    {
+      "sourcePassage": "So I've just made this kind of a much simpler diagram, if you like.",
+      "reason": "The rewrite represents the diagram references with a [FIGURE] marker and standard textbook phrasing, which is an allowed change."
+    }
+  ]
+}

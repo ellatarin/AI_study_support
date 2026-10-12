@@ -1,0 +1,31 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c7",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite describes a scenario 'when the tumour occurs in a meningioma or in the liver', treating a meningioma as an anatomical site or organ where a tumour can arise. However, as noted earlier in the lecture, a meningioma is itself a primary tumour (of the meninges), not a location in which a tumour occurs.",
+      "sourcePassage": "if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "rewritePassage": "for example when the tumour occurs in a meningioma or in the liver."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "And things like if tumors in bones lead to erosion of that bone function, so you can get fractures",
+      "reason": "The rewrite changes 'erosion of that bone function' to 'erosion of the bone'. The lecturer explicitly refers to 'erosion of bones' later in the passage, so this is treated as repairing a spoken slip rather than introducing a distortion."
+    },
+    {
+      "sourcePassage": "the hematopoietic stem cells that are there, these will interfere.",
+      "reason": "The text contains a false start where the grammatical subject momentarily shifts to the stem cells before returning to the tumour's interference; the rewrite resolves this to 'will interfere with them', which falls under allowed editing of false starts."
+    },
+    {
+      "sourcePassage": "This niche is not very big. This will interfere with your bone marrow",
+      "reason": "The rewrite adds 'therefore' ('The tumour will therefore interfere with the bone marrow'). Because 'This will interfere' in the spoken text refers anaphorically to the problem of the small niche, 'therefore' merely clarifies this existing link rather than adding an unsourced causal claim."
+    },
+    {
+      "sourcePassage": "Things like obstruction of the bile ducts in the liver interferes with digestion.",
+      "reason": "The rewrite introduces this paragraph with 'Other effects depend on the site.' This serves as a stylistic transitional sentence linking back to the lecturer's earlier remark about 'different settings in which they occur', and does not introduce an unsourced scientific fact."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c7",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "reason": "The rewrite renders this as 'A slice through a tumour, with a stain to show the morphology, illustrates this [FIGURE]', which faithfully captures what the slide/figure shows while adding a standard figure reference."
+    },
+    {
+      "sourcePassage": "Primary cells really don't grow in culture.",
+      "reason": "The omission of the colloquial intensifier 'really' ('Primary cells do not grow in culture') does not change the meaning or scientific claim."
+    },
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "This is an incidental remark to the audience / spoken filler and is permitted to be dropped."
+    }
+  ]
+}

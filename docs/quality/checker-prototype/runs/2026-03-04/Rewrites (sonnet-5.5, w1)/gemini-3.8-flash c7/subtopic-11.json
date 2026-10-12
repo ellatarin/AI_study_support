@@ -1,0 +1,37 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c7",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds 'therefore' to state a causal link between the niche being small and the tumour interfering with the bone marrow, but the source text does not explicitly state that one causes the other.",
+      "sourcePassage": "This niche is not very big. This will interfere with your bone marrow",
+      "rewritePassage": "This niche is not very big. The tumour will therefore interfere with the bone marrow"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite describes the tumour as occurring 'in a meningioma', changing 'meningioma' from being a type of primary tumour (as stated earlier and in medical terminology) into an anatomical location or organ in which a tumour arises.",
+      "sourcePassage": "Only 10% of these deaths, generally, if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "rewritePassage": "for example when the tumour occurs in a meningioma or in the liver."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Things like obstruction of the bile ducts in the liver interferes with digestion.",
+      "reason": "The writer added the transition 'Other effects depend on the site.' to begin the paragraph, but this merely restates the lecturer's earlier framing ('different settings in which they occur') rather than adding a new unsupported fact."
+    },
+    {
+      "sourcePassage": "Also ulceration, you saw that enormous cauliflower structure within the colon.",
+      "reason": "'You saw that' is a remark to the audience referring back to a previously shown image or specimen; adapting this to 'the enormous cauliflower-like structure seen within the colon' is an allowed stylistic change."
+    },
+    {
+      "sourcePassage": "if tumors in bones lead to erosion of that bone function, so you can get fractures",
+      "reason": "Rewording 'erosion of that bone function' to 'erosion of the bone' preserves the scientific meaning and aligns with the lecturer's later mention of 'erosion of bones'."
+    },
+    {
+      "sourcePassage": "the hematopoietic stem cells that are there, these will interfere.",
+      "reason": "The lecturer's phrasing was conversational and grammatically disjointed ('competition with the normal, if you have a tumor... these will interfere'); rendering this as the tumour interfering with the hematopoietic stem cells correctly preserves the intended meaning of competition in the niche."
+    }
+  ]
+}

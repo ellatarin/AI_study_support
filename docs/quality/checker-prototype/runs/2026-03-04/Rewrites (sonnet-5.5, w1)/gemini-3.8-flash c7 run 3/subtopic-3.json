@@ -1,0 +1,27 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c7",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite replaces 'adolescence' with 'differentiation', distorting the lecturer's statement and omitting the specific developmental period (adolescence) mentioned in the lecture.",
+      "sourcePassage": "because obviously during adolescence and maturation, this occurs from infancy to adulthood.",
+      "rewritePassage": "because differentiation and maturation also occur from infancy to adulthood."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "during embryogenesis, during the time that you were born.",
+      "reason": "The phrase 'during the time that you were born' is a spoken slip of the tongue or false start following 'during embryogenesis' (since embryogenesis occurs prior to birth), so omitting it is an allowed change."
+    },
+    {
+      "sourcePassage": "provides a signaling and basis for their adherence to this layer.",
+      "reason": "The rewrite renders 'a signaling and basis for their adherence' as 'a signalling basis for their adherence', smoothing out spoken disfluency without materially altering the scientific meaning."
+    },
+    {
+      "sourcePassage": "which would be here into the invading stroma.",
+      "reason": "Changing 'invading stroma' to 'invaded stroma' corrects the lecturer's slip of the tongue (the stroma is the structure being invaded by the cancer cells, rather than invading itself), which is an allowed grammatical and stylistic fix."
+    }
+  ]
+}

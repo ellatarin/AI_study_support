@@ -1,0 +1,24 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c7",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "reason": "The rewrite renders this as 'Histologically, the endocervical canal runs through the neck of the womb, and the cervix is seen alongside it', adapting the lecturer's deictic references to a slide into textbook prose without introducing inaccurate subject matter."
+    },
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here",
+      "reason": "This is a direct remark to the audience pointing out specific individual cells on a slide, which is permitted to be omitted as filler/presentation remark."
+    },
+    {
+      "sourcePassage": "and you'll see this in your practicals.",
+      "reason": "The rewrite includes this ('and it will be seen in the practicals'), retaining the reference to course practicals in standard passive style."
+    },
+    {
+      "sourcePassage": "If you'll notice here from the 1950s to, this is only to 2000, you'll see that the rates of death in cervical cancer came down",
+      "reason": "The phrasing 'this is only to 2000' is a conversational observation about the endpoint of the chart, accurately conveyed by stating the period 'From the 1950s to 2000'."
+    }
+  ]
+}

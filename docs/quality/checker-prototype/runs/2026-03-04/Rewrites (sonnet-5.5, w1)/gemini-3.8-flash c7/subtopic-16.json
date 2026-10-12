@@ -1,0 +1,20 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c7",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "The phrase 'You saw' is a remark to the audience referencing earlier lecture material or slides; rendering this as 'The different pre-cancerous states are present' conveys the necessary context while dropping the meta-lecture remark."
+    },
+    {
+      "sourcePassage": "very likely to probably already be malignant.",
+      "reason": "'Very likely to be malignant already' captures the spoken redundancy of 'very likely to probably' without altering the scientific claim or removing an essential hedge."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "Translating the lecturer's conversational callback into 'Of the screening methods discussed, cervical screening is the best' faithfully preserves the comparative point without introducing unsourced claims."
+    }
+  ]
+}

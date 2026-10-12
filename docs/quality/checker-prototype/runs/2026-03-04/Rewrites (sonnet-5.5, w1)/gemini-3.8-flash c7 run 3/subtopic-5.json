@@ -1,0 +1,31 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c7",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite uses the conjunction 'since' to introduce a causal relationship between the terminology still being heard today and the fact that a surgeon can tell whether a tumour is movable by holding or touching it. The original text uses 'where' to describe the situation or context without stating a causal link.",
+      "sourcePassage": "And you'll hear this kind of terminology even now, where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable.",
+      "rewritePassage": "This terminology is still heard now, since a surgeon can tell just by holding or touching a tumour whether it is movable or immovable."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Okay. So with these tools in hand, I think the important concept to try and get across is invasion and metastasis.",
+      "reason": "The introductory conversational framing and reference to prior tools/lecture content was omitted as allowed dropped filler and course remarks."
+    },
+    {
+      "sourcePassage": "back in, I don't know, when surgery was first coming into its own as a discipline after anesthesia was invented or discovered, that tumors kind of came in two types.",
+      "reason": "Hesitations and filler ('I don't know', 'kind of') were removed in line with allowed changes."
+    },
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals,",
+      "reason": "This is a remark to the audience regarding practical course work, which is an allowed omission."
+    },
+    {
+      "sourcePassage": "Right. So, what does that mean for the patient? Well, the invasion,",
+      "reason": "Rhetorical question and conversational transitional phrases were omitted as allowed changes in tone and style."
+    }
+  ]
+}
