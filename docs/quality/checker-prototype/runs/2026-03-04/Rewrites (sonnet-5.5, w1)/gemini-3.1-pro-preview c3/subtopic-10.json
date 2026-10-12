@@ -1,0 +1,24 @@
+{
+  "subtopicId": 10,
+  "checkerPromptVersion": "c3",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay? So just so that we're all on the same page in terms of nomenclature, and of course, with any naming system, there are always exceptions to every rule.",
+      "reason": "The introductory filler was dropped, which does not alter the scientific content."
+    },
+    {
+      "sourcePassage": "So the fat, smooth muscle or papillomas in the skin",
+      "reason": "The rewrite explicitly maps 'lipoma' to 'fat' and 'leiomyoma' to 'smooth muscle'. This clarification is drawn from the sequential order of the previous list in the text and does not change the scientific content."
+    },
+    {
+      "sourcePassage": "So you have cells,",
+      "reason": "This false start was dropped, keeping the scientific meaning intact."
+    },
+    {
+      "sourcePassage": "So these are these different tumor types and",
+      "reason": "This transitional filler was dropped, leaving the scientific content unchanged."
+    }
+  ]
+}

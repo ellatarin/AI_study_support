@@ -1,0 +1,28 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c3",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "during adolescence and maturation, this occurs from infancy to adulthood.",
+      "reason": "The rewrite omits 'adolescence', but 'from infancy to adulthood' adequately covers the entire time period."
+    },
+    {
+      "sourcePassage": "provides a signaling and basis for their adherence to this layer.",
+      "reason": "The rewrite changes this to 'provides a signalling basis', which cleans up the speaker's grammar without altering the biological meaning."
+    },
+    {
+      "sourcePassage": "during embryogenesis, during the time that you were born.",
+      "reason": "The rewrite drops 'during the time that you were born', which is a speaker slip, as embryogenesis occurs before birth. This omission leaves the scientific content correct."
+    },
+    {
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes. They have come in, they have lost this architecture, moved over the basement membrane and invaded",
+      "reason": "The rewrite adds the phrase 'In the image of the invasive tissue'. This is not an unsourced addition because the speaker explicitly describes the cells in the image as having 'invaded'."
+    },
+    {
+      "sourcePassage": "into the invading stroma.",
+      "reason": "The rewrite changes this to 'invaded stroma', correcting a minor speech error (the cells are invading the stroma; the stroma itself is not invading). The biological meaning is preserved."
+    }
+  ]
+}

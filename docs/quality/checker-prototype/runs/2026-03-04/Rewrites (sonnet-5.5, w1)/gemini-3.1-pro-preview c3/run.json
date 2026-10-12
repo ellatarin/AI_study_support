@@ -1,0 +1,29 @@
+{
+  "lecture": "2026-03-04",
+  "rewrites": "Rewrites (sonnet-5.5, w1)",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "checkerPromptVersion": "c3",
+  "commands": [
+    {
+      "startedAt": "2026-10-12T11:12:30.841Z",
+      "seconds": 67,
+      "subtopicsChecked": 17,
+      "cost": {
+        "promptTokens": 29506,
+        "completionTokens": 51358,
+        "callCount": 17,
+        "costUsd": 0.6753079999999999
+      },
+      "unusableReplies": [],
+      "failedSubtopics": []
+    },
+    {
+      "startedAt": "2026-10-12T11:17:00.778Z",
+      "seconds": 0,
+      "subtopicsChecked": 0,
+      "cost": null,
+      "unusableReplies": [],
+      "failedSubtopics": []
+    }
+  ]
+}

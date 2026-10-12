@@ -1,0 +1,59 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c3",
+  "modelId": "openai/gpt-5.6-sol-pro",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite removes the lecturer's epistemic hedge ('I think') and presents ovarian cancer's frequent transcoelomic spread as an unqualified claim.",
+      "sourcePassage": "And I think one of the tumors that does this quite frequently is ovarian cancer, for example.",
+      "rewritePassage": "One tumour that does this quite frequently is ovarian cancer, for example."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Right. So obviously most of the death that occurs with cancer is when tumors start to metastasize and spread around the body. Right? So when they do this, this is called metastasis.",
+      "reason": "The rewrite preserves the claims about cancer mortality, metastatic spread and the name of the process; only discourse markers are removed."
+    },
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "This is a personal aside about the lecturer's speech rather than subject matter, so its omission is not reportable."
+    },
+    {
+      "sourcePassage": "So these metastases are the secondary tumors that spread from the primary tumor throughout the body to secondary sites. So, when this happens, this tumor is obviously malignant.",
+      "reason": "The rewrite retains both the description of metastases and the statement that a tumour is malignant when this spread occurs."
+    },
+    {
+      "sourcePassage": "And primary tumors can spread via a number of routes, either through the lymphatics or through the blood circulation, venous or arterial, or also this transcoelomic site from across a cavity, across a pleural cavity, for example, across the abdomen.",
+      "reason": "The rewrite preserves all the stated routes of spread and examples; describing the transcoelomic mode as a route fits the lecturer's surrounding statement about routes and does not change the scientific content."
+    },
+    {
+      "sourcePassage": "So, what that can look like histologically, so say, for example, you took a tumor sample, and you were looking at this under the microscope. You see your tumor cells are here, and then you can often see sometimes the tumor cells are actually present within a lymphatic duct.",
+      "reason": "The rewrite preserves the microscopic observation that tumour cells may be visible within a lymphatic duct, while removing the hypothetical framing and repetition."
+    },
+    {
+      "sourcePassage": "So obviously now the diagnosis would be that this is a metastatic tumor as it has access to the lymphatics and could potentially spread around the body.",
+      "reason": "The diagnosis, its basis in access to the lymphatics and the potential for bodily spread are all retained."
+    },
+    {
+      "sourcePassage": "Okay. So when you're looking at some of these samples during the practicals, what you might also be able to notice is that very often the tumors, the secondary tumors, will have the features of the primary tumor.",
+      "reason": "The rewrite retains the observation that secondary tumours often have the features of the primary tumour."
+    },
+    {
+      "sourcePassage": "So, for example, this tumor cell has the appearance of an adenomatous tumor or glandular tumor. So you can know kind of where it might be coming from.",
+      "reason": "The rewrite preserves the adenomatous or glandular appearance and the qualified inference about the tumour's possible origin."
+    },
+    {
+      "sourcePassage": "Okay, so what does this look like in the larger setting? You have an example here of what-- or two examples rather, of what secondary tumors look like when they go ahead and seed other organs.",
+      "reason": "The rewrite preserves that there are two examples of secondary tumours seeding other organs; the false start is omitted without loss of subject matter."
+    },
+    {
+      "sourcePassage": "And here you have a colon cancer that's metastasized to the liver. Obviously, the liver is normally a reddish-brown color, and all of these white lumps within the liver are secondary tumors.",
+      "reason": "The rewrite retains the colon-cancer metastasis, the liver's normal colour and the identification of the white lumps as secondary tumours."
+    },
+    {
+      "sourcePassage": "Similarly, here you have a brain, and what you have here is a breast cancer that's metastasized to the brain. So you can see that there can be an overwhelming displacement of the organ, which will be quite difficult for the patient, if not lethal.",
+      "reason": "The rewrite retains the breast-cancer metastasis to the brain and the possible overwhelming displacement, including its serious or lethal effect on the patient."
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c3",
+  "modelId": "openai/gpt-5.6-sol-pro",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite removes the lecturer's qualification that the conclusion about similar molecular processes is only 'pretty clear', presenting it without that hedge.",
+      "sourcePassage": "And so it's pretty clear that, if you like, the molecular processes that are occurring are similar.",
+      "rewritePassage": "It is therefore clear that the molecular processes occurring are similar."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "in dogs and cats, they very much get similar tumors to us, and of course, if you compare any two things, you're going to find differences. But in dogs, mammary tumors seem to be very, very prevalent, along with skin and connective tissues, which is different from people. And similarly, in cats, the primary type of tumor that arises is non-Hodgkin's lymphoma, but they also get skin and connective tissue tumors.",
+      "reason": "The rewrite preserves the comparison with humans and the stated tumour patterns in dogs and cats; differences in wording, spelling and emphasis do not alter the content."
+    },
+    {
+      "sourcePassage": "And this is my cat, who also ended up with a feline injection site sarcoma. This is from injections proposed to be due to the adjuvant that is also added with the injection. You'll be happy to hear he's doing fine now after his surgery.",
+      "reason": "The rewrite retains the cat's diagnosis, the association with injections, the proposed role of the adjuvant and the outcome after surgery."
+    },
+    {
+      "sourcePassage": "But just to say that within other taxa, so this is a comparison of the incidence of different types of tumors in things like birds and reptiles in comparison to mammals. You'll see that digestive tissues, hematopoietic, and skin are the three main categories in terms of where cancers arise.",
+      "reason": "The rewrite faithfully retains the comparison across taxa and the three principal tissue categories."
+    },
+    {
+      "sourcePassage": "The only thing that was quite interesting to note here is that the rate of malignant tumors is about fivefold higher in reptiles compared to mammals. So when a reptile gets a tumor, it very often will become a malignant tumor.",
+      "reason": "The rewrite preserves the approximate fivefold comparison and the stated implication that reptile tumours very often become malignant."
+    },
+    {
+      "sourcePassage": "The real takeaway here is that any organism or any animal that has-- any organism, rather, that is multicellular and has a differentiation program can end up with a problem in differentiation, and end up with a tumor and with that disease. So oysters, flies, clams, crabs, all of these animals, they have differentiation programs, and they can all get tumors and cancer. So you can really consider, as I said, cancer as a disease of development and differentiation.",
+      "reason": "The rewrite preserves the main conclusion, the examples of multicellular organisms and the characterisation of cancer as a disease of development and differentiation; it merely removes a false start and repetition."
+    }
+  ]
+}

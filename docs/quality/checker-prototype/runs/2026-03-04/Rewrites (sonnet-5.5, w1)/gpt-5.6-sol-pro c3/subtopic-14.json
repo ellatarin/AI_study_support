@@ -1,0 +1,28 @@
+{
+  "subtopicId": 14,
+  "checkerPromptVersion": "c3",
+  "modelId": "openai/gpt-5.6-sol-pro",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, so what does this look like in the clinic? [chuckles]",
+      "reason": "The omitted opening and laughter are lecture framing and filler rather than subject matter."
+    },
+    {
+      "sourcePassage": "I call this the four horsemen. You show up with something that's itchy, crusty, lumpy, or bloody. These are kind of vague and general things, general signs, but a tumor could be visible if you're lucky or palpable. But these are the other things that generally show up. But very much, tumors can be indirect if they're occurring in non-screenable or non-palpable areas.",
+      "reason": "The rewrite preserves the four listed signs, their vague and general nature, the possibility of a visible or palpable tumour, and indirect presentation in non-screenable or non-palpable areas."
+    },
+    {
+      "sourcePassage": "And because of this, it's actually quite hard to detect tumors. And because the symptoms are quite vague, patients are usually making three or four or five visits before a diagnosis is made, even though it's the goal of the NHS to be able to diagnose earlier and quicker.",
+      "reason": "The rewrite preserves the difficulty of detection, the causal role of vague symptoms, the number of visits and the NHS goal."
+    },
+    {
+      "sourcePassage": "So in thinking about this, we try to jump the gun and try to screen for different cancers before we get to a malignant state, because by the time you get to a malignant state, it's very likely to be too late for the patient. So screening is very much the approach. But in thinking about how you might roll this out across a population, the cost of this is something to bear in mind.",
+      "reason": "The rewrite preserves the rationale for screening before malignancy, the risk of being too late once malignancy is reached, and the need to consider population-level cost."
+    },
+    {
+      "sourcePassage": "So obviously, the idea is you want to find the cancer, and you want to find it at an earlier state, a state at which it can be treatable, right, before it becomes malignant, before it becomes something that's very, very hard to treat, and there's diminishing returns on said treatment. And we also have to be able to do something that is useful for that patient.",
+      "reason": "The rewrite preserves the aim of finding cancer early while it can be treated, before it becomes malignant and very hard to treat, as well as diminishing returns on treatment and the requirement that the intervention benefit the patient."
+    }
+  ]
+}

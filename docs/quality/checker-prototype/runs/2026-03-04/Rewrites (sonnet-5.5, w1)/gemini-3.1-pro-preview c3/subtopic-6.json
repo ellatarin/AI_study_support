@@ -1,0 +1,16 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c3",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "Dropped a personal remark to the audience about pronunciation."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here, and then",
+      "reason": "Dropped a deictic reference to a visual aid."
+    }
+  ]
+}

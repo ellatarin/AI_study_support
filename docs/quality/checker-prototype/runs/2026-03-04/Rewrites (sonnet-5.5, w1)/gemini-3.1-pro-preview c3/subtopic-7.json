@@ -1,0 +1,29 @@
+{
+  "subtopicId": 7,
+  "checkerPromptVersion": "c3",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite asserts a specific spatial relationship between the tumour and the outer surface of the uterus, which the lecturer does not state when pointing to the slide.",
+      "sourcePassage": "You can see that the tumor is here. This is the outer surface of the uterus.",
+      "rewritePassage": "The tumour lies next to the outer surface of the uterus"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite changes the lecturer's term 'circumspect' to 'circumscribed'. While the lecturer likely misspoke, changing a term without an explicit correction is a distortion of the text.",
+      "sourcePassage": "this is actually circumspect and very separate",
+      "rewritePassage": "The tumour is therefore circumscribed and very separate"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "This is normally a very thin muscle wall that is present in the uterus.",
+      "reason": "The rewrite slightly rephrases this to 'which normally has a very thin muscle wall', which preserves the scientific meaning well enough."
+    },
+    {
+      "sourcePassage": "These are quite rare.",
+      "reason": "The rewrite accurately applies this statement to the malignant case, preserving the lecturer's intended contrast."
+    }
+  ]
+}

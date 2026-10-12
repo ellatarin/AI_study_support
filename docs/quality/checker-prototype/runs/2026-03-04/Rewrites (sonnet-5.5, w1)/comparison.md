@@ -2,33 +2,47 @@
 
 | Checker | Faults | Subtopics failed | Subtopics checked | Faults that matter found | Cost |
 | --- | --- | --- | --- | --- | --- |
+| gemini-3.1-pro-preview c3 | 4 | 3 | 17 | 2 of 7 | $0.68 |
 | gemini-3.8-flash c3 | 2 | 2 | 17 | 1 of 7 | $0.12 |
-| gemini-3.1-pro, c2 (pipeline) | 24 | 8 | 17 | 4 of 7 | not recorded |
-| gemini-3.8-flash, c2 (pipeline) | 8 | 4 | 17 | 3 of 7 | not recorded |
-| gemini-3.8-flash, c3 (pipeline) | 1 | 1 | 17 | 1 of 7 | not recorded |
-| sol-pro, c2 (pipeline) | 36 | 15 | 17 | 7 of 7 | not recorded |
-| sonnet-5.5, c2 (pipeline) | 4 | 4 | 17 | 1 of 7 | not recorded |
-| terra-pro, c2 (pipeline) | 42 | 13 | 14 | 4 of 7 | not recorded |
+| gpt-5.6-sol-pro c3 | 13 | 10 | 17 | 3 of 7 | $1.17 |
+| gemini-3.1-pro, c2 (pipeline) | 24 | 8 | 17 | 4 of 7 | $1.33 |
+| gemini-3.8-flash, c2 (pipeline) | 8 | 4 | 17 | 3 of 7 | $0.34 |
+| gemini-3.8-flash, c3 (pipeline) | 1 | 1 | 17 | 1 of 7 | $0.15 |
+| sol-pro, c2 (pipeline) | 36 | 15 | 17 | 7 of 7 | $2.31 |
+| sonnet-5.5, c2 (pipeline) | 4 | 4 | 17 | 1 of 7 | $0.53 |
+| terra-pro, c2 (pipeline) | 42 | 13 | 14 | 4 of 7 | $2.72 |
 
 ## Faults that matter
 
-| Fault | gemini-3.8-flash c3 | gemini-3.1-pro, c2 (pipeline) | gemini-3.8-flash, c2 (pipeline) | gemini-3.8-flash, c3 (pipeline) | sol-pro, c2 (pipeline) | sonnet-5.5, c2 (pipeline) | terra-pro, c2 (pipeline) |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| 2.1 | no | no | no | no | yes | no | no |
-| 2.2 | no | yes | no | no | yes | no | yes |
-| 3.4 | no | yes | yes | no | yes | no | no |
-| 7.1 | no | yes | yes | no | yes | no | yes |
-| 8.1 | no | yes | no | no | yes | yes | yes |
-| 12.1 | yes | no | yes | yes | yes | no | no |
-| 15.1 | no | no | no | no | yes | no | yes |
+| Fault | gemini-3.1-pro-preview c3 | gemini-3.8-flash c3 | gpt-5.6-sol-pro c3 | gemini-3.1-pro, c2 (pipeline) | gemini-3.8-flash, c2 (pipeline) | gemini-3.8-flash, c3 (pipeline) | sol-pro, c2 (pipeline) | sonnet-5.5, c2 (pipeline) | terra-pro, c2 (pipeline) |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2.1 | no | no | yes | no | no | no | yes | no | no |
+| 2.2 | no | no | yes | yes | no | no | yes | no | yes |
+| 3.4 | no | no | no | yes | yes | no | yes | no | no |
+| 7.1 | yes | no | no | yes | yes | no | yes | no | yes |
+| 8.1 | yes | no | yes | yes | no | no | yes | yes | yes |
+| 12.1 | no | yes | no | no | yes | yes | yes | no | no |
+| 15.1 | no | no | no | no | no | no | yes | no | yes |
 
 ## Faults outside the key
+
+### gemini-3.1-pro-preview c3: 1 fault outside the key
+
+- **11**, distortion: The rewrite mistakenly treats a meningioma as a location or organ where a tumour can occur, whereas a meningioma is itself a type of tumour.
+  - Source: if they're occurring in things like the meningioma that I was telling you about
+  - Rewrite: when the tumour occurs in a meningioma
 
 ### gemini-3.8-flash c3: 1 fault outside the key
 
 - **11**, distortion: The rewrite states that a tumour occurs in a meningioma, treating a meningioma as an anatomical site or organ, whereas a meningioma is itself a type of tumour.
   - Source: Only 10% of these deaths, generally, if they're occurring in things like the meningioma that I was telling you about or in the liver.
   - Rewrite: Only 10% of deaths are generally caused in this way, for example when the tumour occurs in a meningioma or in the liver.
+
+### gpt-5.6-sol-pro c3: 1 fault outside the key
+
+- **15**, distortion: The rewrite turns the lecturer's qualified identification of the women still dying from cervical cancer into a categorical claim that all such women belong to one of these two groups.
+  - Source: but the, if you like, the women that are still dying of cervical cancer would be the ones that either are not followed up after their screen or that have declined screening altogether.
+  - Rewrite: The women who are still dying of cervical cancer are those who are either not followed up after their screen or who have declined screening altogether.
 
 ### gemini-3.1-pro, c2 (pipeline): 10 faults outside the key
 

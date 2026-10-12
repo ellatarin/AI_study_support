@@ -1,0 +1,53 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c3",
+  "modelId": "openai/gpt-5.6-sol-pro",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite explicitly equates acetylation or deacetylation with the state of transcription. The source mentions them together but does not state this defining equivalence.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The source says that the approximately seven cancer-associated human viruses can predispose to chronic inflammatory events, whereas the rewrite broadens the subject to infection in general.",
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events that can also help to give rise to cancer.",
+      "rewritePassage": "There are about seven different human viruses that precipitate cancer, and infection can also predispose to chronic inflammatory events, which can also help to give rise to cancer."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "The idea that a normal cell, starting off here, acquires a mutation, and maybe a second mutation, and it becomes slightly abnormal. And then adds another mutation, becoming slightly more abnormal on this journey towards a malignancy. So we know that these mutations accumulate, there are stepwise changes, and they accumulate over time. But we really don't have a timeframe for exactly how long it takes for this progression to occur.",
+      "reason": "The rewrite preserves the stepwise accumulation of mutations, progression towards malignancy and uncertainty about the timeframe."
+    },
+    {
+      "sourcePassage": "So I've just made this kind of a much simpler diagram, if you like. Simplicity can help frame our thinking, but it will also end up losing a lot of details. So, as I said, you start off with a normal cell, and a bunch of mutations happen over time, and you go from normal to malignant.",
+      "reason": "The rewrite faithfully presents the simplified model and its loss of detail; changing the personal lecture framing is stylistic."
+    },
+    {
+      "sourcePassage": "And when I say gene changes, I'm using a very broad term to encompass things like mutations. And again, this is still a very broad term because we're talking about things like base substitutions, base pair changes, small deletions, small insertions to whole chromosome losses, chromosomal translocations, aneuploidy, polyploidy. So this is what genetic changes would look like, and you would see these changes if you sequenced the genome or you looked at the chromosomal morphology.",
+      "reason": "The broad meaning of gene changes, all listed examples and the methods by which they could be observed are retained."
+    },
+    {
+      "sourcePassage": "These can be changes, for example, to the methylation status of a promoter, to the expression of things like microRNAs",
+      "reason": "The examples involving promoter methylation and microRNA expression are preserved."
+    },
+    {
+      "sourcePassage": "If you were to sequence the genome, you wouldn't see these changes. You'd have to use other techniques, other specialized techniques, to look at these changes.",
+      "reason": "The rewrite retains both the inability to detect epigenetic changes by genome sequencing and the need for specialised techniques."
+    },
+    {
+      "sourcePassage": "And gene changes can also arise from infection. Certain tumors can arise from infectious agents like viruses.",
+      "reason": "The rewrite preserves the claims that gene changes can arise from infection and that certain tumours can arise from infectious agents such as viruses."
+    },
+    {
+      "sourcePassage": "So there's a lot of changes that occur, and as I said, we don't know pretty much because of this when they occur. It actually raises a lot of questions. When do these gene changes occur? Are they all the same for all the different cells that we're talking about? How many mutations does it take? When do they have to happen? Which cells are more susceptible than others? So really, once you put a model like this together, it invites a lot of questions.",
+      "reason": "The rewrite retains the uncertainty about timing, its connection to the many changes involved and all of the lecturer's questions."
+    },
+    {
+      "sourcePassage": "So hopefully, in order to try and address some of these questions, we will start at the beginning. [chuckles]",
+      "reason": "The rewrite preserves the transition to starting at the beginning; omission of the chuckle and alteration of lecture framing do not change the subject matter."
+    }
+  ]
+}

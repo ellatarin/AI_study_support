@@ -1,0 +1,39 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c3",
+  "modelId": "openai/gpt-5.6-sol-pro",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite states that the terminology remains in use because a surgeon can assess a tumour by touch. The source presents continued use of the terminology and tactile assessment together but does not state that the latter causes the former.",
+      "sourcePassage": "And you'll hear this kind of terminology even now, where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable.",
+      "rewritePassage": "This terminology is still heard now, since a surgeon can tell just by holding or touching a tumour whether it is movable or immovable."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Okay. So with these tools in hand, I think the important concept to try and get across is invasion and metastasis.",
+      "reason": "The rewrite preserves invasion and metastasis as the important concepts; the omitted introductory wording and hedge are lecture framing rather than scientific qualification."
+    },
+    {
+      "sourcePassage": "Obviously, changes occur within tumor cells, and it was long ago noticed back in, I don't know, when surgery was first coming into its own as a discipline after anesthesia was invented or discovered, that tumors kind of came in two types. What they termed the movable tumor. And a movable tumor is exactly like what it sounds.",
+      "reason": "The rewrite preserves the observation, historical context and two tumour categories. Removing filler such as \"Obviously\" and \"I don't know\" does not alter the subject matter."
+    },
+    {
+      "sourcePassage": "Surgeons would find that that tumor could move within the tissue or an immovable tumor. And a movable tumor, it was generally well-contained and had a capsule around it, and you could literally lift it out of that capsule. It hadn't really spread, and these are considered benign tumors. Immovable tumors, on the other hand, grabbed hard onto the tissue that they were seated in.",
+      "reason": "The rewrite faithfully preserves the mobility, encapsulation, lack of spread and benign status of movable tumours, as well as the attachment of immovable tumours to their tissue."
+    },
+    {
+      "sourcePassage": "So when it becomes immovable, these malignant cells have spread or invaded into the adjacent tissue, into the adjacent stroma. And so invasion can be seen down the microscope, and that's something that you'll come to appreciate in your practicals, but it can also be just felt by a surgeon.",
+      "reason": "The rewrite preserves the spread into adjacent tissue and stroma and the visual and tactile means of identifying invasion. The omitted reference to practical classes is course-related."
+    },
+    {
+      "sourcePassage": "So when somebody presents with a lump or a primary tumor, there will be a biopsy to look and to see whether or not the tumor cells are contained or whether or not they're invading into the surrounding tissue.",
+      "reason": "The rewrite preserves the use and purpose of the biopsy and the distinction between contained and invading tumour cells."
+    },
+    {
+      "sourcePassage": "Right. So, what does that mean for the patient? Well, the invasion, and whether or not that's seen histologically is probably the most important prognostic or diagnostic factor for the clinician in telling the patient what may or may not happen in terms of the tumor.",
+      "reason": "The rewrite preserves the qualified claim that histologically observed invasion is probably the most important prognostic or diagnostic factor for advising the patient."
+    }
+  ]
+}

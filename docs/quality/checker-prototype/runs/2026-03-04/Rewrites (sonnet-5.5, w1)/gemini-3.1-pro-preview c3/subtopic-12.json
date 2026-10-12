@@ -1,0 +1,28 @@
+{
+  "subtopicId": 12,
+  "checkerPromptVersion": "c3",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So benign tumors are actually incredibly common. Right? So it actually takes a lot for a benign tumor to become malignant in terms of, as I said, the number of changes that have to happen within a tumor. So they're extremely common",
+      "reason": "The rewrite states this as a causal link using 'because'. This is accurate since the source links the number of changes required with the tumors being common using 'So'."
+    },
+    {
+      "sourcePassage": "There are fibroids that we were talking about, warts. All of these are overgrowths of tissues. Moles, I mean, who doesn't have moles?",
+      "reason": "Conversational asides ('that we were talking about', 'who doesn't have moles?') were appropriately removed as they are rhetorical or refer to the lecture context."
+    },
+    {
+      "sourcePassage": "They are very difficult to treat. And so they progress very quickly, and they're lethal.",
+      "reason": "The rewrite drops 'And so' between being difficult to treat and progressing quickly. This is acceptable, as 'And so' is conversational filler here rather than a true biological cause-and-effect relationship."
+    },
+    {
+      "sourcePassage": "So I've just put these numbers up just so that you can have a sense.",
+      "reason": "The rewrite clarifies 'have a sense' as 'give a sense of incidence'. This is accurate in context as the entire paragraph is about incidence rates."
+    },
+    {
+      "sourcePassage": "So, and just a-- Oops. Oh, God. It doesn't go backwards. Here we go.",
+      "reason": "These are dropped filler, false starts, and remarks to the audience as the lecturer struggles with the presentation slides."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c3",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So here we're talking about the cervix. We're talking about the neck of the womb. The uterus is here in this diagram, and as you know, it hangs down into the vaginal canal.",
+      "reason": "The rewrite accurately conveys this anatomical context without distortion."
+    },
+    {
+      "sourcePassage": "One is the endocervix, which has this columnar glandular epithelium. And the ectocervix here, which is more squamous cells, which has more of a protective layer, which deals with the acidic environment that's inside the vagina.",
+      "reason": "The description of the two types of epithelium and their functions is faithfully maintained in the rewrite."
+    },
+    {
+      "sourcePassage": "Because of the acidic environment of the vagina, you can often get something that's called metaplasia, where one cell type is replaced by another.",
+      "reason": "The rewrite preserves the definition and causal link of metaplasia perfectly."
+    }
+  ]
+}

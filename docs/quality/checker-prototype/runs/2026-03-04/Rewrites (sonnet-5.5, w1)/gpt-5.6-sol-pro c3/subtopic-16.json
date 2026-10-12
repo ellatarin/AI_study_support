@@ -1,0 +1,28 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c3",
+  "modelId": "openai/gpt-5.6-sol-pro",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So screening in the colon is a bit trickier. You saw those different pre-cancerous states. Ideally, you'd like to catch these benign states. And in order to do that, you'd actually have to use an endoscope and go and look at those and sample those. As I said, you'd have to do the histology in order to be sure that the polyps that you see with an endoscope are the things that haven't made a transition from adenoma to adenocarcinoma. But using an endoscope is actually quite tricky. The patient has to be put under. It requires a very skilled technician to not perforate the bowel. So it is not without its risks.",
+      "reason": "The rewrite preserves the account of detecting and sampling benign pre-cancerous states, the need for histology, and the difficulty and risks of endoscopy. Its wording and grammatical changes do not alter the scientific content."
+    },
+    {
+      "sourcePassage": "So currently, the screening that is done is a FIT test. This is a fecal immunochemical test. Basically, they're looking for blood. And the blood, of course, would be arising from the fact that this is an ulcerated cauliflower structure, if you like, an ulcerated tumor, and very likely to probably already be malignant. Right? So already potentially shedding cells for invading into other parts of the body. Right?",
+      "reason": "The rewrite retains what FIT stands for, that it detects blood associated with an ulcerated cauliflower-like tumour, and the qualified claims that such a tumour is likely already malignant and potentially shedding invasive cells. Dropped discourse markers do not affect the content."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best. Colorectal screening, we're using these FIT tests. Endoscopy would probably be better. And perhaps you might do that if there's some kind of family history or there's some reason if you're showing symptoms.",
+      "reason": "The rewrite faithfully preserves the comparison with cervical screening, current use of FIT tests, the qualified superiority of endoscopy, and the possible use of endoscopy where there is family history or symptoms."
+    },
+    {
+      "sourcePassage": "Breast screening is done, although it's probably over-testing as a population because many of the people that do go for screening and then for further treatment, it has a very, very high false positive rate. So about a third of those cases are unnecessary treatment, so a very, very high cost.",
+      "reason": "The rewrite retains the lecturer's qualified claim of population over-testing, the high false-positive rate, the estimate that about a third of cases involve unnecessary treatment, and the associated high cost."
+    },
+    {
+      "sourcePassage": "Similarly, prostate cancer, the test for this is PSA in the blood. It is not a very, very good test, and it's currently not recommended for the general populace. And also, these tumors are very, very slow-growing, so even though somebody might be PSA positive or have a higher number, it doesn't necessarily indicate how that tumor will progress.",
+      "reason": "The rewrite preserves the description of blood PSA testing, its limitations and lack of recommendation for the general population, the slow growth of these tumours, and the limited prognostic value of a positive or elevated PSA result."
+    }
+  ]
+}

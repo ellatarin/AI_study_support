@@ -1,0 +1,20 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c3",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "The rewrite changes 'You saw those' to 'The different pre-cancerous states are present'. This adapts a reference to a visual aid or earlier part of the lecture into appropriate textbook prose without changing the scientific content."
+    },
+    {
+      "sourcePassage": "an ulcerated cauliflower structure, if you like",
+      "reason": "The rewrite drops the filler 'if you like' and uses 'cauliflower-like structure', which keeps the exact descriptive meaning intended by the lecturer."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "The rewrite adapts 'as I said' to 'Of the screening methods discussed', which maintains the context from the lecture in a textbook format."
+    }
+  ]
+}

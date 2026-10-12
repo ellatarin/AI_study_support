@@ -1,0 +1,24 @@
+{
+  "subtopicId": 14,
+  "checkerPromptVersion": "c3",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, so what does this look like in the clinic? [chuckles] I call this the four horsemen.",
+      "reason": "The rewrite drops the filler and the chuckle, and changes the first-person statement to a general passive form ('can be summarised as'), without changing the scientific content."
+    },
+    {
+      "sourcePassage": "tumors can be indirect",
+      "reason": "The rewrite uses 'present indirectly', which is an appropriate medical phrasing with the same meaning."
+    },
+    {
+      "sourcePassage": "quicker",
+      "reason": "The rewrite corrects the grammar to 'more quickly', which does not change the meaning."
+    },
+    {
+      "sourcePassage": "So obviously, the idea is you want to find the cancer, and you want to find it at an earlier state",
+      "reason": "The rewrite condenses the repetition without losing any factual content."
+    }
+  ]
+}

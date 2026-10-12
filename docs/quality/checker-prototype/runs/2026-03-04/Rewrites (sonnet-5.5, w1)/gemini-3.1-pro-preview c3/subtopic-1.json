@@ -1,0 +1,20 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c3",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, everyone, shall we get started? Yes. You're very welcome, all of you, to Cancer Biology.",
+      "reason": "Dropped introductory greetings and false starts that do not convey subject matter."
+    },
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there.",
+      "reason": "The rewrite adapts the reference to a physical slide ('listed there') to a text-appropriate transition ('are as follows') while preserving the meaning."
+    },
+    {
+      "sourcePassage": "So you're going to be comparing the differences between benign and malignant tumors,",
+      "reason": "The rewrite states 'This involves comparing benign and malignant tumours', linking the comparison to the previous sentence, which accurately captures the relationship without distorting the scientific content."
+    }
+  ]
+}

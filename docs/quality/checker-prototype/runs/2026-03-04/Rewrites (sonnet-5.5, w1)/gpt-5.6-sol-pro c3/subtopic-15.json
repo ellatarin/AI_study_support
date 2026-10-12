@@ -1,0 +1,43 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c3",
+  "modelId": "openai/gpt-5.6-sol-pro",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite turns the lecturer's qualified identification of the women still dying from cervical cancer into a categorical claim that all such women belong to one of these two groups.",
+      "sourcePassage": "but the, if you like, the women that are still dying of cervical cancer would be the ones that either are not followed up after their screen or that have declined screening altogether.",
+      "rewritePassage": "The women who are still dying of cervical cancer are those who are either not followed up after their screen or who have declined screening altogether."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So, screening the cervix is absolutely ideal, and it really is quite a success story. Right. So what does this look like? So here we're talking about the cervix. We're talking about the neck of the womb. The uterus is here in this diagram, and as you know, it hangs down into the vaginal canal.",
+      "reason": "The rewrite preserves the claims about the success of cervical screening and the relevant anatomy; only discourse markers and references to the act of presenting the diagram are removed."
+    },
+    {
+      "sourcePassage": "And so what this looks like histologically, because this is what is so interesting to look at, what you're looking at here, here is the endocervical canal that it goes between the neck of the womb. Histologically, this is the endocervical canal here, and so you're looking at the cervix here. And as you can see, there are two different types of epithelium that occur on the cervix. One is the endocervix, which has this columnar glandular epithelium. And the ectocervix here, which is more squamous cells, which has more of a protective layer, which deals with the acidic environment that's inside the vagina. So you can see this nice transition between these two different types of epithelium, and you'll see this in your practicals. And the architecture that is here is very much suited to the function that these epithelia are undertaking within the domains that they're working in.",
+      "reason": "The rewrite faithfully preserves the location of the endocervical canal, the two epithelial types, their transition, the protective role of the ectocervical squamous epithelium and the relationship between architecture and function."
+    },
+    {
+      "sourcePassage": "Right. So, I will tell you that when infection with HPV occurs, it usually occurs here at this junction. And this junction can be quite movable when the cervix is under, if you like, stress. Because of the acidic environment of the vagina, you can often get something that's called metaplasia, where one cell type is replaced by another. One adult differentiated cell type is replaced by the other, so you can get the columnar epithelium transitioning into something that looks more like a squamous cell type.",
+      "reason": "The rewrite retains the usual site of HPV infection, the mobility of the junction under stress, the stated cause and definition of metaplasia, and the described epithelial transition. The omitted phrases are conversational."
+    },
+    {
+      "sourcePassage": "Okay? So when HPV infection occurs, you can get a precursor lesion that is here, which is pre-invasive and therefore a benign state, the precursor state to something that would be malignant. So this is what we want to catch, and this is why screening is so effective.",
+      "reason": "The rewrite preserves the possibility of a precursor lesion following HPV infection, its pre-invasive and benign status, its potential progression to malignancy and the reason screening is effective."
+    },
+    {
+      "sourcePassage": "Okay? So as I said, normally you have something that looks like this in this squamous epithelium. And what you have here is a structure that is protective. You can see that these squames are flattened, the nuclei are tiny, and you only ever get mitotic cells here at this basement layer. You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here, but the cells, as they differentiate, they turn over on their sides, they get thin, and they get flat, and their nuclei become very small. So contrast that with what you'll see in a dysplastic situation, and you'll see that now all the nuclei are quite big here. Right? You're only getting flattening at the very, very top of the surface here. And you'll see that there are mitotic cells that are occurring throughout the thickness of this epithelial layer. So it looks very, very different. So this is that pre-invasive state. You'll notice that the basement layer here is still intact. Right? So we have a precursor, a benign state. And this is the state that you want to catch at before it becomes malignant.",
+      "reason": "The normal and dysplastic histological features, including nuclear size, flattening, mitotic distribution, basement-layer integrity and pre-invasive status, are all preserved. The omitted invitations to inspect particular cells in the figure do not alter the subject matter."
+    },
+    {
+      "sourcePassage": "So in order to do that, you take a brush sample. This is what the Pap smear would do, would take cells from the neck of the cervix here, the neck of the womb. And what you would be looking for is the differences in the morphology of these different cells. So what you would be looking for is cells that have small nuclei, here, which would denote a normal cell, as opposed to, for example, very big nuclei. And you would be seeing which would be abnormal, and you would be seeing lots of mitotic cells. Again, this would be abnormal. You shouldn't see any of this if you have a normal cervix. And these days, of course, they also would do testing for HPV, for the different subtypes of HPV that are very much associated with cervical carcinoma.",
+      "reason": "The rewrite accurately retains the brush-sampling method, the purpose of a Pap smear, the morphological criteria for normal and abnormal cells and the additional testing for HPV subtypes associated with cervical carcinoma."
+    },
+    {
+      "sourcePassage": "So this, as I said, is a success story. If you'll notice here from the 1950s to, this is only to 2000, you'll see that the rates of death in cervical cancer came down, particularly amongst older women. So this has done very well. This hasn't changed much for the younger populations",
+      "reason": "The rewrite preserves the time span, the decline in cervical-cancer mortality, its particular prominence among older women and the stated lack of much change among younger populations."
+    }
+  ]
+}

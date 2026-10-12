@@ -1,0 +1,51 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c3",
+  "modelId": "openai/gpt-5.6-sol-pro",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The source presents whether there will ever be a cure as an alternative next question, whereas the rewrite says that people usually ask it together with both questions about why cancer has not yet been cured.",
+      "sourcePassage": "And then pretty much their next question is, \"Why haven't you solved this problem yet? Why is there no cure for cancer?\" Or, \"Will there ever be a cure for cancer?\"",
+      "rewritePassage": "Their next questions are usually why the problem has not yet been solved, why there is no cure for cancer, and whether there will ever be a cure."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, everyone, shall we get started? Yes. You're very welcome, all of you, to Cancer Biology.",
+      "reason": "The omitted opening consists of remarks to the audience; identifying the subject as Cancer Biology is retained."
+    },
+    {
+      "sourcePassage": "So this is a very interesting topic because of obviously the impact that cancer has on society. Actually, when you tell people that you're working on cancer, they're all incredibly grateful for you for taking on such a difficult disease because it has such an impact.",
+      "reason": "The rewrite preserves both cancer's societal impact and the stated reaction to people who work on it."
+    },
+    {
+      "sourcePassage": "So it is with great hope that these next six lectures will give you some information so that you can actually answer that question when people ask you.",
+      "reason": "The rewrite faithfully retains the intended purpose of the six lectures."
+    },
+    {
+      "sourcePassage": "Right. So I tag-teamed these lectures with Professor Turner, and so she will also be teaching three of these lectures. And we have these learning outcomes that hopefully you should be able to grasp by the end of each of the specific lectures.",
+      "reason": "The rewrite preserves Professor Turner's role and the expectation that the learning outcomes will be grasped by the end of each lecture."
+    },
+    {
+      "sourcePassage": "So in this room, there are natural science students, medical students, and veterinary students, and you are all coming from a slightly different background, and hopefully, you will be interested in different things, different takeaways from these lectures. Because from the molecular mechanisms to the patient experience and to the evolution of personalized medicine and what that entails, you're all going to be having different things that you're interested in.",
+      "reason": "The student groups, their differing backgrounds and interests, and the range of subject matter are all retained."
+    },
+    {
+      "sourcePassage": "However, I would really emphasize that a lot of the concepts that you're going to come across over the next six lectures mutually reinforce the questions and the answers that you're going to be able to come up with. So if you really want to become a serious cancer biologist and oncologist in training, then you really have to embrace kind of the full picture in terms of etiologies, treatments, and the patient experience, because they will inform one the other.",
+      "reason": "The rewrite preserves the mutual reinforcement of concepts and the need to consider etiologies, treatments and patient experience together."
+    },
+    {
+      "sourcePassage": "So you're going to be able to recognize that due to an accumulation of genetic changes, cancers are arising from a failure of normal cellular differentiation. And because of the multitude of cells that you have in your body, you can really consider all the different subtypes of cancers to be distinct diseases because they have different requirements of the different cells and tissues that become aberrant.",
+      "reason": "The causal account of cancer arising through accumulated genetic changes and failed differentiation, as well as the description of cancer subtypes as distinct diseases, is retained."
+    },
+    {
+      "sourcePassage": "And then really, the big takeaway message from today is going to be the ability to recognize what invasion and metastasis looks like with regard to the start of the tumor to the end point. So you're going to be comparing the differences between benign and malignant tumors, and you're also going to get a little bit of vocabulary, some of the nomenclature, so that we all have the same language to describe the tumors that we're talking about.",
+      "reason": "The rewrite retains the learning outcomes concerning invasion and metastasis, benign versus malignant tumours, and common terminology."
+    },
+    {
+      "sourcePassage": "And then really a lot of over the course of these lectures and in the practicals, you have to be able to see the process of what we're talking about in the histology of the tumors to look from of the progression of tumor from one stage, the precursor stages, to the malignant stages. So you're going to be able to link this visually in the practicals. And then for today, especially from a clinical point of view, we're going to explain why detection works in different subtypes of tumors.",
+      "reason": "The histological progression from precursor to malignant stages, its visual treatment in practicals, and the clinical point about detection in different tumour subtypes are all retained."
+    }
+  ]
+}

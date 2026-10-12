@@ -1,0 +1,31 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c3",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "omission",
+      "description": "The rewrite omits the clinical observation that after identifying an invasive, likely malignant tumour, one would be interested in determining whether there are secondary metastases across the body.",
+      "sourcePassage": "But the question is, of course, you would then be interested in figuring out whether or not there would be secondary metastases across the body.",
+      "rewritePassage": null
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "whoops",
+      "reason": "This is a false start or dropped filler, which is correctly removed."
+    },
+    {
+      "sourcePassage": "and you'll be able to look at this in great detail in the practicals",
+      "reason": "This is a statement about the course or practical sessions and can be safely omitted without losing scientific content."
+    },
+    {
+      "sourcePassage": "You wouldn't necessarily be able to say anything on two words about either of these.",
+      "reason": "The transcriber misheard 'untoward' as 'on two words'. The rewrite resolves this by stating that nothing could necessarily be said from their appearance, preserving the meaning."
+    },
+    {
+      "sourcePassage": "and it's important for you to look at this within the practicals as well",
+      "reason": "This is an instruction about the course and practicals, not subject matter, so omitting it is acceptable."
+    }
+  ]
+}

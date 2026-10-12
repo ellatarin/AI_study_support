@@ -1,0 +1,36 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c3",
+  "modelId": "openai/gpt-5.6-sol-pro",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So the other thing to appreciate is that when, if you like, biologists are studying tumors, often they will explant the tumor. Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "reason": "The rewrite preserves the explanation that biologists often explant tumours and examine stained slices for morphology; the changes are stylistic."
+    },
+    {
+      "sourcePassage": "But cancer biologists will also, for example, disaggregate a tumor like this and try to get them to grow in culture to study the properties of these individual tumor cells.",
+      "reason": "The rewrite retains the disaggregation, culture and study of individual tumour cells without changing the scientific content."
+    },
+    {
+      "sourcePassage": "And in doing that, it's actually quite difficult, as you might imagine, to get cells to grow in a dish. If you just take any cells out of your body and you disaggregate some of your tissue and throw it into a plastic tissue culture dish, most of those cells, in fact, all of those cells will not grow. Primary cells really don't grow in culture.",
+      "reason": "The rewrite preserves the stated difficulty of culturing cells and the claims that the cells will not grow and that primary cells do not grow in culture."
+    },
+    {
+      "sourcePassage": "So when HeLa cells, which were the first tumor cells to grow in culture, did that, this was very much a surprise. And this happened in the 1950s. Obviously, permissions were not sought from the family and ethical practices were different at the time in that no permissions necessarily needed to be sought in terms of tissues.",
+      "reason": "The rewrite retains the claims about HeLa cells, the timing, the surprise, the absence of family permission and the different ethical practices."
+    },
+    {
+      "sourcePassage": "But just to say that what I want you to appreciate is that by just studying one cell in a dish, you're not really getting a full picture of exactly what's gone on in this tumor with regard to the contributions of things like the stroma and other things.",
+      "reason": "The rewrite preserves the limitation of studying a single cell in isolation and the importance of contributions from the stroma and other components."
+    },
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "This is a lecture-management aside with no subject-matter content, so its omission is not a deficiency."
+    },
+    {
+      "sourcePassage": "So these days, obviously, we do study cancer cells in a dish, but also to say that we're also moving into doing more three-dimensional culture techniques to try and get a sense of what the different cell types would be in a differentiated three-dimensional structure.",
+      "reason": "The rewrite faithfully retains both current study of cancer cells in dishes and the move towards three-dimensional culture techniques to represent different cell types in a differentiated structure."
+    }
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c3",
+  "modelId": "openai/gpt-5.6-sol-pro",
+  "deficiencies": [
+    {
+      "deficiencyType": "omission",
+      "description": "The rewrite omits the next clinical question following identification of an invasive, likely malignant tumour: determining whether secondary metastases are present elsewhere in the body.",
+      "sourcePassage": "But the question is, of course, you would then be interested in figuring out whether or not there would be secondary metastases across the body.",
+      "rewritePassage": "This is considered an invasive tumour and therefore likely malignant. Microscopically, cancer cells are present within this normal muscle, having invaded past the muscularis mucosae into the muscularis propria."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "we're going to focus on colorectal cancer as an example of what this stepwise process would look like within the context of a tumor. And we use this particular example because we have knowledge of what the precursor states would look like, the early stages of tumor formation, and what that would look like within a tissue.",
+      "reason": "The rewrite preserves the reason colorectal cancer is used as the example; changes are stylistic."
+    },
+    {
+      "sourcePassage": "You're looking at, whoops, the normal colonic epithelium, which as you see, secretes a lot of mucus, so it's quite shiny and smooth. And then as you're looking along, you will see this giant cauliflower shaped structure here, which is obviously pathological.",
+      "reason": "The rewrite retains the appearance of the normal epithelium and the pathological cauliflower-shaped structure; filler and audience direction are appropriately omitted."
+    },
+    {
+      "sourcePassage": "remember I told you that invasion was getting through that basement membrane, and the basement membrane is actually, again, quite hard to see in histology. So for our purposes, what we're going to use is the muscularis mucosa here as our proxy for the basement membrane",
+      "reason": "The rewrite preserves the definition and the use of the muscularis mucosae as a proxy. Its use of “muscularis mucosae” follows the supplied correction."
+    },
+    {
+      "sourcePassage": "The tumor is actually going past, and you'll be able to look at this in great detail in the practicals, is going past this area of the normal epithelium, past the muscularis mucosa, and is invading actually down into the normal muscle, which you can see microscopically. So, this would be considered an invasive tumor and likely, therefore malignant.",
+      "reason": "The invasion and its diagnostic implication are preserved. The reference to practical classes is course-related and may be omitted, and the corrected anatomical term is used."
+    },
+    {
+      "sourcePassage": "And they're even trying here to form little tiny glands in little circles with lumens in the middle.",
+      "reason": "The rewrite faithfully retains the observation that the invading cells form tiny gland-like circles with central lumens."
+    },
+    {
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue. Obviously, again, you're limited into where you're biopsying and what that looks like. You'll also hear about looking for clear margins around any kind of biopsy, to see that you have lifted out the entire tumor. Histopathologists will look to see how far the tumor has invaded.",
+      "reason": "The rewrite retains the diagnostic importance of invasion, the biopsy limitation, the purpose of clear margins and assessment of invasion depth."
+    },
+    {
+      "sourcePassage": "So significant numbers of them are released, but many of them never metastasize. They never survive in the secondary site. And there are actually quite a few tumors that do invade, but they never actually metastasize. And a good example of this is basal cell carcinoma, and about 30% of breast tumors as well.",
+      "reason": "The rewrite preserves the low success of shed cells, their failure to survive at secondary sites and the examples of invasive tumours that do not metastasise."
+    },
+    {
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor. So then, as biologists, our question would be, well, what has happened to make the tumor go from this benign state to this state where it's invading and metastasizing? So what are the mutations? Is it specific, again, to particular tissues? And what happens in those distant sites that allow those malignant cells to actually survive?",
+      "reason": "The rewrite retains the probable obligatory role of invasion and all of the stated biological questions."
+    },
+    {
+      "sourcePassage": "most of the death with cancer happens to be with the malignant tumors in the other organs, in the distant organs.",
+      "reason": "The rewrite conveys the same point about cancer deaths being associated with malignant tumours in distant organs."
+    },
+    {
+      "sourcePassage": "we need to sample the tumor, if you like, at these different stages to find out which mutations are accumulating in this stepwise manner that allow this transformation process to occur to get us to this malignant stage.",
+      "reason": "The rewrite preserves the need to sample different stages to identify mutations accumulating during stepwise malignant transformation."
+    },
+    {
+      "sourcePassage": "I've labeled it here as a precursor stage, which is known as an adenoma. But actually, it's a little bit premature of me to have done that because this is not necessarily an adenoma until I understand the histology of this particular polyp. So it's probably more neutral to call this a polyp, and polyp simply means something that's growing on a stalk within the bowel, within the large intestine.",
+      "reason": "The rewrite retains the premature adenoma label, the need for histological assessment and the stated definition of a polyp."
+    },
+    {
+      "sourcePassage": "the reason that this looks like a cauliflower is because the polyp is pulled out off of the surface through the action of peristalsis in the bowel as food moves through it. Right? So it gets pulled into this particular shape.",
+      "reason": "The causal explanation for the cauliflower shape is preserved."
+    },
+    {
+      "sourcePassage": "you can see that no invasion has occurred past the muscularis mucosa. And so, very close up here is the intact muscularis mucosa. The submucosa is here, and you'll see that there isn't any invasion that has occurred. And so you would consider this now, you can diagnose this as an adenoma. Right? So it's not invasive, it's therefore not malignant.",
+      "reason": "The rewrite accurately preserves the intact muscularis mucosae, absence of invasion, adenoma diagnosis and non-malignant conclusion, while applying the supplied term correction."
+    },
+    {
+      "sourcePassage": "within the musculature, you have tumor cells that are growing in the musculature. Right? So now you would consider this an invasive phenotype or phenotype, I think invasive tissue, invasion into the tissue. And so you would consider this now an adenocarcinoma component that has developed out of the adenoma.",
+      "reason": "The rewrite preserves the finding of tumour cells within muscle, its interpretation as invasion and the identification of an adenocarcinoma component arising from the adenoma."
+    },
+    {
+      "sourcePassage": "You'll see that over here you have the adenoma which has progressed into an adenocarcinoma. So one is growing out of the other.",
+      "reason": "The rewrite faithfully retains the evidence for stepwise progression from adenoma to adenocarcinoma."
+    }
+  ]
+}

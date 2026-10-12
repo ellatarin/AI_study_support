@@ -1,0 +1,20 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c3",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "small insertions to whole chromosome losses",
+      "reason": "The rewrite changes the 'from... to' range implied by the text into a simple list with 'as well as', but does not alter the scientific meaning or omit the types of mutations."
+    },
+    {
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "reason": "The rewrite adds 'that is' to link acetylation/deacetylation and the state of transcription. This is acceptable because the transcript presents them as an appositive, implying equivalence."
+    },
+    {
+      "sourcePassage": "and they can also predispose to chronic inflammatory events",
+      "reason": "The rewrite replaces 'they' (referring to viruses) with 'infection'. This is an acceptable paraphrase because the viruses are the infectious agents that cause the infection."
+    }
+  ]
+}

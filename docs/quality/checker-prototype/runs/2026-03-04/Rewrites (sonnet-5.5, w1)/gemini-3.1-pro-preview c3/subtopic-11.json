@@ -1,0 +1,35 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c3",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite mistakenly treats a meningioma as a location or organ where a tumour can occur, whereas a meningioma is itself a type of tumour.",
+      "sourcePassage": "if they're occurring in things like the meningioma that I was telling you about",
+      "rewritePassage": "when the tumour occurs in a meningioma"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Okay? So with that in mind, the question that often gets asked by people is, why is cancer causing disease and death?",
+      "reason": "The introductory fillers ('Okay? So with that in mind') are appropriately omitted without changing the meaning."
+    },
+    {
+      "sourcePassage": "Well, as I was hinting at, it interferes with normal functions.",
+      "reason": "The reference to the lecture itself ('Well, as I was hinting at') is dropped because it is a conversational filler and not part of the scientific content."
+    },
+    {
+      "sourcePassage": "Things like if tumors in bones lead to erosion of that bone function, so you can get fractures",
+      "reason": "Changing 'erosion of that bone function' to 'erosion of the bone' preserves the correct medical meaning of the speaker's statement."
+    },
+    {
+      "sourcePassage": "Also ulceration, you saw that enormous cauliflower structure within the colon.",
+      "reason": "Changing 'you saw that' to 'the enormous cauliflower-like structure seen' accurately adapts a remark to the audience into objective textbook prose."
+    },
+    {
+      "sourcePassage": "So it's not very good.",
+      "reason": "The subjective concluding remark is omitted without any loss of scientific content."
+    }
+  ]
+}

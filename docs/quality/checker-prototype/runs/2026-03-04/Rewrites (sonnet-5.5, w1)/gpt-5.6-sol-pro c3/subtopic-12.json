@@ -1,0 +1,57 @@
+{
+  "subtopicId": 12,
+  "checkerPromptVersion": "c3",
+  "modelId": "openai/gpt-5.6-sol-pro",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite states that moles, as well as lipomas, fibroids and warts, are overgrowths of tissues. In the source, the statement that \"All of these are overgrowths of tissues\" precedes the separate mention of moles and therefore does not classify moles in this way.",
+      "sourcePassage": "So they're extremely common, and you'll see things like lipomas. There are fibroids that we were talking about, warts. All of these are overgrowths of tissues. Moles, I mean, who doesn't have moles?",
+      "rewritePassage": "Examples include lipomas, fibroids, warts and moles, all of which are overgrowths of tissues."
+    },
+    {
+      "deficiencyType": "omission",
+      "description": "The rewrite omits the stated causal link between these tumours being very difficult to treat and their progressing very quickly and being lethal.",
+      "sourcePassage": "But they are very difficult to treat. And so they progress very quickly, and they're lethal.",
+      "rewritePassage": "They are very difficult to treat, progress very quickly and are lethal."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So just talking about incidence, about how often various tumors arise.",
+      "reason": "Defining incidence as how often tumours arise preserves the source meaning."
+    },
+    {
+      "sourcePassage": "So benign tumors are actually incredibly common. Right? So it actually takes a lot for a benign tumor to become malignant in terms of, as I said, the number of changes that have to happen within a tumor. So they're extremely common",
+      "reason": "The rewrite preserves both the high frequency of benign tumours and the connection made in the source to the many changes required for malignant transformation."
+    },
+    {
+      "sourcePassage": "Not necessarily any things to worry about in that regard.",
+      "reason": "The rewrite's statement that these are not necessarily anything to worry about has the same qualified meaning."
+    },
+    {
+      "sourcePassage": "But malignant tumors, for example, originating from mesenchymal lineage cell types, they're extremely rare. They hardly occur. They usually occur in young adulthood, in adolescence and young adulthood.",
+      "reason": "The rarity and usual occurrence in adolescence and young adulthood are retained; the repeated reference to young adulthood need not be reproduced."
+    },
+    {
+      "sourcePassage": "But the ones that are probably more commonly encountered as cancers are tumors that arise from the epithelium. So these are breast carcinomas, colorectal, lung, and prostate cancer. These are the four big ones that occur pretty much worldwide, and they account for half of the malignant cases in the UK.",
+      "reason": "The rewrite retains the qualification, epithelial origin, four examples, worldwide prevalence and UK proportion."
+    },
+    {
+      "sourcePassage": "And then you have things like ovarian cancer, cervix cancer, and there are also geographical differences in which tumors are prevalent in different places. So liver cancer and nasopharyngeal carcinomas are very big in Chinese populations. There's also a large infectious element to liver cancer.",
+      "reason": "All of these cancer examples, geographical differences and the infectious element of liver cancer are preserved. Rendering \"very big\" as \"very common\" is equivalent in this prevalence context."
+    },
+    {
+      "sourcePassage": "So I've just put these numbers up just so that you can have a sense. There's nothing to memorize here except to say that, as I said, breast, prostate, lung, and bowel are the four big cancer types. But there are others, and they do occur, and these are in the thousands of people that are affected.",
+      "reason": "The rewrite preserves the purpose of the numbers, the four major cancer types and the statement that thousands of people are affected by other types; the lecture-management wording is not material."
+    },
+    {
+      "sourcePassage": "And then this is, if you like, the percentage of tumors that result in deaths. As you can see, lung cancer is still pretty difficult to treat, and accounts for most of the deaths. But bowel, prostate, and breast are still up there as major causes of mortality.",
+      "reason": "The rewrite faithfully retains what the percentage represents and the mortality statements about lung, bowel, prostate and breast cancer."
+    },
+    {
+      "sourcePassage": "So, and just a-- Oops. Oh, God. It doesn't go backwards. Here we go.",
+      "reason": "This is a false start and a remark about operating the presentation, so its omission does not remove subject matter."
+    }
+  ]
+}

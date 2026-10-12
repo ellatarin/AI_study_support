@@ -1,0 +1,32 @@
+{
+  "subtopicId": 10,
+  "checkerPromptVersion": "c3",
+  "modelId": "openai/gpt-5.6-sol-pro",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "But the general way in which things are thought about, if you like, in terms of benign tumors, is that you have the name of the tissue plus oma, which are things like lipoma, leiomyoma, papilloma, and adenomas. All of these would be benign tumors in the tissues that they are occurring in. So the fat, smooth muscle or papillomas in the skin, and adenomas, as we were talking about in the colon.",
+      "reason": "The rewrite preserves the general naming rule, the examples, their benign status and their associated tissues; changes in number and phrasing do not alter the content."
+    },
+    {
+      "sourcePassage": "So malignant tumors, on the other hand, of the epithelium, and the mesenchyme have things like carcinoma and sarcoma attached to them as suffixes. And so you have breast carcinomas or colorectal adenocarcinomas and osteosarcomas and leiomyosarcomas. So that's the general rule of thumb for those. So by the time you have these suffixes, this would be a malignant disease.",
+      "reason": "The rewrite retains the suffix rule, all four examples, its status as a general rule of thumb and the association of these suffixes with malignant disease."
+    },
+    {
+      "sourcePassage": "Within the hematopoietic system, you have leukemias, which are, of course, the liquid circulating neoplasms within the body, and also the lymphomas, which would be solid within the lymph nodes, within those structures.",
+      "reason": "The rewrite faithfully preserves the distinction between circulating liquid leukaemias and solid lymphomas within lymph nodes."
+    },
+    {
+      "sourcePassage": "Neuroectodermal tumors are the ones that kind of deviate from the nomenclature system. So you have cells, these are tumors that derive from the cells that form the central and peripheral nervous system. So you have names like glioma and glioblastoma and neuroblastoma. These are all, even though they have oma in them, these are all malignant tumors, and things like retinoblastoma.",
+      "reason": "The rewrite preserves the neuroectodermal exception, the stated cellular origin, all four examples and the point that these -oma tumours are malignant."
+    },
+    {
+      "sourcePassage": "So these are these different tumor types and other exceptions as well, things like malignant melanoma. Melanoma is never used for moles, for example. This always denotes a malignant status.",
+      "reason": "The rewrite retains malignant melanoma as another exception and preserves the statements that melanoma is not used for moles and always denotes malignant status."
+    },
+    {
+      "sourcePassage": "Okay? So just so that we're all on the same page in terms of nomenclature, and of course, with any naming system, there are always exceptions to every rule.",
+      "reason": "The rewrite omits only conversational framing and preserves the substantive point that naming systems have exceptions."
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "subtopicId": 7,
+  "checkerPromptVersion": "c3",
+  "modelId": "openai/gpt-5.6-sol-pro",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite changes the lecturer's term “circumspect” to “circumscribed”. No correction authorising this change was supplied, and the two words describe different properties.",
+      "sourcePassage": "So you can see again that this is actually circumspect and very separate from the surrounding stroma and the surrounding tissue.",
+      "rewritePassage": "The tumour is therefore circumscribed and very separate from the surrounding stroma and the surrounding tissue."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite omits the lecturer's frequency qualifier “very often” and says only that the adjacent lymph node might be sampled, weakening the stated frequency.",
+      "sourcePassage": "very often, for example, with breast cancers, you might sample the adjacent lymph node",
+      "rewritePassage": "as for example with breast cancers, the adjacent lymph node might be sampled"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So just again, to contrast what this looks like for the patient, you can have a benign tumor like this one, which has a capsule around it. This is a meningioma, and there is no invasion of the adjacent tissues. Movable, and literally, you can scoop it out with no damage to the surrounding tissue. All right? So a benign tumor.",
+      "reason": "The rewrite preserves the meningioma's capsule, lack of invasion, mobility and removability without damage; only filler and presentation language are dropped."
+    },
+    {
+      "sourcePassage": "Whereas another example here of a benign tumor, this is what would be called a fibroid, very common in post-menopausal women. You can see that the tumor is here. This is the outer surface of the uterus. This is normally a very thin muscle wall that is present in the uterus. And you can see here that this tumor, through the process of fixation and staining of this tumor, the hydration and dehydration of this tissue slice on the slide, has actually caused the tumor, which is, as I said, not invaded into the surrounding tissue to separate away from the normal muscle.",
+      "reason": "The rewrite retains the type and prevalence of the tumour, the uterine anatomy, the processing steps, the absence of invasion and the resulting separation from normal muscle. The spatial prose replaces the lecturer's figure-dependent demonstratives without materially changing the depicted relationship."
+    },
+    {
+      "sourcePassage": "So contrast this fibroid that you're seeing here, this leiomyoma, with a malignant case. These are quite rare. Again, here is the outer surface of the uterus, and you have the tumor here, but this tumor is now growing within the wall of the uterus, and has, if you like, invaded within this tissue.",
+      "reason": "The contrast with the rare malignant case, its location within the uterine wall and its invasion of that tissue are all preserved."
+    },
+    {
+      "sourcePassage": "So if you zoom into what this actually looks like on the slide, taking this section here, what you find is normal muscle here, but interleaving within that, you have these stripes of the malignant tumor that are within the normal muscle. And these tumor cells have some of the markers of muscle cells, but not all of them, so they're considered to have dedifferentiated slightly in terms of their phenotype. So you can see this is what the invasion looks like. The surrounding tissue, in this case, muscle, has tumor cells present within it.",
+      "reason": "The microscopic interleaving of malignant tumour and normal muscle, the partial retention of muscle-cell markers, the slight dedifferentiation and the explanation of invasion are faithfully retained."
+    },
+    {
+      "sourcePassage": "So that is what invasion would look like, and I guess the expectation is that if it has invaded again into the surrounding tissues, it may have the capacity to metastasize to distant sites within the body.",
+      "reason": "The rewrite preserves both the expectation and the qualified claim that an invasive tumour may be able to metastasise to distant sites."
+    },
+    {
+      "sourcePassage": "but you wouldn't be sampling all over the body, so it might be difficult to necessarily find all of the possible secondary tumors unless there is some other physical sign that you can detect.",
+      "reason": "The rewrite retains the limited extent of biopsy sampling, the resulting difficulty in finding all secondary tumours and the exception where another detectable physical sign is present."
+    }
+  ]
+}
