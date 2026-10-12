@@ -13,6 +13,7 @@
 			"*.js",
 			"*.json",
 			"docs/quality/*.json",
+			"docs/quality/checker-prototype/splits/**/*.json",
 			"scripts/**/*.mjs",
 			"!node_modules",
 			"!.claude"

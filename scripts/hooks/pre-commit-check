@@ -64,8 +64,8 @@ changed_any="$( { git diff HEAD --name-only --diff-filter=ACM; git ls-files --ot
 # decision, and its runs/ archive holds hundreds of generated JSON files that
 # would each be "provided but ignored". It is filtered out here to match, so
 # that anywhere else a path Biome ignores still fails the gate. The runs/ archive
-# of the checker prototype is generated JSON in the same way, and its folder
-# names hold spaces that xargs would split. It is filtered out for both reasons.
+# of the checker prototype is generated JSON in the same way, so it is filtered
+# out too.
 changed_biome="$(echo "$changed_any" | grep -E '\.(ts|tsx|js|mjs|cjs|jsx|json|jsonc)$' | grep -v -e '^docs/quality/segmentation-prototype/' -e '^docs/quality/checker-prototype/runs/' || true)"
 changed_code="$(echo "$changed_any" | grep -E '\.(ts|tsx|js|mjs|cjs)$' || true)"
 
@@ -74,6 +74,12 @@ fail() {
   # in the assistant's next turn when a PreToolUse hook returns non-zero.
   echo "$*" >&2
   exit 2
+}
+
+# Runs a command on the file names of stdin, one name per line. The names are
+# split only at line ends, so a name that holds a space stays one name.
+on_each_line() {
+  tr '\n' '\0' | xargs -0 "$@"
 }
 
 # Every check below runs through its package.json script rather than spelling
@@ -89,7 +95,7 @@ fail() {
 # Runs first because a leaked secret is the one class of bug where remediation
 # after the commit lands is far more expensive than catching it here.
 if [ -n "$changed_any" ]; then
-  echo "$changed_any" | xargs pnpm run --silent check:secrets >&2 \
+  echo "$changed_any" | on_each_line pnpm run --silent check:secrets >&2 \
     || fail "secretlint detected potential secrets in changed files. Review, redact, and re-commit. If it is a genuine false positive, add an allowlist entry to .secretlintrc.json."
 fi
 
@@ -103,7 +109,7 @@ pnpm run --silent check:veraignore >&2 \
 # produce, so "provided but ignored" means the config has a hole, and the gate
 # should say so rather than report success.
 if [ -n "$changed_biome" ]; then
-  echo "$changed_biome" | xargs pnpm run --silent check:format >&2 \
+  echo "$changed_biome" | on_each_line pnpm run --silent check:format >&2 \
     || fail "biome check failed on changed files. Fix and re-commit."
 fi
 
@@ -113,7 +119,7 @@ pnpm run --silent check:types >&2 \
 
 # 3. eslint — architectural rules on changed code files.
 if [ -n "$changed_code" ]; then
-  echo "$changed_code" | xargs pnpm run --silent check:lint >&2 \
+  echo "$changed_code" | on_each_line pnpm run --silent check:lint >&2 \
     || fail "eslint failed on changed code files. Fix and re-commit."
 fi
 
