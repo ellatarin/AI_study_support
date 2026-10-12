@@ -231,7 +231,7 @@
 			"description": "The rewrite omits that, after identifying the tumour as invasive and likely malignant, one would want to determine whether secondary metastases were present across the body.",
 			"sourcePassage": "But the question is, of course, you would then be interested in figuring out whether or not there would be secondary metastases across the body.",
 			"rewritePassage": null,
-			"userVerdict": "matters",
+			"userVerdict": "does-not-matter",
 			"agentVerdict": "useful"
 		},
 		{
@@ -567,7 +567,7 @@
 			"sourcePassage": "You'll see that over here you have the adenoma",
 			"rewritePassage": "Elsewhere in the same lesion is the adenoma",
 			"foundBy": ["gemini-3.1-pro-preview c4", "gemini-3.8-flash c4"],
-			"userVerdict": "matters",
+			"userVerdict": "does-not-matter",
 			"agentVerdict": "minor"
 		},
 		{
