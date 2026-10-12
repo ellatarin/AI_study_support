@@ -1,0 +1,414 @@
+{
+	"lecture": "2026-03-04",
+	"writer": {
+		"modelId": "anthropic/claude-sonnet-5.5",
+		"writerPromptVersion": "w1"
+	},
+	"checker": {
+		"modelId": "openai/gpt-5.6-sol-pro",
+		"checkerPromptVersion": "c2"
+	},
+	"reviewedOn": "2026-10-11",
+	"verdicts": {
+		"userVerdict": "matters | does-not-matter",
+		"agentVerdict": "useful | minor | wrong"
+	},
+	"faults": [
+		{
+			"fault": "1.1",
+			"subtopicId": 1,
+			"deficiencyType": "distortion",
+			"rule": "R3",
+			"description": "The source presents the question about a future cure as an alternative to the preceding questions, whereas the rewrite states that people usually ask all three questions.",
+			"sourcePassage": "And then pretty much their next question is, \"Why haven't you solved this problem yet? Why is there no cure for cancer?\" Or, \"Will there ever be a cure for cancer?\"",
+			"rewritePassage": "Their next questions are usually why the problem has not yet been solved, why there is no cure for cancer, and whether there will ever be a cure.",
+			"userVerdict": "does-not-matter",
+			"agentVerdict": "minor"
+		},
+		{
+			"fault": "1.2",
+			"subtopicId": 1,
+			"deficiencyType": "distortion",
+			"rule": "R3",
+			"description": "The lecturer expresses a hope that the students will have different interests and takeaways, but the rewrite makes this a definite prediction.",
+			"sourcePassage": "and hopefully, you will be interested in different things, different takeaways from these lectures.",
+			"rewritePassage": "They come from slightly different backgrounds and will be interested in different things and take different messages from the lectures",
+			"userVerdict": "does-not-matter",
+			"agentVerdict": "minor"
+		},
+		{
+			"fault": "1.3",
+			"subtopicId": 1,
+			"deficiencyType": "distortion",
+			"rule": "R3",
+			"description": "The source states that students will be able to make the visual link in the practicals. The rewrite instead asserts impersonally that the material is linked visually, changing both the actor and the statement of ability.",
+			"sourcePassage": "So you're going to be able to link this visually in the practicals.",
+			"rewritePassage": "This is linked visually in the practicals.",
+			"userVerdict": "does-not-matter",
+			"agentVerdict": "minor"
+		},
+		{
+			"fault": "2.1",
+			"subtopicId": 2,
+			"deficiencyType": "unsourced-addition",
+			"rule": "R3",
+			"description": "The rewrite adds \"that is\", explicitly equating acetylation or deacetylation with the state of transcription. The source lists these expressions without stating this definitional relationship.",
+			"sourcePassage": null,
+			"rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself.",
+			"userVerdict": "matters",
+			"agentVerdict": "useful"
+		},
+		{
+			"fault": "2.2",
+			"subtopicId": 2,
+			"deficiencyType": "distortion",
+			"rule": "R4",
+			"description": "The source says that the approximately seven human viruses can predispose to chronic inflammatory events. The rewrite changes the subject to infection generally, broadening the claim and replacing the source's specific causal agent.",
+			"sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events that can also help to give rise to cancer.",
+			"rewritePassage": "There are about seven different human viruses that precipitate cancer, and infection can also predispose to chronic inflammatory events, which can also help to give rise to cancer.",
+			"userVerdict": "matters",
+			"agentVerdict": "minor"
+		},
+		{
+			"fault": "3.1",
+			"subtopicId": 3,
+			"deficiencyType": "unsourced-addition",
+			"rule": "R3",
+			"description": "The rewrite expands the lecturer's statement about everybody sitting in the room to a claim about every person.",
+			"sourcePassage": null,
+			"rewritePassage": "Every person has executed a remarkable differentiation program",
+			"userVerdict": "does-not-matter",
+			"agentVerdict": "minor"
+		},
+		{
+			"fault": "3.2",
+			"subtopicId": 3,
+			"deficiencyType": "omission",
+			"rule": "R2",
+			"description": "The temporal detail relating the embryonic growth and lineage specification to the time of birth is omitted.",
+			"sourcePassage": "during embryogenesis, during the time that you were born",
+			"rewritePassage": null,
+			"userVerdict": "does-not-matter",
+			"agentVerdict": "minor"
+		},
+		{
+			"fault": "3.3",
+			"subtopicId": 3,
+			"deficiencyType": "omission",
+			"rule": "R2",
+			"description": "The lecturer specifically mentions adolescence, but the rewrite omits this life stage.",
+			"sourcePassage": "during adolescence and maturation, this occurs from infancy to adulthood",
+			"rewritePassage": null,
+			"userVerdict": "does-not-matter",
+			"agentVerdict": "minor"
+		},
+		{
+			"fault": "3.4",
+			"subtopicId": 3,
+			"deficiencyType": "distortion",
+			"rule": "R3",
+			"description": "The source gives an incomplete coordination, saying that the matrix provides 'a signaling and basis' for adherence. The rewrite resolves this into the more specific concept of a 'signalling basis', thereby altering the stated relationship rather than preserving the incomplete statement.",
+			"sourcePassage": "It gives them structure and provides a signaling and basis for their adherence to this layer.",
+			"rewritePassage": "It gives them structure and provides a signalling basis for their adherence to this layer.",
+			"userVerdict": "matters",
+			"agentVerdict": "useful"
+		},
+		{
+			"fault": "3.5",
+			"subtopicId": 3,
+			"deficiencyType": "distortion",
+			"rule": "R4",
+			"description": "The rewrite changes 'invading stroma' to 'invaded stroma'.",
+			"sourcePassage": "into the invading stroma",
+			"rewritePassage": "into the invaded stroma",
+			"userVerdict": "does-not-matter",
+			"agentVerdict": "wrong"
+		},
+		{
+			"fault": "5.1",
+			"subtopicId": 5,
+			"deficiencyType": "unsourced-addition",
+			"rule": "R3",
+			"description": "The word “since” states that the terminology remains in use because a surgeon can assess a tumour by touch. The source mentions both facts but does not state this causal relationship.",
+			"sourcePassage": null,
+			"rewritePassage": "This terminology is still heard now, since a surgeon can tell just by holding or touching a tumour whether it is movable or immovable.",
+			"userVerdict": "does-not-matter",
+			"agentVerdict": "minor"
+		},
+		{
+			"fault": "6.1",
+			"subtopicId": 6,
+			"deficiencyType": "distortion",
+			"rule": "R3",
+			"description": "The lecturer tentatively says, “I think”, that ovarian cancer is one of the tumours that frequently spreads in this way. The rewrite removes that uncertainty and presents the statement as certain.",
+			"sourcePassage": "And I think one of the tumors that does this quite frequently is ovarian cancer, for example.",
+			"rewritePassage": "One tumour that does this quite frequently is ovarian cancer, for example.",
+			"userVerdict": "does-not-matter",
+			"agentVerdict": "minor"
+		},
+		{
+			"fault": "6.2",
+			"subtopicId": 6,
+			"deficiencyType": "distortion",
+			"rule": "R4",
+			"description": "The source calls this a “transcoelomic site”, whereas the rewrite changes the term to “transcoelomic route”.",
+			"sourcePassage": "or also this transcoelomic site from across a cavity",
+			"rewritePassage": "or by a transcoelomic route, across a cavity",
+			"userVerdict": "does-not-matter",
+			"agentVerdict": "wrong"
+		},
+		{
+			"fault": "6.3",
+			"subtopicId": 6,
+			"deficiencyType": "distortion",
+			"rule": "R7",
+			"description": "The frequency “very often” is reduced to “often”.",
+			"sourcePassage": "very often the tumors, the secondary tumors, will have the features of the primary tumor.",
+			"rewritePassage": "it is often noticeable that the secondary tumours have the features of the primary tumour.",
+			"userVerdict": "does-not-matter",
+			"agentVerdict": "minor"
+		},
+		{
+			"fault": "6.4",
+			"subtopicId": 6,
+			"deficiencyType": "distortion",
+			"rule": "R3",
+			"description": "The source states that the particular tumour cell shown has the specified appearance. The rewrite changes this definite observation into a general possibility by saying that a tumour cell “may have” that appearance.",
+			"sourcePassage": "this tumor cell has the appearance of an adenomatous tumor or glandular tumor.",
+			"rewritePassage": "a tumour cell may have the appearance of an adenomatous or glandular tumour",
+			"userVerdict": "does-not-matter",
+			"agentVerdict": "minor"
+		},
+		{
+			"fault": "6.5",
+			"subtopicId": 6,
+			"deficiencyType": "distortion",
+			"rule": "R3",
+			"description": "The lecturer says that such displacement “will” be difficult for the patient, while the rewrite changes this to the less certain “would”.",
+			"sourcePassage": "So you can see that there can be an overwhelming displacement of the organ, which will be quite difficult for the patient, if not lethal.",
+			"rewritePassage": "There can be an overwhelming displacement of the organ, which would be quite difficult for the patient, if not lethal.",
+			"userVerdict": "does-not-matter",
+			"agentVerdict": "minor"
+		},
+		{
+			"fault": "7.1",
+			"subtopicId": 7,
+			"deficiencyType": "unsourced-addition",
+			"rule": "R3",
+			"description": "The rewrite adds that the tumour lies next to the outer surface of the uterus. The source identifies the locations of the tumour and the outer surface but does not state this spatial relationship.",
+			"sourcePassage": null,
+			"rewritePassage": "The tumour lies next to the outer surface of the uterus",
+			"userVerdict": "matters",
+			"agentVerdict": "useful"
+		},
+		{
+			"fault": "7.2",
+			"subtopicId": 7,
+			"deficiencyType": "distortion",
+			"rule": "R4",
+			"description": "The source term \"circumspect\" has been replaced with \"circumscribed\" despite there being no listed correction authorising that change.",
+			"sourcePassage": "this is actually circumspect and very separate from the surrounding stroma and the surrounding tissue",
+			"rewritePassage": "The tumour is therefore circumscribed and very separate from the surrounding stroma and the surrounding tissue.",
+			"userVerdict": "does-not-matter",
+			"agentVerdict": "wrong"
+		},
+		{
+			"fault": "7.3",
+			"subtopicId": 7,
+			"deficiencyType": "omission",
+			"rule": "R2",
+			"description": "The frequency qualification \"very often\" has been omitted from the statement about sampling the adjacent lymph node during a biopsy.",
+			"sourcePassage": "very often, for example, with breast cancers, you might sample the adjacent lymph node",
+			"rewritePassage": null,
+			"userVerdict": "does-not-matter",
+			"agentVerdict": "minor"
+		},
+		{
+			"fault": "8.1",
+			"subtopicId": 8,
+			"deficiencyType": "omission",
+			"rule": "R2",
+			"description": "The rewrite omits that, after identifying the tumour as invasive and likely malignant, one would want to determine whether secondary metastases were present across the body.",
+			"sourcePassage": "But the question is, of course, you would then be interested in figuring out whether or not there would be secondary metastases across the body.",
+			"rewritePassage": null,
+			"userVerdict": "matters",
+			"agentVerdict": "useful"
+		},
+		{
+			"fault": "8.2",
+			"subtopicId": 8,
+			"deficiencyType": "distortion",
+			"rule": "R3",
+			"description": "The rewrite states definitively that the muscle layers are joined in a circle, whereas the lecturer qualified this as what one would think when interpreting the specimen.",
+			"sourcePassage": "What you would think is that these muscle layers here are joined in a circle, and this polyp is kind of hanging out into the lumen of the bowel.",
+			"rewritePassage": "The muscle layers are joined in a circle, and the polyp hangs out into the lumen of the bowel.",
+			"userVerdict": "does-not-matter",
+			"agentVerdict": "minor"
+		},
+		{
+			"fault": "9.1",
+			"subtopicId": 9,
+			"deficiencyType": "distortion",
+			"rule": "R3",
+			"description": "The source says that the meningioma \"would put\" pressure on the brain and surrounding structures, whereas the rewrite states categorically that it \"puts\" that pressure, changing the lecturer's modal certainty.",
+			"sourcePassage": "This would put an enormous amount of pressure on the brain and the surrounding structures",
+			"rewritePassage": "so it puts an enormous amount of pressure on the brain and the surrounding structures",
+			"userVerdict": "does-not-matter",
+			"agentVerdict": "minor"
+		},
+		{
+			"fault": "10.1",
+			"subtopicId": 10,
+			"deficiencyType": "distortion",
+			"rule": "R4",
+			"description": "The example is written as the singular technical term “adenoma”, whereas the source uses the plural “adenomas”.",
+			"sourcePassage": "lipoma, leiomyoma, papilloma, and adenomas",
+			"rewritePassage": "lipoma, leiomyoma, papilloma and adenoma",
+			"userVerdict": "does-not-matter",
+			"agentVerdict": "wrong"
+		},
+		{
+			"fault": "11.1",
+			"subtopicId": 11,
+			"deficiencyType": "distortion",
+			"rule": "R4",
+			"description": "The rewrite changes erosion of bone function into erosion of the bone itself.",
+			"sourcePassage": "if tumors in bones lead to erosion of that bone function",
+			"rewritePassage": "Tumours in bones lead to erosion of the bone",
+			"userVerdict": "does-not-matter",
+			"agentVerdict": "wrong"
+		},
+		{
+			"fault": "11.2",
+			"subtopicId": 11,
+			"deficiencyType": "unsourced-addition",
+			"rule": "R3",
+			"description": "The rewrite supplies “tissue” to complete the lecturer's incomplete reference to competition with “the normal”.",
+			"sourcePassage": null,
+			"rewritePassage": "Competition with normal tissue is also a factor.",
+			"userVerdict": "does-not-matter",
+			"agentVerdict": "minor"
+		},
+		{
+			"fault": "11.3",
+			"subtopicId": 11,
+			"deficiencyType": "unsourced-addition",
+			"rule": "R3",
+			"description": "The rewrite explicitly states that the tumour interferes with the haematopoietic stem cells. The source mentions the stem cells and then incompletely says “these will interfere”, without stating that specific subject–object relationship.",
+			"sourcePassage": null,
+			"rewritePassage": "A tumour occurring in the blood compartments, where the haematopoietic stem cells are located, will interfere with them.",
+			"userVerdict": "does-not-matter",
+			"agentVerdict": "minor"
+		},
+		{
+			"fault": "11.4",
+			"subtopicId": 11,
+			"deficiencyType": "omission",
+			"rule": "R2",
+			"description": "The qualification “things like”, which presents infection and anaemia as examples of the effects, is omitted.",
+			"sourcePassage": "and it will result in things like infection and anemia as well.",
+			"rewritePassage": null,
+			"userVerdict": "does-not-matter",
+			"agentVerdict": "minor"
+		},
+		{
+			"fault": "12.1",
+			"subtopicId": 12,
+			"deficiencyType": "unsourced-addition",
+			"rule": "R3",
+			"description": "The rewrite adds a causal claim that benign tumours are extremely common because becoming malignant requires many changes. The source states both facts but does not explicitly say that the latter causes the former.",
+			"sourcePassage": null,
+			"rewritePassage": "Benign tumours are extremely common, because it takes a great deal for a benign tumour to become malignant, given the number of changes that have to happen within a tumour.",
+			"userVerdict": "matters",
+			"agentVerdict": "useful"
+		},
+		{
+			"fault": "12.2",
+			"subtopicId": 12,
+			"deficiencyType": "unsourced-addition",
+			"rule": "R3",
+			"description": "The rewrite applies the statement that the examples are overgrowths of tissues to moles as well. In the source, “All of these” occurs before moles are introduced and refers to lipomas, fibroids and warts.",
+			"sourcePassage": null,
+			"rewritePassage": "Examples include lipomas, fibroids, warts and moles, all of which are overgrowths of tissues.",
+			"userVerdict": "does-not-matter",
+			"agentVerdict": "minor"
+		},
+		{
+			"fault": "12.3",
+			"subtopicId": 12,
+			"deficiencyType": "omission",
+			"rule": "R8",
+			"description": "The rewrite retains the difficulty of treatment, rapid progression and lethality but omits the source's stated consequential link from being very difficult to treat to progressing very quickly and being lethal.",
+			"sourcePassage": "But they are very difficult to treat. And so they progress very quickly, and they're lethal.",
+			"rewritePassage": null,
+			"userVerdict": "does-not-matter",
+			"agentVerdict": "minor"
+		},
+		{
+			"fault": "13.1",
+			"subtopicId": 13,
+			"deficiencyType": "distortion",
+			"rule": "R3",
+			"description": "The source intensifies the fact that dogs and cats do get similar tumours, whereas the rewrite makes the tumours themselves 'very similar'. This changes the qualification attached to the statement.",
+			"sourcePassage": "in dogs and cats, they very much get similar tumors to us",
+			"rewritePassage": "Dogs and cats develop tumours very similar to those of humans",
+			"userVerdict": "does-not-matter",
+			"agentVerdict": "minor"
+		},
+		{
+			"fault": "13.2",
+			"subtopicId": 13,
+			"deficiencyType": "distortion",
+			"rule": "R3",
+			"description": "The rewrite removes the qualification 'pretty' and states without qualification that the conclusion is clear, increasing the lecturer's expressed certainty.",
+			"sourcePassage": "And so it's pretty clear that, if you like, the molecular processes that are occurring are similar.",
+			"rewritePassage": "It is therefore clear that the molecular processes occurring are similar.",
+			"userVerdict": "does-not-matter",
+			"agentVerdict": "minor"
+		},
+		{
+			"fault": "14.1",
+			"subtopicId": 14,
+			"deficiencyType": "distortion",
+			"rule": "R3",
+			"description": "The rewrite strengthens the statement from cost being something to bear in mind to a categorical requirement that it has to be borne in mind.",
+			"sourcePassage": "the cost of this is something to bear in mind.",
+			"rewritePassage": "its cost has to be borne in mind.",
+			"userVerdict": "does-not-matter",
+			"agentVerdict": "minor"
+		},
+		{
+			"fault": "14.2",
+			"subtopicId": 14,
+			"deficiencyType": "distortion",
+			"rule": "R3",
+			"description": "The source says that there must be an ability to do something useful for the patient, whereas the rewrite says that doing something useful is itself necessary.",
+			"sourcePassage": "And we also have to be able to do something that is useful for that patient.",
+			"rewritePassage": "It is also necessary to do something that is useful for that patient.",
+			"userVerdict": "does-not-matter",
+			"agentVerdict": "minor"
+		},
+		{
+			"fault": "15.1",
+			"subtopicId": 15,
+			"deficiencyType": "omission",
+			"rule": "R2",
+			"description": "The rewrite omits the figure-specific observation that two individual mitotic cells are visible in the basement layer.",
+			"sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here",
+			"rewritePassage": null,
+			"userVerdict": "matters",
+			"agentVerdict": "useful"
+		},
+		{
+			"fault": "16.1",
+			"subtopicId": 16,
+			"deficiencyType": "omission",
+			"rule": "R2",
+			"description": "The rewrite omits the qualification \"a bit\", thereby losing the lecturer's stated degree of increased difficulty.",
+			"sourcePassage": "screening in the colon is a bit trickier.",
+			"rewritePassage": null,
+			"userVerdict": "does-not-matter",
+			"agentVerdict": "minor"
+		}
+	]
+}
