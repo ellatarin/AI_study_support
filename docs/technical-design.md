@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.90-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
+**Suite version:** 1.91-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
 **Date:** 2026-10-12
 **Status:** For review
 
@@ -1578,7 +1578,7 @@ The writer drops filler, jokes and course arrangements. It keeps these exactly:
 4. the lecturer's statistics and numbers
 5. each step of a mechanism in order, with each causal link that the lecturer states.
 
-The writer's rules R2 to R9 come from one shared text. Both the writer's prompt and the checker's prompt hold this text, so the two prompts state the same rules. R2 forbids an omission, R3 an addition, R4 to R8 are the five kinds of detail above, and R9 says what the writer drops. The prompt also tells the writer to write in the language of `finalOutput.language` (§6).
+R2 forbids an omission, R3 an addition, R4 to R8 are the five kinds of detail above, and R9 says what the writer drops. The prompt also tells the writer to write in the language of `finalOutput.language` (§6).
 
 The reply is `{ "paragraphs": [...] }`. A reply with a blank paragraph is unusable, and the stage resends it. The stage keeps the paragraphs as the rewritten subtopic. A reply with no paragraph is usable. A subtopic that holds only filler or course arrangements, such as a lecturer's closing words, has no prose to keep. The check finds each point that an empty rewrite drops, as an omission.
 
@@ -1600,7 +1600,9 @@ The file of a rewrite attempt holds these fields:
 **Input:** `Structured transcript/structured-transcript.json`, `Term corrections/`, `Rewrites/`
 **Output:** `Checks/subtopic-<id>-attempt-<n>.json` for each subtopic in each round, and `Checks/round-<n>.json` for each round
 
-The checker gets three things: the verbatim text of the subtopic, the kept corrections of the attempt with their reasons, and the rewritten subtopic. Without the corrections, it would report each corrected term as a distortion. It gets no slide text. It looks for an omission, a distortion and an unsourced addition (CONTEXT.md, "Checking quality"). Each deficiency names the writer's rule that the rewrite breaks, from R2 to R9 (`rewrite-subtopics`).
+The checker gets three things: the verbatim text of the subtopic, the kept corrections of the attempt with their reasons, and the rewritten subtopic. Without the corrections, it would report each corrected term as a distortion. It gets no slide text. It looks for an omission, a distortion and an unsourced addition (CONTEXT.md, "Checking quality").
+
+The checker prompt does not state the writer's rules. It gives one test instead. A change is a fault only when a student who learns from the rewrite would learn something different from what the lecturer said. The checker decides which changes pass the test. The prompt names causal, defining and equating links, and says that a link can be one word. The prompt also lists the changes that are not faults, such as dropped filler.
 
 The checker treats each correction as right, and does not judge it. A model that judged the corrections from its own knowledge would make more errors than the slides hold.
 
@@ -1609,16 +1611,16 @@ The checker prompt names the language of `finalOutput.language`, because the wri
 The checker does not look for these faults:
 
 - underexplained content, because that fault asks the writer to add
-- a change of the lecturer's order (R1). A moved step of a mechanism is still a distortion under R8
+- a change of the lecturer's order (R1). A moved step of a mechanism is still a distortion
 - prose faults.
 
 One deficiency of any kind fails the rewrite attempt. So a deficiency has no severity.
 
 A reply is unusable, and the stage resends it, in these cases:
 
-- a deficiency has an unknown type, or names a rule other than R2 to R9
+- a deficiency has an unknown type
 - a deficiency has no description
-- the passages of a deficiency do not agree with its type. An omission has no rewrite passage, an unsourced addition has no source passage, and a distortion has both
+- the passages of a deficiency do not agree with its type. A distortion has both passages. An omission has a source passage, and an unsourced addition has a rewrite passage. The other passage of each is a quote or null
 - a consideration has no source passage or no reason.
 
 A stage that starts again makes no call for a subtopic with a saved check. It writes the result file of the round again from the saved checks.
@@ -1634,10 +1636,10 @@ The file of each check holds these fields:
 | `subtopicId` | The subtopic |
 | `attemptNumber` | The number of the rewrite attempt, which is the number of the round |
 | `checkerPromptVersion` | The version of the checker prompt |
-| `deficiencies` | Each deficiency: `deficiencyType` (`omission`, `distortion` or `unsourced-addition`), `rule`, `description`, `sourcePassage` and `rewritePassage`. For an omission, `rewritePassage` is the sentence of the rewrite that lacks the fact, or null. For an unsourced addition, `sourcePassage` is the source sentences that the addition is built on, or null |
+| `deficiencies` | Each deficiency: `deficiencyType` (`omission`, `distortion` or `unsourced-addition`), `description`, `sourcePassage` and `rewritePassage`. For an omission, `rewritePassage` is the words of the rewrite where the fact should be, or null. For an unsourced addition, `sourcePassage` is the words of the text that the addition is built on, or null |
 | `considerations` | Each consideration: `sourcePassage` and `reason` |
 
-Prompt c2 asks for null as the rewrite passage of an omission, and as the source passage of an unsourced addition. Some models quote a passage there. The stage accepts the quote, because the quote shows a later repair where the fault is.
+The checker quotes these two passages where it can, because a quote shows a later repair where the fault is. A check file of prompt c2 also holds a `rule` for each deficiency: the writer's rule that the rewrite breaks.
 
 **The model** is `openai/gpt-5.6-sol-pro`, set on the stage's own entry (§6). It is the checker that issue #8 chose for the earlier verification stage.
 

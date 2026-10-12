@@ -15,7 +15,6 @@ import { writeJsonAtomic } from "../../../utils/files.js";
 import { isRecord } from "../../../utils/record.js";
 import { stageDirectoryPath } from "../../layout.js";
 import { FIRST_ROUND } from "../../manifest.js";
-import { CHECKED_RULE_NUMBERS } from "../checked-writer-rules.js";
 import { defineModelStage, type ModelStageFactory } from "../model-stage.js";
 import {
 	hasRewriteAttemptFields,
@@ -58,11 +57,11 @@ type SubtopicToCheck = { readonly subtopicId: number } & MaterialToCheck;
 type CheckRewriteAttemptsInput = { readonly subtopics: readonly SubtopicToCheck[] };
 
 /** A place where the rewrite is not faithful to the text (CONTEXT.md, "Checking quality"). */
-type Deficiency = { readonly rule: string; readonly description: string } & (
+type Deficiency = { readonly description: string } & (
 	| {
 			readonly deficiencyType: "omission";
 			readonly sourcePassage: string;
-			/** The sentence of the rewrite that lacks the omitted fact, or `null` when the checker quotes none. */
+			/** The words of the rewrite where the omitted fact should be, or `null` when the checker quotes none. */
 			readonly rewritePassage: string | null;
 	  }
 	| {
@@ -122,8 +121,8 @@ function isPassageAsTyped({
 }
 
 /**
- * Checks that a value is a deficiency of a known type. The deficiency names a
- * rule from R2 to R9 and gives the passages of its type.
+ * Checks that a value is a deficiency of a known type, with a description and
+ * the passages of its type.
  *
  * @param value - One entry of the list of deficiencies.
  * @returns `true` when the value is a {@link Deficiency}.
@@ -132,8 +131,6 @@ function isDeficiency(value: unknown): value is Deficiency {
 	if (
 		!isRecord(value) ||
 		typeof value.description !== "string" ||
-		typeof value.rule !== "string" ||
-		!CHECKED_RULE_NUMBERS.includes(value.rule) ||
 		typeof value.deficiencyType !== "string" ||
 		!Object.hasOwn(PASSAGE_FORMS, value.deficiencyType)
 	) {

@@ -31,7 +31,6 @@ const faithfulReply = JSON.stringify({ deficiencies: [], considerations: [] });
 /** A deficiency in the documented shape: the rewrite leaves out a fact. */
 const omission = {
 	deficiencyType: "omission",
-	rule: "R2",
 	description: "The rewrite leaves out the immune system.",
 	sourcePassage: "and the immune system",
 	rewritePassage: null,
@@ -87,7 +86,9 @@ describe.each(outputLanguageNames)("the checker prompt when the notes are in $na
 		await run();
 
 		const prompt = sentSystemMessage(create().mock.calls);
-		expect(prompt).toContain(`The writer also had to write in ${name}.`);
+		expect(prompt).toContain(
+			`A writer then wrote the corrected text as textbook prose in ${name}.`,
+		);
 		expect(prompt).toContain(
 			`- A spelling of ${name} in place of another spelling of the same word, such as "colour" for "color". The text has the transcriber's spelling, which can differ.`,
 		);
@@ -143,7 +144,7 @@ describe("createCheckRewriteAttemptsStage", () => {
 		expect(await readJsonFile(inWorkspace(checkFile(2)))).toStrictEqual({
 			subtopicId: 2,
 			attemptNumber: 1,
-			checkerPromptVersion: "c2",
+			checkerPromptVersion: "c3",
 			deficiencies: [deficiency],
 			considerations: [consideration],
 		});
@@ -203,14 +204,6 @@ describe("createCheckRewriteAttemptsStage", () => {
 		{
 			problem: "has an unknown deficiency type",
 			reply: { deficiencies: [{ ...omission, deficiencyType: "underexplained" }] },
-		},
-		{
-			problem: "names R1, which the checker does not check",
-			reply: { deficiencies: [{ ...omission, rule: "R1" }] },
-		},
-		{
-			problem: "names R10, which the checker does not check",
-			reply: { deficiencies: [{ ...omission, rule: "R10" }] },
 		},
 		{
 			problem: "gives no rewrite passage for an unsourced addition",
