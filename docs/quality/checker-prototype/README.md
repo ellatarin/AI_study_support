@@ -12,9 +12,9 @@ pnpm exec tsx docs/quality/checker-prototype/check-trial.mts \
   --prompts c3 --models google/gemini-3.8-flash,openai/gpt-5.6-sol-pro
 ```
 
-- `--prompts` and `--models` each take one value or a list with commas. The script runs each model with each prompt version, all at the same time.
+- `--prompts` and `--models` each take one value or a list with commas. The script runs each model with each prompt version, one pair after another. Each pair shows the pipeline's progress bar.
 - Each pair of model and version writes to `runs/<lecture>/<rewrites folder>/<model> <version>/`. The folder holds one `subtopic-<id>.json` for each subtopic and a `run.json`. The `run.json` records each command with its cost, its time and each unusable reply with its text.
-- A subtopic with a saved result is not sent again. To finish a run that failed part of the way, give the same command again.
+- A subtopic with a saved result is not sent again. A run stops when one subtopic fails. To finish the run, give the same command again.
 
 ## Compare the checks
 

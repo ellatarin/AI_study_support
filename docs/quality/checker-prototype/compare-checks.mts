@@ -13,10 +13,11 @@
 import { mkdir, readdir, readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { parseArgs } from "node:util";
+import { runLogsDirPath } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/pipeline/layout.js";
 import { pathExists } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/utils/files.js";
 import { isRecord } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/utils/record.js";
 import { matchesKeyFault, type QuotedFault } from "./fault-matching.mts";
-import { PROJECT_ROOT, rewritesRunsFolder, workspaceOf } from "./prototype-layout.mts";
+import { CHECK_STAGE_ID, PROJECT_ROOT, rewritesRunsFolder, workspaceOf } from "./prototype-layout.mts";
 
 /** The answer key of each lecture and rewrites folder: the review with the user's marks. */
 const ANSWER_KEYS: Readonly<Record<string, string>> = {
@@ -24,6 +25,25 @@ const ANSWER_KEYS: Readonly<Record<string, string>> = {
 		PROJECT_ROOT,
 		"docs/quality/2026-10-11-lecture-3-checker-c2-review.json",
 	),
+};
+
+/**
+ * The run logs of each saved "Checks (…)" folder of a lecture, keyed by the
+ * lecture and the folder, joined by "/". A run log does not name the folder
+ * that its checks were copied to, so this list connects them. A folder that is
+ * not in the list shows its cost as not recorded.
+ */
+const PIPELINE_CHECK_RUN_LOGS: Readonly<Record<string, readonly string[]>> = {
+	"2026-03-04/Checks (sonnet-5.5, w1, sol-pro, c2)": ["2026-10-11T21-10-20Z"],
+	"2026-03-04/Checks (sonnet-5.5, w1, terra-pro, c2)": ["2026-10-12T09-09-49Z"],
+	"2026-03-04/Checks (sonnet-5.5, w1, sonnet-5.5, c2)": [
+		"2026-10-12T09-19-39Z",
+		"2026-10-12T09-30-54Z",
+		"2026-10-12T09-41-18Z",
+	],
+	"2026-03-04/Checks (sonnet-5.5, w1, gemini-3.1-pro, c2)": ["2026-10-12T09-45-48Z"],
+	"2026-03-04/Checks (sonnet-5.5, w1, gemini-3.8-flash, c2)": ["2026-10-12T09-53-06Z", "2026-10-12T10-00-51Z"],
+	"2026-03-04/Checks (sonnet-5.5, w1, gemini-3.8-flash, c3)": ["2026-10-12T10-22-37Z"],
 };
 
 /** The user's mark for a fault that matters. */
@@ -79,34 +99,87 @@ async function readFaults(path: string): Promise<readonly CheckerFault[]> {
 }
 
 /**
+ * Adds the dollar costs of several records. A record with no dollar cost adds nothing.
+ *
+ * @param costs - The parsed `cost` field of each record.
+ * @returns The sum, or null when there is no record.
+ */
+function totalCost(costs: readonly unknown[]): number | null {
+	if (costs.length === 0) {
+		return null;
+	}
+	return costs.reduce<number>(
+		(sum, cost) => sum + (isRecord(cost) && typeof cost.costUsd === "number" ? cost.costUsd : 0),
+		0,
+	);
+}
+
+/**
+ * Reads the cost of a prototype run from its `run.json`.
+ *
+ * @param folder - The absolute path of the run folder.
+ * @returns The cost of every command of the run, or null when the folder has no `run.json`.
+ */
+async function prototypeRunCost(folder: string): Promise<number | null> {
+	const runFile = join(folder, "run.json");
+	const run: unknown = (await pathExists(runFile)) ? JSON.parse(await readFile(runFile, "utf8")) : null;
+	const commands = isRecord(run) && Array.isArray(run.commands) ? run.commands.filter(isRecord) : [];
+	return totalCost(commands.map((command) => command.cost));
+}
+
+/**
+ * Reads the cost of a saved "Checks (…)" folder from the run logs that
+ * {@link PIPELINE_CHECK_RUN_LOGS} gives for it.
+ *
+ * @param args - The workspace, the lecture and the folder.
+ * @param args.workspaceRoot - The absolute path of the workspace.
+ * @param args.lecture - The date of the lecture.
+ * @param args.folder - The name of the saved folder.
+ * @returns The cost of the check stage in each run log, or null when the folder has no run logs in the list.
+ */
+async function pipelineChecksCost({
+	workspaceRoot,
+	lecture,
+	folder,
+}: {
+	readonly workspaceRoot: string;
+	readonly lecture: string;
+	readonly folder: string;
+}): Promise<number | null> {
+	const runLogs = PIPELINE_CHECK_RUN_LOGS[`${lecture}/${folder}`] ?? [];
+	const costs = await Promise.all(
+		runLogs.map(async (runLog) => {
+			const log: unknown = JSON.parse(
+				await readFile(join(runLogsDirPath({ workspaceRoot }), `${runLog}.json`), "utf8"),
+			);
+			const stage = isRecord(log) && isRecord(log.stages) ? log.stages[CHECK_STAGE_ID] : undefined;
+			return isRecord(stage) ? stage.cost : undefined;
+		}),
+	);
+	return totalCost(costs);
+}
+
+/**
  * Reads the results of one checker from a folder of subtopic files.
  *
- * @param args - The folder and the name of the checker.
+ * @param args - The folder, the name of the checker and its cost.
  * @param args.folder - The absolute path of the folder.
  * @param args.name - The name of the checker in the tables.
- * @returns The checker's results. The cost is read from `run.json` when the folder has one.
+ * @param args.costUsd - The cost of the checks, or null when it is not recorded.
+ * @returns The checker's results.
  */
 async function readChecker({
 	folder,
 	name,
+	costUsd,
 }: {
 	readonly folder: string;
 	readonly name: string;
+	readonly costUsd: number | null;
 }): Promise<CheckerResults> {
 	const files = (await readdir(folder)).filter((file) => /^subtopic-\d+/.test(file));
 	const faults = (await Promise.all(files.map((file) => readFaults(join(folder, file))))).flat();
-	const runFile = join(folder, "run.json");
-	const run: unknown = (await pathExists(runFile)) ? JSON.parse(await readFile(runFile, "utf8")) : null;
-	const commands = isRecord(run) && Array.isArray(run.commands) ? run.commands.filter(isRecord) : [];
-	const costs = commands.map((command) =>
-		isRecord(command.cost) && typeof command.cost.costUsd === "number" ? command.cost.costUsd : 0,
-	);
-	return {
-		name,
-		faults,
-		subtopicsChecked: files.length,
-		costUsd: commands.length === 0 ? null : costs.reduce((sum, cost) => sum + cost, 0),
-	};
+	return { name, faults, subtopicsChecked: files.length, costUsd };
 }
 
 /**
@@ -137,11 +210,15 @@ async function readCheckers({
 			? []
 			: (await readdir(workspaceRoot)).filter((name) => name.startsWith(savedPrefix));
 	return Promise.all([
-		...runs.map((entry) => readChecker({ folder: join(runsFolder, entry.name), name: entry.name })),
-		...saved.map((name) =>
+		...runs.map(async (entry) => {
+			const folder = join(runsFolder, entry.name);
+			return readChecker({ folder, name: entry.name, costUsd: await prototypeRunCost(folder) });
+		}),
+		...saved.map(async (name) =>
 			readChecker({
 				folder: join(workspaceRoot, name),
 				name: `${name.slice(savedPrefix.length, -1)} (pipeline)`,
+				costUsd: await pipelineChecksCost({ workspaceRoot, lecture, folder: name }),
 			}),
 		),
 	]);

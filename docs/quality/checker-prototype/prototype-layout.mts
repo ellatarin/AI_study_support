@@ -10,6 +10,9 @@ import { moduleDirs } from "/Users/ellatarin/my_repositories/Ella_AI_project/src
 /** The project. The path is in the form that the symlink from /Users/ellatarin keeps valid on both machines. */
 export const PROJECT_ROOT = "/Users/ellatarin/my_repositories/Ella_AI_project";
 
+/** The pipeline stage whose checker the prototype runs. */
+export const CHECK_STAGE_ID = "check-rewrite-attempts";
+
 /** The module whose lectures the trials read. */
 const MODULE_ROOT = "/Users/ellatarin/Lecture Notes/Biology of Disease";
 

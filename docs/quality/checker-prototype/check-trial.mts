@@ -24,17 +24,14 @@ import { rewriteAttemptFilePath, subtopicPromptMessages } from "/Users/ellatarin
 import { readStructuredTranscript } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/pipeline/stages/structured-transcript.js";
 import { isSubtopicRewrite } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/pipeline/stages/subtopic-rewrites.js";
 import { isTermCorrectionResult } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/pipeline/stages/term-corrections.js";
-import { mapWithConcurrency } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/utils/concurrency.js";
+import { readOrMakeSavedFiles, unreadableSavedFileMessage } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/pipeline/stages/saved-files.js";
 import { createCostTally } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/utils/cost.js";
 import { pathExists, writeJsonAtomic } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/utils/files.js";
 import { isRecord } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/utils/record.js";
 import { type FailedSend, sendUntilAccepted } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/utils/resend.js";
 import { createSendGate } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/utils/send-gate.js";
 import { checkerSystemPrompt } from "./checker-prompts.mts";
-import { checkRunFolder, PROJECT_ROOT, subtopicResultFile, workspaceOf } from "./prototype-layout.mts";
-
-/** The stage whose configuration the trial borrows, with the model of each run in place of its own. */
-const STAGE_ID = "check-rewrite-attempts";
+import { CHECK_STAGE_ID, checkRunFolder, PROJECT_ROOT, subtopicResultFile, workspaceOf } from "./prototype-layout.mts";
 
 /** The most subtopics of one run in flight at once, as in the pipeline's configuration. */
 const CONCURRENCY = 10;
@@ -196,11 +193,11 @@ async function runOne({
 }): Promise<string> {
 	const folder = checkRunFolder({ lecture, rewrites, modelId, version });
 	await mkdir(folder, { recursive: true });
-	const borrowed = baseConfig.stages[STAGE_ID];
+	const borrowed = baseConfig.stages[CHECK_STAGE_ID];
 	if (borrowed === undefined) {
-		throw new Error(`The pipeline configuration has no ${STAGE_ID} entry`);
+		throw new Error(`The pipeline configuration has no ${CHECK_STAGE_ID} entry`);
 	}
-	const config = { ...baseConfig, stages: { ...baseConfig.stages, [STAGE_ID]: { ...borrowed, modelId } } };
+	const config = { ...baseConfig, stages: { ...baseConfig.stages, [CHECK_STAGE_ID]: { ...borrowed, modelId } } };
 	const system = checkerSystemPrompt({ version, language: config.finalOutput.language });
 	const client = createOpenRouterClientProvider({ openRouter: config.openRouter });
 	const sendGate = createSendGate({ gapSeconds: SEND_GAP_SECONDS });
@@ -211,20 +208,23 @@ async function runOne({
 	const startedAt = new Date();
 	let checked = 0;
 
-	await mapWithConcurrency({
-		items: material,
-		limit: CONCURRENCY,
-		work: async ({ item: { subtopicId, ...subtopic } }) => {
-			const resultPath = join(folder, subtopicResultFile(subtopicId));
-			if (await pathExists(resultPath)) {
-				return;
-			}
-			try {
+	try {
+		await readOrMakeSavedFiles({
+			files: material.map((subtopic) => ({
+				...subtopic,
+				path: join(folder, subtopicResultFile(subtopic.subtopicId)),
+			})),
+			label: `${modelId} ${version}`,
+			concurrency: CONCURRENCY,
+			readSaved: (value) => (isCheckerReply(value) ? value : null),
+			unreadable: (path) =>
+				new Error(unreadableSavedFileMessage({ path, content: "check", remake: "check the subtopic" })),
+			make: async ({ subtopicId, path: _path, ...subtopic }) => {
 				const { sent } = await sendUntilAccepted<CheckerReply, UnusableReply>({
 					send: async () => {
 						const { content } = await callModel({
 							messages: subtopicPromptMessages({ system, material: subtopic }),
-							stageId: STAGE_ID,
+							stageId: CHECK_STAGE_ID,
 							config,
 							responseFormat: "json",
 							logger,
@@ -237,18 +237,16 @@ async function runOne({
 					onFailure: ({ send, failure, replyText }) => {
 						unusableReplies.push({ subtopicId, send, reason: failure, replyText });
 					},
-					exhausted: ({ failure, sends }) => new Error(`failed after ${sends} sends: ${failure}`),
-				});
-				await writeJsonAtomic({
-					path: resultPath,
-					value: { subtopicId, checkerPromptVersion: version, modelId, ...sent },
+					exhausted: ({ failure, sends }) =>
+						new Error(`subtopic ${subtopicId} failed after ${sends} sends: ${failure}`),
 				});
 				checked += 1;
-			} catch (error: unknown) {
-				failedSubtopics.push({ subtopicId, error: String(error) });
-			}
-		},
-	});
+				return { subtopicId, checkerPromptVersion: version, modelId, ...sent };
+			},
+		});
+	} catch (error: unknown) {
+		failedSubtopics.push({ error: String(error) });
+	}
 
 	const runFile = join(folder, "run.json");
 	const earlier: unknown = (await pathExists(runFile)) ? JSON.parse(await readFile(runFile, "utf8")) : null;
@@ -304,11 +302,8 @@ if (values.lecture === undefined || values.rewrites === undefined || prompts.len
 const { lecture, rewrites } = values;
 const baseConfig = parseConfig(JSON.parse(await readFile(join(PROJECT_ROOT, "pipeline-config.json"), "utf8")));
 const material = await readMaterial({ workspaceRoot: await workspaceOf(lecture), rewrites });
-const summaries = await Promise.all(
-	models.flatMap((modelId) =>
-		prompts.map((version) => runOne({ lecture, rewrites, modelId, version, material, baseConfig })),
-	),
-);
-for (const summary of summaries) {
-	console.log(summary);
+for (const modelId of models) {
+	for (const version of prompts) {
+		console.log(await runOne({ lecture, rewrites, modelId, version, material, baseConfig }));
+	}
 }
