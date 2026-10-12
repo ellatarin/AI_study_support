@@ -1,0 +1,23 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite turns the lecturer's deictic pointing words into a spatial description by stating that the cervix is seen alongside the endocervical canal, which is not stated in the text.",
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "rewritePassage": "and the cervix is seen alongside it"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here",
+      "reason": "This is a direct remark to the audience pointing at specific individual cells on a slide; its omission is allowed because the general factual point that mitotic cells occur at the basement layer is retained."
+    },
+    {
+      "sourcePassage": "The uterus is here in this diagram, and as you know, it hangs down into the vaginal canal.",
+      "reason": "Resolving 'The uterus is here in this diagram' to 'as shown in the diagram. [FIGURE]' accurately captures the speaker's reference to the diagram."
+    }
+  ]
+}

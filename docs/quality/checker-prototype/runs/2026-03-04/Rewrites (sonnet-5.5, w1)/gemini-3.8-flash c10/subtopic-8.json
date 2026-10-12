@@ -1,0 +1,28 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "The rewrite specifies 'malignancy is defined as the ability to invade the surrounding tissue'. Resolving 'it' to malignancy is contextually accurate and scientifically standard, as defining invasion as 'the ability to invade' would be a tautology."
+    },
+    {
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "reason": "The rewrite renders 'this' as 'Invasion'. In context, the lecturer has just explained that tumors invade tissue before metastasising and that seeing metastases without finding invasion is likely due to missed sampling; thus, specifying 'Invasion' as the obligatory step directly reflects the text."
+    },
+    {
+      "sourcePassage": "The submucosa is here, and you'll see that there isn't any invasion that has occurred.",
+      "reason": "The rewrite's phrasing 'the submucosa lies beneath it' reflects the anatomical layers previously detailed by the lecturer ('underneath the epithelium. And then you have under here the submucosa')."
+    },
+    {
+      "sourcePassage": "You'll see that over here you have the adenoma which has progressed into an adenocarcinoma. So one is growing out of the other.",
+      "reason": "The rewrite states 'Elsewhere in the same lesion is the adenoma, which has progressed into an adenocarcinoma', which faithfully translates the lecturer pointing to different areas within the same examined specimen."
+    },
+    {
+      "sourcePassage": "and you'll be able to look at this in great detail in the practicals",
+      "reason": "This is an administrative remark directed to the student audience and can be omitted under the allowed changes."
+    }
+  ]
+}

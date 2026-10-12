@@ -1,0 +1,20 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, everyone, shall we get started? Yes. You're very welcome, all of you, to Cancer Biology.",
+      "reason": "This opening conversational greeting and welcome was appropriately omitted as filler/remarks to the audience."
+    },
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there.",
+      "reason": "The pointing phrase 'listed there' referring to a slide was appropriately adapted into standard prose as 'The learning outcomes for this lecture are as follows'."
+    },
+    {
+      "sourcePassage": "So I tag-teamed these lectures with Professor Turner, and so she will also be teaching three of these lectures.",
+      "reason": "The rewrite phrases this as 'The lectures are shared with Professor Turner, who teaches three of the six', which accurately synthesises this with the earlier mention of 'these next six lectures'."
+    }
+  ]
+}

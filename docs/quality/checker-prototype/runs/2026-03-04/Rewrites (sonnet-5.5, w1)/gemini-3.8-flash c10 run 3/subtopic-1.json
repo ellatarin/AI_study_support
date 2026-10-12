@@ -1,0 +1,24 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, everyone, shall we get started? Yes. You're very welcome, all of you, to Cancer Biology.",
+      "reason": "The introductory remarks, greetings, and conversational fillers were omitted in accordance with the allowed changes."
+    },
+    {
+      "sourcePassage": "So I tag-teamed these lectures with Professor Turner, and so she will also be teaching three of these lectures.",
+      "reason": "The rewrite states 'who teaches three of the six', which correctly synthesises the lecturer's earlier mention of 'these next six lectures' without introducing unsourced information."
+    },
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there.",
+      "reason": "The pointing reference ('listed there') was adapted into textbook prose ('are as follows') without adding unsourced facts."
+    },
+    {
+      "sourcePassage": "tumor",
+      "reason": "The spelling 'tumour' reflects standard British English, which is explicitly allowed."
+    }
+  ]
+}

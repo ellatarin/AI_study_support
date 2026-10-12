@@ -1,0 +1,23 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite states that the stained slice through a tumour 'illustrates this', linking the figure to the explanting of tumours mentioned in the preceding sentence. The original text does not state that the slice illustrates tumour explantation.",
+      "sourcePassage": "often they will explant the tumor. Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "rewritePassage": "illustrates this [FIGURE]"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "This is an extraneous remark to the audience and self-correction during the lecture, so its omission is allowed."
+    },
+    {
+      "sourcePassage": "Primary cells really don't grow in culture.",
+      "reason": "The word 'really' functions here as a conversational intensifier rather than a scientific hedge, so rendering the statement as 'Primary cells do not grow in culture' is an allowed change."
+    }
+  ]
+}

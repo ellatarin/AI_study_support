@@ -1,0 +1,24 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "The reference to an earlier visual or lecture slide ('You saw...') was adapted to 'The different pre-cancerous states are present', which preserves the subject matter context without introducing unsourced facts."
+    },
+    {
+      "sourcePassage": "ulcerated cauliflower structure, if you like",
+      "reason": "'cauliflower-like structure' accurately captures the speaker's colloquial simile without distorting meaning."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "'Of the screening methods discussed, cervical screening is the best' captures the lecturer's back-reference to earlier screening discussions in textbook style."
+    },
+    {
+      "sourcePassage": "So already potentially shedding cells for invading into other parts of the body.",
+      "reason": "'It is therefore potentially already shedding cells that invade other parts of the body' is a valid grammatical rendering that preserves the causal and biological meaning."
+    }
+  ]
+}

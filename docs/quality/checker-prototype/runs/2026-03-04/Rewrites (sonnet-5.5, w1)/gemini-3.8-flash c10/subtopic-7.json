@@ -1,0 +1,39 @@
+{
+  "subtopicId": 7,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite turns the lecturer's pointing words ('the tumor is here. This is the outer surface of the uterus') into a spatial description ('The tumour lies next to the outer surface of the uterus') that is not stated in the text.",
+      "sourcePassage": "You can see that the tumor is here. This is the outer surface of the uterus.",
+      "rewritePassage": "The tumour lies next to the outer surface of the uterus"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite changes the word 'circumspect' to 'circumscribed'. Although 'circumscribed' is the conventional medical term, no such correction was provided in the corrections list, so altering the word constitutes an unauthorized change of term.",
+      "sourcePassage": "this is actually circumspect",
+      "rewritePassage": "circumscribed"
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite introduces 'therefore', stating a causal link that the tumour is circumscribed as a result of fixation and staining, whereas the source text only stated that fixation caused it to separate so that its boundary could be seen.",
+      "sourcePassage": "So you can see again that this is actually circumspect",
+      "rewritePassage": "The tumour is therefore circumscribed"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Movable, and literally, you can scoop it out with no damage to the surrounding tissue.",
+      "reason": "The conversion to passive voice ('the tumour is movable, and it can literally be scooped out...') is an allowed grammatical and stylistic change."
+    },
+    {
+      "sourcePassage": "has, if you like, invaded within this tissue",
+      "reason": "Rendering 'if you like' as 'in a sense' is an allowed stylistic choice that preserves the hedge."
+    },
+    {
+      "sourcePassage": "you wouldn't be sampling all over the body",
+      "reason": "Paraphrasing 'all over the body' as 'the whole body would not be sampled' conveys the exact same meaning."
+    }
+  ]
+}

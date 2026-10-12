@@ -1,0 +1,29 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds \"that is,\", thereby equating acetylation or deacetylation with the state of transcription within the cell. The source text merely listed the state of transcription as another change or aspect, without stating that acetylation or deacetylation is the state of transcription.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The text states that \"they\" (the human viruses that precipitate cancer) can also predispose to chronic inflammatory events. The rewrite replaces this with \"infection\", making the cause wider than the specific viruses mentioned.",
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events that can also help to give rise to cancer.",
+      "rewritePassage": "There are about seven different human viruses that precipitate cancer, and infection can also predispose to chronic inflammatory events, which can also help to give rise to cancer."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, so we're just going to start here with our core idea. I'm sure you've seen a cartoon that looks like this many times. The idea that a normal cell, starting off here, acquires a mutation, and maybe a second mutation, and it becomes slightly abnormal.",
+      "reason": "The rewrite phrases this as \"The core idea is the familiar cartoon in which...\", condensing the conversational opening into textbook prose without distorting the substantive biological meaning."
+    },
+    {
+      "sourcePassage": "So I've just made this kind of a much simpler diagram, if you like. Simplicity can help frame our thinking, but it will also end up losing a lot of details. So, as I said, you start off with a normal cell, and a bunch of mutations happen over time, and you go from normal to malignant.",
+      "reason": "The reference to the speaker making a simpler diagram is appropriately rendered as textbook prose with a [FIGURE] tag describing the progression from normal to malignant."
+    }
+  ]
+}

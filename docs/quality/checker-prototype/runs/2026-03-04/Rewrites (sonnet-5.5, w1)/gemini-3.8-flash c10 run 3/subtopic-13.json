@@ -1,0 +1,24 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "if you compare any two things, you're going to find differences",
+      "reason": "The rewrite renders this as 'although any comparison between two species will reveal differences', which appropriately contextualises 'any two things' to species within textbook prose without distorting the meaning."
+    },
+    {
+      "sourcePassage": "The only thing that was quite interesting to note here is that the rate of malignant tumors is about fivefold higher in reptiles compared to mammals.",
+      "reason": "The rewrite renders this as 'The one notable difference is that the rate of malignant tumours is about fivefold higher in reptiles than in mammals', which faithfully captures 'interesting to note' as 'notable' in the context of comparing reptiles and mammals."
+    },
+    {
+      "sourcePassage": "Just a slide about the incidence in companion animals since I found this slide some time ago",
+      "reason": "Omitted as meta-commentary regarding the slide and lecture delivery, which is an allowed omission."
+    },
+    {
+      "sourcePassage": "You'll be happy to hear he's doing fine now after his surgery.",
+      "reason": "The conversational remark to the audience ('You'll be happy to hear') was omitted while retaining the factual content that the cat recovered after surgery."
+    }
+  ]
+}

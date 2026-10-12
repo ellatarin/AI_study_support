@@ -1,0 +1,31 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite replaces the lecturer's pointing word 'this' with 'Invasion'. The text does not show that 'this' refers specifically to invasion rather than an intermediate stage or the preceding state being discussed.",
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "rewritePassage": "Invasion is therefore probably an obligatory step in arriving at a malignant, metastasising tumour."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "muscularis mucosa",
+      "reason": "Replaced with 'muscularis mucosae' in accordance with the provided technical term corrections."
+    },
+    {
+      "sourcePassage": "But the question is, of course, you would then be interested in figuring out whether or not there would be secondary metastases across the body.",
+      "reason": "This is a rhetorical remark that the lecturer immediately drops to return to describing the histological slide; metastasis is discussed in detail later in the lecture."
+    },
+    {
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "The pronoun 'it' in 'it's defined as' refers to malignancy, as malignancy is biologically defined by invasive capacity, whereas defining invasion as the ability to invade would be circular."
+    },
+    {
+      "sourcePassage": "You wouldn't necessarily be able to say anything on two words about either of these. They both look like little cauliflowers that are sticking out into the lumen.",
+      "reason": "The rewrite renders 'say anything on two words about either of these' as 'Nothing could necessarily be said about either from their appearance', which accurately conveys the lecturer's meaning based on the immediate clarification that both look like cauliflowers."
+    }
+  ]
+}

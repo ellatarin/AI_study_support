@@ -1,0 +1,20 @@
+{
+  "subtopicId": 9,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "everybody gets very nervous about what that diagnosis is going to look like",
+      "reason": "Rendered in objective textbook style as 'there is considerable anxiety about the diagnosis', preserving the meaning without deficiency."
+    },
+    {
+      "sourcePassage": "that I showed you",
+      "reason": "Replaced by 'as shown earlier' alongside a [FIGURE] marker, which is an allowed change for lecture references."
+    },
+    {
+      "sourcePassage": "So this meningioma obviously is occurring within the skull. The skull is a confined space. This would put an enormous amount of pressure on the brain and the surrounding structures and would cause and has caused Has caused death in this case. So things like meningiomas can cause that.",
+      "reason": "The rewrite accurately conveys both the general mechanism of meningiomas within the skull and the specific case reference ('in this case it caused death') without introducing unsourced claims or distorting the speaker's meaning."
+    }
+  ]
+}

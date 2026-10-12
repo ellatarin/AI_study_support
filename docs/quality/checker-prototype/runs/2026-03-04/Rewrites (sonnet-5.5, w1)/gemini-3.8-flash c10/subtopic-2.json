@@ -1,0 +1,33 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite inserts 'that is', defining acetylation or deacetylation as being the state of transcription within the cell itself. In the source text, 'the state of the transcription within the cell itself' was listed as an item or general phrasing alongside acetylation or deacetylation, without an explicit statement that the two are identical.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The text states that the viruses ('they') can also predispose to chronic inflammatory events. The rewrite changes the cause to 'infection', widening the cause from the specific viruses under discussion to infection in general.",
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events that can also help to give rise to cancer.",
+      "rewritePassage": "There are about seven different human viruses that precipitate cancer, and infection can also predispose to chronic inflammatory events, which can also help to give rise to cancer."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "I'm sure you've seen a cartoon that looks like this many times.",
+      "reason": "The lecturer's reference to the visual cartoon is appropriately captured by the insertion of the [FIGURE] mark and the description of what the cartoon depicts."
+    },
+    {
+      "sourcePassage": "So I've just made this kind of a much simpler diagram, if you like. Simplicity can help frame our thinking, but it will also end up losing a lot of details. So, as I said, you start off with a normal cell, and a bunch of mutations happen over time, and you go from normal to malignant.",
+      "reason": "The rewrite consolidates the lecturer's remarks about the simpler diagram and what it illustrates into a single cohesive sentence with a [FIGURE] mark without altering the meaning."
+    },
+    {
+      "sourcePassage": "So there's a lot of changes that occur, and as I said, we don't know pretty much because of this when they occur.",
+      "reason": "The causal link 'because of this' is directly drawn from the lecturer's words ('because of this when they occur') and is not an unsourced addition."
+    }
+  ]
+}

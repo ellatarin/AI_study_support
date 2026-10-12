@@ -1,0 +1,27 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite uses 'since' to introduce a causal link, asserting that the terminology is still heard because a surgeon can tell by touch, whereas the original text only used 'where' to describe the context without asserting causality.",
+      "sourcePassage": "And you'll hear this kind of terminology even now, where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable.",
+      "rewritePassage": "This terminology is still heard now, since a surgeon can tell just by holding or touching a tumour whether it is movable or immovable."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals",
+      "reason": "Omitted as a remark to the audience and a statement about the course, which is an allowed change."
+    },
+    {
+      "sourcePassage": "Okay. So with these tools in hand, I think the important concept to try and get across is invasion and metastasis.",
+      "reason": "Phrasing changes, dropping conversational framing ('with these tools in hand'), and pluralising 'concept' to 'concepts' are allowed stylistic adjustments."
+    },
+    {
+      "sourcePassage": "there will be a biopsy to look and to see whether or not the tumor cells are contained or whether or not they're invading into the surrounding tissue.",
+      "reason": "Rendered in textbook prose as 'a biopsy is taken to see whether the tumour cells are contained...', which faithfully conveys the same meaning."
+    }
+  ]
+}

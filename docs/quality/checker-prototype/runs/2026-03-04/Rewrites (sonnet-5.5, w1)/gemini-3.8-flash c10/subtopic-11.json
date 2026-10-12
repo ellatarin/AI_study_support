@@ -1,0 +1,31 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite states that the tumour occurs in a meningioma, framing 'meningioma' as an anatomical site or organ where a tumour arises rather than the tumour itself. In the source text, 'occurring in things like the meningioma' refers to deaths occurring from primary tumours such as a meningioma.",
+      "sourcePassage": "Only 10% of these deaths, generally, if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "rewritePassage": "when the tumour occurs in a meningioma or in the liver"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Things like obstruction of the bile ducts in the liver interferes with digestion.",
+      "reason": "The sentence 'Other effects depend on the site' was added at the start of the paragraph as a stylistic transition summarizing the site-specific examples (bile ducts, bones, colon) rather than introducing an unsourced factual claim."
+    },
+    {
+      "sourcePassage": "Also ulceration, you saw that enormous cauliflower structure within the colon.",
+      "reason": "The rewrite describes this as 'the enormous cauliflower-like structure seen within the colon', adapting the lecturer's visual reference to an earlier slide into appropriate textbook prose."
+    },
+    {
+      "sourcePassage": "And things like if tumors in bones lead to erosion of that bone function, so you can get fractures",
+      "reason": "The rewrite phrases this as 'erosion of the bone', which is faithful given that the lecturer later refers directly to 'erosion of bones'."
+    },
+    {
+      "sourcePassage": "This niche is not very big. This will interfere with your bone marrow",
+      "reason": "Using 'therefore' to connect the limited size of the niche to interference with the bone marrow reflects the causal link implicit in the lecturer's sequence of statements."
+    }
+  ]
+}

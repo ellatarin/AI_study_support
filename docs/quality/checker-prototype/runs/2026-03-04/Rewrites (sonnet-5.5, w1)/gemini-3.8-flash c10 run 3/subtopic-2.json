@@ -1,0 +1,33 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite inserts 'that is', presenting acetylation or deacetylation as being the state of transcription within the cell itself. The original text lists these as distinct items or points without stating that one defines or equates to the other.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer specifies that 'they' (the roughly seven human viruses that precipitate cancer) can predispose to chronic inflammatory events, whereas the rewrite changes the cause to 'infection' in general, widening the cause.",
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events that can also help to give rise to cancer.",
+      "rewritePassage": "There are about seven different human viruses that precipitate cancer, and infection can also predispose to chronic inflammatory events, which can also help to give rise to cancer."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, so we're just going to start here with our core idea. I'm sure you've seen a cartoon that looks like this many times.",
+      "reason": "The conversational framing and reference to the audience having seen a cartoon like this are condensed into 'The core idea is the familiar cartoon...', which removes conversational filler while retaining the substance."
+    },
+    {
+      "sourcePassage": "So I've just made this kind of a much simpler diagram, if you like.",
+      "reason": "Rendered in textbook prose as 'A much simpler diagram can be made', omitting personal conversational phrasing."
+    },
+    {
+      "sourcePassage": "So hopefully, in order to try and address some of these questions, we will start at the beginning. [chuckles]",
+      "reason": "Transformed into third-person textbook style ('the discussion starts at the beginning') while dropping the chuckle and meta-lecture filler."
+    }
+  ]
+}

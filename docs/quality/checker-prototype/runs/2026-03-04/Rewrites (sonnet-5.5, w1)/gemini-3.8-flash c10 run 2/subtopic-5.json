@@ -1,0 +1,27 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite introduces a causal link with \"since\", asserting that the terminology is still heard because a surgeon can tell by touch, whereas the original text uses \"where\" without making a causal claim.",
+      "sourcePassage": "And you'll hear this kind of terminology even now, where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable.",
+      "rewritePassage": "This terminology is still heard now, since a surgeon can tell just by holding or touching a tumour whether it is movable or immovable."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Okay. So with these tools in hand, I think the important concept to try and get across is invasion and metastasis.",
+      "reason": "The omission of conversational framing (\"with these tools in hand\", \"I think ... to try and get across\") is allowed as dropping lecture commentary, and changing \"concept\" to the plural \"concepts\" correctly reflects the two listed topics."
+    },
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals",
+      "reason": "The omission is allowed as it is a remark directed to the audience concerning course practicals."
+    },
+    {
+      "sourcePassage": "Right. So, what does that mean for the patient? Well,",
+      "reason": "The omission of the rhetorical question and conversational filler is allowed."
+    }
+  ]
+}

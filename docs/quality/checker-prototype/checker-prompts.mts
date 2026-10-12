@@ -318,7 +318,12 @@ ${QUOTED_REPLY}`,
 		changed:
 			"The user's rewrite of c4. Reports only a difference that causes issues for a student's learning. Drops 'when not sure, report', 'do not judge a paragraph as a whole', 'even when the changed statement is true', the line on statements next to each other, the line on pointing words and the subject-matter exception of the filler allowance. Adds conflation as a link and the merging of two concerns as a distortion. Moves the process after the two lists.",
 		prompt: (name) =>
-			learningIssuePrompt({ name, unsourcedAdditions: C7_ADDITIONS, formAllowance: FORM_ALLOWANCE }),
+			learningIssuePrompt({
+				name,
+				unsourcedAdditions: C7_ADDITIONS,
+				formAllowance: FORM_ALLOWANCE,
+				mergingDistortion: C7_MERGING,
+			}),
 	},
 	c8: {
 		changed:
@@ -328,6 +333,7 @@ ${QUOTED_REPLY}`,
 				name,
 				unsourcedAdditions: CHECKED_DESCRIPTION_ADDITIONS,
 				formAllowance: FORM_ALLOWANCE,
+				mergingDistortion: C7_MERGING,
 			}),
 	},
 	c9: {
@@ -338,6 +344,18 @@ ${QUOTED_REPLY}`,
 				name,
 				unsourcedAdditions: CHECKED_DESCRIPTION_ADDITIONS,
 				formAllowance: FIGURE_SENTENCE_ALLOWANCE,
+				mergingDistortion: C7_MERGING,
+			}),
+	},
+	c10: {
+		changed:
+			'Adds to the merging line of c9 an example from another subject: "prompting and artifacts" becomes "prompting artifacts".',
+		prompt: (name) =>
+			learningIssuePrompt({
+				name,
+				unsourcedAdditions: CHECKED_DESCRIPTION_ADDITIONS,
+				formAllowance: FIGURE_SENTENCE_ALLOWANCE,
+				mergingDistortion: MERGING_WITH_EXAMPLE,
 			}),
 	},
 };
@@ -354,6 +372,12 @@ const C7_ADDITIONS = `- The rewrite states a fact that the text does not state.
 const CHECKED_DESCRIPTION_ADDITIONS = `${C7_ADDITIONS}
 - The rewrite turns the lecturer's pointing words, such as "here" and "this", into a description that the lecturer did not give. Report it unless the text shows that the description is correct.`;
 
+/** The forbidden distortion of c7 for two concerns merged into one. */
+const C7_MERGING = "- Merging or conflating of two separate concerns into one.";
+
+/** The forbidden distortion of c10 for two concerns merged into one, with an example from another subject. */
+const MERGING_WITH_EXAMPLE = `${C7_MERGING} For example, "prompting and artifacts" becomes "prompting artifacts".`;
+
 /** The allowance for changes of form of c9, which keeps a sentence about a figure out of the [FIGURE] mark. */
 const FIGURE_SENTENCE_ALLOWANCE = `${FORM_ALLOWANCE} A sentence around the [FIGURE] mark that says what the figure shows or illustrates is not part of the mark. Compare that sentence with the text, as any other statement. For example, when a speaker says only "Here is a chart", the rewrite "This chart illustrates the fall in sales" adds a link.`;
 
@@ -365,16 +389,19 @@ const FIGURE_SENTENCE_ALLOWANCE = `${FORM_ALLOWANCE} A sentence around the [FIGU
  * @param args.name - The name of the notes' language.
  * @param args.unsourcedAdditions - The lines of the forbidden unsourced additions.
  * @param args.formAllowance - The allowed-change line for the [FIGURE] mark, order, paragraphs, style and grammar.
+ * @param args.mergingDistortion - The forbidden-distortion line for two concerns merged into one.
  * @returns The prompt.
  */
 function learningIssuePrompt({
 	name,
 	unsourcedAdditions,
 	formAllowance,
+	mergingDistortion,
 }: {
 	readonly name: string;
 	readonly unsourcedAdditions: string;
 	readonly formAllowance: string;
+	readonly mergingDistortion: string;
 }): string {
 	return `# Task
 
@@ -402,7 +429,7 @@ ${unsourcedAdditions}
 - A term that keeps its words but gets a different role in the sentence.
 - A hedge removed from a scientific claim.
 - An unclear or incomplete statement of the text that the rewrite makes clear or complete. The rewrite chose one reading, even when that reading is likely.
-- Merging or conflating of two separate concerns into one.
+${mergingDistortion}
 
 # Allowed changes
 

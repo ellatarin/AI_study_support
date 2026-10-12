@@ -1,0 +1,35 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite changes 'adolescence' to 'differentiation', asserting that differentiation and maturation occur from infancy to adulthood rather than adolescence and maturation.",
+      "sourcePassage": "obviously during adolescence and maturation, this occurs from infancy to adulthood",
+      "rewritePassage": "differentiation and maturation also occur from infancy to adulthood"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite conflates two separate items ('signaling and basis') into a single noun phrase ('signalling basis').",
+      "sourcePassage": "provides a signaling and basis for their adherence to this layer",
+      "rewritePassage": "provides a signalling basis for their adherence to this layer"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite changes the participle 'invading' to 'invaded' when describing the stroma.",
+      "sourcePassage": "into the invading stroma",
+      "rewritePassage": "into the invaded stroma"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "during the time that you were born",
+      "reason": "This was omitted as a false start or speech slip that contradicted the surrounding explanation of embryogenesis and growth occurring in the womb."
+    },
+    {
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes. They have come in, they have lost this architecture, moved over the basement membrane and invaded and are growing within the stroma.",
+      "reason": "The rewrite converts 'here now' into 'In the image of the invasive tissue', which is justified because the text directly states that the cells have invaded into the stroma."
+    }
+  ]
+}

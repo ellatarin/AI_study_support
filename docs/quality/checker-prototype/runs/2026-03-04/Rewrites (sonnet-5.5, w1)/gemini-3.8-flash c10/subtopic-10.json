@@ -1,0 +1,20 @@
+{
+  "subtopicId": 10,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So the fat, smooth muscle or papillomas in the skin, and adenomas, as we were talking about in the colon.",
+      "reason": "The rewrite pairs each previously mentioned tumour type (lipoma, leiomyoma, papilloma, adenoma) with its respective tissue mentioned in the list, accurately reflecting the lecturer's parallel structure without introducing new information."
+    },
+    {
+      "sourcePassage": "Okay? So just so that we're all on the same page in terms of nomenclature, and of course, with any naming system, there are always exceptions to every rule.",
+      "reason": "The introductory remark to the audience ('Okay? So just so that we're all on the same page in terms of nomenclature') was omitted as an allowed change."
+    },
+    {
+      "sourcePassage": "So these are these different tumor types and other exceptions as well, things like malignant melanoma.",
+      "reason": "The lecturer's filler/transitional phrase was rendered concisely into textbook prose while retaining all substantive points."
+    }
+  ]
+}

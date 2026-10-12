@@ -1,0 +1,27 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite turns the lecturer's deictic pointing to the cervix on the slide ('so you're looking at the cervix here') into an unsupported spatial description stating that the cervix is seen 'alongside' the endocervical canal.",
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "rewritePassage": "and the cervix is seen alongside it"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "that it goes between the neck of the womb",
+      "reason": "Rendered as 'runs through the neck of the womb', which resolves the spoken phrasing smoothly without changing the intended meaning."
+    },
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here",
+      "reason": "This is an informal remark pointing out individual cells on the slide to illustrate the stated rule that mitotic cells occur at the basement layer; its omission is an allowed omission of conversational pointing/banter."
+    },
+    {
+      "sourcePassage": "precursor lesion that is here",
+      "reason": "Rendered as 'a precursor lesion can arise at this site', where 'this site' correctly refers to the junction just discussed."
+    }
+  ]
+}

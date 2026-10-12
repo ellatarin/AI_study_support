@@ -1,0 +1,20 @@
+{
+  "subtopicId": 14,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, so what does this look like in the clinic? [chuckles] I call this the four horsemen.",
+      "reason": "The rewrite phrases this as 'the presentation of cancer can be summarised as the \"four horsemen\"', which appropriately adapts the conversational question into textbook prose without introducing unsourced facts, as the lecture topic is cancer/tumours."
+    },
+    {
+      "sourcePassage": "But very much, tumors can be indirect if they're occurring in non-screenable or non-palpable areas.",
+      "reason": "The rewrite renders this as 'Tumours can also present indirectly if they occur in non-screenable or non-palpable areas', which accurately reflects the clinical meaning without distortion."
+    },
+    {
+      "sourcePassage": "even though it's the goal of the NHS to be able to diagnose earlier and quicker.",
+      "reason": "The rewrite's phrasing 'even though it is the goal of the NHS to diagnose earlier and more quickly' retains the exact meaning and proper British English grammar."
+    }
+  ]
+}

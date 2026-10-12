@@ -1,0 +1,20 @@
+{
+  "subtopicId": 9,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Obviously, when there is a suspicion of cancer or of a tumor, everybody gets very nervous about what that diagnosis is going to look like.",
+      "reason": "The rewrite renders this as 'there is considerable anxiety about the diagnosis', which accurately conveys the meaning without informal conversational phrasing."
+    },
+    {
+      "sourcePassage": "smooth muscle fibroid that I showed you",
+      "reason": "The reference to showing the fibroid is appropriately captured by 'as shown earlier, [FIGURE]'."
+    },
+    {
+      "sourcePassage": "So this meningioma obviously is occurring within the skull. The skull is a confined space. This would put an enormous amount of pressure on the brain and the surrounding structures and would cause and has caused Has caused death in this case. So things like meningiomas can cause that.",
+      "reason": "The rewrite generalises 'this meningioma' to 'A meningioma' while retaining the mention that in this specific case it caused death, accurately capturing both the general principle and the lecturer's specific case example."
+    }
+  ]
+}

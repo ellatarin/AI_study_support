@@ -1,0 +1,24 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "The rewrite changes the reference to previous slides/lecture material into textbook prose stating that these states exist, which is an allowed stylistic adaptation."
+    },
+    {
+      "sourcePassage": "ulcerated cauliflower structure",
+      "reason": "The phrasing 'ulcerated cauliflower-like structure' accurately reflects the metaphorical description given by the lecturer."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "The rewrite translates the spoken recap 'as I said' into 'Of the screening methods discussed', preserving the comparative context."
+    },
+    {
+      "sourcePassage": "very, very high false positive rate",
+      "reason": "Compressing spoken repetition of intensifiers ('very, very') into a single 'very' is an allowed stylistic change."
+    }
+  ]
+}

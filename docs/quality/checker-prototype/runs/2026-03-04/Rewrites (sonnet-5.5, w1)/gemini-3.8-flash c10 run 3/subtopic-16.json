@@ -1,0 +1,24 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "The text refers to visual material shown previously to the audience; rephrasing this as 'The different pre-cancerous states are present' is an allowed stylistic adaptation of a lecture/audience remark."
+    },
+    {
+      "sourcePassage": "an ulcerated cauliflower structure, if you like",
+      "reason": "Rendered as 'an ulcerated cauliflower-like structure', which faithfully captures the figurative phrasing without changing the meaning."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "Rendered as 'Of the screening methods discussed, cervical screening is the best', which faithfully retains the comparative claim while adapting the colloquial spoken reminder."
+    },
+    {
+      "sourcePassage": "or there's some reason if you're showing symptoms",
+      "reason": "Rendered as 'or some other reason, such as the patient showing symptoms', which appropriately resolves the informal spoken syntax without distorting the meaning."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, everyone, shall we get started? Yes. You're very welcome, all of you, to Cancer Biology.",
+      "reason": "Omission of conversational greetings, filler, and direct address to the audience is allowed."
+    },
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there.",
+      "reason": "Replacing the lecturer's deictic reference to a slide ('listed there') with introductory phrasing ('are as follows') is an allowed adaptation of lecture remarks."
+    },
+    {
+      "sourcePassage": "tumor",
+      "reason": "Changing 'tumor' to 'tumour' is an allowed use of British English spelling."
+    }
+  ]
+}

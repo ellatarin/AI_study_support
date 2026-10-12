@@ -1,0 +1,20 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "This is a lecturer's remark about their own presentation/note to self, which is an allowed omission."
+    },
+    {
+      "sourcePassage": "or also this transcoelomic site from across a cavity",
+      "reason": "The rewrite phrases this as 'or by a transcoelomic route, across a cavity', maintaining the parallel structure established earlier in the sentence ('Primary tumours can spread by a number of routes') without altering the meaning."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here, and then you can often see sometimes the tumor cells are actually present within a lymphatic duct.",
+      "reason": "The pointing words and conversational phrasing are appropriately condensed into descriptive prose accompanied by a [FIGURE] mark without omitting substantive facts."
+    }
+  ]
+}

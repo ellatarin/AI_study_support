@@ -1,0 +1,27 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite states that the slice 'illustrates this', linking the figure to the preceding statement about biologists explanting the tumour, which is not stated in the source text.",
+      "sourcePassage": "So the other thing to appreciate is that when, if you like, biologists are studying tumors, often they will explant the tumor. Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "rewritePassage": "A slice through a tumour, with a stain to show the morphology, illustrates this [FIGURE]."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "This is a remark to the audience and dropped filler, which is an allowed omission."
+    },
+    {
+      "sourcePassage": "and other things",
+      "reason": "Rendered as 'and other components', which conveys the same meaning in this context."
+    },
+    {
+      "sourcePassage": "Primary cells really don't grow in culture.",
+      "reason": "The removal of the colloquial emphasis 'really' does not remove a scientific hedge, as the lecturer previously stated 'all of those cells will not grow'."
+    }
+  ]
+}

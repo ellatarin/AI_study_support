@@ -1,0 +1,23 @@
+{
+  "subtopicId": 7,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite converts the lecturer's pointing words ('the tumor is here. This is the outer surface of the uterus') into a specific spatial description ('lies next to') that the text does not state.",
+      "sourcePassage": "You can see that the tumor is here. This is the outer surface of the uterus.",
+      "rewritePassage": "The tumour lies next to the outer surface of the uterus"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "this is actually circumspect and very separate",
+      "reason": "The rewrite replaces 'circumspect' with the standard pathological term 'circumscribed'. This corrects an obvious mishearing or slip of the tongue and does not harm student learning."
+    },
+    {
+      "sourcePassage": "So you can see again that this is actually circumspect",
+      "reason": "The rewrite renders 'So you can see again' as 'therefore', which preserves the lecturer's inference that the separation during tissue preparation demonstrates the tumour's circumscribed boundary."
+    }
+  ]
+}

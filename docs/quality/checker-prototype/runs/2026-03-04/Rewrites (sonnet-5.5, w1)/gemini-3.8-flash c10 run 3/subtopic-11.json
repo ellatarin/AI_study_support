@@ -1,0 +1,31 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite states that 'the tumour occurs in a meningioma', treating a meningioma as an anatomical location where a tumour develops. A meningioma is itself a type of tumour (arising from the meninges). In the lecture, 'if they're occurring in things like the meningioma... or in the liver' referred to primary tumour deaths occurring in conditions such as meningioma, not a tumour growing inside a meningioma.",
+      "sourcePassage": "Only 10% of these deaths, generally, if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "rewritePassage": "when the tumour occurs in a meningioma"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Things like obstruction of the bile ducts in the liver interferes with digestion.",
+      "reason": "The introductory sentence 'Other effects depend on the site' is an editorial transition summarizing the site-specific examples that follow, linking back to the lecturer's earlier discussion of 'different settings in which they occur'."
+    },
+    {
+      "sourcePassage": "if tumors in bones lead to erosion of that bone function, so you can get fractures",
+      "reason": "Rewriting 'erosion of that bone function' as 'erosion of the bone' corrects a spoken slip of the tongue and aligns with the lecturer's subsequent mention of 'erosion of bones'."
+    },
+    {
+      "sourcePassage": "Also ulceration, you saw that enormous cauliflower structure within the colon.",
+      "reason": "Rendering 'you saw that enormous cauliflower structure within the colon' as 'the enormous cauliflower-like structure seen within the colon' appropriately adapts a spoken remark about a visual aid into textbook prose."
+    },
+    {
+      "sourcePassage": "And also this competition with the normal",
+      "reason": "Rewriting this as 'Competition with normal tissue is also a factor' clarifies the lecturer's phrasing without adding unsourced information."
+    }
+  ]
+}

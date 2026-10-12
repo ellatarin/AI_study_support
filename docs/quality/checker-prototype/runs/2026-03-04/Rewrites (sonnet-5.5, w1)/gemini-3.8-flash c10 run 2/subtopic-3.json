@@ -1,0 +1,33 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The term 'adolescence' was changed to 'differentiation'.",
+      "sourcePassage": "during adolescence and maturation, this occurs from infancy to adulthood.",
+      "rewritePassage": "differentiation and maturation also occur from infancy to adulthood."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "Two separate functions ('a signaling' and 'basis for their adherence') are conflated into 'a signalling basis', changing 'signaling' from a coordinate noun to a modifier of 'basis'.",
+      "sourcePassage": "provides a signaling and basis for their adherence to this layer.",
+      "rewritePassage": "provides a signalling basis for their adherence to this layer."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes.",
+      "reason": "The rewrite translates the deictic phrase 'here now' into 'In the image of the invasive tissue', which is supported by the context where the lecturer discusses the cells invading and growing within the stroma."
+    },
+    {
+      "sourcePassage": "which would be here into the invading stroma.",
+      "reason": "The rewrite uses 'invaded stroma' instead of 'invading stroma', which aligns with the lecturer's explicit statements that the epithelial cells invade the stroma."
+    },
+    {
+      "sourcePassage": "during embryogenesis, during the time that you were born.",
+      "reason": "The phrase 'during the time that you were born' is a spoken slip or false start correcting 'embryogenesis' and was appropriately omitted."
+    }
+  ]
+}

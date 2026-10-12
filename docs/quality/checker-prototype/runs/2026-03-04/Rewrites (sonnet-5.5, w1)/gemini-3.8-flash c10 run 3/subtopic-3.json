@@ -1,0 +1,33 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite changes the developmental period 'adolescence' to 'differentiation', distorting the original statement about when growth and maturation occur.",
+      "sourcePassage": "during adolescence and maturation, this occurs from infancy to adulthood.",
+      "rewritePassage": "differentiation and maturation also occur from infancy to adulthood."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite conflates two separate functions of the basement membrane (providing signalling, and providing a basis for adherence) into a single concept ('signalling basis'), converting the noun 'signaling' into an adjective modifying 'basis'.",
+      "sourcePassage": "provides a signaling and basis for their adherence to this layer.",
+      "rewritePassage": "provides a signalling basis for their adherence to this layer."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "which would be here into the invading stroma.",
+      "reason": "The rewrite writes 'into the invaded stroma' instead of 'into the invading stroma'. This corrects an oral slip of the tongue (the cancer cells invade the stroma, rather than the stroma invading) and does not distort the intended scientific meaning."
+    },
+    {
+      "sourcePassage": "during the time that you were born.",
+      "reason": "Omitted as an oral stumble or false start following 'during embryogenesis'."
+    },
+    {
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes.",
+      "reason": "The rewrite introduces this sentence with 'In the image of the invasive tissue', which functions as an allowed stylistic reference to the slide/figure being discussed."
+    }
+  ]
+}
