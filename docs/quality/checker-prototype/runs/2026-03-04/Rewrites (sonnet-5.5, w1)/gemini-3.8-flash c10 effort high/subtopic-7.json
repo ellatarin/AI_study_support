@@ -1,0 +1,47 @@
+{
+  "subtopicId": 7,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite turns the lecturer's pointing words ('the tumor is here. This is the outer surface of the uterus') into a spatial description ('The tumour lies next to the outer surface of the uterus') that is not stated in the text.",
+      "sourcePassage": "You can see that the tumor is here. This is the outer surface of the uterus.",
+      "rewritePassage": "The tumour lies next to the outer surface of the uterus"
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite uses 'therefore' to state a causal link between the processing artifact (fixation and staining causing separation) and the tumour being circumscribed. In the source text, 'So you can see again' indicates that the separation allows the observer to see the tumour's boundary, not that the processing caused it to be circumscribed.",
+      "sourcePassage": "So you can see again that this is actually circumspect and very separate from the surrounding stroma and the surrounding tissue.",
+      "rewritePassage": "The tumour is therefore circumscribed and very separate from the surrounding stroma and the surrounding tissue."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite replaces 'circumspect' with the medical term 'circumscribed'. Although 'circumscribed' is likely the intended term, no such correction was provided in the corrections list, and changing an unclear or misspoken word in the source text to a likely intended reading is a distortion.",
+      "sourcePassage": "circumspect",
+      "rewritePassage": "circumscribed"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Movable, and literally, you can scoop it out with no damage to the surrounding tissue.",
+      "reason": "The rewrite converts this colloquial phrasing into textbook passive voice ('the tumour is movable, and it can literally be scooped out with no damage to the surrounding tissue'), which is an allowed grammatical and stylistic change."
+    },
+    {
+      "sourcePassage": "and has, if you like, invaded within this tissue.",
+      "reason": "The rewrite renders 'if you like' as 'in a sense'. Both phrases serve the exact same hedging/qualifying function, which is an allowed change of wording."
+    },
+    {
+      "sourcePassage": "if it has invaded again into the surrounding tissues",
+      "reason": "The rewrite omits the word 'again' ('a tumour that has invaded the surrounding tissues'). In the spoken lecture, 'again' functioned as conversational repetition/filler rather than a claim of a repeated invasion event, so its omission is allowed."
+    },
+    {
+      "sourcePassage": "very often, for example, with breast cancers, you might sample the adjacent lymph node",
+      "reason": "The rewrite phrases this as 'as for example with breast cancers, the adjacent lymph node might be sampled'. While 'very often' is omitted, 'might be sampled' retains the illustrative nature and modality of the lecturer's clinical example without distorting the contrast between localized lymph node sampling and whole-body sampling."
+    },
+    {
+      "sourcePassage": "so it might be difficult to necessarily find all of the possible secondary tumors unless there is some other physical sign that you can detect.",
+      "reason": "The rewrite translates 'so' to 'therefore' and drops the conversational hedge 'necessarily'. The causal reasoning and meaning remain identical, which is an allowed change."
+    }
+  ]
+}

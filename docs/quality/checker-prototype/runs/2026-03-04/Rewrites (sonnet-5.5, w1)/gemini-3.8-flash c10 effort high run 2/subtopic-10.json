@@ -1,0 +1,24 @@
+{
+  "subtopicId": 10,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay? So just so that we're all on the same page in terms of nomenclature,",
+      "reason": "This is a conversational remark to the audience and was appropriately omitted as filler."
+    },
+    {
+      "sourcePassage": "plus oma",
+      "reason": "Describing '-oma' explicitly as a suffix matches the context and the later reference to suffixes in the text, so this is an allowed stylistic phrasing."
+    },
+    {
+      "sourcePassage": "So the fat, smooth muscle or papillomas in the skin, and adenomas, as we were talking about in the colon.",
+      "reason": "The text lists four tumour types followed by four corresponding tissues; explicitly pairing 'lipomas in fat' and 'leiomyomas in smooth muscle' accurately clarifies the parallel spoken list without introducing unsourced facts."
+    },
+    {
+      "sourcePassage": "So these are these different tumor types",
+      "reason": "This was a conversational transitional phrase and was omitted as spoken filler."
+    }
+  ]
+}

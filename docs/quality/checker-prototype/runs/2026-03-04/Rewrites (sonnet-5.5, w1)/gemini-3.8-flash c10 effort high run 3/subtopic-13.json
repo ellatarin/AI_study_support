@@ -1,0 +1,44 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "and of course, if you compare any two things, you're going to find differences",
+      "reason": "The rewrite renders this as 'although any comparison between two species will reveal differences'. In the context of comparing dogs and cats to humans, contextualising the colloquial truism 'any two things' to species is a faithful stylistic rephrasing that does not introduce an unsourced scientific fact or distort meaning."
+    },
+    {
+      "sourcePassage": "very, very prevalent",
+      "reason": "The rewrite shortens this to 'very prevalent'. Dropping the repetition of 'very' is permitted as an allowed change (dropping repetitions and spoken emphasis)."
+    },
+    {
+      "sourcePassage": "which is different from people",
+      "reason": "The rewrite rephrases this as 'which differs from the pattern in people'. Providing 'the pattern in' clarifies the conversational shorthand ('different from people') without choosing an alternate interpretation or adding unsourced facts."
+    },
+    {
+      "sourcePassage": "This is from injections proposed to be due to the adjuvant that is also added with the injection.",
+      "reason": "The rewrite states 'Such tumours arise from injections and are proposed to be due to the adjuvant that is added with the injection.' Generalising the lecturer's remark about feline injection site sarcoma to the tumour type is an accurate stylistic conversion into textbook prose."
+    },
+    {
+      "sourcePassage": "You'll be happy to hear he's doing fine now after his surgery.",
+      "reason": "The rewrite renders this as 'The cat is doing fine after surgery.' Dropping 'You'll be happy to hear' is an allowed change as it is a conversational remark to the audience."
+    },
+    {
+      "sourcePassage": "digestive tissues, hematopoietic, and skin are the three main categories in terms of where cancers arise",
+      "reason": "The rewrite writes 'digestive tissues, hematopoietic tissues and skin are the three main categories in terms of where cancers arise'. Supplying the elided noun 'tissues' after 'hematopoietic' is an allowed grammatical correction for parallel phrasing."
+    },
+    {
+      "sourcePassage": "And so it's pretty clear that, if you like, the molecular processes that are occurring are similar.",
+      "reason": "The rewrite renders this as 'It is therefore clear that the molecular processes occurring are similar.' Dropping 'if you like' is allowed as it is a conversational filler, and rendering 'pretty clear' as 'clear' maintains the lecturer's stated deductive conclusion without removing a substantive scientific hedge."
+    },
+    {
+      "sourcePassage": "The only thing that was quite interesting to note here is that the rate of malignant tumors is about fivefold higher in reptiles compared to mammals.",
+      "reason": "The rewrite expresses this as 'The one notable difference is that the rate of malignant tumours is about fivefold higher in reptiles than in mammals'. Following the discussion of cross-taxa similarities, describing the notable observation of a fivefold higher malignancy rate as 'The one notable difference' accurately conveys the lecture's contrast and rhetorical flow."
+    },
+    {
+      "sourcePassage": "any organism or any animal that has-- any organism, rather, that is multicellular and has a differentiation program",
+      "reason": "The rewrite renders this cleanly as 'any multicellular organism with a differentiation program'. Omitting 'or any animal that has-- any organism, rather' is allowed as it eliminates a spoken false start and self-correction."
+    }
+  ]
+}

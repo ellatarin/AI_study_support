@@ -1,0 +1,40 @@
+{
+  "lecture": "2026-03-04",
+  "rewrites": "Rewrites (sonnet-5.5, w1)",
+  "modelId": "google/gemini-3.8-flash",
+  "checkerPromptVersion": "c10",
+  "commands": [
+    {
+      "startedAt": "2026-10-12T15:31:56.571Z",
+      "seconds": 650,
+      "subtopicsChecked": 17,
+      "cost": {
+        "promptTokens": 48699,
+        "completionTokens": 343470,
+        "callCount": 20,
+        "costUsd": 1.26775425
+      },
+      "unusableReplies": [
+        {
+          "subtopicId": 8,
+          "send": 1,
+          "reason": "empty",
+          "replyText": ""
+        },
+        {
+          "subtopicId": 7,
+          "send": 1,
+          "reason": "empty",
+          "replyText": ""
+        },
+        {
+          "subtopicId": 8,
+          "send": 2,
+          "reason": "empty",
+          "replyText": ""
+        }
+      ],
+      "failedSubtopics": []
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The text lists examples of epigenetic changes ('to the methylation status of a promoter, to the expression of things like microRNAs, to the acetylation or deacetylation, the state of the transcription within the cell itself'). The rewrite inserts 'that is', adding an unsourced link that equates or defines acetylation and deacetylation as being the state of transcription within the cell itself.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "In the text, the pronoun 'they' specifies that the cancer-precipitating human viruses can also predispose to chronic inflammatory events. The rewrite substitutes 'infection', which widens the cause from these specific viruses to infection in general.",
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events that can also help to give rise to cancer.",
+      "rewritePassage": "There are about seven different human viruses that precipitate cancer, and infection can also predispose to chronic inflammatory events, which can also help to give rise to cancer."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "The idea that a normal cell, starting off here, acquires a mutation, and maybe a second mutation, and it becomes slightly abnormal. And then adds another mutation, becoming slightly more abnormal on this journey towards a malignancy.",
+      "reason": "The rewrite removes spoken pointing phrasing ('starting off here') and replaces the reference to the cartoon with a [FIGURE] mark and standard textbook phrasing, which is an allowed change."
+    },
+    {
+      "sourcePassage": "So I've just made this kind of a much simpler diagram, if you like. Simplicity can help frame our thinking, but it will also end up losing a lot of details. So, as I said, you start off with a normal cell, and a bunch of mutations happen over time, and you go from normal to malignant.",
+      "reason": "The rewrite condenses the lecturer's remarks about the simpler diagram and inserts a [FIGURE] mark while accurately preserving the conceptual content."
+    },
+    {
+      "sourcePassage": "So there's a lot of changes that occur, and as I said, we don't know pretty much because of this when they occur.",
+      "reason": "The use of 'therefore' in 'Many changes therefore occur' reflects the lecturer's summarizing 'So' following the review of genetic, epigenetic, and viral changes, and dropping 'as I said' is allowed as conversational repetition."
+    }
+  ]
+}

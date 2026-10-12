@@ -56,16 +56,18 @@ export function rewritesRunsFolder({
 /**
  * Gives the folder of one run: one model with one prompt version, named by the
  * model's short name and the version, such as "gemini-3.8-flash c3". A check by
- * paragraph adds "by paragraph", and a repeat run adds its number, such as
- * "gemini-3.8-flash c3 by paragraph run 2".
+ * paragraph adds "by paragraph", a set reasoning effort adds "effort" and the
+ * effort, and a repeat run adds its number, such as
+ * "gemini-3.8-flash c3 by paragraph effort high run 2".
  *
- * @param args - The lecture, the rewrites folder, the model, the version, the run number and the unit of the check.
+ * @param args - The lecture, the rewrites folder, the model, the version, the run number, the unit of the check and the reasoning effort.
  * @param args.lecture - The date of the lecture.
  * @param args.rewrites - The name of the rewrites folder.
  * @param args.modelId - The OpenRouter model id, such as "google/gemini-3.8-flash".
  * @param args.version - The prompt version, such as "c3".
  * @param args.runNumber - The number of the run of this model and version, from 1.
  * @param args.byParagraph - Whether the checker gets one part of a subtopic at a time.
+ * @param args.effort - The reasoning effort that each call asks for, or null for the model's default.
  * @returns The absolute path.
  */
 export function checkRunFolder({
@@ -73,6 +75,7 @@ export function checkRunFolder({
 	version,
 	runNumber,
 	byParagraph,
+	effort,
 	...rewritesFolder
 }: {
 	readonly lecture: string;
@@ -81,12 +84,14 @@ export function checkRunFolder({
 	readonly version: string;
 	readonly runNumber: number;
 	readonly byParagraph: boolean;
+	readonly effort: string | null;
 }): string {
 	const unit = byParagraph ? " by paragraph" : "";
+	const setEffort = effort === null ? "" : ` effort ${effort}`;
 	const repeat = runNumber === 1 ? "" : ` run ${runNumber}`;
 	return join(
 		rewritesRunsFolder(rewritesFolder),
-		`${modelId.split("/").pop() ?? modelId} ${version}${unit}${repeat}`,
+		`${modelId.split("/").pop() ?? modelId} ${version}${unit}${setEffort}${repeat}`,
 	);
 }
 

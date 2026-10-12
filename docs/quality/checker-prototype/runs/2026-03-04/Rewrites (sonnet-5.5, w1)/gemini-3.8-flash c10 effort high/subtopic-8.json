@@ -1,0 +1,39 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite replaces the lecturer's pointing word 'this' with the specific noun 'Invasion'. The source text does not state that invasion is an obligatory step, nor does it establish that 'this' refers specifically to invasion rather than to local stromal invasion or the development of secondary metastases.",
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "rewritePassage": "Invasion is therefore probably an obligatory step in arriving at a malignant, metastasising tumour."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "The rewrite resolves the pronoun 'it' to 'malignancy'. Because the definition given ('the ability to invade the surrounding tissue') semantically defines malignancy rather than the physical act of invasion itself, resolving 'it' to malignancy is valid disambiguation of a pronoun rather than an unsourced addition or distortion."
+    },
+    {
+      "sourcePassage": "Obviously, again, you're limited into where you're biopsying and what that looks like.",
+      "reason": "The clause 'and what that looks like' is informal conversational filler characteristic of the lecturer's speech throughout the lecture, rather than a distinct diagnostic fact omitted from the statement about biopsy limitations."
+    },
+    {
+      "sourcePassage": "But the question is, of course, you would then be interested in figuring out whether or not there would be secondary metastases across the body.",
+      "reason": "This rhetorical remark was immediately abandoned by the lecturer to return to microscopic examination of the tissue slide ('So, if you look microscopically...'). Its omission represents dropped false-start phrasing and audience address, which is permitted."
+    },
+    {
+      "sourcePassage": "You'll see that over here you have the adenoma which has progressed into an adenocarcinoma. So one is growing out of the other.",
+      "reason": "The rewrite replaces 'over here' with 'Elsewhere in the same lesion'. The surrounding context explicitly indicates that a single sliced polyp is being examined, showing an adenocarcinoma component developing out of the adenoma, so the description is fully grounded in the text."
+    },
+    {
+      "sourcePassage": "muscularis mucosa",
+      "reason": "The term was corrected to 'muscularis mucosae' in accordance with the term corrections provided."
+    },
+    {
+      "sourcePassage": "So, however, by the time you get secondary metastases in other sites, it's actually quite rare for a tumor to go from this state to having metastases all over the body, and that is probably you've missed something in terms of the sampling.",
+      "reason": "The rewrite paraphrases 'by the time' as 'Once' and preserves 'this state', mirroring the lecturer's original formulation without altering the causal or factual claims."
+    }
+  ]
+}

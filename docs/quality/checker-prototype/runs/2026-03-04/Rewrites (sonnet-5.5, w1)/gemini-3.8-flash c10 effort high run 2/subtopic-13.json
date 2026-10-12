@@ -1,0 +1,40 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Just a slide about the incidence in companion animals since I found this slide some time ago, which is to say that in dogs and cats, they very much get similar tumors to us",
+      "reason": "The lecturer's comment about finding the slide some time ago is personal meta-talk and an allowed omission. The phrase 'incidence in companion animals' is explicitly glossed by the lecturer as referring to dogs and cats, which the rewrite retains."
+    },
+    {
+      "sourcePassage": "and of course, if you compare any two things, you're going to find differences.",
+      "reason": "The rewrite renders this as 'although any comparison between two species will reveal differences.' In context, the lecturer is comparing tumour types across species (dogs, cats, and humans). Adapting the informal colloquial phrase 'any two things' to 'two species' is a stylistic adjustment to textbook prose that does not distort the meaning or cause issues for student learning."
+    },
+    {
+      "sourcePassage": "which is different from people.",
+      "reason": "The rewrite states 'which differs from the pattern in people.' Specifying 'pattern' clarifies that the difference lies in the distribution and prevalence of tumour types discussed in the sentence, which is fully supported by the text."
+    },
+    {
+      "sourcePassage": "This is from injections proposed to be due to the adjuvant that is also added with the injection.",
+      "reason": "The rewrite phrases this as 'Such tumours arise from injections and are proposed to be due to the adjuvant that is added with the injection.' This accurately conveys the origin and proposed cause of feline injection site sarcomas while removing the repetitive 'also'."
+    },
+    {
+      "sourcePassage": "You'll be happy to hear he's doing fine now after his surgery.",
+      "reason": "The conversational remark to the audience ('You'll be happy to hear') is dropped as an allowed change, while the substantive update ('The cat is doing fine after surgery') is preserved."
+    },
+    {
+      "sourcePassage": "And so it's pretty clear that, if you like, the molecular processes that are occurring are similar.",
+      "reason": "The rewrite renders this as 'It is therefore clear that the molecular processes occurring are similar.' The expressions 'pretty' and 'if you like' function here as conversational spoken qualifiers rather than formal scientific hedges. Converting this to 'It is therefore clear' faithfully reflects the lecturer's inference without misrepresenting the claim."
+    },
+    {
+      "sourcePassage": "The only thing that was quite interesting to note here is that the rate of malignant tumors is about fivefold higher in reptiles compared to mammals.",
+      "reason": "The rewrite writes 'The one notable difference is that the rate of malignant tumours is about fivefold higher in reptiles than in mammals'. A fivefold difference in malignancy rate between reptiles and mammals is inherently a difference, and 'quite interesting to note' directly matches 'notable'."
+    },
+    {
+      "sourcePassage": "any organism, rather, that is multicellular and has a differentiation program can end up with a problem in differentiation, and end up with a tumor and with that disease.",
+      "reason": "The rewrite renders this as 'any multicellular organism with a differentiation program can end up with a problem in differentiation, and so with a tumour and with that disease.' The insertion of 'and so' reflects the lecturer's explicit thesis that cancer is a disease of differentiation."
+    }
+  ]
+}

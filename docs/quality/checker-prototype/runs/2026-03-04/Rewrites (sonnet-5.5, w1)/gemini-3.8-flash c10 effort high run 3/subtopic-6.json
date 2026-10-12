@@ -1,0 +1,41 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The text refers to spread via 'this transcoelomic site', but the rewrite alters the term 'site' to 'route'.",
+      "sourcePassage": "or also this transcoelomic site from across a cavity",
+      "rewritePassage": "or by a transcoelomic route, across a cavity"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The hedge 'I think' was removed from the lecturer's scientific claim that ovarian cancer frequently metastasizes via this mechanism, making the statement fully definitive.",
+      "sourcePassage": "And I think one of the tumors that does this quite frequently is ovarian cancer, for example.",
+      "rewritePassage": "One tumour that does this quite frequently is ovarian cancer, for example."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "This is an aside/joke/remark to the audience about the speaker's own habits, which is an allowed omission."
+    },
+    {
+      "sourcePassage": "Right. So obviously most of the death that occurs with cancer is when tumors start to metastasize and spread around the body. Right?",
+      "reason": "Dropping conversational filler such as 'Right' and 'obviously' is an allowed change."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here, and then you can often see sometimes the tumor cells are actually present within a lymphatic duct.",
+      "reason": "The pointing phrase 'You see your tumor cells are here' during the microscope slide presentation was omitted while the essential histological observation of tumor cells within a lymphatic duct was retained."
+    },
+    {
+      "sourcePassage": "So, for example, this tumor cell has the appearance of an adenomatous tumor or glandular tumor.",
+      "reason": "Rephrasing the demonstrative reference to a specific slide ('this tumor cell has') into a generalised textbook example ('a tumour cell may have') is an acceptable stylistic adaptation accompanied by a [FIGURE] marker."
+    },
+    {
+      "sourcePassage": "Similarly, here you have a brain, and what you have here is a breast cancer that's metastasized to the brain.",
+      "reason": "The rewrite successfully captures the substantive content (breast cancer metastasizing to the brain) while dropping conversational pointing words ('here you have')."
+    }
+  ]
+}

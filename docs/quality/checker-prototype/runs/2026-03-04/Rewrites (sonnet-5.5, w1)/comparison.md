@@ -5,8 +5,14 @@
 | gemini-3.1-pro-preview c3 | 4 | 3 | 17 | 2 of 7 | $0.68 |
 | gemini-3.1-pro-preview c4 | 57 | 14 | 17 | 6 of 7 | $1.48 |
 | gemini-3.8-flash c10 | 13 | 8 | 17 | 6 of 7 | $0.35 |
+| gemini-3.8-flash c10 effort high | 14 | 9 | 17 | 5 of 7 | $1.35 |
+| gemini-3.8-flash c10 effort high run 2 | 14 | 9 | 17 | 6 of 7 | $1.35 |
+| gemini-3.8-flash c10 effort high run 3 | 14 | 10 | 17 | 6 of 7 | $1.27 |
 | gemini-3.8-flash c10 run 2 | 13 | 9 | 17 | 6 of 7 | $0.30 |
 | gemini-3.8-flash c10 run 3 | 12 | 9 | 17 | 6 of 7 | $0.38 |
+| gemini-3.8-flash c11 | 10 | 7 | 17 | 5 of 7 | $0.32 |
+| gemini-3.8-flash c11 run 2 | 10 | 8 | 17 | 5 of 7 | $0.40 |
+| gemini-3.8-flash c11 run 3 | 7 | 7 | 17 | 4 of 7 | $0.29 |
 | gemini-3.8-flash c3 | 2 | 2 | 17 | 1 of 7 | $0.12 |
 | gemini-3.8-flash c4 | 20 | 10 | 17 | 5 of 7 | $0.32 |
 | gemini-3.8-flash c4 by paragraph | 55 | 15 | 17 | 5 of 7 | $0.70 |
@@ -39,15 +45,15 @@
 
 ## Faults that matter
 
-| Fault | gemini-3.1-pro-preview c3 | gemini-3.1-pro-preview c4 | gemini-3.8-flash c10 | gemini-3.8-flash c10 run 2 | gemini-3.8-flash c10 run 3 | gemini-3.8-flash c3 | gemini-3.8-flash c4 | gemini-3.8-flash c4 by paragraph | gemini-3.8-flash c4 by paragraph run 2 | gemini-3.8-flash c4 by paragraph run 3 | gemini-3.8-flash c4 run 2 | gemini-3.8-flash c4 run 3 | gemini-3.8-flash c5 | gemini-3.8-flash c5 run 2 | gemini-3.8-flash c5 run 3 | gemini-3.8-flash c6 | gemini-3.8-flash c6 run 2 | gemini-3.8-flash c6 run 3 | gemini-3.8-flash c7 | gemini-3.8-flash c7 run 2 | gemini-3.8-flash c7 run 3 | gemini-3.8-flash c8 | gemini-3.8-flash c8 run 2 | gemini-3.8-flash c8 run 3 | gemini-3.8-flash c9 | gemini-3.8-flash c9 run 2 | gemini-3.8-flash c9 run 3 | gpt-5.6-sol-pro c3 | gemini-3.1-pro, c2 (pipeline) | gemini-3.8-flash, c2 (pipeline) | gemini-3.8-flash, c3 (pipeline) | sol-pro, c2 (pipeline) | sonnet-5.5, c2 (pipeline) | terra-pro, c2 (pipeline) |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 2.1 | no | yes | yes | yes | yes | no | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | no | no | no | yes | no | no |
-| 2.2 | no | yes | yes | yes | yes | no | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | no | no | yes | yes | yes | no | yes | yes | yes | no | no | yes | no | yes |
-| 3.4 | no | yes | yes | yes | yes | no | no | yes | yes | yes | no | no | no | no | no | no | no | yes | no | no | no | yes | yes | yes | no | no | no | no | yes | yes | no | yes | no | no |
-| 7.1 | yes | yes | yes | yes | yes | no | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | no | yes | yes | no | yes | no | yes |
-| 15.1 | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | yes | no | yes |
-| 11.A | yes | yes | yes | yes | yes | yes | yes | no | no | no | yes | yes | no | no | no | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | no | yes | no | no | no | no | no |
-| 4.A | no | yes | yes | yes | yes | no | yes | yes | yes | yes | yes | yes | yes | no | yes | no | no | yes | no | no | no | no | no | no | no | yes | yes | no | no | no | no | no | no | no |
+| Fault | gemini-3.1-pro-preview c3 | gemini-3.1-pro-preview c4 | gemini-3.8-flash c10 | gemini-3.8-flash c10 effort high | gemini-3.8-flash c10 effort high run 2 | gemini-3.8-flash c10 effort high run 3 | gemini-3.8-flash c10 run 2 | gemini-3.8-flash c10 run 3 | gemini-3.8-flash c11 | gemini-3.8-flash c11 run 2 | gemini-3.8-flash c11 run 3 | gemini-3.8-flash c3 | gemini-3.8-flash c4 | gemini-3.8-flash c4 by paragraph | gemini-3.8-flash c4 by paragraph run 2 | gemini-3.8-flash c4 by paragraph run 3 | gemini-3.8-flash c4 run 2 | gemini-3.8-flash c4 run 3 | gemini-3.8-flash c5 | gemini-3.8-flash c5 run 2 | gemini-3.8-flash c5 run 3 | gemini-3.8-flash c6 | gemini-3.8-flash c6 run 2 | gemini-3.8-flash c6 run 3 | gemini-3.8-flash c7 | gemini-3.8-flash c7 run 2 | gemini-3.8-flash c7 run 3 | gemini-3.8-flash c8 | gemini-3.8-flash c8 run 2 | gemini-3.8-flash c8 run 3 | gemini-3.8-flash c9 | gemini-3.8-flash c9 run 2 | gemini-3.8-flash c9 run 3 | gpt-5.6-sol-pro c3 | gemini-3.1-pro, c2 (pipeline) | gemini-3.8-flash, c2 (pipeline) | gemini-3.8-flash, c3 (pipeline) | sol-pro, c2 (pipeline) | sonnet-5.5, c2 (pipeline) | terra-pro, c2 (pipeline) |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2.1 | no | yes | yes | yes | yes | yes | yes | yes | yes | yes | no | no | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | no | no | no | yes | no | no |
+| 2.2 | no | yes | yes | yes | yes | yes | yes | yes | no | yes | no | no | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | no | no | yes | yes | yes | no | yes | yes | yes | no | no | yes | no | yes |
+| 3.4 | no | yes | yes | yes | yes | yes | yes | yes | no | no | no | no | no | yes | yes | yes | no | no | no | no | no | no | no | yes | no | no | no | yes | yes | yes | no | no | no | no | yes | yes | no | yes | no | no |
+| 7.1 | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | no | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | no | yes | yes | no | yes | no | yes |
+| 15.1 | no | no | no | no | no | no | no | no | yes | yes | yes | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | yes | no | yes |
+| 11.A | yes | yes | yes | yes | yes | yes | yes | yes | yes | no | yes | yes | yes | no | no | no | yes | yes | no | no | no | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | no | yes | no | no | no | no | no |
+| 4.A | no | yes | yes | no | yes | yes | yes | yes | yes | yes | yes | no | yes | yes | yes | yes | yes | yes | yes | no | yes | no | no | yes | no | no | no | no | no | no | no | yes | yes | no | no | no | no | no | no | no |
 
 ## Faults outside the key
 
@@ -63,6 +69,22 @@
 
 
 
+### gemini-3.8-flash c10 effort high: 1 fault outside the key
+
+- **6**, distortion: The lecturer refers to 'this transcoelomic site', but the rewrite alters the term to 'a transcoelomic route'. Even though 'route' fits the list of routes of spread, resolving an unclear or misspeaking statement to its likely reading is forbidden.
+  - Source: this transcoelomic site
+  - Rewrite: a transcoelomic route
+
+### gemini-3.8-flash c10 effort high run 2: 1 fault outside the key
+
+- **7**, distortion: The lecturer pointed to a specific structure ('This is normally a very thin muscle wall that is present in the uterus'), whereas the rewrite turns this into a relative clause attributing a very thin muscle wall to the uterus (or its outer surface), distorting the lecturer's statement into an incorrect general anatomical claim.
+  - Source: This is normally a very thin muscle wall that is present in the uterus.
+  - Rewrite: which normally has a very thin muscle wall
+
+### gemini-3.8-flash c10 effort high run 3: 0 faults outside the key
+
+
+
 ### gemini-3.8-flash c10 run 2: 0 faults outside the key
 
 
@@ -72,6 +94,18 @@
 - **4**, distortion: In the text, the surprise was that HeLa cells successfully grew in culture ('did that'), because primary cells do not grow in culture. The rewrite omits 'did that' and uses 'and so', changing the cause of the surprise to the fact that HeLa cells were the first tumour cells to grow in culture.
   - Source: So when HeLa cells, which were the first tumor cells to grow in culture, did that, this was very much a surprise.
   - Rewrite: HeLa cells were the first tumour cells to grow in culture, and so this was very much a surprise.
+
+### gemini-3.8-flash c11: 0 faults outside the key
+
+
+
+### gemini-3.8-flash c11 run 2: 0 faults outside the key
+
+
+
+### gemini-3.8-flash c11 run 3: 0 faults outside the key
+
+
 
 ### gemini-3.8-flash c3: 0 faults outside the key
 

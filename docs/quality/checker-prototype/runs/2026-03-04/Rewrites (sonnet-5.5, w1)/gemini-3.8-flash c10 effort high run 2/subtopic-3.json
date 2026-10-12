@@ -1,0 +1,41 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The text states that development and differentiation occur 'during adolescence and maturation' from infancy to adulthood, but the rewrite replaces the developmental stage 'adolescence' with 'differentiation' ('differentiation and maturation'), omitting adolescence and distorting the statement.",
+      "sourcePassage": "obviously during adolescence and maturation, this occurs from infancy to adulthood.",
+      "rewritePassage": "differentiation and maturation also occur from infancy to adulthood."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite conflates two separate functions of the basement membrane—providing signaling and providing a basis for adherence—into 'a signalling basis for their adherence', turning the noun 'signaling' into an adjective modifying 'basis'.",
+      "sourcePassage": "provides a signaling and basis for their adherence to this layer.",
+      "rewritePassage": "provides a signalling basis for their adherence to this layer."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "during embryogenesis, during the time that you were born.",
+      "reason": "The clause 'during the time that you were born' was omitted because embryogenesis occurs prior to birth, making this a spoken slip or false start that is allowed to be dropped."
+    },
+    {
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes. They have come in, they have lost this architecture, moved over the basement membrane and invaded and are growing within the stroma.",
+      "reason": "The rewrite replaces the deictic phrase 'here now' with 'In the image of the invasive tissue'. This description is verified by the surrounding text, which explicitly discusses the cells invading and growing within the stroma."
+    },
+    {
+      "sourcePassage": "They have the nucleus on the layer towards the lumen, so they're apical basal regulation in terms of the orientation of those cells within the tissue.",
+      "reason": "The rewrite faithfully retains the lecturer's stated claim regarding the luminal position of the nuclei, while smoothing the spoken syntax ('so they're apical basal regulation' to 'which reflects apical-basal regulation'), which is permitted under style and grammar."
+    },
+    {
+      "sourcePassage": "Whoops. I'll just skip forward here to say that the basement membrane, I've kind of written here, basement membrane, because when you're looking via histology, it is something very small to see.",
+      "reason": "The lecturer's remark ('Whoops. I'll just skip forward here...') is a navigational aside to the audience that is allowed to be dropped."
+    },
+    {
+      "sourcePassage": "which would be here into the invading stroma.",
+      "reason": "The rewrite changes 'invading stroma' to 'invaded stroma'. Because the epithelial cancer cells are invading the stroma (making the stroma the recipient of invasion), this change corrects the grammatical voice of the participle to fit textbook prose without altering the intended biological meaning."
+    }
+  ]
+}

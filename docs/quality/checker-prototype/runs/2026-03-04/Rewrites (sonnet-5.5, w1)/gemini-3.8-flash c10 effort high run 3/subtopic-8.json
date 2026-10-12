@@ -1,0 +1,35 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The text states 'So this is probably an obligatory step in getting to having a malignant metastasizing tumor', which is unclear as to what 'this' refers to in context (e.g. having secondary metastases in other sites, or invasion). The rewrite makes this unclear statement complete and specific by asserting that 'Invasion' is the obligatory step, choosing one interpretation when the text does not establish it.",
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "rewritePassage": "Invasion is therefore probably an obligatory step in arriving at a malignant, metastasising tumour."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "But the question is, of course, you would then be interested in figuring out whether or not there would be secondary metastases across the body.",
+      "reason": "The lecturer immediately pivots from this question to look microscopically at the muscle, returning to discuss metastases in subsequent paragraphs. Dropping this rhetorical question at this specific point is allowed as dropped filler/false start."
+    },
+    {
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "The lecturer had earlier explicitly defined invasion ('remember I told you that invasion was getting through that basement membrane'), so resolving 'it' to 'malignancy' (defined as the ability to invade surrounding tissue) correctly identifies the intended referent rather than adding an unsourced definition."
+    },
+    {
+      "sourcePassage": "Obviously, again, you're limited into where you're biopsying and what that looks like.",
+      "reason": "Rendering this as 'The diagnosis is limited by where the biopsy is taken' captures the substantive point while omitting conversational phrasing ('and what that looks like')."
+    },
+    {
+      "sourcePassage": "The submucosa is here, and you'll see that there isn't any invasion that has occurred.",
+      "reason": "Writing that 'the submucosa lies beneath it' uses anatomical relationships explicitly established earlier in the lecture ('the muscularis mucosa, which would be the... thin line of musculature that occurs underneath the epithelium. And then you have under here the submucosa')."
+    },
+    {
+      "sourcePassage": "the malignant part of this tumor that has arisen here, which you've again diagnosed by looking at the invasion here into the musculature and here past the muscularis mucosa. You'll see that over here you have the adenoma which has progressed into an adenocarcinoma. So one is growing out of the other.",
+      "reason": "Describing 'over here' as 'Elsewhere in the same lesion' accurately reflects the lecturer's explanation that the adenoma and adenocarcinoma components are part of the same tumor ('one is growing out of the other')."
+    }
+  ]
+}

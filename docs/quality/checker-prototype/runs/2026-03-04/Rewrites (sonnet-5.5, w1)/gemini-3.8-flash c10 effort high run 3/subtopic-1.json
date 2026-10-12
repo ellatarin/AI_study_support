@@ -1,0 +1,32 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, everyone, shall we get started? Yes. You're very welcome, all of you, to Cancer Biology.",
+      "reason": "The informal greeting, conversational filler, and welcome to the audience were adapted into standard academic prose ('This course is Cancer Biology...'), which is permitted under allowed changes."
+    },
+    {
+      "sourcePassage": "Actually, when you tell people that you're working on cancer, they're all incredibly grateful for you for taking on such a difficult disease because it has such an impact.",
+      "reason": "The second occurrence of 'because it has such an impact' was omitted in the rewrite because it directly repeats the point made in the preceding sentence ('because of obviously the impact that cancer has on society'); dropping repetitions is an allowed change."
+    },
+    {
+      "sourcePassage": "Right. So I tag-teamed these lectures with Professor Turner, and so she will also be teaching three of these lectures.",
+      "reason": "The rewrite states 'The lectures are shared with Professor Turner, who teaches three of the six.' The number six is directly established by the lecturer in the preceding sentence ('these next six lectures'), so specifying 'three of the six' is fully supported."
+    },
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there.",
+      "reason": "The rewrite renders this as 'The learning outcomes for this lecture are as follows.' Replacing the pointing reference 'listed there' with 'as follows' is faithful because the lecturer immediately proceeds to state the learning outcomes aloud."
+    },
+    {
+      "sourcePassage": "So you're going to be comparing the differences between benign and malignant tumors",
+      "reason": "The rewrite renders this as 'This involves comparing benign and malignant tumours.' In context, 'So' links the comparison of benign and malignant tumours to the preceding goal of recognizing invasion and metastasis, so framing it as an involved activity is a faithful paraphrase."
+    },
+    {
+      "sourcePassage": "And then for today, especially from a clinical point of view, we're going to explain why detection works in different subtypes of tumors.",
+      "reason": "The rewrite writes 'Finally, from a clinical point of view, the lecture explains why detection works in different subtypes of tumours.' Using 'Finally' to conclude the sequence of lecture goals and omitting the conversational emphasis 'especially' are permitted stylistic choices that do not affect the subject matter."
+    }
+  ]
+}

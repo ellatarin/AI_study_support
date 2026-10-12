@@ -16,6 +16,7 @@ pnpm exec tsx docs/quality/checker-prototype/check-trial.mts \
 - Each pair of model and version writes to `runs/<lecture>/<rewrites folder>/<model> <version>/`. The folder holds one `subtopic-<id>.json` for each subtopic and a `run.json`. The `run.json` records each command with its cost, its time and each unusable reply with its text.
 - `--runs` gives the run numbers, such as `2,3`, and is 1 when it is not given. A repeat run writes to its own folder, such as `<model> <version> run 2/`, so that the variation from run to run can be measured.
 - `--unit paragraph` sends one part of a subtopic at a time, in place of the whole subtopic. The parts come from the cuts file `splits/<lecture>/<rewrites folder>.json`, which gives for each part its rewrite paragraphs and the words where it starts in the text. The results of a subtopic's parts are saved together in one file, and the run folder adds "by paragraph", such as `<model> <version> by paragraph run 2/`.
+- `--effort low`, `medium` or `high` asks the model for that reasoning effort, through OpenRouter's `reasoning` field. The pipeline's model call has no such setting, so the script adds the field to each request. The run folder adds "effort" and the effort, such as `<model> <version> effort high run 2/`.
 - A subtopic with a saved result is not sent again. To finish a run that failed part of the way, give the same command again.
 
 ## Compare the checks

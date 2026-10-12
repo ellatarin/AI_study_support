@@ -1,0 +1,31 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite turns the lecturer's pointing word ('here') into an unsourced spatial description ('and the cervix is seen alongside it'). The lecturer did not state that the cervix is seen alongside the endocervical canal, nor does the text show this description to be correct.",
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "rewritePassage": "and the cervix is seen alongside it"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "The uterus is here in this diagram, and as you know, it hangs down into the vaginal canal.",
+      "reason": "The rewrite states 'as shown in the diagram', which faithfully preserves the lecturer's statement that the uterus is present in the diagram."
+    },
+    {
+      "sourcePassage": "what you're looking at here, here is the endocervical canal that it goes between the neck of the womb.",
+      "reason": "'Runs through the neck of the womb' is an acceptable stylistic rendering of 'goes between the neck of the womb'."
+    },
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here",
+      "reason": "Omitting the lecturer pointing out specific individual cells on the slide is an allowed change, as it is a conversational demonstration of the general fact that mitotic cells occur at the basement layer, which is retained."
+    },
+    {
+      "sourcePassage": "so you can get the columnar epithelium transitioning into something that looks more like a squamous cell type.",
+      "reason": "The rewrite's use of 'thus' represents the same consequential link denoted by 'so' in the spoken text."
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The lecturer says 'So this is probably an obligatory step in getting to having a malignant metastasizing tumor', where 'this' refers back to the preceding discussion (which mentions secondary metastases in other sites as well as invasion). The rewrite turns the demonstrative 'this' into the specific description 'Invasion' ('Invasion is therefore probably an obligatory step...'), resolving an unclear antecedent and introducing a claim that the text does not explicitly establish.",
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "rewritePassage": "Invasion is therefore probably an obligatory step in arriving at a malignant, metastasising tumour."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "The singular pronoun 'it' in 'it's defined as' is resolved in the rewrite to 'malignancy'. Given that the lecturer had already defined invasion earlier as penetration through the basement membrane, and malignancy is standardly defined pathologically by tissue invasiveness, resolving 'it' to malignancy follows the context and syntax and is not considered a distortion."
+    },
+    {
+      "sourcePassage": "But the question is, of course, you would then be interested in figuring out whether or not there would be secondary metastases across the body.",
+      "reason": "This rhetorical transition is dropped where it occurs because the lecturer immediately refocuses on microscopic tissue features; the subject of secondary metastasis is fully explored in the following paragraphs, making this an allowed omission of a conversational aside."
+    },
+    {
+      "sourcePassage": "Obviously, again, you're limited into where you're biopsying and what that looks like.",
+      "reason": "The rewrite renders this as 'The diagnosis is limited by where the biopsy is taken', which faithfully captures the meaning in the context of diagnostic histopathology."
+    },
+    {
+      "sourcePassage": "You wouldn't necessarily be able to say anything on two words about either of these. They both look like little cauliflowers that are sticking out into the lumen.",
+      "reason": "The informal spoken phrase 'on two words' is rendered as 'from their appearance', which is an allowed stylistic translation that preserves the intended meaning."
+    },
+    {
+      "sourcePassage": "You'll see that over here you have the adenoma which has progressed into an adenocarcinoma. So one is growing out of the other.",
+      "reason": "The rewrite renders the spoken deictic phrase 'over here' as 'Elsewhere in the same lesion'. The surrounding context clearly indicates that the lecturer is pointing to another region of the same excised polyp where residual adenoma is seen adjacent to adenocarcinoma."
+    }
+  ]
+}

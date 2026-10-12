@@ -1,0 +1,28 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, everyone, shall we get started? Yes. You're very welcome, all of you, to Cancer Biology.",
+      "reason": "This is a conversational opening greeting and remark to the audience, which is permitted to be dropped or condensed into the subject introduction."
+    },
+    {
+      "sourcePassage": "So I tag-teamed these lectures with Professor Turner, and so she will also be teaching three of these lectures.",
+      "reason": "Rendered as 'The lectures are shared with Professor Turner, who teaches three of the six', accurately reflecting the tag-team arrangement across the six lectures established previously."
+    },
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there.",
+      "reason": "Rendered as 'The learning outcomes for this lecture are as follows', appropriately converting the lecturer's spoken reference to a slide/list into textbook prose without adding unsourced information."
+    },
+    {
+      "sourcePassage": "so that you can actually answer that question when people ask you.",
+      "reason": "The text alternates between 'their next question is' and multiple questions, so the rewrite's phrasing 'answer these questions' is an accurate and natural reflection of the source meaning."
+    },
+    {
+      "sourcePassage": "tumor",
+      "reason": "Changed to the British English spelling 'tumour', which is explicitly permitted under allowed changes."
+    }
+  ]
+}

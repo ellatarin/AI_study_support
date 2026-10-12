@@ -1,0 +1,36 @@
+{
+  "subtopicId": 9,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So some benign tumors become malignant, but they don't all become malignant.",
+      "reason": "Faithfully rendered as 'Some benign tumours become malignant, but not all of them do.' using British spelling, which is an allowed change."
+    },
+    {
+      "sourcePassage": "Obviously, when there is a suspicion of cancer or of a tumor, everybody gets very nervous about what that diagnosis is going to look like. But not all tumors are malignant and some don't progress.",
+      "reason": "Faithfully conveyed as 'When cancer or a tumour is suspected, there is considerable anxiety about the diagnosis, but not all tumours are malignant and some do not progress.' Dropping conversational filler such as 'Obviously' and rewriting the informal spoken phrasing 'everybody gets very nervous about what that diagnosis is going to look like' into formal textbook English are allowed stylistic changes."
+    },
+    {
+      "sourcePassage": "So you have things like adenomas in the colon that can develop into adenocarcinomas. But things like the smooth muscle fibroid that I showed you, that almost never progresses to a leiomyosarcoma.",
+      "reason": "Accurately rendered as 'Adenomas in the colon can develop into adenocarcinomas, whereas a smooth muscle fibroid, as shown earlier, almost never progresses to a leiomyosarcoma. [FIGURE]'. Removing conversational phrasing ('things like'), converting 'that I showed you' to 'as shown earlier', and adding a [FIGURE] mark are allowed changes."
+    },
+    {
+      "sourcePassage": "Okay, but that's not to say that a benign tumor can't be dangerous, because you can get benign tumors that cause death by growing and constricting on the processes of normal tissues that are adjacent to them.",
+      "reason": "Faithfully rendered as 'This does not mean that a benign tumour cannot be dangerous. Benign tumours can cause death by growing and constricting the processes of the normal tissues adjacent to them.' The removal of conversational fillers like 'Okay' and grammatical smoothing are allowed."
+    },
+    {
+      "sourcePassage": "So this meningioma obviously is occurring within the skull. The skull is a confined space. This would put an enormous amount of pressure on the brain and the surrounding structures and would cause and has caused Has caused death in this case. So things like meningiomas can cause that.",
+      "reason": "Faithfully conveyed as 'A meningioma occurs within the skull, which is a confined space, so it puts an enormous amount of pressure on the brain and the surrounding structures, and in this case it caused death. Meningiomas can therefore have this effect.' The rewrite resolves the speaker's false start ('would cause and has caused Has caused death' to 'caused death'), removes filler ('obviously'), and preserves both the specific case details and the hedged causal conclusion ('can therefore have this effect')."
+    },
+    {
+      "sourcePassage": "Also, pituitary adenomas release a lot of hormones and can cause death in that way.",
+      "reason": "Faithfully rendered as 'Pituitary adenomas release large amounts of hormones and can cause death in that way.' Replacing 'a lot of' with 'large amounts of' is an allowed stylistic change with identical meaning."
+    },
+    {
+      "sourcePassage": "And other benign tumors can obstruct and impede the normal functions of whatever organ they occur in.",
+      "reason": "Faithfully conveyed almost verbatim as 'Other benign tumours can obstruct and impede the normal functions of whatever organ they occur in.' with British spelling."
+    }
+  ]
+}

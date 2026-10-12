@@ -1,0 +1,53 @@
+{
+  "subtopicId": 7,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite turns the lecturer's pointing words ('the tumor is here' and 'This is the outer surface of the uterus') into a spatial description that the tumour lies next to the outer surface of the uterus, which the lecturer did not state and the text does not show to be correct.",
+      "sourcePassage": "You can see that the tumor is here. This is the outer surface of the uterus.",
+      "rewritePassage": "The tumour lies next to the outer surface of the uterus"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer pointed to a specific structure ('This is normally a very thin muscle wall that is present in the uterus'), whereas the rewrite turns this into a relative clause attributing a very thin muscle wall to the uterus (or its outer surface), distorting the lecturer's statement into an incorrect general anatomical claim.",
+      "sourcePassage": "This is normally a very thin muscle wall that is present in the uterus.",
+      "rewritePassage": "which normally has a very thin muscle wall"
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds the causal link 'therefore', asserting that the tumour being circumscribed and separate is a result of the fixation and dehydration process. The text only states that one can observe its separation on the slide ('So you can see again that...').",
+      "sourcePassage": "So you can see again that this is actually circumspect and very separate from the surrounding stroma and the surrounding tissue.",
+      "rewritePassage": "The tumour is therefore circumscribed and very separate from the surrounding stroma and the surrounding tissue."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The term 'circumspect' was changed to 'circumscribed' without a corresponding entry in the term corrections list, choosing a reading to correct an unclear statement without authorization.",
+      "sourcePassage": "this is actually circumspect",
+      "rewritePassage": "The tumour is therefore circumscribed"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So just again, to contrast what this looks like for the patient, you can have a benign tumor like this one, which has a capsule around it.",
+      "reason": "The shift from singular to plural ('what these tumours look like') and 'you can have... which has' to 'may have' are allowed stylistic and grammatical adjustments that preserve the exact meaning."
+    },
+    {
+      "sourcePassage": "All right? So a benign tumor.",
+      "reason": "This is conversational repetition and filler by the lecturer, which is allowed to be dropped."
+    },
+    {
+      "sourcePassage": "Again, here is the outer surface of the uterus, and you have the tumor here, but this tumor is now growing within the wall of the uterus, and has, if you like, invaded within this tissue.",
+      "reason": "The pointing words in this sentence are faithfully represented ('the tumour is now growing within the wall of the uterus'), and the colloquial hedge 'if you like' is accurately rendered as 'in a sense'."
+    },
+    {
+      "sourcePassage": "and I guess the expectation is that if it has invaded again into the surrounding tissues, it may have the capacity to metastasize to distant sites within the body.",
+      "reason": "The conversational filler 'and I guess' was dropped, but the scientific hedge and modality ('The expectation is that... may have the capacity') were preserved faithfully."
+    },
+    {
+      "sourcePassage": "I guess the other thing you have to bear in mind is that when a patient would come and get a biopsy, very often, for example, with breast cancers, you might sample the adjacent lymph node, but you wouldn't be sampling all over the body, so it might be difficult to necessarily find all of the possible secondary tumors unless there is some other physical sign that you can detect.",
+      "reason": "The informal spoken phrasings ('all over the body', 'so it might be difficult') were converted into formal textbook English ('the whole body would not be sampled', 'It might therefore be difficult') without altering the meaning, causal reasoning, or hedges."
+    }
+  ]
+}

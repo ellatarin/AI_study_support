@@ -1,0 +1,44 @@
+{
+  "subtopicId": 9,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So some benign tumors become malignant, but they don't all become malignant.",
+      "reason": "Faithfully conveyed by 'Some benign tumours become malignant, but not all of them do.' using British English spelling and standard stylistic rephrasing."
+    },
+    {
+      "sourcePassage": "Obviously, when there is a suspicion of cancer or of a tumor, everybody gets very nervous about what that diagnosis is going to look like.",
+      "reason": "Accurately rendered in formal prose as 'When cancer or a tumour is suspected, there is considerable anxiety about the diagnosis,', dropping conversational filler ('Obviously') and converting colloquial phrasing."
+    },
+    {
+      "sourcePassage": "But not all tumors are malignant and some don't progress.",
+      "reason": "Directly preserved in the rewrite as 'but not all tumours are malignant and some do not progress.'"
+    },
+    {
+      "sourcePassage": "So you have things like adenomas in the colon that can develop into adenocarcinomas.",
+      "reason": "Rendered faithfully as 'Adenomas in the colon can develop into adenocarcinomas,', dropping spoken filler ('So you have things like')."
+    },
+    {
+      "sourcePassage": "But things like the smooth muscle fibroid that I showed you, that almost never progresses to a leiomyosarcoma.",
+      "reason": "Faithfully rewritten as 'whereas a smooth muscle fibroid, as shown earlier, almost never progresses to a leiomyosarcoma. [FIGURE]'. Replacing 'that I showed you' with 'as shown earlier' alongside an allowed [FIGURE] mark is permitted."
+    },
+    {
+      "sourcePassage": "Okay, but that's not to say that a benign tumor can't be dangerous, because you can get benign tumors that cause death by growing and constricting on the processes of normal tissues that are adjacent to them.",
+      "reason": "Faithfully split into two sentences ('This does not mean that a benign tumour cannot be dangerous. Benign tumours can cause death by growing and constricting the processes of the normal tissues adjacent to them.'), preserving all facts and causal relationships while removing conversational filler."
+    },
+    {
+      "sourcePassage": "So this meningioma obviously is occurring within the skull. The skull is a confined space. This would put an enormous amount of pressure on the brain and the surrounding structures and would cause and has caused Has caused death in this case. So things like meningiomas can cause that.",
+      "reason": "Rendered faithfully as 'A meningioma occurs within the skull, which is a confined space, so it puts an enormous amount of pressure on the brain and the surrounding structures, and in this case it caused death. Meningiomas can therefore have this effect.' The rewrite preserves the specific case observation ('in this case it caused death'), the causal mechanism, and the general conclusion ('can therefore have this effect') without introducing unsourced claims or distorting the scientific meaning."
+    },
+    {
+      "sourcePassage": "Also, pituitary adenomas release a lot of hormones and can cause death in that way.",
+      "reason": "Faithfully rewritten as 'Pituitary adenomas release large amounts of hormones and can cause death in that way.', appropriately formalising 'a lot of' to 'large amounts of'."
+    },
+    {
+      "sourcePassage": "And other benign tumors can obstruct and impede the normal functions of whatever organ they occur in.",
+      "reason": "Preserved essentially verbatim as 'Other benign tumours can obstruct and impede the normal functions of whatever organ they occur in.'"
+    }
+  ]
+}

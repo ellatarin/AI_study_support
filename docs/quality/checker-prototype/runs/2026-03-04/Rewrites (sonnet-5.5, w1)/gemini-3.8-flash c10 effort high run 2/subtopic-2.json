@@ -1,0 +1,49 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite inserts 'that is,' between 'acetylation or deacetylation' and 'the state of transcription within the cell itself', defining acetylation/deacetylation as being the state of transcription. The text only mentions these consecutively without equating them, and in biology acetylation/deacetylation is a modification rather than the transcriptional state itself.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The text states that 'they' (the human viruses that precipitate cancer) can also predispose to chronic inflammatory events. The rewrite changes the subject and cause to 'infection' in general, making the cause wider.",
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events that can also help to give rise to cancer.",
+      "rewritePassage": "There are about seven different human viruses that precipitate cancer, and infection can also predispose to chronic inflammatory events, which can also help to give rise to cancer."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, so we're just going to start here with our core idea. I'm sure you've seen a cartoon that looks like this many times.",
+      "reason": "The rewrite condenses the conversational remarks to the audience into 'The core idea is the familiar cartoon...', which preserves the meaning and follows allowed conventions."
+    },
+    {
+      "sourcePassage": "So we know that these mutations accumulate, there are stepwise changes, and they accumulate over time. But we really don't have a timeframe for exactly how long it takes for this progression to occur.",
+      "reason": "All facts, observations, and causal links regarding the accumulation of mutations and lack of timeframe are faithfully preserved."
+    },
+    {
+      "sourcePassage": "So I've just made this kind of a much simpler diagram, if you like. Simplicity can help frame our thinking, but it will also end up losing a lot of details. So, as I said, you start off with a normal cell, and a bunch of mutations happen over time, and you go from normal to malignant.",
+      "reason": "The description of the diagram and what it illustrates is accurately represented around the [FIGURE] mark, and the personal meta-commentary is appropriately cast into textbook style."
+    },
+    {
+      "sourcePassage": "And when I say gene changes, I'm using a very broad term to encompass things like mutations. And again, this is still a very broad term because we're talking about things like base substitutions, base pair changes, small deletions, small insertions to whole chromosome losses, chromosomal translocations, aneuploidy, polyploidy.",
+      "reason": "The broad scope of the term and the full list of genetic alterations (from point mutations to chromosomal changes) are faithfully retained."
+    },
+    {
+      "sourcePassage": "If you were to sequence the genome, you wouldn't see these changes. You'd have to use other techniques, other specialized techniques, to look at these changes.",
+      "reason": "The distinction that epigenetic changes are not detectable by genome sequencing alone and require specialized techniques is accurately preserved."
+    },
+    {
+      "sourcePassage": "So there's a lot of changes that occur, and as I said, we don't know pretty much because of this when they occur.",
+      "reason": "The rewrite's phrasing 'Many changes therefore occur, and because of this it is largely not known when they occur' accurately captures the speaker's summarizing 'So' and causal link 'because of this'."
+    },
+    {
+      "sourcePassage": "So really, once you put a model like this together, it invites a lot of questions. So hopefully, in order to try and address some of these questions, we will start at the beginning. [chuckles]",
+      "reason": "The rhetorical questions and transition to starting at the beginning are faithfully kept, with colloquialisms and chuckles dropped as allowed."
+    }
+  ]
+}

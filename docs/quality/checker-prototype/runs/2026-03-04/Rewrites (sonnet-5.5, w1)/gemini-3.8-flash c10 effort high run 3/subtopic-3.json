@@ -1,0 +1,37 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer refers to development occurring 'during adolescence and maturation', but the rewrite replaces 'adolescence' with 'differentiation', claiming that 'differentiation and maturation also occur from infancy to adulthood'.",
+      "sourcePassage": "during adolescence and maturation, this occurs from infancy to adulthood.",
+      "rewritePassage": "differentiation and maturation also occur from infancy to adulthood."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The text states that the basement membrane provides 'a signaling and basis for their adherence to this layer' (two distinct functions: signaling, and a basis for adherence). The rewrite conflates these into 'a signalling basis for their adherence', turning the noun 'signaling' into a modifier of 'basis'.",
+      "sourcePassage": "provides a signaling and basis for their adherence to this layer.",
+      "rewritePassage": "provides a signalling basis for their adherence to this layer."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "which would be here into the invading stroma.",
+      "reason": "The lecturer speaks of 'the invading stroma', which is a slip of the tongue for the stroma that is invaded by the migrating epithelial cells. Rendering this as 'the invaded stroma' corrects the grammatical voice to match the biological reality described throughout the passage and does not hinder student learning."
+    },
+    {
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes.",
+      "reason": "The rewrite converts the deictic phrase 'here now' into 'In the image of the invasive tissue'. This description is directly supported by the context of the lecture, where the speaker details how the cells have 'invaded and are growing within the stroma' to show 'this invasion'."
+    },
+    {
+      "sourcePassage": "has happened during embryogenesis, during the time that you were born.",
+      "reason": "The phrase 'during the time that you were born' is a false start or verbal slip that conflicts with the lecturer's clear point that this growth occurs during embryogenesis 'in the womb'. Dropping it is an allowed omission."
+    },
+    {
+      "sourcePassage": "They have the nucleus on the layer towards the lumen, so they're apical basal regulation in terms of the orientation of those cells within the tissue.",
+      "reason": "The rewrite renders this statement faithfully as 'The nucleus lies in the layer towards the lumen, which reflects apical-basal regulation of the orientation of the cells within the tissue', preserving the lecturer's specific assertion without distortion."
+    }
+  ]
+}

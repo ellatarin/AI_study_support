@@ -1,0 +1,37 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer hedges the statement with 'I think', but the rewrite removes the hedge and asserts the claim as a definitive fact.",
+      "sourcePassage": "And I think one of the tumors that does this quite frequently is ovarian cancer, for example.",
+      "rewritePassage": "One tumour that does this quite frequently is ovarian cancer, for example."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer refers to 'this transcoelomic site', but the rewrite alters the term to 'a transcoelomic route'. Even though 'route' fits the list of routes of spread, resolving an unclear or misspeaking statement to its likely reading is forbidden.",
+      "sourcePassage": "this transcoelomic site",
+      "rewritePassage": "a transcoelomic route"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "This is an aside/reminder to self by the lecturer and qualifies as dropped filler or remark about delivery, which is allowed."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here, and then you can often see sometimes the tumor cells are actually present within a lymphatic duct.",
+      "reason": "The introductory pointing phrase 'You see your tumor cells are here' was omitted, but the key histological observation (tumour cells present in a lymphatic duct) is fully preserved."
+    },
+    {
+      "sourcePassage": "this tumor cell has the appearance of an adenomatous tumor or glandular tumor.",
+      "reason": "Converting the specific demonstrative reference on the slide into a general example ('a tumour cell may have the appearance of an adenomatous or glandular tumour') preserves the meaning without distorting the scientific point."
+    },
+    {
+      "sourcePassage": "Obviously, the liver is normally a reddish-brown color, and all of these white lumps within the liver are secondary tumors.",
+      "reason": "Dropping the word 'Obviously' and condensing 'color' is an allowed removal of conversational filler and stylistic smoothing."
+    }
+  ]
+}

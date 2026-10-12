@@ -1,0 +1,31 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite turns the lecturer's pointing word ('here') into an unsourced spatial description ('and the cervix is seen alongside it'), which the text does not state or support.",
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "rewritePassage": "and the cervix is seen alongside it"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here",
+      "reason": "This is a demonstrative remark pointing out specific individual cells on a slide to illustrate the fact that mitotic cells occur at the basement layer, rather than a distinct scientific fact in itself; dropping it is an allowed omission of spoken demonstration and remarks to the audience."
+    },
+    {
+      "sourcePassage": "and you'll see this in your practicals.",
+      "reason": "This statement about the course was retained in the rewrite as 'and it will be seen in the practicals', which does not distort the meaning."
+    },
+    {
+      "sourcePassage": "The uterus is here in this diagram",
+      "reason": "The phrase 'as shown in the diagram' in the rewrite faithfully reflects the lecturer's explicit reference to the diagram."
+    },
+    {
+      "sourcePassage": "If you'll notice here from the 1950s to, this is only to 2000",
+      "reason": "The lecturer's false start and spoken remark about the graph range were neatly rendered as 'From the 1950s to 2000', preserving the essential timeframe without distortion."
+    }
+  ]
+}

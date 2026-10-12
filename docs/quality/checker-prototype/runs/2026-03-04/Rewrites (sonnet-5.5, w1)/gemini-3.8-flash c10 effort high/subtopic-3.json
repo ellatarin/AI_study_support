@@ -1,0 +1,49 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "omission",
+      "description": "The lecturer specifies that differentiation occurs during adolescence ('during adolescence and maturation, this occurs from infancy to adulthood'), but the rewrite omits the mention of adolescence, stating instead that 'differentiation and maturation also occur from infancy to adulthood'.",
+      "sourcePassage": "during adolescence and maturation, this occurs from infancy to adulthood.",
+      "rewritePassage": "differentiation and maturation also occur from infancy to adulthood."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer explains that the basement membrane provides 'a signaling and basis for their adherence to this layer' (two distinct contributions: signaling cues and a structural basis for adherence). The rewrite merges these two separate concerns into a single phrase ('a signalling basis for their adherence to this layer').",
+      "sourcePassage": "provides a signaling and basis for their adherence to this layer.",
+      "rewritePassage": "provides a signalling basis for their adherence to this layer."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So we've all, everybody sitting in this room, has executed a fantastic differentiation program that has started when you were a zygote, you were just a single cell.",
+      "reason": "The rewrite renders this as 'Every person has executed a remarkable differentiation program...', omitting the remark to the audience in the room, which is an allowed change."
+    },
+    {
+      "sourcePassage": "most of your lineage specification and your expansive growth has happened during embryogenesis, during the time that you were born.",
+      "reason": "The lecturer's phrase 'during the time that you were born' contradicts 'during embryogenesis' and 'in the womb', functioning as a slip of the tongue or false start that was appropriately omitted."
+    },
+    {
+      "sourcePassage": "So histology being one of them, of course.",
+      "reason": "Formulating this spoken fragment as a complete sentence ('Histology is one of these tools.') is an allowed stylistic and grammatical change."
+    },
+    {
+      "sourcePassage": "They have the nucleus on the layer towards the lumen, so they're apical basal regulation in terms of the orientation of those cells within the tissue.",
+      "reason": "The rewrite phrases this as 'The nucleus lies in the layer towards the lumen, which reflects apical-basal regulation of the orientation of the cells within the tissue', which is an allowed grammatical smoothing of the lecturer's phrasing."
+    },
+    {
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes. They have come in, they have lost this architecture, moved over the basement membrane and invaded and are growing within the stroma. Right?",
+      "reason": "The rewrite resolves the lecturer's pointing words to 'In the image of the invasive tissue...', which is supported by the context of the passage describing cells invading the stroma."
+    },
+    {
+      "sourcePassage": "Whoops. I'll just skip forward here to say that the basement membrane, I've kind of written here, basement membrane, because when you're looking via histology, it is something very small to see.",
+      "reason": "The lecturer's conversational aside and slide-navigation remarks ('Whoops. I'll just skip forward here...') were omitted as allowed drops of filler and remarks to the audience."
+    },
+    {
+      "sourcePassage": "which would be here into the invading stroma.",
+      "reason": "The lecturer used 'invading stroma' as a slip of the tongue for the stroma that is being invaded by deranged cells. The rewrite's 'into the invaded stroma' corrects the grammatical participle to align with the rest of the text without distorting the scientific meaning."
+    }
+  ]
+}

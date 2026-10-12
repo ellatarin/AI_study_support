@@ -1,0 +1,31 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite states that the slice through a tumour 'illustrates this', linking the stained slice of the tumour to the explanting of tumours mentioned in the preceding sentence. The original text only says that the slice and stain show morphology, without stating that it illustrates explanting.",
+      "sourcePassage": "So the other thing to appreciate is that when, if you like, biologists are studying tumors, often they will explant the tumor. Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "rewritePassage": "A slice through a tumour, with a stain to show the morphology, illustrates this [FIGURE]."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "Omitted as a remark to the audience or dropped filler, which is an allowed change."
+    },
+    {
+      "sourcePassage": "throw it into a plastic tissue culture dish",
+      "reason": "Rendered as 'placed in a plastic tissue culture dish', which is an allowed stylistic rephrasing with the same meaning."
+    },
+    {
+      "sourcePassage": "Primary cells really don't grow in culture.",
+      "reason": "Rendered as 'Primary cells do not grow in culture.', omitting the conversational intensifier 'really' without changing the meaning of the scientific claim."
+    },
+    {
+      "sourcePassage": "with regard to the contributions of things like the stroma and other things.",
+      "reason": "Rendered as 'with regard to the contributions of things such as the stroma and other components.', which uses different words with the same meaning."
+    }
+  ]
+}

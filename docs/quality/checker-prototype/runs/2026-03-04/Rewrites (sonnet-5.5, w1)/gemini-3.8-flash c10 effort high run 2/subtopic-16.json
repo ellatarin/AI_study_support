@@ -1,0 +1,36 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "The lecturer's remark refers back to material seen earlier by the audience. Replacing it with an objective statement about the presence of these states removes an audience-directed remark without altering the subject matter."
+    },
+    {
+      "sourcePassage": "and very likely to probably already be malignant.",
+      "reason": "The original speech combines two probability markers ('very likely' and 'probably'). Retaining 'very likely' preserves the epistemic hedge and drops the oral false start or repetition without altering the scientific claim."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "The phrase 'as I said' is an audience-directed reference to previous lecture discussion, faithfully rendered as 'Of the screening methods discussed', and 'the cervix is best' is correctly expanded to 'cervical screening is the best' in context."
+    },
+    {
+      "sourcePassage": "And perhaps you might do that if there's some kind of family history or there's some reason if you're showing symptoms.",
+      "reason": "The spoken phrasing 'or there's some reason if you're showing symptoms' is stylistically smoothed to 'or some other reason, such as the patient showing symptoms', which faithfully captures the intended clinical meaning."
+    },
+    {
+      "sourcePassage": "many of the people that do go for screening and then for further treatment, it has a very, very high false positive rate.",
+      "reason": "The rewrite resolves the spoken anacoluthon into grammatically sound prose while preserving the core facts regarding false positive rates and subsequent unnecessary treatments."
+    },
+    {
+      "sourcePassage": "It is not a very, very good test",
+      "reason": "Reducing the repeated intensifier 'very, very' to 'very' is permitted as dropping a spoken repetition."
+    },
+    {
+      "sourcePassage": "these tumors are very, very slow-growing",
+      "reason": "Reducing the repeated 'very, very' to 'very' is permitted as dropping a spoken repetition."
+    }
+  ]
+}

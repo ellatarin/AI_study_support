@@ -1,0 +1,40 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states. Ideally, you'd like to catch these benign states.",
+      "reason": "The lecturer's reference to previously shown pre-cancerous states is adapted into textbook prose ('The different pre-cancerous states are present'), which preserves the essential scientific observation without introducing unsourced facts."
+    },
+    {
+      "sourcePassage": "and very likely to probably already be malignant.",
+      "reason": "The lecturer uses a doubled hedge ('very likely to probably'). The rewrite preserves the epistemic hedge ('very likely'), so no hedge has been removed from the scientific claim."
+    },
+    {
+      "sourcePassage": "ulcerated cauliflower structure, if you like, an ulcerated tumor",
+      "reason": "The phrase 'if you like' is conversational filler qualifying a metaphorical description, which the rewrite faithfully renders as 'cauliflower-like structure'."
+    },
+    {
+      "sourcePassage": "So already potentially shedding cells for invading into other parts of the body.",
+      "reason": "'shedding cells that invade other parts of the body' is an allowed stylistic phrasing of 'shedding cells for invading into other parts of the body' that retains the exact biological meaning."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "Framing the lecturer's conversational recap ('as I said') as 'Of the screening methods discussed, cervical screening is the best' is an allowed stylistic adaptation to textbook prose."
+    },
+    {
+      "sourcePassage": "or there's some reason if you're showing symptoms.",
+      "reason": "The rewrite renders the spoken phrasing as 'or some other reason, such as the patient showing symptoms', which faithfully captures the intended meaning that presenting symptoms provides a clinical reason for endoscopy."
+    },
+    {
+      "sourcePassage": "because many of the people that do go for screening and then for further treatment, it has a very, very high false positive rate.",
+      "reason": "The spoken transcript has an anacoluthon (an incomplete sentence structure). The rewrite resolves the grammar into coherent textbook prose while faithfully maintaining the relationship between screening, false positives, and subsequent unnecessary treatments."
+    },
+    {
+      "sourcePassage": "it has a very, very high false positive rate. So about a third of those cases are unnecessary treatment, so a very, very high cost. Similarly, prostate cancer, the test for this is PSA in the blood. It is not a very, very good test, and it's currently not recommended for the general populace. And also, these tumors are very, very slow-growing",
+      "reason": "The reductions of 'very, very' to 'very' throughout this passage are allowed as dropped spoken repetitions/intensifiers."
+    }
+  ]
+}

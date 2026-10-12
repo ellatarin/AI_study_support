@@ -1,0 +1,36 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "The lecturer refers back to the pre-cancerous states discussed or shown earlier in the lecture. The rewrite adapts this audience-directed remark into textbook prose ('The different pre-cancerous states are present, and ideally these benign states would be caught') to introduce the benign states that screening aims to detect. Adapting remarks to the audience and adjusting style are allowed changes, and this does not introduce any unsourced scientific claim."
+    },
+    {
+      "sourcePassage": "because many of the people that do go for screening and then for further treatment, it has a very, very high false positive rate.",
+      "reason": "The original spoken text exhibits a fractured grammatical structure. The rewrite smooths this into 'because many of the people who go for screening and then for further treatment are affected by a very high false positive rate', accurately conveying that the high false positive rate of breast screening leads to patients undergoing unnecessary further treatment. Resolving conversational false starts and repairing grammar are allowed changes."
+    },
+    {
+      "sourcePassage": "very likely to probably already be malignant.",
+      "reason": "The original transcript combines two probability hedges in spoken repetition ('very likely to probably'). The rewrite keeps 'very likely to be malignant already', dropping the redundant 'probably'. Retaining 'very likely' maintains the hedge on the claim, and dropping repetitions is explicitly allowed."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "The lecturer refers back to an earlier discussion in the lecture ('as I said'). The rewrite renders this as 'Of the screening methods discussed, cervical screening is the best', which is an allowed stylistic formulation of the lecturer's comparative statement."
+    },
+    {
+      "sourcePassage": "or there's some reason if you're showing symptoms.",
+      "reason": "The rewrite phrases this as 'or some other reason, such as the patient showing symptoms', which faithfully captures the lecturer's point that showing symptoms is a reason for endoscopy."
+    },
+    {
+      "sourcePassage": "It is not a very, very good test",
+      "reason": "The spoken repetition 'very, very' is simplified to 'very'. Dropping spoken repetitions is an allowed change."
+    },
+    {
+      "sourcePassage": "shedding cells for invading into other parts of the body.",
+      "reason": "The rewrite renders this as 'shedding cells that invade other parts of the body', which is an allowed stylistic phrasing with identical meaning."
+    }
+  ]
+}

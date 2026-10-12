@@ -1,0 +1,24 @@
+{
+  "subtopicId": 14,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "what does this look like in the clinic? [chuckles] I call this the four horsemen.",
+      "reason": "The rewrite renders this as 'the presentation of cancer can be summarised as the \"four horsemen\"', which appropriately formalises the conversational question using the surrounding context of tumours and cancer without adding unsourced facts."
+    },
+    {
+      "sourcePassage": "tumors can be indirect",
+      "reason": "The rewrite writes 'Tumours can also present indirectly', which is an acceptable stylistic phrasing in British English with identical clinical meaning."
+    },
+    {
+      "sourcePassage": "diagnose earlier and quicker",
+      "reason": "The rewrite changes 'quicker' to 'more quickly', which is an allowed grammatical correction."
+    },
+    {
+      "sourcePassage": "And we also have to be able to do something that is useful for that patient.",
+      "reason": "The rewrite phrases this as 'It is also necessary to do something that is useful for that patient', which faithfully preserves the meaning in formal textbook prose."
+    }
+  ]
+}

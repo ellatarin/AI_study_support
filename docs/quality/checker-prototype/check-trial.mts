@@ -21,7 +21,11 @@ import { parseArgs } from "node:util";
 import pino from "pino";
 import { parseConfig } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/pipeline/config.js";
 import { stageOutputPath } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/pipeline/layout.js";
-import { callModel, createOpenRouterClientProvider } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/pipeline/openrouter.js";
+import {
+	callModel,
+	createOpenRouterClientProvider,
+	type OpenRouterClient,
+} from "/Users/ellatarin/my_repositories/Ella_AI_project/src/pipeline/openrouter.js";
 import { rewriteAttemptFilePath, subtopicPromptMessages } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/pipeline/stages/rewrite-attempts.js";
 import { readStructuredTranscript } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/pipeline/stages/structured-transcript.js";
 import { isSubtopicRewrite } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/pipeline/stages/subtopic-rewrites.js";
@@ -58,6 +62,46 @@ type CheckUnit = Omit<Material, "subtopicId">;
 
 /** A subtopic with the units that the checker gets for it, one call each. */
 type SubtopicUnits = { readonly subtopicId: number; readonly units: readonly CheckUnit[] };
+
+/** The reasoning efforts that OpenRouter accepts for a model that reasons. */
+const REASONING_EFFORTS = ["low", "medium", "high"] as const;
+
+/** A reasoning effort, or null for the model's default. */
+type ReasoningEffort = (typeof REASONING_EFFORTS)[number] | null;
+
+/**
+ * Wraps a client provider so that each request asks for a reasoning effort. The
+ * pipeline's model call has no such setting, so the trial adds OpenRouter's
+ * `reasoning` field to the request body here.
+ *
+ * @param args - The client provider and the effort.
+ * @param args.provider - The pipeline's client provider.
+ * @param args.effort - The reasoning effort, or null to leave each request as it is.
+ * @returns A client provider whose requests carry the effort.
+ */
+function withReasoningEffort({
+	provider,
+	effort,
+}: {
+	readonly provider: OpenRouterClient;
+	readonly effort: ReasoningEffort;
+}): OpenRouterClient {
+	if (effort === null) {
+		return provider;
+	}
+	let patched = false;
+	return () => {
+		const client = provider();
+		if (!patched) {
+			const completions = client.chat.completions;
+			const create = completions.create.bind(completions);
+			completions.create = ((body: Record<string, unknown>, options?: unknown) =>
+				create({ ...body, reasoning: { effort } } as never, options as never)) as unknown as typeof completions.create;
+			patched = true;
+		}
+		return client;
+	};
+}
 
 /** A reply that the trial cannot use, with its text. */
 type UnusableReply = FailedSend & { readonly replyText: string };
@@ -183,6 +227,7 @@ async function readMaterial({
  * @param args.version - The prompt version.
  * @param args.runNumber - The number of the run of this model and version, from 1.
  * @param args.byParagraph - Whether the checker gets one part of a subtopic at a time, not the whole subtopic.
+ * @param args.effort - The reasoning effort of each call, or null for the model's default.
  * @param args.subtopics - The units of each subtopic.
  * @param args.baseConfig - The pipeline configuration.
  * @returns A one-line summary of the run.
@@ -194,6 +239,7 @@ async function runOne({
 	version,
 	runNumber,
 	byParagraph,
+	effort,
 	subtopics,
 	baseConfig,
 }: {
@@ -203,11 +249,12 @@ async function runOne({
 	readonly version: string;
 	readonly runNumber: number;
 	readonly byParagraph: boolean;
+	readonly effort: ReasoningEffort;
 	readonly subtopics: readonly SubtopicUnits[];
 	readonly baseConfig: ReturnType<typeof parseConfig>;
 }): Promise<string> {
-	const folder = checkRunFolder({ lecture, rewrites, modelId, version, runNumber, byParagraph });
-	const runName = `${modelId} ${version}${byParagraph ? " by paragraph" : ""} run ${runNumber}`;
+	const folder = checkRunFolder({ lecture, rewrites, modelId, version, runNumber, byParagraph, effort });
+	const runName = basename(folder);
 	await mkdir(folder, { recursive: true });
 	const borrowed = baseConfig.stages[CHECK_STAGE_ID];
 	if (borrowed === undefined) {
@@ -215,7 +262,10 @@ async function runOne({
 	}
 	const config = { ...baseConfig, stages: { ...baseConfig.stages, [CHECK_STAGE_ID]: { ...borrowed, modelId } } };
 	const system = checkerSystemPrompt({ version, language: config.finalOutput.language });
-	const client = createOpenRouterClientProvider({ openRouter: config.openRouter });
+	const client = withReasoningEffort({
+		provider: createOpenRouterClientProvider({ openRouter: config.openRouter }),
+		effort,
+	});
 	if (borrowed.sendGapSeconds === undefined) {
 		throw new Error(`The pipeline configuration sets no sendGapSeconds for ${CHECK_STAGE_ID}`);
 	}
@@ -423,12 +473,17 @@ const { values } = parseArgs({
 		models: { type: "string" },
 		runs: { type: "string", default: "1" },
 		unit: { type: "string", default: "subtopic" },
+		effort: { type: "string" },
 	},
 });
 if (values.unit !== "subtopic" && values.unit !== "paragraph") {
 	throw new Error(`--unit is "subtopic" or "paragraph". It was "${values.unit}".`);
 }
 const byParagraph = values.unit === "paragraph";
+const effort = REASONING_EFFORTS.find((known) => known === values.effort) ?? null;
+if (values.effort !== undefined && effort === null) {
+	throw new Error(`--effort is ${REASONING_EFFORTS.join(", ")}. It was "${values.effort}".`);
+}
 const prompts = list(values.prompts);
 const models = list(values.models);
 const runNumbers = list(values.runs).map(Number);
@@ -446,7 +501,7 @@ const summaries = await Promise.all(
 	models.flatMap((modelId) =>
 		prompts.flatMap((version) =>
 			runNumbers.map((runNumber) =>
-				runOne({ lecture, rewrites, modelId, version, runNumber, byParagraph, subtopics, baseConfig }),
+				runOne({ lecture, rewrites, modelId, version, runNumber, byParagraph, effort, subtopics, baseConfig }),
 			),
 		),
 	),

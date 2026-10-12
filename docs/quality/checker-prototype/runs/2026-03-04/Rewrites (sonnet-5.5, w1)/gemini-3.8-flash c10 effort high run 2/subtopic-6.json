@@ -1,0 +1,36 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Right. So obviously most of the death that occurs with cancer is when tumors start to metastasize and spread around the body. Right?",
+      "reason": "The omitted words 'Right. So obviously' and the trailing 'Right?' are conversational filler and remarks to the audience, which are permitted to be dropped."
+    },
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "This is a humorous personal aside/reminder to self and contains no subject-matter content; dropping jokes and lecturer asides is permitted."
+    },
+    {
+      "sourcePassage": "or also this transcoelomic site from across a cavity, across a pleural cavity, for example, across the abdomen.",
+      "reason": "In the text, the speaker introduces a list of routes of spread ('spread via a number of routes...'). Rendering 'this transcoelomic site' as 'by a transcoelomic route' aligns the list grammatically with the established category of routes without distorting the meaning."
+    },
+    {
+      "sourcePassage": "And I think one of the tumors that does this quite frequently is ovarian cancer, for example.",
+      "reason": "'I think' functions here as conversational speech filler while recalling an example rather than a scientific hedge; omitting it does not distort the factual teaching."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here, and then you can often see sometimes the tumor cells are actually present within a lymphatic duct.",
+      "reason": "'You see your tumor cells are here' and 'often see sometimes' represent spoken pointing and a disfluent repetition/false start. The rewrite faithfully expresses the substantive histological finding that tumour cells can be seen within a lymphatic duct."
+    },
+    {
+      "sourcePassage": "So you can know kind of where it might be coming from.",
+      "reason": "The colloquial filler 'kind of' is omitted, and the possibility ('might be coming from' / 'can be possible to know') is accurately preserved."
+    },
+    {
+      "sourcePassage": "Similarly, here you have a brain, and what you have here is a breast cancer that's metastasized to the brain.",
+      "reason": "The pointing phrases 'here you have a brain, and what you have here is' are conversational framing; the rewrite faithfully conveys the example of breast cancer metastasized to the brain."
+    }
+  ]
+}

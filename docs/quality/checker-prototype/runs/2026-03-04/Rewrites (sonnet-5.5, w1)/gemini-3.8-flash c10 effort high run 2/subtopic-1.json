@@ -1,0 +1,40 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, everyone, shall we get started? Yes. You're very welcome, all of you, to Cancer Biology.",
+      "reason": "The omission of conversational greetings, false starts, and remarks to the audience is an allowed change."
+    },
+    {
+      "sourcePassage": "Actually, when you tell people that you're working on cancer, they're all incredibly grateful for you for taking on such a difficult disease because it has such an impact.",
+      "reason": "The clause 'because it has such an impact' was dropped because the impact of cancer on society was already stated in the immediately preceding sentence; omitting direct repetitions is an allowed change."
+    },
+    {
+      "sourcePassage": "Right. So I tag-teamed these lectures with Professor Turner, and so she will also be teaching three of these lectures.",
+      "reason": "Rendering 'tag-teamed' as 'shared' and specifying 'three of the six' draws directly on the earlier mention of the course having six lectures; this is an allowed stylistic phrasing."
+    },
+    {
+      "sourcePassage": "Because from the molecular mechanisms to the patient experience and to the evolution of personalized medicine and what that entails, you're all going to be having different things that you're interested in.",
+      "reason": "Describing the lectures as ranging across these topics faithfully conveys the lecturer's explanation of why students from different degree programmes will have different interests and takeaways."
+    },
+    {
+      "sourcePassage": "So if you really want to become a serious cancer biologist and oncologist in training, then you really have to embrace kind of the full picture in terms of etiologies, treatments, and the patient experience, because they will inform one the other.",
+      "reason": "Rendering 'they will inform one the other' as 'each informs the others' accurately conveys the reciprocal relationship among the three specified areas in standard British English prose."
+    },
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there.",
+      "reason": "Converting the deictic spoken phrase 'listed there' into the introductory prose 'are as follows' is permitted because the lecturer proceeds immediately to state the learning outcomes."
+    },
+    {
+      "sourcePassage": "And then really, the big takeaway message from today is going to be the ability to recognize what invasion and metastasis looks like with regard to the start of the tumor to the end point. So you're going to be comparing the differences between benign and malignant tumors",
+      "reason": "Phrasing the comparative exercise as 'This involves comparing benign and malignant tumours' faithfully renders the connective 'So' that links the overarching takeaway message (recognizing invasion and metastasis across tumour progression) to the comparison between benign and malignant tumours."
+    },
+    {
+      "sourcePassage": "And then really a lot of over the course of these lectures and in the practicals, you have to be able to see the process of what we're talking about in the histology of the tumors",
+      "reason": "The dropped phrase 'a lot of' represents a spoken false start, which is an allowed omission."
+    }
+  ]
+}

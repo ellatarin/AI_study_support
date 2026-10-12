@@ -1,0 +1,32 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Just a slide about the incidence in companion animals since I found this slide some time ago, which is to say that in dogs and cats, they very much get similar tumors to us, and of course, if you compare any two things, you're going to find differences.",
+      "reason": "The mention of finding the slide is conversational lecture filler that can be dropped under allowed changes. Paraphrasing 'any two things' to 'between two species' faithfully adapts the colloquialism to the specific context of comparing companion animal species with humans."
+    },
+    {
+      "sourcePassage": "But in dogs, mammary tumors seem to be very, very prevalent, along with skin and connective tissues, which is different from people.",
+      "reason": "Dropping the repeated word 'very' is an allowed removal of repetition, and expanding 'skin and connective tissues' to 'tumours of the skin and connective tissues' and 'different from people' to 'differs from the pattern in people' preserves the exact intended meaning in textbook prose."
+    },
+    {
+      "sourcePassage": "And this is my cat, who also ended up with a feline injection site sarcoma. This is from injections proposed to be due to the adjuvant that is also added with the injection. You'll be happy to hear he's doing fine now after his surgery.",
+      "reason": "The conversational phrase 'You'll be happy to hear' is an audience remark that can be dropped. Generalising 'This is from injections' to 'Such tumours arise from injections' accurately reflects that the lecturer is explaining the etiology of feline injection site sarcomas generally."
+    },
+    {
+      "sourcePassage": "so this is a comparison of the incidence of different types of tumors in things like birds and reptiles in comparison to mammals. You'll see that digestive tissues, hematopoietic, and skin are the three main categories in terms of where cancers arise.",
+      "reason": "Formulating this as 'A comparison of the incidence... shows that...' accurately renders the lecturer's presentation of the comparative data. Adding 'tissues' to 'hematopoietic' is an allowed stylistic and grammatical correction for parallelism."
+    },
+    {
+      "sourcePassage": "The only thing that was quite interesting to note here is that the rate of malignant tumors is about fivefold higher in reptiles compared to mammals.",
+      "reason": "Rendering 'The only thing that was quite interesting to note here' as 'The one notable difference' is an accurate paraphrasing in the context of contrasting this specific fivefold higher rate against the broad similarities across taxa."
+    },
+    {
+      "sourcePassage": "The real takeaway here is that any organism or any animal that has-- any organism, rather, that is multicellular and has a differentiation program can end up with a problem in differentiation, and end up with a tumor and with that disease.",
+      "reason": "The false start 'any organism or any animal that has--' was appropriately dropped. Using 'and so with a tumour' is not an unsourced addition because the causal connection between differentiation failure and tumour formation is explicitly stated and summarised in the lecturer's concluding remarks."
+    }
+  ]
+}

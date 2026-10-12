@@ -1,0 +1,31 @@
+{
+  "subtopicId": 12,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite introduces an unsourced causal link using 'because', stating that benign tumours are extremely common because it takes a great deal for them to become malignant. The lecturer mentions both points separately without stating that one causes the other.",
+      "sourcePassage": "So benign tumors are actually incredibly common. Right? So it actually takes a lot for a benign tumor to become malignant in terms of, as I said, the number of changes that have to happen within a tumor.",
+      "rewritePassage": "Benign tumours are extremely common, because it takes a great deal for a benign tumour to become malignant, given the number of changes that have to happen within a tumour."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So I've just put these numbers up just so that you can have a sense.",
+      "reason": "The rewrite renders this as 'The numbers shown give a sense of incidence'. Although 'of incidence' is not in this specific sentence, the lecturer introduces the topic at the beginning with 'So just talking about incidence, about how often various tumors arise', showing that the numbers represent incidence."
+    },
+    {
+      "sourcePassage": "And then this is, if you like, the percentage of tumors that result in deaths.",
+      "reason": "The rewrite renders the pointing pronoun 'this' as 'A further slide shows'. The lecturer's references to putting numbers up and presentation navigation ('doesn't go backwards') confirm that the display is a slide."
+    },
+    {
+      "sourcePassage": "They usually occur in young adulthood, in adolescence and young adulthood.",
+      "reason": "The rewrite omits the initial 'in young adulthood', which is an allowed removal of a false start corrected immediately by the speaker."
+    },
+    {
+      "sourcePassage": "But they are very difficult to treat. And so they progress very quickly, and they're lethal.",
+      "reason": "The lecturer's 'And so' acts as a conversational connective rather than a claim that difficulty of treatment causes rapid progression. Coordinating the clauses without 'and so' is an allowed stylistic change."
+    }
+  ]
+}

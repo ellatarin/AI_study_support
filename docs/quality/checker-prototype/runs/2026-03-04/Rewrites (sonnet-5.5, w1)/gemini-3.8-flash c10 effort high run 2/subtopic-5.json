@@ -1,0 +1,39 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite introduces an unsourced causal link using the conjunction 'since', stating that the terminology is still heard today because a surgeon can tell whether a tumour is movable or immovable by touch. In the source text, 'where' introduces the clinical situation in which this terminology is used, rather than establishing a causal relationship.",
+      "sourcePassage": "And you'll hear this kind of terminology even now, where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable.",
+      "rewritePassage": "This terminology is still heard now, since a surgeon can tell just by holding or touching a tumour whether it is movable or immovable."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Okay. So with these tools in hand, I think the important concept to try and get across is invasion and metastasis.",
+      "reason": "Omitting 'with these tools in hand' and conversational phrases ('I think', 'to try and get across') is allowed as removal of lecture framing and filler. Adjusting 'concept' to 'concepts' is an allowed grammatical change to match the plural referents 'invasion and metastasis'."
+    },
+    {
+      "sourcePassage": "Obviously, changes occur within tumor cells, and it was long ago noticed back in, I don't know, when surgery was first coming into its own as a discipline after anesthesia was invented or discovered, that tumors kind of came in two types.",
+      "reason": "Dropping conversational filler ('Obviously', 'back in, I don't know', 'kind of') is allowed, and standard British spellings ('tumour', 'anaesthesia') are permitted."
+    },
+    {
+      "sourcePassage": "What they termed the movable tumor. And a movable tumor is exactly like what it sounds. Surgeons would find that that tumor could move within the tissue or an immovable tumor.",
+      "reason": "Reorganising the spoken sentences to introduce both types ('the movable tumour and the immovable tumour') before defining movable tumours is an allowed stylistic restructuring."
+    },
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals",
+      "reason": "Dropping the reference to practical sessions is an allowed omission of a remark to the audience and statement about the course."
+    },
+    {
+      "sourcePassage": "So when somebody presents with a lump or a primary tumor, there will be a biopsy to look and to see whether or not the tumor cells are contained or whether or not they're invading into the surrounding tissue.",
+      "reason": "Replacing 'somebody' with 'a patient' and rendering 'there will be a biopsy to look and to see' as 'a biopsy is taken to see' are allowed stylistic refinements that preserve the original meaning."
+    },
+    {
+      "sourcePassage": "Right. So, what does that mean for the patient? Well, the invasion, and whether or not that's seen histologically is probably the most important prognostic or diagnostic factor for the clinician in telling the patient what may or may not happen in terms of the tumor.",
+      "reason": "Converting the rhetorical question and answer ('Right. So, what does that mean for the patient? Well, the invasion...') into textbook prose ('For the patient, invasion...') faithfully preserves the meaning while removing conversational filler."
+    }
+  ]
+}

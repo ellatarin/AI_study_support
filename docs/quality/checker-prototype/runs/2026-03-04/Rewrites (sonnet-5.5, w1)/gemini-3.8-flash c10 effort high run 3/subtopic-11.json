@@ -1,0 +1,35 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite states 'when the tumour occurs in a meningioma', giving 'meningioma' the role of an anatomical site or organ where a tumour occurs. In the text (and in medical terminology), a meningioma is itself a primary tumour, not an anatomical location.",
+      "sourcePassage": "Only 10% of these deaths, generally, if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "rewritePassage": "Only 10% of deaths are generally caused in this way, for example when the tumour occurs in a meningioma or in the liver."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Things like obstruction of the bile ducts in the liver interferes with digestion.",
+      "reason": "The rewrite prefaces this sentence with 'Other effects depend on the site.' This serves as a paragraph-level topic sentence reflecting the earlier concept of 'different settings in which they occur', and does not introduce an unsourced fact."
+    },
+    {
+      "sourcePassage": "And things like if tumors in bones lead to erosion of that bone function, so you can get fractures, and this causes an immense amount of pain.",
+      "reason": "The rewrite writes 'erosion of the bone' instead of 'erosion of that bone function', resolving a spoken slip of the tongue in a way that matches standard medical usage and the lecturer's later reference to 'erosion of bones'."
+    },
+    {
+      "sourcePassage": "Also ulceration, you saw that enormous cauliflower structure within the colon. This causes a lot of bleeding and can lead to anemia.",
+      "reason": "Describing the structure as 'cauliflower-like' and integrating the lecturer's remark to the audience ('you saw') into textbook prose ('seen within the colon') faithfully conveys the meaning without adding or distorting facts."
+    },
+    {
+      "sourcePassage": "And also this competition with the normal, if you have a tumor that is occurring in some of the blood compartments, the hematopoietic stem cells that are there, these will interfere. This niche is not very big. This will interfere with your bone marrow, and it will result in things like infection and anemia as well.",
+      "reason": "The lecturer's spoken phrasing contains false starts and disjointed syntax. The rewrite clarifies the grammatical relationships (that the tumour interferes with normal stem cells in the limited niche, disrupting the bone marrow) in accordance with the speaker's clear intended meaning."
+    },
+    {
+      "sourcePassage": "So it's not very good.",
+      "reason": "This phrase was omitted as a colloquial remark/understatement to the audience, which is permitted under the guidelines."
+    }
+  ]
+}

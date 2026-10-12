@@ -1,0 +1,37 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite inserts 'that is,', asserting a link that equates 'acetylation or deacetylation' with 'the state of transcription within the cell itself'. In the text, the lecturer lists these items without stating that acetylation or deacetylation is the state of transcription.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The text states that the human viruses that precipitate cancer ('they') can also predispose to chronic inflammatory events. The rewrite replaces 'they' with 'infection', thereby widening the cause of the causal claim from the specific cancer-precipitating viruses to infection in general.",
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events that can also help to give rise to cancer.",
+      "rewritePassage": "There are about seven different human viruses that precipitate cancer, and infection can also predispose to chronic inflammatory events, which can also help to give rise to cancer."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "The idea that a normal cell, starting off here, acquires a mutation, and maybe a second mutation, and it becomes slightly abnormal.",
+      "reason": "The spoken pointing phrase 'starting off here' was dropped in favor of describing the process and placing a [FIGURE] marker, which is an allowed change."
+    },
+    {
+      "sourcePassage": "So I've just made this kind of a much simpler diagram, if you like. Simplicity can help frame our thinking, but it will also end up losing a lot of details. So, as I said, you start off with a normal cell, and a bunch of mutations happen over time, and you go from normal to malignant.",
+      "reason": "The rewrite recasts the lecturer's informal introduction of the simpler diagram into passive textbook style and includes a [FIGURE] tag, which is an allowed change."
+    },
+    {
+      "sourcePassage": "And we know that there are gene changes that occur.",
+      "reason": "The rewrite adds 'in this progression', which simply maintains cohesion with the normal-to-malignant transition just described."
+    },
+    {
+      "sourcePassage": "So there's a lot of changes that occur, and as I said, we don't know pretty much because of this when they occur.",
+      "reason": "The rewrite translates the discourse marker 'So' into 'therefore' ('Many changes therefore occur') to summarize the preceding list of genetic, epigenetic, and infectious changes, which is an allowed stylistic transition."
+    }
+  ]
+}

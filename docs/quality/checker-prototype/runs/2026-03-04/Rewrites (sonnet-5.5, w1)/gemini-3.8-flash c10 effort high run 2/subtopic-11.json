@@ -1,0 +1,35 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite treats 'meningioma' as an anatomical site or organ where a tumour occurs ('when the tumour occurs in a meningioma or in the liver'). In medical fact and in the lecture, a meningioma is itself a type of primary tumour (originating in the meninges), not an anatomical location inside which tumours develop.",
+      "sourcePassage": "Only 10% of these deaths, generally, if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "rewritePassage": "when the tumour occurs in a meningioma or in the liver"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Things like obstruction of the bile ducts in the liver interferes with digestion.",
+      "reason": "The sentence 'Other effects depend on the site.' at the start of the second paragraph was considered as a potential unsourced addition, but it functions as a stylistic transition linking back to the lecturer's framing of effects in 'different settings in which they occur'."
+    },
+    {
+      "sourcePassage": "And things like if tumors in bones lead to erosion of that bone function, so you can get fractures",
+      "reason": "The rewrite changes 'erosion of that bone function' to 'erosion of the bone'. This appropriately smooths a spoken slip of the tongue into standard terminology without distorting the scientific meaning."
+    },
+    {
+      "sourcePassage": "Also ulceration, you saw that enormous cauliflower structure within the colon. This causes a lot of bleeding and can lead to anemia.",
+      "reason": "The rewrite renders this as 'Ulceration is another effect: the enormous cauliflower-like structure seen within the colon causes a lot of bleeding and can lead to anaemia.', which preserves the substance of the lecturer's description and the figure reference."
+    },
+    {
+      "sourcePassage": "the hematopoietic stem cells that are there, these will interfere. This niche is not very big. This will interfere with your bone marrow",
+      "reason": "The rewrite resolves the fractured spoken syntax and unclear referents into 'A tumour occurring in the blood compartments, where the haematopoietic stem cells are located, will interfere with them. This niche is not very big. The tumour will therefore interfere with the bone marrow'. This cleans up false starts and conversational phrasing while correctly conveying the biological concept."
+    },
+    {
+      "sourcePassage": "As I said, the bone marrow will fail altogether",
+      "reason": "Omitting 'As I said' is an allowed removal of conversational repetition."
+    }
+  ]
+}

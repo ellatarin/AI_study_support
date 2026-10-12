@@ -1,0 +1,31 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite uses 'since' to assert a causal link between the terminology still being heard today and a surgeon being able to determine tumour mobility by touch. In the source text, 'where' introduces the scenario or context in which the terminology is encountered, not a cause.",
+      "sourcePassage": "And you'll hear this kind of terminology even now, where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable.",
+      "rewritePassage": "This terminology is still heard now, since a surgeon can tell just by holding or touching a tumour whether it is movable or immovable."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Okay. So with these tools in hand, I think the important concept to try and get across is invasion and metastasis.",
+      "reason": "Dropping the conversational preamble ('Okay. So with these tools in hand, I think') is allowed as filler and lecture remarks, and changing 'concept' to 'concepts' is an allowed grammatical correction for the two coordination elements ('invasion and metastasis')."
+    },
+    {
+      "sourcePassage": "What they termed the movable tumor. And a movable tumor is exactly like what it sounds. Surgeons would find that that tumor could move within the tissue or an immovable tumor.",
+      "reason": "The speaker broke off their initial sentence and appended 'or an immovable tumor' later; reordering this to introduce both 'the movable tumour and the immovable tumour' upfront is an allowed adjustment of sentence structure and grammar."
+    },
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals",
+      "reason": "This is a direct remark to the audience regarding practical coursework, which is permitted to be omitted as a statement about the course or lecture."
+    },
+    {
+      "sourcePassage": "Right. So, what does that mean for the patient? Well,",
+      "reason": "Compressing the conversational rhetorical question and filler into the introductory phrase 'For the patient,' is an allowed change of style and grammar that preserves the meaning."
+    }
+  ]
+}

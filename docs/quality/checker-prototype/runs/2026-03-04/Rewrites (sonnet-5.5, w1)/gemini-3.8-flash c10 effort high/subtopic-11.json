@@ -1,0 +1,31 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite states 'when the tumour occurs in a meningioma or in the liver', treating 'meningioma' as an anatomical site or structure in which a tumour occurs, rather than as a type of tumour itself (as the lecturer stated earlier). A tumour does not occur in a meningioma; a meningioma is the tumour.",
+      "sourcePassage": "Only 10% of these deaths, generally, if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "rewritePassage": "for example when the tumour occurs in a meningioma or in the liver."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "And things like if tumors in bones lead to erosion of that bone function, so you can get fractures, and this causes an immense amount of pain.",
+      "reason": "The text says 'erosion of that bone function, so you can get fractures', while the rewrite says 'erosion of the bone, so that fractures can occur'. Later in the lecture, the speaker explicitly refers to 'erosion of bones'. The rewrite's phrasing resolves the speaker's minor verbal stumble and matches the later explicit statement without distorting the meaning."
+    },
+    {
+      "sourcePassage": "the hematopoietic stem cells that are there, these will interfere. This niche is not very big. This will interfere with your bone marrow, and it will result in things like infection and anemia as well.",
+      "reason": "The speaker's spoken phrasing was slightly tangled ('the hematopoietic stem cells that are there, these will interfere'), but the context of tumour competition for the stem cell niche leading to bone marrow failure clearly indicates that the tumour interferes with normal stem cells and the bone marrow. The rewrite faithfully renders this intended meaning."
+    },
+    {
+      "sourcePassage": "Also ulceration, you saw that enormous cauliflower structure within the colon. This causes a lot of bleeding and can lead to anemia.",
+      "reason": "The rewrite changes 'you saw that enormous cauliflower structure within the colon' to 'the enormous cauliflower-like structure seen within the colon'. This retains the visual description and subject matter from the lecturer's remark while adapting the conversational lecture reference into textbook prose."
+    },
+    {
+      "sourcePassage": "Things like obstruction of the bile ducts in the liver interferes with digestion.",
+      "reason": "The rewrite precedes this sentence with 'Other effects depend on the site.' This serves as a stylistic transitional sentence connecting to the earlier discussion of tumours in different settings, rather than introducing an unsourced substantive fact."
+    }
+  ]
+}

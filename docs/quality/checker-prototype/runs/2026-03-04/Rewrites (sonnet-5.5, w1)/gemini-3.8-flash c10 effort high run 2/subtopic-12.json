@@ -1,0 +1,31 @@
+{
+  "subtopicId": 12,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite introduces an unsourced causal link with the conjunction \"because\", stating that benign tumours are extremely common because it takes a great deal for them to become malignant. The lecturer presents these as separate observations and does not assert that the difficulty of malignant transformation causes benign tumours to be common.",
+      "sourcePassage": "So benign tumors are actually incredibly common. Right? So it actually takes a lot for a benign tumor to become malignant in terms of, as I said, the number of changes that have to happen within a tumor.",
+      "rewritePassage": "Benign tumours are extremely common, because it takes a great deal for a benign tumour to become malignant, given the number of changes that have to happen within a tumour."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So I've just put these numbers up just so that you can have a sense.",
+      "reason": "The rewrite renders this as 'The numbers shown give a sense of incidence'. The addition of 'of incidence' is directly contextualised by the lecturer opening the discussion with 'So just talking about incidence, about how often various tumors arise', so it is not an unsourced addition."
+    },
+    {
+      "sourcePassage": "And then this is, if you like, the percentage of tumors that result in deaths. As you can see, lung cancer is still pretty difficult to treat, and accounts for most of the deaths. But bowel, prostate, and breast are still up there as major causes of mortality. So, and just a-- Oops. Oh, God. It doesn't go backwards. Here we go.",
+      "reason": "The rewrite uses 'A further slide shows...'. The lecturer's comments about putting numbers up and 'It doesn't go backwards' show that presentation slides are being displayed, making the description of 'this' as a slide correct and permissible."
+    },
+    {
+      "sourcePassage": "But malignant tumors, for example, originating from mesenchymal lineage cell types, they're extremely rare.",
+      "reason": "Omitting the conversational phrase 'for example' in 'Malignant tumours originating from mesenchymal lineage cell types are extremely rare' does not distort the meaning or omit essential subject matter."
+    },
+    {
+      "sourcePassage": "They usually occur in young adulthood, in adolescence and young adulthood.",
+      "reason": "Condensing this to 'they usually occur in adolescence and young adulthood' correctly drops a spoken false start."
+    }
+  ]
+}

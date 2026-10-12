@@ -1,0 +1,36 @@
+{
+  "subtopicId": 10,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay? So just so that we're all on the same page in terms of nomenclature, and of course, with any naming system, there are always exceptions to every rule.",
+      "reason": "The introductory conversational remark to the audience ('Okay? So just so that we're all on the same page in terms of nomenclature, and of course') was omitted, which is an allowed change."
+    },
+    {
+      "sourcePassage": "All of these would be benign tumors in the tissues that they are occurring in. So the fat, smooth muscle or papillomas in the skin, and adenomas, as we were talking about in the colon.",
+      "reason": "The source lists the four previously named tumours alongside their four tissues in an elliptical spoken construction. Phrasing this as 'lipomas in fat, leiomyomas in smooth muscle, papillomas in the skin, and adenomas... in the colon' syntactically pairs them according to the speaker's stated rule without introducing unsourced facts."
+    },
+    {
+      "sourcePassage": "as we were talking about in the colon",
+      "reason": "Rendering 'as we were talking about' as 'as discussed earlier' is an allowed change of wording with identical meaning."
+    },
+    {
+      "sourcePassage": "Neuroectodermal tumors are the ones that kind of deviate from the nomenclature system.",
+      "reason": "Dropping the conversational filler 'are the ones that kind of' is allowed, as 'kind of' is spoken filler here rather than a scientific hedge."
+    },
+    {
+      "sourcePassage": "So you have cells, these are tumors that derive from the cells that form the central and peripheral nervous system.",
+      "reason": "Dropping the false start 'So you have cells,' is an allowed change."
+    },
+    {
+      "sourcePassage": "So these are these different tumor types and other exceptions as well, things like malignant melanoma.",
+      "reason": "Dropping the spoken transition/summary phrase 'So these are these different tumor types' is an allowed removal of filler/repetition."
+    },
+    {
+      "sourcePassage": "Melanoma is never used for moles, for example. This always denotes a malignant status.",
+      "reason": "Adding 'The term' in 'The term melanoma is never used for moles' is a grammatical adjustment in written prose that does not alter meaning."
+    }
+  ]
+}

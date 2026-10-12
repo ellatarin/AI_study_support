@@ -1,0 +1,51 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite uses 'since' to state a causal link between the terminology still being heard today and surgeons being able to determine mobility by touch. In the source text, 'where' introduces the clinical context in which the terminology is used, without asserting a causal connection.",
+      "sourcePassage": "And you'll hear this kind of terminology even now, where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable.",
+      "rewritePassage": "This terminology is still heard now, since a surgeon can tell just by holding or touching a tumour whether it is movable or immovable."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Okay. So with these tools in hand, I think the important concept to try and get across is invasion and metastasis.",
+      "reason": "Dropping conversational transitional phrasing ('Okay. So with these tools in hand', 'I think', 'try and get across') is allowed as filler, and changing 'concept' to plural 'concepts' is a grammatical adjustment for the two topics named."
+    },
+    {
+      "sourcePassage": "Obviously, changes occur within tumor cells, and it was long ago noticed back in, I don't know, when surgery was first coming into its own as a discipline after anesthesia was invented or discovered, that tumors kind of came in two types.",
+      "reason": "Dropping conversational filler ('Obviously', 'back in, I don't know', 'kind of') is permitted, and British English spelling ('tumours', 'anaesthesia') is an allowed change."
+    },
+    {
+      "sourcePassage": "What they termed the movable tumor. And a movable tumor is exactly like what it sounds. Surgeons would find that that tumor could move within the tissue or an immovable tumor.",
+      "reason": "The fragmented spoken syntax introducing both movable and immovable tumours has been smoothed into standard textbook prose without altering the meaning."
+    },
+    {
+      "sourcePassage": "And a movable tumor, it was generally well-contained and had a capsule around it, and you could literally lift it out of that capsule. It hadn't really spread, and these are considered benign tumors.",
+      "reason": "Changing second-person active phrasing ('you could literally lift it') into passive ('it could literally be lifted') is an allowed stylistic adjustment that preserves the exact meaning."
+    },
+    {
+      "sourcePassage": "Immovable tumors, on the other hand, grabbed hard onto the tissue that they were seated in.",
+      "reason": "The rewrite faithfully conveys the meaning, adjusting the preposition placement ('in which they were seated') for formal style."
+    },
+    {
+      "sourcePassage": "So when it becomes immovable, these malignant cells have spread or invaded into the adjacent tissue, into the adjacent stroma.",
+      "reason": "Replacing 'these malignant cells' with 'its malignant cells' faithfully links the cells to the immovable tumour being described."
+    },
+    {
+      "sourcePassage": "And so invasion can be seen down the microscope, and that's something that you'll come to appreciate in your practicals, but it can also be just felt by a surgeon.",
+      "reason": "The omission of 'and that's something that you'll come to appreciate in your practicals' is allowed because it is a remark to the audience and a statement about the course."
+    },
+    {
+      "sourcePassage": "So when somebody presents with a lump or a primary tumor, there will be a biopsy to look and to see whether or not the tumor cells are contained or whether or not they're invading into the surrounding tissue.",
+      "reason": "Using 'a patient presents' in place of 'somebody presents' and 'a biopsy is taken' for 'there will be a biopsy' are standard stylistic choices in medical textbook prose with identical meaning."
+    },
+    {
+      "sourcePassage": "Right. So, what does that mean for the patient? Well, the invasion, and whether or not that's seen histologically is probably the most important prognostic or diagnostic factor for the clinician in telling the patient what may or may not happen in terms of the tumor.",
+      "reason": "Converting the lecturer's rhetorical question and answer into a direct declarative sentence preserves the clinical facts, causal relationships, and hedges without distortion."
+    }
+  ]
+}

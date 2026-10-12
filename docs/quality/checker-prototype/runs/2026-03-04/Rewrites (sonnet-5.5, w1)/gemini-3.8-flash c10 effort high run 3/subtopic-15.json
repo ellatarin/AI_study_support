@@ -1,0 +1,31 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite turns the lecturer's pointing words ('and so you're looking at the cervix here') into a spatial description ('and the cervix is seen alongside it') that was not stated by the lecturer and is anatomically misleading, as the endocervical canal is within the cervix rather than alongside it.",
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "rewritePassage": "and the cervix is seen alongside it"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "The uterus is here in this diagram, and as you know, it hangs down into the vaginal canal.",
+      "reason": "The rewrite faithfully captures both the anatomical statement and the figure reference with 'The uterus hangs down into the vaginal canal, as shown in the diagram. [FIGURE]'."
+    },
+    {
+      "sourcePassage": "here is the endocervical canal that it goes between the neck of the womb",
+      "reason": "Rewriting 'goes between the neck of the womb' as 'runs through the neck of the womb' is an acceptable grammatical smoothing of the lecturer's conversational phrasing."
+    },
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here",
+      "reason": "This is conversational pointing to specific examples of cells on a slide, the substantive point of which is already conveyed by the statement that mitotic cells occur only at the basement layer."
+    },
+    {
+      "sourcePassage": "If you'll notice here from the 1950s to, this is only to 2000, you'll see that the rates of death in cervical cancer came down",
+      "reason": "The parenthetical remark 'this is only to 2000' is accurately retained in the rewrite as the end date of the time span ('From the 1950s to 2000')."
+    }
+  ]
+}

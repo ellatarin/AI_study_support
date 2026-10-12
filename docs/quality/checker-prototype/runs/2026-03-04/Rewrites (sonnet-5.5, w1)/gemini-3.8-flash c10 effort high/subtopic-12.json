@@ -1,0 +1,43 @@
+{
+  "subtopicId": 12,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite introduces a causal connection with the word 'because', asserting that benign tumours are common because it takes a great deal for them to become malignant. The lecturer mentions both points separately and does not state that one causes the other.",
+      "sourcePassage": "So benign tumors are actually incredibly common. Right? So it actually takes a lot for a benign tumor to become malignant in terms of, as I said, the number of changes that have to happen within a tumor. So they're extremely common",
+      "rewritePassage": "Benign tumours are extremely common, because it takes a great deal for a benign tumour to become malignant, given the number of changes that have to happen within a tumour."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So just talking about incidence, about how often various tumors arise.",
+      "reason": "Rendering this informal opening as the textbook definition 'Incidence describes how often various tumours arise' is an allowed stylistic rewrite."
+    },
+    {
+      "sourcePassage": "warts. All of these are overgrowths of tissues. Moles, I mean, who doesn't have moles?",
+      "reason": "The rewrite groups moles alongside lipomas, fibroids, and warts under 'all of which are overgrowths of tissues'. Since moles were introduced as another example of benign tumours, this reorganization does not introduce an unsupported claim."
+    },
+    {
+      "sourcePassage": "fibroids that we were talking about",
+      "reason": "Omitting 'that we were talking about' is allowed as it is a remark referencing earlier parts of the lecture."
+    },
+    {
+      "sourcePassage": "But malignant tumors, for example, originating from mesenchymal lineage cell types, they're extremely rare.",
+      "reason": "Omitting 'for example' does not alter the factual meaning that tumours originating from mesenchymal lineage cell types are extremely rare."
+    },
+    {
+      "sourcePassage": "But they are very difficult to treat. And so they progress very quickly, and they're lethal.",
+      "reason": "Omitting 'And so' treats it as a spoken discourse marker rather than a genuine causal link between being difficult to treat and progressing quickly."
+    },
+    {
+      "sourcePassage": "So I've just put these numbers up just so that you can have a sense. There's nothing to memorize here except to say that, as I said, breast, prostate, lung, and bowel are the four big cancer types.",
+      "reason": "The rewrite's phrasing 'The numbers shown give a sense of incidence' is supported by the context, as the lecturer explicitly framed this part of the talk as discussing incidence."
+    },
+    {
+      "sourcePassage": "And then this is, if you like, the percentage of tumors that result in deaths.",
+      "reason": "The rewrite phrasing 'A further slide shows the percentage of tumours that result in deaths' faithfully reflects the lecturer's spoken transition to the next slide."
+    }
+  ]
+}
