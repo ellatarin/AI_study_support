@@ -1,0 +1,28 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c5",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "The spoken reference to earlier visual material ('You saw...') is converted to textbook prose as 'The different pre-cancerous states are present' without adding new factual claims."
+    },
+    {
+      "sourcePassage": "an ulcerated cauliflower structure, if you like",
+      "reason": "The conversational hedge 'if you like' modifying 'cauliflower structure' is faithfully expressed as 'cauliflower-like structure'."
+    },
+    {
+      "sourcePassage": "and very likely to probably already be malignant",
+      "reason": "Omitting the spoken doublet/filler 'probably' while retaining 'very likely' preserves the degree of epistemic certainty."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "'Of the screening methods discussed, cervical screening is the best' faithfully renders the lecturer's back-reference ('as I said')."
+    },
+    {
+      "sourcePassage": "or there's some reason if you're showing symptoms",
+      "reason": "Rendering this spoken phrasing as 'or some other reason, such as the patient showing symptoms' accurately conveys the meaning of the colloquial construction."
+    }
+  ]
+}

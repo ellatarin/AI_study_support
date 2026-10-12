@@ -1,0 +1,24 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c5",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "This is a personal remark/reminder to the lecturer themselves and contains no subject matter; its omission is allowed."
+    },
+    {
+      "sourcePassage": "And I think one of the tumors that does this quite frequently is ovarian cancer, for example.",
+      "reason": "The phrase 'I think' functions as a conversational filler introducing a classic example rather than a scientific hedge on an uncertain claim, so omitting it is an allowed stylistic change."
+    },
+    {
+      "sourcePassage": "or also this transcoelomic site from across a cavity",
+      "reason": "The text lists 'routes' of spread ('either through the lymphatics or through the blood circulation... or also this transcoelomic site...'), so phrasing this as 'by a transcoelomic route, across a cavity' accurately reflects the meaning without altering the subject matter."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here",
+      "reason": "This is spoken deictic pointing to a slide/microscope image that does not introduce a distinct factual statement beyond the presence of tumour cells in the sample, which is kept in the rewrite."
+    }
+  ]
+}

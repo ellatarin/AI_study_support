@@ -1,0 +1,31 @@
+{
+  "subtopicId": 9,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer refers to a specific specimen being shown ('this meningioma') that exerted pressure on the brain and caused death in that case. The rewrite generalizes this into a universal statement ('A meningioma occurs within the skull... so it puts an enormous amount of pressure on the brain and the surrounding structures').",
+      "sourcePassage": "So this meningioma obviously is occurring within the skull. The skull is a confined space. This would put an enormous amount of pressure on the brain and the surrounding structures and would cause and has caused Has caused death in this case.",
+      "rewritePassage": "A meningioma occurs within the skull, which is a confined space, so it puts an enormous amount of pressure on the brain and the surrounding structures, and in this case it caused death."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Obviously, when there is a suspicion of cancer or of a tumor, everybody gets very nervous about what that diagnosis is going to look like.",
+      "reason": "The rewrite renders this as 'When cancer or a tumour is suspected, there is considerable anxiety about the diagnosis', which accurately conveys the meaning in textbook prose without adding or distorting facts."
+    },
+    {
+      "sourcePassage": "that I showed you",
+      "reason": "Rendered as 'as shown earlier', which is an allowed stylistic adjustment referring to previously presented material."
+    },
+    {
+      "sourcePassage": "release a lot of hormones",
+      "reason": "Rendered as 'release large amounts of hormones', which has the same meaning."
+    },
+    {
+      "sourcePassage": "So things like meningiomas can cause that.",
+      "reason": "Rendered as 'Meningiomas can therefore have this effect', which preserves the causal conclusion stated by the lecturer."
+    }
+  ]
+}

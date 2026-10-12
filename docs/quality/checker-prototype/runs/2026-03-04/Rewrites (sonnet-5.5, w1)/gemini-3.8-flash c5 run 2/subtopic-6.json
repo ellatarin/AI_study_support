@@ -1,0 +1,20 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c5",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "This is a lecturer's remark about their own speech habits/notes, not subject matter, so omitting it is allowed."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here, and then you can often see sometimes the tumor cells are actually present within a lymphatic duct.",
+      "reason": "The phrase 'You see your tumor cells are here' is conversational pointing to a slide/figure; the substantive point that tumor cells are present within a lymphatic duct is accurately retained."
+    },
+    {
+      "sourcePassage": "or also this transcoelomic site from across a cavity",
+      "reason": "The lecturer is listing routes of spread ('via a number of routes, either through... or through... or also this transcoelomic site from across a cavity'), so phrasing this as 'by a transcoelomic route, across a cavity' accurately reflects the list of routes without adding unsourced information."
+    }
+  ]
+}

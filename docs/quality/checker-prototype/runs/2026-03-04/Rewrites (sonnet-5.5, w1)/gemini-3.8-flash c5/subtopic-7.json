@@ -1,0 +1,35 @@
+{
+  "subtopicId": 7,
+  "checkerPromptVersion": "c5",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite interprets the lecturer's pointing gestures ('You can see that the tumor is here. This is the outer surface of the uterus') as a specific anatomical relationship ('The tumour lies next to the outer surface of the uterus').",
+      "sourcePassage": "You can see that the tumor is here. This is the outer surface of the uterus.",
+      "rewritePassage": "The tumour lies next to the outer surface of the uterus, which normally has a very thin muscle wall."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The term 'circumspect' was replaced with 'circumscribed' without an entry in the corrections list.",
+      "sourcePassage": "So you can see again that this is actually circumspect and very separate from the surrounding stroma and the surrounding tissue.",
+      "rewritePassage": "The tumour is therefore circumscribed and very separate from the surrounding stroma and the surrounding tissue."
+    },
+    {
+      "deficiencyType": "omission",
+      "description": "The rewrite omits the statement that adjacent lymph nodes are sampled 'very often'.",
+      "sourcePassage": "very often, for example, with breast cancers, you might sample the adjacent lymph node",
+      "rewritePassage": "as for example with breast cancers, the adjacent lymph node might be sampled"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "and has, if you like, invaded within this tissue.",
+      "reason": "The phrase 'if you like' was appropriately rendered as 'in a sense' without changing the meaning."
+    },
+    {
+      "sourcePassage": "Movable, and literally, you can scoop it out with no damage to the surrounding tissue. All right? So a benign tumor.",
+      "reason": "Omission of conversational check 'All right?' and consolidation of phrasing into textbook prose are allowed changes."
+    }
+  ]
+}

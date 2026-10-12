@@ -1,0 +1,27 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c5",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite states that the stained slice through a tumour illustrates tumour explantation ('illustrates this'), but the text merely presents looking at a slice through a tumour and a stain after mentioning explantation, without asserting that the slice illustrates explantation.",
+      "sourcePassage": "So the other thing to appreciate is that when, if you like, biologists are studying tumors, often they will explant the tumor. Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "rewritePassage": "A slice through a tumour, with a stain to show the morphology, illustrates this [FIGURE]."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "This is an offhand remark to the audience and dropped filler, which is an allowed omission."
+    },
+    {
+      "sourcePassage": "Primary cells really don't grow in culture.",
+      "reason": "Omitting 'really' in 'Primary cells do not grow in culture' removes an informal intensifier rather than a scientific hedge."
+    },
+    {
+      "sourcePassage": "as you might imagine",
+      "reason": "This is an informal remark addressed to the audience, and its removal is allowed."
+    }
+  ]
+}

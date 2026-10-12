@@ -1,0 +1,20 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c5",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, everyone, shall we get started? Yes. You're very welcome, all of you, to Cancer Biology.",
+      "reason": "Opening pleasantries and greeting to the audience are allowed omissions."
+    },
+    {
+      "sourcePassage": "because it has such an impact",
+      "reason": "This is a repetition of the immediately preceding statement ('because of obviously the impact that cancer has on society'), so omitting the repeated phrase is allowed."
+    },
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there.",
+      "reason": "The pointing phrase referring to a visual slide ('listed there') is an allowed omission or presentation remark, rendered neutrally as 'as follows'."
+    }
+  ]
+}

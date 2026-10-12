@@ -1,0 +1,33 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite inserts 'that is' to equate acetylation or deacetylation with the state of transcription within the cell itself, adding an explicit link of equivalence that the text does not state.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The text states that the viruses ('they') can predispose to chronic inflammatory events, whereas the rewrite widens the cause to 'infection'.",
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events",
+      "rewritePassage": "There are about seven different human viruses that precipitate cancer, and infection can also predispose to chronic inflammatory events"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "I'm sure you've seen a cartoon that looks like this many times.",
+      "reason": "Rendered as 'the familiar cartoon' in the rewrite; this retains the same meaning while adapting spoken delivery to prose."
+    },
+    {
+      "sourcePassage": "we don't know pretty much because of this when they occur.",
+      "reason": "Rendered as 'because of this it is largely not known when they occur', which accurately preserves the meaning and hedging of 'pretty much'."
+    },
+    {
+      "sourcePassage": "So hopefully, in order to try and address some of these questions, we will start at the beginning. [chuckles]",
+      "reason": "Dropping the conversational filler and chuckling, and rendering as 'and in order to address some of them, the discussion starts at the beginning', is an allowed stylistic change."
+    }
+  ]
+}

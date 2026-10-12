@@ -1,0 +1,20 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "This is a remark referencing earlier slides/figures or lecturing context, reasonably converted to 'The different pre-cancerous states are present'."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "'Of the screening methods discussed, cervical screening is the best' faithfully adapts the lecturer's recap ('as I said')."
+    },
+    {
+      "sourcePassage": "it has a very, very high false positive rate",
+      "reason": "Reducing repetitive intensifiers ('very, very' to 'very') is an allowed stylistic cleanup of spoken delivery."
+    }
+  ]
+}

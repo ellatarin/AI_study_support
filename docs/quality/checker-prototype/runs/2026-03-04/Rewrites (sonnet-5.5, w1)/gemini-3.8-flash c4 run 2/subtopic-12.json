@@ -1,0 +1,35 @@
+{
+  "subtopicId": 12,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite inserts 'because' to link the high incidence of benign tumours to the difficulty of malignant transformation, stating a causal link that the text does not state.",
+      "sourcePassage": "So benign tumors are actually incredibly common. Right? So it actually takes a lot for a benign tumor to become malignant in terms of, as I said, the number of changes that have to happen within a tumor.",
+      "rewritePassage": "Benign tumours are extremely common, because it takes a great deal for a benign tumour to become malignant, given the number of changes that have to happen within a tumour."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The text leaves 'just so that you can have a sense' incomplete without specifying what the sense is of; the rewrite completes the statement by specifying 'of incidence'.",
+      "sourcePassage": "So I've just put these numbers up just so that you can have a sense.",
+      "rewritePassage": "The numbers shown give a sense of incidence"
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite turns the lecturer's pointing phrase 'this is' into the description 'A further slide shows', which the lecturer did not give.",
+      "sourcePassage": "And then this is, if you like, the percentage of tumors that result in deaths.",
+      "rewritePassage": "A further slide shows the percentage of tumours that result in deaths."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So liver cancer and nasopharyngeal carcinomas are very big in Chinese populations.",
+      "reason": "Replacing 'very big' with 'very common' expresses the same meaning in textbook style and is an allowed change."
+    },
+    {
+      "sourcePassage": "But bowel, prostate, and breast are still up there as major causes of mortality.",
+      "reason": "Adding the word 'cancer' to complete the noun phrase 'bowel, prostate and breast cancer' is an allowed grammatical and stylistic clarification based directly on the preceding context."
+    }
+  ]
+}

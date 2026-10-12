@@ -1,0 +1,28 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c5",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "if you compare any two things, you're going to find differences",
+      "reason": "The rewrite renders 'any two things' as 'between two species' in the context of comparing dogs, cats, and humans. This adapts colloquial phrasing to textbook style without introducing an ungrounded scientific fact."
+    },
+    {
+      "sourcePassage": "very, very prevalent",
+      "reason": "Omitting the repeated 'very' is the removal of conversational repetition and emphasis rather than a factual omission."
+    },
+    {
+      "sourcePassage": "And this is my cat, who also ended up with a feline injection site sarcoma. This is from injections proposed to be due to the adjuvant that is also added with the injection. You'll be happy to hear he's doing fine now after his surgery.",
+      "reason": "The rewrite conveys the personal anecdote and the medical facts in third-person prose while omitting conversational remarks to the audience ('You'll be happy to hear')."
+    },
+    {
+      "sourcePassage": "digestive tissues, hematopoietic, and skin",
+      "reason": "The rewrite writes 'hematopoietic tissues', supplying the noun implied by the list of tissue types, which is an allowable grammatical completion."
+    },
+    {
+      "sourcePassage": "The only thing that was quite interesting to note here is that the rate of malignant tumors is about fivefold higher in reptiles compared to mammals.",
+      "reason": "The rewrite rephrases this as 'The one notable difference is that the rate of malignant tumours is about fivefold higher in reptiles than in mammals', which accurately reflects the comparative nature of the observation."
+    }
+  ]
+}

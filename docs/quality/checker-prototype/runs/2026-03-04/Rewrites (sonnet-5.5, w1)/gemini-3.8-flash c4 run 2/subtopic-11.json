@@ -1,0 +1,45 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds the statement that other effects depend on the site, which the source text does not state.",
+      "sourcePassage": "So it's a general lack of function there. Things like obstruction of the bile ducts in the liver interferes with digestion.",
+      "rewritePassage": "Other effects depend on the site."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The source text contains an unclear spoken phrasing ('the hematopoietic stem cells that are there, these will interfere'), which the rewrite makes complete and clear by asserting that the tumour interferes with the haematopoietic stem cells.",
+      "sourcePassage": "if you have a tumor that is occurring in some of the blood compartments, the hematopoietic stem cells that are there, these will interfere.",
+      "rewritePassage": "A tumour occurring in the blood compartments, where the haematopoietic stem cells are located, will interfere with them."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds the word 'therefore', introducing a causal connection between the niche not being very big and the tumour interfering with the bone marrow, whereas the source text merely juxtaposes the two sentences.",
+      "sourcePassage": "This niche is not very big. This will interfere with your bone marrow",
+      "rewritePassage": "This niche is not very big. The tumour will therefore interfere with the bone marrow"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite describes a tumour occurring in a meningioma, treating a meningioma as an anatomical site rather than a type of primary tumour.",
+      "sourcePassage": "if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "rewritePassage": "when the tumour occurs in a meningioma or in the liver."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "And things like if tumors in bones lead to erosion of that bone function, so you can get fractures",
+      "reason": "The rewrite writes 'erosion of the bone, so that fractures can occur' instead of 'erosion of that bone function'; this expresses the same substantive meaning in textbook prose."
+    },
+    {
+      "sourcePassage": "Also ulceration, you saw that enormous cauliflower structure within the colon.",
+      "reason": "The rewrite retains the reference to the visual demonstration ('the enormous cauliflower-like structure seen within the colon') and expresses the same meaning."
+    },
+    {
+      "sourcePassage": "And also this competition with the normal",
+      "reason": "Expanding 'the normal' to 'normal tissue' in 'Competition with normal tissue is also a factor' uses different words with the same meaning in this physiological context."
+    }
+  ]
+}

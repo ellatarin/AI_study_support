@@ -1,0 +1,47 @@
+{
+  "subtopicId": 7,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite converts the lecturer's pointing words ('the tumor is here. This is the outer surface of the uterus') into a specific spatial description ('The tumour lies next to the outer surface of the uterus') that the lecturer did not give.",
+      "sourcePassage": "You can see that the tumor is here. This is the outer surface of the uterus.",
+      "rewritePassage": "The tumour lies next to the outer surface of the uterus"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The term 'circumspect' is changed to 'circumscribed' without an entry in the corrections list.",
+      "sourcePassage": "this is actually circumspect",
+      "rewritePassage": "circumscribed"
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds 'therefore' to link the preceding process of fixation and separation causally to the tumour being circumscribed and separate, whereas the lecturer used 'So' as a conversational marker introducing an observation.",
+      "sourcePassage": "So you can see again that this is actually circumspect and very separate from the surrounding stroma and the surrounding tissue.",
+      "rewritePassage": "The tumour is therefore circumscribed and very separate from the surrounding stroma and the surrounding tissue."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "you can have a benign tumor like this one, which has a capsule around it.",
+      "reason": "The rewrite phrases this as 'a benign tumour may have a capsule around it', which faithfully reflects the possibility expressed by 'you can have'."
+    },
+    {
+      "sourcePassage": "This is normally a very thin muscle wall that is present in the uterus.",
+      "reason": "The rewrite renders this as 'which normally has a very thin muscle wall', which preserves the descriptive fact about the uterine wall."
+    },
+    {
+      "sourcePassage": "and has, if you like, invaded within this tissue.",
+      "reason": "The rewrite renders 'if you like' as 'in a sense', preserving the hedge used by the lecturer."
+    },
+    {
+      "sourcePassage": "So if you zoom into what this actually looks like on the slide, taking this section here, what you find is normal muscle here, but interleaving within that, you have these stripes of the malignant tumor that are within the normal muscle.",
+      "reason": "The rewrite describes this as 'In a zoomed-in view of the section, normal muscle is present, but interleaved within it are stripes of the malignant tumour lying within the normal muscle', which accurately captures the lecturer's description without adding unmentioned details."
+    },
+    {
+      "sourcePassage": "but you wouldn't be sampling all over the body,",
+      "reason": "The phrasing 'the whole body would not be sampled' carries the same meaning as 'wouldn't be sampling all over the body'."
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite changes 'adolescence' to 'differentiation', replacing a developmental stage with a cellular process.",
+      "sourcePassage": "because obviously during adolescence and maturation, this occurs from infancy to adulthood.",
+      "rewritePassage": "because differentiation and maturation also occur from infancy to adulthood."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "during embryogenesis, during the time that you were born.",
+      "reason": "The phrase 'during the time that you were born' is a false start or conversational slip for embryogenesis/fetal development and was omitted in line with allowed changes for false starts and repetitions."
+    },
+    {
+      "sourcePassage": "into the invading stroma",
+      "reason": "'invaded stroma' captures the exact meaning intended by the lecturer's phrasing 'into the invading stroma' (stroma being invaded by cancer cells), so it is not reported as a distortion."
+    },
+    {
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes. They have come in, they have lost this architecture, moved over the basement membrane and invaded and are growing within the stroma.",
+      "reason": "The introductory phrase 'In the image of the invasive tissue' references the context already established by the lecturer ('invaded and are growing within the stroma', 'get this invasion') and is accompanied by a [FIGURE] marker."
+    }
+  ]
+}

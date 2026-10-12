@@ -1,0 +1,24 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c5",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "if you compare any two things, you're going to find differences",
+      "reason": "The rewrite renders this as 'any comparison between two species will reveal differences', which faithfully captures the meaning in context where companion animal species and humans are being compared."
+    },
+    {
+      "sourcePassage": "mammary tumors seem to be very, very prevalent",
+      "reason": "The rewrite uses 'very prevalent', which retains the hedge ('seem to be') and meaning while eliminating conversational repetition."
+    },
+    {
+      "sourcePassage": "The only thing that was quite interesting to note here is that the rate of malignant tumors is about fivefold higher in reptiles compared to mammals.",
+      "reason": "The rewrite renders this as 'The one notable difference is that the rate of malignant tumours is about fivefold higher in reptiles than in mammals', accurately reflecting the comparative observation noted by the lecturer."
+    },
+    {
+      "sourcePassage": "You'll be happy to hear he's doing fine now after his surgery.",
+      "reason": "Omitting 'You'll be happy to hear' is an allowed change as it is conversational address to the audience, while the factual update that the cat is doing fine after surgery is preserved."
+    }
+  ]
+}

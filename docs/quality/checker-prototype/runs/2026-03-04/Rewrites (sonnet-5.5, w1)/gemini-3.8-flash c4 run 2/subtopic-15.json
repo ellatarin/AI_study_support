@@ -1,0 +1,23 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite states that the cervix is seen 'alongside' the endocervical canal, turning the lecturer's pointing word ('here') into a spatial description that was not stated in the lecture.",
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "rewritePassage": "and the cervix is seen alongside it."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here",
+      "reason": "This is a demonstrative remark pointing to specific examples in the displayed image to illustrate the general rule that mitotic cells occur at the basement layer, which is retained in the rewrite."
+    },
+    {
+      "sourcePassage": "that it goes between the neck of the womb",
+      "reason": "The rewrite phrases this as 'runs through the neck of the womb', which resolves the spoken phrasing ('goes between') into standard anatomical prose with equivalent meaning."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c5",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, everyone, shall we get started? Yes. You're very welcome, all of you, to Cancer Biology.",
+      "reason": "This is conversational opening filler and a greeting to the audience, which is an allowed omission."
+    },
+    {
+      "sourcePassage": "Actually, when you tell people that you're working on cancer, they're all incredibly grateful for you for taking on such a difficult disease because it has such an impact.",
+      "reason": "The clause 'because it has such an impact' repeats the fact already stated in the previous sentence ('the impact that cancer has on society'), which is retained in the rewrite."
+    },
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there.",
+      "reason": "The reference to the slide ('listed there') is a presentation remark, appropriately adapted to 'as follows'."
+    }
+  ]
+}

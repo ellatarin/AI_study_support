@@ -1,0 +1,33 @@
+{
+  "subtopicId": 12,
+  "checkerPromptVersion": "c5",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite introduces an unsourced causal link ('because') asserting that benign tumours are common because it takes a lot for them to become malignant, whereas the lecturer merely stated these as two separate points.",
+      "sourcePassage": "So benign tumors are actually incredibly common. Right? So it actually takes a lot for a benign tumor to become malignant in terms of, as I said, the number of changes that have to happen within a tumor.",
+      "rewritePassage": "Benign tumours are extremely common, because it takes a great deal for a benign tumour to become malignant, given the number of changes that have to happen within a tumour."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite turns the lecturer's pointing word 'this' into the specific description 'A further slide', which the lecturer did not state.",
+      "sourcePassage": "And then this is, if you like, the percentage of tumors that result in deaths.",
+      "rewritePassage": "A further slide shows the percentage of tumours that result in deaths."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So I've just put these numbers up just so that you can have a sense.",
+      "reason": "The rewrite phrases this as 'The numbers shown give a sense of incidence', which is drawn directly from the earlier topic sentence ('So just talking about incidence') and maintains the same meaning."
+    },
+    {
+      "sourcePassage": "Moles, I mean, who doesn't have moles?",
+      "reason": "The rhetorical question is dropped as conversational filler/remark to the audience, while the subject matter ('moles') is retained in the list."
+    },
+    {
+      "sourcePassage": "So, and just a-- Oops. Oh, God. It doesn't go backwards. Here we go.",
+      "reason": "Dropped as filler and technical remarks to the audience during slide navigation."
+    }
+  ]
+}

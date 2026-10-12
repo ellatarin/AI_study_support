@@ -1,0 +1,29 @@
+{
+  "subtopicId": 12,
+  "checkerPromptVersion": "c5",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite introduces a causal link ('because') asserting that benign tumours are common because it takes a lot for them to become malignant. The lecturer mentions both points separately and does not state that one causes the other.",
+      "sourcePassage": "So benign tumors are actually incredibly common. Right? So it actually takes a lot for a benign tumor to become malignant in terms of, as I said, the number of changes that have to happen within a tumor.",
+      "rewritePassage": "Benign tumours are extremely common, because it takes a great deal for a benign tumour to become malignant, given the number of changes that have to happen within a tumour."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The text states that lipomas, fibroids, and warts are overgrowths of tissues, and introduces moles separately afterwards. The rewrite includes moles in 'all of which are overgrowths of tissues', stating a classification for moles that the lecturer did not make.",
+      "sourcePassage": "There are fibroids that we were talking about, warts. All of these are overgrowths of tissues. Moles, I mean, who doesn't have moles?",
+      "rewritePassage": "Examples include lipomas, fibroids, warts and moles, all of which are overgrowths of tissues."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So I've just put these numbers up just so that you can have a sense.",
+      "reason": "The rewrite states 'give a sense of incidence'; this correctly reflects the overarching topic established in the source passage ('just talking about incidence')."
+    },
+    {
+      "sourcePassage": "And then this is, if you like, the percentage of tumors that result in deaths. As you can see, lung cancer is still pretty difficult to treat, and accounts for most of the deaths. But bowel, prostate, and breast are still up there as major causes of mortality. So, and just a-- Oops. Oh, God. It doesn't go backwards. Here we go.",
+      "reason": "The lecturer refers to slide visuals that they are navigating forward/backward, so rendering 'this is' as 'A further slide shows' accompanied by the [FIGURE] tag is an allowed representation of the presentation material."
+    }
+  ]
+}

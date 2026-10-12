@@ -1,0 +1,39 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c5",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer refers to changes occurring during 'adolescence and maturation', but the rewrite changes 'adolescence' to 'differentiation'.",
+      "sourcePassage": "because obviously during adolescence and maturation, this occurs from infancy to adulthood.",
+      "rewritePassage": "because differentiation and maturation also occur from infancy to adulthood."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite converts the lecturer's pointing words ('here now') into a descriptive label ('In the image of the invasive tissue') that the lecturer did not utter.",
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes.",
+      "rewritePassage": "In the image of the invasive tissue, the cells are of different shapes and sizes."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer refers to the 'invading stroma', but the rewrite alters the participle to 'invaded stroma'.",
+      "sourcePassage": "which would be here into the invading stroma.",
+      "rewritePassage": "into the invaded stroma."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "during embryogenesis, during the time that you were born.",
+      "reason": "The phrase 'during the time that you were born' was treated as a spoken slip or false start immediately restated and qualified by the lecturer as development occurring in the womb, and was therefore omitted."
+    },
+    {
+      "sourcePassage": "provides a signaling and basis for their adherence to this layer.",
+      "reason": "Treating 'signaling and basis' as 'signalling basis' resolves conversational phrasing/hesitation without introducing unsourced facts."
+    },
+    {
+      "sourcePassage": "so they're apical basal regulation in terms of the orientation of those cells within the tissue.",
+      "reason": "Rendering 'so they're apical basal regulation' as 'which reflects apical-basal regulation' normalises spoken grammar while retaining the lecturer's stated meaning."
+    }
+  ]
+}

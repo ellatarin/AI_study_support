@@ -1,0 +1,35 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The text states 'during adolescence and maturation', but the rewrite changes 'adolescence' to 'differentiation'.",
+      "sourcePassage": "because obviously during adolescence and maturation, this occurs from infancy to adulthood.",
+      "rewritePassage": "because differentiation and maturation also occur from infancy to adulthood."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite turns the lecturer's pointing words ('here now') into a descriptive phrase ('In the image of the invasive tissue') that the lecturer did not state.",
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes.",
+      "rewritePassage": "In the image of the invasive tissue, the cells are of different shapes and sizes."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite alters the lecturer's phrasing from 'invading stroma' to 'invaded stroma'.",
+      "sourcePassage": "past the basement membrane, which would be here into the invading stroma.",
+      "rewritePassage": "past the basement membrane into the invaded stroma."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "during embryogenesis, during the time that you were born.",
+      "reason": "The clause 'during the time that you were born' is a conversational slip or false start immediately following 'during embryogenesis' and preceding 'development and differentiation occurs obviously in the womb', so omitting it is an allowed change."
+    },
+    {
+      "sourcePassage": "provides a signaling and basis for their adherence to this layer.",
+      "reason": "'signaling and basis' simplified to 'signalling basis' reflects the removal of a false start or hesitation ('and') rather than a substantive change in meaning."
+    }
+  ]
+}

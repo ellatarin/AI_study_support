@@ -1,0 +1,33 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c5",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "omission",
+      "description": "The lecturer states the diagnostic question of determining whether there are secondary metastases across the body, but this question is omitted from the rewrite.",
+      "sourcePassage": "But the question is, of course, you would then be interested in figuring out whether or not there would be secondary metastases across the body.",
+      "rewritePassage": null
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite converts the pointing word 'this' into the specific description 'Invasion', which was not stated by the lecturer.",
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "rewritePassage": "Invasion is therefore probably an obligatory step in arriving at a malignant, metastasising tumour."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "The singular pronoun 'it' refers to 'malignancy', which is defined by invasiveness (as opposed to invasion itself), so writing 'malignancy is defined as...' accurately preserves the intended antecedent rather than introducing an unsourced definition."
+    },
+    {
+      "sourcePassage": "You'll see that over here you have the adenoma which has progressed into an adenocarcinoma. So one is growing out of the other.",
+      "reason": "'Elsewhere in the same lesion' reflects the lecturer's explanation that the adenoma and adenocarcinoma are parts of the same growing structure ('one is growing out of the other') rather than adding an unsourced anatomical detail."
+    },
+    {
+      "sourcePassage": "What you would think is that these muscle layers here are joined in a circle, and this polyp is kind of hanging out into the lumen of the bowel.",
+      "reason": "Omitting the conversational framing 'What you would think is that' is an allowed change of spoken style to textbook prose."
+    }
+  ]
+}

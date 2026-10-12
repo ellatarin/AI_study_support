@@ -1,0 +1,27 @@
+{
+  "subtopicId": 9,
+  "checkerPromptVersion": "c5",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer refers to a specific case ('this meningioma') that occurred within the skull and exerted pressure on the brain. The rewrite generalizes this into a broad claim that a meningioma occurs within the skull and puts an enormous amount of pressure on the brain and surrounding structures.",
+      "sourcePassage": "So this meningioma obviously is occurring within the skull. The skull is a confined space. This would put an enormous amount of pressure on the brain and the surrounding structures",
+      "rewritePassage": "A meningioma occurs within the skull, which is a confined space, so it puts an enormous amount of pressure on the brain and the surrounding structures"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Obviously, when there is a suspicion of cancer or of a tumor, everybody gets very nervous about what that diagnosis is going to look like.",
+      "reason": "The rewrite renders this as 'When cancer or a tumour is suspected, there is considerable anxiety about the diagnosis', which conveys the same meaning while removing colloquial phrasing."
+    },
+    {
+      "sourcePassage": "the smooth muscle fibroid that I showed you, that almost never progresses to a leiomyosarcoma.",
+      "reason": "The rewrite renders 'that I showed you' as 'as shown earlier, almost never progresses to a leiomyosarcoma. [FIGURE]', which is an allowed stylistic phrasing and figure reference."
+    },
+    {
+      "sourcePassage": "So things like meningiomas can cause that.",
+      "reason": "'Meningiomas can therefore have this effect' carries the same meaning as the source statement."
+    }
+  ]
+}

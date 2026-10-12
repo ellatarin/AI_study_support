@@ -1,0 +1,24 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "This is a personal remark / joke by the lecturer to the audience, so omitting it is an allowed change."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here, and then you can often see sometimes the tumor cells are actually present within a lymphatic duct.",
+      "reason": "The pointing phrase 'You see your tumor cells are here' refers to the visual presentation/slide and is condensed into the description of tumour cells seen in a lymphatic duct without adding unsourced content."
+    },
+    {
+      "sourcePassage": "or also this transcoelomic site from across a cavity",
+      "reason": "Rendered as 'or by a transcoelomic route, across a cavity', maintaining parallelism with the preceding list of spread routes ('via a number of routes') and conveying the exact intended meaning."
+    },
+    {
+      "sourcePassage": "Similarly, here you have a brain, and what you have here is a breast cancer that's metastasized to the brain.",
+      "reason": "Rendered faithfully as 'The other is a breast cancer that has metastasized to the brain' with a [FIGURE] placeholder, omitting purely deictic pointing phrases ('here you have')."
+    }
+  ]
+}

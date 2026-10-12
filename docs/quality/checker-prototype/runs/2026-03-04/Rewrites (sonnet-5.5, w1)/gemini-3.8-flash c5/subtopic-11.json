@@ -1,0 +1,39 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c5",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds the statement 'Other effects depend on the site', which is not stated in the source text.",
+      "sourcePassage": "Things like obstruction of the bile ducts in the liver interferes with digestion.",
+      "rewritePassage": "Other effects depend on the site."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The text states that tumours lead to 'erosion of that bone function', which the rewrite changes to 'erosion of the bone'. Resolving an unclear or loose phrasing into a conventional scientific reading is a forbidden change.",
+      "sourcePassage": "if tumors in bones lead to erosion of that bone function, so you can get fractures",
+      "rewritePassage": "Tumours in bones lead to erosion of the bone, so that fractures can occur"
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite inserts 'therefore' to create a causal connection between the niche not being very big and the tumour interfering with the bone marrow, whereas the source text merely juxtaposes the two statements.",
+      "sourcePassage": "This niche is not very big. This will interfere with your bone marrow, and it will result in things like infection and anemia as well.",
+      "rewritePassage": "This niche is not very big. The tumour will therefore interfere with the bone marrow, and this results in infection and anaemia as well."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "if they're occurring in things like the meningioma that I was telling you about or in the liver",
+      "reason": "The rewrite's phrasing 'when the tumour occurs in a meningioma or in the liver' mirrors the lecturer's own phrasing ('occurring in things like the meningioma') rather than introducing a new error."
+    },
+    {
+      "sourcePassage": "you saw that enormous cauliflower structure within the colon",
+      "reason": "The rewrite converts the lecturer's direct address to the audience ('you saw') into textbook prose ('seen within the colon') while retaining the descriptive subject matter."
+    },
+    {
+      "sourcePassage": "And also this competition with the normal",
+      "reason": "The rewrite renders this as 'Competition with normal tissue is also a factor', which conveys the intended meaning of competing with normal cells/tissue in the hematopoietic compartment."
+    }
+  ]
+}

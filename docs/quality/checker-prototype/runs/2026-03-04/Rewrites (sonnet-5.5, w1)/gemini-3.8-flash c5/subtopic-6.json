@@ -1,0 +1,33 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c5",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The hedge 'I think' was removed from the scientific claim that ovarian cancer frequently spreads via this route.",
+      "sourcePassage": "And I think one of the tumors that does this quite frequently is ovarian cancer, for example.",
+      "rewritePassage": "One tumour that does this quite frequently is ovarian cancer, for example."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The term 'site' was changed to 'route'.",
+      "sourcePassage": "or also this transcoelomic site from across a cavity",
+      "rewritePassage": "or by a transcoelomic route, across a cavity"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "This is a personal remark / self-reminder by the lecturer that conveys no subject matter, so omitting it is an allowed change."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here, and then you can often see sometimes the tumor cells are actually present within a lymphatic duct.",
+      "reason": "The pointing phrase 'You see your tumor cells are here' and the conversational repetition 'often see sometimes' were condensed to state that tumour cells can often be seen within a lymphatic duct, which preserves the subject matter without adding unsourced descriptions."
+    },
+    {
+      "sourcePassage": "Similarly, here you have a brain, and what you have here is a breast cancer that's metastasized to the brain.",
+      "reason": "The conversational framing and demonstratives ('here you have a brain') were removed while retaining the subject matter that the second example is breast cancer metastasized to the brain."
+    }
+  ]
+}

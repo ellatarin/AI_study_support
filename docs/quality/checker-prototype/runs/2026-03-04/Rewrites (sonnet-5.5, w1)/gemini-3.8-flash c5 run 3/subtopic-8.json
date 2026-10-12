@@ -1,0 +1,23 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c5",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite replaces the lecturer's pointing word 'this' with the specific noun 'Invasion', adding a description that the lecturer did not give.",
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "rewritePassage": "Invasion is therefore probably an obligatory step in arriving at a malignant, metastasising tumour."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "The rewrite renders this as 'Invasion and malignancy are very important diagnostically, and malignancy is defined as the ability to invade the surrounding tissue.' While 'it' followed two nouns ('invasion and malignancy'), defining 'malignancy' as the ability to invade surrounding tissue is the standard meaning in this context and represents the natural antecedent of 'it', rather than an unwarranted resolution of an ambiguous claim."
+    },
+    {
+      "sourcePassage": "You'll see that over here you have the adenoma which has progressed into an adenocarcinoma. So one is growing out of the other.",
+      "reason": "The rewrite translates 'over here' into 'Elsewhere in the same lesion'. Because the lecturer is describing different areas within the same histological section where 'one is growing out of the other', this phrasing faithfully preserves the meaning without adding unsourced facts."
+    }
+  ]
+}

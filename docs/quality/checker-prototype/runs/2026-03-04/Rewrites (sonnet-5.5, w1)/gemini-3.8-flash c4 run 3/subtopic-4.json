@@ -1,0 +1,27 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds that the slice through a tumour 'illustrates this' (i.e. illustrates biologists explanting the tumour). The text merely transitions from mentioning explanting tumours to describing what is on the slide without stating that the slice illustrates explanting.",
+      "sourcePassage": "often they will explant the tumor. Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "rewritePassage": "Biologists studying tumours often explant the tumour. A slice through a tumour, with a stain to show the morphology, illustrates this [FIGURE]."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Primary cells really don't grow in culture.",
+      "reason": "The word 'really' is used colloquially for emphasis rather than as a scientific hedge, so omitting it is an allowed change of style."
+    },
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "This is a remark about the lecture or speaker's timing and contains no subject matter, so omitting it is allowed."
+    },
+    {
+      "sourcePassage": "contributions of things like the stroma and other things.",
+      "reason": "Rendering 'other things' as 'other components' is a stylistic variation with the same meaning in this context."
+    }
+  ]
+}

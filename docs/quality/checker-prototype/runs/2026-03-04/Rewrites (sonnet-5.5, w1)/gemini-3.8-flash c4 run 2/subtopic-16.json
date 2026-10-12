@@ -1,0 +1,24 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "The lecture-audience remark referring to a slide or previously shown diagram was converted into textbook prose ('The different pre-cancerous states are present'), which is an allowed change."
+    },
+    {
+      "sourcePassage": "cauliflower structure, if you like",
+      "reason": "The phrasing was adapted as 'cauliflower-like structure', which accurately reflects the colloquial hedge 'if you like'."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "The introductory clause 'Of the screening methods discussed' replaces the conversational back-reference 'as I said' without adding new factual claims."
+    },
+    {
+      "sourcePassage": "because many of the people that do go for screening and then for further treatment, it has a very, very high false positive rate.",
+      "reason": "The transcriber's anacoluthon was resolved into standard grammatical prose without altering the meaning."
+    }
+  ]
+}

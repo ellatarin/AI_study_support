@@ -1,0 +1,43 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer uses the singular pronoun 'it' after introducing both 'invasion and malignancy' ('So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue'), leaving it unclear which term is being defined. The rewrite resolves this ambiguity by choosing 'malignancy'.",
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "rewritePassage": "Invasion and malignancy are very important diagnostically, and malignancy is defined as the ability to invade the surrounding tissue."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The text uses the demonstrative pronoun 'this' ('So this is probably an obligatory step in getting to having a malignant metastasizing tumor'), leaving the referent unclear or open. The rewrite makes this statement specific by asserting that 'Invasion' is the obligatory step.",
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "rewritePassage": "Invasion is therefore probably an obligatory step in arriving at a malignant, metastasising tumour."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite converts the lecturer's pointing words 'over here' into the specific description 'Elsewhere in the same lesion', which was not stated in the lecture.",
+      "sourcePassage": "You'll see that over here you have the adenoma which has progressed into an adenocarcinoma.",
+      "rewritePassage": "Elsewhere in the same lesion is the adenoma, which has progressed into an adenocarcinoma"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "The submucosa is here, and you'll see that there isn't any invasion that has occurred.",
+      "reason": "The rewrite renders 'The submucosa is here' as 'the submucosa lies beneath it'. Although 'here' was replaced with a spatial relation, the lecturer had explicitly established earlier in the text that the submucosa lies underneath the epithelium and muscularis mucosae ('And then you have under here the submucosa')."
+    },
+    {
+      "sourcePassage": "You wouldn't necessarily be able to say anything on two words about either of these.",
+      "reason": "The transcriber's 'on two words' was an apparent mishearing of 'outwards' or 'outwardly', which the rewrite appropriately conveyed as 'from their appearance'."
+    },
+    {
+      "sourcePassage": "and you'll be able to look at this in great detail in the practicals",
+      "reason": "Omitted as an allowed change because it is a remark about course logistics and practical sessions."
+    },
+    {
+      "sourcePassage": "remember I told you that invasion was getting through that basement membrane",
+      "reason": "Omitted reference to a past lecture as an allowed change (meta-remark / repetition)."
+    }
+  ]
+}

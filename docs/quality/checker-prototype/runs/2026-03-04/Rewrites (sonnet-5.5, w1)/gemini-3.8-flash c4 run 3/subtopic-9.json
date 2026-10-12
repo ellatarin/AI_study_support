@@ -1,0 +1,20 @@
+{
+  "subtopicId": 9,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So this meningioma obviously is occurring within the skull. The skull is a confined space. This would put an enormous amount of pressure on the brain and the surrounding structures and would cause and has caused Has caused death in this case.",
+      "reason": "The lecturer refers to a specific case shown on a slide ('this meningioma', 'in this case'). The rewrite phrases this as 'A meningioma occurs within the skull, which is a confined space, so it puts an enormous amount of pressure on the brain and the surrounding structures, and in this case it caused death', which preserves the reference to the specific case while conveying the underlying medical explanation."
+    },
+    {
+      "sourcePassage": "Obviously, when there is a suspicion of cancer or of a tumor, everybody gets very nervous about what that diagnosis is going to look like.",
+      "reason": "The rewrite renders this conversational remark as 'When cancer or a tumour is suspected, there is considerable anxiety about the diagnosis', which accurately conveys the meaning in standard textbook style."
+    },
+    {
+      "sourcePassage": "smooth muscle fibroid that I showed you",
+      "reason": "The rewrite renders 'that I showed you' as 'as shown earlier', which is an acceptable stylistic adjustment for a lecture reference."
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "if you compare any two things, you're going to find differences",
+      "reason": "The rewrite translates the lecturer's conversational truism ('if you compare any two things') into standard academic prose ('any comparison between two species') within the context of comparing animal species to humans, preserving the intended meaning."
+    },
+    {
+      "sourcePassage": "along with skin and connective tissues",
+      "reason": "The rewrite adds 'tumours of' to complete the parallel phrasing ('tumours of the skin and connective tissues'), which is directly implied by the context and the subsequent sentence."
+    },
+    {
+      "sourcePassage": "You'll be happy to hear he's doing fine now after his surgery.",
+      "reason": "The remark to the audience ('You'll be happy to hear') was dropped as allowed, while the factual content ('The cat is doing fine after surgery.') was retained in textbook register."
+    },
+    {
+      "sourcePassage": "The only thing that was quite interesting to note here is that the rate of malignant tumors is about fivefold higher in reptiles compared to mammals.",
+      "reason": "'The one notable difference' accurately conveys 'quite interesting to note' in the context of comparing tumour rates across taxa."
+    }
+  ]
+}

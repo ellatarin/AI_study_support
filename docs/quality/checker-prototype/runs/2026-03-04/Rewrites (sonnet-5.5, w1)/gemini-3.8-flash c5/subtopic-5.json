@@ -1,0 +1,23 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c5",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite introduces a causal link using the conjunction 'since' ('since a surgeon can tell...'), implying that the terminology persists because a surgeon can assess mobility by touch, whereas the original text used 'where' to describe the context or situation in which the terminology is used.",
+      "sourcePassage": "And you'll hear this kind of terminology even now, where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable.",
+      "rewritePassage": "This terminology is still heard now, since a surgeon can tell just by holding or touching a tumour whether it is movable or immovable."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals",
+      "reason": "Omitted reference to student practicals, which is an allowed omission of remarks about the course or lecture."
+    },
+    {
+      "sourcePassage": "Okay. So with these tools in hand, I think the important concept to try and get across",
+      "reason": "Lecture framing and filler rewritten as textbook prose, which is an allowed change."
+    }
+  ]
+}

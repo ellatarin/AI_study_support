@@ -1,0 +1,35 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c5",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "omission",
+      "description": "The lecturer's point that one would be interested in determining whether there are secondary metastases across the body is omitted.",
+      "sourcePassage": "But the question is, of course, you would then be interested in figuring out whether or not there would be secondary metastases across the body.",
+      "rewritePassage": null
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer used the pronoun 'it's' after mentioning both 'invasion' and 'malignancy', leaving the antecedent ambiguous. The rewrite resolves this ambiguity by explicitly stating that 'malignancy' is defined as the ability to invade.",
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "rewritePassage": "Invasion and malignancy are very important diagnostically, and malignancy is defined as the ability to invade the surrounding tissue."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite turns the lecturer's demonstrative word 'this' into the specific description 'Invasion', which was not stated by the lecturer in that sentence.",
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "rewritePassage": "Invasion is therefore probably an obligatory step in arriving at a malignant, metastasising tumour."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "muscularis mucosa",
+      "reason": "The replacement of 'muscularis mucosa' with 'muscularis mucosae' reflects the provided term correction."
+    },
+    {
+      "sourcePassage": "You wouldn't necessarily be able to say anything on two words about either of these.",
+      "reason": "The rewrite renders this as 'Nothing could necessarily be said about either from their appearance', which translates the transcriber's garbled idiom into standard English without altering the meaning."
+    }
+  ]
+}

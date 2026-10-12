@@ -1,0 +1,20 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c5",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, everyone, shall we get started? Yes. You're very welcome, all of you, to Cancer Biology.",
+      "reason": "Omitted conversational opening and greeting to students, which is an allowed change under dropped remarks to the audience and filler."
+    },
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there.",
+      "reason": "The pointing phrase 'listed there' is rephrased as 'are as follows' to introduce the subsequent outcomes, which is an allowed adjustment of slide-pointing remarks to the audience."
+    },
+    {
+      "sourcePassage": "because it has such an impact",
+      "reason": "Omitted phrase in 'grateful for you for taking on such a difficult disease because it has such an impact', which is an allowed omission of immediate repetition given the previous sentence ('because of obviously the impact that cancer has on society')."
+    }
+  ]
+}

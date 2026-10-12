@@ -1,0 +1,35 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c5",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds 'that is', asserting that acetylation or deacetylation is the state of transcription, creating an equivalence/definition link not present in the text.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer states that 'they' (the human viruses) can predispose to chronic inflammatory events, whereas the rewrite states that 'infection' can predispose to them, widening the cause.",
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events that can also help to give rise to cancer.",
+      "rewritePassage": "There are about seven different human viruses that precipitate cancer, and infection can also predispose to chronic inflammatory events, which can also help to give rise to cancer."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds 'therefore', introducing a causal/consequential link between the preceding statements and the occurrence of many changes, whereas the source text uses 'So' as a conversational transition.",
+      "sourcePassage": "So there's a lot of changes that occur",
+      "rewritePassage": "Many changes therefore occur"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "I'm sure you've seen a cartoon that looks like this many times.",
+      "reason": "Rendered as 'the familiar cartoon', which preserves the same meaning."
+    },
+    {
+      "sourcePassage": "And we know that there are gene changes that occur.",
+      "reason": "Rendered as 'Gene changes occur in this progression', which refers back to the normal-to-malignant transition described immediately before."
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c5",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite inserts the statement 'Other effects depend on the site', which is not stated in the source text.",
+      "sourcePassage": "Things like obstruction of the bile ducts in the liver interferes with digestion.",
+      "rewritePassage": "Other effects depend on the site."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds the causal link 'therefore' connecting the small size of the niche to interference with the bone marrow, whereas the source text simply places the two statements next to each other without stating a causal link.",
+      "sourcePassage": "This niche is not very big. This will interfere with your bone marrow",
+      "rewritePassage": "This niche is not very big. The tumour will therefore interfere with the bone marrow"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "And things like if tumors in bones lead to erosion of that bone function, so you can get fractures",
+      "reason": "The rewrite renders 'erosion of that bone function' as 'erosion of the bone'. The lecturer later refers directly to 'erosion of bones', so this change is faithful to the subject matter and permitted as a stylistic rephrasing."
+    },
+    {
+      "sourcePassage": "the hematopoietic stem cells that are there, these will interfere",
+      "reason": "The lecturer's sentence is disjointed ('competition with the normal, if you have a tumor that is occurring in some of the blood compartments, the hematopoietic stem cells that are there, these will interfere'). The rewrite clarifies this as 'will interfere with them', which resolves the spoken phrasing without altering the intended meaning."
+    },
+    {
+      "sourcePassage": "Only 10% of these deaths, generally, if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "reason": "The rewrite says 'for example when the tumour occurs in a meningioma or in the liver'. Although a meningioma is itself a tumour rather than an anatomical location, this directly reflects the lecturer's own phrasing ('if they're occurring in things like the meningioma... or in the liver')."
+    }
+  ]
+}

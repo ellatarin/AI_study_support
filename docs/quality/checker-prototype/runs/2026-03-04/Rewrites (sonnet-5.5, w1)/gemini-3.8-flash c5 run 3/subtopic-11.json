@@ -1,0 +1,37 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c5",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds the statement 'Other effects depend on the site', which is not found in the source text.",
+      "sourcePassage": "So it's a general lack of function there. Things like obstruction of the bile ducts in the liver interferes with digestion.",
+      "rewritePassage": "Other effects depend on the site."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite uses 'therefore' to assert a causal link between the niche being small and the tumour interfering with the bone marrow, whereas the source text merely places the two statements next to each other.",
+      "sourcePassage": "This niche is not very big. This will interfere with your bone marrow",
+      "rewritePassage": "The tumour will therefore interfere with the bone marrow"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "erosion of that bone function, so you can get fractures",
+      "reason": "The rewrite renders this as 'erosion of the bone, so that fractures can occur', which conveys the same core meaning in standard phrasing without altering the factual content."
+    },
+    {
+      "sourcePassage": "Also ulceration, you saw that enormous cauliflower structure within the colon.",
+      "reason": "The rewrite refers to 'the enormous cauliflower-like structure seen within the colon', adapting the conversational reference to a shown slide/image into textbook prose."
+    },
+    {
+      "sourcePassage": "And also this competition with the normal",
+      "reason": "The rewrite expands 'the normal' to 'normal tissue', which reflects the intended meaning of competition with normal cellular compartments described immediately after."
+    },
+    {
+      "sourcePassage": "Only 10% of these deaths, generally, if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "reason": "The rewrite's phrasing 'when the tumour occurs in a meningioma or in the liver' closely mirrors the lecturer's spoken words ('occurring in things like the meningioma'), so it is not treated as an introduced distortion."
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite states that the stained slice through a tumour 'illustrates this', linking it back to explanting a tumour. The text does not link the slide to explanting the tumour; it merely states what the slide shows.",
+      "sourcePassage": "often they will explant the tumor. Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "rewritePassage": "Biologists studying tumours often explant the tumour. A slice through a tumour, with a stain to show the morphology, illustrates this [FIGURE]."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Primary cells really don't grow in culture.",
+      "reason": "The word 'really' functions here as conversational emphasis rather than a scientific hedge, so rendering the statement as 'Primary cells do not grow in culture' is an acceptable stylistic simplification."
+    },
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "This is a spontaneous remark/meta-comment by the lecturer about lecture management, which is permitted to be dropped."
+    },
+    {
+      "sourcePassage": "other things",
+      "reason": "Rewriting 'other things' as 'other components' preserves the intended meaning in the context of tissue structure."
+    }
+  ]
+}

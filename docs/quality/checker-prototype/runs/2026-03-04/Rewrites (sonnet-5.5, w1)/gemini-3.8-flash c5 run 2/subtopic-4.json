@@ -1,0 +1,20 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c5",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "reason": "The lecturer's reference to what the audience is looking at was rendered with the allowed [FIGURE] placeholder."
+    },
+    {
+      "sourcePassage": "Primary cells really don't grow in culture.",
+      "reason": "'Really' functions here as a conversational intensifier rather than a scientific hedge, so rendering this as 'Primary cells do not grow in culture' is an allowed stylistic change."
+    },
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "Omitted as an aside / remark to the audience that contains no subject matter."
+    }
+  ]
+}

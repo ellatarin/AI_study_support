@@ -1,0 +1,27 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c5",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer refers to 'adolescence and maturation' occurring from infancy to adulthood, but the rewrite changes 'adolescence' to 'differentiation'.",
+      "sourcePassage": "during adolescence and maturation, this occurs from infancy to adulthood.",
+      "rewritePassage": "differentiation and maturation also occur from infancy to adulthood."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "during embryogenesis, during the time that you were born.",
+      "reason": "The phrase 'during the time that you were born' is a spoken stumble or false start immediately following and contrasting with 'during embryogenesis' and 'in the womb', and dropping it is an allowed change."
+    },
+    {
+      "sourcePassage": "into the invading stroma.",
+      "reason": "The lecturer said 'invading stroma' where the epithelial cells are the invading agents entering the stroma; rendering this as 'invaded stroma' reflects the exact same meaning rather than a distortion."
+    },
+    {
+      "sourcePassage": "provides a signaling and basis for their adherence to this layer.",
+      "reason": "The rewrite renders 'a signaling and basis' as 'a signalling basis', which smooths a conversational phrasing without changing the intended meaning."
+    }
+  ]
+}

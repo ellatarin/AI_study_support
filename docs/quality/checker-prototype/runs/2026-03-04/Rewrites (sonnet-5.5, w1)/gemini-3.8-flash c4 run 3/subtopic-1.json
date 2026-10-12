@@ -1,0 +1,16 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there.",
+      "reason": "The pointing word 'there' refers to a slide or handout; introducing the subsequent points with 'The learning outcomes for this lecture are as follows' is an allowed stylistic transition and does not add unstated descriptive content."
+    },
+    {
+      "sourcePassage": "So I tag-teamed these lectures with Professor Turner, and so she will also be teaching three of these lectures.",
+      "reason": "Rewriting 'tag-teamed' as 'shared with Professor Turner, who teaches three of the six' conveys the exact meaning without distortion or addition."
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "subtopicId": 12,
+  "checkerPromptVersion": "c5",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite asserts a causal link ('because') between benign tumours being common and the requirement of many changes for a benign tumour to become malignant, but the text merely juxtaposes these two statements without asserting that one causes the other.",
+      "sourcePassage": "So benign tumors are actually incredibly common. Right? So it actually takes a lot for a benign tumor to become malignant in terms of, as I said, the number of changes that have to happen within a tumor.",
+      "rewritePassage": "Benign tumours are extremely common, because it takes a great deal for a benign tumour to become malignant, given the number of changes that have to happen within a tumour."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So just talking about incidence, about how often various tumors arise.",
+      "reason": "Phrasing this as a definition ('Incidence describes how often various tumours arise') expresses the same meaning in standard textbook style."
+    },
+    {
+      "sourcePassage": "But malignant tumors, for example, originating from mesenchymal lineage cell types, they're extremely rare.",
+      "reason": "Dropping the conversational filler 'for example' does not distort the fact that malignant tumours originating from mesenchymal lineage cell types are extremely rare."
+    },
+    {
+      "sourcePassage": "So I've just put these numbers up just so that you can have a sense.",
+      "reason": "Specifying 'a sense of incidence' reflects the stated topic of the slide introduced at the beginning of the passage."
+    }
+  ]
+}

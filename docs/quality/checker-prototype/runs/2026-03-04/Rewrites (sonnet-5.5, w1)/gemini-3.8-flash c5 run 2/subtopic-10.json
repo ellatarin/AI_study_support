@@ -1,0 +1,20 @@
+{
+  "subtopicId": 10,
+  "checkerPromptVersion": "c5",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So the fat, smooth muscle or papillomas in the skin, and adenomas, as we were talking about in the colon.",
+      "reason": "The text lists the tissues ('fat', 'smooth muscle') corresponding to the previously mentioned 'lipoma' and 'leiomyoma'. Specifying 'lipomas in fat, leiomyomas in smooth muscle' resolves the conversational ellipsis and faithfully represents the meaning."
+    },
+    {
+      "sourcePassage": "Neuroectodermal tumors are the ones that kind of deviate from the nomenclature system.",
+      "reason": "'Kind of' is conversational filler rather than a scientific hedge, so dropping it is an allowed change."
+    },
+    {
+      "sourcePassage": "Okay? So just so that we're all on the same page in terms of nomenclature",
+      "reason": "This is an introductory remark to the audience and filler, which is allowed to be omitted."
+    }
+  ]
+}

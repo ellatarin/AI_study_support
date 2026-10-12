@@ -1,0 +1,20 @@
+{
+  "subtopicId": 9,
+  "checkerPromptVersion": "c5",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So this meningioma obviously is occurring within the skull.",
+      "reason": "The rewrite renders 'this meningioma' as 'A meningioma occurs within the skull', but retains 'in this case it caused death' and accurately reflects the lecturer's subsequent generalization that 'things like meningiomas can cause that'."
+    },
+    {
+      "sourcePassage": "Obviously, when there is a suspicion of cancer or of a tumor, everybody gets very nervous about what that diagnosis is going to look like.",
+      "reason": "The rewrite condenses 'everybody gets very nervous about what that diagnosis is going to look like' to 'there is considerable anxiety about the diagnosis', which preserves the meaning in textbook style."
+    },
+    {
+      "sourcePassage": "that I showed you",
+      "reason": "Rendered as 'as shown earlier' with a '[FIGURE]' tag, which is an allowed change for lecture references."
+    }
+  ]
+}

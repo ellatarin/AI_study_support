@@ -1,0 +1,47 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c5",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer made a general statement about comparing 'any two things', but the rewrite narrows this to comparisons 'between two species'.",
+      "sourcePassage": "if you compare any two things, you're going to find differences",
+      "rewritePassage": "any comparison between two species will reveal differences"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The hedge 'pretty' and the qualification 'if you like' were removed from the scientific claim about molecular processes, presenting the claim as an unhedged certainty ('It is therefore clear').",
+      "sourcePassage": "it's pretty clear that, if you like, the molecular processes that are occurring are similar.",
+      "rewritePassage": "It is therefore clear that the molecular processes occurring are similar."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer stated that the fivefold higher rate was 'the only thing that was quite interesting to note here' on the slide, but the rewrite characterizes it as 'The one notable difference', asserting that it is the only notable difference between reptiles and mammals.",
+      "sourcePassage": "The only thing that was quite interesting to note here is that the rate of malignant tumors is about fivefold higher in reptiles compared to mammals.",
+      "rewritePassage": "The one notable difference is that the rate of malignant tumours is about fivefold higher in reptiles than in mammals"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "very, very prevalent",
+      "reason": "The reduction of 'very, very' to 'very' is the removal of a spoken repetition, which is an allowed change."
+    },
+    {
+      "sourcePassage": "And this is my cat, who also ended up with a feline injection site sarcoma.",
+      "reason": "Converting the lecturer's first-person phrasing ('my cat') into third-person textbook style ('The lecturer's own cat') is an allowed stylistic change."
+    },
+    {
+      "sourcePassage": "You'll be happy to hear he's doing fine now after his surgery.",
+      "reason": "Dropping 'You'll be happy to hear' is an allowed removal of a remark directed to the audience."
+    },
+    {
+      "sourcePassage": "digestive tissues, hematopoietic, and skin",
+      "reason": "Supplying 'tissues' after 'hematopoietic' to match the parallel structure of 'digestive tissues' is an allowed grammatical adjustment."
+    },
+    {
+      "sourcePassage": "as I said",
+      "reason": "Dropping 'as I said' is an allowed omission of a statement about the lecture."
+    }
+  ]
+}
