@@ -483,7 +483,7 @@ export async function callModel(
 	// The client is asked for only here, when a call needs it. So a command that
 	// calls no model never needs the API key.
 	const openAiClient = options.client();
-	const { sent, sends } = await sendUntilAccepted({
+	const { sent, sends } = await sendUntilAccepted<AnsweredSend>({
 		send: async () => {
 			await options.sendGate.waitTurn();
 			return sendOnce({ ...options, stageConfig, openAiClient });

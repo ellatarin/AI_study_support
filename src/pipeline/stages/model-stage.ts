@@ -65,12 +65,17 @@ export type JsonReplyRequest<TReply> = Pick<
 export type UsableJsonReply<TReply> = { readonly reply: TReply };
 
 /**
- * The outcome of one JSON call: the documented reply, or the reason that the reply
- * is unusable.
+ * An unusable reply: the reason, and the text of the reply. The debug log keeps
+ * the text, so that a reader can see the fault in the reply.
+ */
+type UnusableJsonReply = FailedSend & { readonly replyText: string };
+
+/**
+ * The outcome of one JSON call: the documented reply, or the unusable reply.
  *
  * @typeParam TReply - The reply that the stage expects.
  */
-export type JsonReplyOutcome<TReply> = UsableJsonReply<TReply> | FailedSend;
+export type JsonReplyOutcome<TReply> = UsableJsonReply<TReply> | UnusableJsonReply;
 
 /**
  * Asks the model for a JSON reply for a stage. It gives the reply when the reply
@@ -116,19 +121,18 @@ export async function tryJsonReply<TReply>({
 		sendGate,
 		costTally,
 	});
+	const unusable = (failure: string): UnusableJsonReply => ({ failure, replyText: content });
 	if (content.trim() === "") {
-		return { failure: "The model's reply was empty" };
+		return unusable("The model's reply was empty");
 	}
 	let parsed: unknown;
 	try {
 		parsed = JSON.parse(content);
 	} catch (error: unknown) {
-		return {
-			failure: `The model answered with something other than JSON (${errorMessage(error)})`,
-		};
+		return unusable(`The model answered with something other than JSON (${errorMessage(error)})`);
 	}
 	if (!isReply(parsed)) {
-		return { failure: `The model's reply is not the documented ${documentedShape}` };
+		return unusable(`The model's reply is not the documented ${documentedShape}`);
 	}
 	return { reply: parsed };
 }
@@ -234,7 +238,8 @@ export async function tryJsonReplyAs<TReply, TKept>({
 	if ("failure" in outcome) {
 		return outcome;
 	}
-	return use(outcome.reply);
+	const kept = use(outcome.reply);
+	return "failure" in kept ? { ...kept, replyText: JSON.stringify(outcome.reply) } : kept;
 }
 
 /** A call whose reply is still unusable after its last send. The message names the call and the last reason. */
@@ -249,8 +254,9 @@ export class ResendsExhaustedError extends NamedError {}
  * succeed when it is sent again. See technical-design.md §5, "Dividing the
  * transcript", Panel runs, and §6, §8.
  *
- * Each unusable reply is logged as a warning with the call, the send number and
- * the reason (technical-design.md §5, "Dividing the transcript", Panel runs).
+ * Each unusable reply is logged as a warning. The warning gives the call, the
+ * send number, the reason and the reply text (technical-design.md §5, "Dividing
+ * the transcript", Panel runs).
  *
  * @param args - The call, its name, and the logger.
  * @param args.send - Makes the call once.
@@ -270,10 +276,10 @@ export async function sendWithResends<TReply>({
 	readonly what: string;
 	readonly logger: Logger;
 }): Promise<UsableJsonReply<TReply>> {
-	const { sent } = await sendUntilAccepted({
+	const { sent } = await sendUntilAccepted<UsableJsonReply<TReply>, UnusableJsonReply>({
 		send,
-		onFailure: ({ send: sends, failure }) => {
-			logger.warn({ what, send: sends, reason: failure }, "Unusable reply");
+		onFailure: ({ send: sends, failure, replyText }) => {
+			logger.warn({ what, send: sends, reason: failure, replyText }, "Unusable reply");
 		},
 		exhausted: ({ failure, sends }) =>
 			new ResendsExhaustedError(`${what} failed after ${sends} sends: ${failure}`),

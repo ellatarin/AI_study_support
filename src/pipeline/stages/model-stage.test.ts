@@ -72,8 +72,11 @@ describe("tryJsonReplyAs", () => {
 	it.each([
 		{ label: "not the documented shape", content: '{"farewell":"bye"}' },
 		{ label: "refused by the stage", content: '{"greeting":""}' },
-	])("should give a failure when the reply is $label", async ({ content }) => {
-		expect(await askForLength(content)).toEqual({ failure: expect.any(String) });
+	])("should give a failure with the reply text when the reply is $label", async ({ content }) => {
+		expect(await askForLength(content)).toEqual({
+			failure: expect.any(String),
+			replyText: content,
+		});
 	});
 });
 
@@ -99,15 +102,21 @@ describe("tryJsonReply", () => {
 			content: '{"farewell":"bye"}',
 			failure: "The model's reply is not the documented greeting",
 		},
-	])("should give the reason when the reply is $label", async ({ content, failure }) => {
-		expect(await ask(content)).toEqual({ failure });
+	])("should give the reason and the reply text when the reply is $label", async ({
+		content,
+		failure,
+	}) => {
+		expect(await ask(content)).toEqual({ failure, replyText: content });
 	});
 });
 
 const REPLY = { answer: 42 } as const;
 const GOOD: JsonReplyOutcome<typeof REPLY> = { reply: REPLY };
-const EMPTY = { failure: "The model's reply was empty" } as const;
-const PROSE = { failure: "The model answered with something other than JSON" } as const;
+const EMPTY = { failure: "The model's reply was empty", replyText: "" } as const;
+const PROSE = {
+	failure: "The model answered with something other than JSON",
+	replyText: "Hello there.",
+} as const;
 
 /** A send that gives each outcome in turn, one for each call. */
 function sendAnswering(
@@ -165,13 +174,13 @@ describe("sendWithResends", () => {
 		expect(send).toHaveBeenCalledTimes(outcomes.length);
 	});
 
-	it("should log each unusable reply with what was sent, which send it was and why when sends fail", async () => {
+	it("should log each unusable reply with what was sent, which send it was, why and the reply text when sends fail", async () => {
 		await settle(resending({ send: sendAnswering(EMPTY, PROSE, GOOD), what: "run 2" }));
 		expect(
 			loggedAt({ entries: logged().entries, level: "warn" }).map((entry) => entry.payload),
 		).toEqual([
-			{ what: "run 2", send: 1, reason: EMPTY.failure },
-			{ what: "run 2", send: 2, reason: PROSE.failure },
+			{ what: "run 2", send: 1, reason: EMPTY.failure, replyText: EMPTY.replyText },
+			{ what: "run 2", send: 2, reason: PROSE.failure, replyText: PROSE.replyText },
 		]);
 	});
 

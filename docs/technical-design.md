@@ -1,7 +1,7 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.87-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
-**Date:** 2026-10-11
+**Suite version:** 1.88-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
+**Date:** 2026-10-12
 **Status:** For review
 
 ---
@@ -1100,14 +1100,14 @@ These three stages, `retitle-subtopics`, `group-into-topics` and `judge-lecture-
 
 **Panel runs.** The two splitting stages and `group-into-topics` each make a panel of independent runs, and share one behaviour around the model call:
 
-- Runs are made a few at a time, as many at once as the stage's `concurrency` setting (§6) allows; unset, they are made one at a time.
+- The stage makes a few runs at a time. The stage's `concurrency` setting (§6) sets how many. When the setting is unset, the stage makes one run at a time.
 - Once a run fails, no further run is started. Runs already in flight are let finish, and are saved, before the stage fails, so what they cost is not paid again on relaunch.
 - Each run is saved to its own file the moment it is complete, so a crash loses only the runs in flight.
-- A relaunched stage reads the runs already saved and makes only the missing ones. A saved run file that cannot be read is a named error rather than a run to remake: the file was written whole or not at all (§4.3), so an unreadable one means something outside the pipeline changed it.
-- A reply that is empty, is not JSON, or is the wrong shape is sent again after a pause that grows with each attempt, up to three sends. Empty replies are the common case: a provider occasionally answers with success and no content, and a plain resend has always worked. After the third failure the stage fails with an error naming the run and the last cause. A stage never goes on with fewer runs than its panel, because a missing run changes what the vote means. A call the provider refuses is resent as every call is (§6, "A rejection can arrive inside an accepted reply").
-- A stage with a `sendGapSeconds` (§6) spaces its sends: every send — a run's first, a resent bad reply, a resent refusal — waits until at least that long after the stage's previous send began. The runs are released together and take their turn, so no two sends land together however the replies and resends fall.
+- A relaunched stage reads the runs already saved and makes only the missing ones. A saved run file that cannot be read is a named error, not a run to make again. The pipeline writes each file whole or not at all (§4.3). So an unreadable file means that something outside the pipeline changed it.
+- The stage sends a call again when its reply is empty, is not JSON, or is the wrong shape. It sends each call up to three times, with a longer pause before each resend. Empty replies are the common case: a provider occasionally answers with success and no content, and a plain resend has always worked. After the third failure the stage fails with an error naming the run and the last cause. A stage never goes on with fewer runs than its panel, because a missing run changes what the vote means. A call the provider refuses is resent as every call is (§6, "A rejection can arrive inside an accepted reply").
+- A stage with a `sendGapSeconds` (§6) spaces its sends. Each send waits until at least that time has passed since the stage's previous send began. This applies to the first send of a run, to a resent unusable reply and to a resent refusal. The runs are released together and take their turn, so no two sends land together however the replies and resends fall.
 - Every send is costed, failed ones included.
-- Every unusable reply is logged as a warning naming the run, which send it was and why it was unusable, so how often replies fail, and in what way, can be read from the run's log even when a later send succeeds.
+- Every unusable reply is logged as a warning. The warning names the run, the send number and the reason that the reply was unusable. So the log of a run shows how often replies fail, and in what way, even when a later send succeeds. The warning also holds the text of the reply in `replyText`. For a reply that a stage refuses after parsing, `replyText` holds the parsed reply as JSON. The reason names only the kind of fault. So the text is the only record of which part of the reply was wrong.
 
 The retry sits above the SDK's own, which retries only failures at the HTTP level (§8, API Error Handling); an unusable reply arrives as a success and reaches the stage.
 

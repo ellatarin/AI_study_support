@@ -40,7 +40,9 @@ export function pause({ milliseconds }: { readonly milliseconds: number }): Prom
  * @returns `true` when the send failed.
  * @typeParam TSent - The value that a successful send comes back with.
  */
-function isFailedSend<TSent>(outcome: TSent | FailedSend): outcome is FailedSend {
+function isFailedSend<TSent, TFailed extends FailedSend>(
+	outcome: TSent | TFailed,
+): outcome is TFailed {
 	return typeof outcome === "object" && outcome !== null && "failure" in outcome;
 }
 
@@ -51,28 +53,29 @@ function isFailedSend<TSent>(outcome: TSent | FailedSend): outcome is FailedSend
  *
  * @param args - The call, and what to do with each failure and the last.
  * @param args.send - Sends the call once.
- * @param args.onFailure - Gets each failed send: its number, counting from 1, and the reason.
+ * @param args.onFailure - Gets each failed send: its number, counting from 1, and the failed send.
  * @param args.exhausted - Builds the error that is thrown when the last send fails too.
  * @returns The successful send, and its number counting from 1.
  * @throws The error `exhausted` builds, when every send fails.
  * @typeParam TSent - The value that a successful send comes back with.
+ * @typeParam TFailed - The value that a failed send comes back with.
  */
-export async function sendUntilAccepted<TSent>({
+export async function sendUntilAccepted<TSent, TFailed extends FailedSend = FailedSend>({
 	send,
 	onFailure,
 	exhausted,
 }: {
-	readonly send: () => Promise<TSent | FailedSend>;
-	readonly onFailure: (args: { readonly send: number; readonly failure: string }) => void;
+	readonly send: () => Promise<TSent | TFailed>;
+	readonly onFailure: (args: TFailed & { readonly send: number }) => void;
 	readonly exhausted: (args: { readonly failure: string; readonly sends: number }) => Error;
 }): Promise<{ readonly sent: TSent; readonly sends: number }> {
 	let pauseMs = FIRST_PAUSE_MS;
 	for (let sends = 1; ; sends++) {
 		const outcome = await send();
-		if (!isFailedSend(outcome)) {
+		if (!isFailedSend<TSent, TFailed>(outcome)) {
 			return { sent: outcome, sends };
 		}
-		onFailure({ send: sends, failure: outcome.failure });
+		onFailure({ ...outcome, send: sends });
 		if (sends === MAX_SENDS) {
 			throw exhausted({ failure: outcome.failure, sends });
 		}
