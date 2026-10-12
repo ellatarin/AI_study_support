@@ -1,0 +1,35 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c11",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite inserts an explicit causal link ('because') between the failure of cells to metastasise and their failure to survive at the secondary site, whereas the original text states these as two juxtaposed observations without an explicit causal connective.",
+      "sourcePassage": "many of them never metastasize. They never survive in the secondary site.",
+      "rewritePassage": "Many never metastasise, because they never survive at the secondary site."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "The rewrite attributes the definition of the ability to invade surrounding tissue to 'malignancy'. In the context of the sentence, defining 'invasion' as the ability to invade would be circular, so resolving 'it' to malignancy reflects the intended meaning and is not considered a distortion."
+    },
+    {
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "reason": "The rewrite renders 'this' as 'Invasion'. The context of the passage discusses how tumors must pass through the locally invasive state before metastasising (and that absence of observed invasion in a metastasised tumor likely reflects sampling error), showing that 'this' refers to invasion."
+    },
+    {
+      "sourcePassage": "You'll see that over here you have the adenoma which has progressed into an adenocarcinoma.",
+      "reason": "The rewrite renders 'over here' as 'Elsewhere in the same lesion'. The context makes clear that the lecturer is pointing to another part of the same excised polyp/section where one component grows out of the other."
+    },
+    {
+      "sourcePassage": "The tumor is actually going past, and you'll be able to look at this in great detail in the practicals, is going past this area of the normal epithelium",
+      "reason": "The lecturer's reference to practical classes is a statement about the course and its omission is permitted."
+    },
+    {
+      "sourcePassage": "But the question is, of course, you would then be interested in figuring out whether or not there would be secondary metastases across the body.",
+      "reason": "This rhetorical transition was immediately broken off by the lecturer to return to the histology slide, and the subject of secondary metastasis is fully addressed in the subsequent paragraphs."
+    }
+  ]
+}

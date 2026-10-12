@@ -1,0 +1,24 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c11",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So with these tools in hand, I think the important concept to try and get across is invasion and metastasis.",
+      "reason": "The introductory phrase 'with these tools in hand' and conversational phrasing were omitted or adapted as permissible cleanup of lecture-framing statements."
+    },
+    {
+      "sourcePassage": "back in, I don't know, when surgery was first coming into its own as a discipline after anesthesia was invented or discovered",
+      "reason": "'I don't know' was omitted as conversational filler."
+    },
+    {
+      "sourcePassage": "And you'll hear this kind of terminology even now, where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable.",
+      "reason": "The rewrite uses 'since' to render the colloquial explanatory connective 'where', which captures the lecturer's intended explanatory context without introducing an unsupported or misleading causal claim."
+    },
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals",
+      "reason": "This clause was omitted as an allowed omission of a remark about the course or practicals."
+    }
+  ]
+}

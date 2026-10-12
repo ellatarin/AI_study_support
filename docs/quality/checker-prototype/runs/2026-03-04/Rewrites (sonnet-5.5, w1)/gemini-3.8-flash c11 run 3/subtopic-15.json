@@ -1,0 +1,23 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c11",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "omission",
+      "description": "The lecturer points out particular mitotic cells visible in the figure ('there's a mitotic cell here and there's one here'), but the rewrite retains only the general rule that mitotic cells occur at the basement layer.",
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here",
+      "rewritePassage": "Mitotic cells occur only at the basement layer."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "reason": "The rewrite phrases this as 'the endocervical canal runs through the neck of the womb, and the cervix is seen alongside it', which is an acceptable stylistic rephrasing of the histological view described by the lecturer."
+    },
+    {
+      "sourcePassage": "and you'll see this in your practicals.",
+      "reason": "Retained in the rewrite as an allowed statement about practical work, without adding or distorting subject matter."
+    }
+  ]
+}

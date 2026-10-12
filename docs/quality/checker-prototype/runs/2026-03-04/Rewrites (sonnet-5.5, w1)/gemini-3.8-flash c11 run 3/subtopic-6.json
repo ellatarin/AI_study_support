@@ -1,0 +1,32 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c11",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "This is a personal remark/reminder to the speaker and dropped as allowed conversational filler."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here, and then you can often see sometimes the tumor cells are actually present within a lymphatic duct.",
+      "reason": "The phrase 'You see your tumor cells are here' serves as a conversational lead-in/false start pointing generally before specifying that tumor cells are present within a lymphatic duct, which is faithfully retained in the rewrite."
+    },
+    {
+      "sourcePassage": "or also this transcoelomic site from across a cavity",
+      "reason": "Rendered as 'by a transcoelomic route, across a cavity', which maintains exact meaning and aligns grammatically with the preceding list of spread routes."
+    },
+    {
+      "sourcePassage": "And I think one of the tumors that does this quite frequently is ovarian cancer, for example.",
+      "reason": "'I think' is a conversational spoken filler rather than a scientific hedge on the factual example of ovarian cancer spreading transcoelomically, so omitting it is allowed."
+    },
+    {
+      "sourcePassage": "So, for example, this tumor cell has the appearance of an adenomatous tumor or glandular tumor. So you can know kind of where it might be coming from.",
+      "reason": "Rendered in textbook prose as 'For example, a tumour cell may have the appearance of an adenomatous or glandular tumour, so it can be possible to know where it might be coming from. [FIGURE]', preserving the illustrative example and the reference to the figure."
+    },
+    {
+      "sourcePassage": "Similarly, here you have a brain, and what you have here is a breast cancer that's metastasized to the brain.",
+      "reason": "The deictic phrases ('here you have') are appropriately converted to textbook prose ('The other is a breast cancer that has metastasized to the brain') with an accompanying [FIGURE] marker."
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c11",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer explains that differentiation continues after the womb during 'adolescence and maturation', but the rewrite substitutes 'differentiation' for 'adolescence', stating 'differentiation and maturation also occur from infancy to adulthood'.",
+      "sourcePassage": "obviously during adolescence and maturation, this occurs from infancy to adulthood",
+      "rewritePassage": "differentiation and maturation also occur from infancy to adulthood"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "during the time that you were born",
+      "reason": "This was omitted as an imprecise spoken slip or false start following 'during embryogenesis'."
+    },
+    {
+      "sourcePassage": "provides a signaling and basis for their adherence to this layer",
+      "reason": "The rewrite cleans up the conversational stumble 'signaling and basis' into 'signalling basis' without changing the meaning."
+    },
+    {
+      "sourcePassage": "into the invading stroma",
+      "reason": "The rewrite renders this as 'into the invaded stroma', correcting the lecturer's minor grammatical slip since the stroma is the structure being invaded by the tumour cells."
+    },
+    {
+      "sourcePassage": "moving into this kind of configuration where the cell is growing into the stroma, and also in this kind of deranged manner. And you can see here now the cells are all of different shapes and sizes.",
+      "reason": "The phrase 'In the image of the invasive tissue' resolves the lecturer's deictic gesture ('here now') using descriptions directly provided in the text."
+    }
+  ]
+}

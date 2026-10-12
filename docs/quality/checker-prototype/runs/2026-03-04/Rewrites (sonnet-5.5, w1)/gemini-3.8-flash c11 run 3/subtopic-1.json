@@ -1,0 +1,20 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c11",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, everyone, shall we get started? Yes. You're very welcome, all of you, to Cancer Biology.",
+      "reason": "Conversational opening and welcome remarks are allowed to be omitted or adapted into academic prose."
+    },
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there.",
+      "reason": "The pointing word 'there' referring to lecture slides is appropriately rendered as introductory phrasing for the learning outcomes."
+    },
+    {
+      "sourcePassage": "And then for today, especially from a clinical point of view, we're going to explain why detection works in different subtypes of tumors.",
+      "reason": "Accurately rendered as explaining why detection works in different subtypes of tumours from a clinical point of view."
+    }
+  ]
+}

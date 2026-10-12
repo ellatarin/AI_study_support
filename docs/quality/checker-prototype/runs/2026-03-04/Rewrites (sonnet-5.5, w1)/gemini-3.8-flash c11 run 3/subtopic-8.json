@@ -1,0 +1,27 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c11",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The lecturer uses the demonstrative pronoun 'this' ('this is probably an obligatory step'), which is ambiguous and refers back to an unclear preceding state. The rewrite resolves this pointing word into the specific description 'Invasion', which is an unsourced addition.",
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "rewritePassage": "Invasion is therefore probably an obligatory step in getting to having a malignant, metastasising tumour."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "The rewrite specifies 'malignancy is defined as the ability to invade the surrounding tissue', which accurately conveys the meaning of 'it's defined' in this context without introducing an unsourced claim."
+    },
+    {
+      "sourcePassage": "But the question is, of course, you would then be interested in figuring out whether or not there would be secondary metastases across the body.",
+      "reason": "The rhetorical transition introducing the question of secondary metastases is covered in the subsequent paragraphs discussing metastasis, so its omission from the immediate microscopic description is an allowed stylistic omission."
+    },
+    {
+      "sourcePassage": "muscularis mucosa",
+      "reason": "The term was replaced by 'muscularis mucosae' in accordance with the provided correction list."
+    }
+  ]
+}

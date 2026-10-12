@@ -1,0 +1,24 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c11",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "This is a personal remark/note to self by the lecturer, which is an allowed omission."
+    },
+    {
+      "sourcePassage": "And I think one of the tumors that does this quite frequently is ovarian cancer, for example.",
+      "reason": "The removal of 'I think' drops conversational filler rather than altering a scientific hedge, and the substantive fact that ovarian cancer spreads via this route is fully retained."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here, and then you can often see sometimes the tumor cells are actually present within a lymphatic duct.",
+      "reason": "The conversational phrasing pointing out the slide has been converted cleanly into 'the tumour cells can often be seen present within a lymphatic duct' without omitting any diagnostic information."
+    },
+    {
+      "sourcePassage": "Similarly, here you have a brain, and what you have here is a breast cancer that's metastasized to the brain.",
+      "reason": "The deictic spoken phrasing has been condensed to 'The other is a breast cancer that has metastasized to the brain', preserving both the organ and the primary cancer type."
+    }
+  ]
+}

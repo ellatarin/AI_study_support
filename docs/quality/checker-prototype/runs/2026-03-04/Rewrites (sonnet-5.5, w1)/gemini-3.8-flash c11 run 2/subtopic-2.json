@@ -1,0 +1,33 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c11",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite inserts 'that is', equating acetylation or deacetylation with the state of transcription within the cell, which introduces an unsourced link not present in the original text.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite replaces 'they' (referring to human viruses) with 'infection', thereby widening the stated cause of predisposition to chronic inflammatory events.",
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events that can also help to give rise to cancer.",
+      "rewritePassage": "There are about seven different human viruses that precipitate cancer, and infection can also predispose to chronic inflammatory events, which can also help to give rise to cancer."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So I've just made this kind of a much simpler diagram, if you like.",
+      "reason": "The lecturer's remark about creating the diagram was adapted into textbook prose with a [FIGURE] marker, which is an allowed change."
+    },
+    {
+      "sourcePassage": "Certain tumors can arise from infectious agents like viruses.",
+      "reason": "The British English spelling 'tumours' replaces 'tumors', which is permitted."
+    },
+    {
+      "sourcePassage": "So really, once you put a model like this together, it invites a lot of questions. So hopefully, in order to try and address some of these questions, we will start at the beginning. [chuckles]",
+      "reason": "The conversational wrap-up and chuckle were appropriately phrased in an impersonal academic style without altering meaning."
+    }
+  ]
+}

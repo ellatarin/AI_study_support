@@ -1,0 +1,20 @@
+{
+  "subtopicId": 9,
+  "checkerPromptVersion": "c11",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Obviously, when there is a suspicion of cancer or of a tumor, everybody gets very nervous about what that diagnosis is going to look like.",
+      "reason": "The rewrite rephrases this as 'When cancer or a tumour is suspected, there is considerable anxiety about the diagnosis', which conveys the exact meaning in textbook style without altering facts."
+    },
+    {
+      "sourcePassage": "So this meningioma obviously is occurring within the skull. The skull is a confined space. This would put an enormous amount of pressure on the brain and the surrounding structures and would cause and has caused Has caused death in this case.",
+      "reason": "The rewrite renders this as 'A meningioma occurs within the skull, which is a confined space, so it puts an enormous amount of pressure on the brain and the surrounding structures, and in this case it caused death.' It retains both the general anatomical mechanism and the specific reference to the case/figure."
+    },
+    {
+      "sourcePassage": "the smooth muscle fibroid that I showed you",
+      "reason": "The rewrite uses 'as shown earlier', which accurately reflects the lecturer's past-tense reference to a previously displayed example."
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c11",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite turns the lecturer's pointing word ('you're looking at the cervix here') into a spatial relation ('the cervix is seen alongside it') that is not given or supported by the text.",
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "rewritePassage": "and the cervix is seen alongside it"
+    },
+    {
+      "deficiencyType": "omission",
+      "description": "The lecturer points out specific instances of mitotic cells on the figure ('there's a mitotic cell here and there's one here'), but the rewrite omits these particular features and retains only the general rule.",
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here",
+      "rewritePassage": "Mitotic cells occur only at the basement layer."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "and you'll see this in your practicals",
+      "reason": "This is a remark to the students about the course, which is permitted to be retained or omitted."
+    },
+    {
+      "sourcePassage": "The uterus is here in this diagram, and as you know, it hangs down into the vaginal canal.",
+      "reason": "The rewrite renders this as 'The uterus hangs down into the vaginal canal, as shown in the diagram. [FIGURE]', which faithfully captures what the figure illustrates."
+    },
+    {
+      "sourcePassage": "So when HPV infection occurs, you can get a precursor lesion that is here",
+      "reason": "The rewrite phrasing 'a precursor lesion can arise at this site' accurately refers to the squamocolumnar junction discussed in the text."
+    }
+  ]
+}

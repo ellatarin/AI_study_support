@@ -1,0 +1,28 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c11",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "And if you think about them in the different settings in which they occur",
+      "reason": "The sentence 'Other effects depend on the site' at the start of the second paragraph serves as a topic sentence summarizing the site-specific manifestations (liver, bone, colon) introduced by the lecturer, echoing the earlier remark about different settings."
+    },
+    {
+      "sourcePassage": "Also ulceration, you saw that enormous cauliflower structure within the colon.",
+      "reason": "The rewrite renders this as 'the enormous cauliflower-like structure seen within the colon causes a lot of bleeding', which faithfully preserves the reference to the colon lesion without omitting any substantive detail."
+    },
+    {
+      "sourcePassage": "if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "reason": "The rewrite's phrasing 'for example when the tumour occurs in a meningioma or in the liver' closely mirrors the lecturer's wording ('occurring in things like the meningioma... or in the liver') rather than introducing an unsourced distortion."
+    },
+    {
+      "sourcePassage": "As I said",
+      "reason": "Omitted as conversational filler / remark about the lecture, which is an allowed change."
+    },
+    {
+      "sourcePassage": "So it's not very good.",
+      "reason": "Omitted as an informal conversational remark/understatement, which is an allowed change."
+    }
+  ]
+}

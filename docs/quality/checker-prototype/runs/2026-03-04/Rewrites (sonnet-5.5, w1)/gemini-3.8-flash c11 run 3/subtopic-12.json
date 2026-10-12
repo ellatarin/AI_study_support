@@ -1,0 +1,27 @@
+{
+  "subtopicId": 12,
+  "checkerPromptVersion": "c11",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds the causal conjunction 'because', stating that benign tumours are common because it takes a lot for them to become malignant. The lecturer mentions these as two separate points and does not state that one causes the other.",
+      "sourcePassage": "So benign tumors are actually incredibly common. Right? So it actually takes a lot for a benign tumor to become malignant in terms of, as I said, the number of changes that have to happen within a tumor.",
+      "rewritePassage": "Benign tumours are extremely common, because it takes a great deal for a benign tumour to become malignant, given the number of changes that have to happen within a tumour."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "But malignant tumors, for example, originating from mesenchymal lineage cell types, they're extremely rare.",
+      "reason": "The omission of 'for example' does not alter the factual meaning, as mesenchymal tumours are presented as a specific category of rare malignant tumours in contrast to common epithelial cancers."
+    },
+    {
+      "sourcePassage": "So liver cancer and nasopharyngeal carcinomas are very big in Chinese populations.",
+      "reason": "'Very big' was rewritten as 'very common', which uses different words with the exact same meaning in this epidemiological context."
+    },
+    {
+      "sourcePassage": "So I've just put these numbers up just so that you can have a sense.",
+      "reason": "The rewrite says 'The numbers shown give a sense of incidence', which accurately reflects the subtopic established at the start of the lecture passage."
+    }
+  ]
+}

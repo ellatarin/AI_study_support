@@ -1,0 +1,20 @@
+{
+  "subtopicId": 14,
+  "checkerPromptVersion": "c11",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, so what does this look like in the clinic? [chuckles] I call this the four horsemen.",
+      "reason": "The conversational phrasing and laughter were cleanly adapted into textbook prose as 'the presentation of cancer can be summarised as the \"four horsemen\"'."
+    },
+    {
+      "sourcePassage": "tumors can be indirect if they're occurring in non-screenable or non-palpable areas",
+      "reason": "Rewriting 'tumors can be indirect' as 'Tumours can also present indirectly' is a valid stylistic improvement preserving the exact medical sense."
+    },
+    {
+      "sourcePassage": "So obviously, the idea is you want to find the cancer, and you want to find it at an earlier state, a state at which it can be treatable, right, before it becomes malignant, before it becomes something that's very, very hard to treat, and there's diminishing returns on said treatment.",
+      "reason": "The informal spoken repetition ('you want to find the cancer, and you want to find it at an earlier state... right') was streamlined into concise prose without dropping facts or adding unsupported claims."
+    }
+  ]
+}

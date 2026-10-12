@@ -1,0 +1,20 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c11",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, so we're just going to start here with our core idea. I'm sure you've seen a cartoon that looks like this many times. The idea that a normal cell, starting off here, acquires a mutation, and maybe a second mutation, and it becomes slightly abnormal.",
+      "reason": "The rewrite condenses the lecturer's conversational opening and reference to the cartoon into 'The core idea is the familiar cartoon in which a normal cell acquires a mutation...', which faithfully captures the conceptual content without distorting the meaning."
+    },
+    {
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "reason": "The rewrite renders this as 'and to acetylation or deacetylation, that is, the state of transcription within the cell itself', interpreting the lecturer's appositive phrase accurately without introducing an unsourced factual claim."
+    },
+    {
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events that can also help to give rise to cancer.",
+      "reason": "The rewrite renders 'they can also predispose' as 'infection can also predispose to chronic inflammatory events', which maintains the lecturer's broader point introduced in the preceding sentence that gene changes and tumours arise from infection and infectious agents."
+    }
+  ]
+}

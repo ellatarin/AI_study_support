@@ -1,0 +1,28 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c11",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So for our purposes, what we're going to use is the muscularis mucosa here as our proxy for the basement membrane",
+      "reason": "The term 'muscularis mucosa' was correctly changed to 'muscularis mucosae' in accordance with the provided term corrections."
+    },
+    {
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "Resolving the singular pronoun 'it' to 'malignancy' ('malignancy is defined as the ability to invade the surrounding tissue') is faithful to the context, where invasiveness is the defining hallmark distinguishing malignancy from benign growths."
+    },
+    {
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "reason": "Replacing the demonstrative pronoun 'this' with 'Invasion' ('Invasion is therefore probably an obligatory step in arriving at a malignant, metastasising tumour') is directly supported by the preceding discussion regarding whether invasion is required before metastatic spread can occur."
+    },
+    {
+      "sourcePassage": "You wouldn't necessarily be able to say anything on two words about either of these. They both look like little cauliflowers that are sticking out into the lumen.",
+      "reason": "Rendering 'on two words' as 'from their appearance' accurately reflects the immediate context ('they look the same' and 'both look like little cauliflowers'), resolving what appears to be a transcriber error for an outward visual assessment."
+    },
+    {
+      "sourcePassage": "and you'll be able to look at this in great detail in the practicals",
+      "reason": "References to the practical sessions and remarks directed to the audience were omitted as allowed changes."
+    }
+  ]
+}

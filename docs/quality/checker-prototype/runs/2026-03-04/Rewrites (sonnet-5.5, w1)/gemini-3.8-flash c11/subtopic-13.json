@@ -1,0 +1,20 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c11",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Just a slide about the incidence in companion animals since I found this slide some time ago",
+      "reason": "This is an introductory remark referring directly to the slide presentation, which is an allowed omission."
+    },
+    {
+      "sourcePassage": "and of course, if you compare any two things, you're going to find differences",
+      "reason": "The rewrite renders this as 'although any comparison between two species will reveal differences', contextualising the general aphorism to the subject under discussion without changing the meaning."
+    },
+    {
+      "sourcePassage": "The only thing that was quite interesting to note here is that the rate of malignant tumors is about fivefold higher in reptiles compared to mammals.",
+      "reason": "Phrasing this as 'The one notable difference is that the rate of malignant tumours is about fivefold higher in reptiles than in mammals' captures 'quite interesting to note' in the context of the comparison without introducing an unsourced claim or distortion."
+    }
+  ]
+}

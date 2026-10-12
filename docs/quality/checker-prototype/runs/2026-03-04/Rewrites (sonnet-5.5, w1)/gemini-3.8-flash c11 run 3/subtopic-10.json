@@ -1,0 +1,20 @@
+{
+  "subtopicId": 10,
+  "checkerPromptVersion": "c11",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So the fat, smooth muscle or papillomas in the skin, and adenomas, as we were talking about in the colon.",
+      "reason": "The lecturer lists tissues matching the previously listed benign tumours (lipoma to fat, leiomyoma to smooth muscle, papilloma to skin, adenoma to colon). Synthesising them into paired phrases resolves spoken shorthand without changing the meaning or resolving any genuine ambiguity."
+    },
+    {
+      "sourcePassage": "So just so that we're all on the same page in terms of nomenclature, and of course, with any naming system, there are always exceptions to every rule.",
+      "reason": "The conversational filler 'just so that we're all on the same page in terms of nomenclature' was omitted in accordance with the allowed changes for conversational filler and remarks to the audience."
+    },
+    {
+      "sourcePassage": "So these are these different tumor types and other exceptions as well, things like malignant melanoma.",
+      "reason": "The lecturer's transitional repetition 'So these are these different tumor types' was cleanly condensed into 'There are other exceptions as well, such as malignant melanoma'."
+    }
+  ]
+}

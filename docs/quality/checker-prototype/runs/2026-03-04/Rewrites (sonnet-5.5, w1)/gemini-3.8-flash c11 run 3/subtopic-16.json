@@ -1,0 +1,24 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c11",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "The text refers to previously shown slides/states; rendering this as 'The different pre-cancerous states are present' maintains the factual meaning without classroom deictic remarks."
+    },
+    {
+      "sourcePassage": "this is an ulcerated cauliflower structure, if you like, an ulcerated tumor",
+      "reason": "Rendering 'if you like' as 'cauliflower-like structure' accurately captures the speaker's qualification."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "Rendered faithfully as 'Of the screening methods discussed, cervical screening is the best.'"
+    },
+    {
+      "sourcePassage": "or there's some reason if you're showing symptoms",
+      "reason": "Rendered as 'or some other reason, such as the patient showing symptoms', accurately reflecting the phrasing of the text."
+    }
+  ]
+}

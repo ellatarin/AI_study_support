@@ -1,0 +1,27 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c11",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer stated that maturation occurs during adolescence ('during adolescence and maturation, this occurs from infancy to adulthood'), but the rewrite distorted this by replacing 'adolescence' with 'differentiation'.",
+      "sourcePassage": "obviously during adolescence and maturation, this occurs from infancy to adulthood",
+      "rewritePassage": "differentiation and maturation also occur from infancy to adulthood"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "during the time that you were born",
+      "reason": "This was omitted as a false start or speech slip, immediately qualified by the lecturer stating that development and differentiation occur in the womb."
+    },
+    {
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes. They have come in, they have lost this architecture, moved over the basement membrane and invaded and are growing within the stroma.",
+      "reason": "The rewrite resolves the pointing words to 'In the image of the invasive tissue', which is supported by the text's explicit description of the cells invading the stroma."
+    },
+    {
+      "sourcePassage": "which would be here into the invading stroma",
+      "reason": "The rewrite adjusts 'invading stroma' to 'invaded stroma', correcting a verbal slip (the deranged cells are invading into the stroma, rather than the stroma invading) without changing the biological meaning."
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c11",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds an unsourced link by asserting that the stained slice through a tumour 'illustrates this' (referring to explanting the tumour), whereas the original text presents the slice and stain simply as what is being looked at, not as an illustration of explanting.",
+      "sourcePassage": "often they will explant the tumor. Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "rewritePassage": "A slice through a tumour, with a stain to show the morphology, illustrates this [FIGURE]."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "This is a dropped remark to the audience / lecturer filler, which is an allowed omission."
+    },
+    {
+      "sourcePassage": "Primary cells really don't grow in culture.",
+      "reason": "Omitting 'really' in 'do not grow in culture' does not remove a scientific hedge, as 'really' was used colloquially as an intensifier following 'in fact, all of those cells will not grow'."
+    },
+    {
+      "sourcePassage": "with regard to the contributions of things like the stroma and other things.",
+      "reason": "Rendering 'and other things' as 'and other components' is an acceptable stylistic rewording that preserves the original meaning."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c11",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there.",
+      "reason": "The lecturer's reference to listed learning outcomes on a slide is rendered as an introductory sentence for the lecture's learning outcomes in textbook prose, which is an allowed stylistic change."
+    },
+    {
+      "sourcePassage": "So you're going to be comparing the differences between benign and malignant tumors",
+      "reason": "Phrased as 'This involves comparing benign and malignant tumours', preserving the original meaning accurately."
+    },
+    {
+      "sourcePassage": "So I tag-teamed these lectures with Professor Turner, and so she will also be teaching three of these lectures.",
+      "reason": "Accurately rendered as 'The lectures are shared with Professor Turner, who teaches three of the six' without distortion or omission."
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "subtopicId": 12,
+  "checkerPromptVersion": "c11",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite uses 'because' to link the high incidence of benign tumours directly to the difficulty of their transformation into malignant tumours, introducing an unsourced causal relationship not present in the original text.",
+      "sourcePassage": "So benign tumors are actually incredibly common. Right? So it actually takes a lot for a benign tumor to become malignant in terms of, as I said, the number of changes that have to happen within a tumor.",
+      "rewritePassage": "Benign tumours are extremely common, because it takes a great deal for a benign tumour to become malignant, given the number of changes that have to happen within a tumour."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So I've just put these numbers up just so that you can have a sense.",
+      "reason": "The rewrite phrases this as 'The numbers shown give a sense of incidence', which is an acceptable continuation of the lecturer's topic of tumor incidence."
+    },
+    {
+      "sourcePassage": "And then this is, if you like, the percentage of tumors that result in deaths.",
+      "reason": "The rewrite renders this as 'A further slide shows the percentage of tumours that result in deaths', which accurately reflects the lecturer's presentation of the figure and slide content."
+    },
+    {
+      "sourcePassage": "So liver cancer and nasopharyngeal carcinomas are very big in Chinese populations.",
+      "reason": "The rewrite renders 'very big' as 'very common', which conveys the exact same meaning in this context."
+    }
+  ]
+}

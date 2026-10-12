@@ -1,0 +1,16 @@
+{
+  "subtopicId": 10,
+  "checkerPromptVersion": "c11",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So the fat, smooth muscle or papillomas in the skin, and adenomas, as we were talking about in the colon.",
+      "reason": "The rewrite explicitly pairs 'lipomas in fat' and 'leiomyomas in smooth muscle' based on the lecturer's immediately preceding list ('lipoma, leiomyoma, papilloma, and adenomas') and the corresponding tissues; this is an allowed clarification of standard syntax rather than an unsourced addition."
+    },
+    {
+      "sourcePassage": "Okay? So just so that we're all on the same page in terms of nomenclature",
+      "reason": "Dropped conversational filler/introductory remark to the audience, which is permitted."
+    }
+  ]
+}

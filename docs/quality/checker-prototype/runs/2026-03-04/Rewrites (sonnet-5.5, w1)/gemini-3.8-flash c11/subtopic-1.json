@@ -1,0 +1,20 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c11",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, everyone, shall we get started? Yes. You're very welcome, all of you, to Cancer Biology.",
+      "reason": "Conversational opening remarks and welcome were appropriately condensed into standard textbook introductory prose."
+    },
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there.",
+      "reason": "The pointing phrase referencing the slide display ('listed there') was adapted to standard introductory phrasing ('as follows') without introducing unsourced scientific claims."
+    },
+    {
+      "sourcePassage": "So you're going to be able to link this visually in the practicals.",
+      "reason": "Accurately conveyed in the rewrite as 'This is linked visually in the practicals.'"
+    }
+  ]
+}

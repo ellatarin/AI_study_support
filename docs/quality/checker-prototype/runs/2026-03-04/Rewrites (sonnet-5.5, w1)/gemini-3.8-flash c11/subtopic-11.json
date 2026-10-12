@@ -1,0 +1,33 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c11",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite inserts 'therefore', establishing a causal link between the niche not being very big and the tumour interfering with the bone marrow, which was not stated in the text.",
+      "sourcePassage": "This niche is not very big. This will interfere with your bone marrow",
+      "rewritePassage": "This niche is not very big. The tumour will therefore interfere with the bone marrow"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite states 'when the tumour occurs in a meningioma', turning 'meningioma' into an anatomical location where a tumour occurs. In the text and medically, a meningioma is itself a type of primary tumour, not an anatomical site.",
+      "sourcePassage": "Only 10% of these deaths, generally, if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "rewritePassage": "Only 10% of deaths are generally caused in this way, for example when the tumour occurs in a meningioma or in the liver."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Things like obstruction of the bile ducts in the liver interferes with digestion.",
+      "reason": "The introductory sentence 'Other effects depend on the site' serves as a stylistic transition continuing the lecturer's earlier point that effects depend on 'the different settings in which they occur'."
+    },
+    {
+      "sourcePassage": "And things like if tumors in bones lead to erosion of that bone function, so you can get fractures",
+      "reason": "The rewrite's phrasing 'erosion of the bone, so that fractures can occur' conveys the same meaning as the lecturer's 'erosion of that bone function'."
+    },
+    {
+      "sourcePassage": "Also ulceration, you saw that enormous cauliflower structure within the colon. This causes a lot of bleeding and can lead to anemia.",
+      "reason": "The rewrite's phrasing 'the enormous cauliflower-like structure seen within the colon causes a lot of bleeding' preserves the lecturer's reference to the structure shown previously and its causal connection to bleeding."
+    }
+  ]
+}

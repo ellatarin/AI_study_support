@@ -1,0 +1,27 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c11",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite states that the tumour occurs 'in a meningioma', erroneously treating a meningioma (which is a type of tumour, as correctly described earlier) as an anatomical location or organ.",
+      "sourcePassage": "Only 10% of these deaths, generally, if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "rewritePassage": "when the tumour occurs in a meningioma or in the liver"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "you saw that enormous cauliflower structure within the colon.",
+      "reason": "The reference to the audience having seen the structure was adapted to textbook style ('seen within the colon'), retaining the descriptive fact without retaining the spoken conversational aside."
+    },
+    {
+      "sourcePassage": "Things like obstruction of the bile ducts in the liver interferes with digestion.",
+      "reason": "The addition of 'Other effects depend on the site' serves purely as a stylistic transition continuing the lecturer's discussion of different anatomical settings, adding no unsourced factual claim."
+    },
+    {
+      "sourcePassage": "And things like if tumors in bones lead to erosion of that bone function, so you can get fractures",
+      "reason": "Rewriting 'erosion of that bone function' as 'erosion of the bone, so that fractures can occur' conveys the same meaning in more natural textbook English."
+    }
+  ]
+}

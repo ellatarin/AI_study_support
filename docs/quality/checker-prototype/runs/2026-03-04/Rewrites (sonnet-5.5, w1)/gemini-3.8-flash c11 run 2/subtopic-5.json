@@ -1,0 +1,27 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c11",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite introduces a causal link by using 'since' ('since a surgeon can tell...'), stating that the terminology is heard because a surgeon can tell by touch, whereas the original text uses 'where' to indicate the context rather than asserting a causal relationship.",
+      "sourcePassage": "And you'll hear this kind of terminology even now, where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable.",
+      "rewritePassage": "This terminology is still heard now, since a surgeon can tell just by holding or touching a tumour whether it is movable or immovable."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals",
+      "reason": "This clause was omitted in the rewrite, which is allowed because it is a statement about the course or lecture."
+    },
+    {
+      "sourcePassage": "back in, I don't know,",
+      "reason": "This phrase was omitted as conversational filler, which is an allowed change."
+    },
+    {
+      "sourcePassage": "Okay. So with these tools in hand, I think the important concept to try and get across is invasion and metastasis.",
+      "reason": "The introductory conversational framing ('Okay. So with these tools in hand, I think...') was streamlined to 'The important concepts to establish next are invasion and metastasis.', which is an allowed stylistic change."
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c11",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "This is a personal remark / note to self by the lecturer, which can be dropped as an allowed omission."
+    },
+    {
+      "sourcePassage": "or also this transcoelomic site from across a cavity",
+      "reason": "Rewriting this as 'or by a transcoelomic route' resolves a spoken slip and aligns with the preceding list of 'routes' without altering the technical meaning."
+    },
+    {
+      "sourcePassage": "And I think one of the tumors that does this quite frequently is ovarian cancer, for example.",
+      "reason": "'I think' is used here as conversational phrasing rather than a genuine scientific hedge regarding ovarian cancer's transcoelomic spread, so omitting it is an allowed stylistic change."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here, and then you can often see sometimes the tumor cells are actually present within a lymphatic duct.",
+      "reason": "The deictic phrase 'You see your tumor cells are here' provides no descriptive location in the spoken transcript; omitting it while keeping the substantive finding that tumor cells are present within a lymphatic duct avoids inventing an unsourced description."
+    },
+    {
+      "sourcePassage": "So, for example, this tumor cell has the appearance of an adenomatous tumor or glandular tumor.",
+      "reason": "Changing 'this tumor cell has' to 'a tumour cell may have' adapts the lecturer's deictic reference into textbook prose while fully preserving the illustrative example."
+    }
+  ]
+}

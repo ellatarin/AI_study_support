@@ -1,0 +1,20 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c11",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals",
+      "reason": "This is a statement about the course or practical sessions, which is an allowed omission."
+    },
+    {
+      "sourcePassage": "So with these tools in hand, I think the important concept to try and get across is",
+      "reason": "Phrasing such as 'with these tools in hand' and 'to try and get across' represents conversational transition and lecture framing, which can be omitted or rephrased."
+    },
+    {
+      "sourcePassage": "I don't know",
+      "reason": "Conversational filler omitted in the textbook rewrite, which is permitted."
+    }
+  ]
+}

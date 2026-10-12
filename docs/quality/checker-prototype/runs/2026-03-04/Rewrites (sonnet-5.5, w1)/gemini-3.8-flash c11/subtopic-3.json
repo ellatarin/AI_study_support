@@ -1,0 +1,31 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c11",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite replaces the developmental stage 'adolescence' with 'differentiation', altering the lecturer's stated period during which maturation occurs.",
+      "sourcePassage": "because obviously during adolescence and maturation, this occurs from infancy to adulthood.",
+      "rewritePassage": "because differentiation and maturation also occur from infancy to adulthood."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "during the time that you were born.",
+      "reason": "Omitted as a false start or conversational restatement of 'during embryogenesis'."
+    },
+    {
+      "sourcePassage": "into the invading stroma.",
+      "reason": "The change from 'invading stroma' to 'invaded stroma' corrects a clear slip of the tongue by the lecturer, as the cells invade the stroma."
+    },
+    {
+      "sourcePassage": "provides a signaling and basis for their adherence to this layer.",
+      "reason": "Editing 'a signaling and basis' to 'a signalling basis' is an acceptable grammatical cleanup of spoken phrasing."
+    },
+    {
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes.",
+      "reason": "The rewrite resolves the deictic reference to 'In the image of the invasive tissue', which is clearly supported by the context of the lecturer contrasting normal breast tissue with invasive tissue."
+    }
+  ]
+}

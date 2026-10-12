@@ -1,0 +1,16 @@
+{
+  "subtopicId": 14,
+  "checkerPromptVersion": "c11",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, so what does this look like in the clinic? [chuckles] I call this the four horsemen. You show up with something that's itchy, crusty, lumpy, or bloody.",
+      "reason": "The rewrite frames this as 'the presentation of cancer can be summarised as the \"four horsemen\"', which accurately captures the lecturer's rhetorical question and explanation in textbook style without adding new information."
+    },
+    {
+      "sourcePassage": "tumors can be indirect if they're occurring in non-screenable or non-palpable areas",
+      "reason": "The rewrite phrases this as 'Tumours can also present indirectly if they occur in non-screenable or non-palpable areas', which faithfully standardises the spoken phrasing into clinical textbook prose."
+    }
+  ]
+}

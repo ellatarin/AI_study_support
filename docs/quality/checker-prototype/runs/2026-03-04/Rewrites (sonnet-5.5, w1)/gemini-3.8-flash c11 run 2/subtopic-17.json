@@ -1,0 +1,12 @@
+{
+  "subtopicId": 17,
+  "checkerPromptVersion": "c11",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay? So I leave you with the learning outcomes. Hopefully, you will recognize all of these things in your revision and in your discussions with your supervisors. Let's leave it there for now, and I will see you in the practicals, and I will see you next week, Monday. [clapping]",
+      "reason": "This entire passage consists of remarks to the audience, wrap-up statements, and course administrative remarks, which are allowed to be dropped."
+    }
+  ]
+}

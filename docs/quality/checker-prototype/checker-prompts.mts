@@ -323,6 +323,7 @@ ${QUOTED_REPLY}`,
 				unsourcedAdditions: C7_ADDITIONS,
 				formAllowance: FORM_ALLOWANCE,
 				mergingDistortion: C7_MERGING,
+				omissions: C7_OMISSIONS,
 			}),
 	},
 	c8: {
@@ -334,6 +335,7 @@ ${QUOTED_REPLY}`,
 				unsourcedAdditions: CHECKED_DESCRIPTION_ADDITIONS,
 				formAllowance: FORM_ALLOWANCE,
 				mergingDistortion: C7_MERGING,
+				omissions: C7_OMISSIONS,
 			}),
 	},
 	c9: {
@@ -345,6 +347,7 @@ ${QUOTED_REPLY}`,
 				unsourcedAdditions: CHECKED_DESCRIPTION_ADDITIONS,
 				formAllowance: FIGURE_SENTENCE_ALLOWANCE,
 				mergingDistortion: C7_MERGING,
+				omissions: C7_OMISSIONS,
 			}),
 	},
 	c10: {
@@ -356,6 +359,19 @@ ${QUOTED_REPLY}`,
 				unsourcedAdditions: CHECKED_DESCRIPTION_ADDITIONS,
 				formAllowance: FIGURE_SENTENCE_ALLOWANCE,
 				mergingDistortion: MERGING_WITH_EXAMPLE,
+				omissions: C7_OMISSIONS,
+			}),
+	},
+	c11: {
+		changed:
+			"Adds to the omissions of c10 the things that the lecturer points out on a figure, dropped for the general rule, with an example from another subject.",
+		prompt: (name) =>
+			learningIssuePrompt({
+				name,
+				unsourcedAdditions: CHECKED_DESCRIPTION_ADDITIONS,
+				formAllowance: FIGURE_SENTENCE_ALLOWANCE,
+				mergingDistortion: MERGING_WITH_EXAMPLE,
+				omissions: POINTED_OUT_OMISSIONS,
 			}),
 	},
 };
@@ -371,6 +387,14 @@ const C7_ADDITIONS = `- The rewrite states a fact that the text does not state.
 /** The forbidden unsourced additions of c8, which add a description from pointing words that the text does not show to be correct. */
 const CHECKED_DESCRIPTION_ADDITIONS = `${C7_ADDITIONS}
 - The rewrite turns the lecturer's pointing words, such as "here" and "this", into a description that the lecturer did not give. Report it unless the text shows that the description is correct.`;
+
+/** The forbidden omissions of c7. */
+const C7_OMISSIONS = `- A fact, an observation, a step of reasoning or a causal link of the text is not in the rewrite.
+- What the lecturer says that a figure shows is not in the rewrite. A statement of what a figure shows is important subject matter, not a remark to the audience.`;
+
+/** The forbidden omissions of c11, which add things pointed out on a figure that the rewrite drops for the general rule. */
+const POINTED_OUT_OMISSIONS = `${C7_OMISSIONS}
+- The lecturer points out particular things on a figure, and the rewrite keeps only the general rule. For example, a speaker points out two cracks in a photograph of a bridge, and the rewrite says only "Cracks form near the joints". Report it: the student needs to know what to look for on the figure.`;
 
 /** The forbidden distortion of c7 for two concerns merged into one. */
 const C7_MERGING = "- Merging or conflating of two separate concerns into one.";
@@ -390,6 +414,7 @@ const FIGURE_SENTENCE_ALLOWANCE = `${FORM_ALLOWANCE} A sentence around the [FIGU
  * @param args.unsourcedAdditions - The lines of the forbidden unsourced additions.
  * @param args.formAllowance - The allowed-change line for the [FIGURE] mark, order, paragraphs, style and grammar.
  * @param args.mergingDistortion - The forbidden-distortion line for two concerns merged into one.
+ * @param args.omissions - The lines of the forbidden omissions.
  * @returns The prompt.
  */
 function learningIssuePrompt({
@@ -397,8 +422,10 @@ function learningIssuePrompt({
 	unsourcedAdditions,
 	formAllowance,
 	mergingDistortion,
+	omissions,
 }: {
 	readonly name: string;
+	readonly omissions: string;
 	readonly unsourcedAdditions: string;
 	readonly formAllowance: string;
 	readonly mergingDistortion: string;
@@ -415,8 +442,7 @@ The following changes are forbidden, and should be flagged when the process belo
 
 ## Omissions
 
-- A fact, an observation, a step of reasoning or a causal link of the text is not in the rewrite.
-- What the lecturer says that a figure shows is not in the rewrite. A statement of what a figure shows is important subject matter, not a remark to the audience.
+${omissions}
 
 ## Unsourced additions
 
