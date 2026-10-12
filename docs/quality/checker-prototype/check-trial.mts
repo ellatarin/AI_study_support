@@ -26,7 +26,6 @@ import { rewriteAttemptFilePath, subtopicPromptMessages } from "/Users/ellatarin
 import { readStructuredTranscript } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/pipeline/stages/structured-transcript.js";
 import { isSubtopicRewrite } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/pipeline/stages/subtopic-rewrites.js";
 import { isTermCorrectionResult } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/pipeline/stages/term-corrections.js";
-import { mapWithConcurrency } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/utils/concurrency.js";
 import { createCostTally } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/utils/cost.js";
 import { pathExists, writeJsonAtomic } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/utils/files.js";
 import { isRecord } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/utils/record.js";
@@ -42,12 +41,6 @@ import {
 	subtopicResultFile,
 	workspaceOf,
 } from "./prototype-layout.mts";
-
-/** The most subtopics of one run in flight at once, as in the pipeline's configuration. */
-const CONCURRENCY = 10;
-
-/** The gap between the sends of one run, as in the pipeline's configuration. */
-const SEND_GAP_SECONDS = 0.25;
 
 /** The rewrite attempt that the trial reads: the first round. */
 const ATTEMPT_NUMBER = 1;
@@ -223,7 +216,10 @@ async function runOne({
 	const config = { ...baseConfig, stages: { ...baseConfig.stages, [CHECK_STAGE_ID]: { ...borrowed, modelId } } };
 	const system = checkerSystemPrompt({ version, language: config.finalOutput.language });
 	const client = createOpenRouterClientProvider({ openRouter: config.openRouter });
-	const sendGate = createSendGate({ gapSeconds: SEND_GAP_SECONDS });
+	if (borrowed.sendGapSeconds === undefined) {
+		throw new Error(`The pipeline configuration sets no sendGapSeconds for ${CHECK_STAGE_ID}`);
+	}
+	const sendGate = createSendGate({ gapSeconds: borrowed.sendGapSeconds });
 	const costTally = createCostTally();
 	const logger = pino({ enabled: false });
 	const unusableReplies: Record<string, unknown>[] = [];
@@ -268,19 +264,14 @@ async function runOne({
 		return sent;
 	}
 
-	await mapWithConcurrency({
-		items: subtopics,
-		limit: CONCURRENCY,
-		work: async ({ item: { subtopicId, units } }) => {
+	await Promise.all(
+		subtopics.map(async ({ subtopicId, units }) => {
 			const resultPath = join(folder, subtopicResultFile(subtopicId));
 			if (await pathExists(resultPath)) {
 				return;
 			}
 			try {
-				const replies: CheckerReply[] = [];
-				for (const unit of units) {
-					replies.push(await checkUnit({ subtopicId, unit }));
-				}
+				const replies = await Promise.all(units.map((unit) => checkUnit({ subtopicId, unit })));
 				const [only] = replies;
 				const sent =
 					replies.length === 1 && only !== undefined
@@ -297,8 +288,8 @@ async function runOne({
 			} catch (error: unknown) {
 				failedSubtopics.push({ subtopicId, error: String(error) });
 			}
-		},
-	});
+		}),
+	);
 
 	const runFile = join(folder, "run.json");
 	const earlier: unknown = (await pathExists(runFile)) ? JSON.parse(await readFile(runFile, "utf8")) : null;
