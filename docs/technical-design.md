@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.88-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
+**Suite version:** 1.89-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
 **Date:** 2026-10-12
 **Status:** For review
 
@@ -1634,8 +1634,10 @@ The file of each check holds these fields:
 | `subtopicId` | The subtopic |
 | `attemptNumber` | The number of the rewrite attempt, which is the number of the round |
 | `checkerPromptVersion` | The version of the checker prompt |
-| `deficiencies` | Each deficiency: `deficiencyType` (`omission`, `distortion` or `unsourced-addition`), `rule`, `description`, `sourcePassage` (null for an unsourced addition) and `rewritePassage` (null for an omission) |
+| `deficiencies` | Each deficiency: `deficiencyType` (`omission`, `distortion` or `unsourced-addition`), `rule`, `description`, `sourcePassage` (null for an unsourced addition) and `rewritePassage`. For an omission, `rewritePassage` is the sentence of the rewrite that lacks the fact, or null |
 | `considerations` | Each consideration: `sourcePassage` and `reason` |
+
+Prompt c2 asks for null as the rewrite passage of an omission. Some models quote the sentence of the rewrite that lacks the fact. The stage accepts the quote, because the quote shows a later repair where the fact belongs.
 
 **The model** is `openai/gpt-5.6-sol-pro`, set on the stage's own entry (§6). It is the checker that issue #8 chose for the earlier verification stage.
 

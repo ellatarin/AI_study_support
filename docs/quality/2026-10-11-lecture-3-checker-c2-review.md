@@ -88,3 +88,5 @@ The checker should not report:
 - a statement about the course, the students or the lecture
 - a figure of speech that helps the audience picture a slide
 - a repair of a clear slip of speech or of transcription. This item depends on the user's decision about repairs. The writer's rule R4 forbids a changed term today.
+
+For an omission, the reply format of c3 should ask for the sentence of the rewrite that lacks the fact. When the rewrite has no such sentence, the passage is null. Sonnet 5.5 gave this quote under c2 on 2026-10-12, and the user chose to ask for it.

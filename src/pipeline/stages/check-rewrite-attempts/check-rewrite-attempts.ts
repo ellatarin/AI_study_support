@@ -62,7 +62,8 @@ type Deficiency = { readonly rule: string; readonly description: string } & (
 	| {
 			readonly deficiencyType: "omission";
 			readonly sourcePassage: string;
-			readonly rewritePassage: null;
+			/** The sentence of the rewrite that lacks the omitted fact, or `null` when the checker quotes none. */
+			readonly rewritePassage: string | null;
 	  }
 	| {
 			readonly deficiencyType: "distortion";
@@ -85,32 +86,45 @@ type CheckerReply = {
 	readonly considerations: readonly Consideration[];
 };
 
-/** The passages that a deficiency of each type gives. */
-const PASSAGES_GIVEN: Readonly<
-	Record<Deficiency["deficiencyType"], { readonly source: boolean; readonly rewrite: boolean }>
+/** The form of one passage of a deficiency: a quote, `null`, or either of the two. */
+type PassageForm = "quote" | "null" | "quote or null";
+
+/** The form of each passage that a deficiency of each type gives. */
+const PASSAGE_FORMS: Readonly<
+	Record<
+		Deficiency["deficiencyType"],
+		{ readonly source: PassageForm; readonly rewrite: PassageForm }
+	>
 > = {
-	omission: { source: true, rewrite: false },
-	distortion: { source: true, rewrite: true },
-	"unsourced-addition": { source: false, rewrite: true },
+	omission: { source: "quote", rewrite: "quote or null" },
+	distortion: { source: "quote", rewrite: "quote" },
+	"unsourced-addition": { source: "null", rewrite: "quote" },
 };
 
 /**
- * Checks that a passage of a deficiency is a string when the deficiency type
- * gives it, and `null` when it does not.
+ * Checks that a passage of a deficiency has the form that the deficiency type gives it.
  *
- * @param args - The passage, and whether the type gives it.
+ * @param args - The passage, and its form.
  * @param args.passage - The passage of the reply.
- * @param args.given - `true` when the deficiency type gives the passage.
+ * @param args.form - The form that the deficiency type gives the passage.
  * @returns `true` when the passage agrees with its type.
  */
 function isPassageAsTyped({
 	passage,
-	given,
+	form,
 }: {
 	readonly passage: unknown;
-	readonly given: boolean;
+	readonly form: PassageForm;
 }): boolean {
-	return given ? typeof passage === "string" : passage === null;
+	const isQuote = typeof passage === "string";
+	switch (form) {
+		case "quote":
+			return isQuote;
+		case "null":
+			return passage === null;
+		case "quote or null":
+			return isQuote || passage === null;
+	}
 }
 
 /**
@@ -127,14 +141,14 @@ function isDeficiency(value: unknown): value is Deficiency {
 		typeof value.rule !== "string" ||
 		!CHECKED_RULE_NUMBERS.includes(value.rule) ||
 		typeof value.deficiencyType !== "string" ||
-		!Object.hasOwn(PASSAGES_GIVEN, value.deficiencyType)
+		!Object.hasOwn(PASSAGE_FORMS, value.deficiencyType)
 	) {
 		return false;
 	}
-	const given = PASSAGES_GIVEN[value.deficiencyType as Deficiency["deficiencyType"]];
+	const forms = PASSAGE_FORMS[value.deficiencyType as Deficiency["deficiencyType"]];
 	return (
-		isPassageAsTyped({ passage: value.sourcePassage, given: given.source }) &&
-		isPassageAsTyped({ passage: value.rewritePassage, given: given.rewrite })
+		isPassageAsTyped({ passage: value.sourcePassage, form: forms.source }) &&
+		isPassageAsTyped({ passage: value.rewritePassage, form: forms.rewrite })
 	);
 }
 

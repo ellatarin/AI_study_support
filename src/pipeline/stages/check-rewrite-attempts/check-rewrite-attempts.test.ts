@@ -40,11 +40,20 @@ const omission = {
 /** A consideration in the documented shape. */
 const consideration = { sourcePassage: "Today we are covering", reason: "It is filler." };
 
+const rewriteQuote = "Cell injury";
+
+/**
+ * Builds the content of a reply that finds one deficiency and gives {@link consideration}.
+ *
+ * @param deficiency - The deficiency that the reply finds.
+ * @returns The content of the reply.
+ */
+function replyFinding(deficiency: Readonly<Record<string, unknown>>): string {
+	return JSON.stringify({ deficiencies: [deficiency], considerations: [consideration] });
+}
+
 /** The content of a reply that finds {@link omission}. */
-const unfaithfulReply = JSON.stringify({
-	deficiencies: [omission],
-	considerations: [consideration],
-});
+const unfaithfulReply = replyFinding(omission);
 
 /**
  * The workspace-relative path of the check of a subtopic in round 1. The name is
@@ -110,8 +119,13 @@ describe("createCheckRewriteAttemptsStage", () => {
 		]);
 	});
 
-	it("should write the deficiencies, the considerations and the checker prompt version in the check of each subtopic when the stage completes", async () => {
-		create().mockResolvedValue(openRouterReplyBody({ content: unfaithfulReply }));
+	it.each([
+		{ passage: "no rewrite passage", deficiency: omission },
+		{ passage: "a rewrite passage", deficiency: { ...omission, rewritePassage: rewriteQuote } },
+	])("should write the deficiencies, the considerations and the checker prompt version in the check of each subtopic when an omission gives $passage", async ({
+		deficiency,
+	}) => {
+		create().mockResolvedValue(openRouterReplyBody({ content: replyFinding(deficiency) }));
 
 		await run();
 
@@ -119,7 +133,7 @@ describe("createCheckRewriteAttemptsStage", () => {
 			subtopicId: 2,
 			attemptNumber: 1,
 			checkerPromptVersion: "c2",
-			deficiencies: [omission],
+			deficiencies: [deficiency],
 			considerations: [consideration],
 		});
 	});
@@ -188,14 +202,10 @@ describe("createCheckRewriteAttemptsStage", () => {
 			reply: { deficiencies: [{ ...omission, rule: "R10" }] },
 		},
 		{
-			problem: "gives a rewrite passage for an omission",
-			reply: { deficiencies: [{ ...omission, rewritePassage: "Cell injury" }] },
-		},
-		{
 			problem: "gives a source passage for an unsourced addition",
 			reply: {
 				deficiencies: [
-					{ ...omission, deficiencyType: "unsourced-addition", rewritePassage: "Cell injury" },
+					{ ...omission, deficiencyType: "unsourced-addition", rewritePassage: rewriteQuote },
 				],
 			},
 		},
