@@ -1,0 +1,24 @@
+{
+  "subtopicId": 14,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, so what does this look like in the clinic? [chuckles] I call this the four horsemen. You show up with something that's itchy, crusty, lumpy, or bloody.",
+      "reason": "The rewrite rephrases this in textbook prose as 'the presentation of cancer can be summarised as the \"four horsemen\": a patient shows up with something that is itchy, crusty, lumpy or bloody', accurately preserving the meaning while removing conversational framing."
+    },
+    {
+      "sourcePassage": "tumors can be indirect if they're occurring in non-screenable or non-palpable areas.",
+      "reason": "The rewrite renders this as 'Tumours can also present indirectly if they occur in non-screenable or non-palpable areas', which accurately reflects the source meaning."
+    },
+    {
+      "sourcePassage": "even though it's the goal of the NHS to be able to diagnose earlier and quicker.",
+      "reason": "The rewrite changes 'quicker' to British English standard adverbial form 'more quickly', which preserves the exact meaning."
+    },
+    {
+      "sourcePassage": "So in thinking about this, we try to jump the gun and try to screen for different cancers before we get to a malignant state, because by the time you get to a malignant state, it's very likely to be too late for the patient.",
+      "reason": "The rewrite converts the colloquial first-person phrasing into objective passive voice ('the approach is to try to jump the gun and screen for different cancers before a malignant state is reached...') without altering the facts or causal reasoning."
+    }
+  ]
+}

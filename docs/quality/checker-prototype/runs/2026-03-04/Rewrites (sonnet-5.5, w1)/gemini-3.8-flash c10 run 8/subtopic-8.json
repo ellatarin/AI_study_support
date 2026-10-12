@@ -1,0 +1,33 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "omission",
+      "description": "The text states that once a tumour is found to be invasive and likely malignant, the next question of interest is whether there are secondary metastases across the body. This step of clinical reasoning is omitted in the rewrite.",
+      "sourcePassage": "But the question is, of course, you would then be interested in figuring out whether or not there would be secondary metastases across the body.",
+      "rewritePassage": null
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite inserts the causal conjunction 'because' to link the cells failing to metastasise with their failure to survive at the secondary site, whereas the text presents them as two consecutive statements without an explicit causal link.",
+      "sourcePassage": "many of them never metastasize. They never survive in the secondary site.",
+      "rewritePassage": "Many never metastasise, because they never survive at the secondary site."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "reason": "The rewrite specifies 'Invasion' in place of the pointing word 'this'. The preceding discussion explicitly focuses on local invasion into the stroma/muscle prior to metastasis, so the text supports that 'this' refers to invasion."
+    },
+    {
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "The rewrite resolves the pronoun 'it' to 'malignancy'. In oncology and pathology, malignancy is defined by the ability to invade surrounding tissue, so this is an uncontroversial resolution rather than a distortion."
+    },
+    {
+      "sourcePassage": "You'll see that over here you have the adenoma which has progressed into an adenocarcinoma. So one is growing out of the other.",
+      "reason": "The rewrite translates 'over here' into 'Elsewhere in the same lesion', which is supported by the text's explanation that the malignant component has developed out of the adenoma within the same tumour."
+    }
+  ]
+}

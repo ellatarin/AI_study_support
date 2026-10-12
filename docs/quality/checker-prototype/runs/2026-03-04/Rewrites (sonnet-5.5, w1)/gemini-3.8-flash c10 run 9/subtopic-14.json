@@ -1,0 +1,20 @@
+{
+  "subtopicId": 14,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "what does this look like in the clinic? [chuckles] I call this the four horsemen. You show up with something that's itchy, crusty, lumpy, or bloody.",
+      "reason": "The rewrite frames this as 'In the clinic, the presentation of cancer can be summarised as the \"four horsemen\": a patient shows up with something that is itchy, crusty, lumpy or bloody', which accurately reflects the lecturer's topic and informal phrasing in formal prose without adding unsourced facts."
+    },
+    {
+      "sourcePassage": "even though it's the goal of the NHS to be able to diagnose earlier and quicker.",
+      "reason": "The change to 'earlier and more quickly' is a standard grammatical adjustment for formal British English prose."
+    },
+    {
+      "sourcePassage": "So in thinking about this, we try to jump the gun and try to screen for different cancers before we get to a malignant state, because by the time you get to a malignant state, it's very likely to be too late for the patient. So screening is very much the approach.",
+      "reason": "The rewrite smoothly captures the causal connection ('For this reason...') and the conclusion ('Screening is therefore very much the approach') without distorting the meaning or adding new information."
+    }
+  ]
+}

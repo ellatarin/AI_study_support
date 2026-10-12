@@ -1,0 +1,20 @@
+{
+  "subtopicId": 10,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay? So just so that we're all on the same page in terms of nomenclature, and of course, with any naming system, there are always exceptions to every rule.",
+      "reason": "The lecturer's conversational opening was omitted as allowed filler, while the statement about exceptions in naming systems was faithfully preserved."
+    },
+    {
+      "sourcePassage": "which are things like lipoma, leiomyoma, papilloma, and adenomas. All of these would be benign tumors in the tissues that they are occurring in. So the fat, smooth muscle or papillomas in the skin, and adenomas, as we were talking about in the colon.",
+      "reason": "The rewrite pairs each tumour type explicitly with its tissue (lipomas in fat, leiomyomas in smooth muscle), directly reflecting the parallel correspondence established in the spoken list without adding unsourced facts."
+    },
+    {
+      "sourcePassage": "So these are these different tumor types and other exceptions as well, things like malignant melanoma. Melanoma is never used for moles, for example. This always denotes a malignant status.",
+      "reason": "The rewrite faithfully captures all details regarding melanoma and its malignant designation while omitting disfluent repetitions."
+    }
+  ]
+}

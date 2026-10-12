@@ -1,0 +1,27 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite uses 'since' to introduce a causal link, claiming that the terminology is still heard today because a surgeon can determine mobility by touch, whereas the original text only uses 'where' to describe the context or situation in which the terminology is heard.",
+      "sourcePassage": "And you'll hear this kind of terminology even now, where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable.",
+      "rewritePassage": "This terminology is still heard now, since a surgeon can tell just by holding or touching a tumour whether it is movable or immovable."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals,",
+      "reason": "This is a statement about the course and a remark to the audience, which is an allowed omission."
+    },
+    {
+      "sourcePassage": "Okay. So with these tools in hand,",
+      "reason": "This is a transitional remark about the lecture/tools that can be omitted as filler or a remark about the lecture."
+    },
+    {
+      "sourcePassage": "Right. So, what does that mean for the patient? Well,",
+      "reason": "This is a rhetorical question and conversational filler dropped during conversion to textbook prose."
+    }
+  ]
+}

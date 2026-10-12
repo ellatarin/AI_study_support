@@ -1,0 +1,27 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "A meningioma is a type of primary tumour, but the rewrite treats it as an anatomical site by stating 'when the tumour occurs in a meningioma', giving the term a different role in the sentence and introducing an inaccurate medical claim.",
+      "sourcePassage": "Only 10% of these deaths, generally, if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "rewritePassage": "for example when the tumour occurs in a meningioma or in the liver"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "And also this competition with the normal, if you have a tumor that is occurring in some of the blood compartments",
+      "reason": "The rewrite renders 'competition with the normal' as 'Competition with normal tissue is also a factor', which supplies the elided word 'tissue' without altering the intended meaning."
+    },
+    {
+      "sourcePassage": "you saw that enormous cauliflower structure within the colon",
+      "reason": "The rewrite phrases this as 'the enormous cauliflower-like structure seen within the colon', accurately reflecting the speaker's visual reference."
+    },
+    {
+      "sourcePassage": "lead to erosion of that bone function, so you can get fractures",
+      "reason": "The rewrite renders this as 'lead to erosion of the bone, so that fractures can occur', which is consistent with the speaker's later reference to 'erosion of bones'."
+    }
+  ]
+}

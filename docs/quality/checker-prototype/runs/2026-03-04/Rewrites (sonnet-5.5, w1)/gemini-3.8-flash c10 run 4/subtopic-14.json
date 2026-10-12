@@ -1,0 +1,20 @@
+{
+  "subtopicId": 14,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, so what does this look like in the clinic? [chuckles] I call this the four horsemen. You show up with something that's itchy, crusty, lumpy, or bloody.",
+      "reason": "The rewrite standardises the colloquial rhetoric ('what does this look like in the clinic?', 'I call this', 'You show up with') into formal textbook prose ('In the clinic, the presentation of cancer can be summarised as the \"four horsemen\": a patient shows up with...'), retaining all clinical facts."
+    },
+    {
+      "sourcePassage": "tumors can be indirect if they're occurring in non-screenable or non-palpable areas",
+      "reason": "Rendering 'tumors can be indirect' as 'Tumours can also present indirectly' is an allowed stylistic formulation preserving the exact meaning in clinical context."
+    },
+    {
+      "sourcePassage": "So in thinking about this, we try to jump the gun and try to screen for different cancers before we get to a malignant state",
+      "reason": "Rewriting the conversational phrasing into 'For this reason, the approach is to try to jump the gun and screen for different cancers before a malignant state is reached' preserves the reasoning and causal link without adding or removing information."
+    }
+  ]
+}

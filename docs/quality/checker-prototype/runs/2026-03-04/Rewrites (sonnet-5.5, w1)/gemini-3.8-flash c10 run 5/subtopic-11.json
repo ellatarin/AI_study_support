@@ -1,0 +1,27 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite describes a tumour occurring 'in a meningioma', treating a meningioma as an anatomical site rather than as a type of primary tumour.",
+      "sourcePassage": "Only 10% of these deaths, generally, if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "rewritePassage": "Only 10% of deaths are generally caused in this way, for example when the tumour occurs in a meningioma or in the liver."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "And if you think about them in the different settings in which they occur",
+      "reason": "The sentence 'Other effects depend on the site' at the start of the second paragraph reflects the lecturer's earlier framing that symptoms depend on the different settings in which tumours occur."
+    },
+    {
+      "sourcePassage": "you saw that enormous cauliflower structure within the colon.",
+      "reason": "The rewrite adapts the lecturer's conversational reference to a shown slide ('seen within the colon') without introducing new factual claims."
+    },
+    {
+      "sourcePassage": "So it's not very good.",
+      "reason": "Omission of casual lecturer remarks and commentary at the end is an allowed change."
+    }
+  ]
+}

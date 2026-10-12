@@ -1,0 +1,23 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite converts the lecturer's deictic gesture ('here') into a specific spatial description ('alongside it') that is neither stated nor supported by the text.",
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "rewritePassage": "Histologically, the endocervical canal runs through the neck of the womb, and the cervix is seen alongside it."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here",
+      "reason": "The lecturer is pointing to specific example cells on a slide to illustrate the already stated fact that mitotic cells occur only at the basement layer; omitting this pointing remark is an allowed stylistic omission."
+    },
+    {
+      "sourcePassage": "The uterus is here in this diagram, and as you know, it hangs down into the vaginal canal.",
+      "reason": "The rewrite faithfully retains 'The uterus hangs down into the vaginal canal' based on the literal phrasing of the lecturer."
+    }
+  ]
+}

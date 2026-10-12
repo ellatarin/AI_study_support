@@ -1,0 +1,27 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite uses 'since' to create an unsourced causal link, stating that the terminology is still heard because a surgeon can tell whether a tumour is movable by touch, whereas the lecturer merely describes the setting or context in which it is heard ('where a surgeon can see...').",
+      "sourcePassage": "And you'll hear this kind of terminology even now, where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable.",
+      "rewritePassage": "This terminology is still heard now, since a surgeon can tell just by holding or touching a tumour whether it is movable or immovable."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Okay. So with these tools in hand, I think the important concept to try and get across is invasion and metastasis.",
+      "reason": "The omission of 'with these tools in hand' and conversational framing is allowed as dropped filler and transitional remarks about the lecture."
+    },
+    {
+      "sourcePassage": "What they termed the movable tumor. And a movable tumor is exactly like what it sounds. Surgeons would find that that tumor could move within the tissue or an immovable tumor.",
+      "reason": "The lecturer tacked on 'or an immovable tumor' at the end of the sentence as an afterthought. Restructuring this so both types are named together in the first paragraph is an allowed stylistic reorganization and resolution of a false start/hesitation."
+    },
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals",
+      "reason": "The omission of this remark is allowed as it is a statement about the course or practical sessions."
+    }
+  ]
+}

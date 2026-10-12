@@ -1,0 +1,27 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite uses 'since' to assert a causal link, stating that the terminology is still heard because a surgeon can tell whether a tumour is movable by touch, whereas the original text uses 'where' to provide descriptive context without asserting causation.",
+      "sourcePassage": "And you'll hear this kind of terminology even now, where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable.",
+      "rewritePassage": "This terminology is still heard now, since a surgeon can tell just by holding or touching a tumour whether it is movable or immovable."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals",
+      "reason": "Omitted because statements about the course, practicals, or lecture are allowed changes."
+    },
+    {
+      "sourcePassage": "Okay. So with these tools in hand, I think the important concept to try and get across is invasion and metastasis.",
+      "reason": "The introductory framing was adapted into textbook prose ('The important concepts to establish next are invasion and metastasis') by removing conversational filler and meta-commentary, which is allowed."
+    },
+    {
+      "sourcePassage": "So when somebody presents with a lump or a primary tumor, there will be a biopsy to look and to see whether or not the tumor cells are contained or whether or not they're invading into the surrounding tissue.",
+      "reason": "The rewrite changes 'somebody presents' to 'a patient presents' and 'there will be a biopsy to look and to see' to 'a biopsy is taken to see', which is an allowed stylistic rewording with the same meaning."
+    }
+  ]
+}

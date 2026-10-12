@@ -1,0 +1,28 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "Omitted as an informal aside and remark to the audience."
+    },
+    {
+      "sourcePassage": "or also this transcoelomic site from across a cavity",
+      "reason": "The rewrite renders this as 'by a transcoelomic route, across a cavity' to maintain grammatical parallelism with the introductory clause ('spread via a number of routes'). This is an allowed stylistic adjustment rather than a distortion."
+    },
+    {
+      "sourcePassage": "And I think one of the tumors that does this quite frequently is ovarian cancer, for example.",
+      "reason": "Dropping 'I think' removes conversational filler rather than a scientific hedge."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here, and then you can often see sometimes the tumor cells are actually present within a lymphatic duct.",
+      "reason": "The spoken deictic reference ('are here') is appropriately adapted into standard textbook prose describing tumour cells within a lymphatic duct accompanied by a [FIGURE] marker."
+    },
+    {
+      "sourcePassage": "Similarly, here you have a brain, and what you have here is a breast cancer that's metastasized to the brain.",
+      "reason": "The rewrite condenses the lecturer's conversational phrasing to 'The other is a breast cancer that has metastasized to the brain', preserving all factual content."
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds 'that is', defining acetylation or deacetylation as the state of transcription within the cell itself, whereas the text merely lists it alongside the state of transcription without equating them.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The text states that the viruses (or infectious agents) can predispose to chronic inflammatory events, whereas the rewrite widens the cause to 'infection' in general.",
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events that can also help to give rise to cancer.",
+      "rewritePassage": "There are about seven different human viruses that precipitate cancer, and infection can also predispose to chronic inflammatory events, which can also help to give rise to cancer."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, so we're just going to start here with our core idea. I'm sure you've seen a cartoon that looks like this many times. The idea that a normal cell, starting off here, acquires a mutation, and maybe a second mutation, and it becomes slightly abnormal.",
+      "reason": "The rewrite combines the 'core idea' and the cartoon into 'The core idea is the familiar cartoon in which...', which accurately conveys the meaning without adding or distorting facts."
+    },
+    {
+      "sourcePassage": "So hopefully, in order to try and address some of these questions, we will start at the beginning. [chuckles]",
+      "reason": "The rewrite replaces 'we will start at the beginning' with 'the discussion starts at the beginning', which is an allowed stylistic adaptation removing conversational meta-commentary."
+    },
+    {
+      "sourcePassage": "So there's a lot of changes that occur, and as I said, we don't know pretty much because of this when they occur.",
+      "reason": "The rewrite's phrasing 'Many changes therefore occur' reflects the lecturer's summarizing transition after listing genetic, epigenetic, and infection-related changes."
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Just a slide about the incidence in companion animals since I found this slide some time ago, which is to say that in dogs and cats, they very much get similar tumors to us, and of course, if you compare any two things, you're going to find differences.",
+      "reason": "The introductory remark about finding the slide was properly omitted as conversational filler, and the comparison between companion animals and humans was accurately preserved."
+    },
+    {
+      "sourcePassage": "mammary tumors seem to be very, very prevalent",
+      "reason": "The repetition of 'very' was dropped as conversational emphasis, which is an allowed stylistic change."
+    },
+    {
+      "sourcePassage": "And this is my cat, who also ended up with a feline injection site sarcoma.",
+      "reason": "Converting the lecturer's first-person reference to 'The lecturer's own cat' is an allowed change of style for textbook prose."
+    },
+    {
+      "sourcePassage": "You'll be happy to hear he's doing fine now after his surgery.",
+      "reason": "'You'll be happy to hear' was dropped as an audience remark, while the medical fact that the cat recovered after surgery was kept."
+    },
+    {
+      "sourcePassage": "The only thing that was quite interesting to note here is that the rate of malignant tumors is about fivefold higher in reptiles compared to mammals.",
+      "reason": "Phrasing this as 'The one notable difference is that...' accurately captures the lecturer's observation following the discussion of similarities across taxa."
+    }
+  ]
+}

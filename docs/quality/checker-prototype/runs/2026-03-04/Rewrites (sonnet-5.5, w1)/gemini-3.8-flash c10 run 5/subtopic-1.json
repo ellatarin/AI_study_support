@@ -1,0 +1,20 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, everyone, shall we get started? Yes. You're very welcome, all of you, to Cancer Biology.",
+      "reason": "The introductory spoken pleasantries and greetings to the audience are allowed to be omitted as conversational filler and audience address."
+    },
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there.",
+      "reason": "Omitting the deictic reference ('listed there', referring to a slide) and introducing the learning outcomes directly in textbook style is an allowed change."
+    },
+    {
+      "sourcePassage": "So I tag-teamed these lectures with Professor Turner, and so she will also be teaching three of these lectures.",
+      "reason": "The rewrite conveys this accurately as 'The lectures are shared with Professor Turner, who teaches three of the six.'"
+    }
+  ]
+}

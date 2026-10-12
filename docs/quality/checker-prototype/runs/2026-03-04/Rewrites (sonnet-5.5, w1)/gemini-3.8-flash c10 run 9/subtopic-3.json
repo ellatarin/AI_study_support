@@ -1,0 +1,27 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite changes 'adolescence' to 'differentiation', stating that 'differentiation and maturation' occur from infancy to adulthood instead of occurring during 'adolescence and maturation'.",
+      "sourcePassage": "because obviously during adolescence and maturation, this occurs from infancy to adulthood.",
+      "rewritePassage": "because differentiation and maturation also occur from infancy to adulthood."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "during the time that you were born.",
+      "reason": "This was an apparent slip of the tongue / speech disfluency correcting/modifying 'during embryogenesis' and was appropriately omitted as a false start."
+    },
+    {
+      "sourcePassage": "Here at this stage here, most of your growth, really, most of your lineage specification and your expansive growth has happened during embryogenesis",
+      "reason": "The pointing words were replaced by standard phrasing and a [FIGURE] marker, which is an allowed change."
+    },
+    {
+      "sourcePassage": "into the invading stroma.",
+      "reason": "The lecturer said 'invading stroma' when referring to the stroma being invaded by the deranged cells; the rewrite's phrasing 'invaded stroma' correctly expresses this without distorting the biological meaning."
+    }
+  ]
+}

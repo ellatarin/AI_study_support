@@ -1,0 +1,20 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "This is a personal remark by the lecturer to themselves/the audience and was properly omitted as filler."
+    },
+    {
+      "sourcePassage": "or also this transcoelomic site from across a cavity",
+      "reason": "The rewrite renders this as 'or by a transcoelomic route, across a cavity', maintaining consistency with the preceding phrasing 'Primary tumours can spread by a number of routes'."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here, and then you can often see sometimes the tumor cells are actually present within a lymphatic duct.",
+      "reason": "The deictic reference ('are here') and conversational repetition are appropriately condensed into clear descriptive prose ('the tumour cells can often be seen present within a lymphatic duct')."
+    }
+  ]
+}

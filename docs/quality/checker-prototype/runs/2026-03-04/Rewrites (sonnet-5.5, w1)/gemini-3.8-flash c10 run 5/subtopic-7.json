@@ -1,0 +1,27 @@
+{
+  "subtopicId": 7,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite converts the lecturer's pointing words into an unstated spatial relation, claiming that the tumour 'lies next to the outer surface of the uterus', whereas the lecturer only pointed out the location of the tumour and the outer surface separately.",
+      "sourcePassage": "You can see that the tumor is here. This is the outer surface of the uterus.",
+      "rewritePassage": "The tumour lies next to the outer surface of the uterus"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So you can see again that this is actually circumspect and very separate from the surrounding stroma and the surrounding tissue.",
+      "reason": "The lecturer used 'circumspect' as an obvious slip of the tongue or phonetic transcription error for the standard histological term 'circumscribed'. Using 'circumscribed' in textbook prose corrects this without distorting the scientific meaning or harming student learning."
+    },
+    {
+      "sourcePassage": "and has, if you like, invaded within this tissue.",
+      "reason": "'if you like' is rendered as 'in a sense', faithfully retaining the colloquial hedge."
+    },
+    {
+      "sourcePassage": "I guess the expectation is that if it has invaded again into the surrounding tissues, it may have the capacity to metastasize to distant sites within the body.",
+      "reason": "Dropping conversational filler such as 'I guess' and the filler 'again' is permitted."
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer stated that maturation occurs during 'adolescence and maturation', but the rewrite changes 'adolescence' to 'differentiation'.",
+      "sourcePassage": "because obviously during adolescence and maturation, this occurs from infancy to adulthood.",
+      "rewritePassage": "because differentiation and maturation also occur from infancy to adulthood."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "during embryogenesis, during the time that you were born.",
+      "reason": "The phrase 'during the time that you were born' is a spoken false start immediately clarified by the speaker's discussion of development in the womb, and was appropriately omitted as conversational cleanup."
+    },
+    {
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes.",
+      "reason": "The rewrite phrasing 'In the image of the invasive tissue' resolves the lecturer's pointing gesture ('see here now') based on the context of the slide showing cancer invasion compared to the normal duct shown previously."
+    },
+    {
+      "sourcePassage": "provides a signaling and basis for their adherence to this layer.",
+      "reason": "Condensing 'signaling and basis' into 'signalling basis' is standard grammatical cleanup of spoken English."
+    },
+    {
+      "sourcePassage": "which would be here into the invading stroma.",
+      "reason": "Changing 'invading stroma' to 'invaded stroma' corrects a spoken slip of the tongue, as the lecturer previously established that the epithelial cells invade into the stroma."
+    }
+  ]
+}

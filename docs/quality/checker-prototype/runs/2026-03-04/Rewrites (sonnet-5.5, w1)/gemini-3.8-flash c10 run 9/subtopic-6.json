@@ -1,0 +1,20 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "This is a personal remark/lecture filler by the speaker and is permitted to be omitted."
+    },
+    {
+      "sourcePassage": "And I think one of the tumors that does this quite frequently is ovarian cancer, for example.",
+      "reason": "The phrase 'I think' functions as a conversational filler rather than a substantive scientific hedge regarding the established fact of ovarian cancer undergoing transcoelomic spread, so its omission is permitted."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here, and then you can often see sometimes the tumor cells are actually present within a lymphatic duct.",
+      "reason": "'You see your tumor cells are here' is a deictic pointing phrase to the histological specimen; omitting the deictic phrase while conveying that tumour cells can be seen within a lymphatic duct is permitted."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, everyone, shall we get started? Yes. You're very welcome, all of you, to Cancer Biology.",
+      "reason": "Conversational opening and greetings are dropped filler and remarks to the audience, which are allowed changes."
+    },
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there.",
+      "reason": "The deictic reference to a slide or handout ('listed there') is adapted into standard prose framing ('are as follows'), which is an allowed stylistic change."
+    },
+    {
+      "sourcePassage": "tumor",
+      "reason": "The rewrite uses the British English spelling 'tumour', which is an allowed change."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, everyone, shall we get started? Yes. You're very welcome, all of you, to Cancer Biology.",
+      "reason": "Conversational opening and welcome remarks to the class are appropriately condensed into an introductory sentence in line with allowed changes."
+    },
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there.",
+      "reason": "The pointing phrase ('listed there') referring to a presentation slide was adapted into standard textbook prose introducing the outcomes ('The learning outcomes for this lecture are as follows.')."
+    },
+    {
+      "sourcePassage": "tumor",
+      "reason": "Spelling changed to British English ('tumour'), which is explicitly permitted."
+    }
+  ]
+}

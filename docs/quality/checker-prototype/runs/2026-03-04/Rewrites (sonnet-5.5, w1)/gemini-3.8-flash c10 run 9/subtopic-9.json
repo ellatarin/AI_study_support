@@ -1,0 +1,16 @@
+{
+  "subtopicId": 9,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So this meningioma obviously is occurring within the skull.",
+      "reason": "The rewrite generalises 'this meningioma' to 'A meningioma occurs within the skull' while retaining the specific reference to 'in this case it caused death', accurately conveying the lecturer's meaning without introducing unsourced claims."
+    },
+    {
+      "sourcePassage": "that I showed you",
+      "reason": "The rewrite uses 'as shown earlier', which accurately captures the lecturer's reference to a previously shown image or example."
+    }
+  ]
+}

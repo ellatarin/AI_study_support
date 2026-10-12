@@ -1,0 +1,20 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "if you compare any two things, you're going to find differences",
+      "reason": "The rewrite renders 'any two things' as 'between two species', which faithfully reflects the context of comparing dogs, cats, and humans without altering the meaning."
+    },
+    {
+      "sourcePassage": "The only thing that was quite interesting to note here is that the rate of malignant tumors is about fivefold higher in reptiles compared to mammals.",
+      "reason": "The rewrite phrases this as 'The one notable difference is that...', which accurately reflects the lecturer's contrast between the similarities previously described and this comparative point."
+    },
+    {
+      "sourcePassage": "And this is my cat, who also ended up with a feline injection site sarcoma.",
+      "reason": "The rewrite adapts the personal reference into third person ('The lecturer's own cat developed a feline injection site sarcoma'), which is an acceptable stylistic transformation for textbook prose."
+    }
+  ]
+}

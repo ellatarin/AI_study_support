@@ -1,0 +1,20 @@
+{
+  "subtopicId": 9,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Obviously, when there is a suspicion of cancer or of a tumor, everybody gets very nervous about what that diagnosis is going to look like.",
+      "reason": "The rewrite renders this as 'When cancer or a tumour is suspected, there is considerable anxiety about the diagnosis', which accurately conveys the meaning in formal textbook style."
+    },
+    {
+      "sourcePassage": "smooth muscle fibroid that I showed you, that almost never progresses to a leiomyosarcoma",
+      "reason": "The reference to showing the fibroid is rendered as 'as shown earlier' alongside a [FIGURE] placeholder, which is an allowed change."
+    },
+    {
+      "sourcePassage": "So this meningioma obviously is occurring within the skull. The skull is a confined space. This would put an enormous amount of pressure on the brain and the surrounding structures and would cause and has caused Has caused death in this case. So things like meningiomas can cause that.",
+      "reason": "The rewrite conveys the anatomical explanation, the pressure exerted within the confined space of the skull, the lethal outcome in this specific case, and the general capacity of meningiomas to cause death, without altering factual content."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "The rewrite renders this as 'The different pre-cancerous states are present', appropriately converting a spoken reference to earlier visual material into textbook prose without introducing unsourced facts."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "The rewrite renders this as 'Of the screening methods discussed, cervical screening is the best', which faithfully reflects the lecturer's comparative statement in textbook style."
+    },
+    {
+      "sourcePassage": "or there's some reason if you're showing symptoms.",
+      "reason": "The rewrite phrases this as 'or some other reason, such as the patient showing symptoms', which preserves the original meaning and conversational qualification."
+    }
+  ]
+}

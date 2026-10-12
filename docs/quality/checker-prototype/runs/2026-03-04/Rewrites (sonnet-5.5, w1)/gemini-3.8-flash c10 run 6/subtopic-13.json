@@ -1,0 +1,28 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Just a slide about the incidence in companion animals since I found this slide some time ago",
+      "reason": "Omitted as meta-talk and remarks about the lecture slides, which is permitted."
+    },
+    {
+      "sourcePassage": "if you compare any two things, you're going to find differences",
+      "reason": "Rewritten as 'any comparison between two species will reveal differences', which adapts the colloquial idiom to the specific biological context without altering the underlying meaning."
+    },
+    {
+      "sourcePassage": "You'll be happy to hear he's doing fine now after his surgery.",
+      "reason": "Rewritten into objective third-person prose ('The cat is doing fine after surgery') while dropping the conversational aside to the audience."
+    },
+    {
+      "sourcePassage": "digestive tissues, hematopoietic, and skin",
+      "reason": "Rendered as 'digestive tissues, hematopoietic tissues and skin', supplying the parallel noun for grammatical consistency without changing the meaning."
+    },
+    {
+      "sourcePassage": "The only thing that was quite interesting to note here is that the rate of malignant tumors is about fivefold higher in reptiles compared to mammals.",
+      "reason": "Rewritten as 'The one notable difference is that the rate of malignant tumours is about fivefold higher in reptiles than in mammals', faithfully representing the speaker's contrast to the similarities previously mentioned."
+    }
+  ]
+}

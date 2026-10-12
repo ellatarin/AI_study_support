@@ -1,0 +1,33 @@
+{
+  "subtopicId": 7,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite turns the lecturer's pointing words ('the tumor is here', 'This is the outer surface of the uterus') into a spatial relationship ('lies next to the outer surface of the uterus') that the lecturer did not state.",
+      "sourcePassage": "You can see that the tumor is here. This is the outer surface of the uterus.",
+      "rewritePassage": "The tumour lies next to the outer surface of the uterus"
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The addition of 'therefore' creates an unsourced causal link, stating that the tumour is circumscribed and separate as a result of fixation, staining, and dehydration, rather than fixation simply making its circumscribed nature visible.",
+      "sourcePassage": "has actually caused the tumor, which is, as I said, not invaded into the surrounding tissue to separate away from the normal muscle. So you can see again that this is actually circumspect and very separate from the surrounding stroma and the surrounding tissue.",
+      "rewritePassage": "The tumour is therefore circumscribed and very separate from the surrounding stroma and the surrounding tissue."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "this is actually circumspect",
+      "reason": "'Circumspect' is an obvious speech-to-text error for the standard pathological description 'circumscribed'; adopting 'circumscribed' corrects the terminology appropriately for a textbook without impairing student understanding."
+    },
+    {
+      "sourcePassage": "Movable, and literally, you can scoop it out with no damage to the surrounding tissue. All right? So a benign tumor.",
+      "reason": "Omission of 'All right? So a benign tumor' represents rhetorical check-ins and repetitive spoken summaries that are allowed to be dropped."
+    },
+    {
+      "sourcePassage": "if you like",
+      "reason": "This is a conversational filler phrase that can be omitted or rephrased as 'in a sense'."
+    }
+  ]
+}

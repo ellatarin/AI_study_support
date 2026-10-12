@@ -1,0 +1,20 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "The rewrite renders this as 'The different pre-cancerous states are present', adapting a direct conversational reference to a lecture slide into textbook style without adding or altering factual content."
+    },
+    {
+      "sourcePassage": "an ulcerated cauliflower structure, if you like",
+      "reason": "The rewrite phrases this as 'an ulcerated cauliflower-like structure', which accurately conveys the lecturer's figurative description ('if you like')."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "The rewrite renders this as 'Of the screening methods discussed, cervical screening is the best', which faithfully captures the comparative context of the lecturer's recap."
+    }
+  ]
+}

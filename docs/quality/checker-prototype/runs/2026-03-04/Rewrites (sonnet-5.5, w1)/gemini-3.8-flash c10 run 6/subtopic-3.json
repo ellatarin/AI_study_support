@@ -1,0 +1,27 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer refers to development occurring during 'adolescence and maturation', but the rewrite replaces 'adolescence' with 'differentiation'.",
+      "sourcePassage": "because obviously during adolescence and maturation, this occurs from infancy to adulthood",
+      "rewritePassage": "because differentiation and maturation also occur from infancy to adulthood"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "during the time that you were born",
+      "reason": "This was an informal spoken qualification of 'during embryogenesis' (meaning by the time of birth) and its omission does not alter the scientific content."
+    },
+    {
+      "sourcePassage": "into the invading stroma",
+      "reason": "The rewrite renders this as 'into the invaded stroma', appropriately resolving the lecturer's slip of the tongue (the cells invade the stroma)."
+    },
+    {
+      "sourcePassage": "provides a signaling and basis for their adherence to this layer",
+      "reason": "The rewrite phrases this smoothly as 'provides a signalling basis for their adherence to this layer', preserving the intended meaning."
+    }
+  ]
+}

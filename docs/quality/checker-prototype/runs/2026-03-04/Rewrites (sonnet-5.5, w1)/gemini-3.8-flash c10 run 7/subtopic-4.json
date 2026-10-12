@@ -1,0 +1,27 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds that the slice through a tumour stained to show morphology 'illustrates this' (linking it to explanting the tumour), but the original text does not state that the slice illustrates explanting the tumour.",
+      "sourcePassage": "Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "rewritePassage": "A slice through a tumour, with a stain to show the morphology, illustrates this [FIGURE]."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "Omitted as conversational filler and a remark to the audience."
+    },
+    {
+      "sourcePassage": "throw it into a plastic tissue culture dish",
+      "reason": "Reworded as 'the cells are placed in a plastic tissue culture dish', which is an allowed stylistic change preserving the original meaning."
+    },
+    {
+      "sourcePassage": "other things",
+      "reason": "Rendered as 'other components', which carries the same meaning in this context."
+    }
+  ]
+}

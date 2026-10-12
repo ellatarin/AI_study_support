@@ -1,0 +1,33 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite inserts 'that is,', equating acetylation or deacetylation with the state of transcription within the cell, whereas the original text presents them as distinct items in a list without stating they are the same thing.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The original text states that 'they' (referring to the human viruses that precipitate cancer) can predispose to chronic inflammatory events. The rewrite widens the cause from these viruses to 'infection' in general.",
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events that can also help to give rise to cancer.",
+      "rewritePassage": "There are about seven different human viruses that precipitate cancer, and infection can also predispose to chronic inflammatory events, which can also help to give rise to cancer."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So I've just made this kind of a much simpler diagram, if you like.",
+      "reason": "The shift from first-person ('I've just made...') to passive voice ('A much simpler diagram can be made...') is an allowed stylistic rewrite."
+    },
+    {
+      "sourcePassage": "I'm sure you've seen a cartoon that looks like this many times.",
+      "reason": "The insertion of [FIGURE] corresponds directly to the lecturer's deictic references to a cartoon and a diagram."
+    },
+    {
+      "sourcePassage": "So there's a lot of changes that occur, and as I said, we don't know pretty much because of this when they occur.",
+      "reason": "The rewrite renders this as 'because of this it is largely not known when they occur', which accurately preserves the meaning of the spoken phrase."
+    }
+  ]
+}

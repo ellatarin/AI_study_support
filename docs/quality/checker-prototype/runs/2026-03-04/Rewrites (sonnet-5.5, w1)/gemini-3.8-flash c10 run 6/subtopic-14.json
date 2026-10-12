@@ -1,0 +1,20 @@
+{
+  "subtopicId": 14,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "I call this the four horsemen. You show up with something that's itchy, crusty, lumpy, or bloody.",
+      "reason": "The rewrite expresses this as 'the presentation of cancer can be summarised as the \"four horsemen\": a patient shows up with something that is itchy, crusty, lumpy or bloody', which accurately reflects the lecturer's meaning in formal textbook style."
+    },
+    {
+      "sourcePassage": "tumors can be indirect if they're occurring in non-screenable or non-palpable areas",
+      "reason": "The rewrite uses 'Tumours can also present indirectly', which is standard medical terminology conveying the same meaning."
+    },
+    {
+      "sourcePassage": "earlier and quicker",
+      "reason": "The rewrite replaces 'quicker' with 'more quickly', which is a standard grammatical improvement without altering meaning."
+    }
+  ]
+}

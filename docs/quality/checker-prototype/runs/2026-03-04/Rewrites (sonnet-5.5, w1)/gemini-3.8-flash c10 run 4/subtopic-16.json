@@ -1,0 +1,20 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states. Ideally, you'd like to catch these benign states.",
+      "reason": "The reference to what the audience saw on previous slides ('You saw') is an audience remark/lecture reference, which can be adapted into descriptive textbook prose without altering the factual meaning."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "'Of the screening methods discussed, cervical screening is the best' faithfully adapts the lecturer's recap and conversational phrasing into formal prose."
+    },
+    {
+      "sourcePassage": "because many of the people that do go for screening and then for further treatment, it has a very, very high false positive rate.",
+      "reason": "The rewrite cleans up the spoken false start/anacoluthon into grammatically sound textbook English without changing the intended meaning."
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "subtopicId": 12,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite introduces 'because', creating an unsourced causal link claiming that benign tumours are common because it takes a great deal for them to become malignant.",
+      "sourcePassage": "So benign tumors are actually incredibly common. Right? So it actually takes a lot for a benign tumor to become malignant in terms of, as I said, the number of changes that have to happen within a tumor.",
+      "rewritePassage": "Benign tumours are extremely common, because it takes a great deal for a benign tumour to become malignant, given the number of changes that have to happen within a tumour."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So I've just put these numbers up just so that you can have a sense.",
+      "reason": "The lecture opened by introducing the topic of incidence, so describing the numbers as giving 'a sense of incidence' accurately conveys the context of the slide rather than adding unsourced information."
+    },
+    {
+      "sourcePassage": "And then this is, if you like, the percentage of tumors that result in deaths.",
+      "reason": "The sentence introducing the [FIGURE] ('A further slide shows the percentage of tumours that result in deaths') directly reflects what the lecturer stated this slide is."
+    },
+    {
+      "sourcePassage": "But malignant tumors, for example, originating from mesenchymal lineage cell types, they're extremely rare.",
+      "reason": "Omitting conversational phrasing like 'for example' while attributing the rarity to malignant tumours of mesenchymal lineage cell types preserves the speaker's meaning."
+    }
+  ]
+}

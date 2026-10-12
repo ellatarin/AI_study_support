@@ -1,0 +1,24 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "The lecturer refers to visuals shown previously in the lecture. Adapting this remark into textbook prose as 'The different pre-cancerous states are present' is an allowed transition from spoken remarks to written style."
+    },
+    {
+      "sourcePassage": "ulcerated cauliflower structure, if you like",
+      "reason": "The speech filler/softener 'if you like' is appropriately rendered in textbook prose as 'cauliflower-like structure'."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "The rewrite phrases this as 'Of the screening methods discussed, cervical screening is the best', which faithfully conveys the comparative context without adding unsourced facts."
+    },
+    {
+      "sourcePassage": "very, very high false positive rate",
+      "reason": "Reducing emphatic repetition ('very, very') to 'very' is an allowed change (dropping repetitions)."
+    }
+  ]
+}

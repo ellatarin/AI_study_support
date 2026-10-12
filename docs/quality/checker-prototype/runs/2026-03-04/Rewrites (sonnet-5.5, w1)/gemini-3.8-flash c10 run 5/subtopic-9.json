@@ -1,0 +1,20 @@
+{
+  "subtopicId": 9,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "the smooth muscle fibroid that I showed you, that almost never progresses to a leiomyosarcoma",
+      "reason": "The rewrite phrases this as 'a smooth muscle fibroid, as shown earlier, almost never progresses to a leiomyosarcoma', accurately reflecting the lecturer's reference to an earlier example."
+    },
+    {
+      "sourcePassage": "So this meningioma obviously is occurring within the skull. The skull is a confined space. This would put an enormous amount of pressure on the brain and the surrounding structures and would cause and has caused Has caused death in this case.",
+      "reason": "The rewrite maintains the reference to the specific case ('in this case it caused death') while stating the general mechanism described by the lecturer without introducing unstated facts."
+    },
+    {
+      "sourcePassage": "Also, pituitary adenomas release a lot of hormones and can cause death in that way.",
+      "reason": "The rewrite uses 'release large amounts of hormones', which is an equivalent stylistic rephrasing of 'release a lot of hormones'."
+    }
+  ]
+}

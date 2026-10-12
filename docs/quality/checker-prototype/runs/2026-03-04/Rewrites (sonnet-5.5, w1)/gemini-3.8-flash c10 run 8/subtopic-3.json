@@ -1,0 +1,35 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer refers to developmental changes occurring during 'adolescence and maturation', but the rewrite replaces 'adolescence' with 'differentiation'. This changes a developmental life stage into a cellular process.",
+      "sourcePassage": "because obviously during adolescence and maturation, this occurs from infancy to adulthood.",
+      "rewritePassage": "because differentiation and maturation also occur from infancy to adulthood."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The text states that the basement membrane provides 'a signaling and basis for their adherence', using 'signaling' as a noun coordinated with 'basis'. The rewrite changes 'signalling' into an adjective modifying 'basis' ('a signalling basis for their adherence'), changing its grammatical role and turning two distinct provisions (signalling and an adherence basis) into one.",
+      "sourcePassage": "provides a signaling and basis for their adherence to this layer.",
+      "rewritePassage": "provides a signalling basis for their adherence to this layer."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer refers to the 'invading stroma', but the rewrite alters this to the 'invaded stroma', changing the term and resolving an unclear phrasing.",
+      "sourcePassage": "which would be here into the invading stroma.",
+      "rewritePassage": "into the invaded stroma."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "during the time that you were born.",
+      "reason": "This phrase was omitted as a false start or slip of the tongue immediately following 'during embryogenesis'."
+    },
+    {
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes.",
+      "reason": "The rewrite translates the pointing expression 'here now' into 'In the image of the invasive tissue'. This description is allowed because the context in the text explicitly describes the cells as having invaded and grown into the stroma."
+    }
+  ]
+}

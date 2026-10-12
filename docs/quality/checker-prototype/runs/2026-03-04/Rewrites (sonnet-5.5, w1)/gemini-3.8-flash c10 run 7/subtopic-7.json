@@ -1,0 +1,23 @@
+{
+  "subtopicId": 7,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite turns the lecturer's deictic pointing words ('here', 'This is') into a spatial description ('lies next to the outer surface of the uterus') that is not stated in the source text.",
+      "sourcePassage": "You can see that the tumor is here. This is the outer surface of the uterus.",
+      "rewritePassage": "The tumour lies next to the outer surface of the uterus"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So you can see again that this is actually circumspect and very separate from the surrounding stroma and the surrounding tissue.",
+      "reason": "The lecturer said 'circumspect', which is an obvious malapropism or transcription slip for 'circumscribed' in pathology; rendering it as 'circumscribed' in the textbook prose reflects the clear technical meaning rather than introducing a distorting change."
+    },
+    {
+      "sourcePassage": "and has, if you like, invaded within this tissue.",
+      "reason": "The hedge 'if you like' is rendered as 'in a sense', preserving the conversational qualification without distorting the scientific claim."
+    }
+  ]
+}

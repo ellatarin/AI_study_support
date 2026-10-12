@@ -1,0 +1,24 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "The reference to what the audience saw on an earlier slide is recast in textbook prose without changing the subject matter or omitting factual information."
+    },
+    {
+      "sourcePassage": "ulcerated cauliflower structure, if you like",
+      "reason": "'cauliflower-like structure' accurately captures the speaker's qualification 'if you like'."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "'Of the screening methods discussed, cervical screening is the best' is a faithful stylistic rendering of the lecturer's back-reference 'as I said'."
+    },
+    {
+      "sourcePassage": "tumors",
+      "reason": "'tumours' is the standard British English spelling."
+    }
+  ]
+}

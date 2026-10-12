@@ -1,0 +1,24 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "This is a remark to the audience / personal reminder by the lecturer and is legitimately omitted under allowed changes."
+    },
+    {
+      "sourcePassage": "or also this transcoelomic site from across a cavity",
+      "reason": "The lecturer introduced this as one of the 'routes' of spread; phrasing it as 'by a transcoelomic route' in the rewrite corrects spoken disfluency without altering meaning."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here, and then you can often see sometimes the tumor cells are actually present within a lymphatic duct.",
+      "reason": "Deictic gestures pointing to the microscopic visual ('are here') are appropriately represented by a figure placement and standard descriptive prose."
+    },
+    {
+      "sourcePassage": "And I think one of the tumors that does this quite frequently is ovarian cancer, for example.",
+      "reason": "'I think' is a conversational filler rather than a scientific hedge on an uncertain finding, so its omission is allowed."
+    }
+  ]
+}

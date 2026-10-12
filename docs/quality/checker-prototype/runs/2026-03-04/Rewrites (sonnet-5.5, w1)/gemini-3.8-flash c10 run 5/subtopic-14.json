@@ -1,0 +1,20 @@
+{
+  "subtopicId": 14,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "I call this the four horsemen.",
+      "reason": "The rewrite phrases this as 'the presentation of cancer can be summarised as the \"four horsemen\"', which appropriately converts the lecturer's informal personal idiom into textbook prose without changing the meaning."
+    },
+    {
+      "sourcePassage": "tumor",
+      "reason": "The rewrite uses the British English spelling 'tumour', which is an allowed change."
+    },
+    {
+      "sourcePassage": "So in thinking about this",
+      "reason": "The rewrite renders this as 'For this reason', which faithfully connects the preceding problem to the reasoning behind early screening."
+    }
+  ]
+}

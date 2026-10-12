@@ -1,0 +1,16 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events that can also help to give rise to cancer.",
+      "reason": "The rewrite renders 'they can also predispose' as 'infection can also predispose to chronic inflammatory events', which retains the intended meaning since the text connects infectious agents to these events."
+    },
+    {
+      "sourcePassage": "I'm sure you've seen a cartoon that looks like this many times. The idea that a normal cell, starting off here, acquires a mutation",
+      "reason": "The rewrite condenses the introductory conversational phrasing into textbook prose ('The core idea is the familiar cartoon in which a normal cell acquires a mutation...') without adding or altering factual content."
+    }
+  ]
+}

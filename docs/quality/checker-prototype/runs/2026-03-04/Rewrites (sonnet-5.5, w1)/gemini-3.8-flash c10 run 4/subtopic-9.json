@@ -1,0 +1,20 @@
+{
+  "subtopicId": 9,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Obviously, when there is a suspicion of cancer or of a tumor, everybody gets very nervous about what that diagnosis is going to look like.",
+      "reason": "The rewrite renders this as 'When cancer or a tumour is suspected, there is considerable anxiety about the diagnosis', which accurately conveys the meaning in academic prose."
+    },
+    {
+      "sourcePassage": "So this meningioma obviously is occurring within the skull.",
+      "reason": "The rewrite generalises 'this meningioma obviously is occurring' to 'A meningioma occurs within the skull', while retaining the specific reference to 'in this case it caused death', which preserves the lecturer's meaning."
+    },
+    {
+      "sourcePassage": "that I showed you",
+      "reason": "The rewrite uses 'as shown earlier' alongside a '[FIGURE]' tag, which is an allowed change for presentation of referenced visual materials."
+    }
+  ]
+}

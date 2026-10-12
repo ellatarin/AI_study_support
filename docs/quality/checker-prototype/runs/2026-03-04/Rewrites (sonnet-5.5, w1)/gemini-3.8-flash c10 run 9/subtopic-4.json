@@ -1,0 +1,27 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The lecturer notes that biologists often explant tumours and then points to an image of a stained slice to examine morphology, without stating that the slice illustrates tumour explantation. The rewrite adds an unsourced link by asserting that the slice 'illustrates this'.",
+      "sourcePassage": "often they will explant the tumor. Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "rewritePassage": "A slice through a tumour, with a stain to show the morphology, illustrates this [FIGURE]."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Primary cells really don't grow in culture. So when HeLa cells, which were the first tumor cells to grow in culture, did that, this was very much a surprise.",
+      "reason": "The rewrite condenses the phrasing into 'HeLa cells were the first tumour cells to grow in culture, and so this was very much a surprise', which retains the causal context that their growth in culture was surprising because primary cells do not grow in culture."
+    },
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "Omitted as an offhand remark to the audience and lecture meta-commentary."
+    },
+    {
+      "sourcePassage": "other things",
+      "reason": "Rephrased as 'other components', which carries the same meaning in this context."
+    }
+  ]
+}

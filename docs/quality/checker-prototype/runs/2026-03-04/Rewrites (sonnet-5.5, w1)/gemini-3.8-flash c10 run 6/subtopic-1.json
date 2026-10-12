@@ -1,0 +1,20 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, everyone, shall we get started? Yes. You're very welcome, all of you, to Cancer Biology.",
+      "reason": "The introductory spoken pleasantries and conversational opening were appropriately converted into standard textbook prose stating the topic/course name, which is an allowed change."
+    },
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there.",
+      "reason": "The reference to the slide/board ('listed there') was adapted to 'The learning outcomes for this lecture are as follows', omitting the deictic reference to the visual presentation in the room, which is allowed for spoken course remarks."
+    },
+    {
+      "sourcePassage": "So you're going to be comparing the differences between benign and malignant tumors",
+      "reason": "Rendered as 'This involves comparing benign and malignant tumours', which faithfully conveys the meaning without distortion."
+    }
+  ]
+}

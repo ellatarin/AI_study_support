@@ -1,0 +1,27 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite converts the lecturer's pointing words into a spatial description ('seen alongside it') that the lecturer did not give and that is not supported by the text.",
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "rewritePassage": "and the cervix is seen alongside it"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "The uterus is here in this diagram, and as you know, it hangs down into the vaginal canal.",
+      "reason": "The rewrite converts the pointing phrase 'is here in this diagram' into 'as shown in the diagram. [FIGURE]', which faithfully captures the reference to the diagram."
+    },
+    {
+      "sourcePassage": "here is the endocervical canal that it goes between the neck of the womb.",
+      "reason": "'runs through the neck of the womb' is an acceptable grammatical clarification of the lecturer's phrasing 'goes between the neck of the womb'."
+    },
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here, but the cells, as they differentiate, they turn over on their sides, they get thin, and they get flat, and their nuclei become very small.",
+      "reason": "Omitting the specific pointing remark to individual mitotic cells on the slide is an allowed omission of a spoken demonstrative remark to the audience, as the general fact that mitotic cells occur at the basement layer is preserved."
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "subtopicId": 12,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite introduces a causal link using 'because', asserting that benign tumours are extremely common because it takes a lot for them to become malignant. The lecturer mentions these as separate points and does not state that the high prevalence of benign tumours is caused by the difficulty of malignant transformation.",
+      "sourcePassage": "So benign tumors are actually incredibly common. Right? So it actually takes a lot for a benign tumor to become malignant",
+      "rewritePassage": "Benign tumours are extremely common, because it takes a great deal for a benign tumour to become malignant"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So I've just put these numbers up just so that you can have a sense.",
+      "reason": "The rewrite renders this as 'The numbers shown give a sense of incidence'. In the context of the opening sentence ('just talking about incidence'), specifying that the numbers give a sense of incidence is an allowed contextual clarification rather than an unsourced addition."
+    },
+    {
+      "sourcePassage": "All of these are overgrowths of tissues. Moles, I mean, who doesn't have moles?",
+      "reason": "The rewrite groups moles alongside lipomas, fibroids, and warts as 'all of which are overgrowths of tissues'. This minor restructuring reflects the lecturer's grouping of examples of benign overgrowths without distorting the scientific meaning."
+    },
+    {
+      "sourcePassage": "And then this is, if you like, the percentage of tumors that result in deaths.",
+      "reason": "The rewrite rephrases this as 'A further slide shows the percentage of tumours that result in deaths' before a [FIGURE] tag. Because the lecturer indicates a new visual display here and later refers to slides not going backwards, referring to a slide is an allowed phrasing around a figure."
+    }
+  ]
+}

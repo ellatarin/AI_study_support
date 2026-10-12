@@ -1,0 +1,37 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The text states 'it's defined as the ability to invade the surrounding tissue' directly after mentioning both invasion and malignancy, leaving the referent of 'it' ambiguous. The rewrite resolves this ambiguity by explicitly stating that malignancy is defined as the ability to invade surrounding tissue.",
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "rewritePassage": "Invasion and malignancy are very important diagnostically, and malignancy is defined as the ability to invade the surrounding tissue."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite replaces the lecturer's pointing word 'this' with 'Invasion', asserting that invasion is an obligatory step, which the text does not state.",
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "rewritePassage": "Invasion is therefore probably an obligatory step in arriving at a malignant, metastasising tumour."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "muscularis mucosa",
+      "reason": "The change to 'muscularis mucosae' follows the provided term corrections."
+    },
+    {
+      "sourcePassage": "and you'll be able to look at this in great detail in the practicals",
+      "reason": "This is a statement about course logistics and practicals, which is an allowed omission."
+    },
+    {
+      "sourcePassage": "And then you have under here the submucosa, the muscularis propria, and the serosa.",
+      "reason": "The rewrite states that 'the submucosa lies beneath it', which is supported by the text's explanation of the tissue layers."
+    },
+    {
+      "sourcePassage": "You'll see that over here you have the adenoma which has progressed into an adenocarcinoma. So one is growing out of the other.",
+      "reason": "The rewrite renders 'over here' as 'Elsewhere in the same lesion', which is supported by the context of both components being part of the same evolving tumour."
+    }
+  ]
+}

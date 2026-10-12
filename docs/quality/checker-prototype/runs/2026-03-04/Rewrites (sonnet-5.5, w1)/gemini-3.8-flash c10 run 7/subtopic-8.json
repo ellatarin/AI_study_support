@@ -1,0 +1,36 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "muscularis mucosa",
+      "reason": "The replacement of 'muscularis mucosa' with 'muscularis mucosae' follows the specified term corrections."
+    },
+    {
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "Resolving 'it's defined as the ability to invade the surrounding tissue' to 'malignancy is defined as the ability to invade the surrounding tissue' reflects standard medical terminology without altering the meaning, since defining 'invasion' as the ability to invade would be circular."
+    },
+    {
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "reason": "Resolving 'this' to 'Invasion' in 'Invasion is therefore probably an obligatory step in arriving at a malignant, metastasising tumour' is justified by the immediate context, where the lecturer explains that tumours do not develop metastases without first invading locally (and that an apparent absence of invasion is likely a sampling error)."
+    },
+    {
+      "sourcePassage": "You'll see that over here you have the adenoma which has progressed into an adenocarcinoma. So one is growing out of the other.",
+      "reason": "Translating the spatial pointing phrase 'over here' into 'Elsewhere in the same lesion' is justified because the lecturer describes the adenoma and adenocarcinoma as part of the same tumour specimen ('one is growing out of the other')."
+    },
+    {
+      "sourcePassage": "What you would think is that these muscle layers here are joined in a circle, and this polyp is kind of hanging out into the lumen of the bowel.",
+      "reason": "'The muscle layers are joined in a circle, and the polyp hangs out into the lumen of the bowel' faithfully preserves the anatomical orientation described by the lecturer while removing conversational phrasing."
+    },
+    {
+      "sourcePassage": "You wouldn't necessarily be able to say anything on two words about either of these. They both look like little cauliflowers that are sticking out into the lumen.",
+      "reason": "Rewording this to 'Nothing could necessarily be said about either from their appearance, since both look like little cauliflowers sticking out into the lumen' accurately conveys the speaker's meaning based on the accompanying explanation."
+    },
+    {
+      "sourcePassage": "But the question is, of course, you would then be interested in figuring out whether or not there would be secondary metastases across the body.",
+      "reason": "This rhetorical transition and audience prompt is omitted at this specific point, but the topic of distant metastasis is fully discussed in the subsequent paragraphs as part of the core content."
+    }
+  ]
+}

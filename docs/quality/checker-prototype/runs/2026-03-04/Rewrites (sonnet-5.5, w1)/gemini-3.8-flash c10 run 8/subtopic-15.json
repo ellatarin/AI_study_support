@@ -1,0 +1,23 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite turns the lecturer's pointing word ('you're looking at the cervix here') into the specific spatial description 'alongside it', which is not stated or supported by the text.",
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "rewritePassage": "and the cervix is seen alongside it"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here",
+      "reason": "This is a direct remark to the audience pointing out specific cells in the image, while the scientific fact that mitotic cells occur at the basement layer is retained in the rewrite."
+    },
+    {
+      "sourcePassage": "you can get a precursor lesion that is here",
+      "reason": "The rewrite translates 'here' to 'at this site', which refers back to the previously mentioned junction ('infection with HPV occurs, it usually occurs here at this junction'), which is supported by the context."
+    }
+  ]
+}

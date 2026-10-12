@@ -1,0 +1,31 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The source text leaves the singular pronoun 'it' ambiguous between 'invasion' and 'malignancy' ('So invasion and malignancy are really, really important diagnostically. So it's defined as...'). The rewrite resolves this unclear statement by choosing one specific reading, stating that malignancy is defined as the ability to invade surrounding tissue.",
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "rewritePassage": "Invasion and malignancy are very important diagnostically, and malignancy is defined as the ability to invade the surrounding tissue."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "muscularis mucosa here as our proxy for the basement membrane",
+      "reason": "The change from 'muscularis mucosa' to 'muscularis mucosae' reflects an approved term correction."
+    },
+    {
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "reason": "Replacing the demonstrative 'this' with 'Invasion' is supported by the context of the preceding discussion, where local invasion is described as the preceding stage that is required before metastases can form."
+    },
+    {
+      "sourcePassage": "So significant numbers of them are released, but many of them never metastasize. They never survive in the secondary site.",
+      "reason": "Connecting these adjacent clauses with 'because' reflects the inherent explanatory relationship that secondary tumour cells fail to form metastases because they do not survive at the secondary site."
+    },
+    {
+      "sourcePassage": "What about the little one that was next to it? You'll see that they look the same.",
+      "reason": "Referring to this as 'The smaller polyp next to it' aligns with the lecturer's earlier description of these polyps as 'smaller cauliflowers'."
+    }
+  ]
+}

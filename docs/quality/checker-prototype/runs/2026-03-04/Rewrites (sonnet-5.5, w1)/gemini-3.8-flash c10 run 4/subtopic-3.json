@@ -1,0 +1,33 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite replaces 'adolescence' with 'differentiation', changing a specific developmental life stage mentioned by the lecturer into cellular differentiation.",
+      "sourcePassage": "obviously during adolescence and maturation, this occurs from infancy to adulthood.",
+      "rewritePassage": "differentiation and maturation also occur from infancy to adulthood."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite merges two distinct functions of the basement membrane mentioned in the text (providing signaling, and providing a basis for adherence) into 'a signalling basis'.",
+      "sourcePassage": "provides a signaling and basis for their adherence to this layer.",
+      "rewritePassage": "provides a signalling basis for their adherence to this layer."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "during the time that you were born",
+      "reason": "This phrase is a false start or slip following 'during embryogenesis', which is subsequently restated as 'in the womb', so omitting it is an allowed removal of a false start."
+    },
+    {
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes.",
+      "reason": "Resolving the pointing phrase 'here now' as 'In the image of the invasive tissue' is permitted because the surrounding text repeatedly confirms that this image depicts invasion into the stroma."
+    },
+    {
+      "sourcePassage": "into the invading stroma",
+      "reason": "The text's 'invading stroma' was a minor grammatical slip by the speaker (since the cells invade the stroma), and rendering it as 'invaded stroma' maintains the correct biological meaning without altering the substantive facts."
+    }
+  ]
+}

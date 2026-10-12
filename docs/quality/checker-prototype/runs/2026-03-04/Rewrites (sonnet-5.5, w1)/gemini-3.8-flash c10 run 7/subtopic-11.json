@@ -1,0 +1,31 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite states that 'the tumour occurs in a meningioma', treating 'meningioma' as an anatomical site or organ where a tumour develops rather than as the primary tumour itself.",
+      "sourcePassage": "if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "rewritePassage": "for example when the tumour occurs in a meningioma or in the liver."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "And things like if tumors in bones lead to erosion of that bone function, so you can get fractures",
+      "reason": "The rewrite renders this as 'erosion of the bone, so that fractures can occur'. Later in the lecture the speaker also says 'erosion of bones will lead to skeletal collapse', so this phrasing faithfully reflects the speaker's meaning."
+    },
+    {
+      "sourcePassage": "you saw that enormous cauliflower structure within the colon.",
+      "reason": "The rewrite renders this as 'the enormous cauliflower-like structure seen within the colon'. This retains the lecturer's visual reference to the colon tumour without adding unsourced facts."
+    },
+    {
+      "sourcePassage": "And also this competition with the normal, if you have a tumor that is occurring in some of the blood compartments, the hematopoietic stem cells that are there, these will interfere. This niche is not very big. This will interfere with your bone marrow",
+      "reason": "The rewrite's phrasing 'The tumour will therefore interfere with the bone marrow' expresses the causal relationship already implied by the speaker explaining how competition in a small niche leads to bone marrow interference."
+    },
+    {
+      "sourcePassage": "And if you think about them in the different settings in which they occur",
+      "reason": "The transitional sentence 'Other effects depend on the site' at the start of the second paragraph reflects the speaker's discussion of how effects vary by setting/location."
+    }
+  ]
+}

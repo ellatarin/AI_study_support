@@ -1,0 +1,28 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "The lecturer introduces 'invasion and malignancy' and then states 'it's defined as the ability to invade the surrounding tissue'. Resolving 'it' to 'malignancy' accurately reflects the pathological definition of malignancy without distorting the meaning or causing learning issues."
+    },
+    {
+      "sourcePassage": "many of them never metastasize. They never survive in the secondary site.",
+      "reason": "The rewrite connects these two juxtaposed statements with 'because' ('Many never metastasise, because they never survive at the secondary site'). This reflects the immediate causal relation expressed in the text and does not introduce an unsourced link."
+    },
+    {
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "reason": "The rewrite specifies 'this' as 'Invasion' ('Invasion is therefore probably an obligatory step...'). The preceding context establishes that while tumors can invade without metastasising, metastases do not arise without prior local invasion, showing that the description is correct."
+    },
+    {
+      "sourcePassage": "You'll see that over here you have the adenoma which has progressed into an adenocarcinoma. So one is growing out of the other.",
+      "reason": "The rewrite phrases 'over here' as 'Elsewhere in the same lesion'. The context ('one is growing out of the other' within the excised polyp) confirms that both components are within the same lesion."
+    },
+    {
+      "sourcePassage": "muscularis mucosa",
+      "reason": "The term 'muscularis mucosa' was corrected to 'muscularis mucosae' in accordance with the provided correction list."
+    }
+  ]
+}

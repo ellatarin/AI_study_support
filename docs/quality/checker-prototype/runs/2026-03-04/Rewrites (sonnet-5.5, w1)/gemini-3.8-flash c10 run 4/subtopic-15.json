@@ -1,0 +1,23 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite converts the lecturer's deictic statement ('you're looking at the cervix here') into an unsourced spatial relation, claiming that the cervix is seen 'alongside' the canal, which the text does not state.",
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "rewritePassage": "and the cervix is seen alongside it."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here",
+      "reason": "The lecturer is pointing out individual examples on the slide to illustrate that mitotic cells are found at the basement layer; omitting this specific pointing while preserving the general statement that mitotic cells occur only at the basement layer is an allowed omission of conversational demonstration."
+    },
+    {
+      "sourcePassage": "and you'll see this in your practicals",
+      "reason": "Although this is a remark about course practicals that could have been dropped, retaining it is not forbidden as it does not distort the factual subject matter."
+    }
+  ]
+}

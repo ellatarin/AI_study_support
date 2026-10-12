@@ -1,0 +1,27 @@
+{
+  "subtopicId": 12,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite uses 'because' to introduce a causal link between benign tumours being common and the requirement for many changes to become malignant, which is not stated in the lecture.",
+      "sourcePassage": "So benign tumors are actually incredibly common. Right? So it actually takes a lot for a benign tumor to become malignant in terms of, as I said, the number of changes that have to happen within a tumor.",
+      "rewritePassage": "Benign tumours are extremely common, because it takes a great deal for a benign tumour to become malignant, given the number of changes that have to happen within a tumour."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So just talking about incidence, about how often various tumors arise.",
+      "reason": "The sentence 'Incidence describes how often various tumours arise' accurately conveys the lecturer's definition without introducing unsourced meaning."
+    },
+    {
+      "sourcePassage": "So I've just put these numbers up just so that you can have a sense.",
+      "reason": "Connecting 'numbers' to 'incidence' reflects the topic stated at the start of the lecture section and does not constitute an unsourced addition."
+    },
+    {
+      "sourcePassage": "And then this is, if you like, the percentage of tumors that result in deaths.",
+      "reason": "Describing the slide as showing the percentage of tumours that result in deaths directly reflects the lecturer's statement of what 'this is'."
+    }
+  ]
+}

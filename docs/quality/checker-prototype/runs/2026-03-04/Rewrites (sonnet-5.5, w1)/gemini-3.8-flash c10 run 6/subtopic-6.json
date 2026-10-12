@@ -1,0 +1,24 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "Omitted as a personal remark / joke to the audience."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here, and then you can often see sometimes the tumor cells are actually present within a lymphatic duct.",
+      "reason": "The lecturer's pointing to the slide ('are here') is dropped while retaining the substantive histological finding described."
+    },
+    {
+      "sourcePassage": "routes, either through the lymphatics or through the blood circulation, venous or arterial, or also this transcoelomic site from across a cavity",
+      "reason": "Phroning as 'by a transcoelomic route' directly matches the preceding enumeration of 'routes'."
+    },
+    {
+      "sourcePassage": "Similarly, here you have a brain, and what you have here is a breast cancer that's metastasized to the brain.",
+      "reason": "The deictic framing ('here you have') is converted into textbook prose ('The other is a breast cancer that has metastasized to the brain') with an accompanying figure placeholder."
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite states 'when the tumour occurs in a meningioma or in the liver', treating a meningioma as an anatomical site where a tumour arises. A meningioma is itself a type of primary tumour, not an anatomical location. In the source text, 'they' refers to deaths (or primary tumours causing death) occurring in cases such as a meningioma or in the liver.",
+      "sourcePassage": "Only 10% of these deaths, generally, if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "rewritePassage": "when the tumour occurs in a meningioma or in the liver."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Things like obstruction of the bile ducts in the liver interferes with digestion.",
+      "reason": "The introductory sentence 'Other effects depend on the site' introduces this paragraph by carrying forward the lecturer's earlier statement about how tumours act 'in the different settings in which they occur', so it is not an unsourced addition."
+    },
+    {
+      "sourcePassage": "And things like if tumors in bones lead to erosion of that bone function, so you can get fractures",
+      "reason": "Rephrasing 'erosion of that bone function' as 'erosion of the bone' matches the lecturer's later reference to 'erosion of bones' and conveys the same meaning."
+    },
+    {
+      "sourcePassage": "Also ulceration, you saw that enormous cauliflower structure within the colon. This causes a lot of bleeding and can lead to anemia.",
+      "reason": "The rewrite captures the lecturer's description of the cauliflower-like structure seen in the colon and the resulting bleeding and anaemia without omitting facts."
+    },
+    {
+      "sourcePassage": "And also this competition with the normal, if you have a tumor that is occurring in some of the blood compartments, the hematopoietic stem cells that are there, these will interfere.",
+      "reason": "The rewrite resolves the lecturer's spoken false start ('these will interfere') into 'will interfere with them', correctly reflecting the competition between the tumour and the normal haematopoietic stem cells."
+    }
+  ]
+}

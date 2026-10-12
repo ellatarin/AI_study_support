@@ -1,0 +1,27 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite interprets the lecturer's pointing words ('this is the endocervical canal here, and so you're looking at the cervix here') as meaning that the cervix is seen 'alongside' the endocervical canal. The text does not state that the cervix is alongside the canal, and this spatial description is unsourced.",
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "rewritePassage": "and the cervix is seen alongside it"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here",
+      "reason": "This is a direct demonstrative remark directing the audience's gaze to individual cells on the slide; omitting it while retaining the core scientific fact that mitotic cells occur only at the basement layer is an allowed change."
+    },
+    {
+      "sourcePassage": "here is the endocervical canal that it goes between the neck of the womb",
+      "reason": "Rendering 'goes between the neck of the womb' as 'runs through the neck of the womb' is an allowed stylistic correction of conversational phrasing."
+    },
+    {
+      "sourcePassage": "If you'll notice here from the 1950s to, this is only to 2000, you'll see that the rates of death in cervical cancer came down",
+      "reason": "The rewrite captures this faithfully as 'From the 1950s to 2000, the rates of death from cervical cancer came down' with a [FIGURE] marker."
+    }
+  ]
+}

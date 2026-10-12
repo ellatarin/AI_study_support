@@ -1,0 +1,20 @@
+{
+  "subtopicId": 10,
+  "checkerPromptVersion": "c10",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So just so that we're all on the same page in terms of nomenclature, and of course, with any naming system, there are always exceptions to every rule.",
+      "reason": "The introductory conversational remark ('So just so that we're all on the same page in terms of nomenclature') is an address to the audience and was appropriately omitted as allowed."
+    },
+    {
+      "sourcePassage": "So the fat, smooth muscle or papillomas in the skin, and adenomas, as we were talking about in the colon.",
+      "reason": "The rewrite connects each tissue type to its corresponding benign tumour named immediately beforehand ('lipoma, leiomyoma, papilloma, and adenomas'), which reflects the parallel list structure given by the lecturer."
+    },
+    {
+      "sourcePassage": "So these are these different tumor types and other exceptions as well, things like malignant melanoma.",
+      "reason": "The transition was condensed into concise textbook prose ('There are other exceptions as well, such as malignant melanoma') without omitting any substantive factual information."
+    }
+  ]
+}
