@@ -1,0 +1,27 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c19",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The text states that biologists studying tumours often explant the tumour, and then separately states that the audience is looking at a slice through a tumour and a stain to look at morphology. The rewrite states that the slice through a tumour 'illustrates this', linking the slice to the explanting of the tumour, which the text does not state.",
+      "sourcePassage": "often they will explant the tumor. Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "rewritePassage": "A slice through a tumour, with a stain to show the morphology, illustrates this [FIGURE]."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Primary cells really don't grow in culture.",
+      "reason": "Dropping 'really' removes conversational emphasis rather than a scientific hedge, as the lecturer previously stated that 'all of those cells will not grow'."
+    },
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "Omitted as an aside/remark about the lecture."
+    },
+    {
+      "sourcePassage": "what I want you to appreciate is that by just studying one cell in a dish, you're not really getting a full picture of exactly what's gone on in this tumor with regard to the contributions of things like the stroma and other things.",
+      "reason": "The conversational framing 'what I want you to appreciate is that' is an allowed omission of remarks to the audience, and 'other components' has the same meaning as 'other things'."
+    }
+  ]
+}

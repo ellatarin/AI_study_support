@@ -1,0 +1,20 @@
+{
+  "subtopicId": 14,
+  "checkerPromptVersion": "c19",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, so what does this look like in the clinic? [chuckles] I call this the four horsemen.",
+      "reason": "The rewrite specifies 'the presentation of cancer can be summarised as the \"four horsemen\"', which contextualises 'this' using the topic established throughout the passage ('tumour', 'cancers'). This is an allowed stylistic formulation rather than an unsourced addition."
+    },
+    {
+      "sourcePassage": "tumors can be indirect if they're occurring in non-screenable or non-palpable areas",
+      "reason": "The rewrite expresses this as 'Tumours can also present indirectly if they occur in non-screenable or non-palpable areas', which retains the exact meaning."
+    },
+    {
+      "sourcePassage": "three or four or five visits",
+      "reason": "The rewrite writes 'three, four or five visits', which preserves the exact numerical options."
+    }
+  ]
+}

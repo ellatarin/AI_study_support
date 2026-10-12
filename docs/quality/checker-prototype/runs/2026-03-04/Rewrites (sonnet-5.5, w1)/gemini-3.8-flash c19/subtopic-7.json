@@ -1,0 +1,23 @@
+{
+  "subtopicId": 7,
+  "checkerPromptVersion": "c19",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The text only points out the tumour and the outer surface separately (\"the tumor is here. This is the outer surface of the uterus\"), whereas the rewrite describes the spatial relation as \"The tumour lies next to the outer surface of the uterus\". The text does not state that the tumour lies next to the outer surface.",
+      "sourcePassage": "You can see that the tumor is here. This is the outer surface of the uterus.",
+      "rewritePassage": "The tumour lies next to the outer surface of the uterus"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So you can see again that this is actually circumspect and very separate from the surrounding stroma and the surrounding tissue.",
+      "reason": "The text says 'circumspect', an obvious transcriber error or lecturer slip for the histological term 'circumscribed'. Using 'circumscribed' in the rewrite accurately reflects the intended scientific meaning."
+    },
+    {
+      "sourcePassage": "and has, if you like, invaded within this tissue.",
+      "reason": "The rewrite renders 'if you like' as 'in a sense', which retains the lecturer's qualification without altering the meaning."
+    }
+  ]
+}

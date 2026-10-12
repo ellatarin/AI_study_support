@@ -1,0 +1,29 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c19",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The text lists 'to the acetylation or deacetylation, the state of the transcription within the cell itself', whereas the rewrite inserts 'that is', stating that acetylation or deacetylation is the state of transcription within the cell.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The text states that the human viruses ('they') can predispose to chronic inflammatory events, whereas the rewrite states that 'infection' can predispose to them, widening the cause from the specific viruses to infection in general.",
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events",
+      "rewritePassage": "There are about seven different human viruses that precipitate cancer, and infection can also predispose to chronic inflammatory events"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So I've just made this kind of a much simpler diagram, if you like. Simplicity can help frame our thinking, but it will also end up losing a lot of details. So, as I said, you start off with a normal cell, and a bunch of mutations happen over time, and you go from normal to malignant.",
+      "reason": "The rewrite places the description of what the simpler diagram shows alongside the [FIGURE] tag, which accurately reflects the lecturer's description of the diagram."
+    },
+    {
+      "sourcePassage": "Okay, so we're just going to start here with our core idea. I'm sure you've seen a cartoon that looks like this many times. The idea that a normal cell, starting off here, acquires a mutation",
+      "reason": "The phrasing 'The core idea is the familiar cartoon in which...' combines the lecturer's remarks about the cartoon and the core idea without altering the factual content."
+    }
+  ]
+}

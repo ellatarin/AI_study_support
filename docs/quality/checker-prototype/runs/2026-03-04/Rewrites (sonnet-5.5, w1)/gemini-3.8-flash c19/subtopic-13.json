@@ -1,0 +1,24 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c19",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "if you compare any two things, you're going to find differences",
+      "reason": "The rewrite renders this as 'any comparison between two species will reveal differences', which appropriately contextualises the colloquial term 'things' in the discussion of dogs, cats, and humans without altering the factual meaning."
+    },
+    {
+      "sourcePassage": "digestive tissues, hematopoietic, and skin",
+      "reason": "The rewrite expands 'hematopoietic' to 'hematopoietic tissues' to match the parallel construction of 'digestive tissues', which is an allowed stylistic clarification faithful to the intended meaning."
+    },
+    {
+      "sourcePassage": "The only thing that was quite interesting to note here is that the rate of malignant tumors is about fivefold higher in reptiles compared to mammals.",
+      "reason": "The rewrite rephrases this as 'The one notable difference is that...', which accurately reflects the comparative context ('fivefold higher in reptiles than in mammals') following a discussion of similarities."
+    },
+    {
+      "sourcePassage": "And this is my cat, who also ended up with a feline injection site sarcoma.",
+      "reason": "Changing the first-person personal anecdote to third person ('The lecturer's own cat...') is an allowed stylistic convention for textbook prose."
+    }
+  ]
+}

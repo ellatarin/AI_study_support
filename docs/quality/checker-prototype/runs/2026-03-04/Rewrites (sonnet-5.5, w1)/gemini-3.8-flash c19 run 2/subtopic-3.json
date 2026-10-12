@@ -1,0 +1,39 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c19",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The text states that processes occur during 'adolescence and maturation', whereas the rewrite states that 'differentiation and maturation' occur, replacing 'adolescence' with 'differentiation'.",
+      "sourcePassage": "because obviously during adolescence and maturation, this occurs from infancy to adulthood.",
+      "rewritePassage": "because differentiation and maturation also occur from infancy to adulthood."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The text states that the basement membrane provides 'a signaling and basis for their adherence', presenting signalling and basis as two separate things, whereas the rewrite merges them into 'a signalling basis'.",
+      "sourcePassage": "It gives them structure and provides a signaling and basis for their adherence to this layer.",
+      "rewritePassage": "It gives them structure and provides a signalling basis for their adherence to this layer."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The text refers to the 'invading stroma', whereas the rewrite changes the participle to 'invaded stroma'.",
+      "sourcePassage": "past the basement membrane, which would be here into the invading stroma.",
+      "rewritePassage": "past the basement membrane into the invaded stroma."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Here at this stage here, most of your growth, really, most of your lineage specification and your expansive growth has happened during embryogenesis, during the time that you were born.",
+      "reason": "The phrase 'during the time that you were born' was omitted as a false start/repetition alongside embryogenesis."
+    },
+    {
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes.",
+      "reason": "Resolving 'here now' to 'In the image of the invasive tissue' is justified because the text directly describes the cells in that section as having invaded and growing within the stroma."
+    },
+    {
+      "sourcePassage": "And here, the basement membrane protein here is red.",
+      "reason": "'is shown in red' is an allowed stylistic rewording of 'is red' when referring to a histology image."
+    }
+  ]
+}

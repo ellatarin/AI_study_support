@@ -1,0 +1,31 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c19",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The text refers to deaths or primary tumours occurring in 'things like the meningioma that I was telling you about or in the liver', where meningioma was previously introduced as a type of tumour. The rewrite states 'when the tumour occurs in a meningioma or in the liver', distorting the term 'meningioma' by treating it as an anatomical site where a tumour develops rather than as a tumour type.",
+      "sourcePassage": "Only 10% of these deaths, generally, if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "rewritePassage": "Only 10% of deaths are generally caused in this way, for example when the tumour occurs in a meningioma or in the liver."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Things like obstruction of the bile ducts in the liver interferes with digestion.",
+      "reason": "The sentence 'Other effects depend on the site.' was introduced as a transitional sentence to frame the examples of site-specific complications without adding new unsupported factual assertions."
+    },
+    {
+      "sourcePassage": "This niche is not very big. This will interfere with your bone marrow, and it will result in things like infection and anemia as well.",
+      "reason": "The rewrite connects the niche size to the marrow interference using 'therefore', reflecting the speaker's causal reasoning about spatial competition in the haematopoietic niche."
+    },
+    {
+      "sourcePassage": "the hematopoietic stem cells that are there, these will interfere.",
+      "reason": "The speaker's phrasing was a conversational slip in the context of 'competition with the normal', and rewriting it as the tumour interfering with the haematopoietic stem cells faithfully captures the intended meaning."
+    },
+    {
+      "sourcePassage": "erosion of that bone function, so you can get fractures",
+      "reason": "Rewriting 'erosion of that bone function' as 'erosion of the bone' aligns with standard medical phrasing and matches the speaker's later reference to 'erosion of bones'."
+    }
+  ]
+}

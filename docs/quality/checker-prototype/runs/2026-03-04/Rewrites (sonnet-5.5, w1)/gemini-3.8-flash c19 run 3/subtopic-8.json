@@ -1,0 +1,24 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c19",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "The rewrite renders 'it's defined as the ability to invade the surrounding tissue' as 'malignancy is defined as the ability to invade the surrounding tissue', which correctly resolves the grammatical pronoun reference in context without distorting the meaning."
+    },
+    {
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "reason": "The rewrite resolves the demonstrative pronoun 'this' to 'Invasion' ('Invasion is therefore probably an obligatory step in arriving at a malignant, metastasising tumour.'). The preceding sentences discuss how tumours must invade before seeding distant metastases, so the text itself demonstrates that the description is correct."
+    },
+    {
+      "sourcePassage": "muscularis mucosa here as our proxy for the basement membrane",
+      "reason": "The rewrite uses 'muscularis mucosae' in place of 'muscularis mucosa', which matches the provided technical term corrections list."
+    },
+    {
+      "sourcePassage": "You'll see that over here you have the adenoma which has progressed into an adenocarcinoma. So one is growing out of the other.",
+      "reason": "The rewrite renders 'over here' as 'Elsewhere in the same lesion', which accurately reflects the histological context of two adjacent components within the same polyp section."
+    }
+  ]
+}

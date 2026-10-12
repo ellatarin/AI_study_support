@@ -1,0 +1,20 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c19",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "This is a personal remark / joke to the audience by the lecturer, which is permitted to be dropped."
+    },
+    {
+      "sourcePassage": "primary tumors can spread via a number of routes, either through the lymphatics or through the blood circulation, venous or arterial, or also this transcoelomic site from across a cavity",
+      "reason": "The lecturer refers to routes of spread and stumbles on 'transcoelomic site', which the rewrite renders as 'by a transcoelomic route', maintaining the exact intended meaning in context."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here, and then you can often see sometimes the tumor cells are actually present within a lymphatic duct.",
+      "reason": "The pointing phrase 'You see your tumor cells are here' during slide demonstration is smoothly integrated into textbook prose without loss of substantive information."
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c19",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "The reference to what the audience saw on previous slides or earlier in the lecture is an audience-directed remark, adapted into textbook prose as 'The different pre-cancerous states are present'."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "Expanding 'the cervix is best' to 'cervical screening is the best' directly follows the immediate context ('So screening...')."
+    },
+    {
+      "sourcePassage": "or there's some reason if you're showing symptoms",
+      "reason": "The wording 'or some other reason, such as the patient showing symptoms' accurately renders the spoken clarification without adding new meaning."
+    },
+    {
+      "sourcePassage": "very, very high false positive rate",
+      "reason": "Simplifying 'very, very' to 'very' is permitted as dropping spoken repetition."
+    }
+  ]
+}

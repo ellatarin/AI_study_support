@@ -1,0 +1,23 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c19",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The text states 'Histologically, this is the endocervical canal here, and so you're looking at the cervix here', using the pointing word 'here'. The rewrite turns this into 'and the cervix is seen alongside it', adding a spatial description ('alongside it') that the text does not give.",
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "rewritePassage": "and the cervix is seen alongside it."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here",
+      "reason": "This is an audience-directed remark pointing out specific individual cells in the figure to illustrate the general observation that mitotic cells occur only at the basement layer, which is retained in the rewrite."
+    },
+    {
+      "sourcePassage": "this is only to 2000",
+      "reason": "The text's reference to the date range ending in 2000 is preserved in the rewrite as 'From the 1950s to 2000'."
+    }
+  ]
+}

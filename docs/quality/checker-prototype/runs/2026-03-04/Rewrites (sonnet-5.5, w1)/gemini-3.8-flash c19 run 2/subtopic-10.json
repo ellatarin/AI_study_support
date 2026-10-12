@@ -1,0 +1,20 @@
+{
+  "subtopicId": 10,
+  "checkerPromptVersion": "c19",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So the fat, smooth muscle or papillomas in the skin, and adenomas, as we were talking about in the colon.",
+      "reason": "The rewrite renders this as 'lipomas in fat, leiomyomas in smooth muscle, papillomas in the skin, and adenomas... in the colon'. The lecturer listed the four tumours (lipoma, leiomyoma, papilloma, adenomas) immediately before listing the four corresponding tissues; making the tumour names explicit before 'fat' and 'smooth muscle' completes the parallel phrasing without adding new facts or altering the meaning."
+    },
+    {
+      "sourcePassage": "Neuroectodermal tumors are the ones that kind of deviate from the nomenclature system.",
+      "reason": "The omission of 'kind of' in 'Neuroectodermal tumours deviate from the nomenclature system' removes a colloquial conversational filler rather than a scientific hedge."
+    },
+    {
+      "sourcePassage": "So just so that we're all on the same page in terms of nomenclature",
+      "reason": "This is a conversational remark to the audience and was appropriately omitted."
+    }
+  ]
+}

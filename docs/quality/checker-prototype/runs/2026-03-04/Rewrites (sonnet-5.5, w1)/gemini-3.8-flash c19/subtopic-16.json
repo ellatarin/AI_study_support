@@ -1,0 +1,24 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c19",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "The text refers back to what the audience previously saw, which the rewrite renders as 'The different pre-cancerous states are present'. This captures the underlying factual premise without retaining the conversational reference to the audience/slides."
+    },
+    {
+      "sourcePassage": "ulcerated cauliflower structure, if you like",
+      "reason": "The rewrite renders this as 'ulcerated cauliflower-like structure', which accurately reflects the figurative language ('if you like') used by the speaker."
+    },
+    {
+      "sourcePassage": "very likely to probably already be malignant",
+      "reason": "The text contains a conversational redundancy ('very likely to probably'), which the rewrite standardises to 'very likely to be malignant already' without altering the epistemic force."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "The rewrite clarifies 'as I said' by phrasing it as 'Of the screening methods discussed, cervical screening is the best', which faithfully reflects the context of comparing screening modalities without adding unsourced facts."
+    }
+  ]
+}

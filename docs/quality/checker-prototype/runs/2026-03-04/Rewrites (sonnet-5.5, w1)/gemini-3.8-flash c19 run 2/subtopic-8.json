@@ -1,0 +1,24 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c19",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "and you'll be able to look at this in great detail in the practicals",
+      "reason": "This is a statement about the course or practical sessions, which is permitted to be dropped as an allowed change."
+    },
+    {
+      "sourcePassage": "But the question is, of course, you would then be interested in figuring out whether or not there would be secondary metastases across the body.",
+      "reason": "This rhetorical transition was dropped where the lecturer immediately returned to describing the microscopic muscle invasion on the slide, before addressing metastasis in detail in the subsequent section."
+    },
+    {
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "reason": "The rewrite specifies 'Invasion' for the demonstrative 'this', which directly reflects the preceding discussion of tumours invading tissue prior to metastasising."
+    },
+    {
+      "sourcePassage": "muscularis mucosa",
+      "reason": "The rewrite uses 'muscularis mucosae' in accordance with the provided correction list."
+    }
+  ]
+}

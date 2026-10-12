@@ -1,0 +1,28 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c19",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "The rewrite resolves the pronoun 'it' to 'malignancy' ('and malignancy is defined as the ability to invade the surrounding tissue'). In oncology and pathology, malignancy is defined by the capacity for local tissue invasion and metastasis, whereas invasion is the physical process itself; this is a natural clarification of the lecturer's pronoun rather than a distortion."
+    },
+    {
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "reason": "The rewrite replaces 'this' with 'Invasion' ('Invasion is therefore probably an obligatory step...'). In context, the lecturer has been discussing tumors invading into the stroma prior to shedding cells and metastasising, making invasion the clear referent of 'this'."
+    },
+    {
+      "sourcePassage": "So significant numbers of them are released, but many of them never metastasize. They never survive in the secondary site.",
+      "reason": "The rewrite connects these two sentences with 'because' ('Many never metastasise, because they never survive at the secondary site'). Surviving at the secondary site is the biological requirement for metastasis that explains why shed cells fail to form metastases, which the speaker reiterates shortly after."
+    },
+    {
+      "sourcePassage": "You'll see that over here you have the adenoma which has progressed into an adenocarcinoma. So one is growing out of the other.",
+      "reason": "The rewrite renders 'over here' as 'Elsewhere in the same lesion'. The lecturer previously identified both regions as part of the same tumor ('an adenocarcinoma component that has developed out of the adenoma'), so 'Elsewhere in the same lesion' accurately reflects the text."
+    },
+    {
+      "sourcePassage": "and then your normal musculature located here.",
+      "reason": "The rewrite uses 'located beneath', which is directly supported by the earlier phrase in the same passage: 'you have the muscle underneath'."
+    }
+  ]
+}

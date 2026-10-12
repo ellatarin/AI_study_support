@@ -1,0 +1,20 @@
+{
+  "subtopicId": 9,
+  "checkerPromptVersion": "c19",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "everybody gets very nervous about what that diagnosis is going to look like",
+      "reason": "The rewrite renders this colloquially phrased emotional reaction as 'there is considerable anxiety about the diagnosis', which is an allowed stylistic change preserving the original meaning."
+    },
+    {
+      "sourcePassage": "that I showed you",
+      "reason": "The rewrite renders the spoken reference to a previous slide as 'as shown earlier', which is an allowed change of style and audience remark."
+    },
+    {
+      "sourcePassage": "So this meningioma obviously is occurring within the skull. The skull is a confined space. This would put an enormous amount of pressure on the brain and the surrounding structures and would cause and has caused Has caused death in this case.",
+      "reason": "The rewrite converts the lecturer's demonstrative reference into textbook prose ('A meningioma occurs within the skull... and in this case it caused death') while faithfully retaining the factual content and the reference to the specific case."
+    }
+  ]
+}

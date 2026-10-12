@@ -1,0 +1,20 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c19",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, everyone, shall we get started? Yes. You're very welcome, all of you, to Cancer Biology.",
+      "reason": "Omitted conversational greetings and opening remarks to the audience, which are allowed changes."
+    },
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there.",
+      "reason": "The lecturer's reference to a slide display was adapted to standard textbook prose ('The learning outcomes for this lecture are as follows'), which is an allowed change regarding lecture context."
+    },
+    {
+      "sourcePassage": "taking on such a difficult disease because it has such an impact",
+      "reason": "The repetition of 'because it has such an impact' was streamlined without loss of meaning."
+    }
+  ]
+}

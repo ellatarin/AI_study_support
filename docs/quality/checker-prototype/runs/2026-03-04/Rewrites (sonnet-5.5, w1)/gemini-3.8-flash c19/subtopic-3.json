@@ -1,0 +1,33 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c19",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The text states that this occurs \"during adolescence and maturation\", whereas the rewrite states that \"differentiation and maturation\" occur from infancy to adulthood, replacing \"adolescence\" with \"differentiation\".",
+      "sourcePassage": "And not to say that all of it does, because obviously during adolescence and maturation, this occurs from infancy to adulthood.",
+      "rewritePassage": "This is not to say that all of it does, because differentiation and maturation also occur from infancy to adulthood."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The text refers to the cells moving \"into the invading stroma\", whereas the rewrite changes \"invading\" to \"invaded\", referring to the \"invaded stroma\".",
+      "sourcePassage": "So the invasion that we're talking about is to get those, if you like, those deranged cells to go from this morphology past the basement membrane, which would be here into the invading stroma.",
+      "rewritePassage": "The invasion under discussion is the process by which these deranged cells go from this morphology past the basement membrane into the invaded stroma."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "most of your lineage specification and your expansive growth has happened during embryogenesis, during the time that you were born.",
+      "reason": "The phrase \"during the time that you were born\" was omitted, but it functions as a false start or conversational slip alongside \"during embryogenesis\", so its omission is allowed."
+    },
+    {
+      "sourcePassage": "how does a cell here go from obeying its program, moving into this kind of configuration where the cell is growing into the stroma, and also in this kind of deranged manner. And you can see here now the cells are all of different shapes and sizes. They have come in, they have lost this architecture, moved over the basement membrane and invaded and are growing within the stroma.",
+      "reason": "The rewrite introduces the phrase \"In the image of the invasive tissue\", but the text describes the cells shown as having invaded and growing into the stroma, making this descriptive reference grounded in the text."
+    },
+    {
+      "sourcePassage": "It gives them structure and provides a signaling and basis for their adherence to this layer.",
+      "reason": "The rewrite renders \"a signaling and basis\" as \"a signalling basis\", which treats the word \"and\" as a false start rather than an omission of a separate claim."
+    }
+  ]
+}

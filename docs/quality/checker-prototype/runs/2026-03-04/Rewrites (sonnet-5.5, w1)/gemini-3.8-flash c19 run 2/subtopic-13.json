@@ -1,0 +1,24 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c19",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "since I found this slide some time ago",
+      "reason": "Omitted as an informal remark about the lecturer's slides and preparation rather than subject-matter content."
+    },
+    {
+      "sourcePassage": "if you compare any two things, you're going to find differences",
+      "reason": "Rendered as 'although any comparison between two species will reveal differences', which adapts the colloquial generalisation to the specific context of comparing animal species without altering the meaning."
+    },
+    {
+      "sourcePassage": "You'll be happy to hear he's doing fine now after his surgery.",
+      "reason": "The conversational framing directed at the audience ('You'll be happy to hear') was omitted while retaining the factual statement that the cat is doing fine after surgery."
+    },
+    {
+      "sourcePassage": "The only thing that was quite interesting to note here is that the rate of malignant tumors is about fivefold higher in reptiles compared to mammals.",
+      "reason": "Rendered as 'The one notable difference is that the rate of malignant tumours is about fivefold higher in reptiles than in mammals', accurately reflecting the comparative observation."
+    }
+  ]
+}

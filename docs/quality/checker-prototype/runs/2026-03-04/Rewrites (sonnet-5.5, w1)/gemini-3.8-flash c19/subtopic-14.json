@@ -1,0 +1,20 @@
+{
+  "subtopicId": 14,
+  "checkerPromptVersion": "c19",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, so what does this look like in the clinic? [chuckles] I call this the four horsemen.",
+      "reason": "Resolving the demonstrative pronoun 'this' to 'the presentation of cancer' accurately reflects the topic of the surrounding text (tumours, screening for cancers) without introducing unsourced facts."
+    },
+    {
+      "sourcePassage": "tumors can be indirect if they're occurring in non-screenable or non-palpable areas.",
+      "reason": "Phrasing 'tumours can be indirect' as 'Tumours can also present indirectly' is an acceptable stylistic rewording that preserves the original meaning."
+    },
+    {
+      "sourcePassage": "So in thinking about this, we try to jump the gun and try to screen for different cancers before we get to a malignant state",
+      "reason": "The rewrite retains the idiom 'jump the gun' and accurately reflects the causal link and meaning of the source sentence."
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c19",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The text lists 'the acetylation or deacetylation' and 'the state of the transcription within the cell itself', whereas the rewrite inserts 'that is', defining acetylation or deacetylation as being the state of transcription.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The text states that the human viruses ('they') can also predispose to chronic inflammatory events, whereas the rewrite states that 'infection' can predispose to chronic inflammatory events, widening the cause.",
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events that can also help to give rise to cancer.",
+      "rewritePassage": "There are about seven different human viruses that precipitate cancer, and infection can also predispose to chronic inflammatory events, which can also help to give rise to cancer."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So I've just made this kind of a much simpler diagram, if you like.",
+      "reason": "The rewrite renders this in passive voice ('A much simpler diagram can be made') with a [FIGURE] marker, which is an allowed stylistic change."
+    },
+    {
+      "sourcePassage": "And we know that there are gene changes that occur.",
+      "reason": "The rewrite says 'Gene changes occur in this progression', connecting it to the preceding context of progression from normal to malignant, which preserves the meaning."
+    },
+    {
+      "sourcePassage": "So hopefully, in order to try and address some of these questions, we will start at the beginning. [chuckles]",
+      "reason": "The drop of the speaker's chuckling and conversational phrasing is an allowed omission of filler and spoken-lecture remarks."
+    }
+  ]
+}

@@ -67,6 +67,9 @@ const WHAT_IS_WRONG = "what is wrong";
 /** The description instruction of c18, which asks what might be wrong in place of what is wrong. */
 const MIGHT_BE_WRONG = "what might be wrong";
 
+/** The description instruction of c19, which asks for the change in the words of the two texts and for no argument. */
+const CHANGE_IN_TEXT_WORDS = `what "text" says, what the rewrite says in its place, and how the meaning is different. For an omission, what "text" says that the rewrite does not say. Say only what the two texts show. Do not say how much the change matters, and do not argue that the change is a fault`;
+
 /** The considerations and reply format sections of the versions from c3, which ask for both quotes and no rule. */
 const QUOTED_REPLY = quotedReply({ description: WHAT_IS_WRONG, lastField: "" });
 
@@ -102,6 +105,9 @@ const FORBIDDEN_OR_ALLOWED_REPLY = quotedReply({
 
 /** The considerations and reply format of c18, whose description asks what might be wrong. */
 const MIGHT_BE_WRONG_REPLY = quotedReply({ description: MIGHT_BE_WRONG, lastField: "" });
+
+/** The considerations and reply format of c19, whose description asks for the change in the words of the two texts. */
+const CHANGE_IN_TEXT_WORDS_REPLY = quotedReply({ description: CHANGE_IN_TEXT_WORDS, lastField: "" });
 
 /**
  * Builds the considerations and reply format sections of the versions from c3.
@@ -543,6 +549,20 @@ ${QUOTED_REPLY}`,
 				mergingDistortion: MERGING_WITH_EXAMPLE,
 				omissions: C7_OMISSIONS,
 				reply: MIGHT_BE_WRONG_REPLY,
+				causalDistortion: CAUSAL_DISTORTION,
+			}),
+	},
+	c19: {
+		changed:
+			'Starts again from c10. Asks in the description for what "text" says, what the rewrite says in its place, and how the meaning is different, with no claim past the two texts and no argument that the change is a fault.',
+		prompt: (name) =>
+			learningIssuePrompt({
+				name,
+				unsourcedAdditions: CHECKED_DESCRIPTION_ADDITIONS,
+				formAllowance: FIGURE_SENTENCE_ALLOWANCE,
+				mergingDistortion: MERGING_WITH_EXAMPLE,
+				omissions: C7_OMISSIONS,
+				reply: CHANGE_IN_TEXT_WORDS_REPLY,
 				causalDistortion: CAUSAL_DISTORTION,
 			}),
 	},

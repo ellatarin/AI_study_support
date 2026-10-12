@@ -1,0 +1,27 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c19",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The text states that development and maturation occur during 'adolescence and maturation', whereas the rewrite states that 'differentiation and maturation' occur. This changes the term and meaning from a developmental stage of life (adolescence) to the process of cellular specialization (differentiation).",
+      "sourcePassage": "because obviously during adolescence and maturation, this occurs from infancy to adulthood",
+      "rewritePassage": "because differentiation and maturation also occur from infancy to adulthood"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "during the time that you were born",
+      "reason": "This phrase appears as a false start or rephrasing alongside 'during embryogenesis' and its omission is an allowed omission of a false start/disfluency."
+    },
+    {
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes.",
+      "reason": "The rewrite introduces this sentence with 'In the image of the invasive tissue', which is supported by the preceding and following context in the text stating that the cells have invaded and are growing within the stroma."
+    },
+    {
+      "sourcePassage": "past the basement membrane, which would be here into the invading stroma",
+      "reason": "The rewrite renders this as 'into the invaded stroma', resolving the speaker's slip of the tongue ('invading stroma') to match the earlier established fact in the text that the epithelial cells are the ones invading into the stroma."
+    }
+  ]
+}

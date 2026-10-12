@@ -1,0 +1,31 @@
+{
+  "subtopicId": 12,
+  "checkerPromptVersion": "c19",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The text states that benign tumours are incredibly common and separately notes that it takes a lot for a benign tumour to become malignant. The rewrite connects these two observations with 'because', stating that benign tumours are common because it takes a great deal for them to become malignant.",
+      "sourcePassage": "So benign tumors are actually incredibly common. Right? So it actually takes a lot for a benign tumor to become malignant in terms of, as I said, the number of changes that have to happen within a tumor.",
+      "rewritePassage": "Benign tumours are extremely common, because it takes a great deal for a benign tumour to become malignant, given the number of changes that have to happen within a tumour."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So just talking about incidence, about how often various tumors arise. ... So I've just put these numbers up just so that you can have a sense.",
+      "reason": "The rewrite says 'The numbers shown give a sense of incidence'; this retains the context established at the beginning of the passage where the lecturer states they are discussing incidence."
+    },
+    {
+      "sourcePassage": "And then this is, if you like, the percentage of tumors that result in deaths.",
+      "reason": "The rewrite renders this as 'A further slide shows the percentage of tumours that result in deaths', faithfully capturing what the speaker indicates the slide displays."
+    },
+    {
+      "sourcePassage": "All of these are overgrowths of tissues. Moles, I mean, who doesn't have moles? I mean, so these are very common.",
+      "reason": "The rewrite groups moles alongside lipomas, fibroids, and warts as overgrowths of tissue, which matches the speaker's enumeration of benign overgrowths."
+    },
+    {
+      "sourcePassage": "They usually occur in young adulthood, in adolescence and young adulthood.",
+      "reason": "The rewrite condenses the speaker's self-correction to 'in adolescence and young adulthood'."
+    }
+  ]
+}

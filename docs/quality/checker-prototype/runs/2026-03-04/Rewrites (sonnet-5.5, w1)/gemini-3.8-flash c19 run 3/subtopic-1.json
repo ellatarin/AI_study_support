@@ -1,0 +1,20 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c19",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, everyone, shall we get started? Yes. You're very welcome, all of you, to Cancer Biology.",
+      "reason": "This is introductory conversational filler and a remark to the audience, which is permitted to be omitted or adapted into course framing."
+    },
+    {
+      "sourcePassage": "Actually, when you tell people that you're working on cancer, they're all incredibly grateful for you for taking on such a difficult disease because it has such an impact.",
+      "reason": "The clause 'because it has such an impact' repeats the immediately preceding observation ('the impact that cancer has on society') and functions as conversational emphasis, so its omission is an allowed omission of repetition."
+    },
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there.",
+      "reason": "The rewrite renders this as 'The learning outcomes for this lecture are as follows', adapting the lecturer's deictic reference to lecture slides without introducing unsourced factual claims."
+    }
+  ]
+}

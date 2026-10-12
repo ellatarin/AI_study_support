@@ -1,0 +1,27 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c19",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The text states \"Histologically, this is the endocervical canal here, and so you're looking at the cervix here\", pointing to elements on a slide. The rewrite states that \"the cervix is seen alongside it\", turning pointing words into a specific spatial description not given in the text.",
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "rewritePassage": "and the cervix is seen alongside it"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "The uterus is here in this diagram, and as you know, it hangs down into the vaginal canal.",
+      "reason": "The rewrite expresses this as \"The uterus hangs down into the vaginal canal, as shown in the diagram. [FIGURE]\", which faithfully preserves the speaker's statement about the diagram."
+    },
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here",
+      "reason": "The omission of pointing out individual mitotic cells visible on the slide is an allowed omission of lecturer pointing words referring to visual demonstrations."
+    },
+    {
+      "sourcePassage": "this is only to 2000",
+      "reason": "The rewrite states \"From the 1950s to 2000\", which faithfully conveys the time range indicated by the speaker."
+    }
+  ]
+}

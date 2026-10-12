@@ -1,0 +1,31 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c19",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The text uses 'where' to describe the context in which this terminology is encountered ('where a surgeon can see...'). The rewrite replaces this with 'since', establishing an unsourced causal link that claims the terminology is still heard because a surgeon can tell by touch.",
+      "sourcePassage": "And you'll hear this kind of terminology even now, where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable.",
+      "rewritePassage": "This terminology is still heard now, since a surgeon can tell just by holding or touching a tumour whether it is movable or immovable."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So with these tools in hand, I think the important concept to try and get across is invasion and metastasis.",
+      "reason": "The phrase 'with these tools in hand' is a transitional remark about the lecture, and dropping it while changing 'concept' to the plural 'concepts' to fit 'invasion and metastasis' is an allowed change of style and dropped lecture remarks."
+    },
+    {
+      "sourcePassage": "What they termed the movable tumor. And a movable tumor is exactly like what it sounds. Surgeons would find that that tumor could move within the tissue or an immovable tumor.",
+      "reason": "The lecturer introduced 'movable tumor', started explaining it, and then completed the pair with 'or an immovable tumor'. Grouping both terms together upfront ('These were termed the movable tumour and the immovable tumour') is an allowed reordering of points."
+    },
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals",
+      "reason": "This is a direct remark to the audience and a statement about the course, which is permitted to be dropped."
+    },
+    {
+      "sourcePassage": "Right. So, what does that mean for the patient?",
+      "reason": "This rhetorical question is dropped/rephrased into the opening phrase 'For the patient', which is an allowed stylistic change."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "subtopicId": 9,
+  "checkerPromptVersion": "c19",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So this meningioma obviously is occurring within the skull. The skull is a confined space. This would put an enormous amount of pressure on the brain and the surrounding structures and would cause and has caused Has caused death in this case.",
+      "reason": "The rewrite renders this as 'A meningioma occurs within the skull, which is a confined space, so it puts an enormous amount of pressure on the brain and the surrounding structures, and in this case it caused death.' It preserves both the general mechanism and the specific reference to the case discussed without altering meaning or introducing unsourced facts."
+    },
+    {
+      "sourcePassage": "Obviously, when there is a suspicion of cancer or of a tumor, everybody gets very nervous about what that diagnosis is going to look like.",
+      "reason": "The rewrite renders this as 'When cancer or a tumour is suspected, there is considerable anxiety about the diagnosis', which is an allowed stylistic rephrasing into formal prose."
+    },
+    {
+      "sourcePassage": "the smooth muscle fibroid that I showed you",
+      "reason": "The rewrite renders this as 'a smooth muscle fibroid, as shown earlier', which is an allowed adjustment of the lecturer's direct address to the audience regarding visual material."
+    }
+  ]
+}

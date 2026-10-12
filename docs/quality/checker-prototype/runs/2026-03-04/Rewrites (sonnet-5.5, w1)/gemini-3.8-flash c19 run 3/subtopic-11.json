@@ -1,0 +1,31 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c19",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The text refers to deaths or primary tumours 'occurring in things like the meningioma... or in the liver'. The rewrite states 'when the tumour occurs in a meningioma', describing a tumour as occurring inside a meningioma, whereas a meningioma is itself a type of tumour rather than an anatomical location.",
+      "sourcePassage": "Only 10% of these deaths, generally, if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "rewritePassage": "when the tumour occurs in a meningioma or in the liver"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "And if you think about them in the different settings in which they occur, things like a meningioma will cause pressure. Things like a lung carcinoma will cause blockage. And then within the airways, this builds up secretions within the lungs, makes it harder for people to breathe, is a breeding ground for infection. And you can get pneumonia, which can lead to sepsis and death. So it's a general lack of function there. Things like obstruction of the bile ducts in the liver interferes with digestion.",
+      "reason": "The sentence 'Other effects depend on the site.' at the start of the second paragraph serves as a transitional sentence carrying over the lecturer's earlier framework ('in the different settings in which they occur') across a paragraph break, rather than introducing an unsourced factual claim."
+    },
+    {
+      "sourcePassage": "And also this competition with the normal, if you have a tumor that is occurring in some of the blood compartments, the hematopoietic stem cells that are there, these will interfere.",
+      "reason": "Expanding 'competition with the normal' to 'Competition with normal tissue is also a factor' completes the elliptical colloquial phrasing ('the normal') in context without altering the meaning."
+    },
+    {
+      "sourcePassage": "Also ulceration, you saw that enormous cauliflower structure within the colon.",
+      "reason": "Rendering 'cauliflower structure' as 'cauliflower-like structure' and adapting the slide reference to textbook prose is an allowed stylistic rewording."
+    },
+    {
+      "sourcePassage": "And things like if tumors in bones lead to erosion of that bone function, so you can get fractures, and this causes an immense amount of pain.",
+      "reason": "Rewording 'erosion of that bone function, so you can get fractures' to 'erosion of the bone, so that fractures can occur' aligns with the lecturer's subsequent mention of 'erosion of bones' and conveys the same clinical consequence."
+    }
+  ]
+}

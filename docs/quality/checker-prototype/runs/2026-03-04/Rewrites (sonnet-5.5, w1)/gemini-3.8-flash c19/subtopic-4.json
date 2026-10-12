@@ -1,0 +1,27 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c19",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The text states that biologists often explant tumours and notes that \"Here you're looking at a slice through a tumor and a stain to look at the morphology\". The rewrite adds \"illustrates this\", asserting a link that the slice illustrates the explanting of tumours, which the text does not state.",
+      "sourcePassage": "often they will explant the tumor. Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "rewritePassage": "A slice through a tumour, with a stain to show the morphology, illustrates this [FIGURE]."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "This is a dropped remark to the audience / lecturer aside, which is an allowed change."
+    },
+    {
+      "sourcePassage": "the stroma and other things",
+      "reason": "The rewrite renders this as 'the stroma and other components', which preserves the meaning without introducing unsourced facts."
+    },
+    {
+      "sourcePassage": "Primary cells really don't grow in culture.",
+      "reason": "The rewrite renders this as 'Primary cells do not grow in culture.', omitting the emphatic filler 'really', which is an allowed stylistic change."
+    }
+  ]
+}

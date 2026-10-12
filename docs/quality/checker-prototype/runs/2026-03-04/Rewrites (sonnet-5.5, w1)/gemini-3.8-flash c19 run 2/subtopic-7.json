@@ -1,0 +1,29 @@
+{
+  "subtopicId": 7,
+  "checkerPromptVersion": "c19",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The text uses deictic pointing words (\"the tumor is here\", \"This is the outer surface of the uterus\") without specifying their spatial relationship. The rewrite converts these pointing words into a description not given in the text by stating that \"The tumour lies next to the outer surface of the uterus\".",
+      "sourcePassage": "You can see that the tumor is here. This is the outer surface of the uterus.",
+      "rewritePassage": "The tumour lies next to the outer surface of the uterus"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The text uses the word \"circumspect\", whereas the rewrite changes this to the technical term \"circumscribed\", which is a changed term not provided in the corrections list.",
+      "sourcePassage": "So you can see again that this is actually circumspect and very separate from the surrounding stroma and the surrounding tissue.",
+      "rewritePassage": "The tumour is therefore circumscribed and very separate from the surrounding stroma and the surrounding tissue."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "has, if you like, invaded within this tissue",
+      "reason": "The phrase 'in a sense' faithfully preserves the hedge expressed by 'if you like'."
+    },
+    {
+      "sourcePassage": "so it might be difficult to necessarily find all of the possible secondary tumors unless there is some other physical sign that you can detect.",
+      "reason": "Using 'therefore' to represent the lecturer's 'so' accurately conveys the consequential link expressed in the original text."
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c19",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The text states that the terminology is heard in situations where a surgeon can determine mobility by touch ('where a surgeon can see...'), whereas the rewrite adds a causal link ('since a surgeon can tell...'), asserting that the terminology is still heard because a surgeon can tell whether a tumour is movable or immovable.",
+      "sourcePassage": "And you'll hear this kind of terminology even now, where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable.",
+      "rewritePassage": "This terminology is still heard now, since a surgeon can tell just by holding or touching a tumour whether it is movable or immovable."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So with these tools in hand, I think the important concept to try and get across is",
+      "reason": "This is a conversational lecture transition referring back to previous material, which is allowed to be omitted as filler/lecture framing."
+    },
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals",
+      "reason": "This is a direct remark to the audience about the course/practicals, which is an allowed omission."
+    },
+    {
+      "sourcePassage": "Right. So, what does that mean for the patient? Well,",
+      "reason": "This is rhetorical framing by the lecturer, faithfully converted into textbook prose ('For the patient, ...')."
+    }
+  ]
+}

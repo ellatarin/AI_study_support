@@ -1,0 +1,27 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c19",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The text uses \"where\" to describe the situation or context in which the terminology is encountered (\"where a surgeon can see just by holding or touching a tumor\"). The rewrite uses \"since\", introducing an unsourced causal link that asserts the terminology is still heard because a surgeon can tell by holding or touching the tumour.",
+      "sourcePassage": "And you'll hear this kind of terminology even now, where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable.",
+      "rewritePassage": "This terminology is still heard now, since a surgeon can tell just by holding or touching a tumour whether it is movable or immovable."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals",
+      "reason": "This is a remark to the audience about course practicals, which is permitted to be dropped."
+    },
+    {
+      "sourcePassage": "Okay. So with these tools in hand, I think the important concept to try and get across is invasion and metastasis.",
+      "reason": "Dropping conversational filler ('Okay. So with these tools in hand, I think...') and pluralising 'concept' to 'concepts' to match 'invasion and metastasis' is an allowed grammatical/stylistic change."
+    },
+    {
+      "sourcePassage": "So when somebody presents with a lump or a primary tumor, there will be a biopsy to look and to see whether or not the tumor cells are contained or whether or not they're invading into the surrounding tissue.",
+      "reason": "Rendering 'somebody' as 'a patient' and 'there will be a biopsy to look and to see' as 'a biopsy is taken to see' are allowed stylistic changes."
+    }
+  ]
+}

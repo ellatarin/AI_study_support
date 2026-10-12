@@ -1,0 +1,33 @@
+{
+  "subtopicId": 7,
+  "checkerPromptVersion": "c19",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The text states 'You can see that the tumor is here. This is the outer surface of the uterus.', using pointing words to refer to the tumour and the outer surface. The rewrite states that 'The tumour lies next to the outer surface of the uterus', introducing a spatial relationship ('lies next to') that the text does not state.",
+      "sourcePassage": "You can see that the tumor is here. This is the outer surface of the uterus.",
+      "rewritePassage": "The tumour lies next to the outer surface of the uterus"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The text describes the tumour as 'circumspect', whereas the rewrite describes it as 'circumscribed'. The text uses a word meaning cautious or wary, whereas the rewrite substitutes a medical term meaning clearly bounded.",
+      "sourcePassage": "So you can see again that this is actually circumspect and very separate from the surrounding stroma and the surrounding tissue.",
+      "rewritePassage": "The tumour is therefore circumscribed and very separate from the surrounding stroma and the surrounding tissue."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "This is a meningioma, and there is no invasion of the adjacent tissues. Movable, and literally, you can scoop it out with no damage to the surrounding tissue.",
+      "reason": "The rewrite supplies the subject 'the tumour is' before 'movable' and inserts '[FIGURE]', which are allowed grammatical adjustments and figure marks."
+    },
+    {
+      "sourcePassage": "and has, if you like, invaded within this tissue.",
+      "reason": "The rewrite uses 'has, in a sense, invaded this tissue', which retains the same meaning and hedging as the lecturer's 'if you like'."
+    },
+    {
+      "sourcePassage": "you wouldn't be sampling all over the body",
+      "reason": "The rewrite renders this as 'the whole body would not be sampled', which uses different words with the same meaning."
+    }
+  ]
+}

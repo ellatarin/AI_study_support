@@ -1,0 +1,27 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c19",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The text refers to primary tumours or deaths occurring as 'things like the meningioma that I was telling you about or in the liver', where meningioma is an example of a tumour. The rewrite states 'when the tumour occurs in a meningioma or in the liver', distorting meningioma into an anatomical location or organ in which a tumour occurs.",
+      "sourcePassage": "if they're occurring in things like the meningioma that I was telling you about or in the liver",
+      "rewritePassage": "when the tumour occurs in a meningioma or in the liver"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "you saw that enormous cauliflower structure within the colon",
+      "reason": "The rewrite changes the direct audience address to 'seen within the colon', which is an allowed removal of remarks to the audience."
+    },
+    {
+      "sourcePassage": "lead to erosion of that bone function, so you can get fractures",
+      "reason": "The rewrite renders this as 'lead to erosion of the bone, so that fractures can occur', which conveys the same meaning and aligns with the lecturer's later phrasing 'erosion of bones will lead to skeletal collapse'."
+    },
+    {
+      "sourcePassage": "So it's not very good.",
+      "reason": "Omitted informal concluding remark to the audience, which is an allowed change."
+    }
+  ]
+}
