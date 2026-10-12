@@ -1,0 +1,16 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c13",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here, but the cells, as they differentiate, they turn over on their sides, they get thin, and they get flat, and their nuclei become very small.",
+      "reason": "The reference to seeing individual mitotic cells with 'sharp eyes' is a conversational remark pointing at a slide, and its omission does not affect the conveyed scientific facts about mitotic cells and differentiation."
+    },
+    {
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "reason": "The rewrite renders this as 'the endocervical canal runs through the neck of the womb, and the cervix is seen alongside it', which faithfully represents the lecturer orienting the audience to the histological section without distorting anatomical facts."
+    }
+  ]
+}

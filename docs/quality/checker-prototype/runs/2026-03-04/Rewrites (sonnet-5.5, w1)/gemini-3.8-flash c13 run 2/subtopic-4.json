@@ -1,0 +1,24 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c13",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "reason": "The rewrite renders this as 'A slice through a tumour, with a stain to show the morphology, illustrates this [FIGURE].' The lecturer presents the stained slice immediately after stating that biologists often explant tumours, so framing the figure as illustrating this does not distort the meaning or introduce an unsourced claim."
+    },
+    {
+      "sourcePassage": "with regard to the contributions of things like the stroma and other things",
+      "reason": "The rewrite substitutes 'other things' with 'other components', which preserves the exact meaning in textbook prose."
+    },
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "This is an incidental remark by the lecturer to themselves/the audience and is safely omitted as allowed."
+    },
+    {
+      "sourcePassage": "Primary cells really don't grow in culture.",
+      "reason": "Omitting 'really' in 'Primary cells do not grow in culture' removes conversational emphasis rather than a scientific hedge."
+    }
+  ]
+}

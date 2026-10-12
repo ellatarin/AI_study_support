@@ -55,7 +55,20 @@ const NOT_SUBJECT_MATTER_ALLOWANCE =
 const FORM_ALLOWANCE = "- A [FIGURE] mark, the order of the points, the paragraphs, style and grammar.";
 
 /** The considerations and reply format sections of the versions from c3, which ask for both quotes and no rule. */
-const QUOTED_REPLY = `# Considerations
+const QUOTED_REPLY = quotedReply("");
+
+/** The considerations and reply format of c13, which add a score of how sure the checker is that a fault harms a student's learning. */
+const CONFIDENCE_REPLY = quotedReply(`,
+      "confidence": how sure you are, as a whole number from 1 to 10, that a student who reads the rewrite would learn something wrong or miss something that the lecturer taught. 1 means that you are almost sure the student would not. 10 means that you are sure the student would`);
+
+/**
+ * Builds the considerations and reply format sections of the versions from c3.
+ *
+ * @param lastField - The text after the rewrite passage of a deficiency: a further field, or nothing.
+ * @returns The sections.
+ */
+function quotedReply(lastField: string): string {
+	return `# Considerations
 
 For each passage that you examined and did not report, add a consideration with the reason.
 
@@ -69,7 +82,7 @@ Reply with a single JSON object and nothing else, in this exact shape:
       "deficiencyType": "omission" or "distortion" or "unsourced-addition",
       "description": what is wrong,
       "sourcePassage": the words of "text" that the fault is about, copied exactly. For an unsourced addition, the words of "text" that the addition is built on, or null when there are none,
-      "rewritePassage": the words of the rewrite that the fault is about, copied exactly. For an omission, the words of the rewrite where the fact should be, or null when there are none
+      "rewritePassage": the words of the rewrite that the fault is about, copied exactly. For an omission, the words of the rewrite where the fact should be, or null when there are none${lastField}
     }
   ],
   "considerations": [
@@ -78,6 +91,7 @@ Reply with a single JSON object and nothing else, in this exact shape:
 }
 
 An empty "deficiencies" list means that the rewrite is faithful.`;
+}
 
 /** The allowance of the versions from c5, which says what a remark to the audience is. */
 const DEFINED_REMARK_ALLOWANCE =
@@ -324,6 +338,7 @@ ${QUOTED_REPLY}`,
 				formAllowance: FORM_ALLOWANCE,
 				mergingDistortion: C7_MERGING,
 				omissions: C7_OMISSIONS,
+				reply: QUOTED_REPLY,
 			}),
 	},
 	c8: {
@@ -336,6 +351,7 @@ ${QUOTED_REPLY}`,
 				formAllowance: FORM_ALLOWANCE,
 				mergingDistortion: C7_MERGING,
 				omissions: C7_OMISSIONS,
+				reply: QUOTED_REPLY,
 			}),
 	},
 	c9: {
@@ -348,6 +364,7 @@ ${QUOTED_REPLY}`,
 				formAllowance: FIGURE_SENTENCE_ALLOWANCE,
 				mergingDistortion: C7_MERGING,
 				omissions: C7_OMISSIONS,
+				reply: QUOTED_REPLY,
 			}),
 	},
 	c10: {
@@ -360,6 +377,7 @@ ${QUOTED_REPLY}`,
 				formAllowance: FIGURE_SENTENCE_ALLOWANCE,
 				mergingDistortion: MERGING_WITH_EXAMPLE,
 				omissions: C7_OMISSIONS,
+				reply: QUOTED_REPLY,
 			}),
 	},
 	c11: {
@@ -372,6 +390,7 @@ ${QUOTED_REPLY}`,
 				formAllowance: FIGURE_SENTENCE_ALLOWANCE,
 				mergingDistortion: MERGING_WITH_EXAMPLE,
 				omissions: POINTED_OUT_OMISSIONS,
+				reply: QUOTED_REPLY,
 			}),
 	},
 	c12: {
@@ -384,6 +403,20 @@ ${QUOTED_REPLY}`,
 				formAllowance: FIGURE_SENTENCE_ALLOWANCE,
 				mergingDistortion: MERGING_WITH_EXAMPLE,
 				omissions: C7_OMISSIONS,
+				reply: QUOTED_REPLY,
+			}),
+	},
+	c13: {
+		changed:
+			"Starts again from c10, without the c11 and c12 lines. Asks for a confidence from 1 to 10 with each deficiency: how sure the checker is that a student would learn something wrong or miss something that the lecturer taught.",
+		prompt: (name) =>
+			learningIssuePrompt({
+				name,
+				unsourcedAdditions: CHECKED_DESCRIPTION_ADDITIONS,
+				formAllowance: FIGURE_SENTENCE_ALLOWANCE,
+				mergingDistortion: MERGING_WITH_EXAMPLE,
+				omissions: C7_OMISSIONS,
+				reply: CONFIDENCE_REPLY,
 			}),
 	},
 };
@@ -435,6 +468,7 @@ const FIGURE_SENTENCE_ALLOWANCE = `${FORM_ALLOWANCE} A sentence around the [FIGU
  * @param args.formAllowance - The allowed-change line for the [FIGURE] mark, order, paragraphs, style and grammar.
  * @param args.mergingDistortion - The forbidden-distortion line for two concerns merged into one.
  * @param args.omissions - The lines of the forbidden omissions.
+ * @param args.reply - The considerations and reply format sections.
  * @returns The prompt.
  */
 function learningIssuePrompt({
@@ -443,12 +477,14 @@ function learningIssuePrompt({
 	formAllowance,
 	mergingDistortion,
 	omissions,
+	reply,
 }: {
 	readonly name: string;
 	readonly omissions: string;
 	readonly unsourcedAdditions: string;
 	readonly formAllowance: string;
 	readonly mergingDistortion: string;
+	readonly reply: string;
 }): string {
 	return `# Task
 
@@ -498,7 +534,7 @@ ${formAllowance}
 5. Report each forbidden change.
 
 
-${QUOTED_REPLY}`;
+${reply}`;
 }
 
 /**

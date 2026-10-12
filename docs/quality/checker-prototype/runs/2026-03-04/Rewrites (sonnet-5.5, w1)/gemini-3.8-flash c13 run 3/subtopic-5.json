@@ -1,0 +1,24 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c13",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So with these tools in hand",
+      "reason": "This transitional phrase referring back to preceding lecture material was omitted as an allowed change concerning lecture meta-discourse."
+    },
+    {
+      "sourcePassage": "What they termed the movable tumor. And a movable tumor is exactly like what it sounds. Surgeons would find that that tumor could move within the tissue or an immovable tumor.",
+      "reason": "The lecturer brokenly introduced 'the movable tumor' and later added 'or an immovable tumor'. Synthesising this into 'These were termed the movable tumour and the immovable tumour' resolves the spoken false start/fragment cleanly without adding unsourced facts."
+    },
+    {
+      "sourcePassage": "And you'll hear this kind of terminology even now, where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable.",
+      "reason": "The rewrite renders 'where' as 'since a surgeon can tell...'. In conversational spoken English, 'where' functions here as an explanatory connector describing the ongoing relevance/practice; changing it to 'since' does not introduce an inaccurate causal relationship or create learning issues."
+    },
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals",
+      "reason": "This remark refers directly to the students' course activities and practicals, which is an allowed omission."
+    }
+  ]
+}

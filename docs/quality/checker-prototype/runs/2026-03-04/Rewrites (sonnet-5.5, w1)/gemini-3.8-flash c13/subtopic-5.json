@@ -1,0 +1,16 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c13",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals",
+      "reason": "This is a remark to the audience regarding coursework and practicals, which is permitted to be omitted."
+    },
+    {
+      "sourcePassage": "And you'll hear this kind of terminology even now, where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable.",
+      "reason": "The rewrite renders 'where' as 'since a surgeon can tell just by holding or touching a tumour', which smoothly captures the explanatory sense of the spoken 'where' without distorting the scientific meaning or misrepresenting the lecturer's point."
+    }
+  ]
+}

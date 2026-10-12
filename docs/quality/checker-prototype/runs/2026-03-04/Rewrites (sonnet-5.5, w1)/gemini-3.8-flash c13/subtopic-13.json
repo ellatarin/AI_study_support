@@ -1,0 +1,20 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c13",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "And this is my cat, who also ended up with a feline injection site sarcoma.",
+      "reason": "The shift from first-person ('my cat') to third-person ('The lecturer's own cat') is standard textbook prose framing of a personal anecdote."
+    },
+    {
+      "sourcePassage": "Just a slide about the incidence in companion animals since I found this slide some time ago",
+      "reason": "Omitted conversational meta-commentary about finding the slide, which is an allowed change."
+    },
+    {
+      "sourcePassage": "You'll be happy to hear he's doing fine now after his surgery.",
+      "reason": "The rewrite retains the substantive fact ('The cat is doing fine after surgery') while dropping the conversational remark to the audience ('You'll be happy to hear')."
+    }
+  ]
+}

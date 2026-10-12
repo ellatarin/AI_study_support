@@ -1,0 +1,16 @@
+{
+  "subtopicId": 14,
+  "checkerPromptVersion": "c13",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, so what does this look like in the clinic? [chuckles] I call this the four horsemen.",
+      "reason": "The rewrite frames this as 'In the clinic, the presentation of cancer can be summarised as the \"four horsemen\"', which explicitly mentions cancer; this is drawn directly from the immediate context where the lecturer discusses tumours and screening for cancer."
+    },
+    {
+      "sourcePassage": "even though it's the goal of the NHS to be able to diagnose earlier and quicker",
+      "reason": "The change to 'earlier and more quickly' is a standard grammatical adjustment in British English textbook prose without altering the meaning."
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c13",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds 'that is', explicitly defining acetylation or deacetylation as the state of transcription within the cell itself. The lecturer presented these either as separate items or as related epigenetic phenomena, but did not define one as the other.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "to acetylation or deacetylation, that is, the state of transcription within the cell itself.",
+      "confidence": 7
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So there's a lot of changes that occur",
+      "reason": "The rewrite renders this as 'Many changes therefore occur'. While 'therefore' adds an inferential connective, in context it simply summarizes the preceding discussion of genetic, epigenetic, and viral changes without introducing an unsupported factual claim."
+    },
+    {
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events that can also help to give rise to cancer.",
+      "reason": "The rewrite changes 'they' to 'infection' ('and infection can also predispose to chronic inflammatory events'). This minor shift in phrasing maintains the same overall biological meaning."
+    },
+    {
+      "sourcePassage": "I'm sure you've seen a cartoon that looks like this many times. The idea that a normal cell, starting off here, acquires a mutation",
+      "reason": "The [FIGURE] marks and their surrounding descriptions faithfully correspond to the lecturer's references to the cartoon and the simpler diagram."
+    }
+  ]
+}

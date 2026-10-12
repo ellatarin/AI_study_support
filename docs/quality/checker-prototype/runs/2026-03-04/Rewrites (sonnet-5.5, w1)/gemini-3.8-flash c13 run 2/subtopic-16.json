@@ -1,0 +1,24 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c13",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "The reference to what the audience saw on a previous slide or discussion is appropriately rendered as a factual statement establishing the existence of these pre-cancerous states without conversational audience-directed phrasing."
+    },
+    {
+      "sourcePassage": "cauliflower structure, if you like",
+      "reason": "'cauliflower-like structure' accurately captures the speaker's qualifying phrase 'if you like' describing the macroscopic appearance of the tumour."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "Rendering 'as I said' as 'Of the screening methods discussed, cervical screening is the best' captures the speaker's cross-reference to earlier material in textbook style."
+    },
+    {
+      "sourcePassage": "very likely to probably already be malignant",
+      "reason": "'very likely to be malignant already' smoothly resolves the speaker's spoken double hedge ('very likely to probably') without altering the intended level of scientific certainty."
+    }
+  ]
+}

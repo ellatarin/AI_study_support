@@ -1,0 +1,32 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c13",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds 'illustrates this', thereby linking the slice through the tumour to the preceding statement about explanting tumours, which the original text does not state.",
+      "sourcePassage": "Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "rewritePassage": "illustrates this [FIGURE]",
+      "confidence": 5
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Primary cells really don't grow in culture.",
+      "reason": "The rewrite renders this as 'Primary cells do not grow in culture.' In this context, 'really' served as conversational emphasis rather than a scientific hedge, so its omission does not distort the claim."
+    },
+    {
+      "sourcePassage": "with regard to the contributions of things like the stroma and other things.",
+      "reason": "Changing 'other things' to 'other components' is a stylistic improvement in British textbook prose that preserves the meaning."
+    },
+    {
+      "sourcePassage": "So when HeLa cells, which were the first tumor cells to grow in culture, did that, this was very much a surprise.",
+      "reason": "The rewrite splits and restructures this into 'HeLa cells were the first tumour cells to grow in culture, and so this was very much a surprise.' The causal and factual relationships remain identical to the source text."
+    },
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "This is an offhand remark to the audience and lecture management comment, which is permitted to be dropped."
+    }
+  ]
+}

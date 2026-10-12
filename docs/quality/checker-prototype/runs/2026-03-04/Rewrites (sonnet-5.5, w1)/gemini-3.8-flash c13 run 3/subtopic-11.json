@@ -1,0 +1,24 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c13",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite treats 'meningioma' as an anatomical site where a tumour occurs, rather than as a type of tumour itself.",
+      "sourcePassage": "if they're occurring in things like the meningioma that I was telling you about or in the liver",
+      "rewritePassage": "when the tumour occurs in a meningioma or in the liver",
+      "confidence": 9
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "you saw that enormous cauliflower structure within the colon",
+      "reason": "The rewrite changes this audience reference to 'the enormous cauliflower-like structure seen within the colon', which is an acceptable handling of a lecturer's remark pointing to a visual aid."
+    },
+    {
+      "sourcePassage": "And also this competition with the normal",
+      "reason": "Rendered as 'Competition with normal tissue is also a factor', which accurately conveys the intended meaning of 'the normal' in the context of haematopoietic stem cells and bone marrow."
+    }
+  ]
+}

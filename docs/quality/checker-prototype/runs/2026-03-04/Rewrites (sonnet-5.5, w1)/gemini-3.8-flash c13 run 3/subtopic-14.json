@@ -1,0 +1,20 @@
+{
+  "subtopicId": 14,
+  "checkerPromptVersion": "c13",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, so what does this look like in the clinic? [chuckles] I call this the four horsemen.",
+      "reason": "The rewrite frames this as 'In the clinic, the presentation of cancer can be summarised as the \"four horsemen\"', omitting conversational filler and chuckles while retaining the exact core meaning."
+    },
+    {
+      "sourcePassage": "But very much, tumors can be indirect if they're occurring in non-screenable or non-palpable areas.",
+      "reason": "Rendered accurately as 'Tumours can also present indirectly if they occur in non-screenable or non-palpable areas.'"
+    },
+    {
+      "sourcePassage": "even though it's the goal of the NHS to be able to diagnose earlier and quicker.",
+      "reason": "Rendered with British English grammar as 'even though it is the goal of the NHS to diagnose earlier and more quickly.'"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "subtopicId": 12,
+  "checkerPromptVersion": "c13",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite introduces a causal link with 'because', asserting that benign tumours are common because it takes a lot for them to become malignant. The text mentions both statements separately without linking them as cause and effect.",
+      "sourcePassage": "So benign tumors are actually incredibly common. Right? So it actually takes a lot for a benign tumor to become malignant in terms of, as I said, the number of changes that have to happen within a tumor.",
+      "rewritePassage": "Benign tumours are extremely common, because it takes a great deal for a benign tumour to become malignant, given the number of changes that have to happen within a tumour.",
+      "confidence": 8
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So I've just put these numbers up just so that you can have a sense.",
+      "reason": "The rewrite phrases this as 'The numbers shown give a sense of incidence', which is consistent with the lecturer introducing the topic of incidence earlier in the section."
+    },
+    {
+      "sourcePassage": "And then this is, if you like, the percentage of tumors that result in deaths.",
+      "reason": "The rewrite introduces this with 'A further slide shows...', which appropriately frames the lecturer's visual reference without adding unsourced facts."
+    },
+    {
+      "sourcePassage": "And so they progress very quickly, and they're lethal.",
+      "reason": "The rewrite states 'progress very quickly and are lethal', omitting 'And so'; this change in connective phrasing does not distort the clinical description."
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c13",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite conflates two distinct functions mentioned by the lecturer—providing 'signaling' and providing a 'basis for their adherence'—into a single concept: 'a signalling basis'. In cell biology, the extracellular matrix provides biochemical signaling as well as a physical/structural basis (substrate) for cell adhesion.",
+      "sourcePassage": "provides a signaling and basis for their adherence to this layer.",
+      "rewritePassage": "provides a signalling basis for their adherence to this layer.",
+      "confidence": 8
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "during the time that you were born.",
+      "reason": "This was omitted as a speech slip or false start correcting to embryogenesis/in the womb."
+    },
+    {
+      "sourcePassage": "because obviously during adolescence and maturation, this occurs from infancy to adulthood.",
+      "reason": "The rewrite phrases this as 'differentiation and maturation also occur from infancy to adulthood'. Resolving 'this' as differentiation and subsuming adolescence into the span from infancy to adulthood conveys the lecturer's meaning without causing a learning issue."
+    },
+    {
+      "sourcePassage": "past the basement membrane, which would be here into the invading stroma.",
+      "reason": "The rewrite uses 'invaded stroma' instead of 'invading stroma'. This corrects an obvious slip of the tongue (the epithelial cells are invading the stroma, so the stroma is invaded)."
+    },
+    {
+      "sourcePassage": "moving into this kind of configuration where the cell is growing into the stroma, and also in this kind of deranged manner. And you can see here now the cells are all of different shapes and sizes.",
+      "reason": "The phrase 'In the image of the invasive tissue' replaces the pointing phrase 'here now', which is justified because the text directly discusses invasion into the stroma."
+    }
+  ]
+}

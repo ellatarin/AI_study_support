@@ -1,0 +1,16 @@
+{
+  "subtopicId": 9,
+  "checkerPromptVersion": "c13",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So this meningioma obviously is occurring within the skull. The skull is a confined space. This would put an enormous amount of pressure on the brain and the surrounding structures and would cause and has caused Has caused death in this case.",
+      "reason": "The rewrite renders 'this meningioma' as 'A meningioma occurs within the skull, which is a confined space, so it puts an enormous amount of pressure on the brain and the surrounding structures, and in this case it caused death.' This accurately captures the specific reference to the case discussed while generalising the anatomical context appropriately without altering the facts."
+    },
+    {
+      "sourcePassage": "smooth muscle fibroid that I showed you",
+      "reason": "The rewrite adds a [FIGURE] marker and phrases this as 'as shown earlier', which reflects the speaker's reference to previously shown visual material and is permitted under the guidelines."
+    }
+  ]
+}

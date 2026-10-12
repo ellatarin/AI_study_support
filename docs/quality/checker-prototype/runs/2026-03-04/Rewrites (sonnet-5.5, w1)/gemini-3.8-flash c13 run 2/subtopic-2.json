@@ -1,0 +1,28 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c13",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite inserts 'that is,', stating an equivalence/definition between acetylation or deacetylation and the state of transcription within the cell, which the original text does not assert.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself.",
+      "confidence": 7
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events that can also help to give rise to cancer.",
+      "reason": "The rewrite renders 'they' (referring to human viruses) as 'infection can also predispose'. This minor nominalisation does not alter the factual meaning or cause a learning issue."
+    },
+    {
+      "sourcePassage": "I'm sure you've seen a cartoon that looks like this many times.",
+      "reason": "The insertion of the [FIGURE] mark and omission of lecturer remarks to the audience ('I'm sure you've seen...') are allowed changes."
+    },
+    {
+      "sourcePassage": "So I've just made this kind of a much simpler diagram, if you like.",
+      "reason": "Inserting the [FIGURE] mark and rephrasing the conversational remark into passive textbook prose is permitted."
+    }
+  ]
+}

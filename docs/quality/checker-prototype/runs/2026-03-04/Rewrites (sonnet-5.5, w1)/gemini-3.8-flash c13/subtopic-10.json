@@ -1,0 +1,16 @@
+{
+  "subtopicId": 10,
+  "checkerPromptVersion": "c13",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So the fat, smooth muscle or papillomas in the skin, and adenomas, as we were talking about in the colon.",
+      "reason": "The text lists 'lipoma, leiomyoma, papilloma, and adenomas' and immediately matches them to 'fat, smooth muscle or papillomas in the skin, and adenomas'. Specifying 'lipomas in fat, leiomyomas in smooth muscle' in the rewrite simply completes the parallel syntactic structure established by the speaker rather than introducing new facts."
+    },
+    {
+      "sourcePassage": "So these are all, even though they have oma in them, these are all malignant tumors, and things like retinoblastoma.",
+      "reason": "Grouping 'retinoblastoma' with 'glioma, glioblastoma and neuroblastoma' as containing '-oma' and being malignant tumours accurately captures the lecturer's meaning."
+    }
+  ]
+}

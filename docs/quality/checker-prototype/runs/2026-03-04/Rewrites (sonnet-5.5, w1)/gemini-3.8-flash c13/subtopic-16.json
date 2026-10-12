@@ -1,0 +1,20 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c13",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "The lecturer's reference to what the audience saw in earlier slides/figures is adapted into textbook prose stating that these states exist/are present, which removes a direct remark to the audience without losing factual content."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "The rewrite renders this as 'Of the screening methods discussed, cervical screening is the best', which accurately captures the comparative context referenced by 'as I said'."
+    },
+    {
+      "sourcePassage": "cauliflower structure, if you like",
+      "reason": "The rewrite uses 'cauliflower-like structure', which faithfully reflects the metaphorical qualification 'if you like'."
+    }
+  ]
+}

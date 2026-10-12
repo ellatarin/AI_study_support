@@ -1,0 +1,35 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c13",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer refers to 'adolescence and maturation', but the rewrite replaces 'adolescence' with 'differentiation', stating that 'differentiation and maturation also occur from infancy to adulthood'.",
+      "sourcePassage": "obviously during adolescence and maturation, this occurs from infancy to adulthood.",
+      "rewritePassage": "differentiation and maturation also occur from infancy to adulthood.",
+      "confidence": 8
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer states that the basement membrane provides two separate things ('signaling' and a 'basis for their adherence'). The rewrite conflates these two distinct aspects into 'a signalling basis for their adherence'.",
+      "sourcePassage": "provides a signaling and basis for their adherence to this layer.",
+      "rewritePassage": "provides a signalling basis for their adherence to this layer.",
+      "confidence": 8
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "during embryogenesis, during the time that you were born.",
+      "reason": "The phrase 'during the time that you were born' was dropped as a spoken disfluency or slip of the tongue modifying 'during embryogenesis'."
+    },
+    {
+      "sourcePassage": "moving into this kind of configuration where the cell is growing into the stroma, and also in this kind of deranged manner. And you can see here now the cells are all of different shapes and sizes.",
+      "reason": "The rewrite introduces 'In the image of the invasive tissue', which appropriately clarifies the lecturer's pointing words based on the immediate context ('invaded and are growing within the stroma', 'to get this invasion')."
+    },
+    {
+      "sourcePassage": "which would be here into the invading stroma.",
+      "reason": "The rewrite renders this as 'into the invaded stroma', correctly smoothing a minor slip of speech since the cells invade the stroma."
+    }
+  ]
+}

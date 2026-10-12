@@ -1,0 +1,24 @@
+{
+  "subtopicId": 7,
+  "checkerPromptVersion": "c13",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite converts the lecturer's pointing gestures ('the tumor is here' and 'This is the outer surface of the uterus') into a spatial claim that the tumour lies next to the outer surface of the uterus, which is not stated in the text.",
+      "sourcePassage": "You can see that the tumor is here. This is the outer surface of the uterus.",
+      "rewritePassage": "The tumour lies next to the outer surface of the uterus,",
+      "confidence": 8
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So you can see again that this is actually circumspect",
+      "reason": "The lecturer or transcriber used 'circumspect', which is an obvious slip or mishearing of the standard pathological term 'circumscribed'. Using 'circumscribed' in the rewrite accurately reflects the medical meaning without misleading the student."
+    },
+    {
+      "sourcePassage": "So you can see again that this is actually circumspect and very separate from the surrounding stroma and the surrounding tissue.",
+      "reason": "The rewrite's use of 'therefore' represents the lecturer's inferential 'So you can see that...', conveying that the visible separation on the slide allows one to deduce that the tumour is circumscribed."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "subtopicId": 10,
+  "checkerPromptVersion": "c13",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So the fat, smooth muscle or papillomas in the skin, and adenomas, as we were talking about in the colon.",
+      "reason": "The lecturer lists tissues corresponding in order to the previously mentioned tumours (lipoma, leiomyoma, papilloma, adenoma). Expanding the elliptical phrasing to 'lipomas in fat, leiomyomas in smooth muscle' resolves spoken grammar without adding unsourced facts."
+    },
+    {
+      "sourcePassage": "So by the time you have these suffixes, this would be a malignant disease.",
+      "reason": "Rendered faithfully as 'once these suffixes are present, the disease is malignant'."
+    },
+    {
+      "sourcePassage": "as we were talking about in the colon",
+      "reason": "Rendered as 'as discussed earlier, in the colon', which faithfully captures the conversational reference."
+    }
+  ]
+}

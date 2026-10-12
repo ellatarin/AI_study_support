@@ -16,6 +16,9 @@
 | gemini-3.8-flash c12 | 12 | 9 | 17 | 4 of 7 | $0.36 |
 | gemini-3.8-flash c12 run 2 | 10 | 9 | 17 | 4 of 7 | $0.36 |
 | gemini-3.8-flash c12 run 3 | 10 | 7 | 17 | 4 of 7 | $0.32 |
+| gemini-3.8-flash c13 | 6 | 6 | 17 | 5 of 7 | $0.25 |
+| gemini-3.8-flash c13 run 2 | 7 | 6 | 17 | 4 of 7 | $0.25 |
+| gemini-3.8-flash c13 run 3 | 7 | 6 | 17 | 5 of 7 | $0.27 |
 | gemini-3.8-flash c3 | 2 | 2 | 17 | 1 of 7 | $0.12 |
 | gemini-3.8-flash c4 | 20 | 10 | 17 | 5 of 7 | $0.32 |
 | gemini-3.8-flash c4 by paragraph | 55 | 15 | 17 | 5 of 7 | $0.70 |
@@ -48,15 +51,15 @@
 
 ## Faults that matter
 
-| Fault | gemini-3.1-pro-preview c3 | gemini-3.1-pro-preview c4 | gemini-3.8-flash c10 | gemini-3.8-flash c10 effort high | gemini-3.8-flash c10 effort high run 2 | gemini-3.8-flash c10 effort high run 3 | gemini-3.8-flash c10 run 2 | gemini-3.8-flash c10 run 3 | gemini-3.8-flash c11 | gemini-3.8-flash c11 run 2 | gemini-3.8-flash c11 run 3 | gemini-3.8-flash c12 | gemini-3.8-flash c12 run 2 | gemini-3.8-flash c12 run 3 | gemini-3.8-flash c3 | gemini-3.8-flash c4 | gemini-3.8-flash c4 by paragraph | gemini-3.8-flash c4 by paragraph run 2 | gemini-3.8-flash c4 by paragraph run 3 | gemini-3.8-flash c4 run 2 | gemini-3.8-flash c4 run 3 | gemini-3.8-flash c5 | gemini-3.8-flash c5 run 2 | gemini-3.8-flash c5 run 3 | gemini-3.8-flash c6 | gemini-3.8-flash c6 run 2 | gemini-3.8-flash c6 run 3 | gemini-3.8-flash c7 | gemini-3.8-flash c7 run 2 | gemini-3.8-flash c7 run 3 | gemini-3.8-flash c8 | gemini-3.8-flash c8 run 2 | gemini-3.8-flash c8 run 3 | gemini-3.8-flash c9 | gemini-3.8-flash c9 run 2 | gemini-3.8-flash c9 run 3 | gpt-5.6-sol-pro c3 | gemini-3.1-pro, c2 (pipeline) | gemini-3.8-flash, c2 (pipeline) | gemini-3.8-flash, c3 (pipeline) | sol-pro, c2 (pipeline) | sonnet-5.5, c2 (pipeline) | terra-pro, c2 (pipeline) |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 2.1 | no | yes | yes | yes | yes | yes | yes | yes | yes | yes | no | yes | yes | yes | no | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | no | no | no | yes | no | no |
-| 2.2 | no | yes | yes | yes | yes | yes | yes | yes | no | yes | no | yes | no | yes | no | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | no | no | yes | yes | yes | no | yes | yes | yes | no | no | yes | no | yes |
-| 3.4 | no | yes | yes | yes | yes | yes | yes | yes | no | no | no | no | no | no | no | no | yes | yes | yes | no | no | no | no | no | no | no | yes | no | no | no | yes | yes | yes | no | no | no | no | yes | yes | no | yes | no | no |
-| 7.1 | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | no | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | no | yes | yes | no | yes | no | yes |
-| 15.1 | no | no | no | no | no | no | no | no | yes | yes | yes | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | yes | no | yes |
-| 11.A | yes | yes | yes | yes | yes | yes | yes | yes | yes | no | yes | no | yes | yes | yes | yes | no | no | no | yes | yes | no | no | no | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | no | yes | no | no | no | no | no |
-| 4.A | no | yes | yes | no | yes | yes | yes | yes | yes | yes | yes | yes | yes | no | no | yes | yes | yes | yes | yes | yes | yes | no | yes | no | no | yes | no | no | no | no | no | no | no | yes | yes | no | no | no | no | no | no | no |
+| Fault | gemini-3.1-pro-preview c3 | gemini-3.1-pro-preview c4 | gemini-3.8-flash c10 | gemini-3.8-flash c10 effort high | gemini-3.8-flash c10 effort high run 2 | gemini-3.8-flash c10 effort high run 3 | gemini-3.8-flash c10 run 2 | gemini-3.8-flash c10 run 3 | gemini-3.8-flash c11 | gemini-3.8-flash c11 run 2 | gemini-3.8-flash c11 run 3 | gemini-3.8-flash c12 | gemini-3.8-flash c12 run 2 | gemini-3.8-flash c12 run 3 | gemini-3.8-flash c13 | gemini-3.8-flash c13 run 2 | gemini-3.8-flash c13 run 3 | gemini-3.8-flash c3 | gemini-3.8-flash c4 | gemini-3.8-flash c4 by paragraph | gemini-3.8-flash c4 by paragraph run 2 | gemini-3.8-flash c4 by paragraph run 3 | gemini-3.8-flash c4 run 2 | gemini-3.8-flash c4 run 3 | gemini-3.8-flash c5 | gemini-3.8-flash c5 run 2 | gemini-3.8-flash c5 run 3 | gemini-3.8-flash c6 | gemini-3.8-flash c6 run 2 | gemini-3.8-flash c6 run 3 | gemini-3.8-flash c7 | gemini-3.8-flash c7 run 2 | gemini-3.8-flash c7 run 3 | gemini-3.8-flash c8 | gemini-3.8-flash c8 run 2 | gemini-3.8-flash c8 run 3 | gemini-3.8-flash c9 | gemini-3.8-flash c9 run 2 | gemini-3.8-flash c9 run 3 | gpt-5.6-sol-pro c3 | gemini-3.1-pro, c2 (pipeline) | gemini-3.8-flash, c2 (pipeline) | gemini-3.8-flash, c3 (pipeline) | sol-pro, c2 (pipeline) | sonnet-5.5, c2 (pipeline) | terra-pro, c2 (pipeline) |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2.1 | no | yes | yes | yes | yes | yes | yes | yes | yes | yes | no | yes | yes | yes | yes | yes | yes | no | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | no | no | no | yes | no | no |
+| 2.2 | no | yes | yes | yes | yes | yes | yes | yes | no | yes | no | yes | no | yes | no | no | no | no | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | no | no | yes | yes | yes | no | yes | yes | yes | no | no | yes | no | yes |
+| 3.4 | no | yes | yes | yes | yes | yes | yes | yes | no | no | no | no | no | no | yes | yes | yes | no | no | yes | yes | yes | no | no | no | no | no | no | no | yes | no | no | no | yes | yes | yes | no | no | no | no | yes | yes | no | yes | no | no |
+| 7.1 | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | no | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | no | yes | yes | no | yes | no | yes |
+| 15.1 | no | no | no | no | no | no | no | no | yes | yes | yes | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | yes | no | yes |
+| 11.A | yes | yes | yes | yes | yes | yes | yes | yes | yes | no | yes | no | yes | yes | yes | yes | yes | yes | yes | no | no | no | yes | yes | no | no | no | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | no | yes | no | no | no | no | no |
+| 4.A | no | yes | yes | no | yes | yes | yes | yes | yes | yes | yes | yes | yes | no | yes | no | yes | no | yes | yes | yes | yes | yes | yes | yes | no | yes | no | no | yes | no | no | no | no | no | no | no | yes | yes | no | no | no | no | no | no | no |
 
 ## Faults outside the key
 
@@ -119,6 +122,18 @@
 
 
 ### gemini-3.8-flash c12 run 3: 0 faults outside the key
+
+
+
+### gemini-3.8-flash c13: 0 faults outside the key
+
+
+
+### gemini-3.8-flash c13 run 2: 0 faults outside the key
+
+
+
+### gemini-3.8-flash c13 run 3: 0 faults outside the key
 
 
 

@@ -1,0 +1,35 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c13",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer explains that development and differentiation continue after birth 'during adolescence and maturation', but the rewrite replaces 'adolescence' with 'differentiation', stating 'differentiation and maturation also occur from infancy to adulthood' and omitting the reference to adolescence.",
+      "sourcePassage": "obviously during adolescence and maturation, this occurs from infancy to adulthood.",
+      "rewritePassage": "differentiation and maturation also occur from infancy to adulthood.",
+      "confidence": 7
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer states that the basement membrane provides both 'signaling' and a 'basis for their adherence', which are two separate functions. The rewrite merges them into 'a signalling basis for their adherence'.",
+      "sourcePassage": "provides a signaling and basis for their adherence to this layer.",
+      "rewritePassage": "provides a signalling basis for their adherence to this layer.",
+      "confidence": 8
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "during the time that you were born.",
+      "reason": "This appears to be a slip of the tongue or false start following 'during embryogenesis', so omitting it is an allowed removal of spoken error."
+    },
+    {
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes. They have come in, they have lost this architecture, moved over the basement membrane and invaded and are growing within the stroma.",
+      "reason": "The rewrite introduces 'In the image of the invasive tissue', which resolves the pointing phrase 'here now' using details directly stated in the text (that the cells have invaded and are growing in the stroma)."
+    },
+    {
+      "sourcePassage": "which would be here into the invading stroma.",
+      "reason": "The lecturer said 'invading stroma', but the rewrite uses 'invaded stroma'. This corrects an evident slip of the tongue (the epithelial cells are invading the stroma), so it was not flagged as a harmful deficiency."
+    }
+  ]
+}

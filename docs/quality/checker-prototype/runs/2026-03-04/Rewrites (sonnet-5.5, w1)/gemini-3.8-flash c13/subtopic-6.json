@@ -1,0 +1,20 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c13",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "This is a personal remark/joke to the audience and was rightly omitted."
+    },
+    {
+      "sourcePassage": "or also this transcoelomic site from across a cavity",
+      "reason": "The lecturer introduces 'routes' earlier in the sentence ('primary tumors can spread via a number of routes'), so rephrasing 'transcoelomic site' as 'a transcoelomic route' preserves parallel structure and grammatical clarity without changing the meaning."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here, and then you can often see sometimes the tumor cells are actually present within a lymphatic duct.",
+      "reason": "The pointing expression ('are here') is adapted into textbook prose with a [FIGURE] marker without adding unsourced information."
+    }
+  ]
+}

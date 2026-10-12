@@ -1,0 +1,24 @@
+{
+  "subtopicId": 7,
+  "checkerPromptVersion": "c13",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite converts the lecturer's deictic pointing words ('the tumor is here', 'This is the outer surface') into a specific spatial description ('lies next to the outer surface of the uterus') that the spoken text does not state.",
+      "sourcePassage": "You can see that the tumor is here. This is the outer surface of the uterus.",
+      "rewritePassage": "The tumour lies next to the outer surface of the uterus",
+      "confidence": 6
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So you can see again that this is actually circumspect and very separate from the surrounding stroma and the surrounding tissue.",
+      "reason": "The text uses 'circumspect', an apparent malapropism or transcription error for the standard pathological descriptor 'circumscribed'. Using 'circumscribed' in the rewrite reflects the intended scientific meaning without misleading the student."
+    },
+    {
+      "sourcePassage": "This is normally a very thin muscle wall that is present in the uterus.",
+      "reason": "The rewrite retains this assertion as 'which normally has a very thin muscle wall', faithfully reflecting what the lecturer stated."
+    }
+  ]
+}

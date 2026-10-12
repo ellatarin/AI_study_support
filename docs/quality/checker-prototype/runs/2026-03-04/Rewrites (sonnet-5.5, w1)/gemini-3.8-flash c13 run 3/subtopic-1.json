@@ -1,0 +1,20 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c13",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there.",
+      "reason": "The reference to the slide/board ('listed there') was adapted into standard textbook prose introducing the learning outcomes ('The learning outcomes for this lecture are as follows.'). This is an allowed stylistic change."
+    },
+    {
+      "sourcePassage": "So I tag-teamed these lectures with Professor Turner, and so she will also be teaching three of these lectures.",
+      "reason": "Accurately rendered as 'The lectures are shared with Professor Turner, who teaches three of the six.' without altering factual content or meaning."
+    },
+    {
+      "sourcePassage": "And then really a lot of over the course of these lectures and in the practicals, you have to be able to see the process of what we're talking about in the histology of the tumors to look from of the progression of tumor from one stage, the precursor stages, to the malignant stages. So you're going to be able to link this visually in the practicals.",
+      "reason": "Faithfully represented in the final paragraph, preserving all factual details regarding tumor histology, stages, and practical sessions."
+    }
+  ]
+}

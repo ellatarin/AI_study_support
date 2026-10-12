@@ -1,0 +1,28 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c13",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "The rewrite resolves the ambiguous pronoun 'it' by stating that 'malignancy is defined as the ability to invade the surrounding tissue', which correctly reflects the medical definition being discussed without distorting the meaning."
+    },
+    {
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "reason": "The rewrite replaces the deictic 'this' with 'Invasion', which directly reflects the preceding discussion of tumours invading local stroma before seeding distant metastases."
+    },
+    {
+      "sourcePassage": "You'll see that over here you have the adenoma which has progressed into an adenocarcinoma. So one is growing out of the other.",
+      "reason": "The rewrite renders 'over here you have the adenoma' as 'Elsewhere in the same lesion is the adenoma', accurately conveying the spatial relationship within the histological specimen described by the lecturer."
+    },
+    {
+      "sourcePassage": "muscularis mucosa",
+      "reason": "The rewrite uses 'muscularis mucosae' in accordance with the provided correction list."
+    },
+    {
+      "sourcePassage": "But the question is, of course, you would then be interested in figuring out whether or not there would be secondary metastases across the body.",
+      "reason": "This rhetorical transition raised by the lecturer is temporarily deferred before being addressed comprehensively in the subsequent paragraph discussing metastases and seeding; omitting it at this specific sentence transition is an acceptable stylistic condensation."
+    }
+  ]
+}

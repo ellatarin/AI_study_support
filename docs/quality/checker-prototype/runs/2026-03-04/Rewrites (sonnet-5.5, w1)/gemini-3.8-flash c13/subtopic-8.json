@@ -1,0 +1,24 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c13",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "The text uses 'it's defined as' following 'invasion and malignancy'. In pathological terminology, malignancy (rather than the act of invasion itself) is defined by the capacity to invade surrounding tissue, so specifying 'malignancy is defined as' is an accurate disambiguation of the pronoun rather than a distortion."
+    },
+    {
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "reason": "The rewrite renders 'this' as 'Invasion'. The context of the preceding lines discusses local tissue invasion as a prerequisite that precedes metastatic spread, so replacing the pointing word with 'Invasion' is directly supported by the text."
+    },
+    {
+      "sourcePassage": "But the question is, of course, you would then be interested in figuring out whether or not there would be secondary metastases across the body.",
+      "reason": "The speaker raises this question mid-sentence but immediately circles back to the microscopic view of the muscularis propria ('So, if you look microscopically, you would also see...'). The question of secondary metastasis is fully detailed in the subsequent paragraphs, making this an allowable omission of a conversational false start."
+    },
+    {
+      "sourcePassage": "You'll see that over here you have the adenoma which has progressed into an adenocarcinoma.",
+      "reason": "The rewrite translates 'over here' into 'Elsewhere in the same lesion'. This is supported by the histological context of examining the same tissue section showing adenoma transitioning to adenocarcinoma."
+    }
+  ]
+}

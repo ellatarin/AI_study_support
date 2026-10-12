@@ -1,0 +1,20 @@
+{
+  "subtopicId": 9,
+  "checkerPromptVersion": "c13",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Obviously, when there is a suspicion of cancer or of a tumor, everybody gets very nervous about what that diagnosis is going to look like.",
+      "reason": "The informal phrasing 'everybody gets very nervous' was appropriately rewritten as 'there is considerable anxiety about the diagnosis' without altering the meaning."
+    },
+    {
+      "sourcePassage": "So this meningioma obviously is occurring within the skull. The skull is a confined space. This would put an enormous amount of pressure on the brain and the surrounding structures and would cause and has caused Has caused death in this case.",
+      "reason": "The rewrite generalises 'this meningioma' to 'A meningioma' while retaining the specific reference to 'in this case it caused death', which preserves the lecturer's explanation accurately without introducing unsourced details."
+    },
+    {
+      "sourcePassage": "smooth muscle fibroid that I showed you",
+      "reason": "The reference to an earlier visual example was accurately represented as 'as shown earlier' along with a '[FIGURE]' tag."
+    }
+  ]
+}

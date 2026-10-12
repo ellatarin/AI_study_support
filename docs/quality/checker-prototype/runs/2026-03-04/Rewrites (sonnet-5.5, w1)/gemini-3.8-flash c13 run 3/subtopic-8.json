@@ -1,0 +1,24 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c13",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "The rewrite renders this as 'malignancy is defined as the ability to invade the surrounding tissue'. In this context, 'it' refers to malignancy (as defining invasion as the ability to invade would be tautological), which is the standard pathological definition. This is an acceptable clarification rather than a distortion."
+    },
+    {
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "reason": "The rewrite states 'Invasion is therefore probably an obligatory step in arriving at a malignant, metastasising tumour.' The context of the preceding discussion of invasion preceding metastasis demonstrates that 'this' refers to invasion."
+    },
+    {
+      "sourcePassage": "You wouldn't necessarily be able to say anything on two words about either of these.",
+      "reason": "The rewrite renders this colloquial expression as 'Nothing could necessarily be said about either from their appearance', which accurately conveys the intended meaning in formal textbook prose."
+    },
+    {
+      "sourcePassage": "The tumor is actually going past, and you'll be able to look at this in great detail in the practicals, is going past this area of the normal epithelium",
+      "reason": "Remarks addressing the students about practicals and interactive tasks were appropriately omitted under allowed changes."
+    }
+  ]
+}

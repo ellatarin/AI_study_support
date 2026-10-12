@@ -1,0 +1,28 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c13",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite states that primary tumour deaths occur 'when the tumour occurs in a meningioma', incorrectly portraying a meningioma as an anatomical location rather than a tumour of the meninges.",
+      "sourcePassage": "Only 10% of these deaths, generally, if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "rewritePassage": "when the tumour occurs in a meningioma or in the liver",
+      "confidence": 8
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Things like obstruction of the bile ducts in the liver interferes with digestion.",
+      "reason": "The introductory sentence 'Other effects depend on the site' serves as a stylistic transition connecting the examples of site-specific obstruction and erosion."
+    },
+    {
+      "sourcePassage": "Also ulceration, you saw that enormous cauliflower structure within the colon.",
+      "reason": "Rewriting the lecturer's conversational reference to an image as 'the enormous cauliflower-like structure seen within the colon' faithfully preserves the descriptive content."
+    },
+    {
+      "sourcePassage": "And also this competition with the normal, if you have a tumor that is occurring in some of the blood compartments",
+      "reason": "Expanding 'competition with the normal' to 'Competition with normal tissue is also a factor' accurately captures the speaker's meaning without introducing new facts."
+    }
+  ]
+}

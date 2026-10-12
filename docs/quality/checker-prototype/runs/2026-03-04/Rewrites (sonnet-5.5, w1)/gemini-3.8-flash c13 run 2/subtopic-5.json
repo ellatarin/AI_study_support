@@ -1,0 +1,28 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c13",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite uses 'since' to establish a causal link, asserting that the terminology is still used because a surgeon can tell whether a tumour is movable by touch. The original text uses 'where', presenting this as the context or situation in which the terminology is heard rather than the cause of its continued use.",
+      "sourcePassage": "And you'll hear this kind of terminology even now, where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable.",
+      "rewritePassage": "This terminology is still heard now, since a surgeon can tell just by holding or touching a tumour whether it is movable or immovable.",
+      "confidence": 6
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals",
+      "reason": "This is a remark about the course or lecture and is therefore allowed to be omitted."
+    },
+    {
+      "sourcePassage": "So with these tools in hand, I think the important concept to try and get across is invasion and metastasis.",
+      "reason": "The introductory conversational framing and reference to prior tools were omitted as allowable lecture discourse/filler."
+    },
+    {
+      "sourcePassage": "there will be a biopsy to look and to see whether or not the tumor cells are contained or whether or not they're invading into the surrounding tissue.",
+      "reason": "Rewriting 'there will be a biopsy to look and to see' as 'a biopsy is taken to see' is an acceptable grammatical and stylistic rephrasing."
+    }
+  ]
+}
