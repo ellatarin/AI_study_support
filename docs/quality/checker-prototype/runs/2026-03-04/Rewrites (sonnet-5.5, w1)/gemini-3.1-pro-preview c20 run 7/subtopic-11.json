@@ -1,0 +1,31 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite clarifies an unclear pronoun (\"they're\") by assuming it refers to the tumour, resulting in the scientifically incorrect statement that a tumour occurs \"in a meningioma\" (since a meningioma is itself a tumour, not an organ or location).",
+      "sourcePassage": "Only 10% of these deaths, generally, if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "rewritePassage": "Only 10% of deaths are generally caused in this way, for example when the tumour occurs in a meningioma or in the liver."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "And things like if tumors in bones lead to erosion of that bone function, so you can get fractures",
+      "reason": "The rewrite changes \"erosion of that bone function\" to \"erosion of the bone\". This fixes a slip by the lecturer to state something that is scientifically correct in this context, which is an allowed change."
+    },
+    {
+      "sourcePassage": "if you have a tumor that is occurring in some of the blood compartments, the hematopoietic stem cells that are there, these will interfere.",
+      "reason": "The text contains an unclear sentence structure (\"these will interfere\"). The rewrite clarifies this by stating that the tumour will \"interfere with them\" (the stem cells). Because this new statement is scientifically correct, making this implicit meaning explicit is allowed."
+    },
+    {
+      "sourcePassage": "This niche is not very big. This will interfere with your bone marrow",
+      "reason": "The rewrite adds \"therefore\" between the niche not being big and the interference with the bone marrow, stating a causal link. Since it is scientifically correct that limited space in this niche causes the competition and interference, adding the link is an allowed change."
+    },
+    {
+      "sourcePassage": "Also ulceration, you saw that enormous cauliflower structure within the colon.",
+      "reason": "The rewrite changes \"you saw that\" to \"seen within the colon\", which drops the direct address to the audience. Dropping remarks to the audience is an allowed change."
+    }
+  ]
+}

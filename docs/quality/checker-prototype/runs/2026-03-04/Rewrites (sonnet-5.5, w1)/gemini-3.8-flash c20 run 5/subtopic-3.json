@@ -1,0 +1,31 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite replaces 'adolescence' with 'differentiation', stating that 'differentiation and maturation also occur from infancy to adulthood' instead of 'adolescence and maturation'.",
+      "sourcePassage": "because obviously during adolescence and maturation, this occurs from infancy to adulthood",
+      "rewritePassage": "because differentiation and maturation also occur from infancy to adulthood"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "during the time that you were born",
+      "reason": "Omitted because it is an obvious slip of the tongue by the lecturer, contradicting the surrounding explanation that most growth and lineage specification happens during embryogenesis and in the womb."
+    },
+    {
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes. They have come in, they have lost this architecture, moved over the basement membrane and invaded and are growing within the stroma.",
+      "reason": "The rewrite introduces 'In the image of the invasive tissue', which describes what the lecturer points to ('here now'); this is permitted because the surrounding context clearly states that the cells have invaded and are growing within the stroma."
+    },
+    {
+      "sourcePassage": "into the invading stroma",
+      "reason": "The rewrite changes 'invading stroma' to 'invaded stroma', which corrects a slip of the tongue by the lecturer to make the statement scientifically accurate (the tumor cells invade, while the stroma is invaded)."
+    },
+    {
+      "sourcePassage": "provides a signaling and basis for their adherence to this layer",
+      "reason": "The rewrite phrases this as 'provides a signalling basis for their adherence to this layer', which is an allowed stylistic and grammatical smoothing of the transcript."
+    }
+  ]
+}

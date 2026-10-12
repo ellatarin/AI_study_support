@@ -1,0 +1,24 @@
+{
+  "subtopicId": 10,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay? So just so that we're all on the same page in terms of nomenclature, and of course,",
+      "reason": "This is a remark to the audience and conversational filler, which is allowed to be dropped."
+    },
+    {
+      "sourcePassage": "So the fat, smooth muscle or papillomas in the skin, and adenomas, as we were talking about in the colon.",
+      "reason": "The rewrite explicitly maps lipomas to fat and leiomyomas to smooth muscle. Although the text left this mapping implicit, establishing these correct scientific links between the previously mentioned facts is allowed."
+    },
+    {
+      "sourcePassage": "kind of deviate",
+      "reason": "The phrase 'kind of' was dropped. This acts as conversational filler rather than a hedge on a scientific claim, so its omission is permitted."
+    },
+    {
+      "sourcePassage": "So these are these different tumor types",
+      "reason": "This phrase was omitted as it is merely repetitive filler."
+    }
+  ]
+}

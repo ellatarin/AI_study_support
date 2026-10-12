@@ -1,0 +1,20 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, everyone, shall we get started? Yes. You're very welcome, all of you, to Cancer Biology.",
+      "reason": "Dropped introductory and welcoming remarks, which is allowed."
+    },
+    {
+      "sourcePassage": "So you're going to be comparing the differences between benign and malignant tumors",
+      "reason": "The rewrite replaces 'So you're going to be' with 'This involves'. This correctly captures the lecturer's meaning that comparing the tumours is part of learning to recognize invasion and metastasis, as indicated by 'So'."
+    },
+    {
+      "sourcePassage": "hopefully, you will be interested in different things, different takeaways from these lectures.",
+      "reason": "The rewrite replaces 'different takeaways' with 'take different messages', which is an equivalent expression of the exact same meaning."
+    }
+  ]
+}

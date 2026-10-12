@@ -1,0 +1,27 @@
+{
+  "subtopicId": 12,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite uses 'because' to establish a causal relationship, asserting that benign tumours are common because it takes a great deal for them to become malignant. The source text mentions both statements in succession without making one the cause of the other.",
+      "sourcePassage": "So benign tumors are actually incredibly common. Right? So it actually takes a lot for a benign tumor to become malignant",
+      "rewritePassage": "Benign tumours are extremely common, because it takes a great deal for a benign tumour to become malignant"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So liver cancer and nasopharyngeal carcinomas are very big in Chinese populations.",
+      "reason": "Changing 'very big' to 'very common' is an allowed stylistic improvement with the same meaning."
+    },
+    {
+      "sourcePassage": "So I've just put these numbers up just so that you can have a sense.",
+      "reason": "Describing the numbers as giving a sense of 'incidence' is supported by the context of the lecture segment, which opened with 'So just talking about incidence'."
+    },
+    {
+      "sourcePassage": "And then this is, if you like, the percentage of tumors that result in deaths.",
+      "reason": "Phrasing this as 'A further slide shows the percentage of tumours that result in deaths' before the [FIGURE] tag faithfully renders the lecturer's deictic reference to the visual aid."
+    }
+  ]
+}

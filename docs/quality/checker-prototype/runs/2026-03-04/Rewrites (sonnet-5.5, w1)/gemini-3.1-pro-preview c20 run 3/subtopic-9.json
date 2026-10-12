@@ -1,0 +1,20 @@
+{
+  "subtopicId": 9,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So this meningioma obviously is occurring within the skull.",
+      "reason": "The rewrite changes 'this meningioma' to 'A meningioma', which generalizes the statement. However, because it is scientifically correct that a meningioma occurs within the skull, this change is allowed."
+    },
+    {
+      "sourcePassage": "This would put an enormous amount of pressure on the brain and the surrounding structures and would cause and has caused Has caused death in this case.",
+      "reason": "The rewrite simplifies the verbs to 'puts' and 'caused'. The original 'would cause' and 'has caused' function as a false start and correction by the lecturer, so the condensation is an allowed grammatical cleanup."
+    },
+    {
+      "sourcePassage": "But things like the smooth muscle fibroid that I showed you",
+      "reason": "The rewrite replaces 'But' with 'whereas' and 'that I showed you' with 'as shown earlier'. This maintains the contrast and meaning accurately without introducing any unsourced additions."
+    }
+  ]
+}

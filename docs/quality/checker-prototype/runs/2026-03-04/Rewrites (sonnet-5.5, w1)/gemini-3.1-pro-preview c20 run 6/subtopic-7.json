@@ -1,0 +1,27 @@
+{
+  "subtopicId": 7,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite connects two separate pointing statements by claiming that the tumour lies next to the outer surface, a spatial relationship that the text does not state.",
+      "sourcePassage": "You can see that the tumor is here. This is the outer surface of the uterus.",
+      "rewritePassage": "The tumour lies next to the outer surface of the uterus,"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "This is normally a very thin muscle wall that is present in the uterus.",
+      "reason": "The rewrite turns the pointing word 'This' into a relative clause describing the uterus ('which normally has a very thin muscle wall'). This is allowed because it states a scientifically correct anatomical fact."
+    },
+    {
+      "sourcePassage": "So you can see again that this is actually circumspect and very separate from the surrounding stroma",
+      "reason": "The rewrite changes 'circumspect' to 'circumscribed', which is allowed as it corrects a slip of the tongue by the lecturer to a scientifically correct term for a benign tumour."
+    },
+    {
+      "sourcePassage": "and has, if you like, invaded within this tissue.",
+      "reason": "The rewrite changes 'if you like' to 'in a sense', which is allowed as they are different words with exactly the same meaning in this context."
+    }
+  ]
+}

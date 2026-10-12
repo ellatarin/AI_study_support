@@ -1,0 +1,20 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "if you compare any two things",
+      "reason": "The rewrite replaces the generic idiom 'any two things' with the more specific and scientifically correct 'any two species' within the context. This is an allowed change."
+    },
+    {
+      "sourcePassage": "And this is my cat",
+      "reason": "Changing the first-person reference to 'The lecturer's own cat' is an expected stylistic adaptation for textbook prose, retaining the original fact."
+    },
+    {
+      "sourcePassage": "hematopoietic",
+      "reason": "The rewrite adds 'tissues' after 'hematopoietic', aligning it grammatically with 'digestive tissues' and clarifying the biological reference appropriately."
+    }
+  ]
+}

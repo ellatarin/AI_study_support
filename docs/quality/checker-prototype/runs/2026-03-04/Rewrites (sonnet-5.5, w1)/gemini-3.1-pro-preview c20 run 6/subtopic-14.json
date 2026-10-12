@@ -1,0 +1,24 @@
+{
+  "subtopicId": 14,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, so what does this look like in the clinic? [chuckles] I call this the four horsemen.",
+      "reason": "The rewrite replaces 'what does this look like' with 'the presentation of cancer', which is a scientifically correct and appropriate medical phrasing that matches the context of the lecture."
+    },
+    {
+      "sourcePassage": "But very much, tumors can be indirect",
+      "reason": "Changing 'be indirect' to 'present indirectly' is an allowed change as it provides scientifically correct terminology with the exact same meaning."
+    },
+    {
+      "sourcePassage": "before it becomes something that's very, very hard to treat, and there's diminishing returns on said treatment.",
+      "reason": "The rewrite connects 'diminishing returns' using 'when' instead of 'and', which is a stylistic grammatical restructuring that correctly maintains the relationship described in the text."
+    },
+    {
+      "sourcePassage": "So in thinking about this, we try to jump the gun",
+      "reason": "Replacing 'So in thinking about this' with 'For this reason, the approach is' is an allowed grammatical change that does not alter the causal link or meaning."
+    }
+  ]
+}

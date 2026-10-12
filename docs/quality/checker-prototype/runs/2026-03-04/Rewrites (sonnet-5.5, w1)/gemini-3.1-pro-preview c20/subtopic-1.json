@@ -1,0 +1,27 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite introduces a compositional link by stating that the ability to recognize invasion and metastasis 'involves' comparing benign and malignant tumours. The original text does not state that one involves the other, but instead connects them as a sequence or consequence using 'So'.",
+      "sourcePassage": "And then really, the big takeaway message from today is going to be the ability to recognize what invasion and metastasis looks like with regard to the start of the tumor to the end point. So you're going to be comparing the differences between benign and malignant tumors",
+      "rewritePassage": "The main takeaway message of the lecture is the ability to recognize what invasion and metastasis look like, from the start of the tumour to the end point. This involves comparing benign and malignant tumours."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "because it has such an impact.",
+      "reason": "This phrase was omitted in the rewrite, but it is an allowed change because it drops a repetition. The speaker already stated 'because of obviously the impact that cancer has on society' in the previous sentence."
+    },
+    {
+      "sourcePassage": "Because from the molecular mechanisms to the patient experience and to the evolution of personalized medicine and what that entails, you're all going to be having different things that you're interested in.",
+      "reason": "The rewrite clarifies this unclear sentence by attaching the range of topics to 'the lectures' via 'which range from'. This resolves an incomplete statement, which is an allowable change."
+    },
+    {
+      "sourcePassage": "So you're going to be able to link this visually in the practicals.",
+      "reason": "The rewrite changes 'you're going to be able to link this visually' to 'This is linked visually'. Though the agent shifts, it represents the exact same meaning in typical textbook prose style, which is allowed."
+    }
+  ]
+}

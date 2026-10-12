@@ -1,0 +1,20 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, everyone, shall we get started? Yes. You're very welcome, all of you, to Cancer Biology.",
+      "reason": "This is introductory conversational filler and a greeting to the audience, which is permitted to be omitted or adapted into standard textbook prose."
+    },
+    {
+      "sourcePassage": "So I tag-teamed these lectures with Professor Turner, and so she will also be teaching three of these lectures.",
+      "reason": "The rewrite specifies 'three of the six', which directly reflects the earlier statement 'these next six lectures' without introducing new unsourced facts."
+    },
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there.",
+      "reason": "The lecturer's deictic reference to a slide or handout ('listed there') is appropriately adapted to standard introductory textbook phrasing ('The learning outcomes for this lecture are as follows.')."
+    }
+  ]
+}

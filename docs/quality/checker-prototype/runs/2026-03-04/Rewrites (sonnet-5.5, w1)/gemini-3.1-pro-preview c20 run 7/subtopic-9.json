@@ -1,0 +1,23 @@
+{
+  "subtopicId": 9,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "By changing 'this meningioma' to 'A meningioma', the rewrite broadens a specific example into a general causal claim, inaccurately implying that every meningioma puts an enormous amount of pressure on the brain.",
+      "sourcePassage": "So this meningioma obviously is occurring within the skull. The skull is a confined space. This would put an enormous amount of pressure on the brain and the surrounding structures",
+      "rewritePassage": "A meningioma occurs within the skull, which is a confined space, so it puts an enormous amount of pressure on the brain and the surrounding structures"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Obviously, when there is a suspicion of cancer or of a tumor, everybody gets very nervous about what that diagnosis is going to look like.",
+      "reason": "The rewrite changes this to 'there is considerable anxiety about the diagnosis', which conveys the same meaning using different words. 'Obviously' is a conversational filler appropriately omitted."
+    },
+    {
+      "sourcePassage": "because you can get benign tumors that cause death by growing and constricting on the processes of normal tissues that are adjacent to them.",
+      "reason": "The rewrite drops 'on' from 'constricting on', which is a grammatical correction that maintains the exact same meaning."
+    }
+  ]
+}

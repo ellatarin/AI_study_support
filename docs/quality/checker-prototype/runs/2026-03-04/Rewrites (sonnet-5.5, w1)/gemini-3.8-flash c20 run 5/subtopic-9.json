@@ -1,0 +1,16 @@
+{
+  "subtopicId": 9,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So this meningioma obviously is occurring within the skull. The skull is a confined space. This would put an enormous amount of pressure on the brain and the surrounding structures and would cause and has caused Has caused death in this case.",
+      "reason": "The rewrite generalises the introductory statement to 'A meningioma occurs within the skull...' while accurately retaining the specific observation that 'in this case it caused death', capturing all factual points faithfully."
+    },
+    {
+      "sourcePassage": "that I showed you",
+      "reason": "The phrasing 'as shown earlier' alongside the insertion of '[FIGURE]' accurately reflects the lecturer's reference to a previously shown image without adding unsourced facts."
+    }
+  ]
+}

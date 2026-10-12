@@ -1,0 +1,24 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "This is a remark to the audience regarding the lecturer's own pronunciation and does not contain subject matter, so its removal is allowed."
+    },
+    {
+      "sourcePassage": "or also this transcoelomic site from across a cavity",
+      "reason": "The change from 'site' to 'route' is allowed because it corrects a slip by the lecturer; transcoelomic spread is correctly described as a route, matching the earlier mention of spreading 'via a number of routes'."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here",
+      "reason": "This is a statement pointing to a specific location on the slide, and its omission is allowed as it is part of a visual demonstration that doesn't add a distinct scientific fact."
+    },
+    {
+      "sourcePassage": "Okay, so what does this look like in the larger setting?",
+      "reason": "This is a rhetorical transition question to introduce the next topic, and its transformation into a declarative statement is an allowed stylistic change."
+    }
+  ]
+}

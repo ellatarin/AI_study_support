@@ -1,0 +1,33 @@
+{
+  "subtopicId": 12,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds a causal link stating that benign tumours are common 'because' it takes a great deal for them to become malignant, which is not stated in the original text.",
+      "sourcePassage": "So benign tumors are actually incredibly common. Right? So it actually takes a lot for a benign tumor to become malignant",
+      "rewritePassage": "Benign tumours are extremely common, because it takes a great deal for a benign tumour to become malignant"
+    },
+    {
+      "deficiencyType": "omission",
+      "description": "The rewrite omits the causal link ('And so') stating that because these malignant tumours are difficult to treat, they progress very quickly.",
+      "sourcePassage": "But they are very difficult to treat. And so they progress very quickly",
+      "rewritePassage": "They are very difficult to treat, progress very quickly"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "But malignant tumors, for example, originating from mesenchymal lineage cell types",
+      "reason": "The phrase 'for example' was omitted, but in context it acts as conversational filler rather than signifying a literal example of all malignant tumours being rare (which would contradict the later statement about common epithelial cancers). This omission does not change the core fact."
+    },
+    {
+      "sourcePassage": "And then this is, if you like, the percentage of tumors that result in deaths.",
+      "reason": "The pointing words 'this is' were replaced with the description 'A further slide shows', which is an allowed change because the lecturer's subsequent phrase 'As you can see' confirms they are showing a visual aid."
+    },
+    {
+      "sourcePassage": "So, and just a-- Oops. Oh, God. It doesn't go backwards. Here we go.",
+      "reason": "This passage was entirely omitted as it consists of false starts and remarks to the audience, which are allowed to be dropped."
+    }
+  ]
+}

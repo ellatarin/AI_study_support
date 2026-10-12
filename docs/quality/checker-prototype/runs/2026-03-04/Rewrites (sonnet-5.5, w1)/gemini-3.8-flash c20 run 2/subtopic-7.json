@@ -1,0 +1,19 @@
+{
+  "subtopicId": 7,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite converts the lecturer's pointing gestures ('the tumor is here. This is the outer surface of the uterus') into a specific spatial description ('The tumour lies next to the outer surface of the uterus') that is not established in the text.",
+      "sourcePassage": "You can see that the tumor is here. This is the outer surface of the uterus.",
+      "rewritePassage": "The tumour lies next to the outer surface of the uterus"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "this is actually circumspect and very separate from the surrounding stroma",
+      "reason": "Replacing the lecturer's slip 'circumspect' with the scientifically appropriate term 'circumscribed' is an allowed correction."
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The text refers to development occurring 'during adolescence and maturation', but the rewrite changes 'adolescence' to 'differentiation'.",
+      "sourcePassage": "because obviously during adolescence and maturation, this occurs from infancy to adulthood.",
+      "rewritePassage": "because differentiation and maturation also occur from infancy to adulthood."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "during embryogenesis, during the time that you were born.",
+      "reason": "The lecturer's phrase 'during the time that you were born' is a slip of the tongue for development before birth (embryogenesis). Omitting it to say that it happens during embryogenesis is an allowed correction of a slip."
+    },
+    {
+      "sourcePassage": "provides a signaling and basis for their adherence to this layer.",
+      "reason": "The rewrite renders this as 'provides a signalling basis for their adherence', smoothing an oral stumble or transcriber error without changing the meaning."
+    },
+    {
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes. They have come in, they have lost this architecture, moved over the basement membrane and invaded and are growing within the stroma.",
+      "reason": "The rewrite's addition of 'In the image of the invasive tissue' is justified because the context of the transcript explicitly describes this image as showing cells that have invaded the stroma."
+    },
+    {
+      "sourcePassage": "which would be here into the invading stroma.",
+      "reason": "The rewrite changes 'invading stroma' to 'invaded stroma', which corrects the lecturer's slip since the cells are invading into the stroma."
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "subtopicId": 7,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite turns the lecturer's pointing words into a description that the tumour lies next to the outer surface, which the lecturer did not explicitly state.",
+      "sourcePassage": "You can see that the tumor is here. This is the outer surface of the uterus.",
+      "rewritePassage": "The tumour lies next to the outer surface of the uterus,"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite changes a statement pointing to a specific structure ('This') that is a thin muscle wall into a general claim that the uterus normally has a very thin muscle wall.",
+      "sourcePassage": "This is normally a very thin muscle wall that is present in the uterus.",
+      "rewritePassage": "the uterus, which normally has a very thin muscle wall."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So you can see again that this is actually circumspect and very separate from the surrounding stroma and the surrounding tissue.",
+      "reason": "The rewrite changes 'circumspect' to 'circumscribed'. This is a valid correction of a transcriber error to a scientifically correct medical term, which is an allowed change."
+    }
+  ]
+}

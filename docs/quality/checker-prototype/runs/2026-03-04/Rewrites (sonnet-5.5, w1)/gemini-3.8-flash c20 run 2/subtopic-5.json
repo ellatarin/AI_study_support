@@ -1,0 +1,20 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals",
+      "reason": "Omitted because it is a remark directed to the audience regarding coursework, which is an allowed change."
+    },
+    {
+      "sourcePassage": "where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable",
+      "reason": "Rewritten as 'since a surgeon can tell just by holding or touching a tumour whether it is movable or immovable'; 'tell' conveys the colloquial sense of 'see' (discern/determine) without changing the meaning."
+    },
+    {
+      "sourcePassage": "there will be a biopsy to look and to see whether or not the tumor cells are contained",
+      "reason": "Converted to passive voice ('a biopsy is taken to see whether the tumour cells are contained') as an allowed stylistic rewrite."
+    }
+  ]
+}

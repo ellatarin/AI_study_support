@@ -1,0 +1,24 @@
+{
+  "subtopicId": 10,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay? So just so that we're all on the same page in terms of nomenclature,",
+      "reason": "This is a remark to the audience and was correctly removed as filler."
+    },
+    {
+      "sourcePassage": "So the fat, smooth muscle or papillomas in the skin",
+      "reason": "The rewrite explicitly maps 'lipomas' to 'fat' and 'leiomyomas' to 'smooth muscle'. This adds links and clarifies the text, but because the mapping is scientifically correct, it is an allowed change."
+    },
+    {
+      "sourcePassage": "So you have cells, these are tumors that derive from",
+      "reason": "The phrase 'So you have cells' is a false start and was correctly dropped."
+    },
+    {
+      "sourcePassage": "So these are these different tumor types",
+      "reason": "This is a summarizing repetition or filler and was correctly removed."
+    }
+  ]
+}

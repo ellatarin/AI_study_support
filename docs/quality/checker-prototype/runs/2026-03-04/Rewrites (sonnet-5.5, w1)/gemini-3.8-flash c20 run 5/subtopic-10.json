@@ -1,0 +1,20 @@
+{
+  "subtopicId": 10,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So the fat, smooth muscle or papillomas in the skin, and adenomas, as we were talking about in the colon.",
+      "reason": "The rewrite expands the elliptical list to explicitly match each tumor type previously mentioned (lipomas in fat, leiomyomas in smooth muscle), which accurately reflects the lecturer's intended mapping and standard scientific taxonomy without introducing new facts."
+    },
+    {
+      "sourcePassage": "plus oma",
+      "reason": "The rewrite clarifies 'oma' as 'the suffix -oma', which is scientifically accurate and standard terminology."
+    },
+    {
+      "sourcePassage": "as we were talking about",
+      "reason": "The rewrite converts this lecture reference to 'as discussed earlier', which is an allowed stylistic change for textbook prose."
+    }
+  ]
+}

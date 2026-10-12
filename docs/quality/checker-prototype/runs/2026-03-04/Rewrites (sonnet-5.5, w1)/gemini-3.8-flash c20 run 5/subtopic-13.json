@@ -1,0 +1,20 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "if you compare any two things, you're going to find differences",
+      "reason": "Rendering 'any two things' as 'two species' accurately reflects the context of comparing animal species without altering the meaning."
+    },
+    {
+      "sourcePassage": "You'll be happy to hear he's doing fine now after his surgery.",
+      "reason": "Omitting 'You'll be happy to hear' is permitted as it is a conversational remark addressed to the audience."
+    },
+    {
+      "sourcePassage": "digestive tissues, hematopoietic, and skin",
+      "reason": "Expanding 'hematopoietic' to 'hematopoietic tissues' is scientifically correct and matches the phrasing of 'digestive tissues'."
+    }
+  ]
+}

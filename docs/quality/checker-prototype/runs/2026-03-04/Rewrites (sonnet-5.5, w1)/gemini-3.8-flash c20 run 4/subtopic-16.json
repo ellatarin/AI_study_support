@@ -1,0 +1,20 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "The lecturer's conversational reference to an earlier visual ('You saw') was recast in textbook prose without changing the factual meaning."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "The phrasing 'Of the screening methods discussed, cervical screening is the best' captures the lecturer's recap ('as I said, the cervix is best') accurately."
+    },
+    {
+      "sourcePassage": "or there's some reason if you're showing symptoms.",
+      "reason": "The rephrasing 'or some other reason, such as the patient showing symptoms' maintains the same clinical meaning while adjusting the second-person address."
+    }
+  ]
+}

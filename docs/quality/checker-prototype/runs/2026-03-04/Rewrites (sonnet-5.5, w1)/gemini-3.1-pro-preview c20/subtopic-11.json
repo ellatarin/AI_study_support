@@ -1,0 +1,27 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite treats a meningioma as a location or organ where a tumour occurs, rather than a type of tumour itself. The lecturer used meningioma as an example of a primary tumour.",
+      "sourcePassage": "if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "rewritePassage": "when the tumour occurs in a meningioma or in the liver."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "erosion of that bone function",
+      "reason": "The rewrite changes this to 'erosion of the bone', which corrects a slip by the lecturer to state something that is scientifically and biologically accurate."
+    },
+    {
+      "sourcePassage": "And also this competition with the normal",
+      "reason": "The rewrite clarifies this as 'Competition with normal tissue', which is a scientifically correct interpretation of 'the normal' in this context."
+    },
+    {
+      "sourcePassage": "So it's not very good.",
+      "reason": "This is omitted because it is conversational filler or a remark to the audience."
+    }
+  ]
+}

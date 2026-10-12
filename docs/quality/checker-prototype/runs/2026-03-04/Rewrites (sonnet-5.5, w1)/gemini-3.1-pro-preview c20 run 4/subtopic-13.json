@@ -1,0 +1,32 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Just a slide about the incidence in companion animals since I found this slide some time ago, which is to say that in dogs and cats, they very much get similar tumors to us, and of course, if you compare any two things, you're going to find differences.",
+      "reason": "The rewrite drops conversational filler and the broad term 'companion animals', naming 'dogs and cats' directly. It also replaces 'two things' with 'two species', which is a scientifically correct specification for this context."
+    },
+    {
+      "sourcePassage": "which is different from people.",
+      "reason": "The rewrite expands this to 'which differs from the pattern in people'. This clarifies the comparison and is scientifically correct."
+    },
+    {
+      "sourcePassage": "And this is my cat, who also ended up with a feline injection site sarcoma. This is from injections proposed to be due to the adjuvant that is also added with the injection.",
+      "reason": "The rewrite changes 'my cat' to 'The lecturer's own cat' to suit the third-person textbook style. It also interprets the unclear pronoun in 'This is from injections' as 'Such tumours arise from injections', which provides a scientifically correct generalisation about feline injection site sarcomas."
+    },
+    {
+      "sourcePassage": "You'll see that digestive tissues, hematopoietic, and skin are the three main categories in terms of where cancers arise.",
+      "reason": "The rewrite adds 'tissues' after 'hematopoietic', which is a scientifically correct completion of the term."
+    },
+    {
+      "sourcePassage": "The only thing that was quite interesting to note here is that the rate of malignant tumors is about fivefold higher in reptiles compared to mammals.",
+      "reason": "The rewrite replaces 'interesting to note' with 'notable difference'. Using 'difference' is an accurate description of the compared rates between reptiles and mammals."
+    },
+    {
+      "sourcePassage": "can end up with a problem in differentiation, and end up with a tumor and with that disease.",
+      "reason": "The rewrite adds the causal link 'and so' before 'with a tumour'. This is allowed because it is a scientifically correct explanation of the disease process."
+    }
+  ]
+}

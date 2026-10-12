@@ -1,0 +1,24 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So, screening the cervix is absolutely ideal, and it really is quite a success story.",
+      "reason": "The rewrite simplifies this to 'Screening the cervix is ideal, and it is a considerable success story', dropping the conversational filler 'So, ... absolutely' and 'really is quite a', which is allowed."
+    },
+    {
+      "sourcePassage": "The uterus is here in this diagram, and as you know, it hangs down into the vaginal canal.",
+      "reason": "The rewrite changes this to 'The uterus hangs down into the vaginal canal, as shown in the diagram.' This drops conversational filler and turns the pointing reference into a factual description based exactly on what the lecturer said the diagram shows."
+    },
+    {
+      "sourcePassage": "what you're looking at here, here is the endocervical canal that it goes between the neck of the womb. Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "reason": "The rewrite condenses this to 'Histologically, the endocervical canal runs through the neck of the womb, and the cervix is seen alongside it.' This combines repetitive phrases and clarifies 'goes between' to 'runs through', which makes the anatomical relationship clear without changing the medical facts."
+    },
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here",
+      "reason": "The rewrite drops this sentence. Pointing to specific visual examples on the slide does not need to be retained as long as the fact itself ('you only ever get mitotic cells here at this basement layer') is kept, which it was."
+    }
+  ]
+}

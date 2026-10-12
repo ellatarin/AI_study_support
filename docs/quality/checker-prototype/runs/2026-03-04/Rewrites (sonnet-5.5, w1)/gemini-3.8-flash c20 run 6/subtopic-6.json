@@ -1,0 +1,20 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "This is an aside / remark to the audience and was appropriately omitted."
+    },
+    {
+      "sourcePassage": "or also this transcoelomic site from across a cavity",
+      "reason": "The rewrite phrases this as 'by a transcoelomic route, across a cavity', which reflects the scientifically correct terminology for transcoelomic spread among routes of metastasis."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here, and then you can often see sometimes the tumor cells are actually present within a lymphatic duct.",
+      "reason": "The pointing words ('are here') accompanied the description of tumour cells observed in histological samples, faithfully captured in the rewrite without distorting the scientific meaning."
+    }
+  ]
+}

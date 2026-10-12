@@ -1,0 +1,20 @@
+{
+  "subtopicId": 9,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Obviously, when there is a suspicion of cancer or of a tumor, everybody gets very nervous about what that diagnosis is going to look like.",
+      "reason": "The informal phrasing 'everybody gets very nervous' is appropriately rendered as textbook prose ('there is considerable anxiety')."
+    },
+    {
+      "sourcePassage": "smooth muscle fibroid that I showed you",
+      "reason": "Rewriting the lecturer's conversational reference to a previously shown image as 'as shown earlier' with an inserted '[FIGURE]' mark is an allowed stylistic adjustment."
+    },
+    {
+      "sourcePassage": "So this meningioma obviously is occurring within the skull. The skull is a confined space. This would put an enormous amount of pressure on the brain and the surrounding structures and would cause and has caused Has caused death in this case. So things like meningiomas can cause that.",
+      "reason": "The rewrite faithfully captures all causal relations, anatomical details, and the specific reference to death caused in that case without altering meaning."
+    }
+  ]
+}

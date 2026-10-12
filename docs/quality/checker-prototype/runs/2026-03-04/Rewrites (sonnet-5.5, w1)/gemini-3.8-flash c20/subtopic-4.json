@@ -1,0 +1,35 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite states that the stained slice through a tumour illustrates tumour explantation ('illustrates this'), linking the image to the previous sentence. The lecturer merely introduces the image to show tumour morphology, without stating that it illustrates explanting.",
+      "sourcePassage": "often they will explant the tumor. Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "rewritePassage": "A slice through a tumour, with a stain to show the morphology, illustrates this [FIGURE]."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So the other thing to appreciate is that when, if you like, biologists are studying tumors",
+      "reason": "The introductory phrases 'So the other thing to appreciate is that when, if you like' are spoken filler and were appropriately omitted."
+    },
+    {
+      "sourcePassage": "try to get them to grow in culture",
+      "reason": "Replacing the pronoun 'them' with 'the cells' is an allowed clarification based directly on the immediate context ('individual tumor cells')."
+    },
+    {
+      "sourcePassage": "Primary cells really don't grow in culture.",
+      "reason": "Omitting 'really' in 'Primary cells do not grow in culture' is allowed because 'really' was used as conversational emphasis rather than a scientific hedge."
+    },
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "This is a remark to the audience / personal aside and was rightly omitted."
+    },
+    {
+      "sourcePassage": "with regard to the contributions of things like the stroma and other things.",
+      "reason": "Changing 'other things' to 'other components' is an allowed stylistic variation with equivalent meaning."
+    }
+  ]
+}

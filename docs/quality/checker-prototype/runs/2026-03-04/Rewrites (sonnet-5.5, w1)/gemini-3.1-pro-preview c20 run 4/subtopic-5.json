@@ -1,0 +1,28 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay. So with these tools in hand, I think the important concept to try and get across is invasion and metastasis.",
+      "reason": "The introductory transition referencing previous material was dropped, which is allowed as it functions as a statement about the progression of the lecture rather than subject matter."
+    },
+    {
+      "sourcePassage": "What they termed the movable tumor. And a movable tumor is exactly like what it sounds. Surgeons would find that that tumor could move within the tissue or an immovable tumor.",
+      "reason": "The garbled text awkwardly appended 'or an immovable tumor' at the end of the sentence. The rewrite seamlessly integrates this into the previous sentence, matching the lecturer's intent."
+    },
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals,",
+      "reason": "This phrase was dropped because it is a remark to the audience regarding the course, which is an allowed omission."
+    },
+    {
+      "sourcePassage": "So when somebody presents with a lump",
+      "reason": "Replacing 'somebody' with 'a patient' maintains the exact meaning within the medical context."
+    },
+    {
+      "sourcePassage": "Right. So, what does that mean for the patient? Well, the invasion,",
+      "reason": "The rhetorical question and conversational fillers were condensed into 'For the patient, invasion,', which is an allowed stylistic improvement."
+    }
+  ]
+}

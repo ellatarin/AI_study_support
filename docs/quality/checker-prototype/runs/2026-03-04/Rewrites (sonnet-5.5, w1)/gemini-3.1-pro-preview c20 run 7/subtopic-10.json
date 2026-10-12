@@ -1,0 +1,24 @@
+{
+  "subtopicId": 10,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay? So just so that we're all on the same page in terms of nomenclature",
+      "reason": "This is a remark to the audience and conversational filler, which is allowed to be dropped."
+    },
+    {
+      "sourcePassage": "So the fat, smooth muscle or papillomas in the skin",
+      "reason": "The rewrite adds 'lipomas in' and 'leiomyomas in' to explicitly link the tumor types with their corresponding tissues (fat and smooth muscle, respectively). This clarifies an incomplete statement of the text and states something that is scientifically correct, which is allowed."
+    },
+    {
+      "sourcePassage": "So you have cells, these are tumors that derive from",
+      "reason": "The false start 'So you have cells' is dropped, which is an allowed change."
+    },
+    {
+      "sourcePassage": "Neuroectodermal tumors are the ones that kind of deviate from the nomenclature system.",
+      "reason": "The phrase 'kind of' is dropped. In this context, it functions as conversational filler rather than a substantive scientific hedge, so it is an allowed change."
+    }
+  ]
+}

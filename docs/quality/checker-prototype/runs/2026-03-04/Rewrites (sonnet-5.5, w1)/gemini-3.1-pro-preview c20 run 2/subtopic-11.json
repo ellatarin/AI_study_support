@@ -1,0 +1,23 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite states that the tumour occurs 'in a meningioma', which implies a tumour growing inside a meningioma (which is itself a tumour). The original text used 'occurring in things like the meningioma' to loosely describe scenarios involving a meningioma.",
+      "sourcePassage": "if they're occurring in things like the meningioma that I was telling you about",
+      "rewritePassage": "when the tumour occurs in a meningioma"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "erosion of that bone function",
+      "reason": "The rewrite changes this to 'erosion of the bone', correcting a misspeak by the lecturer to a scientifically correct statement."
+    },
+    {
+      "sourcePassage": "you saw that enormous cauliflower structure within the colon",
+      "reason": "The rewrite appropriately replaces a remark to the audience with an objective statement ('the enormous cauliflower-like structure seen within the colon')."
+    }
+  ]
+}

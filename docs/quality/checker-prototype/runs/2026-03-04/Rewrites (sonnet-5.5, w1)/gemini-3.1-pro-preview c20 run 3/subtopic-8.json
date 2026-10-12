@@ -1,0 +1,35 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "omission",
+      "description": "The rewrite omits the lecturer's statement about the diagnostic interest in figuring out whether there would be secondary metastases across the body.",
+      "sourcePassage": "But the question is, of course, you would then be interested in figuring out whether or not there would be secondary metastases across the body.",
+      "rewritePassage": null
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "reason": "The rewrite replaces the pointing word 'this' with 'Invasion'. This correctly describes the obligatory step the lecturer is discussing based on the context."
+    },
+    {
+      "sourcePassage": "You wouldn't necessarily be able to say anything on two words about either of these.",
+      "reason": "The text has a likely transcriber error ('on two words' instead of 'untoward'). The rewrite avoids this by writing 'from their appearance', which logically and correctly states why conclusions cannot be drawn just by looking at the polyps' outward shape."
+    },
+    {
+      "sourcePassage": "Okay, so here you see everything that's on a stalk. You're looking again at the normal epithelium, and you're looking at the basement membrane here to understand whether or not any invasion has occurred.",
+      "reason": "The rewrite omits this passage because it is an immediate repetition of the previous explanation about orienting by the normal epithelium and checking for invasion past the muscularis mucosae."
+    },
+    {
+      "sourcePassage": "You'll see that over here you have the adenoma which has progressed into an adenocarcinoma.",
+      "reason": "The rewrite correctly changes the lecturer's pointing phrase 'over here' to a biological description of what is shown on the slide, 'Elsewhere in the same lesion'."
+    },
+    {
+      "sourcePassage": "So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "The rewrite clarifies 'it's defined' by writing 'malignancy is defined', which chooses a specific reading but states a biologically correct definition."
+    }
+  ]
+}

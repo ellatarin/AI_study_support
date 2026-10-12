@@ -1,0 +1,20 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, everyone, shall we get started? Yes. You're very welcome, all of you, to Cancer Biology.",
+      "reason": "Omitted as conversational opening remarks and address to the audience, which is an allowed change."
+    },
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there.",
+      "reason": "Rendered as 'The learning outcomes for this lecture are as follows', adapting a lecturer's deictic gesture to slide material into textbook prose."
+    },
+    {
+      "sourcePassage": "So you're going to be comparing the differences between benign and malignant tumors",
+      "reason": "Expressed as 'This involves comparing benign and malignant tumours', preserving the link implied by 'So' in the context of recognizing invasion and metastasis."
+    }
+  ]
+}

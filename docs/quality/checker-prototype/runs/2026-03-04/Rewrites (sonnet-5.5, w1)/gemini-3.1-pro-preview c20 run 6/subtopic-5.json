@@ -1,0 +1,36 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay. So with these tools in hand,",
+      "reason": "This phrase was omitted, but it is a statement about the lecture's progression, which is an allowed change."
+    },
+    {
+      "sourcePassage": "Obviously, changes occur within tumor cells, and it was long ago noticed back in, I don't know,",
+      "reason": "The words 'Obviously' and 'back in, I don't know' were dropped because they are conversational fillers, which is an allowed change."
+    },
+    {
+      "sourcePassage": "tumors kind of came in two types. What they termed the movable tumor. And a movable tumor is exactly like what it sounds. Surgeons would find that that tumor could move within the tissue or an immovable tumor.",
+      "reason": "The original text has a jumbled structure that awkwardly introduces the second type at the end. The rewrite organizes this into 'These were termed the movable tumour and the immovable tumour', which is an allowed improvement to style and grammar rather than completing an incomplete statement, since both types were explicitly mentioned in the text."
+    },
+    {
+      "sourcePassage": "where a surgeon can see just by holding or touching a tumor",
+      "reason": "The rewrite changes 'where' to 'since' and 'see' to 'tell'. 'Since' explicitly adds a causal link (the terminology is used because surgeons can tell). However, this added link is scientifically and factually correct, so it is allowed. 'Tell' means the exact same as 'see' in this context."
+    },
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals,",
+      "reason": "This phrase was omitted because it is a statement about the course, which is an allowed change."
+    },
+    {
+      "sourcePassage": "So when somebody presents with a lump or a primary tumor, there will be a biopsy to look and to see",
+      "reason": "'Somebody' was replaced with 'a patient', and 'to look and to see' was condensed to 'to see'. These are allowed style and vocabulary changes with exactly the same meaning."
+    },
+    {
+      "sourcePassage": "So, what does that mean for the patient? Well, the invasion,",
+      "reason": "The rhetorical question was streamlined to 'For the patient, invasion,', which drops conversational filler but retains all meaning and factual links."
+    }
+  ]
+}

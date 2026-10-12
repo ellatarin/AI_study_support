@@ -1,0 +1,20 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "The direct address referring to what the audience saw on previous slides was adapted into a factual statement ('The different pre-cancerous states are present'), which is an allowed change for spoken-lecture style."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "The rewrite phrases this as 'Of the screening methods discussed, cervical screening is the best', which faithfully renders the lecturer's comparative statement and recap without introducing unsourced claims."
+    },
+    {
+      "sourcePassage": "And perhaps you might do that if there's some kind of family history or there's some reason if you're showing symptoms.",
+      "reason": "The rewrite renders this as 'and it might be used if there is some kind of family history, or some other reason, such as the patient showing symptoms', which conveys the exact meaning of the original conditions."
+    }
+  ]
+}

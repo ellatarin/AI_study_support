@@ -1,0 +1,24 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "during the time that you were born",
+      "reason": "The text states that expansive growth and lineage specification happen during embryogenesis; the phrase 'during the time that you were born' is a verbal slip by the lecturer, so omitting it to maintain scientific correctness is an allowed change."
+    },
+    {
+      "sourcePassage": "during adolescence and maturation, this occurs from infancy to adulthood",
+      "reason": "The lecturer's phrasing awkwardly combined 'during adolescence' with the broader timeframe 'from infancy to adulthood' while referring back to differentiation. Rephrasing this as 'differentiation and maturation also occur from infancy to adulthood' resolves the false start and clarifies the intended scientific meaning."
+    },
+    {
+      "sourcePassage": "into the invading stroma",
+      "reason": "The rewrite changes this to 'into the invaded stroma', correcting a clear slip by the lecturer since the stroma is the tissue being invaded by the epithelial cells."
+    },
+    {
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes. They have come in, they have lost this architecture, moved over the basement membrane and invaded and are growing within the stroma.",
+      "reason": "Introducing the image as 'In the image of the invasive tissue' is justified because the text explicitly describes the cells shown as having invaded and growing within the stroma."
+    }
+  ]
+}

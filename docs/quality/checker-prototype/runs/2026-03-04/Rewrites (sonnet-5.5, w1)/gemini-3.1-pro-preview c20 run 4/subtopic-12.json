@@ -1,0 +1,24 @@
+{
+  "subtopicId": 12,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So benign tumors are actually incredibly common. Right? So it actually takes a lot for a benign tumor to become malignant",
+      "reason": "The rewrite added the causal link 'because' to connect the two facts. This is allowed because it states something that is scientifically correct."
+    },
+    {
+      "sourcePassage": "So I've just put these numbers up just so that you can have a sense.",
+      "reason": "The rewrite states 'give a sense of incidence', making the context explicit. This is allowed as it is a scientifically correct description of what the numbers show."
+    },
+    {
+      "sourcePassage": "And then this is, if you like, the percentage of tumors that result in deaths.",
+      "reason": "The rewrite translates 'this is' into 'A further slide shows'. This is a correct and allowed description of what the lecturer points to."
+    },
+    {
+      "sourcePassage": "Moles, I mean, who doesn't have moles? I mean, so these are very common.",
+      "reason": "The rhetorical question and repetitions were correctly dropped as filler, which is an allowed change."
+    }
+  ]
+}

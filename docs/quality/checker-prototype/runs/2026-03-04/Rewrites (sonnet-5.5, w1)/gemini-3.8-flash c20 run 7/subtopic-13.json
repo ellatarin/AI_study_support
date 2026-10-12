@@ -1,0 +1,20 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Just a slide about the incidence in companion animals since I found this slide some time ago",
+      "reason": "Omitted conversational introductory remarks and slide commentary, which is an allowed change."
+    },
+    {
+      "sourcePassage": "You'll be happy to hear he's doing fine now after his surgery.",
+      "reason": "The personal address to the audience was adapted into standard third-person factual prose ('The cat is doing fine after surgery.'), which is allowed."
+    },
+    {
+      "sourcePassage": "The only thing that was quite interesting to note here is that the rate of malignant tumors is about fivefold higher in reptiles compared to mammals.",
+      "reason": "Paraphrased as 'The one notable difference is that the rate of malignant tumours is about fivefold higher in reptiles than in mammals', faithfully representing the contrast drawn between reptiles and mammals."
+    }
+  ]
+}

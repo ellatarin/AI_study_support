@@ -1,0 +1,24 @@
+{
+  "subtopicId": 9,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So this meningioma obviously is occurring within the skull.",
+      "reason": "The change from 'this meningioma' to 'A meningioma' generalizes what the lecturer points to, but the resulting statement is scientifically correct."
+    },
+    {
+      "sourcePassage": "The skull is a confined space. This would put an enormous amount of pressure",
+      "reason": "The rewrite connects these with 'which is a confined space, so it puts'. The causal link is already present in the source text via 'This', which refers to the occurrence in a confined space."
+    },
+    {
+      "sourcePassage": "would cause and has caused Has caused death in this case.",
+      "reason": "The rewrite simplifies this to 'and in this case it caused death', which correctly drops the lecturer's repetition and false start."
+    },
+    {
+      "sourcePassage": "So you have things like adenomas in the colon",
+      "reason": "The rewrite drops 'things like', which is acceptable as it is a conversational filler."
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "subtopicId": 9,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Obviously, when there is a suspicion of cancer or of a tumor, everybody gets very nervous about what that diagnosis is going to look like.",
+      "reason": "The rewrite changes 'everybody gets very nervous' to 'there is considerable anxiety'. This is an allowed stylistic change with exactly the same meaning."
+    },
+    {
+      "sourcePassage": "But things like the smooth muscle fibroid that I showed you, that almost never progresses to a leiomyosarcoma.",
+      "reason": "The addition of 'whereas' replaces 'But' to link the clauses, and the [FIGURE] tag marks what was shown on the slide. Both are allowed stylistic changes."
+    },
+    {
+      "sourcePassage": "So this meningioma obviously is occurring within the skull.",
+      "reason": "The rewrite changes the pointing word 'this' to 'A'. However, this is allowed because the resulting statement is scientifically correct (meningiomas do occur within the skull) and the rewrite preserves the specific reference in the subsequent clause ('in this case it caused death')."
+    },
+    {
+      "sourcePassage": "would cause and has caused Has caused death in this case.",
+      "reason": "The repetition, false starts, and filler were dropped to produce 'and in this case it caused death', which is an allowed change."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "The only thing that was quite interesting to note here is that the rate of malignant tumors is about fivefold higher in reptiles compared to mammals.",
+      "reason": "The rewrite renders this as 'The one notable difference is that the rate of malignant tumours is about fivefold higher in reptiles than in mammals', which faithfully captures the meaning in context without introducing distortion."
+    },
+    {
+      "sourcePassage": "You'll be happy to hear he's doing fine now after his surgery.",
+      "reason": "The omission of 'You'll be happy to hear' is permitted as it is a conversational remark directed to the audience."
+    },
+    {
+      "sourcePassage": "digestive tissues, hematopoietic, and skin",
+      "reason": "Expanding 'hematopoietic' to 'hematopoietic tissues' is scientifically correct and completes the transcriber's ellipsis naturally."
+    }
+  ]
+}

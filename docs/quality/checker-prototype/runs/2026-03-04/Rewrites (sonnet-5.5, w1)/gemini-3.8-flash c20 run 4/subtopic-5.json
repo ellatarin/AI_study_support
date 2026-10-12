@@ -1,0 +1,36 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So with these tools in hand",
+      "reason": "Omitted as introductory conversational filler linking to previous lecture material."
+    },
+    {
+      "sourcePassage": "I think the important concept to try and get across is invasion and metastasis.",
+      "reason": "The singular 'concept' was rendered as plural 'concepts' ('The important concepts to establish next are invasion and metastasis') because two concepts are named; this grammatical adjustment is allowed."
+    },
+    {
+      "sourcePassage": "back in, I don't know,",
+      "reason": "Omitted as conversational filler/hesitation."
+    },
+    {
+      "sourcePassage": "And you'll hear this kind of terminology even now, where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable.",
+      "reason": "The rewrite connects the two clauses with 'since' ('since a surgeon can tell just by holding or touching a tumour whether it is movable or immovable'); introducing this link between two facts stated in the text is scientifically correct and allowed."
+    },
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals,",
+      "reason": "Omitted as a remark to the audience and a statement regarding the course practicals."
+    },
+    {
+      "sourcePassage": "So when somebody presents with a lump or a primary tumor,",
+      "reason": "Rendering 'somebody' as 'a patient' is an allowed stylistic adjustment to standard medical textbook prose."
+    },
+    {
+      "sourcePassage": "Right. So, what does that mean for the patient? Well, the invasion,",
+      "reason": "Omitting the lecturer's rhetorical question and conversational markers while retaining the substantive meaning ('For the patient, invasion...') is an allowed stylistic change."
+    }
+  ]
+}

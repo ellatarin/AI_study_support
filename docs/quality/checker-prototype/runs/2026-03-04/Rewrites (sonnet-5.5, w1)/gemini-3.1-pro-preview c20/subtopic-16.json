@@ -1,0 +1,28 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "The rewrite translates a reference to a visual aid into the general statement 'The different pre-cancerous states are present'. This avoids relying on the visual while stating a scientifically correct fact implied by the text."
+    },
+    {
+      "sourcePassage": "very likely to probably already be malignant.",
+      "reason": "The rewrite drops the word 'probably' to fix a redundancy. Since 'very likely' is kept, the claim remains appropriately hedged."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "The rewrite states 'Of the screening methods discussed, cervical screening is the best.' The addition limits the scope of 'best' to what the lecturer is actively comparing in context, which clarifies the original statement."
+    },
+    {
+      "sourcePassage": "because many of the people that do go for screening and then for further treatment, it has a very, very high false positive rate.",
+      "reason": "The original text breaks grammatical structure mid-sentence. The rewrite resolves this by stating the people 'are affected by' the rate, which accurately preserves the original meaning."
+    },
+    {
+      "sourcePassage": "or there's some reason if you're showing symptoms.",
+      "reason": "The rewrite phrases this as 'or some other reason, such as the patient showing symptoms.' This creates a clear and medically correct link that was somewhat garbled in the spoken text."
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay. So with these tools in hand, I think the important concept to try and get across is",
+      "reason": "The omission of 'Okay. So with these tools in hand, I think' and 'to try and get across' is allowed as it removes filler and statements about the lecture."
+    },
+    {
+      "sourcePassage": "Obviously, changes occur within tumor cells, and it was long ago noticed back in, I don't know, when surgery was first coming into its own as a discipline after anesthesia was invented or discovered",
+      "reason": "The omission of 'Obviously' and 'back in, I don't know' is allowed as it removes filler. The change from 'tumor' to 'tumour' and 'anesthesia' to 'anaesthesia' is an allowed correction to British English."
+    },
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals",
+      "reason": "This omission is allowed because it is a remark to the audience regarding the course."
+    },
+    {
+      "sourcePassage": "Right. So, what does that mean for the patient? Well, the invasion",
+      "reason": "The omission of the rhetorical question and filler is allowed, as it is replaced with the direct phrasing 'For the patient, invasion'."
+    }
+  ]
+}

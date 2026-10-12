@@ -1,0 +1,24 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "This is an aside/meta-commentary by the lecturer to themselves, which is permitted to be dropped as filler or a remark to the audience."
+    },
+    {
+      "sourcePassage": "transcoelomic site from across a cavity",
+      "reason": "The rewrite renders this as 'transcoelomic route, across a cavity', which corrects the lecturer's slight slip of 'site' in the context of listing routes of spread and is scientifically accurate."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here, and then you can often see sometimes the tumor cells are actually present within a lymphatic duct.",
+      "reason": "The pointing phrase 'You see your tumor cells are here' is deictic filler as the lecturer points to an image; the core observation that tumour cells are present within a lymphatic duct is faithfully preserved."
+    },
+    {
+      "sourcePassage": "And I think one of the tumors that does this quite frequently is ovarian cancer, for example.",
+      "reason": "The phrase 'I think' is conversational speech rather than a substantive scientific hedge, as ovarian cancer is a well-established example of transcoelomic spread."
+    }
+  ]
+}

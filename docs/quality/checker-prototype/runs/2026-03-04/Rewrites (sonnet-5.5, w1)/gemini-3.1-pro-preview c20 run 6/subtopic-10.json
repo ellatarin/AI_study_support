@@ -1,0 +1,20 @@
+{
+  "subtopicId": 10,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So the fat, smooth muscle or papillomas in the skin, and adenomas",
+      "reason": "The rewrite clarifies this as 'lipomas in fat, leiomyomas in smooth muscle, papillomas in the skin, and adenomas'. This completes the lecturer's thought by adding a scientifically correct link between the previously listed tumours and their corresponding tissues, which is an allowed change."
+    },
+    {
+      "sourcePassage": "Neuroectodermal tumors are the ones that kind of deviate from the nomenclature system.",
+      "reason": "The phrase 'kind of' is dropped. It acts as conversational filler here rather than a scientific hedge, making its omission acceptable."
+    },
+    {
+      "sourcePassage": "Okay? So just so that we're all on the same page in terms of nomenclature, and of course, with any naming system, there are always exceptions to every rule.",
+      "reason": "The conversational filler and introductory remark to the audience ('Okay? So just so that we're all on the same page in terms of nomenclature, and of course') were correctly omitted."
+    }
+  ]
+}

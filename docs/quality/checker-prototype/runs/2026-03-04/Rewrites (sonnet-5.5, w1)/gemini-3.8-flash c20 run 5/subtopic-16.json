@@ -1,0 +1,20 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "The lecturer's conversational reference to what the audience saw was rephrased to textbook prose ('The different pre-cancerous states are present') without altering the meaning or losing essential content."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "The phrasing 'Of the screening methods discussed, cervical screening is the best' captures the lecturer's comparative statement and reminder of prior discussion accurately."
+    },
+    {
+      "sourcePassage": "an ulcerated cauliflower structure, if you like",
+      "reason": "Rephrasing 'cauliflower structure, if you like' as 'cauliflower-like structure' is an acceptable stylistic smoothing."
+    }
+  ]
+}

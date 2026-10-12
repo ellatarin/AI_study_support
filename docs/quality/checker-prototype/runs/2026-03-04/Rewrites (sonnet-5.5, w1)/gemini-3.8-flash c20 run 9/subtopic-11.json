@@ -1,0 +1,31 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite states 'when the tumour occurs in a meningioma', which casts a meningioma as an anatomical site or organ where a tumour can arise, rather than a type of tumour itself.",
+      "sourcePassage": "Only 10% of these deaths, generally, if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "rewritePassage": "for example when the tumour occurs in a meningioma or in the liver."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Things like obstruction of the bile ducts in the liver interferes with digestion.",
+      "reason": "The introductory sentence 'Other effects depend on the site' serves as a stylistic transition linking the examples back to the earlier point about different settings, without adding new unsupported factual claims."
+    },
+    {
+      "sourcePassage": "And things like if tumors in bones lead to erosion of that bone function, so you can get fractures",
+      "reason": "The rewrite changes 'erosion of that bone function' to 'erosion of the bone', which corrects a spoken slip to a scientifically accurate formulation."
+    },
+    {
+      "sourcePassage": "And also this competition with the normal",
+      "reason": "'The normal' is rendered as 'normal tissue', which is an allowed clarification of colloquial phrasing to the scientifically correct term."
+    },
+    {
+      "sourcePassage": "Also ulceration, you saw that enormous cauliflower structure within the colon.",
+      "reason": "The lecturer's remark to the audience ('you saw') was appropriately dropped as allowed editorial styling while retaining the description."
+    }
+  ]
+}

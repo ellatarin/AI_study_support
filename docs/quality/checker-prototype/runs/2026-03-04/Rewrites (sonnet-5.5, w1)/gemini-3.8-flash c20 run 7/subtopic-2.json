@@ -1,0 +1,23 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite inserts 'that is', asserting that acetylation or deacetylation is the state of transcription within the cell itself, thereby creating an unsourced equivalence link between two distinct concepts.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events that can also help to give rise to cancer.",
+      "reason": "The rewrite renders 'they' as 'infection' ('and infection can also predispose to chronic inflammatory events'), which accurately reflects the context of viral infection discussed in the passage without distorting the scientific meaning."
+    },
+    {
+      "sourcePassage": "So I've just made this kind of a much simpler diagram, if you like.",
+      "reason": "The rewrite uses passive phrasing ('A much simpler diagram can be made...') and inserts a '[FIGURE]' tag, which is an allowed stylistic change."
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "subtopicId": 9,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So some benign tumors become malignant, but they don't all become malignant. Obviously, when there is a suspicion of cancer or of a tumor, everybody gets very nervous about what that diagnosis is going to look like. But not all tumors are malignant and some don't progress.",
+      "reason": "Accurately rendered in the rewrite using British English spelling and textbook prose, with casual remarks appropriately adapted."
+    },
+    {
+      "sourcePassage": "So you have things like adenomas in the colon that can develop into adenocarcinomas. But things like the smooth muscle fibroid that I showed you, that almost never progresses to a leiomyosarcoma.",
+      "reason": "Directly translated into textbook style with the lecturer's visual reference accurately substituted by 'as shown earlier' and the allowed insertion of [FIGURE]."
+    },
+    {
+      "sourcePassage": "So this meningioma obviously is occurring within the skull. The skull is a confined space. This would put an enormous amount of pressure on the brain and the surrounding structures and would cause and has caused Has caused death in this case. So things like meningiomas can cause that.",
+      "reason": "The explanation of how intracranial pressure from a meningioma causes death in a confined space is faithfully preserved."
+    },
+    {
+      "sourcePassage": "Also, pituitary adenomas release a lot of hormones and can cause death in that way. And other benign tumors can obstruct and impede the normal functions of whatever organ they occur in.",
+      "reason": "All facts and causal links regarding pituitary adenomas and other benign tumours are retained without distortion."
+    }
+  ]
+}

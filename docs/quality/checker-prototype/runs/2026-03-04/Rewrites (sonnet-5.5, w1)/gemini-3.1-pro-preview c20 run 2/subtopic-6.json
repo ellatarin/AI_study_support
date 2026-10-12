@@ -1,0 +1,33 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "omission",
+      "description": "The rewrite omits the lecturer's statement pointing out the location of the main tumour cells in the figure before mentioning the cells present within the lymphatic duct.",
+      "sourcePassage": "You see your tumor cells are here, and then",
+      "rewritePassage": "the tumour cells can often be seen present within a lymphatic duct."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite changes a definite observation about a specific tumour cell on the slide into a statement of general possibility, adding a hedge and altering the meaning.",
+      "sourcePassage": "this tumor cell has the appearance",
+      "rewritePassage": "a tumour cell may have the appearance"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "This is a remark to the audience/self-remark, which is allowed to be dropped."
+    },
+    {
+      "sourcePassage": "transcoelomic site",
+      "reason": "The rewrite changes this to 'transcoelomic route', substituting a scientifically correct term for the lecturer's misnomer."
+    },
+    {
+      "sourcePassage": "here you have a brain, and what you have here is a breast cancer that's metastasized to the brain.",
+      "reason": "The rewrite condenses this into 'The other is a breast cancer that has metastasized to the brain.' which preserves all the essential facts without omission."
+    }
+  ]
+}

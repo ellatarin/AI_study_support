@@ -1,0 +1,27 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite inserts 'that is' to equate acetylation or deacetylation with the state of transcription within the cell, presenting a definition/equivalence not stated in the source text.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "I'm sure you've seen a cartoon that looks like this many times.",
+      "reason": "Rendered concisely as 'the familiar cartoon', which preserves the meaning while removing conversational filler."
+    },
+    {
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events that can also help to give rise to cancer.",
+      "reason": "The rewrite states 'and infection can also predispose to chronic inflammatory events', resolving 'they' (referring to infectious agents/viruses) without distorting the scientific meaning."
+    },
+    {
+      "sourcePassage": "So hopefully, in order to try and address some of these questions, we will start at the beginning. [chuckles]",
+      "reason": "Rendered as 'and in order to address some of them, the discussion starts at the beginning', appropriately adapting conversational phrasing and dropped laughter to formal textbook style."
+    }
+  ]
+}

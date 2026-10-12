@@ -1,0 +1,24 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "This is a meta-commentary / personal aside by the lecturer to themselves and the audience, which is permitted to be dropped as filler or a remark to the audience."
+    },
+    {
+      "sourcePassage": "or also this transcoelomic site from across a cavity, across a pleural cavity, for example, across the abdomen.",
+      "reason": "The lecturer's phrase 'this transcoelomic site from across a cavity' was rendered as 'by a transcoelomic route, across a cavity', which is scientifically accurate terminology for transcoelomic spread."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here, and then you can often see sometimes the tumor cells are actually present within a lymphatic duct.",
+      "reason": "The lecturer's deictic statement 'You see your tumor cells are here' while referring to a microscopic slide is appropriately represented by the [FIGURE] tag and the accompanying description of tumor cells within a lymphatic duct."
+    },
+    {
+      "sourcePassage": "Similarly, here you have a brain, and what you have here is a breast cancer that's metastasized to the brain.",
+      "reason": "The deictic remarks pointing out the brain specimen and breast cancer metastasis are appropriately captured by 'The other is a breast cancer that has metastasized to the brain' with a [FIGURE] tag."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "reason": "The rewrite renders this as 'Histologically, the endocervical canal runs through the neck of the womb, and the cervix is seen alongside it.' This accurately describes what the lecturer is pointing to in the histological section and is scientifically correct."
+    },
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here",
+      "reason": "This is demonstrative pointing to specific instances on a slide illustrating the stated principle that mitotic cells occur at the basement layer, combined with remarks to the audience ('maybe with sharp eyes'); omitting the pointing to individual cells does not omit subject matter."
+    },
+    {
+      "sourcePassage": "If you'll notice here from the 1950s to, this is only to 2000, you'll see that the rates of death in cervical cancer came down",
+      "reason": "The rewrite states 'From the 1950s to 2000, the rates of death from cervical cancer came down', preserving the exact timeframe and the trend shown on the graph."
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "subtopicId": 9,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So this meningioma obviously is occurring within the skull. The skull is a confined space. This would put an enormous amount of pressure on the brain and the surrounding structures and would cause and has caused Has caused death in this case.",
+      "reason": "The rewrite renders the lecturer's spoken demonstration ('this meningioma') into textbook prose ('A meningioma occurs within the skull... and in this case it caused death'), correctly capturing the general principle and the specific reference to the specimen without introducing errors or distorting the meaning."
+    },
+    {
+      "sourcePassage": "that I showed you",
+      "reason": "The rewrite replaces the conversational reference to what was shown with 'as shown earlier' alongside a [FIGURE] marker, which is an allowed stylistic adaptation."
+    }
+  ]
+}

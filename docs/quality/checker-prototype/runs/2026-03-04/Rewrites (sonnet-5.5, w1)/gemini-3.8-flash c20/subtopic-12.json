@@ -1,0 +1,23 @@
+{
+  "subtopicId": 12,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite uses 'because' to create an unsourced causal relationship, claiming that benign tumours are extremely common because it takes a great deal for them to become malignant.",
+      "sourcePassage": "So benign tumors are actually incredibly common. Right? So it actually takes a lot for a benign tumor to become malignant in terms of, as I said, the number of changes that have to happen within a tumor.",
+      "rewritePassage": "Benign tumours are extremely common, because it takes a great deal for a benign tumour to become malignant, given the number of changes that have to happen within a tumour."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So I've just put these numbers up just so that you can have a sense.",
+      "reason": "The rewrite specifies 'The numbers shown give a sense of incidence', which accurately reflects the subtopic established at the beginning ('talking about incidence') and the lecturer referring to the numbers on display."
+    },
+    {
+      "sourcePassage": "And then this is, if you like, the percentage of tumors that result in deaths.",
+      "reason": "The rewrite describes this as 'A further slide shows the percentage of tumours that result in deaths', which accurately reflects the lecturer's description of what is being presented."
+    }
+  ]
+}

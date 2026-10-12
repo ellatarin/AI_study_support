@@ -1,0 +1,24 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "reason": "The rewrite says 'and the cervix is seen alongside it'. This is a minor spatial clarification based on the lecturer pointing to 'here', making it an allowed change that reflects the correct anatomical context without distortion."
+    },
+    {
+      "sourcePassage": "normally you have something that looks like this in this squamous epithelium. And what you have here is a structure that is protective.",
+      "reason": "The rewrite combines these statements into 'Normal squamous epithelium has a protective structure.' This correctly preserves the link between squamous epithelium and its protective nature without making an unsourced addition."
+    },
+    {
+      "sourcePassage": "Because of the acidic environment of the vagina, you can often get something that's called metaplasia, where one cell type is replaced by another.",
+      "reason": "The causal link 'Because of the acidic environment...' is perfectly preserved in the rewrite. No unsourced link is added."
+    },
+    {
+      "sourcePassage": "which is pre-invasive and therefore a benign state",
+      "reason": "The explicit causal link ('therefore') correctly reflects the source material and is not an addition."
+    }
+  ]
+}

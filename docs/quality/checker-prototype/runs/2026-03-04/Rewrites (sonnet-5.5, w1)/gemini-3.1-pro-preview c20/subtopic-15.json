@@ -1,0 +1,31 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "omission",
+      "description": "The rewrite omits the lecturer's observation of what the figure shows, specifically that two mitotic cells can be seen.",
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here,",
+      "rewritePassage": null
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "because this is what is so interesting to look at, what you're looking at here,",
+      "reason": "This is a remark to the audience and was appropriately dropped."
+    },
+    {
+      "sourcePassage": "here is the endocervical canal that it goes between the neck of the womb. Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "reason": "The rewrite describes this as the canal running through the neck of the womb and the cervix being seen alongside it. This is a scientifically correct description of the histology slide the lecturer is pointing to."
+    },
+    {
+      "sourcePassage": "And the ectocervix here, which is more squamous cells, which has more of a protective layer,",
+      "reason": "The rewrite states that the squamous cells 'form' more of a protective layer. This is a scientifically correct clarification of the text's slightly awkward grammar."
+    },
+    {
+      "sourcePassage": "The uterus is here in this diagram, and as you know, it hangs down into the vaginal canal.",
+      "reason": "The lecturer misspeaks here, as it is the cervix that hangs down into the vaginal canal, but the rewrite retains the original claim without introducing a forbidden change."
+    }
+  ]
+}

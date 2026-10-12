@@ -1,0 +1,27 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The lecturer notes that biologists often explant tumours and then directs attention to a stained slice showing morphology, without stating that the slice illustrates explanting a tumour. The rewrite adds the link 'illustrates this', claiming that the slice of the tumour illustrates tumour explantation.",
+      "sourcePassage": "often they will explant the tumor. Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "rewritePassage": "A slice through a tumour, with a stain to show the morphology, illustrates this [FIGURE]."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Primary cells really don't grow in culture. So when HeLa cells, which were the first tumor cells to grow in culture, did that, this was very much a surprise.",
+      "reason": "The rewrite splits this thought across two sentences ('Primary cells do not grow in culture. HeLa cells were the first tumour cells to grow in culture, and so this was very much a surprise.'), which slightly alters the sentence structure but maintains the contextual link explaining why HeLa cells growing in culture was a surprise."
+    },
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "This is an aside/remark by the lecturer to themselves or the audience, which is permitted to be dropped."
+    },
+    {
+      "sourcePassage": "contributions of things like the stroma and other things.",
+      "reason": "'other things' is rendered as 'other components', which uses formal phrasing with equivalent meaning."
+    }
+  ]
+}

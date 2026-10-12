@@ -1,0 +1,27 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite changes the meaning by stating that a tumour occurs \"in a meningioma\", treating meningioma as a bodily location rather than a type of tumour. The original text meant that deaths occur in cases of meningioma.",
+      "sourcePassage": "if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "rewritePassage": "for example when the tumour occurs in a meningioma or in the liver."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "lead to erosion of that bone function",
+      "reason": "The rewrite changes this to 'erosion of the bone'. This is allowed as it corrects a slip by the lecturer to a scientifically correct statement (tumours erode the bone itself, not the 'bone function')."
+    },
+    {
+      "sourcePassage": "And also this competition with the normal,",
+      "reason": "The rewrite adds 'tissue' ('Competition with normal tissue'). This is an allowed clarification that correctly states what the lecturer meant by 'the normal' in a biological context."
+    },
+    {
+      "sourcePassage": "So it's not very good.",
+      "reason": "This is an allowed omission of a conversational remark/filler at the end of the lecture."
+    }
+  ]
+}

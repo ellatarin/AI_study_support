@@ -1,0 +1,23 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds 'that is', explicitly equating acetylation or deacetylation with the state of transcription within the cell, which introduces an unsourced definition/equivalence.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events that can also help to give rise to cancer.",
+      "reason": "The text uses the pronoun 'they' (referring to infectious agents/viruses), whereas the rewrite says 'infection can also predispose to chronic inflammatory events'. This is an acceptable stylistic variation that preserves the intended meaning without introducing an inaccurate scientific claim."
+    },
+    {
+      "sourcePassage": "I'm sure you've seen a cartoon that looks like this many times.",
+      "reason": "The insertion of the [FIGURE] tags and omission of direct audience references ('I'm sure you've seen') are explicitly allowed changes."
+    }
+  ]
+}

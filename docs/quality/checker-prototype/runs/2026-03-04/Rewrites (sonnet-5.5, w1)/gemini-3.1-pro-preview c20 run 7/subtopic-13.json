@@ -1,0 +1,24 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "if you compare any two things, you're going to find differences.",
+      "reason": "The rewrite changes 'any two things' to 'two species'. This restricts the general phrase to the biological context, but is logically implied by the original statement and fits the textbook style."
+    },
+    {
+      "sourcePassage": "This is from injections proposed to be due to the adjuvant that is also added with the injection.",
+      "reason": "The original phrasing ('injections proposed to be due to the adjuvant') contains a grammatical slip. The rewrite corrects this to 'Such tumours arise from injections and are proposed to be due to the adjuvant', which states the scientifically correct intended meaning."
+    },
+    {
+      "sourcePassage": "The only thing that was quite interesting to note here is that",
+      "reason": "The rewrite translates this to 'The one notable difference is that'. Because the sentence makes a comparison between reptiles and mammals, replacing 'interesting to note' with 'notable difference' accurately reflects the meaning."
+    },
+    {
+      "sourcePassage": "it's pretty clear that",
+      "reason": "The rewrite changes this to 'It is therefore clear that', dropping 'pretty'. In this context, 'pretty' serves as an intensifier rather than a hedge, so its removal does not distort the certainty of the scientific claim."
+    }
+  ]
+}

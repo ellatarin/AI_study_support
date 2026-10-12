@@ -1,0 +1,24 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "and you'll be able to look at this in great detail in the practicals",
+      "reason": "This is a remark about the course and the practical sessions, which is permitted to be dropped as administrative/course remarks."
+    },
+    {
+      "sourcePassage": "But the question is, of course, you would then be interested in figuring out whether or not there would be secondary metastases across the body.",
+      "reason": "This is a false start/digression that the lecturer immediately broke off to return to the slide histology ('So, if you look microscopically...'). The general topic of whether and how secondary metastases form across the body is fully covered in the subsequent paragraphs."
+    },
+    {
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "reason": "The rewrite renders 'this' as 'Invasion' ('Invasion is therefore probably an obligatory step in arriving at a malignant, metastasising tumour'), which is scientifically correct and accurately reflects the lecturer's discussion of local invasion preceding distant metastasis."
+    },
+    {
+      "sourcePassage": "muscularis mucosa",
+      "reason": "Corrected to 'muscularis mucosae' as per the provided term corrections."
+    }
+  ]
+}

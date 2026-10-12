@@ -1,0 +1,23 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite states that the stained slice through a tumour illustrates the explantation of a tumour, adding a link to the previous sentence that is not present in the original text.",
+      "sourcePassage": "Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "rewritePassage": "A slice through a tumour, with a stain to show the morphology, illustrates this [FIGURE]."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So the other thing to appreciate is that when, if you like, biologists are studying tumors",
+      "reason": "Dropping conversational filler like 'if you like' and 'So the other thing to appreciate is' is an allowed change."
+    },
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "Dropping remarks to the audience is an allowed change."
+    }
+  ]
+}

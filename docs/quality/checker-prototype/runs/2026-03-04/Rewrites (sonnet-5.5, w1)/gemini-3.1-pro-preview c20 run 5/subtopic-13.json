@@ -1,0 +1,24 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "which is to say that in dogs and cats, they very much get similar tumors to us, and of course, if you compare any two things, you're going to find differences.",
+      "reason": "The rewrite translates 'us' to 'humans' and 'any two things' to 'two species', which is a scientifically correct contextual clarification."
+    },
+    {
+      "sourcePassage": "along with skin and connective tissues,",
+      "reason": "The rewrite expands this to 'tumours of the skin and connective tissues', which correctly completes the lecturer's phrasing."
+    },
+    {
+      "sourcePassage": "This is from injections proposed to be due to the adjuvant that is also added with the injection.",
+      "reason": "The rewrite replaces 'This is' with 'Such tumours arise' and clarifies the sentence's structure. This is an allowed correction because feline injection site sarcomas do arise in this manner."
+    },
+    {
+      "sourcePassage": "The only thing that was quite interesting to note here is that the rate of malignant tumors is about fivefold higher in reptiles compared to mammals.",
+      "reason": "The rewrite summarises 'The only thing that was quite interesting to note here' as 'The one notable difference', which perfectly captures the meaning without distortion."
+    }
+  ]
+}

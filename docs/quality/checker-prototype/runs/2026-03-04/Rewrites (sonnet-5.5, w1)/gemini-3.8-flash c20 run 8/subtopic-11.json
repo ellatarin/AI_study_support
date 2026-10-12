@@ -1,0 +1,24 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "erosion of that bone function, so you can get fractures",
+      "reason": "The rewrite renders this as 'erosion of the bone, so that fractures can occur'. Correcting 'erosion of that bone function' to 'erosion of the bone' aligns with standard medical terminology and matches the lecturer's subsequent mention of 'erosion of bones'."
+    },
+    {
+      "sourcePassage": "if they're occurring in things like the meningioma that I was telling you about or in the liver",
+      "reason": "The rewrite phrases this as 'when the tumour occurs in a meningioma or in the liver'. Although a meningioma is itself a tumour rather than an anatomical site, this phrasing directly mirrors the lecturer's spoken words and is not an introduced distortion."
+    },
+    {
+      "sourcePassage": "you saw that enormous cauliflower structure within the colon",
+      "reason": "The rewrite adapts 'you saw' into 'seen within the colon' and 'cauliflower structure' into 'cauliflower-like structure', which is an allowed stylistic adaptation removing a direct remark to the audience."
+    },
+    {
+      "sourcePassage": "And if you think about them in the different settings in which they occur",
+      "reason": "The rewrite uses 'Other effects depend on the site' as a topic sentence for the second paragraph, which faithful summarizes the lecturer's grouping of effects by anatomical setting."
+    }
+  ]
+}

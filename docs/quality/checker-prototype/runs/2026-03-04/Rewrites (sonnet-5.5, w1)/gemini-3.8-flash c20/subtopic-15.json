@@ -1,0 +1,20 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here",
+      "reason": "This is deictic pointing to specific individual cells in the histological image being presented; its omission does not alter the factual information that mitotic cells occur only at the basement layer."
+    },
+    {
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "reason": "The phrasing 'the cervix is seen alongside it' accurately renders the lecturer's deictic reference to the histological diagram without introducing any scientifically incorrect or unsourced facts."
+    },
+    {
+      "sourcePassage": "and you'll see this in your practicals.",
+      "reason": "This is a remark about course logistics and is properly retained or adapted in stylistic prose."
+    }
+  ]
+}

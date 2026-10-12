@@ -1,0 +1,31 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite states 'when the tumour occurs in a meningioma', treating 'meningioma' as an anatomical site or organ where a tumour develops (parallel to 'in the liver'). A meningioma is itself a type of primary tumour (arising from the meninges), not an anatomical location.",
+      "sourcePassage": "if they're occurring in things like the meningioma that I was telling you about or in the liver",
+      "rewritePassage": "when the tumour occurs in a meningioma or in the liver"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Things like obstruction of the bile ducts in the liver interferes with digestion.",
+      "reason": "The introductory sentence 'Other effects depend on the site' functions as a stylistic transition reflecting the lecturer's earlier discussion of tumours in different settings, rather than an unsourced factual claim."
+    },
+    {
+      "sourcePassage": "And things like if tumors in bones lead to erosion of that bone function, so you can get fractures",
+      "reason": "Replacing 'erosion of that bone function' with 'erosion of the bone' corrects a verbal slip by the lecturer to state the scientifically accurate process of bone erosion predisposing to fractures."
+    },
+    {
+      "sourcePassage": "Also ulceration, you saw that enormous cauliflower structure within the colon.",
+      "reason": "Phrasing 'enormous cauliflower structure' as 'enormous cauliflower-like structure seen within the colon' is an allowable stylistic refinement that faithfully retains the reference to the colon tumour shown to the audience."
+    },
+    {
+      "sourcePassage": "And also this competition with the normal, if you have a tumor that is occurring in some of the blood compartments",
+      "reason": "Expanding 'competition with the normal' to 'Competition with normal tissue is also a factor' clarifies the lecturer's conversational shorthand without distorting the scientific meaning."
+    }
+  ]
+}

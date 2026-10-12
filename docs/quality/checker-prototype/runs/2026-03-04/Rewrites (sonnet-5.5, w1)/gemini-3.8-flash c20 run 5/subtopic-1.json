@@ -1,0 +1,20 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, everyone, shall we get started? Yes. You're very welcome, all of you, to Cancer Biology.",
+      "reason": "Omitted conversational opening and audience greetings, which are allowed exclusions."
+    },
+    {
+      "sourcePassage": "tumor",
+      "reason": "Changed to British English spelling 'tumour', which is an allowed change."
+    },
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there.",
+      "reason": "Lecturer's deictic gesture referring to a slide ('listed there') converted into standard expository prose ('The learning outcomes for this lecture are as follows.') without adding unsourced facts."
+    }
+  ]
+}

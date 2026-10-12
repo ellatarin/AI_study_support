@@ -1,0 +1,28 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay. So with these tools in hand, I think the important concept to try and get across is invasion and metastasis.",
+      "reason": "The introductory filler was dropped, which is an allowed change."
+    },
+    {
+      "sourcePassage": "Obviously, changes occur within tumor cells, and it was long ago noticed back in, I don't know, when surgery was first coming into its own",
+      "reason": "The fillers 'Obviously' and 'back in, I don't know,' were dropped, which is an allowed change."
+    },
+    {
+      "sourcePassage": "What they termed the movable tumor. And a movable tumor is exactly like what it sounds. Surgeons would find that that tumor could move within the tissue or an immovable tumor.",
+      "reason": "The syntactically awkward 'or an immovable tumor' was restructured in the rewrite to clearly introduce the two types of tumours before explaining the movable one. This is an allowed grammatical correction."
+    },
+    {
+      "sourcePassage": "where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable.",
+      "reason": "Changed 'see' to 'tell' which carries the exact same meaning in this context."
+    },
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals,",
+      "reason": "This is a statement about the course, which is allowed to be omitted."
+    }
+  ]
+}

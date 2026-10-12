@@ -1,0 +1,20 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here",
+      "reason": "This is a deictic remark pointing out specific individual cells on a slide to the audience, and its omission in textbook prose is an allowed change."
+    },
+    {
+      "sourcePassage": "and you'll see this in your practicals",
+      "reason": "This is a statement about the course or practical sessions, which is allowed to be omitted or retained."
+    },
+    {
+      "sourcePassage": "This is what the Pap smear would do, would take cells from the neck of the cervix here, the neck of the womb.",
+      "reason": "The rewrite faithfully captures that a Pap smear takes a brush sample from the cervix."
+    }
+  ]
+}

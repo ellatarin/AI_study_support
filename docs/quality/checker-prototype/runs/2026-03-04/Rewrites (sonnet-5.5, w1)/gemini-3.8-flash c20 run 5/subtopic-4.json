@@ -1,0 +1,31 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds an unsourced link by stating that the slice through the tumour 'illustrates this' (referring to biologists explanting the tumour), whereas the lecturer only introduced the slice and stain to look at morphology without stating that it illustrates explanting.",
+      "sourcePassage": "often they will explant the tumor. Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "rewritePassage": "A slice through a tumour, with a stain to show the morphology, illustrates this [FIGURE]."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Primary cells really don't grow in culture.",
+      "reason": "The word 'really' functions here as a colloquial intensifier rather than a scientific hedge, so omitting it in 'Primary cells do not grow in culture' is an allowed stylistic change."
+    },
+    {
+      "sourcePassage": "So when HeLa cells, which were the first tumor cells to grow in culture, did that, this was very much a surprise.",
+      "reason": "The phrasing 'HeLa cells were the first tumour cells to grow in culture, and so this was very much a surprise' faithfully conveys that their growth in culture was surprising in the context of primary cells not growing."
+    },
+    {
+      "sourcePassage": "with regard to the contributions of things like the stroma and other things.",
+      "reason": "'other components' in place of 'other things' is an allowed stylistic rewording with the same meaning in context."
+    },
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "This is a lecturer remark/filler and is permitted to be dropped."
+    }
+  ]
+}

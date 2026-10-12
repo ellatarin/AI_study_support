@@ -1,0 +1,33 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "omission",
+      "description": "The rewrite omits the lecturer's observation pointing out the tumor cells (likely the primary mass) before noting that they can also be seen inside a lymphatic duct.",
+      "sourcePassage": "You see your tumor cells are here, and then",
+      "rewritePassage": null
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite changes an observation about the specific tumor cell being shown into a general, hypothetical statement.",
+      "sourcePassage": "this tumor cell has the appearance of an adenomatous tumor or glandular tumor.",
+      "rewritePassage": "a tumour cell may have the appearance of an adenomatous or glandular tumour,"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "This is a personal remark to the audience and was appropriately omitted."
+    },
+    {
+      "sourcePassage": "or also this transcoelomic site from across a cavity",
+      "reason": "The rewrite changed 'site' to 'route', which corrects a misspeak by the lecturer and results in a scientifically accurate statement, as transcoelomic spread represents a route."
+    },
+    {
+      "sourcePassage": "Similarly, here you have a brain, and what you have here is a breast cancer that's metastasized to the brain.",
+      "reason": "Omitting 'here you have a brain' removes pointing filler; the important fact that breast cancer has metastasized to the brain is fully preserved."
+    }
+  ]
+}

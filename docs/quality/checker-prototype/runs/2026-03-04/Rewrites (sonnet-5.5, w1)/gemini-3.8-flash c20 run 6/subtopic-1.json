@@ -1,0 +1,24 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, everyone, shall we get started? Yes. You're very welcome, all of you, to Cancer Biology.",
+      "reason": "Conversational opening and greetings are allowed omissions as remarks to the audience."
+    },
+    {
+      "sourcePassage": "So I tag-teamed these lectures with Professor Turner, and so she will also be teaching three of these lectures.",
+      "reason": "Adapted faithfully to 'The lectures are shared with Professor Turner, who teaches three of the six', deriving 'six' from the earlier mention of 'these next six lectures'."
+    },
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there.",
+      "reason": "The pointing word 'there' referring to a presentation slide was appropriately converted to textbook prose ('The learning outcomes for this lecture are as follows.')."
+    },
+    {
+      "sourcePassage": "tumor",
+      "reason": "Spelled 'tumour' in the rewrite in accordance with British English conventions."
+    }
+  ]
+}

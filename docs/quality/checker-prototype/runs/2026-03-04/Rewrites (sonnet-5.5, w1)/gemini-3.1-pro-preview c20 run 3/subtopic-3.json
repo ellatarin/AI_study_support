@@ -1,0 +1,59 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "omission",
+      "description": "The rewrite omits the observation that the expansive growth and lineage specification happened during the time the person was born.",
+      "sourcePassage": "during the time that you were born",
+      "rewritePassage": null
+    },
+    {
+      "deficiencyType": "omission",
+      "description": "The rewrite omits the mention of adolescence as a period during which differentiation occurs.",
+      "sourcePassage": "adolescence and",
+      "rewritePassage": null
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The term 'maturation' changes its role in the sentence from being a period of time during which the process occurs to being one of the biological processes itself.",
+      "sourcePassage": "during adolescence and maturation, this occurs",
+      "rewritePassage": "differentiation and maturation also occur"
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds a link ('so that') to state that the cells are arranged for the result or purpose of looking uniform, which is not stated in the text.",
+      "sourcePassage": "You'll see that the epithelial cells here are arranged. They look fairly uniform in shape and size.",
+      "rewritePassage": "the epithelial cells are arranged so that they look fairly uniform in shape and size"
+    },
+    {
+      "deficiencyType": "omission",
+      "description": "The rewrite omits the observation that the intestines are being discussed as an example.",
+      "sourcePassage": "for example,",
+      "rewritePassage": null
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "so they're apical basal regulation",
+      "reason": "The text's unclear phrasing is clarified in the rewrite as 'which reflects apical-basal regulation'. This makes an unclear statement scientifically correct, which is allowed."
+    },
+    {
+      "sourcePassage": "And you can see here now the cells are",
+      "reason": "The text points to a slide showing abnormal tissue. The rewrite's description 'In the image of the invasive tissue' turns this pointing phrase into a description that is scientifically correct based on the context of the cells having invaded the stroma."
+    },
+    {
+      "sourcePassage": "They have come in,",
+      "reason": "The phrase 'come in' carries the same meaning in this context as 'invaded' or 'moved over', so its omission is allowed as using different words with exactly the same meaning."
+    },
+    {
+      "sourcePassage": "signaling and basis",
+      "reason": "The phrase in the text is likely a transcriber error. The rewrite's 'signalling basis' correctly replaces the wrong words and is scientifically correct."
+    },
+    {
+      "sourcePassage": "into the invading stroma",
+      "reason": "The text mistakenly says 'invading stroma' when the stroma is actually being invaded by the cells. The rewrite corrects this to 'invaded stroma', which is scientifically correct and allowed."
+    }
+  ]
+}

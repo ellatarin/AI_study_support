@@ -1,0 +1,20 @@
+{
+  "subtopicId": 9,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Obviously, when there is a suspicion of cancer or of a tumor, everybody gets very nervous about what that diagnosis is going to look like.",
+      "reason": "The rewrite 'When cancer or a tumour is suspected, there is considerable anxiety about the diagnosis' uses different words with exactly the same meaning, which is an allowed change."
+    },
+    {
+      "sourcePassage": "So this meningioma obviously is occurring within the skull.",
+      "reason": "The rewrite generalizes 'this meningioma' to 'A meningioma'. As meningiomas are tumours of the meninges and typically occur within the skull, this generalization is scientifically correct."
+    },
+    {
+      "sourcePassage": "The skull is a confined space. This would put an enormous amount of pressure on the brain",
+      "reason": "The rewrite links the sentences with 'which is a confined space, so it puts...'. This makes explicit the causal link already present in the source text between the confined space and the pressure, which is scientifically correct and allowed."
+    }
+  ]
+}

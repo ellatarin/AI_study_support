@@ -1,0 +1,20 @@
+{
+  "subtopicId": 10,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay? So just so that we're all on the same page in terms of nomenclature,",
+      "reason": "This is a remark to the audience and filler, which is allowed to be omitted."
+    },
+    {
+      "sourcePassage": "So the fat, smooth muscle or papillomas in the skin, and adenomas, as we were talking about in the colon.",
+      "reason": "The text lists 'the fat, smooth muscle' after introducing 'lipoma, leiomyoma' but does not explicitly pair them up. The rewrite links them as 'lipomas in fat, leiomyomas in smooth muscle'. Because this explicit linking is scientifically correct, it is an allowed change."
+    },
+    {
+      "sourcePassage": "So you have cells, these are tumors that derive from the cells that form the central and peripheral nervous system.",
+      "reason": "The false start 'So you have cells,' was omitted, which is an allowed change."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here",
+      "reason": "Omitting the lecturer's conversational aside pointing out individual cells in the slide is an allowed omission of demonstrative filler."
+    },
+    {
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "reason": "Resolving the pointing references into 'the endocervical canal runs through the neck of the womb, and the cervix is seen alongside it' is an allowed description of the lecturer's pointer in the histological diagram."
+    },
+    {
+      "sourcePassage": "So this has done very well.",
+      "reason": "Omitting this phrase is permitted as it is a conversational repetition of the point that screening is a success story."
+    }
+  ]
+}

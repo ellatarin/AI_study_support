@@ -1,0 +1,23 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite claims that the stained slice through a tumour illustrates the practice of explanting it, adding a link that the lecturer did not make.",
+      "sourcePassage": "Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "rewritePassage": "A slice through a tumour, with a stain to show the morphology, illustrates this [FIGURE]."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "This is a remark to the audience and was correctly dropped."
+    },
+    {
+      "sourcePassage": "So when HeLa cells, which were the first tumor cells to grow in culture, did that, this was very much a surprise.",
+      "reason": "The rephrasing correctly captures the meaning without needing to explicitly retain the words 'did that'."
+    }
+  ]
+}

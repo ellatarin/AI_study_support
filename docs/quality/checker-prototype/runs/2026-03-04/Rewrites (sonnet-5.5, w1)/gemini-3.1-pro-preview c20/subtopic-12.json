@@ -1,0 +1,28 @@
+{
+  "subtopicId": 12,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So just talking about incidence, about how often various tumors arise.",
+      "reason": "The rewrite translates the apposition into an explicit definition ('Incidence describes how often...'). This states a link that the text implies and is scientifically correct."
+    },
+    {
+      "sourcePassage": "So benign tumors are actually incredibly common. Right? So it actually takes a lot for a benign tumor to become malignant in terms of, as I said, the number of changes that have to happen within a tumor. So they're extremely common",
+      "reason": "The rewrite uses 'because' to link the difficulty of becoming malignant to the high frequency of benign tumours. The lecturer repeatedly used 'So' to establish this exact causal explanation, so it is faithful."
+    },
+    {
+      "sourcePassage": "And then this is, if you like, the percentage of tumors that result in deaths.",
+      "reason": "The rewrite changes 'this is' to 'A further slide shows'. This is a correct description of what the lecturer is pointing to, as allowed by the guidelines."
+    },
+    {
+      "sourcePassage": "So I've just put these numbers up just so that you can have a sense.",
+      "reason": "The addition of 'of incidence' in the rewrite ('give a sense of incidence') is drawn directly from the topic established at the start of the lecture excerpt ('So just talking about incidence')."
+    },
+    {
+      "sourcePassage": "Oops. Oh, God. It doesn't go backwards. Here we go.",
+      "reason": "These remarks to the audience and false starts were omitted in the rewrite, which is an allowed change."
+    }
+  ]
+}

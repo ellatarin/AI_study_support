@@ -1,0 +1,33 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "omission",
+      "description": "The rewrite omits the lecturer's initial observation pointing out the main body of tumour cells on the slide before noting that some are within a lymphatic duct.",
+      "sourcePassage": "You see your tumor cells are here, and then",
+      "rewritePassage": null
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite changes a definitive statement about the specific appearance of the tumour cell shown in the figure into a generalized, hypothetical statement.",
+      "sourcePassage": "this tumor cell has the appearance of",
+      "rewritePassage": "a tumour cell may have the appearance of"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "this transcoelomic site",
+      "reason": "The rewrite changes 'site' to 'route', which is scientifically correct as transcoelomic spread is a route of metastasis."
+    },
+    {
+      "sourcePassage": "across a pleural cavity, for example, across the abdomen.",
+      "reason": "The rewrite connects the two examples with 'or' ('across a pleural cavity or across the abdomen'), which is a minor stylistic fix for the lecturer's disjointed phrasing."
+    },
+    {
+      "sourcePassage": "Similarly, here you have a brain, and",
+      "reason": "The rewrite omits the explicit mention of the brain being shown, but the fact that the cancer metastasized to the brain covers the necessary information, and a [FIGURE] mark is included."
+    }
+  ]
+}

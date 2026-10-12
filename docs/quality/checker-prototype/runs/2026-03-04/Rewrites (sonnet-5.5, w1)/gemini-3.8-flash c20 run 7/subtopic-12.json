@@ -1,0 +1,27 @@
+{
+  "subtopicId": 12,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite uses 'because' to establish a causal relationship between benign tumours being common and the difficulty of a benign tumour becoming malignant, which was not stated in the source text.",
+      "sourcePassage": "So benign tumors are actually incredibly common. Right? So it actually takes a lot for a benign tumor to become malignant in terms of, as I said, the number of changes that have to happen within a tumor.",
+      "rewritePassage": "Benign tumours are extremely common, because it takes a great deal for a benign tumour to become malignant, given the number of changes that have to happen within a tumour."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So I've just put these numbers up just so that you can have a sense.",
+      "reason": "The rewrite phrases this as 'The numbers shown give a sense of incidence', which accurately reflects the subject of incidence introduced at the start of the lecture."
+    },
+    {
+      "sourcePassage": "And then this is, if you like, the percentage of tumors that result in deaths.",
+      "reason": "The phrasing 'A further slide shows the percentage of tumours that result in deaths' reflects the lecturer's direct statement about what is being shown."
+    },
+    {
+      "sourcePassage": "liver cancer and nasopharyngeal carcinomas are very big in Chinese populations.",
+      "reason": "Rendering 'very big' as 'very common' in the context of disease incidence is an allowed synonymous paraphrase."
+    }
+  ]
+}

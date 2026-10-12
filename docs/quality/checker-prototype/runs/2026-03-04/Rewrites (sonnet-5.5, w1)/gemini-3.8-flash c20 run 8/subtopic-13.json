@@ -1,0 +1,24 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Just a slide about the incidence in companion animals since I found this slide some time ago",
+      "reason": "This is a conversational remark referring to the slide presentation and can be omitted as meta-commentary."
+    },
+    {
+      "sourcePassage": "And this is my cat, who also ended up with a feline injection site sarcoma.",
+      "reason": "Rewritten into third-person textbook style ('The lecturer's own cat developed a feline injection site sarcoma'), which is an allowed stylistic adaptation."
+    },
+    {
+      "sourcePassage": "You'll be happy to hear he's doing fine now after his surgery.",
+      "reason": "Dropping conversational filler ('You'll be happy to hear') and adapting to concise prose ('The cat is doing fine after surgery') is allowed."
+    },
+    {
+      "sourcePassage": "digestive tissues, hematopoietic, and skin",
+      "reason": "The rewrite says 'digestive tissues, hematopoietic tissues and skin', adding 'tissues' to complete the parallel structure accurately according to context."
+    }
+  ]
+}

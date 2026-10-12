@@ -1,0 +1,28 @@
+{
+  "subtopicId": 14,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, so what does this look like in the clinic? [chuckles] I call this the four horsemen.",
+      "reason": "The rewrite drops the filler and rhetorical question. The phrase 'presentation of cancer' correctly captures the medical meaning of 'what does this look like in the clinic'."
+    },
+    {
+      "sourcePassage": "But very much, tumors can be indirect",
+      "reason": "The rewrite translates 'tumors can be indirect' into 'Tumours can also present indirectly', which makes an unclear statement clear and medically correct."
+    },
+    {
+      "sourcePassage": "So in thinking about this,",
+      "reason": "Replaced with 'For this reason', which is an allowed change that correctly expresses the logical consequence implied by 'So'."
+    },
+    {
+      "sourcePassage": "So obviously, the idea is you want to find the cancer, and you want to find it at an earlier state,",
+      "reason": "The repetition of 'want to find' is dropped for conciseness; no facts or meaning are lost."
+    },
+    {
+      "sourcePassage": "before it becomes malignant, before it becomes something that's very, very hard to treat, and there's diminishing returns on said treatment.",
+      "reason": "The rewrite combines the rhetorical repetition of 'before it becomes' and links the diminishing returns with 'when', establishing a scientifically correct logical relationship between the late stage of cancer and the diminishing returns of treatment."
+    }
+  ]
+}

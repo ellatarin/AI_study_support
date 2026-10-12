@@ -1,0 +1,20 @@
+{
+  "subtopicId": 14,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, so what does this look like in the clinic? [chuckles] I call this the four horsemen. You show up with something that's itchy, crusty, lumpy, or bloody.",
+      "reason": "The rewrite renders this conversational phrasing into formal textbook prose as the presentation of cancer being summarised as the 'four horsemen'."
+    },
+    {
+      "sourcePassage": "But very much, tumors can be indirect if they're occurring in non-screenable or non-palpable areas.",
+      "reason": "Phrasing 'tumors can be indirect' as 'Tumours can also present indirectly' is an allowed stylistic adjustment."
+    },
+    {
+      "sourcePassage": "even though it's the goal of the NHS to be able to diagnose earlier and quicker.",
+      "reason": "Changing 'earlier and quicker' to 'earlier and more quickly' is an allowed grammatical refinement."
+    }
+  ]
+}

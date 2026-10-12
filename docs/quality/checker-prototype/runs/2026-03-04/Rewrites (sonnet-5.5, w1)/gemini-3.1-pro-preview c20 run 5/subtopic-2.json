@@ -1,0 +1,29 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds 'that is' to explicitly define 'acetylation or deacetylation' as 'the state of transcription'. This adds a link (stating two things are the same) that the speaker did not make, as the original text presents them adjacently without explicitly conflating them.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite changes the cause of chronic inflammatory events from 'they' (referring to the human viruses just mentioned) to the broader term 'infection'. This is a causal claim with a changed, wider cause.",
+      "sourcePassage": "and they can also predispose to chronic inflammatory events",
+      "rewritePassage": "and infection can also predispose to chronic inflammatory events"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So there's a lot of changes that occur",
+      "reason": "The rewrite translates the discourse marker 'So' into 'therefore' ('Many changes therefore occur'). This is acceptable as they are different words with exactly the same meaning in this context."
+    },
+    {
+      "sourcePassage": "So hopefully, in order to try and address some of these questions, we will start at the beginning. [chuckles]",
+      "reason": "Dropping the chuckle and changing 'we will start' to 'the discussion starts' are acceptable adjustments to filler and stylistic grammar improvements."
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds \"that is\", defining or equating acetylation/deacetylation with the state of transcription within the cell, whereas the original text merely lists them without stating that link.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Certain tumors can arise from infectious agents like viruses. There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events that can also help to give rise to cancer.",
+      "reason": "The rewrite renders 'they can also predispose' as 'infection can also predispose', which maintains the scientific meaning in context without introducing an unsupported claim."
+    },
+    {
+      "sourcePassage": "So I've just made this kind of a much simpler diagram, if you like.",
+      "reason": "The rewrite converts this statement into the introduction of a figure mark ('[FIGURE]'), which is an allowed change."
+    }
+  ]
+}

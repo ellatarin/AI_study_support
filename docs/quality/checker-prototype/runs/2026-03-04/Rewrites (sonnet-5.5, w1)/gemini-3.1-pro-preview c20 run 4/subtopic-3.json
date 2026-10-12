@@ -1,0 +1,36 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So what is cancer, really?",
+      "reason": "This is an introductory question functioning as filler, which is restated later as 'So what is cancer?'. Dropping it is allowed."
+    },
+    {
+      "sourcePassage": "during the time that you were born",
+      "reason": "This phrase was omitted, but it is a speaker's slip since embryogenesis occurs early in development, not at birth. Omitting a slip to leave a scientifically correct statement is allowed."
+    },
+    {
+      "sourcePassage": "because obviously during adolescence and maturation, this occurs from infancy to adulthood.",
+      "reason": "The rewrite replaces 'this' with 'differentiation'. Since 'this' clearly referred to the prior mention of 'development and differentiation', expanding the pronoun correctly is allowed."
+    },
+    {
+      "sourcePassage": "they have the nucleus on the layer towards the lumen, so they're apical basal regulation in terms of the orientation of those cells within the tissue.",
+      "reason": "The rewrite changes 'so they're apical basal regulation' to 'which reflects apical-basal regulation'. This is a grammatically and scientifically correct resolution of the speaker's broken sentence structure."
+    },
+    {
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes.",
+      "reason": "The rewrite substitutes the pointing word 'here' with 'In the image of the invasive tissue'. Translating pointing words into a scientifically correct description of the figure shown is allowed."
+    },
+    {
+      "sourcePassage": "Whoops. I'll just skip forward here to say that the basement membrane, I've kind of written here, basement membrane, because",
+      "reason": "Omitted because these are false starts and direct remarks to the audience about the presentation slides, which are allowed to be dropped."
+    },
+    {
+      "sourcePassage": "into the invading stroma.",
+      "reason": "The rewrite changes 'invading stroma' to 'invaded stroma'. This corrects a slip of the tongue by the lecturer—since it is the cells that are invading the stroma, making the stroma 'invaded'—which is an allowed correction to ensure scientific accuracy."
+    }
+  ]
+}

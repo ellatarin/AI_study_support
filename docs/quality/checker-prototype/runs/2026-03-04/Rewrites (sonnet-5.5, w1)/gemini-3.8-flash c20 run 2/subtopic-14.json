@@ -1,0 +1,20 @@
+{
+  "subtopicId": 14,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, so what does this look like in the clinic? [chuckles] I call this the four horsemen. You show up with something that's itchy, crusty, lumpy, or bloody.",
+      "reason": "The rewrite specifies 'the presentation of cancer', which resolves the referent 'this' based on the immediate context of detecting and screening for cancers."
+    },
+    {
+      "sourcePassage": "tumors can be indirect if they're occurring in non-screenable or non-palpable areas.",
+      "reason": "The rewrite renders this as 'Tumours can also present indirectly if they occur in non-screenable or non-palpable areas', which faithfully conveys the meaning in standard clinical phrasing."
+    },
+    {
+      "sourcePassage": "a tumor could be visible if you're lucky or palpable.",
+      "reason": "The rewrite uses the standard British English spelling 'tumour', which is an allowed change."
+    }
+  ]
+}

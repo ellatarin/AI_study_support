@@ -1,0 +1,29 @@
+{
+  "subtopicId": 7,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite turns the lecturer's pointing words into a specific spatial relation ('lies next to') that the text does not state or confirm.",
+      "sourcePassage": "You can see that the tumor is here. This is the outer surface of the uterus.",
+      "rewritePassage": "The tumour lies next to the outer surface of the uterus"
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite uses 'therefore' to present the tumour being circumscribed as a result or effect of the tissue preparation process, whereas the lecturer was merely pointing out what can be observed ('So you can see again that...').",
+      "sourcePassage": "So you can see again that this is actually circumspect and very separate from the surrounding stroma and the surrounding tissue.",
+      "rewritePassage": "The tumour is therefore circumscribed and very separate from the surrounding stroma and the surrounding tissue."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "this is actually circumspect",
+      "reason": "Replacing 'circumspect' with 'circumscribed' corrects a lecturer slip or transcription error to the scientifically correct histological term for a well-demarcated benign tumour."
+    },
+    {
+      "sourcePassage": "So contrast this fibroid that you're seeing here, this leiomyoma, with a malignant case.",
+      "reason": "Phrasing this as 'This fibroid, a leiomyoma, can be contrasted with a malignant case' preserves the original meaning and technical terms."
+    }
+  ]
+}

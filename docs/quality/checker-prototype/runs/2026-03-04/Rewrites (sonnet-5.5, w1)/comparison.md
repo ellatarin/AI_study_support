@@ -2,6 +2,13 @@
 
 | Checker | Faults | Subtopics failed | Subtopics checked | Faults that matter found | Cost |
 | --- | --- | --- | --- | --- | --- |
+| gemini-3.1-pro-preview c20 | 14 | 9 | 17 | 6 of 7 | $1.09 |
+| gemini-3.1-pro-preview c20 run 2 | 15 | 9 | 17 | 6 of 7 | $1.00 |
+| gemini-3.1-pro-preview c20 run 3 | 13 | 8 | 17 | 5 of 7 | $1.06 |
+| gemini-3.1-pro-preview c20 run 4 | 13 | 6 | 17 | 5 of 7 | $1.09 |
+| gemini-3.1-pro-preview c20 run 5 | 14 | 8 | 17 | 5 of 7 | $1.06 |
+| gemini-3.1-pro-preview c20 run 6 | 14 | 7 | 17 | 5 of 7 | $1.24 |
+| gemini-3.1-pro-preview c20 run 7 | 13 | 8 | 17 | 4 of 7 | $1.16 |
 | gemini-3.1-pro-preview c3 | 4 | 3 | 17 | 2 of 7 | $0.68 |
 | gemini-3.1-pro-preview c4 | 57 | 14 | 17 | 6 of 7 | $1.48 |
 | gemini-3.8-flash c10 | 13 | 8 | 17 | 6 of 7 | $0.35 |
@@ -43,6 +50,15 @@
 | gemini-3.8-flash c19 | 10 | 8 | 17 | 5 of 7 | $0.26 |
 | gemini-3.8-flash c19 run 2 | 12 | 8 | 17 | 6 of 7 | $0.31 |
 | gemini-3.8-flash c19 run 3 | 10 | 8 | 17 | 5 of 7 | $0.30 |
+| gemini-3.8-flash c20 | 5 | 5 | 17 | 3 of 7 | $0.25 |
+| gemini-3.8-flash c20 run 2 | 6 | 6 | 17 | 4 of 7 | $0.26 |
+| gemini-3.8-flash c20 run 3 | 6 | 6 | 17 | 5 of 7 | $0.27 |
+| gemini-3.8-flash c20 run 4 | 6 | 5 | 17 | 3 of 7 | $0.22 |
+| gemini-3.8-flash c20 run 5 | 5 | 5 | 17 | 3 of 7 | $0.25 |
+| gemini-3.8-flash c20 run 6 | 6 | 6 | 17 | 4 of 7 | $0.23 |
+| gemini-3.8-flash c20 run 7 | 6 | 6 | 17 | 4 of 7 | $0.27 |
+| gemini-3.8-flash c20 run 8 | 6 | 5 | 17 | 3 of 7 | $0.22 |
+| gemini-3.8-flash c20 run 9 | 6 | 6 | 17 | 4 of 7 | $0.28 |
 | gemini-3.8-flash c3 | 2 | 2 | 17 | 1 of 7 | $0.12 |
 | gemini-3.8-flash c4 | 20 | 10 | 17 | 5 of 7 | $0.32 |
 | gemini-3.8-flash c4 by paragraph | 55 | 15 | 17 | 5 of 7 | $0.70 |
@@ -65,6 +81,7 @@
 | gemini-3.8-flash c9 | 9 | 7 | 17 | 4 of 7 | $0.34 |
 | gemini-3.8-flash c9 run 2 | 7 | 7 | 17 | 4 of 7 | $0.28 |
 | gemini-3.8-flash c9 run 3 | 11 | 9 | 17 | 5 of 7 | $0.27 |
+| gpt-5.6-sol-pro c20 | 45 | 15 | 17 | 7 of 7 | $1.91 |
 | gpt-5.6-sol-pro c3 | 13 | 10 | 17 | 2 of 7 | $1.17 |
 | gemini-3.1-pro, c2 (pipeline) | 24 | 8 | 17 | 4 of 7 | $1.33 |
 | gemini-3.8-flash, c2 (pipeline) | 8 | 4 | 17 | 2 of 7 | $0.34 |
@@ -75,17 +92,59 @@
 
 ## Faults that matter
 
-| Fault | gemini-3.1-pro-preview c3 | gemini-3.1-pro-preview c4 | gemini-3.8-flash c10 | gemini-3.8-flash c10 effort high | gemini-3.8-flash c10 effort high run 2 | gemini-3.8-flash c10 effort high run 3 | gemini-3.8-flash c10 run 2 | gemini-3.8-flash c10 run 3 | gemini-3.8-flash c10 run 4 | gemini-3.8-flash c10 run 5 | gemini-3.8-flash c10 run 6 | gemini-3.8-flash c10 run 7 | gemini-3.8-flash c10 run 8 | gemini-3.8-flash c10 run 9 | gemini-3.8-flash c11 | gemini-3.8-flash c11 run 2 | gemini-3.8-flash c11 run 3 | gemini-3.8-flash c12 | gemini-3.8-flash c12 run 2 | gemini-3.8-flash c12 run 3 | gemini-3.8-flash c13 | gemini-3.8-flash c13 run 2 | gemini-3.8-flash c13 run 3 | gemini-3.8-flash c14 | gemini-3.8-flash c14 run 2 | gemini-3.8-flash c14 run 3 | gemini-3.8-flash c15 | gemini-3.8-flash c15 run 2 | gemini-3.8-flash c15 run 3 | gemini-3.8-flash c16 | gemini-3.8-flash c16 run 2 | gemini-3.8-flash c16 run 3 | gemini-3.8-flash c17 | gemini-3.8-flash c17 run 2 | gemini-3.8-flash c17 run 3 | gemini-3.8-flash c18 | gemini-3.8-flash c18 run 2 | gemini-3.8-flash c18 run 3 | gemini-3.8-flash c19 | gemini-3.8-flash c19 run 2 | gemini-3.8-flash c19 run 3 | gemini-3.8-flash c3 | gemini-3.8-flash c4 | gemini-3.8-flash c4 by paragraph | gemini-3.8-flash c4 by paragraph run 2 | gemini-3.8-flash c4 by paragraph run 3 | gemini-3.8-flash c4 run 2 | gemini-3.8-flash c4 run 3 | gemini-3.8-flash c5 | gemini-3.8-flash c5 run 2 | gemini-3.8-flash c5 run 3 | gemini-3.8-flash c6 | gemini-3.8-flash c6 run 2 | gemini-3.8-flash c6 run 3 | gemini-3.8-flash c7 | gemini-3.8-flash c7 run 2 | gemini-3.8-flash c7 run 3 | gemini-3.8-flash c8 | gemini-3.8-flash c8 run 2 | gemini-3.8-flash c8 run 3 | gemini-3.8-flash c9 | gemini-3.8-flash c9 run 2 | gemini-3.8-flash c9 run 3 | gpt-5.6-sol-pro c3 | gemini-3.1-pro, c2 (pipeline) | gemini-3.8-flash, c2 (pipeline) | gemini-3.8-flash, c3 (pipeline) | sol-pro, c2 (pipeline) | sonnet-5.5, c2 (pipeline) | terra-pro, c2 (pipeline) |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 2.1 | no | yes | yes | yes | yes | yes | yes | yes | no | yes | yes | yes | yes | yes | yes | yes | no | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | no | yes | yes | yes | yes | yes | yes | yes | yes | no | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | no | no | no | yes | no | no |
-| 2.2 | no | yes | yes | yes | yes | yes | yes | yes | no | yes | yes | yes | yes | yes | no | yes | no | yes | no | yes | no | no | no | yes | yes | no | yes | yes | no | no | no | yes | no | yes | no | yes | yes | no | yes | yes | yes | no | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | no | no | yes | yes | yes | no | yes | yes | yes | no | no | yes | no | yes |
-| 3.4 | no | yes | yes | yes | yes | yes | yes | yes | yes | no | no | no | yes | no | no | no | no | no | no | no | yes | yes | yes | yes | no | no | yes | yes | no | no | no | no | no | no | no | no | no | no | no | yes | no | no | no | yes | yes | yes | no | no | no | no | no | no | no | yes | no | no | no | yes | yes | yes | no | no | no | no | yes | yes | no | yes | no | no |
-| 7.1 | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | no | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | no | yes | yes | no | yes | no | yes |
-| 15.1 | no | no | no | no | no | no | no | no | no | no | no | no | no | no | yes | yes | yes | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | yes | no | yes |
-| 11.A | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | no | yes | no | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | no | yes | yes | no | yes | yes | yes | yes | no | yes | yes | yes | yes | yes | no | no | no | yes | yes | no | no | no | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | no | yes | no | no | no | no | no |
-| 4.A | no | yes | yes | no | yes | yes | yes | yes | yes | no | yes | yes | yes | yes | yes | yes | yes | yes | yes | no | yes | no | yes | yes | no | no | yes | no | yes | yes | no | no | yes | yes | yes | yes | yes | yes | yes | yes | yes | no | yes | yes | yes | yes | yes | yes | yes | no | yes | no | no | yes | no | no | no | no | no | no | no | yes | yes | no | no | no | no | no | no | no |
+| Fault | gemini-3.1-pro-preview c20 | gemini-3.1-pro-preview c20 run 2 | gemini-3.1-pro-preview c20 run 3 | gemini-3.1-pro-preview c20 run 4 | gemini-3.1-pro-preview c20 run 5 | gemini-3.1-pro-preview c20 run 6 | gemini-3.1-pro-preview c20 run 7 | gemini-3.1-pro-preview c3 | gemini-3.1-pro-preview c4 | gemini-3.8-flash c10 | gemini-3.8-flash c10 effort high | gemini-3.8-flash c10 effort high run 2 | gemini-3.8-flash c10 effort high run 3 | gemini-3.8-flash c10 run 2 | gemini-3.8-flash c10 run 3 | gemini-3.8-flash c10 run 4 | gemini-3.8-flash c10 run 5 | gemini-3.8-flash c10 run 6 | gemini-3.8-flash c10 run 7 | gemini-3.8-flash c10 run 8 | gemini-3.8-flash c10 run 9 | gemini-3.8-flash c11 | gemini-3.8-flash c11 run 2 | gemini-3.8-flash c11 run 3 | gemini-3.8-flash c12 | gemini-3.8-flash c12 run 2 | gemini-3.8-flash c12 run 3 | gemini-3.8-flash c13 | gemini-3.8-flash c13 run 2 | gemini-3.8-flash c13 run 3 | gemini-3.8-flash c14 | gemini-3.8-flash c14 run 2 | gemini-3.8-flash c14 run 3 | gemini-3.8-flash c15 | gemini-3.8-flash c15 run 2 | gemini-3.8-flash c15 run 3 | gemini-3.8-flash c16 | gemini-3.8-flash c16 run 2 | gemini-3.8-flash c16 run 3 | gemini-3.8-flash c17 | gemini-3.8-flash c17 run 2 | gemini-3.8-flash c17 run 3 | gemini-3.8-flash c18 | gemini-3.8-flash c18 run 2 | gemini-3.8-flash c18 run 3 | gemini-3.8-flash c19 | gemini-3.8-flash c19 run 2 | gemini-3.8-flash c19 run 3 | gemini-3.8-flash c20 | gemini-3.8-flash c20 run 2 | gemini-3.8-flash c20 run 3 | gemini-3.8-flash c20 run 4 | gemini-3.8-flash c20 run 5 | gemini-3.8-flash c20 run 6 | gemini-3.8-flash c20 run 7 | gemini-3.8-flash c20 run 8 | gemini-3.8-flash c20 run 9 | gemini-3.8-flash c3 | gemini-3.8-flash c4 | gemini-3.8-flash c4 by paragraph | gemini-3.8-flash c4 by paragraph run 2 | gemini-3.8-flash c4 by paragraph run 3 | gemini-3.8-flash c4 run 2 | gemini-3.8-flash c4 run 3 | gemini-3.8-flash c5 | gemini-3.8-flash c5 run 2 | gemini-3.8-flash c5 run 3 | gemini-3.8-flash c6 | gemini-3.8-flash c6 run 2 | gemini-3.8-flash c6 run 3 | gemini-3.8-flash c7 | gemini-3.8-flash c7 run 2 | gemini-3.8-flash c7 run 3 | gemini-3.8-flash c8 | gemini-3.8-flash c8 run 2 | gemini-3.8-flash c8 run 3 | gemini-3.8-flash c9 | gemini-3.8-flash c9 run 2 | gemini-3.8-flash c9 run 3 | gpt-5.6-sol-pro c20 | gpt-5.6-sol-pro c3 | gemini-3.1-pro, c2 (pipeline) | gemini-3.8-flash, c2 (pipeline) | gemini-3.8-flash, c3 (pipeline) | sol-pro, c2 (pipeline) | sonnet-5.5, c2 (pipeline) | terra-pro, c2 (pipeline) |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2.1 | yes | yes | yes | yes | yes | yes | yes | no | yes | yes | yes | yes | yes | yes | yes | no | yes | yes | yes | yes | yes | yes | yes | no | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | no | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | no | yes | yes | yes | yes | no | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | no | no | no | yes | no | no |
+| 2.2 | no | yes | yes | yes | yes | yes | yes | no | yes | yes | yes | yes | yes | yes | yes | no | yes | yes | yes | yes | yes | no | yes | no | yes | no | yes | no | no | no | yes | yes | no | yes | yes | no | no | no | yes | no | yes | no | yes | yes | no | yes | yes | yes | no | no | no | no | no | no | no | no | no | no | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | no | no | yes | yes | yes | no | yes | yes | yes | yes | no | no | yes | no | yes |
+| 3.4 | yes | yes | no | no | no | no | no | no | yes | yes | yes | yes | yes | yes | yes | yes | no | no | no | yes | no | no | no | no | no | no | no | yes | yes | yes | yes | no | no | yes | yes | no | no | no | no | no | no | no | no | no | no | no | yes | no | no | no | yes | no | no | no | no | no | no | no | no | yes | yes | yes | no | no | no | no | no | no | no | yes | no | no | no | yes | yes | yes | no | no | no | yes | no | yes | yes | no | yes | no | no |
+| 7.1 | yes | yes | yes | yes | yes | yes | no | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | no | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | no | yes | yes | no | yes | no | yes |
+| 15.1 | yes | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | yes | yes | yes | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | no | yes | no | no | no | no | yes | no | yes |
+| 11.A | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | no | yes | no | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | no | yes | yes | no | yes | yes | yes | yes | no | yes | yes | yes | no | yes | yes | yes | yes | yes | yes | no | yes | yes | yes | no | no | no | yes | yes | no | no | no | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | no | yes | no | no | no | no | no |
+| 4.A | yes | yes | yes | yes | yes | yes | yes | no | yes | yes | no | yes | yes | yes | yes | yes | no | yes | yes | yes | yes | yes | yes | yes | yes | yes | no | yes | no | yes | yes | no | no | yes | no | yes | yes | no | no | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | yes | no | yes | yes | yes | yes | yes | no | yes | yes | yes | yes | yes | yes | yes | no | yes | no | no | yes | no | no | no | no | no | no | no | yes | yes | yes | no | no | no | no | no | no | no |
 
 ## Faults outside the key
+
+### gemini-3.1-pro-preview c20: 1 fault outside the key
+
+- **3**, distortion: The rewrite chooses one specific interpretation for the grammatically broken and unclear phrase 'so they're apical basal regulation', replacing it with the clear, definitive link 'which reflects apical-basal regulation'.
+  - Source: so they're apical basal regulation
+  - Rewrite: which reflects apical-basal regulation
+
+### gemini-3.1-pro-preview c20 run 2: 0 faults outside the key
+
+
+
+### gemini-3.1-pro-preview c20 run 3: 2 faults outside the key
+
+- **3**, omission: The rewrite omits the mention of adolescence as a period during which differentiation occurs.
+  - Source: adolescence and
+  - Rewrite: none
+- **3**, omission: The rewrite omits the observation that the intestines are being discussed as an example.
+  - Source: for example,
+  - Rewrite: none
+
+### gemini-3.1-pro-preview c20 run 4: 1 fault outside the key
+
+- **7**, distortion: The rewrite changes a statement pointing to a specific structure ('This') that is a thin muscle wall into a general claim that the uterus normally has a very thin muscle wall.
+  - Source: This is normally a very thin muscle wall that is present in the uterus.
+  - Rewrite: the uterus, which normally has a very thin muscle wall.
+
+### gemini-3.1-pro-preview c20 run 5: 0 faults outside the key
+
+
+
+### gemini-3.1-pro-preview c20 run 6: 2 faults outside the key
+
+- **3**, distortion: The rewrite replaces the unclear causal statement 'so they're' with 'which reflects', making an incomplete statement into a specific clear interpretation of the relationship between the position of the nucleus and the apical-basal regulation.
+  - Source: so they're apical basal regulation in terms of the orientation of those cells within the tissue.
+  - Rewrite: which reflects apical-basal regulation of the orientation of the cells within the tissue.
+- **8**, unsourced-addition: The rewrite adds a result or purpose link ('so that') between the section being cut and the visibility of the stalk and head, whereas the original text stated them as two separate observations.
+  - Source: an H&E section now cut this way through the tumor. You can see the stalk here and the head of the cauliflower here.
+  - Rewrite: The H&E section is cut through the tumour so that the stalk and the head of the cauliflower are visible.
+
+### gemini-3.1-pro-preview c20 run 7: 0 faults outside the key
+
+
 
 ### gemini-3.1-pro-preview c3: 0 faults outside the key
 
@@ -256,6 +315,42 @@
 
 
 ### gemini-3.8-flash c19 run 3: 0 faults outside the key
+
+
+
+### gemini-3.8-flash c20: 0 faults outside the key
+
+
+
+### gemini-3.8-flash c20 run 2: 0 faults outside the key
+
+
+
+### gemini-3.8-flash c20 run 3: 0 faults outside the key
+
+
+
+### gemini-3.8-flash c20 run 4: 0 faults outside the key
+
+
+
+### gemini-3.8-flash c20 run 5: 0 faults outside the key
+
+
+
+### gemini-3.8-flash c20 run 6: 0 faults outside the key
+
+
+
+### gemini-3.8-flash c20 run 7: 0 faults outside the key
+
+
+
+### gemini-3.8-flash c20 run 8: 0 faults outside the key
+
+
+
+### gemini-3.8-flash c20 run 9: 0 faults outside the key
 
 
 
@@ -479,6 +574,18 @@
 ### gemini-3.8-flash c9 run 3: 0 faults outside the key
 
 
+
+### gpt-5.6-sol-pro c20: 3 faults outside the key
+
+- **10**, distortion: The rewrite removes the hedge “kind of” and turns the lecturer’s qualified statement about deviation from the nomenclature system into an unqualified claim.
+  - Source: Neuroectodermal tumors are the ones that kind of deviate from the nomenclature system.
+  - Rewrite: Neuroectodermal tumours deviate from the nomenclature system.
+- **15**, distortion: The qualification 'if you like' has been removed, making 'stress' an unqualified description of the cervical condition rather than the lecturer's tentative choice of term.
+  - Source: And this junction can be quite movable when the cervix is under, if you like, stress.
+  - Rewrite: The junction can be quite movable when the cervix is under stress.
+- **8**, distortion: The source associates most cancer deaths with malignant tumours in distant organs, whereas “result from” turns that association into an explicit causal claim.
+  - Source: So those are all very, very good questions and very, very pertinent questions because, as I said, most of the death with cancer happens to be with the malignant tumors in the other organs, in the distant organs.
+  - Rewrite: These questions are very pertinent because most cancer deaths result from malignant tumours in other, distant organs.
 
 ### gpt-5.6-sol-pro c3: 0 faults outside the key
 

@@ -1,0 +1,20 @@
+{
+  "subtopicId": 14,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, so what does this look like in the clinic? [chuckles] I call this the four horsemen.",
+      "reason": "The rhetorical question and conversational remark were stylistically transformed into equivalent textbook prose without altering the intended meaning."
+    },
+    {
+      "sourcePassage": "But very much, tumors can be indirect if they're occurring in non-screenable or non-palpable areas.",
+      "reason": "Replacing 'tumors can be indirect' with 'Tumours can also present indirectly' is a scientifically sound clarification of the phrasing."
+    },
+    {
+      "sourcePassage": "before it becomes something that's very, very hard to treat, and there's diminishing returns on said treatment.",
+      "reason": "Changing 'and there's' to 'when there are' is a stylistic improvement that correctly reflects the link between the late stage of cancer and the diminishing returns of the treatment."
+    }
+  ]
+}

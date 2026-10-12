@@ -1,0 +1,24 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "The phrase \"You saw those\" is a remark to the audience, which is allowed to be dropped. The rewrite's \"are present\" creates a complete, grammatically correct sentence out of the remainder of the thought, which is scientifically accurate."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "The text's \"the cervix is best\" is a slight slip for \"cervical screening is best\", which the rewrite correctly states. Replacing \"as I said\" with \"Of the screening methods discussed\" is a valid rephrasing of the context."
+    },
+    {
+      "sourcePassage": "because many of the people that do go for screening and then for further treatment, it has a very, very high false positive rate.",
+      "reason": "The text features a dangling modifier and broken syntax. The rewrite connects \"many of the people\" to \"are affected by a very high false positive rate\", making an unclear and incomplete statement clear and logically sound."
+    },
+    {
+      "sourcePassage": "very, very high false positive rate.",
+      "reason": "The rewrite drops the repeated \"very\". Dropping repetitions is allowed."
+    }
+  ]
+}

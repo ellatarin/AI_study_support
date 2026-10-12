@@ -1,0 +1,23 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite states that 'the tumour occurs in a meningioma', treating 'meningioma' as an anatomical site or organ where a tumour can develop, whereas a meningioma is the tumour itself.",
+      "sourcePassage": "if they're occurring in things like the meningioma that I was telling you about or in the liver",
+      "rewritePassage": "for example when the tumour occurs in a meningioma or in the liver"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "you saw that enormous cauliflower structure within the colon",
+      "reason": "The reference to what the audience saw was rendered as 'the enormous cauliflower-like structure seen within the colon', which removes the conversational address to the audience while preserving the descriptive content."
+    },
+    {
+      "sourcePassage": "And things like if tumors in bones lead to erosion of that bone function, so you can get fractures",
+      "reason": "The rewrite phrases this as 'Tumours in bones lead to erosion of the bone, so that fractures can occur', accurately capturing the lecturer's intended medical meaning."
+    }
+  ]
+}

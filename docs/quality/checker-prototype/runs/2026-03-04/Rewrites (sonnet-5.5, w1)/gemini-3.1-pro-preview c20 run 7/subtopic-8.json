@@ -1,0 +1,49 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "omission",
+      "description": "The rewrite omits the step of diagnostic reasoning regarding the interest in finding out whether there would be secondary metastases across the body.",
+      "sourcePassage": "But the question is, of course, you would then be interested in figuring out whether or not there would be secondary metastases across the body.",
+      "rewritePassage": "This is considered an invasive tumour and therefore likely malignant. Microscopically, cancer cells are present within this normal muscle,"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The original text uses the ambiguous pronoun 'it' to refer to either invasion or malignancy. The rewrite makes this clear by choosing the reading 'malignancy', which is a forbidden distortion.",
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "rewritePassage": "Invasion and malignancy are very important diagnostically, and malignancy is defined as the ability to invade the surrounding tissue."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite explicitly adds the causal link 'because' to explain that tumours fail to metastasise due to not surviving at the secondary site, whereas the original text only states the two facts next to each other.",
+      "sourcePassage": "many of them never metastasize. They never survive in the secondary site.",
+      "rewritePassage": "Many never metastasise, because they never survive at the secondary site."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite explicitly adds the causal link 'since' to connect the inability to determine anything from the appearance of the lesions to the fact that they both look like little cauliflowers. The original text does not state this link.",
+      "sourcePassage": "You wouldn't necessarily be able to say anything on two words about either of these. They both look like little cauliflowers that are sticking out into the lumen.",
+      "rewritePassage": "Nothing could necessarily be said about either from their appearance, since both look like little cauliflowers sticking out into the lumen."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "You'll see that over here you have the adenoma which has progressed into an adenocarcinoma.",
+      "reason": "The rewrite turns the pointing phrase 'over here' into 'Elsewhere in the same lesion'. This is an accurate and acceptable description based on the established context that one grows out of the other within the same tumour."
+    },
+    {
+      "sourcePassage": "You wouldn't necessarily be able to say anything on two words about either of these.",
+      "reason": "The rewrite transforms the likely transcription error 'on two words' (presumably 'untoward') into 'from their appearance'. This change produces a logically and scientifically correct statement in the context of comparing how the lesions look."
+    },
+    {
+      "sourcePassage": "So now you would consider this an invasive phenotype or phenotype, I think invasive tissue, invasion into the tissue.",
+      "reason": "The rewrite connects 'an invasive phenotype' and 'invasion into the tissue' with 'that is'. This effectively cleans up the speaker's false start and self-correction, which is an allowed stylistic improvement."
+    },
+    {
+      "sourcePassage": "Obviously, again, you're limited into where you're biopsying and what that looks like.",
+      "reason": "The rewrite drops 'and what that looks like', distilling the sentence simply to the fact that diagnosis is limited by the biopsy location. This captures the core point without omitting a key medical fact."
+    }
+  ]
+}

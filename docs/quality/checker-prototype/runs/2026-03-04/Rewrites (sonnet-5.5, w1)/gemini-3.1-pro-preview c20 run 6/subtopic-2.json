@@ -1,0 +1,29 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds \"that is,\" to state that acetylation or deacetylation is the same as the state of transcription. The text does not state this equivalence.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite changes the cause of predisposing to chronic inflammatory events from \"they\" (the seven human viruses) to \"infection\", which is a wider cause.",
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events",
+      "rewritePassage": "There are about seven different human viruses that precipitate cancer, and infection can also predispose to chronic inflammatory events"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So there's a lot of changes that occur,",
+      "reason": "The rewrite translates 'So' to 'therefore', which is an allowed change as it accurately reflects the speaker's summarizing conclusion after listing the various changes."
+    },
+    {
+      "sourcePassage": "we don't know pretty much",
+      "reason": "The rewrite changes this to 'it is largely not known', which is an allowed change because it carries exactly the same meaning in a more formal tone."
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds a causal link ('so that') implying that the arrangement of the epithelial cells causes them to look uniform in shape and size, which is not stated in the original text.",
+      "sourcePassage": "You'll see that the epithelial cells here are arranged. They look fairly uniform in shape and size.",
+      "rewritePassage": "the epithelial cells are arranged so that they look fairly uniform in shape and size"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes.",
+      "reason": "The rewrite introduces 'In the image of the invasive tissue' to describe what the lecturer is pointing to. This is an allowed change because the surrounding text makes it clear that the image shows cells that have invaded the stroma."
+    },
+    {
+      "sourcePassage": "provides a signaling and basis for their adherence",
+      "reason": "The rewrite changes 'a signaling and basis' to 'a signalling basis'. This corrects what is highly likely a transcriber error or a slip by the lecturer, resulting in a scientifically correct and coherent statement."
+    },
+    {
+      "sourcePassage": "which would be here into the invading stroma.",
+      "reason": "The rewrite changes 'invading stroma' to 'invaded stroma'. This is an allowed change because it corrects a slip by the lecturer; it is the tumour cells that invade, meaning the stroma is being invaded, rather than invading."
+    }
+  ]
+}

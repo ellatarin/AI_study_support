@@ -1,0 +1,137 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c20",
+  "modelId": "openai/gpt-5.6-sol-pro",
+  "deficiencies": [
+    {
+      "deficiencyType": "omission",
+      "description": "The rewrite omits the diagnostic follow-up that, after identifying a likely malignant invasive tumour, one would investigate whether secondary metastases are present elsewhere in the body.",
+      "sourcePassage": "But the question is, of course, you would then be interested in figuring out whether or not there would be secondary metastases across the body.",
+      "rewritePassage": "This is considered an invasive tumour and therefore likely malignant. Microscopically, cancer cells are present within this normal muscle, having invaded past the muscularis mucosae into the muscularis propria."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The source uses the unclear pronoun “it” after mentioning both invasion and malignancy. The rewrite resolves this ambiguity by specifying that malignancy is what is being defined.",
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "rewritePassage": "Invasion and malignancy are very important diagnostically, and malignancy is defined as the ability to invade the surrounding tissue."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The word “because” adds an explicit causal link: it states that the cells fail to metastasise because they fail to survive at the secondary site. The source presents these as consecutive statements without explicitly stating that causal relationship.",
+      "sourcePassage": "So significant numbers of them are released, but many of them never metastasize. They never survive in the secondary site.",
+      "rewritePassage": "Many never metastasise, because they never survive at the secondary site."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The source refers only ambiguously to “this” as the probably obligatory step. The rewrite selects invasion as the antecedent and makes the relationship explicit with “therefore”.",
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "rewritePassage": "Invasion is therefore probably an obligatory step in arriving at a malignant, metastasising tumour."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The source associates most cancer deaths with malignant tumours in distant organs, whereas “result from” turns that association into an explicit causal claim.",
+      "sourcePassage": "So those are all very, very good questions and very, very pertinent questions because, as I said, most of the death with cancer happens to be with the malignant tumors in the other organs, in the distant organs.",
+      "rewritePassage": "These questions are very pertinent because most cancer deaths result from malignant tumours in other, distant organs."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The conditional framing “What you would think is” has been removed. The rewrite presents the muscle layers being joined in a circle as a direct anatomical observation rather than the proposed way of mentally reconstructing the section.",
+      "sourcePassage": "What you would think is that these muscle layers here are joined in a circle, and this polyp is kind of hanging out into the lumen of the bowel.",
+      "rewritePassage": "The muscle layers are joined in a circle, and the polyp hangs out into the lumen of the bowel."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So, we're going to focus on colorectal cancer as an example of what this stepwise process would look like within the context of a tumor. And we use this particular example because we have knowledge of what the precursor states would look like, the early stages of tumor formation, and what that would look like within a tissue.",
+      "reason": "The rewrite preserves the reason colorectal cancer is being used as the example; only conversational phrasing is removed."
+    },
+    {
+      "sourcePassage": "You're looking at, whoops, the normal colonic epithelium, which as you see, secretes a lot of mucus, so it's quite shiny and smooth. And then as you're looking along, you will see this giant cauliflower shaped structure here, which is obviously pathological.",
+      "reason": "The normal epithelium, mucus secretion, shiny and smooth appearance, and pathological cauliflower-shaped structure are all retained. The false start and audience-directed wording are permissibly removed."
+    },
+    {
+      "sourcePassage": "So, for the next slides that I'm going to look at, just imagine that you've sliced along the plane here, where the red line is, so you're looking through a slice of the head of the cauliflower, right?",
+      "reason": "The rewrite preserves the red slicing plane and the resulting view through the cauliflower head."
+    },
+    {
+      "sourcePassage": "And just to orient you here, you have normal and you have the muscle underneath. And so just to give you a sense of where those borders are, you're looking at this H&E stained slide, with the cancer kind of here in red, the normal epithelium here in green, and then your normal musculature located here.",
+      "reason": "The rewrite retains the H&E stain, the colour coding, and the relative position of the muscle. “Normal” is reasonably rendered as “normal epithelium” from the surrounding context."
+    },
+    {
+      "sourcePassage": "We'll be looking for cellular features, but we're also going to be looking for the most important diagnostic and prognostic feature, which is has this cancer invaded. So in doing so, remember I told you that invasion was getting through that basement membrane, and the basement membrane is actually, again, quite hard to see in histology.",
+      "reason": "The rewrite faithfully retains the examination of cellular features, the diagnostic and prognostic importance of invasion, the definition involving passage through the basement membrane, and its poor visibility in histology."
+    },
+    {
+      "sourcePassage": "So for our purposes, what we're going to use is the muscularis mucosa here as our proxy for the basement membrane, because here is your normal epithelium and the muscularis mucosa, which would be the, if you like, the thin line of musculature that occurs underneath the epithelium. And then you have under here the submucosa, the muscularis propria, and the serosa.",
+      "reason": "The anatomical relationships and use of the muscularis mucosae as a proxy are retained. Replacing “muscularis mucosa” with “muscularis mucosae” is the supplied term correction."
+    },
+    {
+      "sourcePassage": "The tumor is actually going past, and you'll be able to look at this in great detail in the practicals, is going past this area of the normal epithelium, past the muscularis mucosa, and is invading actually down into the normal muscle, which you can see microscopically. So, this would be considered an invasive tumor and likely, therefore malignant.",
+      "reason": "The extent of invasion and the conclusion that the tumour is invasive and likely malignant are preserved. The remark about examining it in practicals is course-related and may be omitted, and the anatomical term is corrected as supplied."
+    },
+    {
+      "sourcePassage": "So, if you look microscopically, you would also see that within this normal muscle, you can see that there are cancer cells that are present within it that have invaded in it, past the muscularis mucosa, already into this muscularis propria. And you can also see, and it's important for you to look at this within the practicals as well, that they even here have retained some of the features of what they were, which is glandular epithelium within the intestine. And they're even trying here to form little tiny glands in little circles with lumens in the middle.",
+      "reason": "The rewrite retains the microscopic presence of cancer cells in the muscularis propria, their glandular features, and their attempted formation of small glands with lumens. The practical-class remark is permissibly omitted and the corrected anatomical term is used."
+    },
+    {
+      "sourcePassage": "Obviously, again, you're limited into where you're biopsying and what that looks like. You'll also hear about looking for clear margins around any kind of biopsy, to see that you have lifted out the entire tumor. Histopathologists will look to see how far the tumor has invaded.",
+      "reason": "The rewrite retains the sampling limitation, the search for clear margins, and assessment of the depth of invasion."
+    },
+    {
+      "sourcePassage": "Right? So very often when tumor cells are doing this kind of shedding of tumor cells, it's actually quite hard for those secondary tumor cells to form metastases at different sites. So significant numbers of them are released, but many of them never metastasize.",
+      "reason": "Apart from the separately reported causal addition concerning survival, the rewrite preserves shedding, release of significant numbers of cells, and the difficulty of establishing metastases."
+    },
+    {
+      "sourcePassage": "And there are actually quite a few tumors that do invade, but they never actually metastasize. And a good example of this is basal cell carcinoma, and about 30% of breast tumors as well.",
+      "reason": "The rewrite faithfully retains the distinction between invasion and metastasis and both examples."
+    },
+    {
+      "sourcePassage": "So, however, by the time you get secondary metastases in other sites, it's actually quite rare for a tumor to go from this state to having metastases all over the body, and that is probably you've missed something in terms of the sampling.",
+      "reason": "The rewrite preserves the claim that apparent progression directly from the sampled state to widespread metastasis is rare and probably reflects missed sampling."
+    },
+    {
+      "sourcePassage": "So then, as biologists, our question would be, well, what has happened to make the tumor go from this benign state to this state where it's invading and metastasizing? So what are the mutations? Is it specific, again, to particular tissues? And what happens in those distant sites that allow those malignant cells to actually survive?",
+      "reason": "All of the biological questions about progression, mutations, tissue specificity, and survival at distant sites are retained."
+    },
+    {
+      "sourcePassage": "Right? So what exactly are those gene changes that are occurring? So in order to understand that, so we need to sample the tumor, if you like, at these different stages to find out which mutations are accumulating in this stepwise manner that allow this transformation process to occur to get us to this malignant stage. And in order to do that, as I said, we are studying these precursor stages, in their development into this more malignant state.",
+      "reason": "The rewrite preserves the need to sample different stages, identify stepwise mutation accumulation, and study precursor development towards malignancy."
+    },
+    {
+      "sourcePassage": "And I've labeled it here as a precursor stage, which is known as an adenoma. But actually, it's a little bit premature of me to have done that because this is not necessarily an adenoma until I understand the histology of this particular polyp. So it's probably more neutral to call this a polyp, and polyp simply means something that's growing on a stalk within the bowel, within the large intestine.",
+      "reason": "The rewrite retains the premature adenoma label, the need for histological confirmation, and the stated meaning of polyp."
+    },
+    {
+      "sourcePassage": "So what we want to understand is the progression that goes from this nice normal colonic epithelium through these benign stages here and what happens to make it become malignant. So we need to study therefore what these stages look like before we get there.",
+      "reason": "The progression from normal epithelium through benign stages to malignancy, and the need to study those stages, are retained."
+    },
+    {
+      "sourcePassage": "And again, as cancer biologists, your first question is, are there cancer cells here? And if there are, have they invaded?",
+      "reason": "The two initial diagnostic questions are reproduced faithfully."
+    },
+    {
+      "sourcePassage": "So in looking at the histology, this is kind of, again, an H&E section now cut this way through the tumor. You can see the stalk here and the head of the cauliflower here. So this is a section through it. So you're looking for that, again, orienting yourself with the normal epithelium, but you're looking for invasion past that muscularis mucosa, which represents for us the basement membrane.",
+      "reason": "The rewrite preserves the H&E section, visible stalk and head, orientation by the normal epithelium, and search for invasion past the muscularis mucosae as the basement-membrane proxy. The supplied anatomical correction is allowed."
+    },
+    {
+      "sourcePassage": "And just for your reference, the reason that this looks like a cauliflower is because the polyp is pulled out off of the surface through the action of peristalsis in the bowel as food moves through it. Right? So it gets pulled into this particular shape.",
+      "reason": "The causal explanation involving peristalsis and the resulting cauliflower shape is fully retained."
+    },
+    {
+      "sourcePassage": "Okay? So in looking at the histology, you can see that no invasion has occurred past the muscularis mucosa. And so, very close up here is the intact muscularis mucosa. The submucosa is here, and you'll see that there isn't any invasion that has occurred. And so you would consider this now, you can diagnose this as an adenoma. Right? So it's not invasive, it's therefore not malignant.",
+      "reason": "The intact muscularis mucosae, absence of invasion, adenoma diagnosis, and conclusion that it is non-malignant are retained, with the supplied term correction."
+    },
+    {
+      "sourcePassage": "They both look like little cauliflowers that are sticking out into the lumen. But when you look histologically, you can see with this one having sliced through that, you're looking again here for the normal epithelium. Here's your muscularis mucosa. And in fact, when you're looking at this part of it, you'll see now that you can see that here is your tumor cell. Again, it has that glandular morphology. But you'll see that within the musculature, you have tumor cells that are growing in the musculature.",
+      "reason": "The rewrite preserves the similar gross appearance and the contrasting histological finding of glandular tumour cells growing within the musculature, using the corrected anatomical term."
+    },
+    {
+      "sourcePassage": "And so you would consider this now an adenocarcinoma component that has developed out of the adenoma.",
+      "reason": "The relationship between the adenocarcinoma component and the pre-existing adenoma is retained exactly in substance."
+    },
+    {
+      "sourcePassage": "So this is how we have come to the conclusion that there is a stepwise change that is occurring because the malignant part of this tumor that has arisen here, which you've again diagnosed by looking at the invasion here into the musculature and here past the muscularis mucosa. You'll see that over here you have the adenoma which has progressed into an adenocarcinoma. So one is growing out of the other.",
+      "reason": "The rewrite preserves the evidence for stepwise change: invasion into the musculature and past the muscularis mucosae, progression from adenoma to adenocarcinoma, and one component growing out of the other."
+    }
+  ]
+}

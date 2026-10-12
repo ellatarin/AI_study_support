@@ -1,0 +1,20 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "And this is my cat, who also ended up with a feline injection site sarcoma.",
+      "reason": "The personal reference ('my cat') was rewritten in the third person as 'The lecturer's own cat', which is a standard stylistic transformation for textbook prose."
+    },
+    {
+      "sourcePassage": "You'll be happy to hear he's doing fine now after his surgery.",
+      "reason": "The conversational framing directed at the audience ('You'll be happy to hear') was omitted as permitted audience address, while the factual content ('he's doing fine now after his surgery') was retained."
+    },
+    {
+      "sourcePassage": "You'll see that digestive tissues, hematopoietic, and skin are the three main categories in terms of where cancers arise.",
+      "reason": "Expanding 'hematopoietic' to 'hematopoietic tissues' is a natural stylistic completion matching the parallel structure of 'digestive tissues'."
+    }
+  ]
+}

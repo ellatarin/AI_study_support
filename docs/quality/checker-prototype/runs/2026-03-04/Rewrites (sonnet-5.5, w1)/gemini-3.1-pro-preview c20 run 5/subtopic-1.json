@@ -1,0 +1,20 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Actually, when you tell people that you're working on cancer, they're all incredibly grateful for you for taking on such a difficult disease because it has such an impact.",
+      "reason": "The phrase 'because it has such an impact' was omitted in this sentence, but the preceding sentence in the rewrite states that cancer has an impact on society, so the meaning is preserved."
+    },
+    {
+      "sourcePassage": "So you're going to be comparing the differences between benign and malignant tumors",
+      "reason": "The rewrite links this to the previous sentence with 'This involves comparing benign and malignant tumours.' This adds a link not explicitly stated by the lecturer, but since comparing benign and malignant tumours is how one recognizes invasion and metastasis, the statement is scientifically correct."
+    },
+    {
+      "sourcePassage": "Because from the molecular mechanisms to the patient experience and to the evolution of personalized medicine and what that entails, you're all going to be having different things that you're interested in.",
+      "reason": "The rewrite connects the different interests to 'messages from the lectures, which range from molecular mechanisms...'. This is a stylistic cleanup of spoken grammar that accurately preserves the source's meaning."
+    }
+  ]
+}

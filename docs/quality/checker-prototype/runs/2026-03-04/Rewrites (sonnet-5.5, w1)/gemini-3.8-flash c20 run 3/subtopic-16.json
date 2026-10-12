@@ -1,0 +1,20 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "The original refers back to something shown previously in the lecture; rephrasing this as 'The different pre-cancerous states are present' removes the meta-commentary/lecture reference while preserving the context."
+    },
+    {
+      "sourcePassage": "ulcerated cauliflower structure, if you like",
+      "reason": "'ulcerated cauliflower-like structure' accurately reflects the meaning of the speaker's colloquial simile without distortion."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "Rendering 'as I said, the cervix is best' as 'Of the screening methods discussed, cervical screening is the best' captures the meaning of the reference to earlier lecture material."
+    }
+  ]
+}

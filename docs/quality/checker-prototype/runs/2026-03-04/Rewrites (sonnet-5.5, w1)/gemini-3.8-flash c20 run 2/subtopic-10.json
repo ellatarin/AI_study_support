@@ -1,0 +1,16 @@
+{
+  "subtopicId": 10,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So the fat, smooth muscle or papillomas in the skin, and adenomas, as we were talking about in the colon.",
+      "reason": "The rewrite explicitly pairs 'lipomas in fat' and 'leiomyomas in smooth muscle', which resolves the abbreviated spoken phrasing of the lecturer with scientifically correct links to the tumours mentioned in the immediately preceding sentence."
+    },
+    {
+      "sourcePassage": "These are all, even though they have oma in them, these are all malignant tumors, and things like retinoblastoma.",
+      "reason": "The rewrite groups retinoblastoma together with glioma, glioblastoma, and neuroblastoma as neuroectodermal tumours containing the suffix -oma that are nonetheless malignant, preserving the scientific meaning while smoothing the lecturer's word order."
+    }
+  ]
+}

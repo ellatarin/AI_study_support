@@ -1,0 +1,27 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite states that the tumour occurs 'in a meningioma', treating 'meningioma' as an anatomical site (like the liver) rather than as a type of primary tumour itself, which is scientifically inaccurate and misleading for a student.",
+      "sourcePassage": "if they're occurring in things like the meningioma that I was telling you about or in the liver",
+      "rewritePassage": "when the tumour occurs in a meningioma or in the liver"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "And things like if tumors in bones lead to erosion of that bone function, so you can get fractures",
+      "reason": "The lecturer said 'erosion of that bone function', which the rewrite rendered as 'erosion of the bone'. This corrects an apparent slip of the tongue to a scientifically accurate statement, as tumours cause bone erosion leading to fractures."
+    },
+    {
+      "sourcePassage": "Also ulceration, you saw that enormous cauliflower structure within the colon. This causes a lot of bleeding and can lead to anemia.",
+      "reason": "The rewrite connects ulceration and the cauliflower-like structure using a colon and adjusts the lecturer's direct address ('you saw') to textbook prose ('seen within the colon'), accurately conveying the content without introducing unsourced claims."
+    },
+    {
+      "sourcePassage": "And also this competition with the normal",
+      "reason": "The rewrite expands 'competition with the normal' to 'Competition with normal tissue is also a factor', which is scientifically accurate context given the subsequent explanation of competition with haematopoietic stem cells."
+    }
+  ]
+}

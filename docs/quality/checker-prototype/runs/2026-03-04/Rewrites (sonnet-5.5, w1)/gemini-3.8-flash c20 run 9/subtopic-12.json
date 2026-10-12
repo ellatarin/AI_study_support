@@ -1,0 +1,31 @@
+{
+  "subtopicId": 12,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite introduces an unsourced causal link with the conjunction 'because', asserting that benign tumours are extremely common because it takes a great deal for a benign tumour to become malignant.",
+      "sourcePassage": "So benign tumors are actually incredibly common. Right? So it actually takes a lot for a benign tumor to become malignant in terms of, as I said, the number of changes that have to happen within a tumor.",
+      "rewritePassage": "Benign tumours are extremely common, because it takes a great deal for a benign tumour to become malignant, given the number of changes that have to happen within a tumour."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So just talking about incidence, about how often various tumors arise.",
+      "reason": "Phraming this as 'Incidence describes how often various tumours arise' is an allowed stylistic rendering of the lecturer's definition."
+    },
+    {
+      "sourcePassage": "So I've just put these numbers up just so that you can have a sense.",
+      "reason": "'The numbers shown give a sense of incidence' correctly refers to the figures presented in the context of the lecture topic."
+    },
+    {
+      "sourcePassage": "And then this is, if you like, the percentage of tumors that result in deaths.",
+      "reason": "'A further slide shows the percentage of tumours that result in deaths' accurately captures what the lecturer explicitly states the visual shows."
+    },
+    {
+      "sourcePassage": "Oops. Oh, God. It doesn't go backwards. Here we go.",
+      "reason": "Omitted as conversational filler and technical mishap during the lecture."
+    }
+  ]
+}

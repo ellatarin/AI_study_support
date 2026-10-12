@@ -1,0 +1,33 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds the phrase \"that is\", which introduces a link explicitly stating that acetylation or deacetylation is the same thing as the state of transcription. The text only juxtaposes the phrases without stating this explicit link.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite changes the cause of predisposing to chronic inflammatory events from \"they\" (the seven human viruses) to \"infection\" in general, making the causal claim wider.",
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events",
+      "rewritePassage": "There are about seven different human viruses that precipitate cancer, and infection can also predispose to chronic inflammatory events"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "small insertions to whole chromosome losses",
+      "reason": "The rewrite changes 'to' into 'as well as'. While 'to' normally implies a range (e.g., from small to large), the speaker omitted 'from', turning it into a running list. 'As well as' correctly captures the additive intent without distorting the meaning."
+    },
+    {
+      "sourcePassage": "So there's a lot of changes that occur",
+      "reason": "The rewrite uses 'Many changes therefore occur'. Although 'therefore' adds a causal link, the original text used 'So', which can function identically to 'therefore'. This is an allowed change of words with exactly the same meaning."
+    },
+    {
+      "sourcePassage": "we don't know pretty much because of this when they occur.",
+      "reason": "The rewrite changes this to 'because of this it is largely not known when they occur'. This is a correct paraphrase that maintains the meaning."
+    }
+  ]
+}

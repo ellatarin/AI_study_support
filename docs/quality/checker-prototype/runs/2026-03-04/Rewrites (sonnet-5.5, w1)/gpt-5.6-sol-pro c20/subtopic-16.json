@@ -1,0 +1,59 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c20",
+  "modelId": "openai/gpt-5.6-sol-pro",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite removes the qualification \"a bit\", making the claim about the relative difficulty of colon screening less qualified.",
+      "sourcePassage": "So screening in the colon is a bit trickier.",
+      "rewritePassage": "Screening in the colon is more difficult."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The source says that the audience previously saw the pre-cancerous states, whereas the rewrite replaces this with the factual assertion that those states \"are present\". The source does not state their presence in this form.",
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "rewritePassage": "The different pre-cancerous states are present"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The source's phrase \"shedding cells for invading\" is unclear about the precise relationship between shedding and invasion. The rewrite resolves this by asserting that the shed cells invade other parts of the body, thereby making an incomplete statement definite and changing the grammatical role of invasion.",
+      "sourcePassage": "So already potentially shedding cells for invading into other parts of the body.",
+      "rewritePassage": "It is therefore potentially already shedding cells that invade other parts of the body."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Ideally, you'd like to catch these benign states. And in order to do that, you'd actually have to use an endoscope and go and look at those and sample those.",
+      "reason": "The rewrite preserves the aim of catching the benign states and the need to inspect and sample them using an endoscope."
+    },
+    {
+      "sourcePassage": "As I said, you'd have to do the histology in order to be sure that the polyps that you see with an endoscope are the things that haven't made a transition from adenoma to adenocarcinoma.",
+      "reason": "The requirement for histology and the distinction between adenoma and adenocarcinoma are preserved; only the lecture-oriented phrase \"As I said\" is removed."
+    },
+    {
+      "sourcePassage": "But using an endoscope is actually quite tricky. The patient has to be put under. It requires a very skilled technician to not perforate the bowel. So it is not without its risks.",
+      "reason": "The rewrite retains the difficulty, the need to put the patient under, the requirement for a skilled technician, the danger of bowel perforation and the resulting risks."
+    },
+    {
+      "sourcePassage": "So currently, the screening that is done is a FIT test. This is a fecal immunochemical test. Basically, they're looking for blood.",
+      "reason": "The rewrite accurately retains the current use, full name and purpose of the FIT test."
+    },
+    {
+      "sourcePassage": "And the blood, of course, would be arising from the fact that this is an ulcerated cauliflower structure, if you like, an ulcerated tumor, and very likely to probably already be malignant.",
+      "reason": "The rewrite preserves the proposed origin of the blood, the ulcerated cauliflower-like appearance and the qualified claim that the tumour is very likely already malignant. Fillers and repetition are permissibly removed."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best. Colorectal screening, we're using these FIT tests. Endoscopy would probably be better. And perhaps you might do that if there's some kind of family history or there's some reason if you're showing symptoms.",
+      "reason": "The rewrite preserves the comparison with cervical screening, the use of FIT tests for colorectal screening, the probable superiority of endoscopy and family history or symptoms as reasons it might be used."
+    },
+    {
+      "sourcePassage": "Breast screening is done, although it's probably over-testing as a population because many of the people that do go for screening and then for further treatment, it has a very, very high false positive rate. So about a third of those cases are unnecessary treatment, so a very, very high cost.",
+      "reason": "The rewrite retains the qualified concern about population over-testing, the high false-positive rate, the estimate that about one third of the cases involve unnecessary treatment and the associated high cost."
+    },
+    {
+      "sourcePassage": "Similarly, prostate cancer, the test for this is PSA in the blood. It is not a very, very good test, and it's currently not recommended for the general populace. And also, these tumors are very, very slow-growing, so even though somebody might be PSA positive or have a higher number, it doesn't necessarily indicate how that tumor will progress.",
+      "reason": "The rewrite preserves the PSA blood test, its limitations, the lack of a general-population recommendation, the slow growth of the tumours and the limited prognostic meaning of a positive or higher PSA result."
+    }
+  ]
+}

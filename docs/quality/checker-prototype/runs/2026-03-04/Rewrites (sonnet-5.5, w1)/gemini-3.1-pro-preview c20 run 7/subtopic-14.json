@@ -1,0 +1,24 @@
+{
+  "subtopicId": 14,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, so what does this look like in the clinic?",
+      "reason": "The rewrite clarifies this as 'the presentation of cancer', which is a scientifically correct description of what the lecturer is referring to based on the subsequent mentions of tumours and cancers."
+    },
+    {
+      "sourcePassage": "tumors can be indirect",
+      "reason": "The rewrite replaces this with 'Tumours can also present indirectly', which uses different words with exactly the same meaning and is scientifically correct."
+    },
+    {
+      "sourcePassage": "So in thinking about this,",
+      "reason": "The rewrite changes this to 'For this reason', which maintains the exact same causal link established by the word 'So'."
+    },
+    {
+      "sourcePassage": "and there's diminishing returns on said treatment.",
+      "reason": "The rewrite replaces 'and' with 'when', adjusting the grammar to better link the diminishing returns to the state of the cancer being hard to treat. This is scientifically accurate and preserves the original meaning."
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "The rewrite resolves the ambiguous pronoun 'it' by specifying that malignancy is defined as the ability to invade surrounding tissue, which is scientifically standard and accurate in pathology."
+    },
+    {
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "reason": "The rewrite resolves the demonstrative 'this' to 'Invasion' based on the immediate context of discussing tumors invading prior to metastasising, which is scientifically correct."
+    },
+    {
+      "sourcePassage": "muscularis mucosa",
+      "reason": "The term correction replaced 'muscularis mucosa' with 'muscularis mucosae', which has been correctly incorporated throughout the rewrite."
+    },
+    {
+      "sourcePassage": "You'll see that over here you have the adenoma which has progressed into an adenocarcinoma.",
+      "reason": "The rewrite renders 'over here' as 'Elsewhere in the same lesion', which accurately reflects the histological section being discussed without introducing unsourced claims."
+    }
+  ]
+}

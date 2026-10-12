@@ -1,0 +1,28 @@
+{
+  "subtopicId": 12,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So benign tumors are actually incredibly common. Right? So it actually takes a lot for a benign tumor to become malignant in terms of, as I said, the number of changes that have to happen within a tumor. So they're extremely common",
+      "reason": "The rewrite uses 'because' to link the prevalence of benign tumours to the difficulty of them becoming malignant. This is allowed because the speaker states this causal link using 'So'."
+    },
+    {
+      "sourcePassage": "But malignant tumors, for example, originating from mesenchymal lineage cell types, they're extremely rare.",
+      "reason": "The omission of 'for example' is an allowed removal of filler. The speaker's point is to specifically contrast the rarity of mesenchymal tumours with the commonness of epithelial tumours, rather than offering them merely as one example of all malignant tumours."
+    },
+    {
+      "sourcePassage": "So I've just put these numbers up just so that you can have a sense.",
+      "reason": "The rewrite adds 'of incidence' to clarify what the numbers give a sense of. This is an allowed change that makes an unclear statement clear using the context from the first sentence."
+    },
+    {
+      "sourcePassage": "And then this is, if you like, the percentage of tumors that result in deaths.",
+      "reason": "The rewrite translates 'this is' into 'A further slide shows'. This is an allowed and scientifically correct description of what the lecturer is pointing to."
+    },
+    {
+      "sourcePassage": "So, and just a-- Oops. Oh, God. It doesn't go backwards. Here we go.",
+      "reason": "These sentences are completely dropped in the rewrite. This is allowed as they are false starts, filler, and remarks to the audience."
+    }
+  ]
+}

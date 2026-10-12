@@ -1,0 +1,28 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Things like obstruction of the bile ducts in the liver interferes with digestion.",
+      "reason": "The rewrite introduces this section with 'Other effects depend on the site', which functions as an acceptable stylistic transition reiterating the earlier mentioned concept of different anatomical settings."
+    },
+    {
+      "sourcePassage": "if tumors in bones lead to erosion of that bone function, so you can get fractures",
+      "reason": "The rewrite renders this as 'erosion of the bone', which corrects a slip of the tongue by the lecturer ('erosion of that bone function') to the scientifically accurate medical term 'erosion of the bone'."
+    },
+    {
+      "sourcePassage": "Also ulceration, you saw that enormous cauliflower structure within the colon.",
+      "reason": "The rewrite renders this as 'Ulceration is another effect: the enormous cauliflower-like structure seen within the colon...', which faithfully retains the lecturer's observation and reference to the visual material."
+    },
+    {
+      "sourcePassage": "And also this competition with the normal, if you have a tumor that is occurring in some of the blood compartments, the hematopoietic stem cells that are there, these will interfere.",
+      "reason": "The phrasing 'Competition with normal tissue is also a factor' appropriately renders the speaker's colloquial shorthand 'competition with the normal'."
+    },
+    {
+      "sourcePassage": "Only 10% of these deaths, generally, if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "reason": "The rewrite states 'when the tumour occurs in a meningioma or in the liver', which directly mirrors the lecturer's somewhat informal phrasing ('occurring in things like the meningioma... or in the liver')."
+    }
+  ]
+}

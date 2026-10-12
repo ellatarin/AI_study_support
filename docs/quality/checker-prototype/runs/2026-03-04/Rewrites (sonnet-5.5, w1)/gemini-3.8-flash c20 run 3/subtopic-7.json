@@ -1,0 +1,23 @@
+{
+  "subtopicId": 7,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite converts the lecturer's pointing words ('here', 'This') into a specific positional relationship ('The tumour lies next to the outer surface of the uterus') that is not stated in the text and cannot be confirmed from the text alone.",
+      "sourcePassage": "You can see that the tumor is here. This is the outer surface of the uterus.",
+      "rewritePassage": "The tumour lies next to the outer surface of the uterus"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So you can see again that this is actually circumspect and very separate from the surrounding stroma and the surrounding tissue.",
+      "reason": "The replacement of 'circumspect' with 'circumscribed' corrects an obvious slip of the tongue by the lecturer to the scientifically correct pathological term. Furthermore, 'therefore' in the rewrite reflects the lecturer's inferential 'So you can see'."
+    },
+    {
+      "sourcePassage": "This is normally a very thin muscle wall that is present in the uterus.",
+      "reason": "Although anatomically the non-distended myometrium is normally thick, the rewrite faithfully follows the lecturer's phrasing ('which normally has a very thin muscle wall') without introducing an unprompted correction."
+    }
+  ]
+}

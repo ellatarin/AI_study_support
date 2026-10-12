@@ -1,0 +1,33 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite removes the hedge \"I think\" from the statement about ovarian cancer.",
+      "sourcePassage": "And I think one of the tumors that does this quite frequently is ovarian cancer, for example.",
+      "rewritePassage": "One tumour that does this quite frequently is ovarian cancer, for example."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite changes a statement of fact about a specific tumour cell shown on a slide into a generalized possibility, replacing \"this tumor cell\" with \"a tumour cell\" and \"has\" with \"may have\".",
+      "sourcePassage": "this tumor cell has the appearance of an adenomatous tumor or glandular tumor.",
+      "rewritePassage": "a tumour cell may have the appearance of an adenomatous or glandular tumour,"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "This is a dropped remark to the audience, which is an allowed change."
+    },
+    {
+      "sourcePassage": "also this transcoelomic site from across a cavity",
+      "reason": "The rewrite replaces 'site' with 'route', which correctly fixes a slip by the lecturer, as it refers to a route of spread."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here, and then you can often see",
+      "reason": "The omission of 'You see your tumor cells are here' is allowed because it simply refers to the lecturer pointing at a slide."
+    }
+  ]
+}

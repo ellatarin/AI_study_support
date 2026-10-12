@@ -1,0 +1,31 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds that the stained slice through a tumour 'illustrates this', linking the figure to the preceding sentence about biologists explanting tumours, whereas the text does not state that the slice illustrates explanting tumours.",
+      "sourcePassage": "often they will explant the tumor. Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "rewritePassage": "A slice through a tumour, with a stain to show the morphology, illustrates this [FIGURE]."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Primary cells really don't grow in culture.",
+      "reason": "The word 'really' in 'really don't grow' acts as conversational emphasis rather than a scientific hedge, so changing it to 'do not grow' does not improperly remove a hedge."
+    },
+    {
+      "sourcePassage": "throw it into a plastic tissue culture dish",
+      "reason": "'placed in a plastic tissue culture dish' is an allowed stylistic rendering of the colloquial phrasing 'throw it into'."
+    },
+    {
+      "sourcePassage": "contributions of things like the stroma and other things",
+      "reason": "'other components' accurately captures 'other things' in the context of the stroma and tumour microenvironment."
+    },
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "This is an omitted remark to the audience/speaker's self, which is an allowed change."
+    }
+  ]
+}

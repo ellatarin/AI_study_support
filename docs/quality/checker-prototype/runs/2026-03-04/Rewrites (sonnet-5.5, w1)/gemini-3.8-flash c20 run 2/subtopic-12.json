@@ -1,0 +1,31 @@
+{
+  "subtopicId": 12,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite introduces a causal link ('because') asserting that benign tumours are extremely common because it takes a great deal for them to become malignant. The source text does not state that one is the cause of the other.",
+      "sourcePassage": "So benign tumors are actually incredibly common. Right? So it actually takes a lot for a benign tumor to become malignant in terms of, as I said, the number of changes that have to happen within a tumor.",
+      "rewritePassage": "Benign tumours are extremely common, because it takes a great deal for a benign tumour to become malignant, given the number of changes that have to happen within a tumour."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So liver cancer and nasopharyngeal carcinomas are very big in Chinese populations.",
+      "reason": "Rendering 'very big' as 'very common' accurately reflects the lecturer's meaning in the context of tumor prevalence and incidence."
+    },
+    {
+      "sourcePassage": "So I've just put these numbers up just so that you can have a sense.",
+      "reason": "'The numbers shown give a sense of incidence' correctly ties the numbers back to the stated subtopic of incidence introduced at the start of the passage."
+    },
+    {
+      "sourcePassage": "And then this is, if you like, the percentage of tumors that result in deaths.",
+      "reason": "Describing this as 'A further slide shows the percentage of tumours that result in deaths' matches the source text, which explicitly identifies what is being shown."
+    },
+    {
+      "sourcePassage": "So, and just a-- Oops. Oh, God. It doesn't go backwards. Here we go.",
+      "reason": "This is a technical mishap/conversational aside to the audience and is permitted to be dropped."
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay. So with these tools in hand, I think the important concept to try and get across is invasion and metastasis.",
+      "reason": "The omission of 'Okay. So with these tools in hand' removes conversational filler and transitional material referring to prior parts of the lecture, which is an allowed change."
+    },
+    {
+      "sourcePassage": "Obviously, changes occur within tumor cells, and it was long ago noticed back in, I don't know,",
+      "reason": "The omission of 'Obviously' and 'back in, I don't know' drops conversational filler and a false start, which is permitted."
+    },
+    {
+      "sourcePassage": "where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable.",
+      "reason": "The rewrite changes 'see' to 'tell'. This falls under using different words with exactly the same meaning in this context."
+    },
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals",
+      "reason": "This is a statement directed at the audience about the course structure, so its omission is an allowed change."
+    },
+    {
+      "sourcePassage": "So, what does that mean for the patient? Well, the invasion",
+      "reason": "Dropping the conversational rhetorical question in favour of incorporating it directly as 'For the patient, invasion' is an allowed stylistic change."
+    }
+  ]
+}

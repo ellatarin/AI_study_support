@@ -1,0 +1,16 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "The lecturer's remark refers to slides or material previously shown to the audience; adapting this as 'The different pre-cancerous states are present' is an allowable stylistic conversion of audience-directed speech into textbook prose."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "The phrasing 'Of the screening methods discussed, cervical screening is the best' captures the meaning of 'as I said, the cervix is best' without adding new factual claims."
+    }
+  ]
+}

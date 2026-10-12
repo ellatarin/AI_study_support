@@ -1,0 +1,29 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite narrows the scope of the lecturer's claim by adding the restriction 'Of the screening methods discussed'. The original text states broadly that screening the cervix is best.",
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "rewritePassage": "Of the screening methods discussed, cervical screening is the best."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The text contains an unclear, incomplete sentence structure where the subject abruptly shifts ('many of the people... it has'). The rewrite resolves this broken grammar by choosing one reading and inserting 'are affected by', making the people the subject rather than the screening.",
+      "sourcePassage": "because many of the people that do go for screening and then for further treatment, it has a very, very high false positive rate.",
+      "rewritePassage": "because many of the people who go for screening and then for further treatment are affected by a very high false positive rate."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "The rewrite turns the lecturer's reference to what the audience saw into a factual statement ('The different pre-cancerous states are present'). This is allowed because it is a scientifically correct description of the colon."
+    },
+    {
+      "sourcePassage": "or there's some reason if you're showing symptoms.",
+      "reason": "The rewrite clarifies this as 'or some other reason, such as the patient showing symptoms.' This explicitly adds a link ('such as') but it is logically synonymous with the original phrase and correctly conveys the intended meaning."
+    }
+  ]
+}

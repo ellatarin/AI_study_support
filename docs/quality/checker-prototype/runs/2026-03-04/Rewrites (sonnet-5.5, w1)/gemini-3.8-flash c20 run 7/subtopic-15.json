@@ -1,0 +1,20 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "here is the endocervical canal that it goes between the neck of the womb. Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "reason": "The rewrite renders this as 'the endocervical canal runs through the neck of the womb, and the cervix is seen alongside it', which resolves the spoken phrasing and describes what the lecturer indicates in the histological image without distorting anatomical facts."
+    },
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here",
+      "reason": "Omitted as conversational pointing to specific individual cells in the slide; the core scientific rule that mitotic cells are restricted to the basement layer is faithfully retained."
+    },
+    {
+      "sourcePassage": "So this has done very well.",
+      "reason": "Omitted as conversational commentary and repetition of the statement that cervical screening has been a success story."
+    }
+  ]
+}

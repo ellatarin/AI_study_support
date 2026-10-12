@@ -1,0 +1,16 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here",
+      "reason": "This is a deictic remark pointing out specific cells to the audience on a slide during the lecture; its omission is allowed."
+    },
+    {
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "reason": "The phrasing 'and the cervix is seen alongside it' accurately and scientifically describes the histological view referenced by the lecturer's pointing words."
+    }
+  ]
+}

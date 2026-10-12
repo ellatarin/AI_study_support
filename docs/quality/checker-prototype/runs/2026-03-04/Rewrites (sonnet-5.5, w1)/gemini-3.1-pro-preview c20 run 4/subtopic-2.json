@@ -1,0 +1,29 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds the phrase \"that is,\" to state that acetylation or deacetylation is the same as the state of transcription, creating a definitional link that was not explicitly stated in the text.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite broadens the cause for predisposition to chronic inflammatory events by replacing \"they\" (which refers specifically to the seven human viruses) with the more general term \"infection\".",
+      "sourcePassage": "and they can also predispose to chronic inflammatory events",
+      "rewritePassage": "and infection can also predispose to chronic inflammatory events"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "The idea that a normal cell, starting off here, acquires a mutation",
+      "reason": "Dropping the conversational pointing phrase 'starting off here' is an allowed change that removes filler without losing the factual meaning."
+    },
+    {
+      "sourcePassage": "So there's a lot of changes that occur",
+      "reason": "Replacing 'So' with 'therefore' is an allowed change as they have exactly the same causal meaning in this context."
+    }
+  ]
+}

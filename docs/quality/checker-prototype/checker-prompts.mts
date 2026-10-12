@@ -61,6 +61,14 @@ const WIDER_CAUSE_WITH_EXAMPLE = `${CAUSAL_DISTORTION} For example, the speaker 
 /** The line of the versions from c3 that allows changes of form. */
 const FORM_ALLOWANCE = "- A [FIGURE] mark, the order of the points, the paragraphs, style and grammar.";
 
+/** The allowed-change line of the versions from c3 for a term correction. */
+const TERM_CORRECTION_ALLOWANCE =
+	"- The right form of a term correction in place of its wrong form. Treat each correction as right.";
+
+/** The allowed-change lines of c20, which add a change that leaves the rewrite scientifically correct. */
+const CORRECT_STATEMENT_ALLOWANCE = `${TERM_CORRECTION_ALLOWANCE}
+- A change after which the rewrite states something that is scientifically correct. This can be a link between two facts of the text, a description of what the lecturer points to, or a word in place of a word of the text that is wrong. The wrong word can be a slip by the lecturer or an error by the transcriber. Report the change when you are not sure that the new statement is correct.`;
+
 /** The description instruction of the versions from c3. */
 const WHAT_IS_WRONG = "what is wrong";
 
@@ -225,7 +233,7 @@ ${notSubjectMatterAllowance}
 - Different words with exactly the same meaning.
 ${spellingAllowance(name)}
 ${FORM_ALLOWANCE}
-- The right form of a term correction in place of its wrong form. Treat each correction as right.
+${TERM_CORRECTION_ALLOWANCE}
 
 ${QUOTED_REPLY}`;
 }
@@ -390,6 +398,7 @@ ${QUOTED_REPLY}`,
 		prompt: (name) =>
 			learningIssuePrompt({
 				name,
+				correctionAllowance: TERM_CORRECTION_ALLOWANCE,
 				unsourcedAdditions: C7_ADDITIONS,
 				formAllowance: FORM_ALLOWANCE,
 				mergingDistortion: C7_MERGING,
@@ -404,6 +413,7 @@ ${QUOTED_REPLY}`,
 		prompt: (name) =>
 			learningIssuePrompt({
 				name,
+				correctionAllowance: TERM_CORRECTION_ALLOWANCE,
 				unsourcedAdditions: CHECKED_DESCRIPTION_ADDITIONS,
 				formAllowance: FORM_ALLOWANCE,
 				mergingDistortion: C7_MERGING,
@@ -418,6 +428,7 @@ ${QUOTED_REPLY}`,
 		prompt: (name) =>
 			learningIssuePrompt({
 				name,
+				correctionAllowance: TERM_CORRECTION_ALLOWANCE,
 				unsourcedAdditions: CHECKED_DESCRIPTION_ADDITIONS,
 				formAllowance: FIGURE_SENTENCE_ALLOWANCE,
 				mergingDistortion: C7_MERGING,
@@ -432,6 +443,7 @@ ${QUOTED_REPLY}`,
 		prompt: (name) =>
 			learningIssuePrompt({
 				name,
+				correctionAllowance: TERM_CORRECTION_ALLOWANCE,
 				unsourcedAdditions: CHECKED_DESCRIPTION_ADDITIONS,
 				formAllowance: FIGURE_SENTENCE_ALLOWANCE,
 				mergingDistortion: MERGING_WITH_EXAMPLE,
@@ -446,6 +458,7 @@ ${QUOTED_REPLY}`,
 		prompt: (name) =>
 			learningIssuePrompt({
 				name,
+				correctionAllowance: TERM_CORRECTION_ALLOWANCE,
 				unsourcedAdditions: CHECKED_DESCRIPTION_ADDITIONS,
 				formAllowance: FIGURE_SENTENCE_ALLOWANCE,
 				mergingDistortion: MERGING_WITH_EXAMPLE,
@@ -460,6 +473,7 @@ ${QUOTED_REPLY}`,
 		prompt: (name) =>
 			learningIssuePrompt({
 				name,
+				correctionAllowance: TERM_CORRECTION_ALLOWANCE,
 				unsourcedAdditions: DRAWN_LINK_ADDITIONS,
 				formAllowance: FIGURE_SENTENCE_ALLOWANCE,
 				mergingDistortion: MERGING_WITH_EXAMPLE,
@@ -474,6 +488,7 @@ ${QUOTED_REPLY}`,
 		prompt: (name) =>
 			learningIssuePrompt({
 				name,
+				correctionAllowance: TERM_CORRECTION_ALLOWANCE,
 				unsourcedAdditions: CHECKED_DESCRIPTION_ADDITIONS,
 				formAllowance: FIGURE_SENTENCE_ALLOWANCE,
 				mergingDistortion: MERGING_WITH_EXAMPLE,
@@ -488,6 +503,7 @@ ${QUOTED_REPLY}`,
 		prompt: (name) =>
 			learningIssuePrompt({
 				name,
+				correctionAllowance: TERM_CORRECTION_ALLOWANCE,
 				unsourcedAdditions: CHECKED_DESCRIPTION_ADDITIONS,
 				formAllowance: FIGURE_SENTENCE_ALLOWANCE,
 				mergingDistortion: MERGING_WITH_EXAMPLE,
@@ -502,6 +518,7 @@ ${QUOTED_REPLY}`,
 		prompt: (name) =>
 			learningIssuePrompt({
 				name,
+				correctionAllowance: TERM_CORRECTION_ALLOWANCE,
 				unsourcedAdditions: CHECKED_DESCRIPTION_ADDITIONS,
 				formAllowance: FIGURE_SENTENCE_ALLOWANCE,
 				mergingDistortion: MERGING_WITH_EXAMPLE,
@@ -516,6 +533,7 @@ ${QUOTED_REPLY}`,
 		prompt: (name) =>
 			learningIssuePrompt({
 				name,
+				correctionAllowance: TERM_CORRECTION_ALLOWANCE,
 				unsourcedAdditions: CHECKED_DESCRIPTION_ADDITIONS,
 				formAllowance: FIGURE_SENTENCE_ALLOWANCE,
 				mergingDistortion: MERGING_WITH_EXAMPLE,
@@ -530,6 +548,7 @@ ${QUOTED_REPLY}`,
 		prompt: (name) =>
 			learningIssuePrompt({
 				name,
+				correctionAllowance: TERM_CORRECTION_ALLOWANCE,
 				unsourcedAdditions: CHECKED_DESCRIPTION_ADDITIONS,
 				formAllowance: FIGURE_SENTENCE_ALLOWANCE,
 				mergingDistortion: MERGING_WITH_EXAMPLE,
@@ -544,6 +563,7 @@ ${QUOTED_REPLY}`,
 		prompt: (name) =>
 			learningIssuePrompt({
 				name,
+				correctionAllowance: TERM_CORRECTION_ALLOWANCE,
 				unsourcedAdditions: CHECKED_DESCRIPTION_ADDITIONS,
 				formAllowance: FIGURE_SENTENCE_ALLOWANCE,
 				mergingDistortion: MERGING_WITH_EXAMPLE,
@@ -558,11 +578,27 @@ ${QUOTED_REPLY}`,
 		prompt: (name) =>
 			learningIssuePrompt({
 				name,
+				correctionAllowance: TERM_CORRECTION_ALLOWANCE,
 				unsourcedAdditions: CHECKED_DESCRIPTION_ADDITIONS,
 				formAllowance: FIGURE_SENTENCE_ALLOWANCE,
 				mergingDistortion: MERGING_WITH_EXAMPLE,
 				omissions: C7_OMISSIONS,
 				reply: CHANGE_IN_TEXT_WORDS_REPLY,
+				causalDistortion: CAUSAL_DISTORTION,
+			}),
+	},
+	c20: {
+		changed:
+			"Starts again from c10. Allows a change after which the rewrite states something that is scientifically correct: a link between two facts, a description of what the lecturer points to, or a word in place of a wrong word of the text.",
+		prompt: (name) =>
+			learningIssuePrompt({
+				name,
+				correctionAllowance: CORRECT_STATEMENT_ALLOWANCE,
+				unsourcedAdditions: CHECKED_DESCRIPTION_ADDITIONS,
+				formAllowance: FIGURE_SENTENCE_ALLOWANCE,
+				mergingDistortion: MERGING_WITH_EXAMPLE,
+				omissions: C7_OMISSIONS,
+				reply: QUOTED_REPLY,
 				causalDistortion: CAUSAL_DISTORTION,
 			}),
 	},
@@ -617,6 +653,7 @@ const FIGURE_SENTENCE_ALLOWANCE = `${FORM_ALLOWANCE} A sentence around the [FIGU
  * @param args.omissions - The lines of the forbidden omissions.
  * @param args.reply - The considerations and reply format sections.
  * @param args.causalDistortion - The forbidden-distortion line for a changed cause or effect.
+ * @param args.correctionAllowance - The allowed-change lines after the line for changes of form.
  * @returns The prompt.
  */
 function learningIssuePrompt({
@@ -627,8 +664,10 @@ function learningIssuePrompt({
 	omissions,
 	reply,
 	causalDistortion,
+	correctionAllowance,
 }: {
 	readonly name: string;
+	readonly correctionAllowance: string;
 	readonly causalDistortion: string;
 	readonly omissions: string;
 	readonly unsourcedAdditions: string;
@@ -671,7 +710,7 @@ Do not report these changes as deficiencies since they are not forbidden:
 - Different words with exactly the same meaning.
 ${spellingAllowance(name)}
 ${formAllowance}
-- The right form of a term correction in place of its wrong form. Treat each correction as right.
+${correctionAllowance}
 
 
 

@@ -1,0 +1,32 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "The uterus is here in this diagram, and as you know, it hangs down into the vaginal canal.",
+      "reason": "The rewrite drops 'is here in this diagram, and as you know'. These are dropped pointers and remarks to the audience, which are allowed."
+    },
+    {
+      "sourcePassage": "here is the endocervical canal that it goes between the neck of the womb. Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "reason": "The rewrite changes 'goes between' to 'runs through' and turns 'here... and here' into 'seen alongside it'. This is a scientifically correct description of the lecturer's pointing words and anatomical relationships on a histological slide, which is allowed."
+    },
+    {
+      "sourcePassage": "So you can see this nice transition between these two different types of epithelium, and you'll see this in your practicals.",
+      "reason": "The word 'nice' is dropped. This functions as a filler or conversational adjective, and its omission does not alter the factual meaning of the sentence."
+    },
+    {
+      "sourcePassage": "And the ectocervix here, which is more squamous cells, which has more of a protective layer, which deals with the acidic environment that's inside the vagina.",
+      "reason": "The rewrite says 'which form more of a protective layer' instead of 'which has more of a protective layer'. This is an accurate phrasing that conveys exactly the same meaning (the squamous cells form the layer)."
+    },
+    {
+      "sourcePassage": "So this is that pre-invasive state. You'll notice that the basement layer here is still intact.",
+      "reason": "The rewrite combines these sentences with 'in which'. The text clearly indicates that the intact basement layer is a feature of the pre-invasive state being shown, so this is a correct link."
+    },
+    {
+      "sourcePassage": "If you'll notice here from the 1950s to, this is only to 2000",
+      "reason": "The rewrite drops 'If you'll notice here' and 'this is only to'. These are conversational directions to the audience and self-corrections, which are allowed to be dropped."
+    }
+  ]
+}

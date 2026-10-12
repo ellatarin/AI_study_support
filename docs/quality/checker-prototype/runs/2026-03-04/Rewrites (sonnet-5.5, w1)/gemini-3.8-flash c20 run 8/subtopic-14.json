@@ -1,0 +1,20 @@
+{
+  "subtopicId": 14,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, so what does this look like in the clinic? [chuckles] I call this the four horsemen.",
+      "reason": "The rewrite phrases this as 'the presentation of cancer can be summarised as the \"four horsemen\"', which accurately captures the meaning of the colloquial spoken question and remark without introducing new information."
+    },
+    {
+      "sourcePassage": "tumors can be indirect if they're occurring in non-screenable or non-palpable areas",
+      "reason": "Rewriting 'tumors can be indirect' as 'Tumours can also present indirectly' is a stylistic adjustment to standard clinical terminology with equivalent meaning."
+    },
+    {
+      "sourcePassage": "So in thinking about this, we try to jump the gun and try to screen for different cancers before we get to a malignant state",
+      "reason": "The transition 'For this reason, the approach is to try to jump the gun...' accurately reflects the lecturer's 'So in thinking about this...'."
+    }
+  ]
+}

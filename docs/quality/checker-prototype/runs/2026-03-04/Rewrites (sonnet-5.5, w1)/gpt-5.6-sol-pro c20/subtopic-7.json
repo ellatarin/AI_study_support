@@ -1,0 +1,75 @@
+{
+  "subtopicId": 7,
+  "checkerPromptVersion": "c20",
+  "modelId": "openai/gpt-5.6-sol-pro",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite converts two pointing statements into the specific spatial claim that the tumour lies next to the outer surface of the uterus. The lecturer identifies the tumour and the outer surface but does not state that spatial relationship.",
+      "sourcePassage": "You can see that the tumor is here. This is the outer surface of the uterus.",
+      "rewritePassage": "The tumour lies next to the outer surface of the uterus"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite changes the lecturer's term “circumspect” to “circumscribed”. Although “circumscribed” is likely the intended technical term, this term change is not authorised by the supplied corrections.",
+      "sourcePassage": "So you can see again that this is actually circumspect and very separate from the surrounding stroma and the surrounding tissue.",
+      "rewritePassage": "The tumour is therefore circumscribed and very separate from the surrounding stroma and the surrounding tissue."
+    },
+    {
+      "deficiencyType": "omission",
+      "description": "The rewrite omits the lecturer's statement that sampling the adjacent lymph node happens “very often”, removing information about the frequency of this practice.",
+      "sourcePassage": "very often, for example, with breast cancers, you might sample the adjacent lymph node",
+      "rewritePassage": "as for example with breast cancers, the adjacent lymph node might be sampled"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "you can have a benign tumor like this one, which has a capsule around it. This is a meningioma, and there is no invasion of the adjacent tissues. Movable, and literally, you can scoop it out with no damage to the surrounding tissue.",
+      "reason": "The rewrite preserves the capsule, identification as a meningioma, lack of invasion, mobility and removal without damage; the grammatical and stylistic changes do not alter the meaning."
+    },
+    {
+      "sourcePassage": "another example here of a benign tumor, this is what would be called a fibroid, very common in post-menopausal women.",
+      "reason": "The rewrite retains the classification as a benign fibroid and its stated prevalence in post-menopausal women."
+    },
+    {
+      "sourcePassage": "This is normally a very thin muscle wall that is present in the uterus.",
+      "reason": "Saying that the uterus normally has a very thin muscle wall conveys the same information."
+    },
+    {
+      "sourcePassage": "through the process of fixation and staining of this tumor, the hydration and dehydration of this tissue slice on the slide, has actually caused the tumor, which is, as I said, not invaded into the surrounding tissue to separate away from the normal muscle.",
+      "reason": "The rewrite preserves the preparation processes, their role in causing separation from normal muscle and the fact that the tumour has not invaded the surrounding tissue."
+    },
+    {
+      "sourcePassage": "So contrast this fibroid that you're seeing here, this leiomyoma, with a malignant case. These are quite rare.",
+      "reason": "The rewrite retains the identification of the fibroid as a leiomyoma, the contrast with a malignant case and the rarity of such malignant cases."
+    },
+    {
+      "sourcePassage": "Again, here is the outer surface of the uterus, and you have the tumor here, but this tumor is now growing within the wall of the uterus, and has, if you like, invaded within this tissue.",
+      "reason": "The rewrite preserves the figure-based identification of the outer surface and the malignant tumour's growth and invasion within the uterine wall."
+    },
+    {
+      "sourcePassage": "So if you zoom into what this actually looks like on the slide, taking this section here, what you find is normal muscle here, but interleaving within that, you have these stripes of the malignant tumor that are within the normal muscle.",
+      "reason": "The rewrite faithfully describes the zoomed section, including normal muscle interleaved with stripes of malignant tumour."
+    },
+    {
+      "sourcePassage": "And these tumor cells have some of the markers of muscle cells, but not all of them, so they're considered to have dedifferentiated slightly in terms of their phenotype.",
+      "reason": "The rewrite retains both the partial presence of muscle-cell markers and the resulting assessment of slight phenotypic dedifferentiation."
+    },
+    {
+      "sourcePassage": "So you can see this is what the invasion looks like. The surrounding tissue, in this case, muscle, has tumor cells present within it.",
+      "reason": "The rewrite preserves the lecturer's explanation of invasion as tumour cells being present within the surrounding muscle."
+    },
+    {
+      "sourcePassage": "the expectation is that if it has invaded again into the surrounding tissues, it may have the capacity to metastasize to distant sites within the body.",
+      "reason": "The rewrite retains the tentative expectation that invasion may indicate a capacity to metastasise to distant sites."
+    },
+    {
+      "sourcePassage": "when a patient would come and get a biopsy",
+      "reason": "The rewrite's wording that a patient comes for a biopsy is a stylistic restatement with the same meaning."
+    },
+    {
+      "sourcePassage": "but you wouldn't be sampling all over the body, so it might be difficult to necessarily find all of the possible secondary tumors unless there is some other physical sign that you can detect.",
+      "reason": "The rewrite preserves the limited scope of sampling, the resulting difficulty of finding all possible secondary tumours and the exception where another detectable physical sign is present."
+    }
+  ]
+}

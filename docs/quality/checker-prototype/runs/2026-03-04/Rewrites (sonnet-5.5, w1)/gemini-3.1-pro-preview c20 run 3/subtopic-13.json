@@ -1,0 +1,52 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "since I found this slide some time ago",
+      "reason": "Dropped statement about the lecture preparation/filler."
+    },
+    {
+      "sourcePassage": "if you compare any two things, you're going to find differences.",
+      "reason": "Changed 'any two things' to 'any comparison between two species'. In a biological context comparing dogs, cats, and humans, this is scientifically accurate and synonymous."
+    },
+    {
+      "sourcePassage": "along with skin and connective tissues, which is different from people.",
+      "reason": "Changed to 'tumours of the skin and connective tissues, which differs from the pattern in people'. This correctly clarifies the comparison (tumours to tumours, rather than tissues to people)."
+    },
+    {
+      "sourcePassage": "And this is my cat, who also ended up with a feline injection site sarcoma.",
+      "reason": "Changed 'this is my cat' to 'The lecturer's own cat'. This is an accurate stylistic adjustment for third-person textbook prose."
+    },
+    {
+      "sourcePassage": "This is from injections proposed to be due to the adjuvant that is also added with the injection.",
+      "reason": "Changed 'This is from' to 'Such tumours arise from' and separated 'are proposed to be due to the adjuvant', which grammatically and scientifically corrects the text so it states the tumours (rather than the injections themselves) are due to the adjuvant."
+    },
+    {
+      "sourcePassage": "You'll be happy to hear he's doing fine now after his surgery.",
+      "reason": "Dropped 'You'll be happy to hear' as it is a conversational remark to the audience."
+    },
+    {
+      "sourcePassage": "this is a comparison of the incidence of different types of tumors in things like birds and reptiles in comparison to mammals. You'll see that digestive tissues, hematopoietic, and skin are the three main categories in terms of where cancers arise.",
+      "reason": "Combined these two sentences using 'shows that'. The link is not an unsourced addition because 'You'll see that' in the context of looking at a comparison means the comparison shows the result."
+    },
+    {
+      "sourcePassage": "hematopoietic",
+      "reason": "Completed to 'hematopoietic tissues' in the rewrite. This is a grammatically and scientifically correct expansion, matching the parallel 'digestive tissues'."
+    },
+    {
+      "sourcePassage": "And so it's pretty clear that, if you like, the molecular processes that are occurring are similar.",
+      "reason": "Dropped 'if you like' as conversational filler, and 'And so' is translated directly to 'It is therefore'."
+    },
+    {
+      "sourcePassage": "The only thing that was quite interesting to note here is that the rate of malignant tumors is about fivefold higher",
+      "reason": "Rewritten to 'The one notable difference is that the rate of malignant tumours is about fivefold higher'. The text contrasts the similarities of molecular processes with a fivefold higher rate, so calling it a 'difference' is accurate to the context."
+    },
+    {
+      "sourcePassage": "The real takeaway here is that any organism or any animal that has-- any organism, rather, that is multicellular",
+      "reason": "Dropped the false start 'any organism or any animal that has--' and condensed it to 'any multicellular organism'."
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds a link claiming that the slice through the tumour illustrates the process of explanting a tumour, which the text does not state.",
+      "sourcePassage": "Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "rewritePassage": "A slice through a tumour, with a stain to show the morphology, illustrates this [FIGURE]."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "This is a remark to the audience and filler, which is allowed to be dropped."
+    },
+    {
+      "sourcePassage": "other things",
+      "reason": "Changing 'things' to 'components' uses different words with exactly the same meaning in this context."
+    },
+    {
+      "sourcePassage": "So the other thing to appreciate is that when, if you like,",
+      "reason": "This is conversational filler and introductory phrasing, which is allowed to be removed."
+    },
+    {
+      "sourcePassage": "try to get them to grow",
+      "reason": "Replacing the pronoun 'them' with 'the cells' makes the same statement using different words with exactly the same meaning."
+    }
+  ]
+}

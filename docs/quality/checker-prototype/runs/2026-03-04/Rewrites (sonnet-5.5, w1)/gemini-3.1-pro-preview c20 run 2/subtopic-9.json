@@ -1,0 +1,20 @@
+{
+  "subtopicId": 9,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So this meningioma obviously is occurring within the skull.",
+      "reason": "The rewrite changes the lecturer's specific reference ('this meningioma') to a general statement ('A meningioma occurs within the skull'). This generalization is not reported because it is scientifically correct that meningiomas arise within the skull (or spinal canal)."
+    },
+    {
+      "sourcePassage": "This would put an enormous amount of pressure on the brain and the surrounding structures and would cause and has caused Has caused death in this case.",
+      "reason": "The rewrite slightly adjusts the phrasing from a specific hypothetical ('This would put...') to a general statement ('so it puts...') followed by the specific outcome ('and in this case it caused death'). This maintains the meaning without introducing a distortion."
+    },
+    {
+      "sourcePassage": "obviously, when there is a suspicion of cancer or of a tumor, everybody gets very nervous about what that diagnosis is going to look like.",
+      "reason": "The rewrite drops the filler word 'obviously' and rewrites the sentence to be more formal. This is an allowed change of style and tone."
+    }
+  ]
+}

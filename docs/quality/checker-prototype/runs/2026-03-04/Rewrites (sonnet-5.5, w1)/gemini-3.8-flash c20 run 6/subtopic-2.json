@@ -1,0 +1,27 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite inserts 'that is' to equate 'acetylation or deacetylation' with 'the state of transcription within the cell itself', presenting them as synonymous or defining one by the other, whereas the original text merely lists them side by side without stating that they are the same.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events that can also help to give rise to cancer.",
+      "reason": "The rewrite replaces the pronoun 'they' (referring to viruses/infectious agents) with 'infection', which is a stylistically natural phrasing and scientifically accurate in this context."
+    },
+    {
+      "sourcePassage": "So I've just made this kind of a much simpler diagram, if you like.",
+      "reason": "The rewrite renders the lecturer's conversational meta-commentary into passive textbook prose ('A much simpler diagram can be made') with an appropriate figure marker."
+    },
+    {
+      "sourcePassage": "So there's a lot of changes that occur, and as I said, we don't know pretty much because of this when they occur.",
+      "reason": "The rewrite's use of 'therefore' translates the discourse marker 'So' into formal prose without introducing an incorrect causal relationship."
+    }
+  ]
+}

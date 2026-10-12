@@ -1,0 +1,28 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So for our purposes, what we're going to use is the muscularis mucosa here as our proxy for the basement membrane",
+      "reason": "The writer used the corrected term 'muscularis mucosae' as specified in the correction list."
+    },
+    {
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "In the rewrite, this is phrased as 'malignancy is defined as the ability to invade the surrounding tissue', which is scientifically accurate since invasiveness distinguishes malignant neoplasms from benign ones."
+    },
+    {
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "reason": "The rewrite clarifies 'this' as 'Invasion', which is scientifically correct and clear from the surrounding discussion of local invasion preceding metastasis."
+    },
+    {
+      "sourcePassage": "You wouldn't necessarily be able to say anything on two words about either of these.",
+      "reason": "The garbled spoken idiom was rendered faithfully as 'Nothing could necessarily be said about either from their appearance' based on the context of macroscopic vs microscopic examination."
+    },
+    {
+      "sourcePassage": "But the question is, of course, you would then be interested in figuring out whether or not there would be secondary metastases across the body.",
+      "reason": "This rhetorical transition before examining the microscopic muscle invasion was omitted, while the actual topic of secondary metastases was fully covered in the subsequent paragraphs."
+    }
+  ]
+}

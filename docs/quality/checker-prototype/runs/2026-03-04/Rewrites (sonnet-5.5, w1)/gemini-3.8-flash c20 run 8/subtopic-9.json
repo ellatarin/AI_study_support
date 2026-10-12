@@ -1,0 +1,20 @@
+{
+  "subtopicId": 9,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "smooth muscle fibroid that I showed you, that almost never progresses to a leiomyosarcoma",
+      "reason": "The writer rendered the lecturer's conversational reference to a shown example as 'as shown earlier' alongside an allowed [FIGURE] mark without altering the meaning."
+    },
+    {
+      "sourcePassage": "So this meningioma obviously is occurring within the skull. The skull is a confined space. This would put an enormous amount of pressure on the brain and the surrounding structures and would cause and has caused Has caused death in this case.",
+      "reason": "The rewrite accurately maintains the general anatomical fact about meningiomas in the confined space of the skull alongside the lecturer's specific case reference ('in this case it caused death')."
+    },
+    {
+      "sourcePassage": "everybody gets very nervous about what that diagnosis is going to look like",
+      "reason": "The rewrite translates the colloquial phrasing into standard textbook prose ('there is considerable anxiety about the diagnosis') with equivalent meaning."
+    }
+  ]
+}

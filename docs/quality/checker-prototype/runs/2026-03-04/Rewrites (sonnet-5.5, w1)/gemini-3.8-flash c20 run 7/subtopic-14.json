@@ -1,0 +1,20 @@
+{
+  "subtopicId": 14,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, so what does this look like in the clinic? [chuckles] I call this the four horsemen.",
+      "reason": "The rewrite renders this conversational opening and metaphor as 'In the clinic, the presentation of cancer can be summarised as the \"four horsemen\"', which appropriately converts colloquial speech into textbook style without altering the meaning."
+    },
+    {
+      "sourcePassage": "tumors can be indirect if they're occurring in non-screenable or non-palpable areas",
+      "reason": "The rewrite phrases this as 'Tumours can also present indirectly if they occur in non-screenable or non-palpable areas', which accurately reflects the clinical meaning using British spelling."
+    },
+    {
+      "sourcePassage": "So in thinking about this, we try to jump the gun and try to screen for different cancers before we get to a malignant state",
+      "reason": "The rewrite converts the lecturer's informal transition to 'For this reason, the approach is to try to jump the gun and screen for different cancers before a malignant state is reached', preserving the meaning and the lecturer's idiom."
+    }
+  ]
+}

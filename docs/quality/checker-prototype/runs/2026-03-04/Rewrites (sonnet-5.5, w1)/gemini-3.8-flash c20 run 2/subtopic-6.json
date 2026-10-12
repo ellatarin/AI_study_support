@@ -1,0 +1,24 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "This is a personal remark to the audience and a reminder to the speaker, which is permitted to be dropped as filler."
+    },
+    {
+      "sourcePassage": "transcoelomic site",
+      "reason": "The rewrite uses 'transcoelomic route', which correctly names the route of spread that the lecturer was listing ('via a number of routes... or also this transcoelomic site'), repairing a minor slip with the scientifically correct term."
+    },
+    {
+      "sourcePassage": "And I think one of the tumors that does this quite frequently is ovarian cancer, for example.",
+      "reason": "Dropping the conversational opener 'I think' does not inappropriately remove a scientific hedge here, as ovarian cancer frequently spreading transcoelomically is an established biological fact."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here, and then you can often see sometimes the tumor cells are actually present within a lymphatic duct.",
+      "reason": "The pointing words and repetitions ('are here', 'sometimes') are appropriately streamlined into textbook prose describing the histological appearance."
+    }
+  ]
+}

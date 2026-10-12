@@ -1,0 +1,29 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "omission",
+      "description": "The rewrite omits the lecturer's observation pointing out the location of the main tumour cells on the slide.",
+      "sourcePassage": "You see your tumor cells are here,",
+      "rewritePassage": null
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite changes an observation about a specific tumour cell shown in the figure into a generalized, hypothetical statement, altering both the subject and the certainty.",
+      "sourcePassage": "this tumor cell has the appearance of an adenomatous tumor or glandular tumor.",
+      "rewritePassage": "a tumour cell may have the appearance of an adenomatous or glandular tumour,"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "This is a remark to the audience and dropped filler, which is an allowed change."
+    },
+    {
+      "sourcePassage": "this transcoelomic site",
+      "reason": "The rewrite changes 'site' to 'route'. This replaces a slip by the lecturer with a scientifically correct term, which is allowed."
+    }
+  ]
+}

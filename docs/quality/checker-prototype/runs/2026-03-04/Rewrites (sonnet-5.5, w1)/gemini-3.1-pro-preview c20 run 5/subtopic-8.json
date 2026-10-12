@@ -1,0 +1,43 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "omission",
+      "description": "The rewrite omits the lecturer's observation that one would be interested in figuring out if there would be secondary metastases across the body.",
+      "sourcePassage": "But the question is, of course, you would then be interested in figuring out whether or not there would be secondary metastases across the body.",
+      "rewritePassage": null
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds a causal link ('because') to connect the tumour cells not metastasising and their failure to survive at the secondary site, which the text states merely as two consecutive facts.",
+      "sourcePassage": "but many of them never metastasize. They never survive in the secondary site.",
+      "rewritePassage": "Many never metastasise, because they never survive at the secondary site."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite makes an unclear and mis-transcribed phrase ('on two words') clear by substituting a specific interpretation ('from their appearance').",
+      "sourcePassage": "You wouldn't necessarily be able to say anything on two words about either of these.",
+      "rewritePassage": "Nothing could necessarily be said about either from their appearance"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "reason": "The rewrite resolves the pointing word 'this' to 'Invasion'. This is a scientifically correct description of what is taking place, so it is an allowed change."
+    },
+    {
+      "sourcePassage": "because this is not necessarily an adenoma until I understand the histology of this particular polyp.",
+      "reason": "The rewrite turns the pointing word 'this' into 'a lesion'. Since a polyp is a type of lesion, this is scientifically correct and permitted."
+    },
+    {
+      "sourcePassage": "The submucosa is here",
+      "reason": "The rewrite turns the pointing word 'here' into 'lies beneath it'. This reflects correct anatomical knowledge of the submucosa's location beneath the muscularis mucosae and is allowed."
+    },
+    {
+      "sourcePassage": "You'll see that over here you have the adenoma which has progressed into an adenocarcinoma.",
+      "reason": "The rewrite translates 'over here' into 'Elsewhere in the same lesion', which is scientifically correct for describing the regions of the polyp being observed. It is therefore allowed."
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "subtopicId": 7,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite turns the lecturer's pointing to the tumour and the outer surface into a statement of spatial relationship, asserting that the tumour lies next to the outer surface. The text does not state this link, and it cannot be assumed to be correct just from the fact that both are present in the slide.",
+      "sourcePassage": "You can see that the tumor is here. This is the outer surface of the uterus.",
+      "rewritePassage": "The tumour lies next to the outer surface of the uterus,"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So you can see again that this is actually circumspect and very separate from the surrounding stroma and the surrounding tissue.",
+      "reason": "The lecturer mistakenly says 'circumspect' instead of 'circumscribed'. The rewrite corrects this to 'circumscribed', which is allowed because it establishes the scientifically correct medical term."
+    },
+    {
+      "sourcePassage": "This is the outer surface of the uterus. This is normally a very thin muscle wall that is present in the uterus.",
+      "reason": "The rewrite links the thin muscle wall to the uterus via a relative clause ('which normally has a very thin muscle wall'). This is allowed because it accurately reflects the relationship described in the text."
+    },
+    {
+      "sourcePassage": "So that is what invasion would look like, and I guess the expectation is that if it has invaded again into the surrounding tissues, it may have the capacity to metastasize",
+      "reason": "The rewrite drops 'again', which is used as a filler word in this context, and changes 'if it has' to 'a tumour that has', which is an allowed grammatical restyling."
+    }
+  ]
+}

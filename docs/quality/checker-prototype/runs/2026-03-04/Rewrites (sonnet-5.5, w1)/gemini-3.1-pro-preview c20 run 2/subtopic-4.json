@@ -1,0 +1,35 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite states that the stained slice illustrates the explanting of a tumour, which the text does not state.",
+      "sourcePassage": "Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "rewritePassage": "A slice through a tumour, with a stain to show the morphology, illustrates this"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So the other thing to appreciate is that when, if you like, biologists are studying tumors",
+      "reason": "Dropping conversational filler ('if you like', 'So the other thing to appreciate is that') is an allowed change."
+    },
+    {
+      "sourcePassage": "But cancer biologists will also, for example, disaggregate a tumor like this",
+      "reason": "Omitting 'for example' does not alter the scientific meaning of the passage."
+    },
+    {
+      "sourcePassage": "So when HeLa cells, which were the first tumor cells to grow in culture, did that, this was very much a surprise.",
+      "reason": "Rephrasing to remove 'did that' is an allowed stylistic change since the rewrite retains the fact that they were the first to grow in culture and that it was a surprise."
+    },
+    {
+      "sourcePassage": "contributions of things like the stroma and other things.",
+      "reason": "Replacing 'other things' with 'other components' is an allowed change as it clarifies the meaning with a more precise word that does not change the scientific claim."
+    },
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "Dropping a remark to the audience is an allowed change."
+    }
+  ]
+}

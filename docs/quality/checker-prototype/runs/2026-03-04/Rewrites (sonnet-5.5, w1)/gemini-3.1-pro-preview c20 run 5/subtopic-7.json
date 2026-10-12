@@ -1,0 +1,25 @@
+{
+  "subtopicId": 7,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite turns the lecturer's pointing words into a spatial description that the tumour lies next to the outer surface of the uterus, which is not stated in the text.",
+      "sourcePassage": "You can see that the tumor is here. This is the outer surface of the uterus.",
+      "rewritePassage": "The tumour lies next to the outer surface of the uterus"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite attributes having a very thin muscle wall to the uterus as a whole, whereas the text indicates that what is being pointed out is a specific thin muscle wall present in the uterus.",
+      "sourcePassage": "This is the outer surface of the uterus. This is normally a very thin muscle wall that is present in the uterus.",
+      "rewritePassage": "the outer surface of the uterus, which normally has a very thin muscle wall."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So you can see again that this is actually circumspect and very separate from the surrounding stroma and the surrounding tissue.",
+      "reason": "The lecturer uses 'circumspect', which is a slip of the tongue for 'circumscribed'. The rewrite correctly uses 'circumscribed', which is allowed as it places a scientifically correct word in place of a wrong word from the text."
+    }
+  ]
+}

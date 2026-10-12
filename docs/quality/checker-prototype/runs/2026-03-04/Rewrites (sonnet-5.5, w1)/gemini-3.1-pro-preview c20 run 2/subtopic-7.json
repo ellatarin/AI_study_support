@@ -1,0 +1,23 @@
+{
+  "subtopicId": 7,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite connects separate pointing statements into a single sentence, adding the unsupported claims that the tumour lies next to the outer surface, and that the uterus or its outer surface normally has a very thin muscle wall.",
+      "sourcePassage": "You can see that the tumor is here. This is the outer surface of the uterus. This is normally a very thin muscle wall that is present in the uterus.",
+      "rewritePassage": "The tumour lies next to the outer surface of the uterus, which normally has a very thin muscle wall."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So you can see again that this is actually circumspect and very separate from the surrounding stroma and the surrounding tissue.",
+      "reason": "The rewrite changes the slip 'circumspect' to 'circumscribed', which is allowed because it is the scientifically correct medical term for a tumour with well-defined margins."
+    },
+    {
+      "sourcePassage": "but this tumor is now growing within the wall of the uterus, and has, if you like, invaded within this tissue.",
+      "reason": "The rewrite translates the phrase 'if you like' to 'in a sense', which is an allowed stylistic substitution that perfectly maintains the meaning of the original hedge."
+    }
+  ]
+}

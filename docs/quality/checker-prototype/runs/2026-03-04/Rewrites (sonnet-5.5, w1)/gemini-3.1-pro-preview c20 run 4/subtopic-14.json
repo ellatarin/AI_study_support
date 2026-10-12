@@ -1,0 +1,24 @@
+{
+  "subtopicId": 14,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, so what does this look like in the clinic? [chuckles] I call this the four horsemen.",
+      "reason": "The rewrite removes the conversational filler and false starts, and correctly resolves the pointing word 'this' to 'the presentation of cancer', which is scientifically accurate in this context."
+    },
+    {
+      "sourcePassage": "But very much, tumors can be indirect if they're occurring in non-screenable or non-palpable areas.",
+      "reason": "The grammatical adjustment from 'be indirect' to 'present indirectly' preserves the exact meaning and uses appropriate clinical terminology."
+    },
+    {
+      "sourcePassage": "So in thinking about this, we try to jump the gun",
+      "reason": "Replacing 'So in thinking about this, we try' with 'For this reason, the approach is to try' is an allowed stylistic change that maintains the exact logical link and meaning."
+    },
+    {
+      "sourcePassage": "before it becomes malignant, before it becomes something that's very, very hard to treat, and there's diminishing returns on said treatment.",
+      "reason": "Condensing the repetition and substituting 'when' for 'and' is a stylistic improvement that preserves the causal relationship and meaning of the original statement."
+    }
+  ]
+}

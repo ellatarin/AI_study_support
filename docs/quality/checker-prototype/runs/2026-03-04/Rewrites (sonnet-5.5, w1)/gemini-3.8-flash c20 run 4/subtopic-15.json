@@ -1,0 +1,20 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here",
+      "reason": "This is an in-the-moment pointing remark directed at the audience examining the slide, so omitting it is an allowed change."
+    },
+    {
+      "sourcePassage": "because this is what is so interesting to look at",
+      "reason": "This is a conversational aside/filler by the lecturer, which can be omitted."
+    },
+    {
+      "sourcePassage": "So this has done very well.",
+      "reason": "This is a conversational repetition summarizing the success story, which can be omitted without loss of factual information."
+    }
+  ]
+}

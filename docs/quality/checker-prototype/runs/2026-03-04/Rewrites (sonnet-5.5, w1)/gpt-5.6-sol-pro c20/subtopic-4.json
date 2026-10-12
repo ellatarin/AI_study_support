@@ -1,0 +1,53 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c20",
+  "modelId": "openai/gpt-5.6-sol-pro",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The phrase “illustrates this” adds a link suggesting that the stained tumour slice illustrates the preceding statement about explanting tumours. The source says only that the viewer is looking at a stained slice through a tumour.",
+      "sourcePassage": "Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "rewritePassage": "A slice through a tumour, with a stain to show the morphology, illustrates this [FIGURE]."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The vague phrase “other things” has been narrowed to “other components”. This clarifies and restricts an unspecified category in the source by identifying the things as components.",
+      "sourcePassage": "the contributions of things like the stroma and other things",
+      "rewritePassage": "the contributions of things such as the stroma and other components"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So the other thing to appreciate is that when, if you like, biologists are studying tumors, often they will explant the tumor.",
+      "reason": "The rewrite preserves the substantive point that biologists studying tumours often explant them; the introductory and hedging language is dispensable speech filler."
+    },
+    {
+      "sourcePassage": "But cancer biologists will also, for example, disaggregate a tumor like this and try to get them to grow in culture to study the properties of these individual tumor cells.",
+      "reason": "The rewrite faithfully preserves the disaggregation, attempted culture and purpose of studying individual tumour-cell properties."
+    },
+    {
+      "sourcePassage": "And in doing that, it's actually quite difficult, as you might imagine, to get cells to grow in a dish. If you just take any cells out of your body and you disaggregate some of your tissue and throw it into a plastic tissue culture dish, most of those cells, in fact, all of those cells will not grow. Primary cells really don't grow in culture.",
+      "reason": "The rewrite retains the difficulty of culturing cells, the example involving disaggregated tissue and a plastic culture dish, and the claim that primary cells do not grow in culture. The audience-directed phrase is permissibly omitted."
+    },
+    {
+      "sourcePassage": "So when HeLa cells, which were the first tumor cells to grow in culture, did that, this was very much a surprise. And this happened in the 1950s.",
+      "reason": "The rewrite preserves HeLa cells’ status, the surprise and the date."
+    },
+    {
+      "sourcePassage": "Obviously, permissions were not sought from the family and ethical practices were different at the time in that no permissions necessarily needed to be sought in terms of tissues.",
+      "reason": "The rewrite retains both the absence of family permission and the explanation concerning historical ethical practices; dropping “Obviously” does not alter the content."
+    },
+    {
+      "sourcePassage": "by just studying one cell in a dish, you're not really getting a full picture of exactly what's gone on in this tumor with regard to the contributions of things like the stroma",
+      "reason": "Apart from the separately reported treatment of “other things”, the rewrite preserves the limitation of studying a single cell and the relevance of stromal contributions."
+    },
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "This is a remark about lecture administration and may be omitted."
+    },
+    {
+      "sourcePassage": "So these days, obviously, we do study cancer cells in a dish, but also to say that we're also moving into doing more three-dimensional culture techniques to try and get a sense of what the different cell types would be in a differentiated three-dimensional structure.",
+      "reason": "The rewrite preserves both present-day dish culture and the move towards three-dimensional techniques intended to provide information about different cell types in a differentiated three-dimensional structure."
+    }
+  ]
+}

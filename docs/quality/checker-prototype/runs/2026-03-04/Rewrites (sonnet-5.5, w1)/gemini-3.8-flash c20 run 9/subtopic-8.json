@@ -1,0 +1,24 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So for our purposes, what we're going to use is the muscularis mucosa here as our proxy for the basement membrane",
+      "reason": "The rewrite uses the corrected anatomical term 'muscularis mucosae' in accordance with the provided term correction list."
+    },
+    {
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "reason": "Resolving the demonstrative pronoun 'this' to 'Invasion' ('Invasion is therefore probably an obligatory step in arriving at a malignant, metastasising tumour') correctly reflects the scientific context and the preceding discussion of tumours invading prior to metastasising."
+    },
+    {
+      "sourcePassage": "and you'll be able to look at this in great detail in the practicals",
+      "reason": "Omitted as meta-commentary / practical course instruction to the students, which is an allowed omission."
+    },
+    {
+      "sourcePassage": "You wouldn't necessarily be able to say anything on two words about either of these.",
+      "reason": "Rephrasing the colloquial/garbled spoken expression into 'Nothing could necessarily be said about either from their appearance' preserves the meaning without distorting the scientific content."
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "muscularis mucosa",
+      "reason": "Corrected to 'muscularis mucosae' in accordance with the provided technical term corrections."
+    },
+    {
+      "sourcePassage": "So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "Interpreting 'it' as referring to 'malignancy' in 'malignancy is defined as the ability to invade the surrounding tissue' is scientifically correct and reflects the standard biological definition."
+    },
+    {
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "reason": "Replacing the deictic 'this' with 'Invasion' is scientifically correct based on the context of the lecture discussing local invasion prior to distant metastasis."
+    },
+    {
+      "sourcePassage": "and then your normal musculature located here",
+      "reason": "'located beneath' reflects both the lecturer's earlier statement ('the muscle underneath') and anatomical correctness."
+    },
+    {
+      "sourcePassage": "You'll see that over here you have the adenoma which has progressed into an adenocarcinoma.",
+      "reason": "Rendering the pointing phrase 'over here' as 'Elsewhere in the same lesion' accurately describes the histological section being viewed."
+    }
+  ]
+}

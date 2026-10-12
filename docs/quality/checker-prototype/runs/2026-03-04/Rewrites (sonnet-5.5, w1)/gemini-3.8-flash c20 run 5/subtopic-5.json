@@ -1,0 +1,16 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals",
+      "reason": "This is a remark to the audience regarding practical course work, which is an allowed omission."
+    },
+    {
+      "sourcePassage": "where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable",
+      "reason": "The rewrite renders this as 'since a surgeon can tell just by holding or touching a tumour whether it is movable or immovable', which naturally translates the explanatory 'where' in speech into standard textbook prose without altering the intended meaning."
+    }
+  ]
+}

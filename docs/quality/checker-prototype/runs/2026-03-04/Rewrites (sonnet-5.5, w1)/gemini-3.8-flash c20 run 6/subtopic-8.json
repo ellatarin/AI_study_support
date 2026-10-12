@@ -1,0 +1,24 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "muscularis mucosa",
+      "reason": "The rewrite uses 'muscularis mucosae' as specified by the term corrections list."
+    },
+    {
+      "sourcePassage": "and you'll be able to look at this in great detail in the practicals",
+      "reason": "Omitted as an allowed change because it is a remark about the course or practical sessions."
+    },
+    {
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "The rewrite specifies 'malignancy is defined as the ability to invade the surrounding tissue', which correctly and scientifically disambiguates the pronoun from the text."
+    },
+    {
+      "sourcePassage": "The submucosa is here, and you'll see that there isn't any invasion that has occurred.",
+      "reason": "The rewrite describes the submucosa as lying beneath the muscularis mucosae, which is scientifically correct anatomical histology."
+    }
+  ]
+}

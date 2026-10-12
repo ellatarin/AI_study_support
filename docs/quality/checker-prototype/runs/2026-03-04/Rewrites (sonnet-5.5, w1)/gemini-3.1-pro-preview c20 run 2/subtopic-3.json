@@ -1,0 +1,49 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds a causal link stating that the epithelial cells look uniform because of how they are arranged, which is not stated in the source text.",
+      "sourcePassage": "You'll see that the epithelial cells here are arranged. They look fairly uniform in shape and size.",
+      "rewritePassage": "the epithelial cells are arranged so that they look fairly uniform in shape and size"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The term \"maturation\" keeps its word but gets a different grammatical role in the sentence, changing from being part of an adverbial prepositional phrase denoting time to being part of the subject.",
+      "sourcePassage": "during adolescence and maturation, this occurs",
+      "rewritePassage": "differentiation and maturation also occur"
+    },
+    {
+      "deficiencyType": "omission",
+      "description": "The rewrite omits the specific developmental stage of adolescence.",
+      "sourcePassage": "obviously during adolescence and maturation",
+      "rewritePassage": null
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite conflates the provision of signaling and the provision of a basis for adherence into a single concept of providing a \"signalling basis\".",
+      "sourcePassage": "provides a signaling and basis for their adherence",
+      "rewritePassage": "provides a signalling basis for their adherence"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "so they're apical basal regulation",
+      "reason": "The rewrite changes this to \"which reflects apical-basal regulation\", establishing a scientifically correct relationship between the position of the nucleus and apical-basal regulation to fix a clumsy statement by the lecturer."
+    },
+    {
+      "sourcePassage": "during the time that you were born",
+      "reason": "This phrase was omitted because it contradicts the correct biological fact that embryogenesis happens before birth. Correcting or dropping such a slip is allowed."
+    },
+    {
+      "sourcePassage": "into the invading stroma",
+      "reason": "The rewrite changed 'invading' to 'invaded' because it is scientifically correct that the stroma is invaded by the cells, thereby fixing a slip by the lecturer."
+    },
+    {
+      "sourcePassage": "And you can see here now",
+      "reason": "The rewrite replaces the pointing words with 'In the image of the invasive tissue'. This accurately describes what the lecturer is showing, as confirmed by the subsequent statements about invasion."
+    }
+  ]
+}

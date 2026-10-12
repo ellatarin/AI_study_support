@@ -1,0 +1,23 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite incorrectly states that a tumour occurs inside a meningioma, treating a meningioma as an anatomical location rather than a type of primary tumour.",
+      "sourcePassage": "if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "rewritePassage": "when the tumour occurs in a meningioma or in the liver."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "if tumors in bones lead to erosion of that bone function",
+      "reason": "The rewrite changes 'erosion of that bone function' to 'erosion of the bone', which makes the text scientifically correct and is therefore allowed."
+    },
+    {
+      "sourcePassage": "And also this competition with the normal,",
+      "reason": "The rewrite clarifies this as 'Competition with normal tissue is also a factor.' Making an incomplete statement clear is generally a distortion, but since the result here is scientifically correct in context, it is allowed."
+    }
+  ]
+}

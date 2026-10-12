@@ -1,0 +1,32 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So for our purposes, what we're going to use is the muscularis mucosa here as our proxy for the basement membrane",
+      "reason": "The term 'muscularis mucosa' was corrected to 'muscularis mucosae' in the rewrite in accordance with the provided corrections list."
+    },
+    {
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "The rewrite specifies 'malignancy is defined as the ability to invade the surrounding tissue'. Resolving 'it' to malignancy is scientifically correct, as malignancy is defined pathologically by invasiveness."
+    },
+    {
+      "sourcePassage": "And just to orient you here, you have normal and you have the muscle underneath.",
+      "reason": "The rewrite renders this as 'with normal epithelium and the muscle underneath', clarifying 'normal' to 'normal epithelium', which is scientifically accurate and evident from the surrounding text."
+    },
+    {
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "reason": "The rewrite renders 'this' as 'Invasion is therefore probably an obligatory step', which is scientifically correct in the context of the metastatic cascade."
+    },
+    {
+      "sourcePassage": "You'll see that over here you have the adenoma which has progressed into an adenocarcinoma.",
+      "reason": "The rewrite translates the deictic phrase 'over here' into 'Elsewhere in the same lesion', which correctly describes what the lecturer is pointing to in the histological section."
+    },
+    {
+      "sourcePassage": "and you'll be able to look at this in great detail in the practicals",
+      "reason": "References to the practical classes and remarks to students were omitted as allowed conversational and administrative remarks."
+    }
+  ]
+}

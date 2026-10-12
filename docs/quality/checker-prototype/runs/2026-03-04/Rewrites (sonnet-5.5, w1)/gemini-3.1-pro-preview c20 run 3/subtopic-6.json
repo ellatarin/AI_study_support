@@ -1,0 +1,31 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite changes a definite statement about a specific cell on the slide into a generalized, hedged statement about what a tumour cell might look like.",
+      "sourcePassage": "So, for example, this tumor cell has the appearance of an adenomatous tumor or glandular tumor.",
+      "rewritePassage": "For example, a tumour cell may have the appearance of an adenomatous or glandular tumour,"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "This was omitted because it is a remark to the audience about the lecturer's own speech habits, which is an allowed change."
+    },
+    {
+      "sourcePassage": "or also this transcoelomic site from across a cavity",
+      "reason": "The rewrite changes 'site' to 'route'. This is acceptable because 'transcoelomic route' is scientifically correct in the context of paths of metastasis, aligning with the earlier mention of 'routes'."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here, and then",
+      "reason": "This phrase was omitted because it merely acts as an orientation to the visual slide. The main observation (tumour cells present within a lymphatic duct) was correctly retained."
+    },
+    {
+      "sourcePassage": "Similarly, here you have a brain, and",
+      "reason": "Omitted because the lecturer is simply pointing to the next organ on the slide. The substantive information about the breast cancer metastasizing to the brain is preserved."
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "subtopicId": 17,
+  "checkerPromptVersion": "c20",
+  "modelId": "openai/gpt-5.6-sol-pro",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay?",
+      "reason": "This is conversational filler and may be omitted."
+    },
+    {
+      "sourcePassage": "So I leave you with the learning outcomes.",
+      "reason": "This is a statement about the lecture rather than subject-matter content and may be omitted."
+    },
+    {
+      "sourcePassage": "Hopefully, you will recognize all of these things in your revision and in your discussions with your supervisors.",
+      "reason": "This is a remark to the audience about revision and supervision, so it may be omitted."
+    },
+    {
+      "sourcePassage": "Let's leave it there for now, and I will see you in the practicals, and I will see you next week, Monday.",
+      "reason": "This is lecture-closing and course-scheduling information, which may be omitted."
+    },
+    {
+      "sourcePassage": "[clapping]",
+      "reason": "This records an audience reaction rather than subject-matter content and may be omitted."
+    }
+  ]
+}

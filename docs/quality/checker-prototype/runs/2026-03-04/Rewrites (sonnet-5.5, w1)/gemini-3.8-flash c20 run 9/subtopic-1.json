@@ -1,0 +1,20 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, everyone, shall we get started? Yes. You're very welcome, all of you, to Cancer Biology.",
+      "reason": "This is conversational opening and lecture administration, which is appropriately adapted or dropped under allowed changes."
+    },
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there.",
+      "reason": "The phrase 'The learning outcomes for this lecture are as follows' is an allowed stylistic formulation replacing the spoken pointing remark."
+    },
+    {
+      "sourcePassage": "Right. So I tag-teamed these lectures with Professor Turner, and so she will also be teaching three of these lectures.",
+      "reason": "Statements about course administration are permitted to be retained or stylistically adapted into textbook prose."
+    }
+  ]
+}

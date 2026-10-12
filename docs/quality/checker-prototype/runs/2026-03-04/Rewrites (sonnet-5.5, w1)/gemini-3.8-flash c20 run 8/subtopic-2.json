@@ -1,0 +1,31 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds 'that is', defining acetylation or deacetylation as the state of transcription within the cell itself. The text does not equate them, but rather presents them as separate items in a list of epigenetic factors.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "I'm sure you've seen a cartoon that looks like this many times.",
+      "reason": "The pointing phrase refers to a slide or visual aid, so representing it with a [FIGURE] marker is an allowed change."
+    },
+    {
+      "sourcePassage": "So I've just made this kind of a much simpler diagram, if you like.",
+      "reason": "The reference to a simpler diagram is represented appropriately with a [FIGURE] marker."
+    },
+    {
+      "sourcePassage": "and they can also predispose to chronic inflammatory events that can also help to give rise to cancer.",
+      "reason": "The text refers to infectious agents/viruses predisposing to chronic inflammatory events; phrasing this as 'infection can also predispose' preserves the meaning."
+    },
+    {
+      "sourcePassage": "So there's a lot of changes that occur",
+      "reason": "Using 'therefore' captures the speaker's summarizing 'So' across the preceding genetic, epigenetic, and viral factors."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "subtopicId": 14,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, so what does this look like in the clinic? [chuckles] I call this the four horsemen.",
+      "reason": "The conversational framing and chuckle were adapted into standard textbook prose ('In the clinic, the presentation of cancer can be summarised as the \"four horsemen\"'), which accurately preserves the meaning without introducing forbidden changes."
+    },
+    {
+      "sourcePassage": "tumors can be indirect if they're occurring in non-screenable or non-palpable areas.",
+      "reason": "Rendered as 'Tumours can also present indirectly if they occur in non-screenable or non-palpable areas', which is a faithful stylistic rephrasing."
+    },
+    {
+      "sourcePassage": "So in thinking about this, we try to jump the gun and try to screen for different cancers before we get to a malignant state",
+      "reason": "Rendered as 'For this reason, the approach is to try to jump the gun and screen for different cancers before a malignant state is reached', accurately capturing the lecturer's idiom and causal connector."
+    }
+  ]
+}

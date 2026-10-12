@@ -1,0 +1,24 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "This is an informal remark/aside to the audience by the lecturer and is allowed to be omitted."
+    },
+    {
+      "sourcePassage": "or also this transcoelomic site from across a cavity",
+      "reason": "Rendered as 'by a transcoelomic route, across a cavity' to maintain grammatical parallelism with the preceding routes, which is scientifically accurate and preserves the meaning."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here, and then you can often see sometimes the tumor cells are actually present within a lymphatic duct.",
+      "reason": "Deictic spoken phrasing ('are here') pointing at a slide was appropriately adapted into descriptive textbook prose."
+    },
+    {
+      "sourcePassage": "Similarly, here you have a brain, and what you have here is a breast cancer that's metastasized to the brain.",
+      "reason": "Phrased succinctly as 'The other is a breast cancer that has metastasized to the brain', removing conversational repetition and pointing language while preserving all factual content."
+    }
+  ]
+}

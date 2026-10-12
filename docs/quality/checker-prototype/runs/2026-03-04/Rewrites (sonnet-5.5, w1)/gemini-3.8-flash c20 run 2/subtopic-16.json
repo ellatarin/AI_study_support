@@ -1,0 +1,20 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "The reference to what the audience saw was rephrased to fit textbook prose without altering the factual meaning."
+    },
+    {
+      "sourcePassage": "if you like, an ulcerated tumor",
+      "reason": "The conversational filler 'if you like' was omitted and 'cauliflower structure' was rendered as 'cauliflower-like structure'."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "The lecture recap 'as I said' was appropriately rendered as 'Of the screening methods discussed, cervical screening is the best.'"
+    }
+  ]
+}

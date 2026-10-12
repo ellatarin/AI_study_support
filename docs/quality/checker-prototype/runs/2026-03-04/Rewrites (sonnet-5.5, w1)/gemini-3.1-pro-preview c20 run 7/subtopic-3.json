@@ -1,0 +1,31 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds a causal or purposeful link ('so that') between the arrangement of the cells and their uniform appearance, which the text does not state.",
+      "sourcePassage": "You'll see that the epithelial cells here are arranged. They look fairly uniform in shape and size.",
+      "rewritePassage": "in which the epithelial cells are arranged so that they look fairly uniform in shape and size [FIGURE]."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "into the invading stroma.",
+      "reason": "The rewrite changes 'invading' to 'invaded'. This is a permitted change because the stroma is the tissue being invaded, making the change scientifically correct and fixing a likely slip by the lecturer."
+    },
+    {
+      "sourcePassage": "They have the nucleus on the layer towards the lumen, so they're apical basal regulation in terms of the orientation of those cells within the tissue.",
+      "reason": "The rewrite translates the transcriber's garbled 'so they're' into 'which reflects', preserving the intended logical relationship where the position of the nucleus indicates apical-basal regulation."
+    },
+    {
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes.",
+      "reason": "The rewrite replaces 'here' with 'In the image of the invasive tissue'. This provides a scientifically correct description of what the lecturer is pointing to, as the context is cells that have invaded the stroma."
+    },
+    {
+      "sourcePassage": "a signaling and basis for their adherence to this layer.",
+      "reason": "The rewrite drops 'and' to form 'signalling basis'. This fixes a transcription error or slip, resulting in a scientifically correct statement."
+    }
+  ]
+}

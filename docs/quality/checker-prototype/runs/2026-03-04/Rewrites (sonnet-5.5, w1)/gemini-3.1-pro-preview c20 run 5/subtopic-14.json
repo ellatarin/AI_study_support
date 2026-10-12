@@ -1,0 +1,28 @@
+{
+  "subtopicId": 14,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, so what does this look like in the clinic?",
+      "reason": "The rewrite replaces the vague phrase 'what does this look like' with 'the presentation of cancer', which is a scientifically correct description of the lecturer's topic and pointing word."
+    },
+    {
+      "sourcePassage": "I call this the four horsemen.",
+      "reason": "The rewrite changes the lecturer's personal statement ('I call this') to a general statement ('can be summarised as'), which is an allowable stylistic change that does not distort the meaning."
+    },
+    {
+      "sourcePassage": "But very much, tumors can be indirect",
+      "reason": "The rewrite replaces the awkward phrasing 'tumors can be indirect' with 'Tumours can also present indirectly', which is an allowable clarification into a scientifically accurate clinical term."
+    },
+    {
+      "sourcePassage": "So in thinking about this, we try to jump the gun and try to screen for different cancers",
+      "reason": "The rewrite changes 'So in thinking about this' to 'For this reason, the approach is to'. This establishes the same causal link but changes the conversational tone to textbook prose."
+    },
+    {
+      "sourcePassage": "before it becomes something that's very, very hard to treat, and there's diminishing returns on said treatment.",
+      "reason": "The rewrite changes the coordinating conjunction 'and' to the temporal/relative link 'when'. This is allowed because it accurately represents the state being described (the malignant state corresponds with the time of diminishing returns)."
+    }
+  ]
+}

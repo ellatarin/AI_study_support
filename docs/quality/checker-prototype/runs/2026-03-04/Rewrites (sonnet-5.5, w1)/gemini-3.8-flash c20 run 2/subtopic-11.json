@@ -1,0 +1,31 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite states 'when the tumour occurs in a meningioma', treating 'meningioma' as an anatomical location in which a tumour can occur. In fact, a meningioma is itself a tumour (arising from the meninges). In the original text, 'they're occurring in things like the meningioma... or in the liver' referred to 'these deaths' occurring in cases such as meningioma or liver cancer. Describing a tumour as occurring inside a meningioma is medically inaccurate and misleading for a student.",
+      "sourcePassage": "Only 10% of these deaths, generally, if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "rewritePassage": "Only 10% of deaths are generally caused in this way, for example when the tumour occurs in a meningioma or in the liver."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Things like obstruction of the bile ducts in the liver interferes with digestion.",
+      "reason": "The introductory sentence 'Other effects depend on the site' was added in the rewrite as a transition introducing the site-specific examples (bile duct, bone, colon); it reflects the lecturer's earlier theme of effects in different settings and does not introduce unsupported factual claims."
+    },
+    {
+      "sourcePassage": "And things like if tumors in bones lead to erosion of that bone function, so you can get fractures",
+      "reason": "'erosion of that bone function' was rendered as 'erosion of the bone', which is scientifically accurate phrasing (bone erosion/osteolysis) correcting a slight slip in the spoken lecture."
+    },
+    {
+      "sourcePassage": "Also ulceration, you saw that enormous cauliflower structure within the colon.",
+      "reason": "'you saw that enormous cauliflower structure within the colon' was converted to 'the enormous cauliflower-like structure seen within the colon', adapting a conversational remark to an audience/visual aid into textbook prose without loss of substantive information."
+    },
+    {
+      "sourcePassage": "the hematopoietic stem cells that are there, these will interfere. This niche is not very big. This will interfere with your bone marrow",
+      "reason": "The rewrite clarifies that the tumour interferes with the haematopoietic stem cells and bone marrow due to the limited niche size, which is a scientifically correct interpretation of the lecturer's slightly tangled phrasing."
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c20",
+  "modelId": "openai/gpt-5.6-sol-pro",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite narrows the lecturer's general claim about comparing any two things to a claim specifically about comparing two species.",
+      "sourcePassage": "if you compare any two things, you're going to find differences.",
+      "rewritePassage": "any comparison between two species will reveal differences."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The source is unclear about exactly what “which” refers to and compares it directly with “people”. The rewrite resolves this by specifying that it is the overall pattern that differs, choosing one interpretation of the unclear statement.",
+      "sourcePassage": "But in dogs, mammary tumors seem to be very, very prevalent, along with skin and connective tissues, which is different from people.",
+      "rewritePassage": "In dogs, mammary tumours seem to be very prevalent, along with tumours of the skin and connective tissues, which differs from the pattern in people."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The source's unclear singular statement about the cat's sarcoma is turned into a general claim about all such tumours, and the ambiguous wording about what is proposed to be due to the adjuvant is resolved.",
+      "sourcePassage": "And this is my cat, who also ended up with a feline injection site sarcoma. This is from injections proposed to be due to the adjuvant that is also added with the injection.",
+      "rewritePassage": "The lecturer's own cat developed a feline injection site sarcoma. Such tumours arise from injections and are proposed to be due to the adjuvant that is added with the injection."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Just a slide about the incidence in companion animals since I found this slide some time ago, which is to say that in dogs and cats, they very much get similar tumors to us",
+      "reason": "The introductory remarks about the slide and when it was found may be dropped, while the substantive statement that dogs and cats develop tumours similar to those in humans is retained."
+    },
+    {
+      "sourcePassage": "And similarly, in cats, the primary type of tumor that arises is non-Hodgkin's lymphoma, but they also get skin and connective tissue tumors.",
+      "reason": "The rewrite preserves both the identification of non-Hodgkin's lymphoma as the primary tumour type in cats and the occurrence of skin and connective-tissue tumours."
+    },
+    {
+      "sourcePassage": "You'll be happy to hear he's doing fine now after his surgery.",
+      "reason": "The audience-directed wording is removed, but the factual information that the cat is doing fine after surgery is retained."
+    },
+    {
+      "sourcePassage": "But just to say that within other taxa, so this is a comparison of the incidence of different types of tumors in things like birds and reptiles in comparison to mammals. You'll see that digestive tissues, hematopoietic, and skin are the three main categories in terms of where cancers arise.",
+      "reason": "The rewrite preserves the comparison among birds, reptiles and mammals and the three principal categories. Adding “tissues” after “hematopoietic” is a grammatical completion that retains the intended category."
+    },
+    {
+      "sourcePassage": "And so it's pretty clear that, if you like, the molecular processes that are occurring are similar.",
+      "reason": "The rewrite retains both the conclusion that the molecular processes are similar and its connection to the preceding comparison; only conversational hedging is removed."
+    },
+    {
+      "sourcePassage": "The only thing that was quite interesting to note here is that the rate of malignant tumors is about fivefold higher in reptiles compared to mammals. So when a reptile gets a tumor, it very often will become a malignant tumor.",
+      "reason": "The fivefold comparison and the stated consequence that reptile tumours very often become malignant are both retained."
+    },
+    {
+      "sourcePassage": "The real takeaway here is that any organism or any animal that has-- any organism, rather, that is multicellular and has a differentiation program can end up with a problem in differentiation, and end up with a tumor and with that disease.",
+      "reason": "The rewrite correctly follows the lecturer's self-correction from “animal” to “organism” and preserves the conclusion about multicellularity, differentiation and tumour development."
+    },
+    {
+      "sourcePassage": "So oysters, flies, clams, crabs, all of these animals, they have differentiation programs, and they can all get tumors and cancer.",
+      "reason": "All four examples and the claims that they have differentiation programmes and can develop tumours and cancer are retained."
+    },
+    {
+      "sourcePassage": "So you can really consider, as I said, cancer as a disease of development and differentiation.",
+      "reason": "The concluding characterisation of cancer as a disease of development and differentiation is preserved; the omitted phrase “as I said” is a lecture-management remark."
+    }
+  ]
+}

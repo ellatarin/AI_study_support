@@ -1,0 +1,28 @@
+{
+  "subtopicId": 7,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So you can see again that this is actually circumspect and very separate from the surrounding stroma and the surrounding tissue.",
+      "reason": "The rewrite changes 'circumspect' to 'circumscribed'. This is allowed because it corrects a slip by the lecturer or an error by the transcriber to form a scientifically correct statement."
+    },
+    {
+      "sourcePassage": "You can see that the tumor is here. This is the outer surface of the uterus.",
+      "reason": "The rewrite states that the tumour 'lies next to' the outer surface of the uterus. This is an allowed description of what the lecturer is pointing out on the visual aid."
+    },
+    {
+      "sourcePassage": "This is normally a very thin muscle wall that is present in the uterus.",
+      "reason": "The rewrite connects this clause to the previous sentence ('outer surface of the uterus, which normally has a very thin muscle wall'). This is an acceptable structural change that preserves the anatomical fact about the uterus."
+    },
+    {
+      "sourcePassage": "very often, for example, with breast cancers, you might sample the adjacent lymph node",
+      "reason": "The rewrite drops the frequency marker 'very often' ('the adjacent lymph node might be sampled'). This is an acceptable stylistic simplification that does not omit a core scientific fact."
+    },
+    {
+      "sourcePassage": "and has, if you like, invaded within this tissue.",
+      "reason": "The rewrite translates the phrase 'if you like' to 'in a sense', which is an allowed wording change that preserves the original meaning exactly."
+    }
+  ]
+}

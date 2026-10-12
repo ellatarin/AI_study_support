@@ -1,0 +1,16 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "reason": "The rewrite states that 'the cervix is seen alongside it', which translates the lecturer's pointing words into a description. Because this states something that is scientifically correct and visually accurate regarding what the lecturer points to, it is an allowed change."
+    },
+    {
+      "sourcePassage": "So when HPV infection occurs, you can get a precursor lesion that is here,",
+      "reason": "The rewrite replaces 'here' with 'at this site', correctly interpreting the lecturer's earlier mention of 'this junction'."
+    }
+  ]
+}

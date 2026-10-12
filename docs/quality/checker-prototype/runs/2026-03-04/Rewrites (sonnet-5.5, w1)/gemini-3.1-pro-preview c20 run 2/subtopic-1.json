@@ -1,0 +1,20 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, everyone, shall we get started? Yes. You're very welcome, all of you, to Cancer Biology.",
+      "reason": "Introductory remarks to the audience and filler are allowed to be dropped."
+    },
+    {
+      "sourcePassage": "So you're going to be comparing the differences between benign and malignant tumors",
+      "reason": "The rewrite links this to the previous sentence with 'This involves', which faithfully translates the causal/consequential link stated by 'So' in the text."
+    },
+    {
+      "sourcePassage": "Right. So I tag-teamed these lectures with Professor Turner",
+      "reason": "Dropped filler ('Right. So') and rephrased 'tag-teamed' to 'shared', which means the same thing."
+    }
+  ]
+}

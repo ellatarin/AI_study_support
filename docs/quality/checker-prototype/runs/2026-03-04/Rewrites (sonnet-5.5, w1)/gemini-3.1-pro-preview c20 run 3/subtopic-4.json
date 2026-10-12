@@ -1,0 +1,27 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite claims that the slice through the tumour illustrates the process of explanting it, which the text does not state.",
+      "sourcePassage": "Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "rewritePassage": "A slice through a tumour, with a stain to show the morphology, illustrates this [FIGURE]."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So the other thing to appreciate is that when, if you like, biologists are studying tumors, often they will explant the tumor.",
+      "reason": "Introductory conversational phrases like 'So the other thing to appreciate is that' and 'if you like' were correctly omitted."
+    },
+    {
+      "sourcePassage": "Primary cells really don't grow in culture.",
+      "reason": "The removal of 'really' does not alter the factual claim or remove a hedge; it is merely a stylistic change."
+    },
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "These remarks to the audience and self-corrections are correctly omitted as they are not subject matter."
+    }
+  ]
+}

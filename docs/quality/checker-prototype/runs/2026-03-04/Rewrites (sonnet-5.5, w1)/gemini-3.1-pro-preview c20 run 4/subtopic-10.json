@@ -1,0 +1,16 @@
+{
+  "subtopicId": 10,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay? So just so that we're all on the same page in terms of nomenclature, and of course,",
+      "reason": "This is a remark to the audience and filler, so its omission is an allowed change."
+    },
+    {
+      "sourcePassage": "which are things like lipoma, leiomyoma, papilloma, and adenomas. All of these would be benign tumors in the tissues that they are occurring in. So the fat, smooth muscle",
+      "reason": "The rewrite explicitly maps 'lipomas' to 'fat' and 'leiomyomas' to 'smooth muscle'. This is an allowed change because it clarifies the respective lists and makes a scientifically correct statement based on the text."
+    }
+  ]
+}

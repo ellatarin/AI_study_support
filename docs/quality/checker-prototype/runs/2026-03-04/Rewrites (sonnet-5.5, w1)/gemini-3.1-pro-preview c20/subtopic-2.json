@@ -1,0 +1,27 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds the phrase \"that is\" to explicitly equate acetylation or deacetylation with the state of transcription, adding a link between two concepts that is not stated in the source text.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events",
+      "reason": "The rewrite replaces 'they' (referring to viruses) with 'infection'. This is scientifically correct and preserves the underlying causal relationship."
+    },
+    {
+      "sourcePassage": "small insertions to whole chromosome losses",
+      "reason": "Replacing the word 'to' with 'as well as' slightly removes the rhetorical sense of a spectrum of sizes, but it still correctly lists the same items without distorting the scientific meaning."
+    },
+    {
+      "sourcePassage": "we don't know pretty much because of this when they occur.",
+      "reason": "Translating 'don't know pretty much' to 'it is largely not known' accurately reflects the speaker's meaning without changing the facts."
+    }
+  ]
+}

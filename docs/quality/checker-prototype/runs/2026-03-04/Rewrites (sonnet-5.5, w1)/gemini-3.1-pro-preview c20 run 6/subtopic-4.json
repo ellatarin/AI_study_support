@@ -1,0 +1,31 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite states that the slice through the tumour illustrates the preceding point (explanting the tumour), establishing a link that the lecturer did not explicitly make.",
+      "sourcePassage": "Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "rewritePassage": "A slice through a tumour, with a stain to show the morphology, illustrates this [FIGURE]."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "This is a dropped remark to the audience, which is an allowed change."
+    },
+    {
+      "sourcePassage": "try to get them to grow",
+      "reason": "Changed to 'try to get the cells to grow' for clarity, replacing a pronoun with the noun it refers to."
+    },
+    {
+      "sourcePassage": "other things",
+      "reason": "Changed to 'other components' which has exactly the same meaning in this context."
+    },
+    {
+      "sourcePassage": "did that, this was very much a surprise",
+      "reason": "Changed to 'and so this was very much a surprise', conveying the exact same meaning."
+    }
+  ]
+}

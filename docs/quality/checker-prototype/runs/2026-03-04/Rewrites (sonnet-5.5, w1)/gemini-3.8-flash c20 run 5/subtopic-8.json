@@ -1,0 +1,24 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "muscularis mucosa",
+      "reason": "Replaced with 'muscularis mucosae' according to the provided term corrections."
+    },
+    {
+      "sourcePassage": "and you'll be able to look at this in great detail in the practicals",
+      "reason": "Omitted as an allowed change because it is a remark about the course or lecture."
+    },
+    {
+      "sourcePassage": "But the question is, of course, you would then be interested in figuring out whether or not there would be secondary metastases across the body.",
+      "reason": "Omitted as a rhetorical question and conversational false start that the lecturer immediately abandons to return to examining the microscopic features of the primary muscle invasion."
+    },
+    {
+      "sourcePassage": "You'll see that over here you have the adenoma which has progressed into an adenocarcinoma.",
+      "reason": "Rendered as 'Elsewhere in the same lesion is the adenoma, which has progressed into an adenocarcinoma'; translating the lecturer's deictic gesture ('over here') within the examined section into a clear description is an allowed change that is scientifically and contextually accurate."
+    }
+  ]
+}

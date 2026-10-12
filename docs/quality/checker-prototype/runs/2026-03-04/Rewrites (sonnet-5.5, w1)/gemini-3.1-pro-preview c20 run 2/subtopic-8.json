@@ -1,0 +1,31 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "omission",
+      "description": "The rewrite omits the question of whether there would be secondary metastases across the body, which bridges the diagnosis of malignancy and the microscopic examination.",
+      "sourcePassage": "But the question is, of course, you would then be interested in figuring out whether or not there would be secondary metastases across the body.",
+      "rewritePassage": null
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "The rewrite clarifies 'it' as 'malignancy', which is scientifically correct in this context."
+    },
+    {
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "reason": "The rewrite clarifies 'this' as 'Invasion', which correctly interprets the lecturer's pronoun."
+    },
+    {
+      "sourcePassage": "You wouldn't necessarily be able to say anything on two words about either of these.",
+      "reason": "The transcriber's garbled phrase 'on two words' was replaced with 'from their appearance', which is a correct and logical interpretation of the statement."
+    },
+    {
+      "sourcePassage": "You'll see that over here you have the adenoma which has progressed into an adenocarcinoma.",
+      "reason": "The rewrite translates 'over here' into 'Elsewhere in the same lesion', which correctly resolves the pointing words without introducing an unsourced addition."
+    }
+  ]
+}

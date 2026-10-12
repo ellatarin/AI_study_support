@@ -1,0 +1,27 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite incorrectly states that a tumour occurs \"in a meningioma\", conflating a type of tumour (meningioma) with a location in the body.",
+      "sourcePassage": "if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "rewritePassage": "for example when the tumour occurs in a meningioma or in the liver."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Well, as I was hinting at, it interferes with normal functions.",
+      "reason": "The rewrite 'The answer is that cancer interferes with normal functions.' explicitly answers the preceding question and is faithful to the meaning of the source text."
+    },
+    {
+      "sourcePassage": "Things like obstruction of the bile ducts in the liver interferes with digestion.",
+      "reason": "The rewrite prefaces this sentence with 'Other effects depend on the site.', which is implicitly supported by the earlier source text phrase 'in the different settings in which they occur' and is a valid stylistic grouping."
+    },
+    {
+      "sourcePassage": "And also this competition with the normal, if you have a tumor that is occurring in some of the blood compartments",
+      "reason": "The rewrite translates 'competition with the normal' as 'Competition with normal tissue', which perfectly captures the meaning of the speaker."
+    }
+  ]
+}

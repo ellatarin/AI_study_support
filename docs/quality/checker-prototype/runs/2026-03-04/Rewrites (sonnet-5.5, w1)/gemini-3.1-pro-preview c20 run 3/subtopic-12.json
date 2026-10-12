@@ -1,0 +1,28 @@
+{
+  "subtopicId": 12,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So just talking about incidence, about how often various tumors arise.",
+      "reason": "The rewrite changes the appositive into a definition ('Incidence describes...'), which is scientifically correct and a valid interpretation of the text."
+    },
+    {
+      "sourcePassage": "So it actually takes a lot for a benign tumor to become malignant in terms of, as I said, the number of changes that have to happen within a tumor. So they're extremely common,",
+      "reason": "The text links the two clauses causally with 'So'. The rewrite perfectly captures this causal link by using 'because'."
+    },
+    {
+      "sourcePassage": "But malignant tumors, for example, originating from mesenchymal lineage cell types, they're extremely rare.",
+      "reason": "The phrase 'for example' is omitted in the rewrite. Contextually, it functioned as conversational filler rather than meaning that all malignant tumours are rare, so dropping it does not distort the meaning."
+    },
+    {
+      "sourcePassage": "So I've just put these numbers up just so that you can have a sense.",
+      "reason": "The rewrite specifies that they give a 'sense of incidence'. This is scientifically correct given the topic of the lecture previously introduced."
+    },
+    {
+      "sourcePassage": "And then this is, if you like, the percentage of tumors that result in deaths.",
+      "reason": "The rewrite says 'A further slide shows...'. This clarifies the pointing word 'this' based on the lecturer's later remark about going backwards, and is a correct description of what the lecturer points to."
+    }
+  ]
+}

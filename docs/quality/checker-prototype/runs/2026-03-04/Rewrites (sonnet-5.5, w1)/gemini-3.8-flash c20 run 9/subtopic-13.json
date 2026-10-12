@@ -1,0 +1,20 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You'll be happy to hear he's doing fine now after his surgery.",
+      "reason": "The conversational address to the audience ('You'll be happy to hear') was omitted while retaining the factual statement about the cat's recovery, which is an allowed change."
+    },
+    {
+      "sourcePassage": "digestive tissues, hematopoietic, and skin are the three main categories in terms of where cancers arise",
+      "reason": "Expanding 'hematopoietic' to 'hematopoietic tissues' in the rewrite is an allowed stylistic/grammatical completion consistent with scientific correctness."
+    },
+    {
+      "sourcePassage": "And this is my cat, who also ended up with a feline injection site sarcoma.",
+      "reason": "Changing the first-person reference to 'The lecturer's own cat' appropriately adapts personal lecture delivery into textbook prose."
+    }
+  ]
+}

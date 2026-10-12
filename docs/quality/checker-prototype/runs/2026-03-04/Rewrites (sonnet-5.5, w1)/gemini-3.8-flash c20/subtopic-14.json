@@ -1,0 +1,20 @@
+{
+  "subtopicId": 14,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, so what does this look like in the clinic? [chuckles] I call this the four horsemen.",
+      "reason": "The rewrite phrases this as 'In the clinic, the presentation of cancer can be summarised as the \"four horsemen\"', which appropriately contextualises the topic of tumours/cancer discussed in the lecture."
+    },
+    {
+      "sourcePassage": "But very much, tumors can be indirect if they're occurring in non-screenable or non-palpable areas.",
+      "reason": "The rewrite renders 'tumors can be indirect' as 'Tumours can also present indirectly', preserving the clinical meaning without introducing new facts or distortions."
+    },
+    {
+      "sourcePassage": "So in thinking about this, we try to jump the gun and try to screen for different cancers before we get to a malignant state, because by the time you get to a malignant state, it's very likely to be too late for the patient.",
+      "reason": "The rewrite captures all causal connections and reasoning accurately in formal prose."
+    }
+  ]
+}

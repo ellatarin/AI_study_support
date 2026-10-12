@@ -1,0 +1,28 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Just a slide about the incidence in companion animals since I found this slide some time ago",
+      "reason": "This is a conversational remark about the lecture slides and can be omitted."
+    },
+    {
+      "sourcePassage": "very, very prevalent",
+      "reason": "Reducing the repeated 'very' to a single 'very' is an allowed removal of spoken repetition/emphasis."
+    },
+    {
+      "sourcePassage": "You'll be happy to hear he's doing fine now after his surgery.",
+      "reason": "Omitting 'You'll be happy to hear' is an allowed removal of an informal remark to the audience."
+    },
+    {
+      "sourcePassage": "hematopoietic",
+      "reason": "Expanding 'hematopoietic' to 'hematopoietic tissues' maintains parallelism with 'digestive tissues' and reflects standard scientific terminology without altering meaning."
+    },
+    {
+      "sourcePassage": "The only thing that was quite interesting to note here is that the rate of malignant tumors is about fivefold higher in reptiles compared to mammals.",
+      "reason": "Phrasing this as 'The one notable difference is that the rate of malignant tumours is about fivefold higher in reptiles than in mammals' faithfully captures the speaker's comparison."
+    }
+  ]
+}

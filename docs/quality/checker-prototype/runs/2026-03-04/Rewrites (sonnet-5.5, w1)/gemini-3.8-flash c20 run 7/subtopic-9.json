@@ -1,0 +1,16 @@
+{
+  "subtopicId": 9,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So this meningioma obviously is occurring within the skull. The skull is a confined space. This would put an enormous amount of pressure on the brain and the surrounding structures and would cause and has caused Has caused death in this case.",
+      "reason": "The rewrite renders this as 'A meningioma occurs within the skull, which is a confined space, so it puts an enormous amount of pressure on the brain and the surrounding structures, and in this case it caused death', which faithfully captures the facts, the conditional/actual reasoning, and the specific case referred to without distorting meaning."
+    },
+    {
+      "sourcePassage": "that I showed you",
+      "reason": "The rewrite renders this reference to an earlier visual as 'as shown earlier, almost never progresses to a leiomyosarcoma. [FIGURE]'. Insertion of a [FIGURE] marker and standard stylistic phrasing are allowed changes."
+    }
+  ]
+}

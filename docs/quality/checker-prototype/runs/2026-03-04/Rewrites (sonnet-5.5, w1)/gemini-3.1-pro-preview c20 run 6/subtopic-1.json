@@ -1,0 +1,20 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "because it has such an impact.",
+      "reason": "This is a repetition of the earlier statement about 'the impact that cancer has on society' and is an allowed omission."
+    },
+    {
+      "sourcePassage": "So you're going to be comparing the differences between benign and malignant tumors",
+      "reason": "The rewrite says 'This involves comparing benign and malignant tumours', changing the causal link 'So' to a compositional link 'involves'. This is allowed because recognizing invasion and metastasis scientifically involves comparing malignant tumors to benign ones."
+    },
+    {
+      "sourcePassage": "Because from the molecular mechanisms to the patient experience and to the evolution of personalized medicine and what that entails, you're all going to be having different things that you're interested in.",
+      "reason": "The rewrite states that the lectures themselves range from molecular mechanisms to the patient experience, whereas the original implies the students' interests range across these topics. This is an allowed correction to clarity, as these topics refer to the course contents."
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c20",
+  "modelId": "openai/gpt-5.6-sol-pro",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The source refers to erosion of “bone function”, whereas the rewrite changes this to erosion of the bone itself. This changes what is being eroded and resolves an unclear source statement into one particular interpretation.",
+      "sourcePassage": "And things like if tumors in bones lead to erosion of that bone function, so you can get fractures",
+      "rewritePassage": "Tumours in bones lead to erosion of the bone, so that fractures can occur"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The referent of “This” is unclear: it could refer to ulceration or to the cauliflower structure. The rewrite resolves the ambiguity by making the structure itself the cause of the bleeding.",
+      "sourcePassage": "Also ulceration, you saw that enormous cauliflower structure within the colon. This causes a lot of bleeding and can lead to anemia.",
+      "rewritePassage": "Ulceration is another effect: the enormous cauliflower-like structure seen within the colon causes a lot of bleeding and can lead to anaemia."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The incomplete phrase “competition with the normal” is made specific as competition with normal tissue. The source does not identify the normal component as tissue.",
+      "sourcePassage": "And also this competition with the normal",
+      "rewritePassage": "Competition with normal tissue is also a factor."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The source is unclear about what interferes with what and grammatically assigns “these” to the haematopoietic stem cells. The rewrite instead makes the tumour the agent and the stem cells the object, selecting an interpretation not clearly stated by the source.",
+      "sourcePassage": "if you have a tumor that is occurring in some of the blood compartments, the hematopoietic stem cells that are there, these will interfere.",
+      "rewritePassage": "A tumour occurring in the blood compartments, where the haematopoietic stem cells are located, will interfere with them."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The word “therefore” explicitly makes the small size of the niche the reason that the tumour interferes with the bone marrow. The source places the statements together but does not clearly state that causal relation, and its pronoun “This” is ambiguous.",
+      "sourcePassage": "This niche is not very big. This will interfere with your bone marrow",
+      "rewritePassage": "This niche is not very big. The tumour will therefore interfere with the bone marrow"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The source's 10% statement is grammatically incomplete and does not explicitly say what causes that percentage of deaths. The rewrite completes it by stating that 10% of deaths are caused by primary tumours in their original locations.",
+      "sourcePassage": "Only 10% of these deaths, generally, if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "rewritePassage": "Only 10% of deaths are generally caused in this way, for example when the tumour occurs in a meningioma or in the liver."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite makes a meningioma a location in which another tumour occurs. In the source, a meningioma is presented as an example of the relevant primary tumours, not as a containing location.",
+      "sourcePassage": "if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "rewritePassage": "when the tumour occurs in a meningioma or in the liver."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Okay? So with that in mind, the question that often gets asked by people is, why is cancer causing disease and death? Why would a little lump cause a problem for a person, for a patient? Well, as I was hinting at, it interferes with normal functions.",
+      "reason": "The rewrite faithfully retains the question and the explanation that cancer causes disease by interfering with normal functions; introductory and audience-directed wording is permissibly streamlined."
+    },
+    {
+      "sourcePassage": "So a lump growing in the wrong place will cause pressure and blockage. And if you think about them in the different settings in which they occur, things like a meningioma will cause pressure. Things like a lung carcinoma will cause blockage.",
+      "reason": "The rewrite preserves the pressure and blockage effects and the corresponding examples. Its use of “whereas” expresses the contrast already established by the different examples."
+    },
+    {
+      "sourcePassage": "And then within the airways, this builds up secretions within the lungs, makes it harder for people to breathe, is a breeding ground for infection. And you can get pneumonia, which can lead to sepsis and death. So it's a general lack of function there.",
+      "reason": "The rewrite retains the accumulation of secretions, breathing difficulty, increased opportunity for infection, pneumonia, sepsis, death and the general loss of function."
+    },
+    {
+      "sourcePassage": "Things like obstruction of the bile ducts in the liver interferes with digestion.",
+      "reason": "This effect is retained with only grammatical and stylistic changes."
+    },
+    {
+      "sourcePassage": "so you can get fractures, and this causes an immense amount of pain. Bone pain is terrible.",
+      "reason": "The rewrite retains fractures and the resulting severe pain."
+    },
+    {
+      "sourcePassage": "and it will result in things like infection and anemia as well.",
+      "reason": "The rewrite retains infection and anaemia as consequences of bone-marrow interference."
+    },
+    {
+      "sourcePassage": "And also there are general metabolic effects of having cancer, including cachexia, which is wasting, and also specific, depending on the tumor that you have, the tumor can make specific products itself.",
+      "reason": "The general metabolic effects, the definition of cachexia as wasting and tumour-specific products are all retained."
+    },
+    {
+      "sourcePassage": "So you can see that there are lots of different ways in which the cancer can lead to illness and disease in people. And obviously it leading to death, it's just more of the same, much worse.",
+      "reason": "The rewrite preserves the summary that cancer causes illness in many ways and that fatal disease represents more severe effects."
+    },
+    {
+      "sourcePassage": "So these primary tumors, where they're located, don't generally cause death.",
+      "reason": "The rewrite faithfully retains the general statement that primary tumours at their original locations do not usually cause death."
+    },
+    {
+      "sourcePassage": "But you can get overwhelming death by secondary metastases colonizing organs all over the body.",
+      "reason": "The rewrite retains death resulting from secondary metastases colonising organs throughout the body."
+    },
+    {
+      "sourcePassage": "So when the tumor has spread all throughout the body, you can get things like liver failure. As I said, the bone marrow will fail altogether, and you'll succumb to infection and bleeding and erosion of bones will lead to skeletal collapse.",
+      "reason": "The rewrite retains widespread tumour dissemination and the listed consequences of liver failure, complete bone-marrow failure, infection, bleeding and skeletal collapse."
+    },
+    {
+      "sourcePassage": "This all sounds very terrible in terms of ways in which to die. So there's lots of pain and debilitation, and it becomes difficult to breathe, and people end up with pneumonia, and they die. So it's not very good.",
+      "reason": "The rewrite retains pain, debilitation, breathing difficulty, pneumonia and death. The omitted closing understatement is a rhetorical remark rather than additional subject matter."
+    }
+  ]
+}

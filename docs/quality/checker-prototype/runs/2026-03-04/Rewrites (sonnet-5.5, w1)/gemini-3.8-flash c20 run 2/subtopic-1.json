@@ -1,0 +1,20 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, everyone, shall we get started? Yes. You're very welcome, all of you, to Cancer Biology.",
+      "reason": "The introductory conversational remarks and welcome were omitted or adapted into course introductory prose, which is permitted as dropped filler/remarks to the audience."
+    },
+    {
+      "sourcePassage": "So I tag-teamed these lectures with Professor Turner, and so she will also be teaching three of these lectures.",
+      "reason": "Phrased as 'The lectures are shared with Professor Turner, who teaches three of the six', faithfully conveying the course administrative details."
+    },
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there.",
+      "reason": "Omission of pointing to a slide/list ('listed there') is allowed as pointing words or remarks about the lecture format."
+    }
+  ]
+}

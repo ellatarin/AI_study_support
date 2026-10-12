@@ -1,0 +1,20 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals",
+      "reason": "This is a direct remark to the audience regarding practical coursework, which is permitted to be dropped."
+    },
+    {
+      "sourcePassage": "where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable",
+      "reason": "The rewrite uses 'since a surgeon can tell...' which makes explicit a scientifically correct connection between clinical examination and the continued use of terminology."
+    },
+    {
+      "sourcePassage": "Okay. So with these tools in hand",
+      "reason": "This is conversational filler and a lecture management transition, which is permitted to be dropped."
+    }
+  ]
+}

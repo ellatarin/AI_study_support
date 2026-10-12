@@ -1,0 +1,39 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite links the arrangement of the epithelial cells to their uniform appearance using 'so that', implying a causal or resultant relationship that the original text does not state.",
+      "sourcePassage": "the epithelial cells here are arranged. They look fairly uniform in shape and size.",
+      "rewritePassage": "the epithelial cells are arranged so that they look fairly uniform in shape and size"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite chooses one specific interpretation for the grammatically broken and unclear phrase 'so they're apical basal regulation', replacing it with the clear, definitive link 'which reflects apical-basal regulation'.",
+      "sourcePassage": "so they're apical basal regulation",
+      "rewritePassage": "which reflects apical-basal regulation"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite conflates two separate concepts (providing signaling and providing a basis for adherence) into the single combined concept of a 'signalling basis'.",
+      "sourcePassage": "a signaling and basis",
+      "rewritePassage": "a signalling basis"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "during the time that you were born.",
+      "reason": "This was safely omitted because it is a slip of the tongue that contradicts the definition of embryogenesis, which occurs early in the womb."
+    },
+    {
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes.",
+      "reason": "The rewrite changes the pointing word 'here' to 'In the image of the invasive tissue'. This is allowed because the previous sentence explicitly describes cells that have 'invaded and are growing within the stroma', confirming the description is scientifically correct."
+    },
+    {
+      "sourcePassage": "into the invading stroma.",
+      "reason": "The rewrite changes this to 'invaded stroma'. This is a permitted change because it corrects a factual slip: the stroma is the host tissue that is invaded, while the cancer cells do the invading."
+    }
+  ]
+}

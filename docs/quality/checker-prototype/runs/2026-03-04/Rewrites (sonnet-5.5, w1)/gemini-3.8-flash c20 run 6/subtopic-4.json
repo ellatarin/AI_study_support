@@ -1,0 +1,27 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds a link claiming that the slice through the tumour 'illustrates this' (referring to biologists explanting tumours). In the original text, the lecturer merely states that the viewer is looking at a slice through a tumour and a stain to look at morphology, without linking the image as an illustration of tumour explantation.",
+      "sourcePassage": "often they will explant the tumor. Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "rewritePassage": "A slice through a tumour, with a stain to show the morphology, illustrates this [FIGURE]."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Primary cells really don't grow in culture.",
+      "reason": "The word 'really' was omitted in the rewrite ('Primary cells do not grow in culture'), but here 'really' acts as a conversational intensifier rather than a scientific hedge, so its removal is an allowed stylistic change."
+    },
+    {
+      "sourcePassage": "stroma and other things",
+      "reason": "The rewrite renders this as 'stroma and other components', which is an acceptable stylistic substitution with the same meaning in context."
+    },
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "This is a remark about lecture management and was appropriately omitted as allowed by the guidelines."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "The only thing that was quite interesting to note here is that the rate of malignant tumors is about fivefold higher in reptiles compared to mammals.",
+      "reason": "The rewrite renders this as 'The one notable difference is that the rate of malignant tumours is about fivefold higher in reptiles than in mammals', which faithfully captures the comparison being discussed without introducing ungrounded claims."
+    },
+    {
+      "sourcePassage": "You'll be happy to hear he's doing fine now after his surgery.",
+      "reason": "The rewrite changes the direct conversational address to 'The cat is doing fine after surgery', which is an allowed stylistic adaptation removing conversational remarks to the audience."
+    },
+    {
+      "sourcePassage": "digestive tissues, hematopoietic, and skin",
+      "reason": "The rewrite writes 'digestive tissues, hematopoietic tissues and skin', adding 'tissues' to parallel the phrasing in a scientifically correct manner."
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite turns the lecturer's pointing words into a specific spatial description ('alongside it') that the lecturer did not state. This description is anatomically incorrect and unsupported by the text, which indicates that the canal goes 'between' (through) the neck of the womb, rather than alongside it.",
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "rewritePassage": "and the cervix is seen alongside it."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "here is the endocervical canal that it goes between the neck of the womb.",
+      "reason": "The rewrite changes 'goes between' to 'runs through', which is an accurate interpretation of the anatomy and preserves the intended meaning of the text."
+    },
+    {
+      "sourcePassage": "where one cell type is replaced by another. One adult differentiated cell type is replaced by the other",
+      "reason": "The omission of the first clause is an allowed change, as it removes a less precise false start that the lecturer immediately corrected and expanded upon."
+    },
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here",
+      "reason": "The omission of this sentence is allowed because it drops conversational remarks directed at the audience pointing out visual examples of a fact (mitotic cells occurring at the basement layer) that is already stated and preserved in the rewrite."
+    }
+  ]
+}

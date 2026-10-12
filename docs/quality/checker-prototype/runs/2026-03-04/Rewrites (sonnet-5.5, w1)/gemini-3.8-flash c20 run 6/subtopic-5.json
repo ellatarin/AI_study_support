@@ -1,0 +1,31 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite uses 'since' to introduce a causal link between the terminology still being heard and a surgeon being able to determine whether a tumour is movable by touch. The source text describes this as a context or situation ('where') rather than stating a causal relationship.",
+      "sourcePassage": "And you'll hear this kind of terminology even now, where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable.",
+      "rewritePassage": "This terminology is still heard now, since a surgeon can tell just by holding or touching a tumour whether it is movable or immovable."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So with these tools in hand, I think the important concept to try and get across is invasion and metastasis.",
+      "reason": "Dropping conversational framing such as 'So with these tools in hand' and 'I think... to try and get across' is allowed as conversational filler, and 'concepts' appropriately reflects the plural subject 'invasion and metastasis'."
+    },
+    {
+      "sourcePassage": "back in, I don't know, when surgery was first coming into its own as a discipline",
+      "reason": "Omitting 'I don't know' is allowed as it is a conversational filler/false start."
+    },
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals,",
+      "reason": "This is a statement about the course and practical sessions, which is an allowed omission."
+    },
+    {
+      "sourcePassage": "Right. So, what does that mean for the patient? Well,",
+      "reason": "Dropping the rhetorical question and conversational markers is allowed as removal of spoken lecture discourse."
+    }
+  ]
+}

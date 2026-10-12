@@ -1,0 +1,27 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The text states that this occurs during adolescence and maturation, but the rewrite substitutes 'differentiation' for 'adolescence'.",
+      "sourcePassage": "because obviously during adolescence and maturation, this occurs from infancy to adulthood.",
+      "rewritePassage": "because differentiation and maturation also occur from infancy to adulthood."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "most of your lineage specification and your expansive growth has happened during embryogenesis, during the time that you were born.",
+      "reason": "The phrase 'during the time that you were born' was dropped because it directly contradicts 'during embryogenesis' and is an obvious slip of the tongue by the lecturer."
+    },
+    {
+      "sourcePassage": "which would be here into the invading stroma.",
+      "reason": "Changing 'invading stroma' to 'invaded stroma' corrects a slip by the speaker to state what is scientifically correct, as it is the tumour cells that invade and the stroma that is invaded."
+    },
+    {
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes.",
+      "reason": "The rewrite phrase 'In the image of the invasive tissue' accurately clarifies the lecturer's deictic reference ('here now') based on the context of the tissue shown."
+    }
+  ]
+}

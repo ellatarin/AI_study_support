@@ -1,0 +1,23 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds 'that is', presenting 'the state of transcription within the cell itself' as a definition or equivalent restatement of 'acetylation or deacetylation', whereas the lecturer listed them as distinct items or observations without asserting that acetylation/deacetylation is itself the state of transcription.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events that can also help to give rise to cancer.",
+      "reason": "The rewrite replaces the pronoun 'they' with 'infection' ('and infection can also predispose to chronic inflammatory events'). In context, this refers back to the topic sentence ('Gene changes can also arise from infection') and accurately conveys the mechanism discussed without altering the scientific meaning."
+    },
+    {
+      "sourcePassage": "So I've just made this kind of a much simpler diagram, if you like. Simplicity can help frame our thinking, but it will also end up losing a lot of details. So, as I said, you start off with a normal cell, and a bunch of mutations happen over time, and you go from normal to malignant.",
+      "reason": "The rewrite changes the sentence order so that the description of the simpler diagram precedes the remark about simplicity losing details. Adjusting sentence order and stylistic framing around figures is an allowed change."
+    }
+  ]
+}

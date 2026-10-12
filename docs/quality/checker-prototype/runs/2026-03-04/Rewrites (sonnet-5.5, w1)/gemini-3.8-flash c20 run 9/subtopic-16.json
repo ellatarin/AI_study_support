@@ -1,0 +1,20 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "The lecturer refers back to a slide or previous topic ('You saw...'). Rewriting this as 'The different pre-cancerous states are present' adapts spoken lecture commentary to textbook prose without omitting or distorting factual content."
+    },
+    {
+      "sourcePassage": "an ulcerated cauliflower structure, if you like",
+      "reason": "Phrasing this as 'an ulcerated cauliflower-like structure' captures the metaphorical description accurately in textbook style."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "Phrasing this as 'Of the screening methods discussed, cervical screening is the best' faithfully renders the comparison made by the speaker across the different cancer screening types."
+    }
+  ]
+}

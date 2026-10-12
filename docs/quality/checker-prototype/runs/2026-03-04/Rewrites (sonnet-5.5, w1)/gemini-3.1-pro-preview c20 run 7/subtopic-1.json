@@ -1,0 +1,20 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, everyone, shall we get started? Yes. You're very welcome, all of you, to Cancer Biology.",
+      "reason": "These are introductory remarks to the audience, which are allowed to be dropped."
+    },
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there.",
+      "reason": "The pointing phrase 'are listed there' was appropriately adapted to 'are as follows', maintaining the purpose of stating the learning outcomes without relying on the visual presentation."
+    },
+    {
+      "sourcePassage": "tumors",
+      "reason": "The rewrite uses the British English spelling 'tumours', which is an allowed change."
+    }
+  ]
+}

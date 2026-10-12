@@ -1,0 +1,25 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds the phrase 'that is' to explicitly state that acetylation or deacetylation is the same thing as the state of transcription within the cell, which adds a link not stated in the original text.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite changes the cause of chronic inflammatory events from 'they' (referring to the human viruses) to the broader term 'infection'.",
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events",
+      "rewritePassage": "There are about seven different human viruses that precipitate cancer, and infection can also predispose to chronic inflammatory events"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "we don't know pretty much because of this when they occur.",
+      "reason": "The rewrite interprets 'pretty much' as 'largely' and applies it to 'not known', changing 'we don't know pretty much because of this' to 'because of this it is largely not known'. This clarifies a somewhat awkwardly phrased sentence in an acceptable way."
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay. So with these tools in hand,",
+      "reason": "Dropped filler and statement about the progression of the lecture material."
+    },
+    {
+      "sourcePassage": "I don't know,",
+      "reason": "Dropped filler."
+    },
+    {
+      "sourcePassage": "Surgeons would find that that tumor could move within the tissue or an immovable tumor.",
+      "reason": "The disjointed addition of 'or an immovable tumor' was reorganised into the preceding sentence ('These were termed the movable tumour and the immovable tumour') to correct grammar and style while preserving meaning."
+    },
+    {
+      "sourcePassage": "where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable.",
+      "reason": "The rewrite replaces 'where' with the causal link 'since' ('since a surgeon can tell just by holding...'). This states a factual and correct link, so it is an allowed change."
+    },
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals,",
+      "reason": "Dropped statement about the course."
+    }
+  ]
+}

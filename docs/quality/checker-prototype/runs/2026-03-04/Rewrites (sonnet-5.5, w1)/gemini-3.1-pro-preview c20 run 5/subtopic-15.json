@@ -1,0 +1,24 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "reason": "The rewrite changes the pointing word to 'and the cervix is seen alongside it'. This is a scientifically correct description of what is seen on a histological slide where the canal runs through the tissue."
+    },
+    {
+      "sourcePassage": "which has more of a protective layer",
+      "reason": "The rewrite changes 'has' to 'form'. This is scientifically correct as the squamous cells form the protective layer."
+    },
+    {
+      "sourcePassage": "so you can get the columnar epithelium transitioning into something that looks more like a squamous cell type.",
+      "reason": "The rewrite uses 'can thus transition', which is a grammatically adapted formulation that correctly preserves the causal link of 'so'."
+    },
+    {
+      "sourcePassage": "you can get a precursor lesion that is here",
+      "reason": "The rewrite replaces 'that is here' with 'at this site', which is a scientifically correct description of the location previously referred to as 'this junction'."
+    }
+  ]
+}

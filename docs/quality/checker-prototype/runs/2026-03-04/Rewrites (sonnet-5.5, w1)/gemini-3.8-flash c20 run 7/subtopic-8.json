@@ -1,0 +1,28 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "muscularis mucosa",
+      "reason": "The term 'muscularis mucosa' was corrected to 'muscularis mucosae' in accordance with the provided correction list."
+    },
+    {
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "The rewrite clarifies 'it's defined' as 'malignancy is defined as the ability to invade the surrounding tissue', which is scientifically accurate and resolves the lecturer's ambiguous pronoun."
+    },
+    {
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "reason": "The rewrite interprets 'this' as 'Invasion', stating 'Invasion is therefore probably an obligatory step in arriving at a malignant, metastasising tumour', which is scientifically correct within the context of the metastatic cascade."
+    },
+    {
+      "sourcePassage": "And so, very close up here is the intact muscularis mucosa. The submucosa is here, and you'll see that there isn't any invasion that has occurred.",
+      "reason": "The rewrite's phrasing 'the submucosa lies beneath it' correctly reflects the anatomical order stated previously by the lecturer ('under here the submucosa')."
+    },
+    {
+      "sourcePassage": "You'll see that over here you have the adenoma which has progressed into an adenocarcinoma.",
+      "reason": "The rewrite renders 'over here' as 'Elsewhere in the same lesion', which accurately describes what the lecturer points to on the histological section."
+    }
+  ]
+}

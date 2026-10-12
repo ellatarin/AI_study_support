@@ -1,0 +1,20 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here",
+      "reason": "Omitted as conversational pointing to specific locations on a slide and a remark to the audience; the substantive scientific point that mitotic cells occur at the basement layer is retained."
+    },
+    {
+      "sourcePassage": "here is the endocervical canal that it goes between the neck of the womb. Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "reason": "Rendered as 'Histologically, the endocervical canal runs through the neck of the womb, and the cervix is seen alongside it.' Phrasing 'runs through' rectifies the speaker's slip ('goes between'), and 'seen alongside it' is an allowed description of what is shown on the histological slide."
+    },
+    {
+      "sourcePassage": "The uterus is here in this diagram, and as you know, it hangs down into the vaginal canal.",
+      "reason": "Faithfully retained in the rewrite as stated by the lecturer, including the reference to the diagram."
+    }
+  ]
+}

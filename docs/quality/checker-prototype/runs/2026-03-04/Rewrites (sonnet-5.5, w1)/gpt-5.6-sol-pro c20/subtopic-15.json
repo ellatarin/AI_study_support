@@ -1,0 +1,99 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c20",
+  "modelId": "openai/gpt-5.6-sol-pro",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The unclear statement that the endocervical canal 'goes between the neck of the womb' has been resolved into the more specific claim that it runs through the neck. This selects one interpretation of an incomplete or unclear source statement.",
+      "sourcePassage": "what you're looking at here, here is the endocervical canal that it goes between the neck of the womb.",
+      "rewritePassage": "Histologically, the endocervical canal runs through the neck of the womb,"
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds the spatial relationship that the cervix is seen alongside the endocervical canal. The source points to both structures but does not say that one is alongside the other.",
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "rewritePassage": "and the cervix is seen alongside it."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The qualification 'if you like' has been removed, making 'stress' an unqualified description of the cervical condition rather than the lecturer's tentative choice of term.",
+      "sourcePassage": "And this junction can be quite movable when the cervix is under, if you like, stress.",
+      "rewritePassage": "The junction can be quite movable when the cervix is under stress."
+    },
+    {
+      "deficiencyType": "omission",
+      "description": "The rewrite omits the figure-specific observation that two individual mitotic cells can be seen at the basement layer.",
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here,",
+      "rewritePassage": "Mitotic cells occur only at the basement layer."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer's qualified claim that the women still dying of cervical cancer 'would be' in these groups has been changed into the categorical claim that they 'are' in these groups.",
+      "sourcePassage": "but the, if you like, the women that are still dying of cervical cancer would be the ones that either are not followed up after their screen or that have declined screening altogether.",
+      "rewritePassage": "The women who are still dying of cervical cancer are those who are either not followed up after their screen or who have declined screening altogether."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So, screening the cervix is absolutely ideal, and it really is quite a success story.",
+      "reason": "The rewrite preserves the assessment that cervical screening is ideal and a success story; reducing conversational emphasis does not alter the substantive claim."
+    },
+    {
+      "sourcePassage": "So here we're talking about the cervix. We're talking about the neck of the womb. The uterus is here in this diagram, and as you know, it hangs down into the vaginal canal.",
+      "reason": "The rewrite retains the identification of the cervix as the neck of the womb and the diagram's depiction of the uterus hanging into the vaginal canal."
+    },
+    {
+      "sourcePassage": "And as you can see, there are two different types of epithelium that occur on the cervix. One is the endocervix, which has this columnar glandular epithelium. And the ectocervix here, which is more squamous cells, which has more of a protective layer, which deals with the acidic environment that's inside the vagina.",
+      "reason": "Both epithelial types, their locations and the protective role of the squamous layer in the acidic vaginal environment are preserved."
+    },
+    {
+      "sourcePassage": "So you can see this nice transition between these two different types of epithelium, and you'll see this in your practicals. And the architecture that is here is very much suited to the function that these epithelia are undertaking within the domains that they're working in.",
+      "reason": "The visible transition, its appearance in practicals and the relationship between epithelial architecture and function are all retained."
+    },
+    {
+      "sourcePassage": "So, I will tell you that when infection with HPV occurs, it usually occurs here at this junction.",
+      "reason": "The rewrite accurately retains the usual location of HPV infection at the junction."
+    },
+    {
+      "sourcePassage": "Because of the acidic environment of the vagina, you can often get something that's called metaplasia, where one cell type is replaced by another. One adult differentiated cell type is replaced by the other, so you can get the columnar epithelium transitioning into something that looks more like a squamous cell type.",
+      "reason": "The cause, definition and described columnar-to-squamous-like transition are preserved."
+    },
+    {
+      "sourcePassage": "So when HPV infection occurs, you can get a precursor lesion that is here, which is pre-invasive and therefore a benign state, the precursor state to something that would be malignant. So this is what we want to catch, and this is why screening is so effective.",
+      "reason": "The rewrite retains the possible precursor lesion, its pre-invasive and benign status, its potential progression to malignancy and its relevance to screening."
+    },
+    {
+      "sourcePassage": "So as I said, normally you have something that looks like this in this squamous epithelium. And what you have here is a structure that is protective. You can see that these squames are flattened, the nuclei are tiny, and you only ever get mitotic cells here at this basement layer.",
+      "reason": "The protective structure, flattened squames, small nuclei and restriction of mitotic cells to the basement layer are preserved."
+    },
+    {
+      "sourcePassage": "but the cells, as they differentiate, they turn over on their sides, they get thin, and they get flat, and their nuclei become very small.",
+      "reason": "The morphological changes that accompany differentiation are retained without a substantive change."
+    },
+    {
+      "sourcePassage": "So contrast that with what you'll see in a dysplastic situation, and you'll see that now all the nuclei are quite big here. Right? You're only getting flattening at the very, very top of the surface here. And you'll see that there are mitotic cells that are occurring throughout the thickness of this epithelial layer. So it looks very, very different.",
+      "reason": "The rewrite preserves the enlarged nuclei, limited superficial flattening, mitoses throughout the epithelial thickness and markedly different appearance of dysplasia."
+    },
+    {
+      "sourcePassage": "So this is that pre-invasive state. You'll notice that the basement layer here is still intact. Right? So we have a precursor, a benign state. And this is the state that you want to catch at before it becomes malignant.",
+      "reason": "The pre-invasive and benign precursor status, intact basement layer and need to detect it before malignancy are all retained."
+    },
+    {
+      "sourcePassage": "So in order to do that, you take a brush sample. This is what the Pap smear would do, would take cells from the neck of the cervix here, the neck of the womb. And what you would be looking for is the differences in the morphology of these different cells.",
+      "reason": "The brush sampling performed in a Pap smear, its anatomical sampling site and the examination of cellular morphology are preserved."
+    },
+    {
+      "sourcePassage": "So what you would be looking for is cells that have small nuclei, here, which would denote a normal cell, as opposed to, for example, very big nuclei. And you would be seeing which would be abnormal, and you would be seeing lots of mitotic cells. Again, this would be abnormal. You shouldn't see any of this if you have a normal cervix.",
+      "reason": "The rewrite retains small nuclei as normal and large nuclei and numerous mitotic cells as abnormal findings that should not occur in a normal cervix."
+    },
+    {
+      "sourcePassage": "And these days, of course, they also would do testing for HPV, for the different subtypes of HPV that are very much associated with cervical carcinoma.",
+      "reason": "Current testing for HPV subtypes associated with cervical carcinoma is preserved."
+    },
+    {
+      "sourcePassage": "If you'll notice here from the 1950s to, this is only to 2000, you'll see that the rates of death in cervical cancer came down, particularly amongst older women. So this has done very well. This hasn't changed much for the younger populations,",
+      "reason": "The rewrite retains the 1950s-to-2000 time span, declining cervical-cancer mortality particularly among older women, and the limited change among younger populations."
+    }
+  ]
+}

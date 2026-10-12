@@ -1,0 +1,20 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Actually, when you tell people that you're working on cancer, they're all incredibly grateful for you for taking on such a difficult disease because it has such an impact.",
+      "reason": "The phrase 'because it has such an impact' is omitted in the rewrite, but this is a repetition of the impact on society mentioned in the previous sentence, so it is allowed to be dropped."
+    },
+    {
+      "sourcePassage": "So you're going to be comparing the differences between benign and malignant tumors",
+      "reason": "The rewrite replaces 'So you're going to be comparing' with 'This involves comparing'. While this makes the comparison explicitly a part of recognizing invasion and metastasis (adding a link), it is a scientifically correct link, so it is allowed."
+    },
+    {
+      "sourcePassage": "Because from the molecular mechanisms to the patient experience and to the evolution of personalized medicine and what that entails, you're all going to be having different things that you're interested in.",
+      "reason": "The rewrite uses 'the lectures, which range from...' to capture the 'from... to...' structure of the text. This describes the link explicitly, but it accurately portrays the text's meaning without distorting it."
+    }
+  ]
+}

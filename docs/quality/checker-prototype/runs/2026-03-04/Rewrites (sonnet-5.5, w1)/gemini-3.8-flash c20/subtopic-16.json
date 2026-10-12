@@ -1,0 +1,20 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "The reference to what the audience saw in earlier lecture material was adapted into textbook prose stating the presence of these states, which is an allowed stylistic adaptation."
+    },
+    {
+      "sourcePassage": "ulcerated cauliflower structure, if you like",
+      "reason": "The spoken colloquialism 'if you like' was appropriately rewritten as 'cauliflower-like structure'."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "The spoken recall 'as I said' was rewritten as 'Of the screening methods discussed', accurately reflecting the context without adding unsourced facts."
+    }
+  ]
+}

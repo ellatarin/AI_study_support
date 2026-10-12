@@ -1,0 +1,20 @@
+{
+  "subtopicId": 9,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So this meningioma obviously is occurring within the skull.",
+      "reason": "The lecturer points to a specific image ('this meningioma'), and the rewrite generalises this to 'A meningioma occurs within the skull'. Since meningiomas are tumours of the meninges, they do occur within the skull, so this change states a scientifically correct fact."
+    },
+    {
+      "sourcePassage": "because you can get benign tumors that cause death by growing and constricting on the processes of normal tissues that are adjacent to them.",
+      "reason": "The rewrite drops the preposition 'on' after 'constricting', which corrects the grammar without changing the meaning."
+    },
+    {
+      "sourcePassage": "Also, pituitary adenomas release a lot of hormones and can cause death in that way.",
+      "reason": "'a lot of' is rewritten as 'large amounts of', which is an allowed stylistic change with exactly the same meaning."
+    }
+  ]
+}

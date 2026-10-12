@@ -1,0 +1,24 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "This is a humorous note and remark to the audience/self, so omitting it is an allowed change."
+    },
+    {
+      "sourcePassage": "or also this transcoelomic site from across a cavity",
+      "reason": "The rewrite renders this as 'or by a transcoelomic route, across a cavity', which is scientifically correct phrasing consistent with 'a number of routes'."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here, and then you can often see sometimes the tumor cells are actually present within a lymphatic duct.",
+      "reason": "The pointing phrase 'are here' was appropriately converted to the description of what the histological view shows without adding unsourced facts."
+    },
+    {
+      "sourcePassage": "You have an example here of what-- or two examples rather, of what secondary tumors look like when they go ahead and seed other organs.",
+      "reason": "The false start was omitted and the two examples (colon cancer to liver, breast cancer to brain) are accurately retained."
+    }
+  ]
+}

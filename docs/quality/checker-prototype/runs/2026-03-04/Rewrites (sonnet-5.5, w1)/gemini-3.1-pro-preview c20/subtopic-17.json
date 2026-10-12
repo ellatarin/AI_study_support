@@ -1,0 +1,12 @@
+{
+  "subtopicId": 17,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay? So I leave you with the learning outcomes. Hopefully, you will recognize all of these things in your revision and in your discussions with your supervisors. Let's leave it there for now, and I will see you in the practicals, and I will see you next week, Monday. [clapping]",
+      "reason": "The entire text consists of remarks to the audience and statements about the course or lecture, which are allowed to be dropped."
+    }
+  ]
+}

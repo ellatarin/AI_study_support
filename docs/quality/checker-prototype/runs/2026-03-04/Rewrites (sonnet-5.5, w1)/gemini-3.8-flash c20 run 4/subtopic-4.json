@@ -1,0 +1,20 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "reason": "The rewrite renders this as 'A slice through a tumour, with a stain to show the morphology, illustrates this [FIGURE]'. Connecting the figure to the preceding sentence about tumour explantation is scientifically sound and correctly replaces the lecturer's pointing gesture ('Here')."
+    },
+    {
+      "sourcePassage": "Primary cells really don't grow in culture.",
+      "reason": "Omitting the colloquial intensifier 'really' in 'Primary cells do not grow in culture' is an allowed stylistic change, as 'really' was not functioning as a scientific hedge."
+    },
+    {
+      "sourcePassage": "with regard to the contributions of things like the stroma and other things.",
+      "reason": "Changing 'other things' to 'other components' is an allowed stylistic refinement that preserves the original meaning without introducing unsupported facts."
+    }
+  ]
+}

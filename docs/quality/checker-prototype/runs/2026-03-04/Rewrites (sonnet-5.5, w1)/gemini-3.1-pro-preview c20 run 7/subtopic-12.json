@@ -1,0 +1,35 @@
+{
+  "subtopicId": 12,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "omission",
+      "description": "The rewrite omits the causal link stating that the tumours progress very quickly because they are very difficult to treat.",
+      "sourcePassage": "But they are very difficult to treat. And so they progress very quickly, and they're lethal.",
+      "rewritePassage": "They are very difficult to treat, progress very quickly and are lethal."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So just talking about incidence, about how often various tumors arise.",
+      "reason": "The rewrite explicitly uses the word 'describes' to link the terms, but this definitional link was already stated via apposition in the original text, so it is allowed."
+    },
+    {
+      "sourcePassage": "But malignant tumors, for example, originating from mesenchymal lineage cell types, they're extremely rare.",
+      "reason": "The rewrite drops 'for example', effectively making the clause restrictive. This is allowed because it simply drops a filler phrase, and the remaining scientific fact (that such tumours are extremely rare) is correct and preserves the speaker's intended contrast."
+    },
+    {
+      "sourcePassage": "All of these are overgrowths of tissues. Moles, I mean, who doesn't have moles?",
+      "reason": "The rewrite includes moles as part of the 'overgrowths of tissues' list, which wasn't strictly the order in the text. However, moles are indeed overgrowths of tissue, so the new statement is scientifically correct and allowed."
+    },
+    {
+      "sourcePassage": "And then this is, if you like, the percentage of tumors that result in deaths.",
+      "reason": "The rewrite replaces 'this is' with 'A further slide shows'. This is not an unsourced addition because the surrounding text ('put these numbers up', 'It doesn't go backwards') proves that the speaker is presenting a slide show."
+    },
+    {
+      "sourcePassage": "So I've just put these numbers up just so that you can have a sense.",
+      "reason": "The rewrite states that the numbers 'give a sense of incidence'. Specifying 'of incidence' is allowed because it makes clear an incomplete statement that is entirely consistent with the lecturer's opening focus on incidence."
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite describes a tumour occurring 'in a meningioma', treating 'meningioma' as an anatomical site rather than as a type of tumour itself.",
+      "sourcePassage": "Only 10% of these deaths, generally, if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "rewritePassage": "for example when the tumour occurs in a meningioma or in the liver."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "you saw that enormous cauliflower structure within the colon.",
+      "reason": "The reference to what the audience saw earlier is adapted as 'the enormous cauliflower-like structure seen within the colon', which faithfully preserves the descriptive content while smoothing out the conversational remark to the audience."
+    },
+    {
+      "sourcePassage": "erosion of that bone function, so you can get fractures",
+      "reason": "The rewrite renders this as 'erosion of the bone, so that fractures can occur', correcting the lecturer's slightly garbled phrasing to something scientifically accurate."
+    },
+    {
+      "sourcePassage": "So it's not very good.",
+      "reason": "This is an informal conversational remark and dropped filler, which is an allowed omission."
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "This is a personal remark by the lecturer to themselves, which is permitted to be omitted."
+    },
+    {
+      "sourcePassage": "or also this transcoelomic site from across a cavity, across a pleural cavity, for example, across the abdomen.",
+      "reason": "Changing 'transcoelomic site' to 'transcoelomic route' uses the scientifically standard terminology matching 'routes' established earlier in the sentence, which is an allowed correction of a spoken slip."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here, and then you can often see sometimes the tumor cells are actually present within a lymphatic duct.",
+      "reason": "The pointing phrase 'You see your tumor cells are here' is omitted, which is permitted as it refers to pointing at a visual aid."
+    },
+    {
+      "sourcePassage": "Similarly, here you have a brain, and what you have here is a breast cancer that's metastasized to the brain.",
+      "reason": "The lecturer's demonstrative pointing language ('here you have a brain, and what you have here is') was neatly rendered as 'The other is a breast cancer that has metastasized to the brain', which faithfully conveys the substantive point."
+    }
+  ]
+}

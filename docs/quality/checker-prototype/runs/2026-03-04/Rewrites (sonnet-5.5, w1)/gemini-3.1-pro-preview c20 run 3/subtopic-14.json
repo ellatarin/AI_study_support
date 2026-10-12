@@ -1,0 +1,24 @@
+{
+  "subtopicId": 14,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, so what does this look like in the clinic? [chuckles] I call this the four horsemen.",
+      "reason": "The rewrite changes 'what does this look like' to 'the presentation of cancer', which is a scientifically correct clarification. Omitting the chuckle and changing 'I call this' to 'can be summarised as' are allowed stylistic changes."
+    },
+    {
+      "sourcePassage": "But very much, tumors can be indirect",
+      "reason": "The rewrite uses 'present indirectly' instead of 'be indirect', which is a clearer phrase with the exact same meaning in a clinical context."
+    },
+    {
+      "sourcePassage": "So in thinking about this, we try to jump the gun",
+      "reason": "The phrase 'For this reason' keeps the same logical link as 'So in thinking about this', and 'the approach is to try' replaces 'we try' as an allowed stylistic change."
+    },
+    {
+      "sourcePassage": "before it becomes something that's very, very hard to treat, and there's diminishing returns on said treatment.",
+      "reason": "The rewrite changes 'and there's diminishing returns' to 'when there are diminishing returns'. This correctly captures the link between the difficult-to-treat stage and the diminishing returns."
+    }
+  ]
+}

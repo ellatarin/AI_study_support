@@ -1,0 +1,51 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c20",
+  "modelId": "openai/gpt-5.6-sol-pro",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The source states that students will develop the ability to make the visual link themselves in the practicals. The rewrite instead states passively that the material is linked visually, changing the intended student learning outcome into a claim about how the material is presented.",
+      "sourcePassage": "So you're going to be able to link this visually in the practicals.",
+      "rewritePassage": "This is linked visually in the practicals."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So this is a very interesting topic because of obviously the impact that cancer has on society. Actually, when you tell people that you're working on cancer, they're all incredibly grateful for you for taking on such a difficult disease because it has such an impact. And then pretty much their next question is, \"Why haven't you solved this problem yet? Why is there no cure for cancer?\" Or, \"Will there ever be a cure for cancer?\"",
+      "reason": "The rewrite preserves the societal impact of cancer, people's gratitude and the questions concerning why cancer has not been cured."
+    },
+    {
+      "sourcePassage": "So it is with great hope that these next six lectures will give you some information so that you can actually answer that question when people ask you.",
+      "reason": "The rewrite faithfully preserves the intended purpose of the six lectures; the change from an expression of hope to a statement of intention does not alter the substantive course information."
+    },
+    {
+      "sourcePassage": "Right. So I tag-teamed these lectures with Professor Turner, and so she will also be teaching three of these lectures. And we have these learning outcomes that hopefully you should be able to grasp by the end of each of the specific lectures.",
+      "reason": "The division of the six lectures with Professor Turner and the role of the lecture-specific learning outcomes are retained. Filler and informal phrasing are appropriately removed."
+    },
+    {
+      "sourcePassage": "So in this room, there are natural science students, medical students, and veterinary students, and you are all coming from a slightly different background, and hopefully, you will be interested in different things, different takeaways from these lectures. Because from the molecular mechanisms to the patient experience and to the evolution of personalized medicine and what that entails, you're all going to be having different things that you're interested in.",
+      "reason": "The rewrite retains the three student groups, their differing backgrounds and interests, and the stated range of subject matter."
+    },
+    {
+      "sourcePassage": "However, I would really emphasize that a lot of the concepts that you're going to come across over the next six lectures mutually reinforce the questions and the answers that you're going to be able to come up with. So if you really want to become a serious cancer biologist and oncologist in training, then you really have to embrace kind of the full picture in terms of etiologies, treatments, and the patient experience, because they will inform one the other.",
+      "reason": "The rewrite preserves both the mutual reinforcement of concepts and the need to consider etiologies, treatments and patient experience together."
+    },
+    {
+      "sourcePassage": "So you're going to be able to recognize that due to an accumulation of genetic changes, cancers are arising from a failure of normal cellular differentiation. And because of the multitude of cells that you have in your body, you can really consider all the different subtypes of cancers to be distinct diseases because they have different requirements of the different cells and tissues that become aberrant.",
+      "reason": "Both learning outcomes are retained without changing the stated causal relationships."
+    },
+    {
+      "sourcePassage": "And then really, the big takeaway message from today is going to be the ability to recognize what invasion and metastasis looks like with regard to the start of the tumor to the end point. So you're going to be comparing the differences between benign and malignant tumors, and you're also going to get a little bit of vocabulary, some of the nomenclature, so that we all have the same language to describe the tumors that we're talking about.",
+      "reason": "The rewrite retains recognition of invasion and metastasis across tumour progression, comparison of benign and malignant tumours, and the introduction of common vocabulary and nomenclature."
+    },
+    {
+      "sourcePassage": "And then really a lot of over the course of these lectures and in the practicals, you have to be able to see the process of what we're talking about in the histology of the tumors to look from of the progression of tumor from one stage, the precursor stages, to the malignant stages.",
+      "reason": "The rewrite faithfully retains the requirement to observe tumour progression from precursor to malignant stages in histological material."
+    },
+    {
+      "sourcePassage": "And then for today, especially from a clinical point of view, we're going to explain why detection works in different subtypes of tumors.",
+      "reason": "The clinical explanation of why detection works in different tumour subtypes is retained."
+    }
+  ]
+}

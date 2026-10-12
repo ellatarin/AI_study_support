@@ -1,0 +1,20 @@
+{
+  "subtopicId": 14,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, so what does this look like in the clinic? [chuckles] I call this the four horsemen.",
+      "reason": "The rewrite phrases this as 'In the clinic, the presentation of cancer can be summarised as the \"four horsemen\"', which is an acceptable stylistic transition that accurately preserves the speaker's meaning."
+    },
+    {
+      "sourcePassage": "a tumor could be visible if you're lucky or palpable.",
+      "reason": "The rewrite uses the British English spelling 'tumour', which is an allowed change."
+    },
+    {
+      "sourcePassage": "even though it's the goal of the NHS to be able to diagnose earlier and quicker.",
+      "reason": "The rewrite changes 'quicker' to 'more quickly' as an acceptable grammatical improvement."
+    }
+  ]
+}

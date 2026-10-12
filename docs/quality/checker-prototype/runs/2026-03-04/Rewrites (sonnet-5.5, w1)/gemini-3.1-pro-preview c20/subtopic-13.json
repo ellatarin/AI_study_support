@@ -1,0 +1,24 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "if you compare any two things, you're going to find differences.",
+      "reason": "The rewrite specifies 'things' as 'species'. Since humans, dogs and cats are species, this is a scientifically correct description of what the lecturer refers to."
+    },
+    {
+      "sourcePassage": "along with skin and connective tissues",
+      "reason": "The rewrite adds 'tumours of the'. The lecturer omitted the word 'tumours' here as a slip, and the rewrite corrects this slip to make the sentence scientifically correct."
+    },
+    {
+      "sourcePassage": "And this is my cat, who also ended up with a feline injection site sarcoma.",
+      "reason": "The rewrite keeps the anecdote about the lecturer's cat, written in the third person. While not strictly necessary for textbook prose, retaining remarks to the audience is not forbidden."
+    },
+    {
+      "sourcePassage": "hematopoietic",
+      "reason": "The rewrite changes this to 'hematopoietic tissues', supplying the missing noun. This is an allowed correction of a slip to state something scientifically correct."
+    }
+  ]
+}

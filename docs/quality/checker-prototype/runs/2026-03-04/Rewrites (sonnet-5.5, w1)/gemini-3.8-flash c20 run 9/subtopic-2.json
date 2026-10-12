@@ -1,0 +1,27 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite inserts 'that is', thereby linking acetylation or deacetylation as being the same thing as 'the state of transcription within the cell itself'. In the original text, these were separate items in an informal list, and equating acetylation/deacetylation directly with the transcriptional state is scientifically inaccurate.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events that can also help to give rise to cancer.",
+      "reason": "The rewrite changes 'they' (referring to the viruses/infectious agents) to 'infection'. In this context, stating that viral infection predisposes to chronic inflammatory events preserves the scientific meaning of the passage."
+    },
+    {
+      "sourcePassage": "So I've just made this kind of a much simpler diagram, if you like.",
+      "reason": "The rewrite renders this as 'A much simpler diagram can be made, in which a normal cell undergoes a number of mutations over time and goes from normal to malignant [FIGURE]', which appropriately integrates the lecturer's description of the diagram and adds an allowed [FIGURE] mark."
+    },
+    {
+      "sourcePassage": "and as I said, we don't know pretty much because of this when they occur.",
+      "reason": "The rewrite's 'and because of this it is largely not known when they occur' faithfully captures 'pretty much' as 'largely' and retains the causal phrasing present in the transcript."
+    }
+  ]
+}

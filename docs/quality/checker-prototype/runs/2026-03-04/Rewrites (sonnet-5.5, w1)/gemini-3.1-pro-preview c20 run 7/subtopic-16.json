@@ -1,0 +1,20 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "The phrase \"You saw\" refers to a slide presentation to the audience; changing it to \"are present\" converts the remark into a statement of scientific fact, which is true in context and therefore an allowed change."
+    },
+    {
+      "sourcePassage": "very, very high false positive rate",
+      "reason": "Dropping the repeated word \"very\" is an allowed stylistic change."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "Adding \"Of the screening methods discussed\" simply makes explicit the context of \"as I said\" and accurately clarifies the comparison being made without introducing unsourced facts."
+    }
+  ]
+}

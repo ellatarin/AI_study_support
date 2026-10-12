@@ -1,0 +1,39 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "omission",
+      "description": "The rewrite omits the lecturer's specific mention of 'adolescence' as a developmental stage, replacing it with 'differentiation'.",
+      "sourcePassage": "because obviously during adolescence and maturation, this occurs from infancy to adulthood.",
+      "rewritePassage": "because differentiation and maturation also occur from infancy to adulthood."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds a causal link ('so that') implying that the arrangement of the epithelial cells is what causes them to look uniform, which is not stated in the original text.",
+      "sourcePassage": "You'll see that the epithelial cells here are arranged. They look fairly uniform in shape and size.",
+      "rewritePassage": "in which the epithelial cells are arranged so that they look fairly uniform in shape and size"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite replaces the unclear causal statement 'so they're' with 'which reflects', making an incomplete statement into a specific clear interpretation of the relationship between the position of the nucleus and the apical-basal regulation.",
+      "sourcePassage": "so they're apical basal regulation in terms of the orientation of those cells within the tissue.",
+      "rewritePassage": "which reflects apical-basal regulation of the orientation of the cells within the tissue."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes.",
+      "reason": "The rewrite replaces the pointing words 'here now' with 'In the image of the invasive tissue'. This is allowed because the surrounding text (which describes the cells having 'invaded' the stroma) confirms that this description is accurate."
+    },
+    {
+      "sourcePassage": "It gives them structure and provides a signaling and basis for their adherence to this layer.",
+      "reason": "The rewrite changes 'signaling and basis' to 'signalling basis'. This is allowed because it makes the statement scientifically correct by likely fixing a transcriber error."
+    },
+    {
+      "sourcePassage": "So the invasion that we're talking about is to get those, if you like, those deranged cells to go from this morphology past the basement membrane, which would be here into the invading stroma.",
+      "reason": "The rewrite changes 'invading stroma' to 'invaded stroma'. This is allowed as it is a scientific correction; the stroma is the structure being invaded, not doing the invading."
+    }
+  ]
+}

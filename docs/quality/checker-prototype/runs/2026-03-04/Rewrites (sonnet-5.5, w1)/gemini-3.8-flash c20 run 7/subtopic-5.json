@@ -1,0 +1,20 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals",
+      "reason": "This is an administrative remark directed to the students about their coursework, which is permitted to be dropped."
+    },
+    {
+      "sourcePassage": "where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable",
+      "reason": "The verb 'see' in this spoken context means 'tell' or 'determine' by touch, so rendering it as 'can tell' preserves the exact meaning."
+    },
+    {
+      "sourcePassage": "there will be a biopsy to look and to see whether or not the tumor cells are contained",
+      "reason": "The phrasing 'a biopsy is taken to see' conveys the exact same meaning in natural textbook prose."
+    }
+  ]
+}

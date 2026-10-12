@@ -1,0 +1,20 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals",
+      "reason": "This is a statement about the course and a remark directed to the student audience, which is permitted to be dropped."
+    },
+    {
+      "sourcePassage": "So with these tools in hand, I think the important concept to try and get across is invasion and metastasis.",
+      "reason": "The introductory conversational framing ('with these tools in hand, I think the important concept to try and get across') was streamlined into textbook prose without losing factual content."
+    },
+    {
+      "sourcePassage": "where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable.",
+      "reason": "The rewrite uses 'tell' instead of 'see', which accurately preserves the spoken meaning of 'see' in the context of holding or touching."
+    }
+  ]
+}

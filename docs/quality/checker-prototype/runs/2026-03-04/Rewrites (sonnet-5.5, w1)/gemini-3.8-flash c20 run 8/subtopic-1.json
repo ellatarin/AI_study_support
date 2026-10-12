@@ -1,0 +1,20 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, everyone, shall we get started? Yes. You're very welcome, all of you, to Cancer Biology.",
+      "reason": "Introductory remarks and welcoming the class are allowed omissions as conversational remarks to the audience."
+    },
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there.",
+      "reason": "The pointing phrase 'listed there' is rephrased as 'are as follows', which is an allowed stylistic transition introducing the list of outcomes."
+    },
+    {
+      "sourcePassage": "tumor",
+      "reason": "Spelling changed to the British English 'tumour', which is an allowed change."
+    }
+  ]
+}

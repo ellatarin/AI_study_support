@@ -1,0 +1,20 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay. So with these tools in hand,",
+      "reason": "This is a transitional remark referencing earlier parts of the lecture, which is allowed to be omitted."
+    },
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals,",
+      "reason": "This is a remark about the course coursework, which is allowed to be dropped."
+    },
+    {
+      "sourcePassage": "where a surgeon can see just by holding or touching a tumor,",
+      "reason": "The rewrite replaces 'where' with 'since' and 'see' with 'tell'. This clarifies the lecturer's colloquial use of 'where' to mean 'given that' or 'because' without improperly altering the causal logic."
+    }
+  ]
+}

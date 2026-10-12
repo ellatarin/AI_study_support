@@ -1,0 +1,43 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "omission",
+      "description": "The rewrite omits the lecturer's observation that one would be interested in figuring out whether there would be secondary metastases across the body.",
+      "sourcePassage": "But the question is, of course, you would then be interested in figuring out whether or not there would be secondary metastases across the body.",
+      "rewritePassage": null
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite chooses one specific reading to make the unclear phrase 'say anything on two words' (a transcriber error) clear by changing it to 'said about either from their appearance'.",
+      "sourcePassage": "You wouldn't necessarily be able to say anything on two words about either of these.",
+      "rewritePassage": "Nothing could necessarily be said about either from their appearance"
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds the causal link 'since' to connect the inability to say anything from their appearance to the fact that they both look like little cauliflowers, which was not explicitly linked in the source text.",
+      "sourcePassage": "You wouldn't necessarily be able to say anything on two words about either of these. They both look like little cauliflowers that are sticking out into the lumen.",
+      "rewritePassage": "Nothing could necessarily be said about either from their appearance, since both look like little cauliflowers sticking out into the lumen."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Many of them never metastasize. They never survive in the secondary site.",
+      "reason": "The rewrite adds the causal link 'because' ('Many never metastasise, because they never survive'). This is an allowed addition because it states a scientifically correct fact that failure to survive causes the failure to metastasise."
+    },
+    {
+      "sourcePassage": "So this is probably an obligatory step",
+      "reason": "The rewrite translates the pointing word 'this' to 'Invasion'. This is an allowed change because invasion is scientifically recognised as an obligatory step for metastasis."
+    },
+    {
+      "sourcePassage": "because this is not necessarily an adenoma",
+      "reason": "The rewrite clarifies 'this' to 'a lesion'. This is allowed because calling an uncharacterised polyp a lesion is biologically correct."
+    },
+    {
+      "sourcePassage": "You'll see that over here you have the adenoma",
+      "reason": "The rewrite changes the pointing phrase 'over here' to 'Elsewhere in the same lesion'. This is allowed as it is a scientifically correct description of what the lecturer is showing on the slide."
+    }
+  ]
+}

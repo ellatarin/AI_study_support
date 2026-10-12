@@ -1,0 +1,20 @@
+{
+  "subtopicId": 10,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay? So just so that we're all on the same page in terms of nomenclature, and of course, with any naming system, there are always exceptions to every rule.",
+      "reason": "The introductory conversational filler 'Okay? So just so that we're all on the same page in terms of nomenclature, and of course' was dropped, which is an allowed change."
+    },
+    {
+      "sourcePassage": "So the fat, smooth muscle or papillomas in the skin, and adenomas, as we were talking about in the colon.",
+      "reason": "The rewrite explicitly pairs lipomas with fat and leiomyomas with smooth muscle. While the text just listed the tissues sequentially after the tumours, the explicit linking is scientifically correct and therefore allowed."
+    },
+    {
+      "sourcePassage": "So these are these different tumor types and other exceptions as well, things like malignant melanoma.",
+      "reason": "The conversational transition 'So these are these different tumor types and' was dropped as filler."
+    }
+  ]
+}

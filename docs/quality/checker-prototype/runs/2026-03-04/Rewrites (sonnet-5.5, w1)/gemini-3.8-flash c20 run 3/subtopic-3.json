@@ -1,0 +1,31 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite conflates two distinct functions of the basement membrane described in the text ('signaling' and 'basis for their adherence') into a single attribute ('signalling basis for their adherence'), merging two separate concerns into one.",
+      "sourcePassage": "provides a signaling and basis for their adherence to this layer",
+      "rewritePassage": "provides a signalling basis for their adherence to this layer"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "during adolescence and maturation, this occurs from infancy to adulthood",
+      "reason": "The lecturer's phrase awkwardly juxtaposes 'adolescence' with the span 'from infancy to adulthood'. The rewrite renders the underlying scientific point accurately ('differentiation and maturation also occur from infancy to adulthood') as an allowed clarification of a clumsy phrasing/slip."
+    },
+    {
+      "sourcePassage": "into the invading stroma",
+      "reason": "The lecturer said 'invading stroma', which was a slip of the tongue (the epithelial cells invade the stroma, making the stroma the invaded tissue). Changing this to 'invaded stroma' is an allowed change that corrects a slip to state something scientifically correct."
+    },
+    {
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes. They have come in, they have lost this architecture, moved over the basement membrane and invaded and are growing within the stroma.",
+      "reason": "The rewrite introduces 'In the image of the invasive tissue' when interpreting the lecturer's deictic 'here now'. This description is directly supported by the context of the lecturer describing cells that have invaded the stroma."
+    },
+    {
+      "sourcePassage": "during embryogenesis, during the time that you were born",
+      "reason": "The lecturer's remark 'during the time that you were born' contradicts 'during embryogenesis' and expansive growth in the womb; omitting this false start/slip is allowed."
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds 'that is' to state that acetylation or deacetylation is the same thing as the state of transcription, creating an equivalence link that is not present in the original text.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite changes the cause of the predisposition to chronic inflammatory events from the specific human viruses ('they') to the broader term 'infection'.",
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events",
+      "rewritePassage": "There are about seven different human viruses that precipitate cancer, and infection can also predispose to chronic inflammatory events"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, so we're just going to start here with our core idea. I'm sure you've seen a cartoon that looks like this many times.",
+      "reason": "This is introductory filler and remarks to the audience, which are allowed to be dropped."
+    },
+    {
+      "sourcePassage": "Right?",
+      "reason": "Conversational filler that is allowed to be removed."
+    },
+    {
+      "sourcePassage": "So hopefully, in order to try and address some of these questions, we will start at the beginning. [chuckles]",
+      "reason": "The removal of the chuckle and slight rephrasing of the lecture roadmap are allowed stylistic adjustments."
+    }
+  ]
+}

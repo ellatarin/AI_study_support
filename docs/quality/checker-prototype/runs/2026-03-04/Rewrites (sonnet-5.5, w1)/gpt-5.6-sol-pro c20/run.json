@@ -1,0 +1,21 @@
+{
+  "lecture": "2026-03-04",
+  "rewrites": "Rewrites (sonnet-5.5, w1)",
+  "modelId": "openai/gpt-5.6-sol-pro",
+  "checkerPromptVersion": "c20",
+  "commands": [
+    {
+      "startedAt": "2026-10-12T18:37:49.700Z",
+      "seconds": 96,
+      "subtopicsChecked": 17,
+      "cost": {
+        "promptTokens": 306283,
+        "completionTokens": 145732,
+        "callCount": 17,
+        "costUsd": 1.9081078999999999
+      },
+      "unusableReplies": [],
+      "failedSubtopics": []
+    }
+  ]
+}

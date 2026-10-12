@@ -1,0 +1,20 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "reason": "The rewrite renders this as 'and to acetylation or deacetylation, that is, the state of transcription within the cell itself'. This clarifies the appositive phrasing used by the lecturer, which is scientifically accurate as histone acetylation/deacetylation directly regulates the transcriptional state."
+    },
+    {
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events that can also help to give rise to cancer.",
+      "reason": "The rewrite translates 'they can also predispose' to 'infection can also predispose to chronic inflammatory events', preserving the meaning of the original pronoun reference."
+    },
+    {
+      "sourcePassage": "So I've just made this kind of a much simpler diagram, if you like. Simplicity can help frame our thinking, but it will also end up losing a lot of details. So, as I said, you start off with a normal cell, and a bunch of mutations happen over time, and you go from normal to malignant.",
+      "reason": "The rewrite reorganises the description of the simpler diagram and attaches a [FIGURE] marker, which accurately reflects the lecturer's reference to the diagram."
+    }
+  ]
+}

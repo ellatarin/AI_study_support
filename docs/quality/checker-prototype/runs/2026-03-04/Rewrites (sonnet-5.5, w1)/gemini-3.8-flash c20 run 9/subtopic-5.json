@@ -1,0 +1,28 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So with these tools in hand, I think the important concept to try and get across is invasion and metastasis.",
+      "reason": "The phrase 'with these tools in hand' was omitted as a conversational transition/lecture remark, and 'concept' was appropriately pluralised to 'concepts' to encompass invasion and metastasis."
+    },
+    {
+      "sourcePassage": "back in, I don't know, when surgery was first coming into its own as a discipline",
+      "reason": "The filler 'I don't know' was omitted in accordance with the allowed changes."
+    },
+    {
+      "sourcePassage": "And you'll hear this kind of terminology even now, where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable.",
+      "reason": "The rewrite uses 'since' instead of 'where', linking the persistence of the terminology to clinical examination by palpation, which is scientifically and clinically accurate."
+    },
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals",
+      "reason": "Omitted as a direct remark to the audience and a statement about the course."
+    },
+    {
+      "sourcePassage": "So when somebody presents with a lump or a primary tumor",
+      "reason": "Replacing 'somebody' with 'a patient' is an allowed stylistic substitution carrying the identical meaning in this clinical context."
+    }
+  ]
+}

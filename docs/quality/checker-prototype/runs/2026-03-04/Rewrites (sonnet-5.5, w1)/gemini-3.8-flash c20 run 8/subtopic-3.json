@@ -1,0 +1,27 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer specifies that maturation occurs during adolescence, but the rewrite changes 'adolescence' to 'differentiation'.",
+      "sourcePassage": "because obviously during adolescence and maturation, this occurs from infancy to adulthood.",
+      "rewritePassage": "because differentiation and maturation also occur from infancy to adulthood."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "into the invading stroma.",
+      "reason": "The lecturer's phrase 'invading stroma' was a slip for the stroma that is being invaded; replacing it with 'invaded stroma' produces a scientifically correct statement and is an allowed change."
+    },
+    {
+      "sourcePassage": "during the time that you were born.",
+      "reason": "This was a false start or slip immediately following 'during embryogenesis', so omitting it is an allowed change."
+    },
+    {
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes.",
+      "reason": "Resolving the lecturer's deictic reference 'here now' to 'In the image of the invasive tissue' accurately reflects what the slide depicts based on the context of the lecture."
+    }
+  ]
+}

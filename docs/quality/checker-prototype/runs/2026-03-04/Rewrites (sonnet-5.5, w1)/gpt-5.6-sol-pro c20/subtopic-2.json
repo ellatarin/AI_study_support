@@ -1,0 +1,65 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c20",
+  "modelId": "openai/gpt-5.6-sol-pro",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite uses “that is” to identify acetylation or deacetylation with the state of transcription. The source is unclear about the relationship between these items, so the rewrite improperly resolves the ambiguity and adds an equivalence.",
+      "sourcePassage": "These can be changes, for example, to the methylation status of a promoter, to the expression of things like microRNAs, to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "These can be changes, for example, to the methylation status of a promoter, to the expression of things like microRNAs, and to acetylation or deacetylation, that is, the state of transcription within the cell itself."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The source attributes the predisposition to chronic inflammatory events to the approximately seven human viruses, whereas the rewrite attributes it to infection generally. This broadens the stated cause.",
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events that can also help to give rise to cancer.",
+      "rewritePassage": "There are about seven different human viruses that precipitate cancer, and infection can also predispose to chronic inflammatory events, which can also help to give rise to cancer."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, so we're just going to start here with our core idea. I'm sure you've seen a cartoon that looks like this many times. The idea that a normal cell, starting off here, acquires a mutation, and maybe a second mutation, and it becomes slightly abnormal. And then adds another mutation, becoming slightly more abnormal on this journey towards a malignancy.",
+      "reason": "The rewrite preserves the progression shown by the cartoon. The omitted introductory and audience-directed wording is allowable."
+    },
+    {
+      "sourcePassage": "So we know that these mutations accumulate, there are stepwise changes, and they accumulate over time. But we really don't have a timeframe for exactly how long it takes for this progression to occur.",
+      "reason": "The accumulation, stepwise nature and lack of an exact timeframe are all retained."
+    },
+    {
+      "sourcePassage": "So I've just made this kind of a much simpler diagram, if you like. Simplicity can help frame our thinking, but it will also end up losing a lot of details. So, as I said, you start off with a normal cell, and a bunch of mutations happen over time, and you go from normal to malignant.",
+      "reason": "The simpler model, its usefulness and loss of detail, and the transition from normal to malignant are preserved. First-person and filler wording may be removed."
+    },
+    {
+      "sourcePassage": "And we know that there are gene changes that occur. And when I say gene changes, I'm using a very broad term to encompass things like mutations. And again, this is still a very broad term because we're talking about things like base substitutions, base pair changes, small deletions, small insertions to whole chromosome losses, chromosomal translocations, aneuploidy, polyploidy.",
+      "reason": "The rewrite retains the broad use of “gene changes” and every listed type of genetic change."
+    },
+    {
+      "sourcePassage": "So this is what genetic changes would look like, and you would see these changes if you sequenced the genome or you looked at the chromosomal morphology.",
+      "reason": "Both stated means of observing genetic changes are retained with equivalent wording."
+    },
+    {
+      "sourcePassage": "We are also talking about epigenetic changes.",
+      "reason": "The rewrite retains epigenetic changes as another category under discussion."
+    },
+    {
+      "sourcePassage": "If you were to sequence the genome, you wouldn't see these changes. You'd have to use other techniques, other specialized techniques, to look at these changes.",
+      "reason": "The inability to see epigenetic changes through genome sequencing and the need for specialised techniques are both preserved."
+    },
+    {
+      "sourcePassage": "And gene changes can also arise from infection. Certain tumors can arise from infectious agents like viruses.",
+      "reason": "The rewrite faithfully retains both claims, using the permitted British spelling “tumours” and the equivalent phrase “such as”."
+    },
+    {
+      "sourcePassage": "So there's a lot of changes that occur, and as I said, we don't know pretty much because of this when they occur. It actually raises a lot of questions.",
+      "reason": "The rewrite retains the occurrence of many changes, the resulting uncertainty about their timing and the questions this raises."
+    },
+    {
+      "sourcePassage": "When do these gene changes occur? Are they all the same for all the different cells that we're talking about? How many mutations does it take? When do they have to happen? Which cells are more susceptible than others?",
+      "reason": "All five questions are reproduced without a substantive change."
+    },
+    {
+      "sourcePassage": "So really, once you put a model like this together, it invites a lot of questions. So hopefully, in order to try and address some of these questions, we will start at the beginning. [chuckles]",
+      "reason": "The model's invitation of further questions and the intention to address them from the beginning are retained; the hedge, filler and chuckle may be removed."
+    }
+  ]
+}

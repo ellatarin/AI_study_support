@@ -1,0 +1,27 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite changes the term 'adolescence' to 'differentiation', claiming that 'differentiation and maturation' occur from infancy to adulthood rather than 'adolescence and maturation'.",
+      "sourcePassage": "during adolescence and maturation, this occurs from infancy to adulthood",
+      "rewritePassage": "differentiation and maturation also occur from infancy to adulthood"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "into the invading stroma",
+      "reason": "The lecturer referred to 'invading stroma' as a slip of the tongue (the epithelial cells invade the stroma, making the stroma invaded). The rewrite's correction to 'invaded stroma' is scientifically correct and therefore allowed."
+    },
+    {
+      "sourcePassage": "during embryogenesis, during the time that you were born",
+      "reason": "The phrase 'during the time that you were born' was a conversational slip or false start for pre-birth development, and retaining 'during embryogenesis' faithfully captures the substantive point."
+    },
+    {
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes",
+      "reason": "Resolving the lecturer's deictic gesture to 'In the image of the invasive tissue' accurately and scientifically describes what is being shown."
+    }
+  ]
+}

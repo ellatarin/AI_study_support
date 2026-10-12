@@ -1,0 +1,28 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c20",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Just a slide about the incidence in companion animals since I found this slide some time ago, which is to say that",
+      "reason": "This is a reference to the lecture slides and is allowed to be omitted."
+    },
+    {
+      "sourcePassage": "if you compare any two things, you're going to find differences.",
+      "reason": "The rewrite changes 'two things' to 'two species', which is a scientifically correct clarification in this context."
+    },
+    {
+      "sourcePassage": "along with skin and connective tissues",
+      "reason": "The rewrite specifies 'tumours of the skin and connective tissues', making the sentence complete and clear without changing the meaning."
+    },
+    {
+      "sourcePassage": "This is from injections",
+      "reason": "The rewrite changes this to 'Such tumours arise from injections', which is a valid stylistic rewording of the causal link."
+    },
+    {
+      "sourcePassage": "digestive tissues, hematopoietic, and skin",
+      "reason": "The rewrite adds 'tissues' after 'hematopoietic', which correctly completes the phrase."
+    }
+  ]
+}
