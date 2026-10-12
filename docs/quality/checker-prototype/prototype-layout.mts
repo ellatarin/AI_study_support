@@ -55,21 +55,24 @@ export function rewritesRunsFolder({
 
 /**
  * Gives the folder of one run: one model with one prompt version, named by the
- * model's short name and the version, such as "gemini-3.8-flash c3". A repeat
- * run adds its number, such as "gemini-3.8-flash c3 run 2".
+ * model's short name and the version, such as "gemini-3.8-flash c3". A check by
+ * paragraph adds "by paragraph", and a repeat run adds its number, such as
+ * "gemini-3.8-flash c3 by paragraph run 2".
  *
- * @param args - The lecture, the rewrites folder, the model, the version and the run number.
+ * @param args - The lecture, the rewrites folder, the model, the version, the run number and the unit of the check.
  * @param args.lecture - The date of the lecture.
  * @param args.rewrites - The name of the rewrites folder.
  * @param args.modelId - The OpenRouter model id, such as "google/gemini-3.8-flash".
  * @param args.version - The prompt version, such as "c3".
  * @param args.runNumber - The number of the run of this model and version, from 1.
+ * @param args.byParagraph - Whether the checker gets one part of a subtopic at a time.
  * @returns The absolute path.
  */
 export function checkRunFolder({
 	modelId,
 	version,
 	runNumber,
+	byParagraph,
 	...rewritesFolder
 }: {
 	readonly lecture: string;
@@ -77,9 +80,27 @@ export function checkRunFolder({
 	readonly modelId: string;
 	readonly version: string;
 	readonly runNumber: number;
+	readonly byParagraph: boolean;
 }): string {
+	const unit = byParagraph ? " by paragraph" : "";
 	const repeat = runNumber === 1 ? "" : ` run ${runNumber}`;
-	return join(rewritesRunsFolder(rewritesFolder), `${modelId.split("/").pop() ?? modelId} ${version}${repeat}`);
+	return join(
+		rewritesRunsFolder(rewritesFolder),
+		`${modelId.split("/").pop() ?? modelId} ${version}${unit}${repeat}`,
+	);
+}
+
+/**
+ * Gives the cuts file of one rewrites folder of one lecture: the parts of each
+ * subtopic's text, one for each rewrite paragraph.
+ *
+ * @param args - The lecture and the rewrites folder.
+ * @param args.lecture - The date of the lecture, such as "2026-03-04".
+ * @param args.rewrites - The name of the rewrites folder, such as "Rewrites (sonnet-5.5, w1)".
+ * @returns The absolute path.
+ */
+export function splitsFile({ lecture, rewrites }: { readonly lecture: string; readonly rewrites: string }): string {
+	return join(import.meta.dirname, "splits", lecture, `${rewrites}.json`);
 }
 
 /**

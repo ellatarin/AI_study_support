@@ -33,7 +33,15 @@ import { isRecord } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/u
 import { type FailedSend, sendUntilAccepted } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/utils/resend.js";
 import { createSendGate } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/utils/send-gate.js";
 import { checkerSystemPrompt } from "./checker-prompts.mts";
-import { CHECK_STAGE_ID, checkRunFolder, PROJECT_ROOT, subtopicResultFile, workspaceOf } from "./prototype-layout.mts";
+import { cutIntoParts, type SplitPart } from "./paragraph-parts.mts";
+import {
+	CHECK_STAGE_ID,
+	checkRunFolder,
+	PROJECT_ROOT,
+	splitsFile,
+	subtopicResultFile,
+	workspaceOf,
+} from "./prototype-layout.mts";
 
 /** The most subtopics of one run in flight at once, as in the pipeline's configuration. */
 const CONCURRENCY = 10;
@@ -51,6 +59,12 @@ type Material = {
 	readonly corrections: readonly { readonly wrongForm: string; readonly rightForm: string; readonly reason: string }[];
 	readonly rewrite: readonly string[];
 };
+
+/** What the checker gets in one call: a whole subtopic, or one part of it. */
+type CheckUnit = Omit<Material, "subtopicId">;
+
+/** A subtopic with the units that the checker gets for it, one call each. */
+type SubtopicUnits = { readonly subtopicId: number; readonly units: readonly CheckUnit[] };
 
 /** A reply that the trial cannot use, with its text. */
 type UnusableReply = FailedSend & { readonly replyText: string };
@@ -175,7 +189,8 @@ async function readMaterial({
  * @param args.modelId - The OpenRouter model id.
  * @param args.version - The prompt version.
  * @param args.runNumber - The number of the run of this model and version, from 1.
- * @param args.material - The material of each subtopic.
+ * @param args.byParagraph - Whether the checker gets one part of a subtopic at a time, not the whole subtopic.
+ * @param args.subtopics - The units of each subtopic.
  * @param args.baseConfig - The pipeline configuration.
  * @returns A one-line summary of the run.
  */
@@ -185,7 +200,8 @@ async function runOne({
 	modelId,
 	version,
 	runNumber,
-	material,
+	byParagraph,
+	subtopics,
 	baseConfig,
 }: {
 	readonly lecture: string;
@@ -193,11 +209,12 @@ async function runOne({
 	readonly modelId: string;
 	readonly version: string;
 	readonly runNumber: number;
-	readonly material: readonly Material[];
+	readonly byParagraph: boolean;
+	readonly subtopics: readonly SubtopicUnits[];
 	readonly baseConfig: ReturnType<typeof parseConfig>;
 }): Promise<string> {
-	const folder = checkRunFolder({ lecture, rewrites, modelId, version, runNumber });
-	const runName = `${modelId} ${version} run ${runNumber}`;
+	const folder = checkRunFolder({ lecture, rewrites, modelId, version, runNumber, byParagraph });
+	const runName = `${modelId} ${version}${byParagraph ? " by paragraph" : ""} run ${runNumber}`;
 	await mkdir(folder, { recursive: true });
 	const borrowed = baseConfig.stages[CHECK_STAGE_ID];
 	if (borrowed === undefined) {
@@ -214,34 +231,64 @@ async function runOne({
 	const startedAt = new Date();
 	let checked = 0;
 
+	/**
+	 * Sends one unit to the checker until a reply is usable.
+	 *
+	 * @param args - The subtopic and the unit.
+	 * @param args.subtopicId - The subtopic of the unit.
+	 * @param args.unit - The material of the call.
+	 * @returns The usable reply.
+	 */
+	async function checkUnit({
+		subtopicId,
+		unit,
+	}: {
+		readonly subtopicId: number;
+		readonly unit: CheckUnit;
+	}): Promise<CheckerReply> {
+		const { sent } = await sendUntilAccepted<CheckerReply, UnusableReply>({
+			send: async () => {
+				const { content } = await callModel({
+					messages: subtopicPromptMessages({ system, material: unit }),
+					stageId: CHECK_STAGE_ID,
+					config,
+					responseFormat: "json",
+					logger,
+					client,
+					sendGate,
+					costTally,
+				});
+				return readReply(content);
+			},
+			onFailure: ({ send, failure, replyText }) => {
+				unusableReplies.push({ subtopicId, send, reason: failure, replyText });
+			},
+			exhausted: ({ failure, sends }) => new Error(`failed after ${sends} sends: ${failure}`),
+		});
+		return sent;
+	}
+
 	await mapWithConcurrency({
-		items: material,
+		items: subtopics,
 		limit: CONCURRENCY,
-		work: async ({ item: { subtopicId, ...subtopic } }) => {
+		work: async ({ item: { subtopicId, units } }) => {
 			const resultPath = join(folder, subtopicResultFile(subtopicId));
 			if (await pathExists(resultPath)) {
 				return;
 			}
 			try {
-				const { sent } = await sendUntilAccepted<CheckerReply, UnusableReply>({
-					send: async () => {
-						const { content } = await callModel({
-							messages: subtopicPromptMessages({ system, material: subtopic }),
-							stageId: CHECK_STAGE_ID,
-							config,
-							responseFormat: "json",
-							logger,
-							client,
-							sendGate,
-							costTally,
-						});
-						return readReply(content);
-					},
-					onFailure: ({ send, failure, replyText }) => {
-						unusableReplies.push({ subtopicId, send, reason: failure, replyText });
-					},
-					exhausted: ({ failure, sends }) => new Error(`failed after ${sends} sends: ${failure}`),
-				});
+				const replies: CheckerReply[] = [];
+				for (const unit of units) {
+					replies.push(await checkUnit({ subtopicId, unit }));
+				}
+				const [only] = replies;
+				const sent =
+					replies.length === 1 && only !== undefined
+						? only
+						: {
+								deficiencies: replies.flatMap((reply) => reply.deficiencies),
+								considerations: replies.flatMap((reply) => reply.considerations),
+							};
 				await writeJsonAtomic({
 					path: resultPath,
 					value: { subtopicId, checkerPromptVersion: version, modelId, ...sent },
@@ -291,6 +338,92 @@ function list(value: string | undefined): readonly string[] {
 	return (value ?? "").split(",").map((part) => part.trim()).filter((part) => part !== "");
 }
 
+/**
+ * Checks that a parsed value is one part of a cuts file.
+ *
+ * @param value - The parsed value.
+ * @returns `true` when the value has a list of paragraph numbers and start words or null.
+ */
+function isSplitPart(value: unknown): value is SplitPart {
+	return (
+		isRecord(value) &&
+		Array.isArray(value.paragraphs) &&
+		value.paragraphs.every((paragraph) => typeof paragraph === "number") &&
+		(value.startWords === null || typeof value.startWords === "string")
+	);
+}
+
+/**
+ * Checks that a parsed value is a cuts file: for each subtopic, its parts.
+ *
+ * @param value - The parsed value.
+ * @returns `true` when the value has a list of subtopics, each with a number and a list of parts.
+ */
+function isSplitsFile(
+	value: unknown,
+): value is { readonly subtopics: readonly { readonly subtopicId: number; readonly parts: readonly SplitPart[] }[] } {
+	return (
+		isRecord(value) &&
+		Array.isArray(value.subtopics) &&
+		value.subtopics.every(
+			(subtopic) =>
+				isRecord(subtopic) &&
+				typeof subtopic.subtopicId === "number" &&
+				Array.isArray(subtopic.parts) &&
+				subtopic.parts.every(isSplitPart),
+		)
+	);
+}
+
+/**
+ * Gives the units of each subtopic. By subtopic, a unit is the whole subtopic.
+ * By paragraph, the units are the parts of the cuts file, each with the term
+ * corrections whose wrong form is in its text. A subtopic with no rewrite and no
+ * cuts stays one unit.
+ *
+ * @param args - The lecture, the rewrites folder, the material and the unit of the check.
+ * @param args.lecture - The date of the lecture.
+ * @param args.rewrites - The name of the rewrites folder.
+ * @param args.material - The material of each subtopic.
+ * @param args.byParagraph - Whether the units are the parts of the cuts file.
+ * @returns The units of each subtopic, in lecture order.
+ * @throws Error when the cuts file does not have the expected shape, or a subtopic with a rewrite has no cuts.
+ */
+async function subtopicUnits({
+	lecture,
+	rewrites,
+	material,
+	byParagraph,
+}: {
+	readonly lecture: string;
+	readonly rewrites: string;
+	readonly material: readonly Material[];
+	readonly byParagraph: boolean;
+}): Promise<readonly SubtopicUnits[]> {
+	if (!byParagraph) {
+		return material.map(({ subtopicId, ...unit }) => ({ subtopicId, units: [unit] }));
+	}
+	const { subtopics } = await readChecked({ path: splitsFile({ lecture, rewrites }), isShape: isSplitsFile });
+	return material.map(({ subtopicId, text, rewrite, corrections }) => {
+		const cuts = subtopics.find((subtopic) => subtopic.subtopicId === subtopicId);
+		if (cuts === undefined) {
+			if (rewrite.length > 0) {
+				throw new Error(`The cuts file has no parts for subtopic ${subtopicId}, which has a rewrite`);
+			}
+			return { subtopicId, units: [{ text, rewrite, corrections }] };
+		}
+		const parts = cutIntoParts({ text, rewrite, parts: cuts.parts });
+		return {
+			subtopicId,
+			units: parts.map((part) => ({
+				text: part.text,
+				rewrite: part.rewrite,
+				corrections: corrections.filter((correction) => part.text.includes(correction.wrongForm)),
+			})),
+		};
+	});
+}
+
 const { values } = parseArgs({
 	options: {
 		lecture: { type: "string" },
@@ -298,8 +431,13 @@ const { values } = parseArgs({
 		prompts: { type: "string" },
 		models: { type: "string" },
 		runs: { type: "string", default: "1" },
+		unit: { type: "string", default: "subtopic" },
 	},
 });
+if (values.unit !== "subtopic" && values.unit !== "paragraph") {
+	throw new Error(`--unit is "subtopic" or "paragraph". It was "${values.unit}".`);
+}
+const byParagraph = values.unit === "paragraph";
 const prompts = list(values.prompts);
 const models = list(values.models);
 const runNumbers = list(values.runs).map(Number);
@@ -312,11 +450,12 @@ if (values.lecture === undefined || values.rewrites === undefined || prompts.len
 const { lecture, rewrites } = values;
 const baseConfig = parseConfig(JSON.parse(await readFile(join(PROJECT_ROOT, "pipeline-config.json"), "utf8")));
 const material = await readMaterial({ workspaceRoot: await workspaceOf(lecture), rewrites });
+const subtopics = await subtopicUnits({ lecture, rewrites, material, byParagraph });
 const summaries = await Promise.all(
 	models.flatMap((modelId) =>
 		prompts.flatMap((version) =>
 			runNumbers.map((runNumber) =>
-				runOne({ lecture, rewrites, modelId, version, runNumber, material, baseConfig }),
+				runOne({ lecture, rewrites, modelId, version, runNumber, byParagraph, subtopics, baseConfig }),
 			),
 		),
 	),
