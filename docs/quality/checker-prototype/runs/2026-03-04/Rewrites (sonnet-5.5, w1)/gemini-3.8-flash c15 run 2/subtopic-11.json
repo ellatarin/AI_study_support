@@ -1,0 +1,32 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c15",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite describes a tumour occurring 'in a meningioma', treating meningioma as an anatomical site rather than as a tumour type.",
+      "sourcePassage": "Only 10% of these deaths, generally, if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "rewritePassage": "for example when the tumour occurs in a meningioma or in the liver.",
+      "studentHarm": "A student would mistakenly learn that a meningioma is an anatomical location where tumours occur, rather than a tumour itself."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Things like obstruction of the bile ducts in the liver interferes with digestion.",
+      "reason": "The introductory sentence 'Other effects depend on the site' acts as a transitional sentence reflecting the lecturer's earlier phrase 'in the different settings in which they occur' and does not introduce an unsourced scientific fact."
+    },
+    {
+      "sourcePassage": "This niche is not very big. This will interfere with your bone marrow",
+      "reason": "The phrasing 'The tumour will therefore interfere with the bone marrow' links the competition in a limited niche to bone marrow interference, which reflects the causal reasoning in the spoken explanation."
+    },
+    {
+      "sourcePassage": "And things like if tumors in bones lead to erosion of that bone function, so you can get fractures",
+      "reason": "Changing 'erosion of that bone function' to 'erosion of the bone' reflects standard terminology and aligns with the lecturer's later remark 'erosion of bones will lead to skeletal collapse'."
+    },
+    {
+      "sourcePassage": "Also ulceration, you saw that enormous cauliflower structure within the colon.",
+      "reason": "The phrase 'the enormous cauliflower-like structure seen within the colon' appropriately adapts the lecturer's reference to a visual aid shown earlier in the lecture."
+    }
+  ]
+}

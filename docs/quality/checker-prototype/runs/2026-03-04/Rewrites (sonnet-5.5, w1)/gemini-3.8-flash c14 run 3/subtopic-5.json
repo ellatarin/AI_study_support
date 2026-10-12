@@ -1,0 +1,24 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c14",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "And you'll hear this kind of terminology even now, where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable.",
+      "reason": "The rewrite renders the spoken 'where' as 'since a surgeon can tell...', which smoothly captures the lecturer's explanatory context in written English without introducing an unwarranted factual or scientific distortion."
+    },
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals",
+      "reason": "Omitted as an allowed change, being a remark directed to the audience concerning course practicals."
+    },
+    {
+      "sourcePassage": "Okay. So with these tools in hand, I think the important concept to try and get across is invasion and metastasis.",
+      "reason": "Dropping conversational filler ('Okay', 'So with these tools in hand', 'I think... to try and get across') and adjusting 'concept' to the plural 'concepts' to reflect both invasion and metastasis is an allowed stylistic change."
+    },
+    {
+      "sourcePassage": "Right. So, what does that mean for the patient? Well, the invasion",
+      "reason": "The conversational rhetorical framing and filler ('Right. So, what does that mean for the patient? Well,') was appropriately condensed into formal textbook prose ('For the patient, invasion...')."
+    }
+  ]
+}

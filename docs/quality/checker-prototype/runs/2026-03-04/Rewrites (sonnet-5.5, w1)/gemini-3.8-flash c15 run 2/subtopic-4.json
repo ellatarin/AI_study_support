@@ -1,0 +1,20 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c15",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "reason": "The rewrite renders this as 'A slice through a tumour, with a stain to show the morphology, illustrates this [FIGURE].' Connecting the slice to the preceding mention of explanting a tumour faithfully reflects the lecturer pointing out an example of an explanted tumour ('Here you're looking at...'), without introducing unsourced facts or causing student harm."
+    },
+    {
+      "sourcePassage": "Primary cells really don't grow in culture.",
+      "reason": "The rewrite renders this as 'Primary cells do not grow in culture.' In this context, 'really' serves as conversational emphasis rather than a scientific hedge, especially given the preceding statement that 'all of those cells will not grow'."
+    },
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "This is an incidental remark to the audience / lecture administration and is properly omitted."
+    }
+  ]
+}

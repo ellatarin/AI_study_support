@@ -1,0 +1,24 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c14",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "The only thing that was quite interesting to note here is that the rate of malignant tumors is about fivefold higher in reptiles compared to mammals.",
+      "reason": "The rewrite renders this as 'The one notable difference is that the rate of malignant tumours is about fivefold higher in reptiles than in mammals', which accurately reflects the comparative context discussed in the lecture."
+    },
+    {
+      "sourcePassage": "digestive tissues, hematopoietic, and skin",
+      "reason": "The rewrite expands this to 'digestive tissues, hematopoietic tissues and skin', which is an allowable grammatical completion that preserves the exact meaning without introducing new factual claims."
+    },
+    {
+      "sourcePassage": "And this is my cat, who also ended up with a feline injection site sarcoma.",
+      "reason": "The rewrite changes the first-person reference to 'The lecturer's own cat', which is standard practice when adapting spoken lecture delivery into textbook prose."
+    },
+    {
+      "sourcePassage": "You'll be happy to hear he's doing fine now after his surgery.",
+      "reason": "Omitting 'You'll be happy to hear' is an allowed removal of conversational remarks addressed to the audience."
+    }
+  ]
+}

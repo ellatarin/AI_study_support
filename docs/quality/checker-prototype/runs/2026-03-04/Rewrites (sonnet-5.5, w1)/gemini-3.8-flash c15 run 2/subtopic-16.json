@@ -1,0 +1,16 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c15",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states. Ideally, you'd like to catch these benign states.",
+      "reason": "The rewrite renders 'You saw those different pre-cancerous states' as 'The different pre-cancerous states are present', appropriately adapting a reference to a visual aid/previous slide into textbook prose without altering the meaning."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "The rewrite phrases this as 'Of the screening methods discussed, cervical screening is the best', which captures the lecturer's back-reference ('as I said') without adding unsourced information."
+    }
+  ]
+}

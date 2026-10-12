@@ -1,0 +1,24 @@
+{
+  "subtopicId": 7,
+  "checkerPromptVersion": "c15",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite converts the lecturer's pointing gestures indicating the location of the tumour and the outer surface of the uterus into a spatial description stating that the tumour lies next to the outer surface.",
+      "sourcePassage": "You can see that the tumor is here. This is the outer surface of the uterus.",
+      "rewritePassage": "The tumour lies next to the outer surface of the uterus",
+      "studentHarm": "The student learns that the fibroid specifically lies next to the outer surface of the uterus, a anatomical relationship not specified by the lecturer."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So you can see again that this is actually circumspect and very separate from the surrounding stroma and the surrounding tissue.",
+      "reason": "The lecturer used 'circumspect' as an apparent slip of the tongue for 'circumscribed'. Changing it to the conventional pathological term 'circumscribed' does not harm student learning."
+    },
+    {
+      "sourcePassage": "has actually caused the tumor, which is, as I said, not invaded into the surrounding tissue to separate away from the normal muscle. So you can see again that this is actually circumspect",
+      "reason": "The use of 'therefore' reflects the causal/evidential inference drawn by the lecturer ('has actually caused... So you can see again...')."
+    }
+  ]
+}

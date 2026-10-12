@@ -1,0 +1,28 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c15",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite turns the lecturer's pointing gesture ('and so you're looking at the cervix here') into an unsourced spatial relationship ('and the cervix is seen alongside it'), which the text does not state and which incorrectly implies that the cervix is an adjacent structure to the endocervical canal.",
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "rewritePassage": "and the cervix is seen alongside it",
+      "studentHarm": "A student might incorrectly believe that the cervix is a distinct anatomical structure situated alongside the endocervical canal, rather than the canal being the interior passage running through the cervix itself."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "The uterus is here in this diagram, and as you know, it hangs down into the vaginal canal.",
+      "reason": "The phrase 'as shown in the diagram' in the rewrite is directly sourced from the lecturer's explicit reference to the diagram ('in this diagram')."
+    },
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here",
+      "reason": "The lecturer's remarks pointing out specific individual cells on a slide are conversational demonstration details that do not add independent factual content beyond the stated principle that mitotic cells occur at the basement layer."
+    },
+    {
+      "sourcePassage": "If you'll notice here from the 1950s to, this is only to 2000, you'll see that the rates of death in cervical cancer came down, particularly amongst older women.",
+      "reason": "Omitting the conversational framing ('If you'll notice here ... this is only to') while retaining the timeframe ('From the 1950s to 2000') and the substantive trend is an allowed stylistic cleanup of spoken delivery."
+    }
+  ]
+}

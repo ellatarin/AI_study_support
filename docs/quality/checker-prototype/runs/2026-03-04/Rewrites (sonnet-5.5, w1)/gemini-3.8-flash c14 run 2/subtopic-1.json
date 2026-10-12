@@ -1,0 +1,20 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c14",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there.",
+      "reason": "The phrase 'listed there' is a conversational pointing remark to lecture slides. Transforming this into 'The learning outcomes for this lecture are as follows' is an allowed stylistic transition that introduces the listed outcomes faithfully."
+    },
+    {
+      "sourcePassage": "So I tag-teamed these lectures with Professor Turner, and so she will also be teaching three of these lectures.",
+      "reason": "The rewrite renders this as 'The lectures are shared with Professor Turner, who teaches three of the six', which accurately captures the meaning and lecture count without distortion."
+    },
+    {
+      "sourcePassage": "So you're going to be comparing the differences between benign and malignant tumors",
+      "reason": "The rewrite renders this as 'This involves comparing benign and malignant tumours', preserving the subject matter and intent."
+    }
+  ]
+}

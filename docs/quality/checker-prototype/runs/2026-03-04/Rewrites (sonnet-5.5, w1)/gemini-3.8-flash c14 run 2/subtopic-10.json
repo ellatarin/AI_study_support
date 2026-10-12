@@ -1,0 +1,16 @@
+{
+  "subtopicId": 10,
+  "checkerPromptVersion": "c14",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So the fat, smooth muscle or papillomas in the skin, and adenomas, as we were talking about in the colon.",
+      "reason": "The rewrite pairs lipomas with fat and leiomyomas with smooth muscle ('lipomas in fat, leiomyomas in smooth muscle, papillomas in the skin, and adenomas, as discussed earlier, in the colon'), which accurately reflects the parallel list given immediately prior in the text ('lipoma, leiomyoma, papilloma, and adenomas')."
+    },
+    {
+      "sourcePassage": "These are all, even though they have oma in them, these are all malignant tumors, and things like retinoblastoma.",
+      "reason": "The rewrite groups retinoblastoma along with glioma, glioblastoma, and neuroblastoma as examples containing -oma that are malignant tumours, which directly matches the speaker's meaning."
+    }
+  ]
+}

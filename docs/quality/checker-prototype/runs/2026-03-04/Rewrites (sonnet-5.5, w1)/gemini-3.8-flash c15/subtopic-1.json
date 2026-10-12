@@ -1,0 +1,16 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c15",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there.",
+      "reason": "The deictic reference to where the outcomes are listed on a slide or handout is an administrative or audience remark, which is permitted to be omitted or adapted into 'The learning outcomes for this lecture are as follows'."
+    },
+    {
+      "sourcePassage": "Okay, everyone, shall we get started? Yes. You're very welcome, all of you, to Cancer Biology.",
+      "reason": "Greeting, conversational filler, and rhetorical questions directed at settling the class are permitted omissions."
+    }
+  ]
+}

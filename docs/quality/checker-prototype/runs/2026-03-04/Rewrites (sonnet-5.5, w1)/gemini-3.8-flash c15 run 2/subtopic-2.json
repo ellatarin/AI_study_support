@@ -1,0 +1,35 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c15",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite inserts 'that is,' to link acetylation and deacetylation with the state of transcription, defining the two as equivalent when the original text merely presented them as separate items or ambiguous phrasing.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself.",
+      "studentHarm": "A student would wrongly learn that acetylation and deacetylation are synonymous with the state of cellular transcription, rather than being specific chemical modifications that regulate transcription."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite replaces 'they' (referring to the human viruses) with 'infection', broadening the specific cause that predisposes to chronic inflammatory events from the viruses to infection in general.",
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events that can also help to give rise to cancer.",
+      "rewritePassage": "There are about seven different human viruses that precipitate cancer, and infection can also predispose to chronic inflammatory events, which can also help to give rise to cancer.",
+      "studentHarm": "A student would learn that infection in general predisposes to chronic inflammatory events that help give rise to cancer, rather than the specific oncogenic human viruses identified by the lecturer."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So there's a lot of changes that occur, and as I said, we don't know pretty much because of this when they occur.",
+      "reason": "The rewrite renders this as 'Many changes therefore occur, and because of this it is largely not known when they occur.' The word 'therefore' reflects the lecturer's summarizing 'So', and the causal link 'because of this' is directly present in the source text."
+    },
+    {
+      "sourcePassage": "So I've just made this kind of a much simpler diagram, if you like. Simplicity can help frame our thinking, but it will also end up losing a lot of details. So, as I said, you start off with a normal cell, and a bunch of mutations happen over time, and you go from normal to malignant.",
+      "reason": "The rewrite reorders the description of the simpler diagram and the observation about simplicity losing details. Reordering of points is explicitly allowed."
+    },
+    {
+      "sourcePassage": "And we know that there are gene changes that occur.",
+      "reason": "The rewrite adds 'in this progression' ('Gene changes occur in this progression'), which directly references the transition from normal to malignant described immediately before it, and is an allowed stylistic continuation."
+    }
+  ]
+}

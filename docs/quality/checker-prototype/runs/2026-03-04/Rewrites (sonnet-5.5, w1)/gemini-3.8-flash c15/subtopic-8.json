@@ -1,0 +1,20 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c15",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "The rewrite phrases this as 'malignancy is defined as the ability to invade the surrounding tissue'. This is an accurate rendering of the lecturer's definition, as invasion itself is already defined earlier as penetration through the basement membrane."
+    },
+    {
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "reason": "The rewrite specifies 'Invasion is therefore probably an obligatory step in arriving at a malignant, metastasising tumour'. The context of the text clearly demonstrates that 'this' refers to local invasion."
+    },
+    {
+      "sourcePassage": "The submucosa is here, and you'll see that there isn't any invasion that has occurred.",
+      "reason": "The rewrite states 'the submucosa lies beneath it, and there is no invasion'. The anatomical location of the submucosa underneath the muscularis mucosae was explicitly established earlier in the text."
+    }
+  ]
+}

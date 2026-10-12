@@ -1,0 +1,28 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c15",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite states that primary tumour deaths occur 'when the tumour occurs in a meningioma', treating meningioma as an anatomical site rather than as the primary tumour itself.",
+      "sourcePassage": "Only 10% of these deaths, generally, if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "rewritePassage": "when the tumour occurs in a meningioma or in the liver",
+      "studentHarm": "A student reading the rewrite may incorrectly understand a meningioma to be an anatomical location or organ where a tumour develops, rather than a tumour of the meninges."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Also ulceration, you saw that enormous cauliflower structure within the colon.",
+      "reason": "The lecturer refers to an image shown to the audience ('you saw that enormous cauliflower structure'), which the rewrite rephrases as 'the enormous cauliflower-like structure seen within the colon', adapting visual presentation remarks to textbook prose."
+    },
+    {
+      "sourcePassage": "And this causes an immense amount of pain. Bone pain is terrible.",
+      "reason": "The rewrite preserves both statements with appropriate punctuation ('causes an immense amount of pain; bone pain is terrible')."
+    },
+    {
+      "sourcePassage": "So it's not very good.",
+      "reason": "Omitted as an informal conversational remark/understatement."
+    }
+  ]
+}

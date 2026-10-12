@@ -1,0 +1,16 @@
+{
+  "subtopicId": 10,
+  "checkerPromptVersion": "c14",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So the fat, smooth muscle or papillomas in the skin, and adenomas, as we were talking about in the colon.",
+      "reason": "The lecturer previously listed 'lipoma, leiomyoma, papilloma, and adenomas' and then listed their corresponding tissues elliptically ('the fat, smooth muscle or papillomas in the skin...'). The rewrite explicitly matches 'lipomas in fat, leiomyomas in smooth muscle', which faithfully resolves the parallel structure without introducing new information."
+    },
+    {
+      "sourcePassage": "So just so that we're all on the same page in terms of nomenclature",
+      "reason": "Omitted as conversational filler/audience-directed framing."
+    }
+  ]
+}

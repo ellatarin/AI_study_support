@@ -1,0 +1,20 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c15",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "Omitted because this is a personal remark / note to self, which is permitted to be dropped."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here, and then you can often see sometimes the tumor cells are actually present within a lymphatic duct.",
+      "reason": "The deictic pointing reference ('are here') to a visual slide is omitted while the substantive histological observation is preserved."
+    },
+    {
+      "sourcePassage": "And I think one of the tumors that does this quite frequently is ovarian cancer, for example.",
+      "reason": "'I think' is conversational filler rather than a scientific hedge in this context; its removal is an allowed stylistic change."
+    }
+  ]
+}

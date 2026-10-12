@@ -1,0 +1,20 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c14",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "The reference to what the audience previously saw was adapted into expository text ('The different pre-cancerous states are present') without losing key factual information."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "Phrased as 'Of the screening methods discussed, cervical screening is the best', which faithfully captures the comparative statement from earlier in the lecture."
+    },
+    {
+      "sourcePassage": "an ulcerated cauliflower structure, if you like",
+      "reason": "Rendered as 'an ulcerated cauliflower-like structure', removing colloquial filler ('if you like') while keeping the description intact."
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "subtopicId": 12,
+  "checkerPromptVersion": "c14",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite introduces an unsourced causal link ('because'), asserting that benign tumours are extremely common because it takes a lot for them to become malignant. The source text mentions both points, but does not present one as the cause of the other.",
+      "sourcePassage": "So benign tumors are actually incredibly common. Right? So it actually takes a lot for a benign tumor to become malignant in terms of, as I said, the number of changes that have to happen within a tumor.",
+      "rewritePassage": "Benign tumours are extremely common, because it takes a great deal for a benign tumour to become malignant, given the number of changes that have to happen within a tumour.",
+      "confidence": 8
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So I've just put these numbers up just so that you can have a sense.",
+      "reason": "The rewrite describes this as 'The numbers shown give a sense of incidence', which accurately reflects the lecturer's earlier introduction of the topic ('So just talking about incidence, about how often various tumors arise')."
+    },
+    {
+      "sourcePassage": "So, and just a-- Oops. Oh, God. It doesn't go backwards. Here we go.",
+      "reason": "This is a remark to the audience and a technical mishap during the lecture, which is permitted to be dropped."
+    }
+  ]
+}

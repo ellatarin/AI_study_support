@@ -1,0 +1,32 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c15",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite introduces a causal link by using 'since' to claim that the terminology is still heard today because surgeons can tell by touch, whereas the original text uses 'where' to introduce the clinical context or scenario in which one hears the terminology, without stating a causal relationship.",
+      "sourcePassage": "And you'll hear this kind of terminology even now, where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable.",
+      "rewritePassage": "This terminology is still heard now, since a surgeon can tell just by holding or touching a tumour whether it is movable or immovable.",
+      "studentHarm": "A student would learn that the terminology persists specifically because surgeons can detect tumour mobility by touch, rather than understanding that this is simply a context in which the terminology is encountered."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Okay. So with these tools in hand, I think the important concept to try and get across is invasion and metastasis.",
+      "reason": "The introductory conversational remark and lecture framing ('Okay. So with these tools in hand, I think...') were dropped as allowed changes, and changing 'concept' to plural 'concepts' is a grammatical adjustment for 'invasion and metastasis'."
+    },
+    {
+      "sourcePassage": "What they termed the movable tumor. And a movable tumor is exactly like what it sounds. Surgeons would find that that tumor could move within the tissue or an immovable tumor.",
+      "reason": "The spoken fragment was reorganised cleanly into textbook prose mentioning both the movable and immovable tumour, which faithfully reflects the lecturer's meaning."
+    },
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals,",
+      "reason": "Omitted as an allowed change because it is a remark to the audience and a statement about the course."
+    },
+    {
+      "sourcePassage": "Right. So, what does that mean for the patient? Well, the invasion,",
+      "reason": "The rhetorical question and conversational filler were transformed into standard textbook prose ('For the patient, invasion...') without changing the underlying meaning."
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c15",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer specifies 'adolescence and maturation', but the rewrite replaces 'adolescence' with 'differentiation'.",
+      "sourcePassage": "during adolescence and maturation, this occurs from infancy to adulthood",
+      "rewritePassage": "differentiation and maturation also occur from infancy to adulthood",
+      "studentHarm": "The student misses the lecturer's specific reference to adolescence as a developmental period of maturation, seeing differentiation repeated instead."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "most of your lineage specification and your expansive growth has happened during embryogenesis, during the time that you were born",
+      "reason": "The phrase 'during the time that you were born' was dropped as a spoken slip or false start, as the surrounding context clearly refers to embryogenesis in the womb."
+    },
+    {
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes. They have come in, they have lost this architecture, moved over the basement membrane and invaded and are growing within the stroma.",
+      "reason": "Resolving 'here now' to 'In the image of the invasive tissue' is justified because the text directly describes the cells in this view having invaded into the stroma."
+    },
+    {
+      "sourcePassage": "provides a signaling and basis for their adherence to this layer",
+      "reason": "Condensing 'signaling and basis' to 'signalling basis' resolves a minor spoken false start without altering the meaning."
+    },
+    {
+      "sourcePassage": "into the invading stroma",
+      "reason": "Changing 'invading stroma' to 'invaded stroma' corrects a clear grammatical slip of the tongue by the lecturer, as it is the cells that are invading the stroma."
+    }
+  ]
+}

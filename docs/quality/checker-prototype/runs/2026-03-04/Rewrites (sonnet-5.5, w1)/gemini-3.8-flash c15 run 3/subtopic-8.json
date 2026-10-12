@@ -1,0 +1,28 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c15",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "muscularis mucosa",
+      "reason": "The rewrite uses 'muscularis mucosae', which is an allowed change based on the provided term corrections."
+    },
+    {
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "The rewrite specifies 'malignancy is defined as the ability to invade the surrounding tissue', which naturally resolves the lecturer's pronoun 'it' in accordance with standard medical definition without introducing distortion or student harm."
+    },
+    {
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "reason": "The rewrite replaces 'this' with 'Invasion' ('Invasion is therefore probably an obligatory step...'), which is directly substantiated by the lecturer's discussion of local invasion preceding distant metastasis."
+    },
+    {
+      "sourcePassage": "and then your normal musculature located here",
+      "reason": "The rewrite states 'and the normal musculature located beneath', which is directly sourced from the lecturer's earlier statement in the same paragraph that 'you have the muscle underneath'."
+    },
+    {
+      "sourcePassage": "The submucosa is here",
+      "reason": "The rewrite states 'the submucosa lies beneath it', which is sourced from the lecturer's earlier description 'And then you have under here the submucosa'."
+    }
+  ]
+}

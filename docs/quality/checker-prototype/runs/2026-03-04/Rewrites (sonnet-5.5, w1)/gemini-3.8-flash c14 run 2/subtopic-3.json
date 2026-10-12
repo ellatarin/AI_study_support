@@ -1,0 +1,28 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c14",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer stated that development and differentiation occur during 'adolescence and maturation', but the rewrite replaced 'adolescence' with 'differentiation', stating 'differentiation and maturation also occur'.",
+      "sourcePassage": "because obviously during adolescence and maturation, this occurs from infancy to adulthood.",
+      "rewritePassage": "because differentiation and maturation also occur from infancy to adulthood.",
+      "confidence": 7
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes. They have come in, they have lost this architecture, moved over the basement membrane and invaded and are growing within the stroma.",
+      "reason": "The rewrite resolves the deictic reference 'here now' to 'In the image of the invasive tissue', which is justified by the surrounding text describing invasion into the stroma."
+    },
+    {
+      "sourcePassage": "Here at this stage here, most of your growth, really, most of your lineage specification and your expansive growth has happened during embryogenesis, during the time that you were born.",
+      "reason": "The phrase 'during the time that you were born' is a spoken slip or false start clarifying the prenatal stage, so condensing it to 'during embryogenesis' without that redundant/inaccurate phrase is an allowed simplification."
+    },
+    {
+      "sourcePassage": "It gives them structure and provides a signaling and basis for their adherence to this layer.",
+      "reason": "The rewrite renders 'signaling and basis' as 'signalling basis', which captures the lecturer's meaning without distorting scientific content."
+    }
+  ]
+}

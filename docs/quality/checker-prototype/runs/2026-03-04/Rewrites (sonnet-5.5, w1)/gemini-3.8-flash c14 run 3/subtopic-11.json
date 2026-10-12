@@ -1,0 +1,28 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c14",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite states 'when the tumour occurs in a meningioma', treating a meningioma as an anatomical location where a tumour can arise, rather than recognizing that a meningioma is itself the tumour type (a tumour of the meninges).",
+      "sourcePassage": "if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "rewritePassage": "when the tumour occurs in a meningioma or in the liver",
+      "confidence": 8
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Things like obstruction of the bile ducts in the liver interferes with digestion.",
+      "reason": "The sentence 'Other effects depend on the site' was added at the start of the paragraph as a stylistic transition linking to the lecturer's earlier mention of 'different settings in which they occur'."
+    },
+    {
+      "sourcePassage": "you saw that enormous cauliflower structure within the colon.",
+      "reason": "The lecturer's direct remark to the audience ('you saw') was converted to textbook prose ('seen within the colon'), which is an allowed stylistic change."
+    },
+    {
+      "sourcePassage": "So it's not very good.",
+      "reason": "This is an informal concluding remark / filler and was legitimately omitted."
+    }
+  ]
+}

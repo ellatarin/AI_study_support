@@ -1,0 +1,28 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c14",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite states that the cervix is seen 'alongside' the endocervical canal, converting the lecturer's pointing gesture ('and so you're looking at the cervix here') into an unsourced spatial description. Because the endocervical canal is the passage through the cervix, describing the cervix as being alongside the canal is anatomically inaccurate and may lead students to view them as separate adjacent structures.",
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "rewritePassage": "Histologically, the endocervical canal runs through the neck of the womb, and the cervix is seen alongside it.",
+      "confidence": 6
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here",
+      "reason": "This is a remark directing the audience's attention to specific individual cells on a slide image; the core teaching point that mitotic cells occur at the basement membrane is preserved."
+    },
+    {
+      "sourcePassage": "because this is what is so interesting to look at",
+      "reason": "This is a conversational remark to the audience and was appropriately omitted."
+    },
+    {
+      "sourcePassage": "So this has done very well.",
+      "reason": "This is a repetition of the earlier statement that screening is a success story and was appropriately consolidated."
+    }
+  ]
+}

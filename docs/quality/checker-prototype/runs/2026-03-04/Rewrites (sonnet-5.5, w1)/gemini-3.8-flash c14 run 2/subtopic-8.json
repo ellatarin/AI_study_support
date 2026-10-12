@@ -1,0 +1,24 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c14",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "The pronoun 'it' in the source is grammatically ambiguous between 'invasion' and 'malignancy'. The rewrite resolves it to 'malignancy is defined as the ability to invade the surrounding tissue', which is fully consistent with the lecturer's repeated framing that invasive capacity defines malignancy, and introduces no scientific error."
+    },
+    {
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "reason": "The rewrite resolves the demonstrative pronoun 'this' to 'Invasion'. The context of the preceding sentences directly discusses local invasion versus metastatic dissemination, showing that invasion is the step being referred to."
+    },
+    {
+      "sourcePassage": "But the question is, of course, you would then be interested in figuring out whether or not there would be secondary metastases across the body.",
+      "reason": "This brief remark was a conversational false start that the lecturer immediately set aside to continue examining the histological slide ('So, if you look microscopically...'), before addressing metastases at length in the subsequent paragraphs."
+    },
+    {
+      "sourcePassage": "You wouldn't necessarily be able to say anything on two words about either of these.",
+      "reason": "The transcriber recorded a colloquial or garbled spoken idiom ('say anything on two words'), which the rewrite rephrases faithfully as 'Nothing could necessarily be said about either from their appearance' without changing the meaning."
+    }
+  ]
+}

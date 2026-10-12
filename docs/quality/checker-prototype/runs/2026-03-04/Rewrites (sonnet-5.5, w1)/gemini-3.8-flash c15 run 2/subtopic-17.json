@@ -1,0 +1,12 @@
+{
+  "subtopicId": 17,
+  "checkerPromptVersion": "c15",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay? So I leave you with the learning outcomes. Hopefully, you will recognize all of these things in your revision and in your discussions with your supervisors. Let's leave it there for now, and I will see you in the practicals, and I will see you next week, Monday. [clapping]",
+      "reason": "These are concluding remarks to the audience and statements about the course or lecture, which are permitted to be omitted."
+    }
+  ]
+}

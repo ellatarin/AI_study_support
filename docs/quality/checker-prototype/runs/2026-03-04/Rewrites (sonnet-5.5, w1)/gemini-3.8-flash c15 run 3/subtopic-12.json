@@ -1,0 +1,28 @@
+{
+  "subtopicId": 12,
+  "checkerPromptVersion": "c15",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite introduces a causal link ('because') asserting that benign tumours are common because it takes a great deal for them to become malignant, whereas the source text presents these as separate observations without a causal relationship.",
+      "sourcePassage": "So benign tumors are actually incredibly common. Right? So it actually takes a lot for a benign tumor to become malignant in terms of, as I said, the number of changes that have to happen within a tumor.",
+      "rewritePassage": "Benign tumours are extremely common, because it takes a great deal for a benign tumour to become malignant, given the number of changes that have to happen within a tumour.",
+      "studentHarm": "A student would wrongly learn that benign tumours are common as a consequence of the high number of changes required for malignancy."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So I've just put these numbers up just so that you can have a sense.",
+      "reason": "The rewrite specifies 'a sense of incidence', which is faithful to the stated topic of the section ('talking about incidence')."
+    },
+    {
+      "sourcePassage": "And then this is, if you like, the percentage of tumors that result in deaths.",
+      "reason": "The rewrite phrase 'A further slide shows the percentage of tumours that result in deaths' accurately captures the lecturer's direct statement introducing the figure."
+    },
+    {
+      "sourcePassage": "But they are very difficult to treat. And so they progress very quickly, and they're lethal.",
+      "reason": "'And so' was used conversationally as a discourse filler rather than expressing a strict cause-and-effect relationship, so rendering these as co-occurring properties is acceptable."
+    }
+  ]
+}

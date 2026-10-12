@@ -1,0 +1,35 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c15",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite replaces 'adolescence' with 'differentiation', changing a named developmental life stage into a biological process.",
+      "sourcePassage": "during adolescence and maturation, this occurs from infancy to adulthood.",
+      "rewritePassage": "differentiation and maturation also occur from infancy to adulthood.",
+      "studentHarm": "A student would miss that adolescence is specifically cited as a life stage between infancy and adulthood during which maturation occurs."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite conflates two separate roles of the basement membrane ('signaling' and 'basis for their adherence') into one ('signalling basis for their adherence').",
+      "sourcePassage": "provides a signaling and basis for their adherence to this layer.",
+      "rewritePassage": "provides a signalling basis for their adherence to this layer.",
+      "studentHarm": "A student would learn that the basement membrane only provides a signalling basis for adherence, rather than providing both signalling and a physical foundation/basis for adherence."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "most of your lineage specification and your expansive growth has happened during embryogenesis, during the time that you were born.",
+      "reason": "The phrase 'during the time that you were born' was omitted because it is a spoken slip of the tongue or redundant restatement of the embryonic/fetal period described in the context."
+    },
+    {
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes.",
+      "reason": "The rewrite resolves the deictic phrase 'here now' to 'In the image of the invasive tissue', which is explicitly confirmed by the lecturer's statements that the cells in this figure have invaded the stroma."
+    },
+    {
+      "sourcePassage": "which would be here into the invading stroma.",
+      "reason": "The rewrite changes 'invading stroma' to 'invaded stroma', which is an allowable grammatical/stylistic correction of the speaker's slip of the tongue (the epithelial cells are invading, while the stroma is being invaded)."
+    }
+  ]
+}

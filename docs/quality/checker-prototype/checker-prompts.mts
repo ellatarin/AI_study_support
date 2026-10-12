@@ -51,6 +51,13 @@ You check a rewrite of one part of a university lecture. The source is what the 
 const NOT_SUBJECT_MATTER_ALLOWANCE =
 	"- Dropped filler, false starts, repetitions, jokes, remarks to the audience, and statements about the course or the lecture. When such a passage also states subject matter, a dropped statement is an omission.";
 
+/** The forbidden distortion of the versions from c4 for a changed cause or effect. */
+const CAUSAL_DISTORTION =
+	"- A causal claim with a changed cause or effect. A cause that becomes wider or narrower is a changed cause.";
+
+/** The forbidden distortion of c14 for a changed cause or effect, with an example from another subject and a note on pronouns. */
+const WIDER_CAUSE_WITH_EXAMPLE = `${CAUSAL_DISTORTION} For example, the speaker says that two named software faults crash the server and that they also slow the database, and the rewrite says that software faults slow the database. This is a fault even when the rewrite only replaces a pronoun such as "they".`;
+
 /** The line of the versions from c3 that allows changes of form. */
 const FORM_ALLOWANCE = "- A [FIGURE] mark, the order of the points, the paragraphs, style and grammar.";
 
@@ -60,6 +67,10 @@ const QUOTED_REPLY = quotedReply("");
 /** The considerations and reply format of c13, which add a score of how sure the checker is that a fault harms a student's learning. */
 const CONFIDENCE_REPLY = quotedReply(`,
       "confidence": how sure you are, as a whole number from 1 to 10, that a student who reads the rewrite would learn something wrong or miss something that the lecturer taught. 1 means that you are almost sure the student would not. 10 means that you are sure the student would`);
+
+/** The considerations and reply format of c15, which add what a student would learn wrong or miss because of each fault. */
+const STUDENT_HARM_REPLY = quotedReply(`,
+      "studentHarm": in one sentence, what a student who reads the rewrite would learn wrong or miss because of this change, or "nothing" when the student learns the same`);
 
 /**
  * Builds the considerations and reply format sections of the versions from c3.
@@ -157,7 +168,7 @@ ${omissions}
 ## Distortions
 
 - A changed term, name or number.
-- A causal claim with a changed cause or effect. A cause that becomes wider or narrower is a changed cause.
+${CAUSAL_DISTORTION}
 - A term that keeps its words but gets a different role in the sentence.
 - A hedge removed from a scientific claim.
 - An unclear or incomplete statement of the text that the rewrite makes clear or complete. The rewrite chose one reading, even when that reading is likely.
@@ -339,6 +350,7 @@ ${QUOTED_REPLY}`,
 				mergingDistortion: C7_MERGING,
 				omissions: C7_OMISSIONS,
 				reply: QUOTED_REPLY,
+				causalDistortion: CAUSAL_DISTORTION,
 			}),
 	},
 	c8: {
@@ -352,6 +364,7 @@ ${QUOTED_REPLY}`,
 				mergingDistortion: C7_MERGING,
 				omissions: C7_OMISSIONS,
 				reply: QUOTED_REPLY,
+				causalDistortion: CAUSAL_DISTORTION,
 			}),
 	},
 	c9: {
@@ -365,6 +378,7 @@ ${QUOTED_REPLY}`,
 				mergingDistortion: C7_MERGING,
 				omissions: C7_OMISSIONS,
 				reply: QUOTED_REPLY,
+				causalDistortion: CAUSAL_DISTORTION,
 			}),
 	},
 	c10: {
@@ -378,6 +392,7 @@ ${QUOTED_REPLY}`,
 				mergingDistortion: MERGING_WITH_EXAMPLE,
 				omissions: C7_OMISSIONS,
 				reply: QUOTED_REPLY,
+				causalDistortion: CAUSAL_DISTORTION,
 			}),
 	},
 	c11: {
@@ -391,6 +406,7 @@ ${QUOTED_REPLY}`,
 				mergingDistortion: MERGING_WITH_EXAMPLE,
 				omissions: POINTED_OUT_OMISSIONS,
 				reply: QUOTED_REPLY,
+				causalDistortion: CAUSAL_DISTORTION,
 			}),
 	},
 	c12: {
@@ -404,6 +420,7 @@ ${QUOTED_REPLY}`,
 				mergingDistortion: MERGING_WITH_EXAMPLE,
 				omissions: C7_OMISSIONS,
 				reply: QUOTED_REPLY,
+				causalDistortion: CAUSAL_DISTORTION,
 			}),
 	},
 	c13: {
@@ -417,6 +434,35 @@ ${QUOTED_REPLY}`,
 				mergingDistortion: MERGING_WITH_EXAMPLE,
 				omissions: C7_OMISSIONS,
 				reply: CONFIDENCE_REPLY,
+				causalDistortion: CAUSAL_DISTORTION,
+			}),
+	},
+	c14: {
+		changed:
+			'Adds to the causal line of c13 an example from another subject, and says that the fault holds even when the rewrite only replaces a pronoun such as "they".',
+		prompt: (name) =>
+			learningIssuePrompt({
+				name,
+				unsourcedAdditions: CHECKED_DESCRIPTION_ADDITIONS,
+				formAllowance: FIGURE_SENTENCE_ALLOWANCE,
+				mergingDistortion: MERGING_WITH_EXAMPLE,
+				omissions: C7_OMISSIONS,
+				reply: CONFIDENCE_REPLY,
+				causalDistortion: WIDER_CAUSE_WITH_EXAMPLE,
+			}),
+	},
+	c15: {
+		changed:
+			'Starts again from c10. Asks with each deficiency for "studentHarm": in one sentence, what a student would learn wrong or miss because of the change, or "nothing".',
+		prompt: (name) =>
+			learningIssuePrompt({
+				name,
+				unsourcedAdditions: CHECKED_DESCRIPTION_ADDITIONS,
+				formAllowance: FIGURE_SENTENCE_ALLOWANCE,
+				mergingDistortion: MERGING_WITH_EXAMPLE,
+				omissions: C7_OMISSIONS,
+				reply: STUDENT_HARM_REPLY,
+				causalDistortion: CAUSAL_DISTORTION,
 			}),
 	},
 };
@@ -469,6 +515,7 @@ const FIGURE_SENTENCE_ALLOWANCE = `${FORM_ALLOWANCE} A sentence around the [FIGU
  * @param args.mergingDistortion - The forbidden-distortion line for two concerns merged into one.
  * @param args.omissions - The lines of the forbidden omissions.
  * @param args.reply - The considerations and reply format sections.
+ * @param args.causalDistortion - The forbidden-distortion line for a changed cause or effect.
  * @returns The prompt.
  */
 function learningIssuePrompt({
@@ -478,8 +525,10 @@ function learningIssuePrompt({
 	mergingDistortion,
 	omissions,
 	reply,
+	causalDistortion,
 }: {
 	readonly name: string;
+	readonly causalDistortion: string;
 	readonly omissions: string;
 	readonly unsourcedAdditions: string;
 	readonly formAllowance: string;
@@ -507,7 +556,7 @@ ${unsourcedAdditions}
 ## Distortions
 
 - A changed term, name or number.
-- A causal claim with a changed cause or effect. A cause that becomes wider or narrower is a changed cause.
+${causalDistortion}
 - A term that keeps its words but gets a different role in the sentence.
 - A hedge removed from a scientific claim.
 - An unclear or incomplete statement of the text that the rewrite makes clear or complete. The rewrite chose one reading, even when that reading is likely.

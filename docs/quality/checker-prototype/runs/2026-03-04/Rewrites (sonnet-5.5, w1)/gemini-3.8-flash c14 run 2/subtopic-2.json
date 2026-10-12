@@ -1,0 +1,35 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c14",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite inserts 'that is', thereby asserting that acetylation or deacetylation is the same thing as the state of transcription, whereas the text does not make that link.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself.",
+      "confidence": 8
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer specifies that the human viruses ('they') can also predispose to chronic inflammatory events, but the rewrite widens the cause to 'infection' in general.",
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events that can also help to give rise to cancer.",
+      "rewritePassage": "There are about seven different human viruses that precipitate cancer, and infection can also predispose to chronic inflammatory events, which can also help to give rise to cancer.",
+      "confidence": 8
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "I'm sure you've seen a cartoon that looks like this many times. The idea that a normal cell, starting off here, acquires a mutation, and maybe a second mutation, and it becomes slightly abnormal.",
+      "reason": "The insertion of [FIGURE] and the accompanying phrasing describing the cartoon faithfully represent the lecturer's statements about what the cartoon/diagram illustrates."
+    },
+    {
+      "sourcePassage": "So I've just made this kind of a much simpler diagram, if you like. Simplicity can help frame our thinking, but it will also end up losing a lot of details. So, as I said, you start off with a normal cell, and a bunch of mutations happen over time, and you go from normal to malignant.",
+      "reason": "The rewrite slightly rearranges the description of the simpler diagram and attributes the content faithfully to what the lecturer explained."
+    },
+    {
+      "sourcePassage": "So hopefully, in order to try and address some of these questions, we will start at the beginning. [chuckles]",
+      "reason": "Dropping the conversational conversational chuckle and converting the lecturer's remark to audience into textbook prose is an allowed stylistic change."
+    }
+  ]
+}

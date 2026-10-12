@@ -1,0 +1,36 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c15",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite uses 'since' to introduce a causal explanation, asserting that the terminology is still heard because a surgeon can tell by touch, whereas the original text used 'where' to describe the clinical situation without asserting causality.",
+      "sourcePassage": "And you'll hear this kind of terminology even now, where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable.",
+      "rewritePassage": "This terminology is still heard now, since a surgeon can tell just by holding or touching a tumour whether it is movable or immovable.",
+      "studentHarm": "The student may mistakenly conclude that the lecturer established a definite causal link explaining the continued survival of this historical terminology."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So with these tools in hand, I think the important concept to try and get across is invasion and metastasis.",
+      "reason": "The introductory phrase referring back to earlier lecture tools was dropped as a lecture remark, and 'concept' was rendered as 'concepts' to fit grammar."
+    },
+    {
+      "sourcePassage": "Obviously, changes occur within tumor cells, and it was long ago noticed back in, I don't know, when surgery was first coming into its own as a discipline after anesthesia was invented or discovered, that tumors kind of came in two types. What they termed the movable tumor. And a movable tumor is exactly like what it sounds. Surgeons would find that that tumor could move within the tissue or an immovable tumor.",
+      "reason": "Spoken filler words ('Obviously', 'I don't know', 'kind of') and fractured sentence structures introducing the two types of tumours were tidied into clear prose."
+    },
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals",
+      "reason": "Omitted as an allowed change regarding a direct remark to the audience and course logistics."
+    },
+    {
+      "sourcePassage": "So when somebody presents with a lump or a primary tumor, there will be a biopsy to look and to see whether or not the tumor cells are contained or whether or not they're invading into the surrounding tissue.",
+      "reason": "'Somebody' was adapted to 'a patient' and 'there will be a biopsy to look and to see' to 'a biopsy is taken to see', preserving the original meaning."
+    },
+    {
+      "sourcePassage": "Right. So, what does that mean for the patient? Well, the invasion, and whether or not that's seen histologically is probably the most important prognostic or diagnostic factor for the clinician in telling the patient what may or may not happen in terms of the tumor.",
+      "reason": "The spoken rhetorical question and answer were condensed into a concise statement ('For the patient, invasion...')."
+    }
+  ]
+}

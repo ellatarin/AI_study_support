@@ -1,0 +1,20 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c15",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states. Ideally, you'd like to catch these benign states.",
+      "reason": "The reference to what the audience saw on an earlier slide is recast as a statement that these pre-cancerous states exist, which is an acceptable stylistic transformation removing a remark to the audience."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "The rewrite phrases this as 'Of the screening methods discussed, cervical screening is the best', which faithfully captures the lecturer's comparative statement and reference to earlier discussion."
+    },
+    {
+      "sourcePassage": "ulcerated cauliflower structure, if you like",
+      "reason": "The phrase 'cauliflower-like structure' accurately captures the metaphorical description qualified by 'if you like'."
+    }
+  ]
+}

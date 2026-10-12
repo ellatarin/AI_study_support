@@ -1,0 +1,20 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c14",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "reason": "The rewrite renders this as 'Histologically, the endocervical canal runs through the neck of the womb, and the cervix is seen alongside it.' This faithfully captures the lecturer pointing to the canal and the cervical tissue on the slide without introducing any factual contradiction or learning issue."
+    },
+    {
+      "sourcePassage": "and you'll see this in your practicals",
+      "reason": "The rewrite includes 'and it will be seen in the practicals', directly preserving the lecturer's remark."
+    },
+    {
+      "sourcePassage": "so you can get the columnar epithelium transitioning into something that looks more like a squamous cell type.",
+      "reason": "The rewrite uses 'The columnar epithelium can thus transition into something that looks more like a squamous cell type', where 'thus' reflects the causal/consequential 'so' from the original explanation of metaplasia."
+    }
+  ]
+}

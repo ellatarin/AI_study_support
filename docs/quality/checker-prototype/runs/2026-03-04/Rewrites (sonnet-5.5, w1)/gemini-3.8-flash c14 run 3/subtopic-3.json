@@ -1,0 +1,24 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c14",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "during the time that you were born",
+      "reason": "This phrase was omitted because it was a false start / slip by the speaker, who immediately clarified that extensive lineage specification and growth occur in the womb during embryogenesis."
+    },
+    {
+      "sourcePassage": "because obviously during adolescence and maturation, this occurs from infancy to adulthood",
+      "reason": "The rewrite phrases this as 'differentiation and maturation also occur from infancy to adulthood'. The rewrite interprets 'this' as differentiation and subsumes the developmental period of adolescence within 'infancy to adulthood', preserving the core biological meaning without introducing an error."
+    },
+    {
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes",
+      "reason": "The rewrite renders 'here now' as 'In the image of the invasive tissue'. This description is directly supported by the context of the transcript, which discusses cells invading and growing in the stroma."
+    },
+    {
+      "sourcePassage": "into the invading stroma",
+      "reason": "The rewrite changes this to 'into the invaded stroma', correcting a minor spoken slip since it is the cancer cells that invade the stroma."
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c15",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite inserts 'that is', equating acetylation or deacetylation with the state of transcription within the cell, linking them as synonymous or definitional when the text presents them without that link.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself.",
+      "studentHarm": "A student reading the rewrite may incorrectly understand acetylation and deacetylation to be identical to or defined as the overall transcriptional state of the cell."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So I've just made this kind of a much simpler diagram, if you like. Simplicity can help frame our thinking, but it will also end up losing a lot of details. So, as I said, you start off with a normal cell, and a bunch of mutations happen over time, and you go from normal to malignant.",
+      "reason": "The rewrite reorganises the description of the simpler diagram and marks it with [FIGURE], which is an allowed change."
+    },
+    {
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events that can also help to give rise to cancer.",
+      "reason": "The rewrite phrases 'they can also predispose' as 'infection can also predispose', which faithfully preserves the speaker's meaning without distorting the scientific claim."
+    },
+    {
+      "sourcePassage": "So hopefully, in order to try and address some of these questions, we will start at the beginning. [chuckles]",
+      "reason": "The rewrite renders the lecturer's conversational meta-comment into neutral third-person academic prose, which is an allowed stylistic change."
+    }
+  ]
+}

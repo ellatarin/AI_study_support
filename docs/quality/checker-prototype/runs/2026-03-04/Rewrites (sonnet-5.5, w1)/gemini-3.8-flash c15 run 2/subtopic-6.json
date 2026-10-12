@@ -1,0 +1,20 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c15",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "This is an aside/note-to-self by the lecturer and is legitimately omitted as speech disfluency/remark to audience."
+    },
+    {
+      "sourcePassage": "or also this transcoelomic site from across a cavity",
+      "reason": "Rendered as 'or by a transcoelomic route, across a cavity'; this maintains the parallel structure established by 'routes' in the text without changing the meaning."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here, and then you can often see sometimes the tumor cells are actually present within a lymphatic duct.",
+      "reason": "The deictic phrasing is appropriately synthesised into standard descriptive prose ('the tumour cells can often be seen present within a lymphatic duct') without losing factual content."
+    }
+  ]
+}

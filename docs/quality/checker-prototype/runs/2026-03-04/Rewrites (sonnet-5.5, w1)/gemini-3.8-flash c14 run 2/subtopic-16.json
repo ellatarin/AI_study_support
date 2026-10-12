@@ -1,0 +1,20 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c14",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "The rewrite translates the lecturer's direct reference to what the audience saw in earlier slides ('You saw...') into textbook exposition ('The different pre-cancerous states are present'), which is an allowed stylistic adaptation."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "The rewrite phrases this as 'Of the screening methods discussed, cervical screening is the best', which accurately captures the comparative context implied by 'as I said, the cervix is best'."
+    },
+    {
+      "sourcePassage": "fecal immunochemical test",
+      "reason": "The rewrite retains 'fecal immunochemical test' as a standard proper term/acronym expansion without altering meaning."
+    }
+  ]
+}

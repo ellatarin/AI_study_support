@@ -1,0 +1,32 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c15",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite conflates two separate functions of the basement membrane mentioned in the lecture—providing signalling and providing a basis for cell adherence—into a single combined concept ('signalling basis').",
+      "sourcePassage": "provides a signaling and basis for their adherence to this layer",
+      "rewritePassage": "provides a signalling basis for their adherence to this layer",
+      "studentHarm": "A student would learn that the basement membrane merely provides a basis for adherence that involves signalling, missing that it independently provides biochemical signalling as well as a physical basis for adherence."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "And not to say that all of it does, because obviously during adolescence and maturation, this occurs from infancy to adulthood.",
+      "reason": "The rewrite rephrases 'this' as 'differentiation' to resolve the anaphoric reference to the differentiation program mentioned in the previous sentence, and 'infancy to adulthood' captures the developmental span without omitting key conceptual facts."
+    },
+    {
+      "sourcePassage": "which would be here into the invading stroma.",
+      "reason": "The rewrite uses 'invaded stroma' instead of 'invading stroma'. In context, the lecturer repeatedly states that the tumour cells invade into the stroma, so 'invading stroma' was a momentary slip of the tongue for the stroma that is being invaded."
+    },
+    {
+      "sourcePassage": "Here at this stage here, most of your growth, really, most of your lineage specification and your expansive growth has happened during embryogenesis, during the time that you were born.",
+      "reason": "The phrase 'during the time that you were born' is a conversational false start that contradicts 'during embryogenesis' and 'in the womb', so omitting it is an allowed removal of a slip/false start."
+    },
+    {
+      "sourcePassage": "moving into this kind of configuration where the cell is growing into the stroma, and also in this kind of deranged manner. And you can see here now the cells are all of different shapes and sizes.",
+      "reason": "The rewrite refers to 'In the image of the invasive tissue', which is directly substantiated by the lecturer's surrounding discussion of cells invading the stroma."
+    }
+  ]
+}

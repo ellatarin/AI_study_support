@@ -1,0 +1,28 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c14",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite turns the lecturer's pointing word ('here') into the description 'is seen alongside it'. The text does not state that the cervix is seen alongside the endocervical canal, and this description could confuse students given that the cervix is the neck of the womb containing the canal rather than a separate structure alongside it.",
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "rewritePassage": "and the cervix is seen alongside it",
+      "confidence": 7
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here",
+      "reason": "Omitted specific pointing to individual cells on the slide; the rewrite faithfully retains the substantive scientific rule that mitotic cells occur only at the basement layer."
+    },
+    {
+      "sourcePassage": "and you'll see this in your practicals.",
+      "reason": "Retained in the rewrite as an allowed remark about the course."
+    },
+    {
+      "sourcePassage": "So when HPV infection occurs, you can get a precursor lesion that is here",
+      "reason": "The rewrite states 'a precursor lesion can arise at this site', which refers back to the junction where the lecturer already explained HPV infection occurs."
+    }
+  ]
+}

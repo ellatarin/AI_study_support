@@ -1,0 +1,16 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c15",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there.",
+      "reason": "The rewrite renders this as 'The learning outcomes for this lecture are as follows.', which appropriately adapts the spoken reference to a slide without introducing new facts or distorting the meaning."
+    },
+    {
+      "sourcePassage": "So in this room, there are natural science students, medical students, and veterinary students, and you are all coming from a slightly different background, and hopefully, you will be interested in different things, different takeaways from these lectures.",
+      "reason": "The rewrite retains the audience description and subject matter interests faithfully while adapting spoken conversational remarks into textbook prose."
+    }
+  ]
+}

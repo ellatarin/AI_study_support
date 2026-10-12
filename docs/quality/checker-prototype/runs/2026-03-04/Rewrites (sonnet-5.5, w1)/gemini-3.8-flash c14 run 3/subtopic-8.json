@@ -1,0 +1,20 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c14",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "The pronoun 'it' in 'it's defined as the ability to invade the surrounding tissue' unambiguously refers to 'malignancy', as invasion itself cannot be defined as the ability to invade. Resolving 'it' to 'malignancy' is faithful to the context."
+    },
+    {
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "reason": "Resolving 'this' to 'Invasion' ('Invasion is therefore probably an obligatory step...') is supported by the surrounding discussion of the stepwise progression from non-invasive precursor to invasion to distant metastasis."
+    },
+    {
+      "sourcePassage": "You'll see that over here you have the adenoma which has progressed into an adenocarcinoma. So one is growing out of the other.",
+      "reason": "Rendering 'over here' as 'Elsewhere in the same lesion' correctly conveys that both the adenomatous precursor and the invasive adenocarcinoma component are present within the same excised polyp/section under microscopic examination."
+    }
+  ]
+}

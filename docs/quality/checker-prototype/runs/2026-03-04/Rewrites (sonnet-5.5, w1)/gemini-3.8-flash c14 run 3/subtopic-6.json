@@ -1,0 +1,24 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c14",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "Omitted as conversational filler / remark about the lecturer's own speech habit, which is an allowed change."
+    },
+    {
+      "sourcePassage": "I think one of the tumors that does this quite frequently is ovarian cancer, for example.",
+      "reason": "The phrase 'I think' was omitted as conversational filler rather than a substantive scientific hedge regarding the well-established transcoelomic spread of ovarian cancer."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here, and then you can often see sometimes the tumor cells are actually present within a lymphatic duct.",
+      "reason": "The pointing words ('are here') referring to a slide were appropriately adapted to textbook prose accompanied by a [FIGURE] mark without loss of factual information."
+    },
+    {
+      "sourcePassage": "or also this transcoelomic site from across a cavity",
+      "reason": "Rendered as 'by a transcoelomic route, across a cavity' to maintain grammatical parallel structure with the other routes of spread mentioned (lymphatics, blood circulation), matching the speaker's clear intended meaning."
+    }
+  ]
+}

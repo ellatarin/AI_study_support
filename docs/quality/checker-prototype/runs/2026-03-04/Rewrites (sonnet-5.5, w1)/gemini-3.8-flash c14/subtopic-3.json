@@ -1,0 +1,28 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c14",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer states that the basement membrane provides two distinct things: signalling and a physical foundation for adherence ('provides a signaling and basis for their adherence'). The rewrite conflates these into 'a signalling basis for their adherence', turning 'signalling' from a noun into an adjective and merging two separate functions into one.",
+      "sourcePassage": "provides a signaling and basis for their adherence to this layer",
+      "rewritePassage": "provides a signalling basis for their adherence to this layer",
+      "confidence": 8
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "because obviously during adolescence and maturation, this occurs from infancy to adulthood.",
+      "reason": "The rewrite states that 'differentiation and maturation also occur from infancy to adulthood'. The lecturer's phrase 'this occurs' referred back to the 'development and differentiation' mentioned in the preceding sentence. While the word 'adolescence' was omitted, the period is encompassed by 'from infancy to adulthood', preserving the lecturer's intended meaning."
+    },
+    {
+      "sourcePassage": "into the invading stroma.",
+      "reason": "The rewrite uses 'into the invaded stroma'. This corrects an evident slip of the tongue in speech, as the cancer cells are the entity invading the surrounding stroma."
+    },
+    {
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes. They have come in, they have lost this architecture, moved over the basement membrane and invaded and are growing within the stroma.",
+      "reason": "The rewrite replaces pointing words ('here now') with 'In the image of the invasive tissue', which is directly justified by the lecturer's explicit description of the slide showing stromal invasion."
+    }
+  ]
+}

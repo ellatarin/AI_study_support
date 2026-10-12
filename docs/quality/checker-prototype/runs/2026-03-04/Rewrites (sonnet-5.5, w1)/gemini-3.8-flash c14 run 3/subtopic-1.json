@@ -1,0 +1,16 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c14",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there.",
+      "reason": "The deictic reference to a slide ('listed there') was adapted to standard prose ('The learning outcomes for this lecture are as follows'), which is an allowed change for spoken pointing remarks."
+    },
+    {
+      "sourcePassage": "Okay, everyone, shall we get started? Yes. You're very welcome, all of you, to Cancer Biology.",
+      "reason": "Conversational opening remarks and greetings to the audience were omitted, which is an allowed change."
+    }
+  ]
+}

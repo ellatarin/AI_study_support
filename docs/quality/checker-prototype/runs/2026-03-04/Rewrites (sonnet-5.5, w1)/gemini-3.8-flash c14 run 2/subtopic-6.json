@@ -1,0 +1,24 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c14",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "Omitted as an allowed change because it is a personal remark/joke to the audience."
+    },
+    {
+      "sourcePassage": "or also this transcoelomic site from across a cavity, across a pleural cavity, for example, across the abdomen.",
+      "reason": "Rendered as 'by a transcoelomic route, across a cavity, for example across a pleural cavity or across the abdomen', which faithfully reflects the list of routes of spread."
+    },
+    {
+      "sourcePassage": "And I think one of the tumors that does this quite frequently is ovarian cancer, for example.",
+      "reason": "The introductory 'I think' functions here as conversational filler rather than a substantive scientific hedge, so its omission is allowed."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here, and then you can often see sometimes the tumor cells are actually present within a lymphatic duct.",
+      "reason": "The pointing phrase 'You see your tumor cells are here' was omitted as spoken demonstrative filler pointing at a slide."
+    }
+  ]
+}

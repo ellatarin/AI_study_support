@@ -1,0 +1,20 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c14",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "reason": "The lecturer presents a slide showing a stained slice of a tumour immediately after introducing tumour explantation. The rewrite captures what the figure shows ('A slice through a tumour, with a stain to show the morphology') and links it to the explanted tumour context ('illustrates this [FIGURE]'). This phrasing naturally integrates the figure reference without introducing any factual distortion or misleading the student."
+    },
+    {
+      "sourcePassage": "Primary cells really don't grow in culture.",
+      "reason": "The omission of the colloquial intensifier 'really' in 'Primary cells do not grow in culture' does not remove a scientific hedge, as the preceding text explicitly asserts that 'most of those cells, in fact, all of those cells will not grow'."
+    },
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "This is an offhand remark to the audience / meta-commentary, which is allowed to be omitted."
+    }
+  ]
+}

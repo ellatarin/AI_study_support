@@ -1,0 +1,28 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c14",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite uses 'since' to introduce a causal link, stating that this terminology is still heard because a surgeon can tell tumour mobility by touch, whereas the original text only described the context/situation using 'where' without asserting causality.",
+      "sourcePassage": "And you'll hear this kind of terminology even now, where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable.",
+      "rewritePassage": "This terminology is still heard now, since a surgeon can tell just by holding or touching a tumour whether it is movable or immovable.",
+      "confidence": 4
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Okay. So with these tools in hand, I think the important concept to try and get across is invasion and metastasis.",
+      "reason": "The phrase 'with these tools in hand' is a conversational transition referring to prior lecture material, and the change from 'concept' to 'concepts' accurately reflects the two named items (invasion and metastasis)."
+    },
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals",
+      "reason": "Omitted remark directing students to their practical sessions, which is an allowed omission of lecture/course meta-commentary."
+    },
+    {
+      "sourcePassage": "Right. So, what does that mean for the patient? Well, the invasion, and whether or not that's seen histologically is probably the most important prognostic or diagnostic factor",
+      "reason": "The rhetorical question and conversational filler were streamlined into standard textbook prose ('For the patient, invasion...') without changing the meaning."
+    }
+  ]
+}

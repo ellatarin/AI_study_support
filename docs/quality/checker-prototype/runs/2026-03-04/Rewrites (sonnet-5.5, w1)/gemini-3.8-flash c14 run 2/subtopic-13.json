@@ -1,0 +1,20 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c14",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Just a slide about the incidence in companion animals since I found this slide some time ago",
+      "reason": "This is lecture meta-talk/remark about the slides, which is permitted to be omitted."
+    },
+    {
+      "sourcePassage": "You'll be happy to hear he's doing fine now after his surgery.",
+      "reason": "The audience-directed phrase 'You'll be happy to hear' is a conversational remark, faithfully condensed to 'The cat is doing fine after surgery.'"
+    },
+    {
+      "sourcePassage": "digestive tissues, hematopoietic, and skin",
+      "reason": "The rewrite phrases this as 'digestive tissues, hematopoietic tissues and skin' to complete the parallel structure without introducing new factual information."
+    }
+  ]
+}

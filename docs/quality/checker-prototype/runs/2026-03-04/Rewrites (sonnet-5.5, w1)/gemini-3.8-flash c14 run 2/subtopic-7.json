@@ -1,0 +1,24 @@
+{
+  "subtopicId": 7,
+  "checkerPromptVersion": "c14",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite converts the lecturer's visual pointing gestures into a specific spatial description ('lies next to') that is not stated in the source text.",
+      "sourcePassage": "You can see that the tumor is here. This is the outer surface of the uterus.",
+      "rewritePassage": "The tumour lies next to the outer surface of the uterus",
+      "confidence": 6
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So you can see again that this is actually circumspect and very separate from the surrounding stroma and the surrounding tissue.",
+      "reason": "The text uses 'circumspect', which is an obvious slip of the tongue or transcription error for the standard pathological description 'circumscribed'. Using 'circumscribed' correctly represents the medical concept."
+    },
+    {
+      "sourcePassage": "So if you zoom into what this actually looks like on the slide, taking this section here",
+      "reason": "The rewrite expresses this as 'In a zoomed-in view of the section', which faithfully describes the slide view referenced by the lecturer without introducing unstated facts."
+    }
+  ]
+}

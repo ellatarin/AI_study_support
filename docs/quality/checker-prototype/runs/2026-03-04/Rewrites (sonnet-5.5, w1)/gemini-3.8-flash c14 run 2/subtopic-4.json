@@ -1,0 +1,20 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c14",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "reason": "The rewrite renders this as 'A slice through a tumour, with a stain to show the morphology, illustrates this [FIGURE]'. While 'illustrates this' links the figure to the preceding sentence about explanting/studying tumours, the lecturer described the visual slice immediately after introducing explanting tumours. This serves as an allowed transition to introduce the figure and does not introduce misleading content."
+    },
+    {
+      "sourcePassage": "Primary cells really don't grow in culture.",
+      "reason": "The rewrite states 'Primary cells do not grow in culture.', omitting the conversational intensifier 'really'. This does not remove a scientific hedge, as the preceding sentence already stated that all such cells will not grow."
+    },
+    {
+      "sourcePassage": "contributions of things like the stroma and other things",
+      "reason": "The rewrite uses 'things such as the stroma and other components', substituting the vague filler 'other things' with 'other components' purely as a stylistic improvement."
+    }
+  ]
+}

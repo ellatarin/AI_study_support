@@ -1,0 +1,20 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c15",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "The direct address referring to earlier visual slides was rephrased as 'The different pre-cancerous states are present', which conveys the premise without referencing the visual presentation."
+    },
+    {
+      "sourcePassage": "ulcerated cauliflower structure, if you like",
+      "reason": "Rephrasing as 'cauliflower-like structure' accurately reflects the metaphorical description used by the speaker."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "Formulated as 'Of the screening methods discussed, cervical screening is the best', which captures the comparative summary made by the lecturer."
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "subtopicId": 7,
+  "checkerPromptVersion": "c14",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The lecturer uses pointing gestures ('the tumor is here. This is the outer surface of the uterus') without stating their relative positions. The rewrite turns these pointing words into an unsourced anatomical description by asserting that the tumour lies next to the outer surface.",
+      "sourcePassage": "You can see that the tumor is here. This is the outer surface of the uterus.",
+      "rewritePassage": "The tumour lies next to the outer surface of the uterus",
+      "confidence": 6
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So you can see again that this is actually circumspect and very separate from the surrounding stroma and the surrounding tissue.",
+      "reason": "The lecturer said 'circumspect', which the rewrite changes to 'circumscribed'. In pathology, benign encapsulated tumours are described as circumscribed rather than circumspect; this correction of a malapropism or transcription error does not mislead the student."
+    },
+    {
+      "sourcePassage": "and has, if you like, invaded within this tissue.",
+      "reason": "The rewrite renders 'if you like' as 'in a sense', preserving the conversational hedge appropriately."
+    },
+    {
+      "sourcePassage": "very often, for example, with breast cancers, you might sample the adjacent lymph node, but you wouldn't be sampling all over the body",
+      "reason": "The rewrite recasts this into textbook passive style ('the adjacent lymph node might be sampled, but the whole body would not be sampled') without altering the factual meaning."
+    }
+  ]
+}

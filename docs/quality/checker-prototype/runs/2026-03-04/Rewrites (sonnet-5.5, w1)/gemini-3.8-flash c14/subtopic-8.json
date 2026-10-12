@@ -1,0 +1,28 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c14",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The lecturer used the pointing phrase 'this is probably an obligatory step', which in context referred back to the immediately preceding discussion or slide, but the rewrite replaces 'this' with 'Invasion', introducing a specific description not stated by the lecturer.",
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "rewritePassage": "Invasion is therefore probably an obligatory step in arriving at a malignant, metastasising tumour.",
+      "confidence": 7
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "The singular pronoun 'it's defined as' in the text was resolved to 'malignancy is defined as'. In pathology, malignancy is defined by the capacity of cells to invade surrounding tissue, so this phrasing faithfully reflects the lecturer's intended definition rather than distorting it."
+    },
+    {
+      "sourcePassage": "You'll see that over here you have the adenoma which has progressed into an adenocarcinoma. So one is growing out of the other.",
+      "reason": "The rewrite phrasing 'Elsewhere in the same lesion is the adenoma' accurately captures the lecturer's explanation that both components are present together with one arising from the other."
+    },
+    {
+      "sourcePassage": "muscularis mucosa",
+      "reason": "The rewrite uses 'muscularis mucosae', which is an allowed technical term correction specified in the corrections list."
+    }
+  ]
+}

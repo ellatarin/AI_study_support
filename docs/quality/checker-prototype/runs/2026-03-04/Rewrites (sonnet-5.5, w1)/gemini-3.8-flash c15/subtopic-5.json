@@ -1,0 +1,28 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c15",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite uses the conjunction 'since' to introduce a causal relationship between surgeons being able to feel whether a tumour is movable and the terminology still being heard today, whereas the original text used 'where' merely to describe the context or situation.",
+      "sourcePassage": "And you'll hear this kind of terminology even now, where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable.",
+      "rewritePassage": "This terminology is still heard now, since a surgeon can tell just by holding or touching a tumour whether it is movable or immovable.",
+      "studentHarm": "The student learns that surgeons' ability to discern mobility by touch is the causal reason the terminology remains in use, which was not asserted in the lecture."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Okay. So with these tools in hand, I think the important concept to try and get across is invasion and metastasis.",
+      "reason": "The introductory conversational remark and meta-commentary about the lecture were omitted, and 'concept' was grammatically pluralised to 'concepts' to match two items; these are allowed changes."
+    },
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals",
+      "reason": "Omitted as an allowed remark about the course and practical sessions."
+    },
+    {
+      "sourcePassage": "Right. So, what does that mean for the patient? Well, the invasion,",
+      "reason": "The rhetorical question and conversational fillers were condensed into 'For the patient, invasion...', preserving the meaning without introducing or omitting facts."
+    }
+  ]
+}

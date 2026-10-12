@@ -1,0 +1,20 @@
+{
+  "subtopicId": 10,
+  "checkerPromptVersion": "c15",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So the fat, smooth muscle or papillomas in the skin, and adenomas, as we were talking about in the colon.",
+      "reason": "The text lists tissues in parallel to the previously listed tumour types (lipoma, leiomyoma, papilloma, adenoma); clarifying this direct mapping as 'lipomas in fat, leiomyomas in smooth muscle...' is a faithful stylistic restructuring rather than an unsourced addition."
+    },
+    {
+      "sourcePassage": "So by the time you have these suffixes, this would be a malignant disease.",
+      "reason": "Faithfully rendered as 'once these suffixes are present, the disease is malignant.'"
+    },
+    {
+      "sourcePassage": "So you have cells, these are tumors that derive from the cells that form the central and peripheral nervous system.",
+      "reason": "The false start 'So you have cells' is dropped in accordance with the allowed changes."
+    }
+  ]
+}

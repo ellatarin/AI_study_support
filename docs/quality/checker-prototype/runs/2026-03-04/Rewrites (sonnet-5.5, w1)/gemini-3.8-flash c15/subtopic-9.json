@@ -1,0 +1,20 @@
+{
+  "subtopicId": 9,
+  "checkerPromptVersion": "c15",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So some benign tumors become malignant, but they don't all become malignant. Obviously, when there is a suspicion of cancer or of a tumor, everybody gets very nervous about what that diagnosis is going to look like. But not all tumors are malignant and some don't progress.",
+      "reason": "The rewrite renders the conversational phrasing into formal textbook prose and uses British English spelling ('tumours'), which is an allowed change."
+    },
+    {
+      "sourcePassage": "But things like the smooth muscle fibroid that I showed you, that almost never progresses to a leiomyosarcoma.",
+      "reason": "The reference to 'that I showed you' is appropriately phrased as 'as shown earlier' alongside an allowed [FIGURE] marker."
+    },
+    {
+      "sourcePassage": "So this meningioma obviously is occurring within the skull. The skull is a confined space. This would put an enormous amount of pressure on the brain and the surrounding structures and would cause and has caused Has caused death in this case. So things like meningiomas can cause that.",
+      "reason": "The rewrite retains the lecturer's explanation and causal links regarding how meningiomas in the skull can exert pressure and cause death, faithfully converting the deictic reference into textbook prose."
+    }
+  ]
+}

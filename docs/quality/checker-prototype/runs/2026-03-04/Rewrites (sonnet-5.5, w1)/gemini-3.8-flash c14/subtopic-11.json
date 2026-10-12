@@ -1,0 +1,28 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c14",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite phrases the example as 'when the tumour occurs in a meningioma', treating a meningioma as an anatomical location or organ (alongside the liver) rather than a type of primary tumour itself.",
+      "sourcePassage": "Only 10% of these deaths, generally, if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "rewritePassage": "when the tumour occurs in a meningioma or in the liver",
+      "confidence": 8
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Things like obstruction of the bile ducts in the liver interferes with digestion.",
+      "reason": "The introductory phrase 'Other effects depend on the site' was added at the start of the paragraph as a stylistic transition connecting to the previously introduced concept of tumours occurring in different settings."
+    },
+    {
+      "sourcePassage": "Also ulceration, you saw that enormous cauliflower structure within the colon.",
+      "reason": "The rewrite's phrasing 'cauliflower-like structure seen within the colon' captures the lecturer's conversational reference to an image shown to the class and does not introduce ungrounded factual claims."
+    },
+    {
+      "sourcePassage": "And things like if tumors in bones lead to erosion of that bone function, so you can get fractures",
+      "reason": "The rewrite expresses this as 'erosion of the bone, so that fractures can occur', which faithfully conveys the meaning without distortion."
+    }
+  ]
+}

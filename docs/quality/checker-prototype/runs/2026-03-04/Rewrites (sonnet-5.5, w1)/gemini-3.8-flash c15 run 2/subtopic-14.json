@@ -1,0 +1,20 @@
+{
+  "subtopicId": 14,
+  "checkerPromptVersion": "c15",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, so what does this look like in the clinic? [chuckles] I call this the four horsemen. You show up with something that's itchy, crusty, lumpy, or bloody.",
+      "reason": "The rewrite frames this as 'In the clinic, the presentation of cancer can be summarised as the \"four horsemen\": a patient shows up with something that is itchy, crusty, lumpy or bloody.', which accurately conveys the lecturer's clinical description while omitting informal speech filler and conversational rhetorical questions."
+    },
+    {
+      "sourcePassage": "tumors can be indirect if they're occurring in non-screenable or non-palpable areas",
+      "reason": "Phrasing 'tumors can be indirect' as 'Tumours can also present indirectly' is an acceptable stylistic adjustment for clarity and textbook prose without changing the meaning."
+    },
+    {
+      "sourcePassage": "So in thinking about this, we try to jump the gun and try to screen for different cancers before we get to a malignant state",
+      "reason": "The connective 'For this reason' faithfully reflects 'So in thinking about this' in the context of early detection difficulties and vague symptoms."
+    }
+  ]
+}

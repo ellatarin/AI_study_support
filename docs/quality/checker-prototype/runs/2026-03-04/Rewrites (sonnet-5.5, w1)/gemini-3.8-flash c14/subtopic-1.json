@@ -1,0 +1,20 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c14",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, everyone, shall we get started? Yes. You're very welcome, all of you, to Cancer Biology.",
+      "reason": "This is introductory conversational filler and lecture opening remarks, which are allowed to be condensed or omitted."
+    },
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there.",
+      "reason": "The reference to 'listed there' is a pointing gesture to a slide or handout, appropriately adapted into textbook prose as 'The learning outcomes for this lecture are as follows'."
+    },
+    {
+      "sourcePassage": "So you're going to be comparing the differences between benign and malignant tumors, and you're also going to get a little bit of vocabulary, some of the nomenclature, so that we all have the same language to describe the tumors that we're talking about.",
+      "reason": "The rewrite faithfully captures all subject matter elements: comparing benign and malignant tumours, and introducing vocabulary and nomenclature to provide a common descriptive language."
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "subtopicId": 7,
+  "checkerPromptVersion": "c14",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The lecturer pointed out the tumour and the outer surface of the uterus as separate visual references ('the tumor is here. This is the outer surface of the uterus'), but did not state that the tumour lies next to the outer surface. The rewrite turns pointing words into an anatomical spatial relationship not stated in the source.",
+      "sourcePassage": "You can see that the tumor is here. This is the outer surface of the uterus.",
+      "rewritePassage": "The tumour lies next to the outer surface of the uterus",
+      "confidence": 7
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So you can see again that this is actually circumspect and very separate from the surrounding stroma and the surrounding tissue.",
+      "reason": "The lecturer used 'circumspect', which is an evident speech error/malapropism for 'circumscribed' in describing the defined margins of a benign tumour. Rendering this as 'circumscribed' conveys the intended medical meaning without misinforming the student."
+    },
+    {
+      "sourcePassage": "So if you zoom into what this actually looks like on the slide, taking this section here",
+      "reason": "Rendered as 'In a zoomed-in view of the section', appropriately transforming conversational pointing at the slide into concise textbook prose without loss of substantive information."
+    },
+    {
+      "sourcePassage": "you wouldn't be sampling all over the body",
+      "reason": "Rephrased as 'the whole body would not be sampled', which conveys the same meaning."
+    }
+  ]
+}

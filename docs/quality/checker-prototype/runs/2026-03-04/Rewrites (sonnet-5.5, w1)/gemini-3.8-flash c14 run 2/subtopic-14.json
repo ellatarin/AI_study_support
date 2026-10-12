@@ -1,0 +1,20 @@
+{
+  "subtopicId": 14,
+  "checkerPromptVersion": "c14",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, so what does this look like in the clinic? [chuckles] I call this the four horsemen. You show up with something that's itchy, crusty, lumpy, or bloody.",
+      "reason": "The rewrite renders this faithfully as 'In the clinic, the presentation of cancer can be summarised as the \"four horsemen\": a patient shows up with something that is itchy, crusty, lumpy or bloody.', dropping colloquialisms and conversational laughter."
+    },
+    {
+      "sourcePassage": "tumors can be indirect if they're occurring in non-screenable or non-palpable areas",
+      "reason": "The rewrite expresses this accurately as 'Tumours can also present indirectly if they occur in non-screenable or non-palpable areas.'"
+    },
+    {
+      "sourcePassage": "even though it's the goal of the NHS to be able to diagnose earlier and quicker",
+      "reason": "The rewrite retains the mention of the NHS and its goal faithfully."
+    }
+  ]
+}

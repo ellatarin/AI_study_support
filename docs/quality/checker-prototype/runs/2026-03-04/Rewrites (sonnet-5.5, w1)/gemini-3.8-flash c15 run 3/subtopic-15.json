@@ -1,0 +1,20 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c15",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "what you're looking at here, here is the endocervical canal that it goes between the neck of the womb. Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "reason": "The rewrite renders this as 'Histologically, the endocervical canal runs through the neck of the womb, and the cervix is seen alongside it.' This suitably adapts the lecturer's spoken pointing to the diagram without introducing unsupported factual claims."
+    },
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here",
+      "reason": "This is an informal remark to the audience pointing out specific cells on the display slide, which can be omitted as presentation filler."
+    },
+    {
+      "sourcePassage": "So this has done very well.",
+      "reason": "This was omitted as conversational repetition of the point that screening is a success story."
+    }
+  ]
+}

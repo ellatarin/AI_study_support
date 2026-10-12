@@ -1,0 +1,28 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c15",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite resolves the lecturer's pointing word 'here' into the spatial description 'is seen alongside it', which is not stated in the text and mischaracterises the relationship between the cervix and the endocervical canal.",
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "rewritePassage": "and the cervix is seen alongside it",
+      "studentHarm": "A student might incorrectly learn that the cervix is an anatomical structure lying alongside the endocervical canal, rather than understanding that the endocervical canal is the lumen running through the cervix itself."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here, but the cells, as they differentiate, they turn over on their sides, they get thin, and they get flat, and their nuclei become very small.",
+      "reason": "The omission of the lecturer pointing out individual mitotic cells on the slide ('with sharp eyes, you'll see that there's a mitotic cell here and there's one here') is an allowed omission of conversational pointing to a visual aid, as the underlying biological rule that mitotic cells occur at the basement layer is preserved."
+    },
+    {
+      "sourcePassage": "The uterus is here in this diagram, and as you know, it hangs down into the vaginal canal.",
+      "reason": "Replacing the spoken reference to the diagram with '[FIGURE]' and describing the anatomical statement is an allowed formatting change."
+    },
+    {
+      "sourcePassage": "and you'll see this in your practicals.",
+      "reason": "Retaining the lecturer's remark about practicals does not alter or distort the scientific content of the text."
+    }
+  ]
+}

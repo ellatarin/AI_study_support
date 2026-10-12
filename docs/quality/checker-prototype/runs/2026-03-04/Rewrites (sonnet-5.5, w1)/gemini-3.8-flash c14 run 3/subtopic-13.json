@@ -1,0 +1,20 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c14",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "if you compare any two things, you're going to find differences",
+      "reason": "The rewrite renders this as 'any comparison between two species will reveal differences', which preserves the intended meaning in context."
+    },
+    {
+      "sourcePassage": "The only thing that was quite interesting to note here is that the rate of malignant tumors is about fivefold higher in reptiles compared to mammals.",
+      "reason": "The rewrite phrases this as 'The one notable difference is that the rate of malignant tumours is about fivefold higher in reptiles than in mammals', accurately capturing the contrast with the previously stated similarities across taxa."
+    },
+    {
+      "sourcePassage": "And this is my cat, who also ended up with a feline injection site sarcoma. This is from injections proposed to be due to the adjuvant that is also added with the injection. You'll be happy to hear he's doing fine now after his surgery.",
+      "reason": "The rewrite adapts the personal anecdote into objective textbook prose ('The lecturer's own cat developed a feline injection site sarcoma...'). This is an acceptable stylistic transformation that retains the scientific facts."
+    }
+  ]
+}

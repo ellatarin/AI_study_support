@@ -1,0 +1,32 @@
+{
+  "subtopicId": 12,
+  "checkerPromptVersion": "c14",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite introduces an unsourced causal link using 'because', claiming that benign tumours are extremely common because it takes a great deal for them to become malignant. The lecturer merely made two separate statements.",
+      "sourcePassage": "So benign tumors are actually incredibly common. Right? So it actually takes a lot for a benign tumor to become malignant in terms of, as I said, the number of changes that have to happen within a tumor. So they're extremely common",
+      "rewritePassage": "Benign tumours are extremely common, because it takes a great deal for a benign tumour to become malignant, given the number of changes that have to happen within a tumour.",
+      "confidence": 8
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So just talking about incidence, about how often various tumors arise.",
+      "reason": "Phrasing this as a formal definition ('Incidence describes how often various tumours arise') accurately reflects the meaning of the spoken words."
+    },
+    {
+      "sourcePassage": "But malignant tumors, for example, originating from mesenchymal lineage cell types, they're extremely rare.",
+      "reason": "Omitting 'for example' in 'Malignant tumours originating from mesenchymal lineage cell types are extremely rare' does not distort the factual claim about mesenchymal tumours."
+    },
+    {
+      "sourcePassage": "So I've just put these numbers up just so that you can have a sense.",
+      "reason": "Phrasing this as 'The numbers shown give a sense of incidence' is contextually faithful to the topic of incidence being discussed."
+    },
+    {
+      "sourcePassage": "And then this is, if you like, the percentage of tumors that result in deaths.",
+      "reason": "Introducing this with 'A further slide shows...' is an acceptable framing of the slide/figure content."
+    }
+  ]
+}
