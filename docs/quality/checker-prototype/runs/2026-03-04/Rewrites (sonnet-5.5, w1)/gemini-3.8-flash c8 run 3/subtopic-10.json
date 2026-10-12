@@ -1,0 +1,12 @@
+{
+  "subtopicId": 10,
+  "checkerPromptVersion": "c8",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So the fat, smooth muscle or papillomas in the skin, and adenomas, as we were talking about in the colon.",
+      "reason": "The text lists 'the fat, smooth muscle or papillomas in the skin, and adenomas' directly matching the previous list 'lipoma, leiomyoma, papilloma, and adenomas'. Matching lipomas to fat and leiomyomas to smooth muscle directly reflects the lecturer's parallel phrasing rather than introducing an unsourced addition."
+    }
+  ]
+}

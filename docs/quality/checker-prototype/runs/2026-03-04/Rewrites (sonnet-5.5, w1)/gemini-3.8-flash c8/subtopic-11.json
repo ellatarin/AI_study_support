@@ -1,0 +1,31 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c8",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite states that death can be caused 'when the tumour occurs in a meningioma', treating a meningioma as an anatomical site or organ (parallel to 'in the liver'). However, a meningioma is itself a tumour (of the meninges), not an anatomical location in which a tumour arises.",
+      "sourcePassage": "Only 10% of these deaths, generally, if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "rewritePassage": "for example when the tumour occurs in a meningioma or in the liver."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Things like obstruction of the bile ducts in the liver interferes with digestion.",
+      "reason": "The introductory phrase 'Other effects depend on the site' was added in the rewrite as an allowed stylistic transition linking back to the lecturer's earlier discussion of tumours in different settings."
+    },
+    {
+      "sourcePassage": "And things like if tumors in bones lead to erosion of that bone function, so you can get fractures",
+      "reason": "The phrase 'erosion of the bone' in place of 'erosion of that bone function' conveys the exact same intended meaning, which is also reinforced by the lecturer's later remark 'erosion of bones will lead to skeletal collapse'."
+    },
+    {
+      "sourcePassage": "Also ulceration, you saw that enormous cauliflower structure within the colon.",
+      "reason": "The rewrite adapted the lecturer's audience-directed remark about having seen the structure into 'the enormous cauliflower-like structure seen within the colon', preserving the description of the tumour."
+    },
+    {
+      "sourcePassage": "And also this competition with the normal, if you have a tumor that is occurring in some of the blood compartments",
+      "reason": "'Competition with normal tissue is also a factor' accurately captures the lecturer's incomplete spoken phrase 'competition with the normal'."
+    }
+  ]
+}

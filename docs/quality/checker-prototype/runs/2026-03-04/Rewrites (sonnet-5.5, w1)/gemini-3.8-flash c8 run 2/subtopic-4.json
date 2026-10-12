@@ -1,0 +1,16 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c8",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "reason": "The lecturer's deictic reference to a slide was rendered appropriately as a textbook figure reference ('illustrates this [FIGURE]')."
+    },
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "This is an off-topic procedural remark/filler dropped in accordance with the allowed changes."
+    }
+  ]
+}

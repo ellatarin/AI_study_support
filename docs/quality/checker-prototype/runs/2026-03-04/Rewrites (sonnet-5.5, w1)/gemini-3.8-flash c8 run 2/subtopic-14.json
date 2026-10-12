@@ -1,0 +1,16 @@
+{
+  "subtopicId": 14,
+  "checkerPromptVersion": "c8",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, so what does this look like in the clinic? [chuckles] I call this the four horsemen.",
+      "reason": "The rewrite frames this as 'the presentation of cancer can be summarised as the \"four horsemen\"', which appropriately converts the informal spoken phrasing into standard textbook prose without adding ungrounded facts or changing the meaning."
+    },
+    {
+      "sourcePassage": "tumors can be indirect if they're occurring in non-screenable or non-palpable areas",
+      "reason": "Phrasing 'tumors can be indirect' as 'Tumours can also present indirectly' accurately captures the clinical meaning without introducing a distortion."
+    }
+  ]
+}

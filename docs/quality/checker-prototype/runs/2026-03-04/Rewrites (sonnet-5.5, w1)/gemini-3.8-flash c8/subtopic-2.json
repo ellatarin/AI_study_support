@@ -1,0 +1,23 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c8",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite inserts 'that is', defining acetylation or deacetylation as being the state of transcription within the cell itself. The lecturer did not define acetylation or deacetylation as the state of transcription, but rather mentioned the state of transcription as another item or factor.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events that can also help to give rise to cancer.",
+      "reason": "The text states 'they can also predispose', referring back to the viruses (or infectious agents mentioned previously). The rewrite says 'infection can also predispose', which slightly shifts the subject from the viruses to infection in general, but since the paragraph opens with 'gene changes can also arise from infection', this remains faithful to the lecturer's overall point and context."
+    },
+    {
+      "sourcePassage": "So I've just made this kind of a much simpler diagram, if you like. Simplicity can help frame our thinking, but it will also end up losing a lot of details. So, as I said, you start off with a normal cell, and a bunch of mutations happen over time, and you go from normal to malignant.",
+      "reason": "The rewrite condenses the lecturer's remarks about the simpler diagram and places a [FIGURE] marker, which is permitted as an allowed change."
+    }
+  ]
+}

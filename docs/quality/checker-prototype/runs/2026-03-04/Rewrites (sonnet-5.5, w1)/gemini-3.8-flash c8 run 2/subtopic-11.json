@@ -1,0 +1,27 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c8",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite states 'when the tumour occurs in a meningioma', treating a meningioma as an anatomical site in which a tumour arises rather than as a tumour itself.",
+      "sourcePassage": "Only 10% of these deaths, generally, if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "rewritePassage": "for example when the tumour occurs in a meningioma or in the liver"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Things like obstruction of the bile ducts in the liver interferes with digestion. And things like if tumors in bones lead to erosion of that bone function, so you can get fractures, and this causes an immense amount of pain.",
+      "reason": "The introductory sentence 'Other effects depend on the site' was not reported as an unsourced addition because it serves as an organizational topic sentence introducing the anatomical examples that follow."
+    },
+    {
+      "sourcePassage": "And things like if tumors in bones lead to erosion of that bone function, so you can get fractures",
+      "reason": "Rendering 'erosion of that bone function' as 'erosion of the bone, so that fractures can occur' was not reported as a distortion because the lecturer subsequently refers to 'erosion of bones' leading to collapse, indicating bone erosion itself is the intended meaning."
+    },
+    {
+      "sourcePassage": "Also ulceration, you saw that enormous cauliflower structure within the colon.",
+      "reason": "The phrasing 'the enormous cauliflower-like structure seen within the colon' was not reported because removing the direct conversational remark to the audience ('you saw') is an allowed change."
+    }
+  ]
+}

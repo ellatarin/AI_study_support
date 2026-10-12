@@ -1,0 +1,33 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c8",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite inserts 'that is', explicitly defining acetylation or deacetylation as being the state of transcription within the cell itself, thereby adding a link/equivalence not made in the original text.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The text states that 'they' (the human viruses that precipitate cancer) can predispose to chronic inflammatory events, whereas the rewrite widens the cause to 'infection' in general.",
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events that can also help to give rise to cancer.",
+      "rewritePassage": "There are about seven different human viruses that precipitate cancer, and infection can also predispose to chronic inflammatory events, which can also help to give rise to cancer."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, so we're just going to start here with our core idea. I'm sure you've seen a cartoon that looks like this many times. The idea that a normal cell, starting off here, acquires a mutation, and maybe a second mutation, and it becomes slightly abnormal. And then adds another mutation, becoming slightly more abnormal on this journey towards a malignancy. So we know that these mutations accumulate, there are stepwise changes, and they accumulate over time. But we really don't have a timeframe for exactly how long it takes for this progression to occur.",
+      "reason": "The rewrite accurately conveys the core idea, the stepwise accumulation of mutations, and the lack of a known timeframe, with dropped conversational remarks and spoken fillers allowed."
+    },
+    {
+      "sourcePassage": "So I've just made this kind of a much simpler diagram, if you like. Simplicity can help frame our thinking, but it will also end up losing a lot of details. So, as I said, you start off with a normal cell, and a bunch of mutations happen over time, and you go from normal to malignant. And we know that there are gene changes that occur. And when I say gene changes, I'm using a very broad term to encompass things like mutations. And again, this is still a very broad term because we're talking about things like base substitutions, base pair changes, small deletions, small insertions to whole chromosome losses, chromosomal translocations, aneuploidy, polyploidy. So this is what genetic changes would look like, and you would see these changes if you sequenced the genome or you looked at the chromosomal morphology. Right?",
+      "reason": "The list of genetic changes and the observation about sequencing or examining chromosomal morphology are faithfully preserved in textbook prose."
+    },
+    {
+      "sourcePassage": "So there's a lot of changes that occur, and as I said, we don't know pretty much because of this when they occur. It actually raises a lot of questions. When do these gene changes occur? Are they all the same for all the different cells that we're talking about? How many mutations does it take? When do they have to happen? Which cells are more susceptible than others? So really, once you put a model like this together, it invites a lot of questions. So hopefully, in order to try and address some of these questions, we will start at the beginning. [chuckles]",
+      "reason": "The questions raised by the model and the transition to starting at the beginning are faithfully rendered, omitting only conversational fillers and chuckles."
+    }
+  ]
+}

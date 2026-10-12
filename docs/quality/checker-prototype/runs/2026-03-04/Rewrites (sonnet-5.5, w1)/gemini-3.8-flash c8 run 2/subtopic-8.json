@@ -1,0 +1,24 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c8",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "In the source text, 'it' follows the mention of both invasion and malignancy. In oncology, malignancy is defined by the capacity/ability to invade surrounding tissue, whereas invasion is the act of invading. The rewrite's phrasing ('malignancy is defined as the ability to invade the surrounding tissue') reflects this standard definition rather than introducing an unsupported distortion."
+    },
+    {
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "reason": "The rewrite renders 'this' as 'Invasion' ('Invasion is therefore probably an obligatory step in arriving at a malignant, metastasising tumour.'). This is supported by the preceding discussion contrasting local invasion with metastasis and explaining that tumors do not bypass local invasion to become metastasising malignancies."
+    },
+    {
+      "sourcePassage": "But the question is, of course, you would then be interested in figuring out whether or not there would be secondary metastases across the body.",
+      "reason": "This is a rhetorical transition and remark to the audience before the lecturer returns to the microscopic examination of the muscle layer; the topic of secondary metastases is thoroughly covered in the subsequent paragraphs."
+    },
+    {
+      "sourcePassage": "You'll see that over here you have the adenoma which has progressed into an adenocarcinoma. So one is growing out of the other.",
+      "reason": "The rewrite renders the deictic phrase 'over here' as 'Elsewhere in the same lesion', which accurately describes the histological section being discussed without adding unsourced information."
+    }
+  ]
+}

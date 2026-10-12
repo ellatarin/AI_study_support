@@ -1,0 +1,20 @@
+{
+  "subtopicId": 14,
+  "checkerPromptVersion": "c8",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, so what does this look like in the clinic? [chuckles] I call this the four horsemen.",
+      "reason": "Phrasing this as 'In the clinic, the presentation of cancer can be summarised as the \"four horsemen\"' accurately conveys the meaning of the rhetorical question and colloquial phrasing."
+    },
+    {
+      "sourcePassage": "But very much, tumors can be indirect if they're occurring in non-screenable or non-palpable areas.",
+      "reason": "The rewrite renders this as 'Tumours can also present indirectly if they occur in non-screenable or non-palpable areas', which faithfully conveys the original statement."
+    },
+    {
+      "sourcePassage": "So in thinking about this, we try to jump the gun and try to screen for different cancers before we get to a malignant state",
+      "reason": "The colloquial idiom 'jump the gun' is retained from the source text and accurately contextualised."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c8",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "reason": "The rewrite renders this as 'A slice through a tumour, with a stain to show the morphology, illustrates this [FIGURE]', correctly capturing what the slide/figure shows and inserting the allowed [FIGURE] mark."
+    },
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "This is an incidental remark to the audience and was appropriately omitted as allowed changes."
+    },
+    {
+      "sourcePassage": "Primary cells really don't grow in culture.",
+      "reason": "'really don't grow' in spoken English is an intensifier rather than a hedge; rendering it as 'do not grow' does not improperly drop a scientific hedge."
+    }
+  ]
+}

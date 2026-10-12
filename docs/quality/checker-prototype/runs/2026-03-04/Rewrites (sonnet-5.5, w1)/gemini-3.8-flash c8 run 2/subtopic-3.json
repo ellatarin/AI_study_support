@@ -1,0 +1,33 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c8",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer refers to the life stage 'adolescence' alongside maturation ('during adolescence and maturation'), but the rewrite changes 'adolescence' to 'differentiation', altering a developmental life stage into a cellular process.",
+      "sourcePassage": "because obviously during adolescence and maturation, this occurs from infancy to adulthood.",
+      "rewritePassage": "because differentiation and maturation also occur from infancy to adulthood."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The text presents signalling and a basis for adherence as two distinct provisions of the basement membrane ('provides a signaling and basis for their adherence'). The rewrite converts 'signalling' into an adjective modifying 'basis' ('provides a signalling basis for their adherence'), changing its grammatical role and conflating two separate functions into one.",
+      "sourcePassage": "provides a signaling and basis for their adherence to this layer.",
+      "rewritePassage": "provides a signalling basis for their adherence to this layer."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "during embryogenesis, during the time that you were born.",
+      "reason": "The phrase 'during the time that you were born' was a slip of the tongue that contradicted 'during embryogenesis' and the lecturer's immediate clarification about development occurring in the womb; omitting this false start is an allowed change."
+    },
+    {
+      "sourcePassage": "into the invading stroma.",
+      "reason": "The rewrite changes 'invading stroma' to 'invaded stroma'. Because the lecturer previously established that the epithelial cells invade into the stroma, 'invading stroma' was a minor slip/transferred epithet, and adjusting it to 'invaded stroma' reflects the lecturer's intended meaning without altering the scientific fact."
+    },
+    {
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes.",
+      "reason": "The rewrite renders this as 'In the image of the invasive tissue, the cells are of different shapes and sizes.' The surrounding context clearly indicates that the lecturer has switched from the normal breast histology image to an image showing invasive tumour cells growing into the stroma."
+    }
+  ]
+}

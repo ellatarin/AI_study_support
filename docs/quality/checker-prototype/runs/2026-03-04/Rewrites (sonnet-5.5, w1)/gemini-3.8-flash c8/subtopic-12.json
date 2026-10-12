@@ -1,0 +1,27 @@
+{
+  "subtopicId": 12,
+  "checkerPromptVersion": "c8",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite uses 'because' to introduce an unsourced causal link, claiming that benign tumours are common because it takes a lot for them to become malignant.",
+      "sourcePassage": "So benign tumors are actually incredibly common. Right? So it actually takes a lot for a benign tumor to become malignant in terms of, as I said, the number of changes that have to happen within a tumor.",
+      "rewritePassage": "Benign tumours are extremely common, because it takes a great deal for a benign tumour to become malignant, given the number of changes that have to happen within a tumour."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "But malignant tumors, for example, originating from mesenchymal lineage cell types, they're extremely rare.",
+      "reason": "Omitting 'for example' leaves 'Malignant tumours originating from mesenchymal lineage cell types are extremely rare', which maintains the correct restrictive meaning without distorting the scientific claim."
+    },
+    {
+      "sourcePassage": "So I've just put these numbers up just so that you can have a sense.",
+      "reason": "Specifying 'a sense of incidence' in the rewrite reflects the topic established at the start of the text ('just talking about incidence')."
+    },
+    {
+      "sourcePassage": "And then this is, if you like, the percentage of tumors that result in deaths.",
+      "reason": "Describing this as 'A further slide shows' correctly interprets the lecturer's pointing words based on the context of presenting numbers and advancing slides."
+    }
+  ]
+}

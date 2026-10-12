@@ -1,0 +1,27 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c8",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite converts the lecturer's pointing word 'here' into the specific spatial description 'alongside it', which is not stated in the text.",
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "rewritePassage": "and the cervix is seen alongside it"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here",
+      "reason": "This is a demonstrative remark pointing out specific individual cells on the slide; the core scientific fact that mitotic cells occur at the basement layer is retained."
+    },
+    {
+      "sourcePassage": "this is only to 2000",
+      "reason": "The lecturer's remark about the figure only going up to 2000 is faithfully captured by stating the exact timeframe 'From the 1950s to 2000'."
+    },
+    {
+      "sourcePassage": "and as you know",
+      "reason": "This is a conversational remark addressed to the audience and was legitimately omitted."
+    }
+  ]
+}

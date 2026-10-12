@@ -1,0 +1,16 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c8",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "reason": "The lecturer refers to a slide showing a slice through a tumour to examine morphology; rendering this as 'A slice through a tumour, with a stain to show the morphology, illustrates this [FIGURE]' appropriately preserves the subject matter and slide reference without introducing an unsourced claim."
+    },
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "This is a spoken remark to the audience / lecturer self-correction, which is an allowed omission."
+    }
+  ]
+}

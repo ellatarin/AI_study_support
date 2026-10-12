@@ -1,0 +1,37 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c8",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite inserts 'that is', stating that acetylation or deacetylation is the state of transcription within the cell, which equates the two when the original text merely lists them without asserting this link.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The text states that 'they' (referring to the human viruses) can predispose to chronic inflammatory events, but the rewrite widens the cause to 'infection'. A cause that becomes wider is a changed cause.",
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events that can also help to give rise to cancer.",
+      "rewritePassage": "There are about seven different human viruses that precipitate cancer, and infection can also predispose to chronic inflammatory events, which can also help to give rise to cancer."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "The idea that a normal cell, starting off here, acquires a mutation, and maybe a second mutation, and it becomes slightly abnormal. And then adds another mutation, becoming slightly more abnormal on this journey towards a malignancy.",
+      "reason": "The rewrite faithfully captures the multistep progression from normal cell to malignancy, replacing spoken deictic words ('starting off here') with an appropriate figure marker."
+    },
+    {
+      "sourcePassage": "So I've just made this kind of a much simpler diagram, if you like. Simplicity can help frame our thinking, but it will also end up losing a lot of details.",
+      "reason": "The rewrite accurately conveys the purpose and trade-offs of the simpler diagram."
+    },
+    {
+      "sourcePassage": "And again, this is still a very broad term because we're talking about things like base substitutions, base pair changes, small deletions, small insertions to whole chromosome losses, chromosomal translocations, aneuploidy, polyploidy. So this is what genetic changes would look like, and you would see these changes if you sequenced the genome or you looked at the chromosomal morphology.",
+      "reason": "The list of genetic mutations and the methods for observing them (sequencing and morphology) are completely and accurately preserved in the rewrite."
+    },
+    {
+      "sourcePassage": "So there's a lot of changes that occur, and as I said, we don't know pretty much because of this when they occur. It actually raises a lot of questions. When do these gene changes occur? Are they all the same for all the different cells that we're talking about? How many mutations does it take? When do they have to happen? Which cells are more susceptible than others? So really, once you put a model like this together, it invites a lot of questions. So hopefully, in order to try and address some of these questions, we will start at the beginning.",
+      "reason": "The concluding rhetorical questions and framing are faithfully represented in formal textbook prose."
+    }
+  ]
+}

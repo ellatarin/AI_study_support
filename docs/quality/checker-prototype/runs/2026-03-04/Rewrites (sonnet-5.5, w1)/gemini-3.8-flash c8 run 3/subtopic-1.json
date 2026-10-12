@@ -1,0 +1,16 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c8",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there.",
+      "reason": "The deictic phrase 'listed there' refers to a slide or presentation display in the room; omitting this direct audience reference in favor of standard introductory textbook framing is an allowed change."
+    },
+    {
+      "sourcePassage": "Okay, everyone, shall we get started? Yes. You're very welcome, all of you, to Cancer Biology.",
+      "reason": "Conversational opening and greetings to the lecture room are allowed omissions."
+    }
+  ]
+}

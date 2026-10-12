@@ -1,0 +1,24 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c8",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "This is a meta-comment by the lecturer about their own speaking habits and notes, which is permitted to be dropped as a remark to the audience."
+    },
+    {
+      "sourcePassage": "transcoelomic site from across a cavity",
+      "reason": "The text says 'transcoelomic site from across a cavity' in a list of 'routes', and the rewrite renders this as 'by a transcoelomic route, across a cavity', which preserves the intended meaning without distortion."
+    },
+    {
+      "sourcePassage": "And I think one of the tumors that does this quite frequently is ovarian cancer, for example.",
+      "reason": "'I think' is a conversational hesitation/filler rather than a scientific hedge expressing uncertainty about whether ovarian cancer spreads transcoelomically."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here, and then you can often see sometimes the tumor cells are actually present within a lymphatic duct.",
+      "reason": "'You see your tumor cells are here' is conversational pointing to a slide, and the core histological observation that tumor cells are present within a lymphatic duct is accurately preserved."
+    }
+  ]
+}

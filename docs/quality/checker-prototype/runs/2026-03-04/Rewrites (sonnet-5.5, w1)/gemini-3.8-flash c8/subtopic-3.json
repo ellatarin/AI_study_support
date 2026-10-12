@@ -1,0 +1,33 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c8",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer specifies 'adolescence and maturation', but the rewrite replaces 'adolescence' with 'differentiation'.",
+      "sourcePassage": "because obviously during adolescence and maturation, this occurs from infancy to adulthood.",
+      "rewritePassage": "because differentiation and maturation also occur from infancy to adulthood."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "In the source text, 'signaling' is a noun coordinate with 'basis' ('a signaling and basis'), stating two functions provided by the basement membrane. The rewrite turns 'signalling' into an adjective modifying 'basis' ('a signalling basis'), altering its syntactic role and narrowing the meaning.",
+      "sourcePassage": "provides a signaling and basis for their adherence to this layer.",
+      "rewritePassage": "provides a signalling basis for their adherence to this layer."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Here at this stage here, most of your growth, really, most of your lineage specification and your expansive growth has happened during embryogenesis, during the time that you were born.",
+      "reason": "The phrase 'during the time that you were born' was an apparent false start/slip corrected immediately by the lecturer in the next sentence ('a lot of your development and differentiation occurs obviously in the womb'), so omitting it is an allowed change."
+    },
+    {
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes. They have come in, they have lost this architecture, moved over the basement membrane and invaded and are growing within the stroma.",
+      "reason": "Resolving the deictic reference to 'In the image of the invasive tissue' is permitted because the source text explicitly describes the cells in this image as having invaded and grown into the stroma."
+    },
+    {
+      "sourcePassage": "past the basement membrane, which would be here into the invading stroma.",
+      "reason": "The rewrite changes 'invading stroma' to 'invaded stroma'. In context, the cancer cells invade the stroma (making the stroma the invaded tissue), so this was treated as a correction of a slip of the tongue rather than a harmful distortion."
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c8",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite converts the lecturer's pointing word 'here' into the spatial description 'alongside it'. The text does not state that the cervix is seen alongside the endocervical canal, and this addition misleadingly implies that the cervix is a distinct structure adjacent to the canal rather than the neck of the womb through which the canal runs.",
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "rewritePassage": "and the cervix is seen alongside it."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here",
+      "reason": "This is a remark to the audience pointing out individual cells on the lecture slide; the underlying scientific fact that mitotic cells only occur at the basement layer is fully captured in the rewrite."
+    },
+    {
+      "sourcePassage": "and you'll see this in your practicals.",
+      "reason": "This is a remark concerning the course, which is retained in the rewrite as an allowed stylistic choice."
+    },
+    {
+      "sourcePassage": "this is only to 2000",
+      "reason": "The lecturer is clarifying the end date shown on a graph, which is accurately reflected in the rewrite as the date range 'From the 1950s to 2000'."
+    }
+  ]
+}

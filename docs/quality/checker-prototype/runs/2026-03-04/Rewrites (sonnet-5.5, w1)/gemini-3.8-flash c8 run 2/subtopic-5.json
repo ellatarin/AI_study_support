@@ -1,0 +1,27 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c8",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite uses 'since' to establish a causal link, asserting that the terminology is still heard because surgeons can tell whether a tumour is movable or immovable by holding or touching it. The source text does not state this causal relationship, instead using 'where' to describe the context or circumstances in which the terminology is used.",
+      "sourcePassage": "And you'll hear this kind of terminology even now, where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable.",
+      "rewritePassage": "This terminology is still heard now, since a surgeon can tell just by holding or touching a tumour whether it is movable or immovable."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Okay. So with these tools in hand, I think the important concept to try and get across is invasion and metastasis.",
+      "reason": "Dropping conversational filler ('Okay. So with these tools in hand') and changing 'concept' to the plural 'concepts' to reflect the two listed topics ('invasion and metastasis') are allowed stylistic adjustments."
+    },
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals",
+      "reason": "Omission of this phrase is permitted because it is a remark directed to the audience concerning the course and practical sessions."
+    },
+    {
+      "sourcePassage": "where a surgeon can see just by holding or touching a tumor",
+      "reason": "Replacing 'see' with 'tell' preserves the exact meaning, as 'see' was used colloquially in the text to describe tactile discernment."
+    }
+  ]
+}

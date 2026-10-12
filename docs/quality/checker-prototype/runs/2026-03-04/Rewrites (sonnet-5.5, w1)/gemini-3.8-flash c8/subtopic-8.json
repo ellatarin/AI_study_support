@@ -1,0 +1,24 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c8",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "The text states 'it's defined as the ability to invade the surrounding tissue' following mention of invasion and malignancy. In biological context, malignancy is defined by the capacity to invade adjacent tissue (whereas invasion was already described earlier as penetrating the basement membrane), so rendering 'it' as 'malignancy' accurately reflects the text without distorting the meaning."
+    },
+    {
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "reason": "The rewrite translates the pronoun 'this' into 'Invasion'. The surrounding discussion contrasts benign non-invasive lesions with tumours that invade locally prior to establishing distant metastases, demonstrating that invasion is indeed the step being described."
+    },
+    {
+      "sourcePassage": "You'll see that over here you have the adenoma which has progressed into an adenocarcinoma. So one is growing out of the other.",
+      "reason": "Translating the spatial indicator 'over here' to 'Elsewhere in the same lesion' is justified by the context, in which the lecturer explains that the malignant adenocarcinoma component has developed directly out of the adjacent adenomatous tissue within the same specimen."
+    },
+    {
+      "sourcePassage": "So for our purposes, what we're going to use is the muscularis mucosa here as our proxy for the basement membrane",
+      "reason": "The term 'muscularis mucosa' was correctly substituted with 'muscularis mucosae' in accordance with the provided correction list."
+    }
+  ]
+}

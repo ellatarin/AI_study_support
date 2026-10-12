@@ -1,0 +1,27 @@
+{
+  "subtopicId": 12,
+  "checkerPromptVersion": "c8",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite uses 'because' to assert that benign tumours are common because it takes a great deal for them to become malignant, adding an unsourced causal link between the two statements.",
+      "sourcePassage": "So benign tumors are actually incredibly common. Right? So it actually takes a lot for a benign tumor to become malignant in terms of, as I said, the number of changes that have to happen within a tumor.",
+      "rewritePassage": "Benign tumours are extremely common, because it takes a great deal for a benign tumour to become malignant, given the number of changes that have to happen within a tumour."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "There are fibroids that we were talking about, warts.",
+      "reason": "The omission of 'that we were talking about' is an allowed removal of a conversational remark referencing previous course content."
+    },
+    {
+      "sourcePassage": "So I've just put these numbers up just so that you can have a sense.",
+      "reason": "The lecturer's reference to putting up numbers is appropriately represented by textbook prose describing the figure and the [FIGURE] marker."
+    },
+    {
+      "sourcePassage": "Oops. Oh, God. It doesn't go backwards. Here we go.",
+      "reason": "These are technical difficulties and conversational fillers, which are permitted to be dropped."
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c8",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Just a slide about the incidence in companion animals since I found this slide some time ago",
+      "reason": "Omitted introductory meta-commentary about finding the slide, which is an allowed omission of lecturer remarks."
+    },
+    {
+      "sourcePassage": "if you compare any two things, you're going to find differences",
+      "reason": "Phrased as 'although any comparison between two species will reveal differences', which faithfully captures the meaning in context."
+    },
+    {
+      "sourcePassage": "You'll be happy to hear he's doing fine now after his surgery.",
+      "reason": "The address to the audience ('You'll be happy to hear') was omitted as an allowed change, while the factual update on the cat was retained."
+    },
+    {
+      "sourcePassage": "The only thing that was quite interesting to note here is that the rate of malignant tumors is about fivefold higher in reptiles compared to mammals.",
+      "reason": "Rendered as 'The one notable difference is that the rate of malignant tumours is about fivefold higher in reptiles than in mammals', accurately capturing the contrasting point made by the lecturer."
+    }
+  ]
+}

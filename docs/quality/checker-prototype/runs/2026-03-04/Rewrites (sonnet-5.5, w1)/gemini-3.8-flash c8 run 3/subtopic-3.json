@@ -1,0 +1,33 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c8",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite replaces 'adolescence' with 'differentiation', stating that 'differentiation and maturation also occur from infancy to adulthood' instead of describing development during adolescence and maturation.",
+      "sourcePassage": "because obviously during adolescence and maturation, this occurs from infancy to adulthood.",
+      "rewritePassage": "because differentiation and maturation also occur from infancy to adulthood."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite changes 'signaling' from an independent noun into an adjective qualifying 'basis' ('a signalling basis for their adherence'), conflating signaling and the physical substrate/basis for adherence into a single concept rather than two distinct functions provided by the basement membrane.",
+      "sourcePassage": "provides a signaling and basis for their adherence to this layer.",
+      "rewritePassage": "provides a signalling basis for their adherence to this layer."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "during the time that you were born.",
+      "reason": "Omitted because it is a spoken false start or slip immediately clarified by embryogenesis and growth in the womb."
+    },
+    {
+      "sourcePassage": "moving into this kind of configuration where the cell is growing into the stroma, and also in this kind of deranged manner. And you can see here now the cells are all of different shapes and sizes. They have come in, they have lost this architecture, moved over the basement membrane and invaded and are growing within the stroma.",
+      "reason": "The rewrite turns the pointing phrase 'here now' into 'In the image of the invasive tissue'. This description is directly verified by the surrounding text explaining that the cells have invaded and are growing in the stroma."
+    },
+    {
+      "sourcePassage": "which would be here into the invading stroma.",
+      "reason": "The lecturer said 'invading stroma' as a slip of the tongue; the surrounding text repeatedly establishes that the tumor cells are invading into the stroma. The rewrite's 'invaded stroma' corrects the participle to passive voice to reflect the intended meaning without distorting the biology."
+    }
+  ]
+}

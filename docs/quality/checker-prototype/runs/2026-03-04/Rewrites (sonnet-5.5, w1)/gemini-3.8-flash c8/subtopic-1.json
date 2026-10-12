@@ -1,0 +1,20 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c8",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, everyone, shall we get started? Yes. You're very welcome, all of you, to Cancer Biology.",
+      "reason": "Introductory remarks, greetings, and conversational fillers can be omitted or rephrased as allowed changes."
+    },
+    {
+      "sourcePassage": "So I tag-teamed these lectures with Professor Turner, and so she will also be teaching three of these lectures.",
+      "reason": "The rewrite renders this as 'The lectures are shared with Professor Turner, who teaches three of the six', which accurately preserves the meaning."
+    },
+    {
+      "sourcePassage": "tumor",
+      "reason": "British English spelling ('tumour') is an allowed change."
+    }
+  ]
+}

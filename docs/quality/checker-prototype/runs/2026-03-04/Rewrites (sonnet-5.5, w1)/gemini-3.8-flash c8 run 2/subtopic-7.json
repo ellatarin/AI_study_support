@@ -1,0 +1,23 @@
+{
+  "subtopicId": 7,
+  "checkerPromptVersion": "c8",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite converts the lecturer's pointing words ('the tumor is here. This is the outer surface of the uterus') into a specific anatomical relation ('lies next to the outer surface of the uterus') that is not stated in the text.",
+      "sourcePassage": "You can see that the tumor is here. This is the outer surface of the uterus.",
+      "rewritePassage": "The tumour lies next to the outer surface of the uterus"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So you can see again that this is actually circumspect and very separate from the surrounding stroma and the surrounding tissue.",
+      "reason": "'Circumspect' was replaced with 'circumscribed', which is an obvious correction of a speech-to-text mishearing of the standard medical term describing a well-demarcated benign tumour."
+    },
+    {
+      "sourcePassage": "has actually caused the tumor, which is, as I said, not invaded into the surrounding tissue to separate away from the normal muscle. So you can see again that this is actually circumspect",
+      "reason": "The rewrite uses 'therefore' to connect the visual separation resulting from tissue processing to the observation that the tumour is circumscribed, which reflects the lecturer's 'So you can see again'."
+    }
+  ]
+}

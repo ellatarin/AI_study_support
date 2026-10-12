@@ -1,0 +1,20 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c8",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here",
+      "reason": "This is a conversational remark pointing directly at specific individual cells on the slide during the lecture; its substantive point—that mitotic cells are found at the basement layer—is fully retained."
+    },
+    {
+      "sourcePassage": "this is only to 2000",
+      "reason": "This remark simply notes the end of the timeline shown on the chart, which is captured accurately in the rewrite as 'From the 1950s to 2000'."
+    },
+    {
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "reason": "The rewrite renders this as 'Histologically, the endocervical canal runs through the neck of the womb, and the cervix is seen alongside it', which faithfully conveys the lecturer orienting the audience to the histological view."
+    }
+  ]
+}

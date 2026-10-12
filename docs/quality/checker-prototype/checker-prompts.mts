@@ -317,7 +317,44 @@ ${QUOTED_REPLY}`,
 	c7: {
 		changed:
 			"The user's rewrite of c4. Reports only a difference that causes issues for a student's learning. Drops 'when not sure, report', 'do not judge a paragraph as a whole', 'even when the changed statement is true', the line on statements next to each other, the line on pointing words and the subject-matter exception of the filler allowance. Adds conflation as a link and the merging of two concerns as a distortion. Moves the process after the two lists.",
-		prompt: (name) => `# Task
+		prompt: (name) => learningIssuePrompt({ name, unsourcedAdditions: C7_ADDITIONS }),
+	},
+	c8: {
+		changed:
+			"Adds to c7 the c4 line on pointing words that become a description, and reports it unless the text shows that the description is correct.",
+		prompt: (name) => learningIssuePrompt({ name, unsourcedAdditions: CHECKED_DESCRIPTION_ADDITIONS }),
+	},
+};
+
+/** The versions in the registry, in the order that they were written. */
+export const CHECKER_PROMPT_VERSIONS: readonly string[] = Object.keys(CHECKER_PROMPTS);
+
+/** The forbidden unsourced additions of c7. */
+const C7_ADDITIONS = `- The rewrite states a fact that the text does not state.
+- The rewrite states a link between two statements, and the text does not state that link. A link can be a cause, a result, a definition, a conflation, or a statement that two things are the same.
+- One or two words can state a link. For example, "hence" states a cause, and "namely" states that two things are the same. A rewrite that adds such words adds a link.`;
+
+/** The forbidden unsourced additions of c8, which add a description from pointing words that the text does not show to be correct. */
+const CHECKED_DESCRIPTION_ADDITIONS = `${C7_ADDITIONS}
+- The rewrite turns the lecturer's pointing words, such as "here" and "this", into a description that the lecturer did not give. Report it unless the text shows that the description is correct.`;
+
+/**
+ * Builds the prompt of the versions from c7, which report a difference only
+ * when it causes issues for a student's learning.
+ *
+ * @param args - The language and the forbidden unsourced additions.
+ * @param args.name - The name of the notes' language.
+ * @param args.unsourcedAdditions - The lines of the forbidden unsourced additions.
+ * @returns The prompt.
+ */
+function learningIssuePrompt({
+	name,
+	unsourcedAdditions,
+}: {
+	readonly name: string;
+	readonly unsourcedAdditions: string;
+}): string {
+	return `# Task
 
 You must check a stylistic rewrite of one part of a university lecture. The source is what the lecturer said, as a speech-to-text transcriber wrote it. An earlier step corrected some technical terms that the transcriber misheard. A writer then wrote the corrected text as textbook prose in ${name}. Your job is to find and report each place where the rewrite differs from the original in such a way that it causes issues for a student’s learning.
 
@@ -334,9 +371,7 @@ The following changes are forbidden, and should be flagged when the process belo
 
 ## Unsourced additions
 
-- The rewrite states a fact that the text does not state.
-- The rewrite states a link between two statements, and the text does not state that link. A link can be a cause, a result, a definition, a conflation, or a statement that two things are the same.
-- One or two words can state a link. For example, "hence" states a cause, and "namely" states that two things are the same. A rewrite that adds such words adds a link.
+${unsourcedAdditions}
 
 ## Distortions
 
@@ -368,12 +403,8 @@ ${FORM_ALLOWANCE}
 5. Report each forbidden change.
 
 
-${QUOTED_REPLY}`,
-	},
-};
-
-/** The versions in the registry, in the order that they were written. */
-export const CHECKER_PROMPT_VERSIONS: readonly string[] = Object.keys(CHECKER_PROMPTS);
+${QUOTED_REPLY}`;
+}
 
 /**
  * Builds the system prompt of one version for the notes' language.

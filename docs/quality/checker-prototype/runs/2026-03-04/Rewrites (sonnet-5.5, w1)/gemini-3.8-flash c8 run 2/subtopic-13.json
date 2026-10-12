@@ -1,0 +1,20 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c8",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "The only thing that was quite interesting to note here is that the rate of malignant tumors is about fivefold higher in reptiles compared to mammals.",
+      "reason": "The rewrite renders this as 'The one notable difference is that the rate of malignant tumours is about fivefold higher in reptiles than in mammals', which faithfully captures the comparison between reptiles and mammals made by the lecturer without adding unsourced facts."
+    },
+    {
+      "sourcePassage": "You'll be happy to hear he's doing fine now after his surgery.",
+      "reason": "The conversational framing directed at the audience was omitted as allowed, while retaining the underlying statement that the cat is doing fine after surgery."
+    },
+    {
+      "sourcePassage": "in dogs, mammary tumors seem to be very, very prevalent",
+      "reason": "The reduction of 'very, very prevalent' to 'very prevalent' is an allowed removal of spoken repetition."
+    }
+  ]
+}

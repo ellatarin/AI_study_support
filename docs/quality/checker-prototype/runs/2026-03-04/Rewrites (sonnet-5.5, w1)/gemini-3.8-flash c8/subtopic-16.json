@@ -1,0 +1,20 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c8",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "Omitted direct address to the audience ('You saw') and rendered as factual exposition ('The different pre-cancerous states are present'), which is an allowed change under lecture/audience remarks."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "The rewrite phrases this as 'Of the screening methods discussed, cervical screening is the best.', which accurately captures the lecturer's comparative statement ('the cervix is best') without adding unsourced facts."
+    },
+    {
+      "sourcePassage": "an ulcerated cauliflower structure, if you like",
+      "reason": "The writer converted 'if you like' to 'cauliflower-like structure', which preserves the exact metaphorical meaning used by the lecturer."
+    }
+  ]
+}
