@@ -1,0 +1,85 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The lecturer refers back to pre-cancerous states shown previously ('You saw those different pre-cancerous states'), whereas the rewrite turns this into an assertion that they 'are present'.",
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "rewritePassage": "The different pre-cancerous states are present,"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The hedge 'probably' was removed from the statement about malignancy, which potentially alters the level of uncertainty expressed by the lecturer.",
+      "sourcePassage": "very likely to probably already be malignant",
+      "rewritePassage": "very likely to be malignant already"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer's phrasing ('there's some reason if you're showing symptoms') is unclear or incomplete. The rewrite clarifies it by framing showing symptoms as an example of a reason ('some other reason, such as the patient showing symptoms'), thereby choosing one specific interpretation.",
+      "sourcePassage": "there's some reason if you're showing symptoms",
+      "rewritePassage": "some other reason, such as the patient showing symptoms"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The text contains an incomplete and unclear spoken phrasing ('many of the people that do go for screening and then for further treatment, it has a very, very high false positive rate'), where 'many of the people...' is left without a predicate and 'it' refers back to screening. The rewrite makes this incomplete statement complete by inserting 'are affected by', choosing a specific interpretation of the dangling clause.",
+      "sourcePassage": "because many of the people that do go for screening and then for further treatment, it has a very, very high false positive rate.",
+      "rewritePassage": "because many of the people who go for screening and then for further treatment are affected by a very high false positive rate."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So screening in the colon is a bit trickier.",
+      "reason": "The rewrite renders this as 'Screening in the colon is more difficult.', which retains the meaning while dropping the conversational filler 'So'."
+    },
+    {
+      "sourcePassage": "As I said,",
+      "reason": "The rewrite renders this as 'As stated previously,', which is an allowed stylistic variation for a lecturer reference."
+    },
+    {
+      "sourcePassage": "It requires a very skilled technician to not perforate the bowel. So it is not without its risks.",
+      "reason": "The rewrite combines these clauses into 'and a very skilled technician is required so as not to perforate the bowel. It is therefore not without its risks.', preserving the meaning and logical link."
+    },
+    {
+      "sourcePassage": "ulcerated cauliflower structure, if you like",
+      "reason": "The phrase 'if you like' is filler/a remark to the audience, and 'cauliflower-like structure' conveys the same meaning as 'cauliflower structure'."
+    },
+    {
+      "sourcePassage": "Right?",
+      "reason": "Dropped rhetorical questions directed to the audience, which are allowed omissions."
+    },
+    {
+      "sourcePassage": "Basically, they're looking for blood.",
+      "reason": "Dropped filler 'Basically' and integrated the clause into the description of the test."
+    },
+    {
+      "sourcePassage": "for invading into other parts of the body",
+      "reason": "Rephrased as 'that invade other parts of the body', which preserves the original meaning."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "'As I said' is a remark about the lecture/dropped conversational filler, and rendering 'the cervix is best' in the context of screening as 'cervical screening is the best' conveys the exact same meaning."
+    },
+    {
+      "sourcePassage": "Colorectal screening, we're using these FIT tests.",
+      "reason": "Changing the conversational active 'we're using these FIT tests' to the passive 'FIT tests are used' is an allowed stylistic change preserving the exact meaning."
+    },
+    {
+      "sourcePassage": "very, very high",
+      "reason": "The omission of the repeated 'very' in both instances ('very, very high false positive rate' and 'very, very high cost') is an allowed omission of rhetorical/spoken repetition."
+    },
+    {
+      "sourcePassage": "So about a third of those cases are unnecessary treatment, so a very, very high cost.",
+      "reason": "The rewording to 'About a third of those cases involve unnecessary treatment, which is a very high cost' is an acceptable grammatical adjustment preserving the original meaning."
+    },
+    {
+      "sourcePassage": "It is not a very, very good test",
+      "reason": "The reduction of the repeated emphasis 'very, very' to 'very' is a stylistic condensation of repeated filler/emphasis."
+    },
+    {
+      "sourcePassage": "these tumors are very, very slow-growing",
+      "reason": "The reduction of 'very, very' to 'very' is an allowed removal of repetition, and 'tumours' is standard British English spelling."
+    }
+  ]
+}

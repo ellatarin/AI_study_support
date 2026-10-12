@@ -1,0 +1,111 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The text states that looking at the endocervical canal means looking at the cervix ('this is the endocervical canal here, and so you're looking at the cervix here'). It does not state that the cervix is seen alongside the endocervical canal.",
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "rewritePassage": "and the cervix is seen alongside it"
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite replaces the lecturer's pointing word 'this' with the description 'Screening', which was not specified at this point in the source text.",
+      "sourcePassage": "So this, as I said, is a success story.",
+      "rewritePassage": "Screening is a success story."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer hedged the statement about which women are dying of cervical cancer using 'would be', but the rewrite removes the hedge by stating categorically that they 'are' those women.",
+      "sourcePassage": "the women that are still dying of cervical cancer would be the ones that either are not followed up after their screen or that have declined screening altogether.",
+      "rewritePassage": "The women who are still dying of cervical cancer are those who are either not followed up after their screen or who have declined screening altogether."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "absolutely ideal",
+      "reason": "Omitting 'absolutely' in 'ideal' is a minor stylistic adjustment as 'ideal' inherently carries the superlative sense, representing an allowed change in wording."
+    },
+    {
+      "sourcePassage": "Right. So what does this look like?",
+      "reason": "This is a rhetorical question and conversational transition directed at the audience, which is an allowed omission."
+    },
+    {
+      "sourcePassage": "as you know",
+      "reason": "This is a remark directed to the audience and its omission is allowed."
+    },
+    {
+      "sourcePassage": "The uterus is here in this diagram",
+      "reason": "Rendered as 'as shown in the diagram. [FIGURE]', faithfully capturing that the uterus is presented in the diagram without adding unstated facts."
+    },
+    {
+      "sourcePassage": "the endocervical canal that it goes between the neck of the womb",
+      "reason": "Rendering 'goes between the neck of the womb' as 'runs through the neck of the womb' conveys the same anatomical meaning in proper prose without adding unmentioned facts."
+    },
+    {
+      "sourcePassage": "So you can see this nice transition between these two different types of epithelium, and you'll see this in your practicals.",
+      "reason": "Omitting the conversational adjective 'nice' and retaining the factual mention of the transition and the practicals is an allowed stylistic cleanup."
+    },
+    {
+      "sourcePassage": "where one cell type is replaced by another. One adult differentiated cell type is replaced by the other",
+      "reason": "The lecturer immediately refines the phrasing from 'one cell type' to 'one adult differentiated cell type', so consolidating this into a single definition is an allowed consolidation of a repetition/false start."
+    },
+    {
+      "sourcePassage": "it usually occurs here at this junction",
+      "reason": "'here' is a deictic pointing word accompanying 'at this junction', and removing it without adding an unsourced description is allowed."
+    },
+    {
+      "sourcePassage": "under, if you like, stress",
+      "reason": "'if you like' is conversational filler and appropriately omitted."
+    },
+    {
+      "sourcePassage": "precursor lesion that is here",
+      "reason": "'can arise at this site' preserves the deictic reference of 'here' without inventing an unstated anatomical description."
+    },
+    {
+      "sourcePassage": "So this is what we want to catch, and this is why screening is so effective.",
+      "reason": "'This is the state that screening aims to catch' conveys the meaning of 'this is what we want to catch' in textbook prose without changing the causal or logical relationships."
+    },
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here",
+      "reason": "This is a remark guiding the audience to point instances on the slide illustrating the previously stated fact that mitotic cells occur at the basement layer, rather than a distinct scientific fact or claim."
+    },
+    {
+      "sourcePassage": "So this is that pre-invasive state. You'll notice that the basement layer here is still intact.",
+      "reason": "The relative clause 'in which the basement layer is still intact' simply links the two adjacent clauses referring to the same state/figure without adding an unsourced causal or definitional relationship."
+    },
+    {
+      "sourcePassage": "from the neck of the cervix here, the neck of the womb",
+      "reason": "The pointing word \"here\" was omitted, which is an allowed change as it does not convey descriptive subject matter."
+    },
+    {
+      "sourcePassage": "cells that have small nuclei, here, which would denote a normal cell",
+      "reason": "The pointing word \"here\" was omitted, which is an allowed change."
+    },
+    {
+      "sourcePassage": "You shouldn't see any of this if you have a normal cervix.",
+      "reason": "The phrase \"None of this should be seen in a normal cervix\" directly captures the meaning of the source sentence in context."
+    },
+    {
+      "sourcePassage": "as I said",
+      "reason": "Omitted as conversational filler or a remark about the lecture."
+    },
+    {
+      "sourcePassage": "If you'll notice here from the 1950s to, this is only to 2000, you'll see that",
+      "reason": "Omitted as remarks addressing the audience and referring to the visual display; the factual time frame 'From the 1950s to 2000' is retained."
+    },
+    {
+      "sourcePassage": "So this has done very well.",
+      "reason": "Omitted as a repetition of the point that it is a success story."
+    },
+    {
+      "sourcePassage": "if you like",
+      "reason": "Omitted as conversational filler."
+    },
+    {
+      "sourcePassage": "So very much a success story.",
+      "reason": "Omitted as a repetition of the opening statement."
+    }
+  ]
+}

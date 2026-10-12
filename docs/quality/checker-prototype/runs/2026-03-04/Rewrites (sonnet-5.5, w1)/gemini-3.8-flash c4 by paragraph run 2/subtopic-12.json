@@ -1,0 +1,93 @@
+{
+  "subtopicId": 12,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite introduces a causal relationship ('because') between benign tumours being common and the difficulty of a benign tumour becoming malignant, which the source text does not state.",
+      "sourcePassage": "So benign tumors are actually incredibly common. Right? So it actually takes a lot for a benign tumor to become malignant in terms of, as I said, the number of changes that have to happen within a tumor. So they're extremely common",
+      "rewritePassage": "Benign tumours are extremely common, because it takes a great deal for a benign tumour to become malignant, given the number of changes that have to happen within a tumour."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite characterizes moles as overgrowths of tissues by including them in 'all of which are overgrowths of tissues', whereas the source text made that statement only about the preceding examples (lipomas, fibroids, and warts) before mentioning moles separately.",
+      "sourcePassage": "There are fibroids that we were talking about, warts. All of these are overgrowths of tissues. Moles, I mean, who doesn't have moles?",
+      "rewritePassage": "Examples include lipomas, fibroids, warts and moles, all of which are overgrowths of tissues."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The text only says the numbers are provided so that students 'can have a sense', without specifying what metric the numbers measure. Adding 'of incidence' introduces a specific epidemiological concept not stated in the source.",
+      "sourcePassage": "So I've just put these numbers up just so that you can have a sense.",
+      "rewritePassage": "The numbers shown give a sense of incidence,"
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite turns the pointing word 'this' into 'A further slide', adding a description that the lecturer did not give.",
+      "sourcePassage": "And then this is, if you like, the percentage of tumors that result in deaths.",
+      "rewritePassage": "A further slide shows"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So just talking about incidence, about how often various tumors arise.",
+      "reason": "Rewriting this as 'Incidence describes how often various tumours arise' removes conversational lecture framing while preserving the meaning, which is an allowed change."
+    },
+    {
+      "sourcePassage": "as I said, the number of changes that have to happen within a tumor.",
+      "reason": "Omitting the lecturer's conversational self-reference 'as I said' is an allowed omission of a remark about the lecture."
+    },
+    {
+      "sourcePassage": "Moles, I mean, who doesn't have moles? I mean, so these are very common.",
+      "reason": "Dropping rhetorical remarks directed at the audience and filler phrases ('who doesn't have moles? I mean') is an allowed change."
+    },
+    {
+      "sourcePassage": "for example",
+      "reason": "Omitted as conversational filler; the subject of the claim remains malignant tumours originating from mesenchymal lineage cell types."
+    },
+    {
+      "sourcePassage": "in young adulthood, in adolescence and young adulthood",
+      "reason": "The initial phrase 'in young adulthood' was a false start corrected immediately by the speaker to 'in adolescence and young adulthood', so its omission is allowed."
+    },
+    {
+      "sourcePassage": "And so",
+      "reason": "Used as a conversational discourse marker/connector rather than establishing a causal link between difficulty of treatment and rapid progression, so rendering the clauses as coordinates is faithful."
+    },
+    {
+      "sourcePassage": "So these are breast carcinomas, colorectal, lung, and prostate cancer.",
+      "reason": "The rewrite renders this as 'These include breast carcinomas and colorectal, lung and prostate cancer.', which accurately captures the context where the lecturer lists these as major examples alongside subsequent examples like ovarian and cervical cancer."
+    },
+    {
+      "sourcePassage": "are very big in Chinese populations",
+      "reason": "The rewrite changes 'very big' to 'very common', which is an allowed change using different words with the same meaning in this context."
+    },
+    {
+      "sourcePassage": "as I said",
+      "reason": "Omission of lecture conversational filler/remark to the audience is permitted."
+    },
+    {
+      "sourcePassage": "So I've just put these numbers up",
+      "reason": "Transformed from oral presentation phrasing to textbook prose ('The numbers shown') and accompanied by a '[FIGURE]' marker, which is allowed."
+    },
+    {
+      "sourcePassage": "tumors",
+      "reason": "Changed to British English spelling 'tumours', which is an allowed change."
+    },
+    {
+      "sourcePassage": "if you like",
+      "reason": "Dropped filler, which is an allowed change."
+    },
+    {
+      "sourcePassage": "As you can see",
+      "reason": "Dropped remark to the audience, which is an allowed change."
+    },
+    {
+      "sourcePassage": "bowel, prostate, and breast are still up there as major causes of mortality",
+      "reason": "Specifying 'bowel, prostate and breast cancer' makes explicit the elliptical reference to cancer types already established in context, conveying the same meaning."
+    },
+    {
+      "sourcePassage": "So, and just a-- Oops. Oh, God. It doesn't go backwards. Here we go.",
+      "reason": "Dropped false starts, filler, and remarks about technical difficulties, which are allowed changes."
+    }
+  ]
+}

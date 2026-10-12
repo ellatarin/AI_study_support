@@ -1,0 +1,28 @@
+{
+  "subtopicId": 9,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Obviously, when there is a suspicion of cancer or of a tumor, everybody gets very nervous about what that diagnosis is going to look like.",
+      "reason": "The conversational phrasing 'everybody gets very nervous about what that diagnosis is going to look like' was rendered into formal prose as 'there is considerable anxiety about the diagnosis', preserving the meaning without distortion or omission."
+    },
+    {
+      "sourcePassage": "that I showed you",
+      "reason": "The reference to previously presented material was accurately captured as 'as shown earlier' along with a '[FIGURE]' tag, which is an allowed stylistic change."
+    },
+    {
+      "sourcePassage": "So this meningioma obviously is occurring within the skull.",
+      "reason": "The rewrite renders 'this meningioma' as 'A meningioma occurs within the skull', but retains the reference to 'in this case it caused death', preserving the meaning and context without introducing an unsourced claim or altering the scientific sense."
+    },
+    {
+      "sourcePassage": "constricting on the processes of normal tissues that are adjacent to them",
+      "reason": "Changing 'constricting on the processes' to 'constricting the processes' is an allowed grammatical refinement with identical meaning."
+    },
+    {
+      "sourcePassage": "release a lot of hormones",
+      "reason": "'release large amounts of hormones' uses different words with the exact same meaning as 'release a lot of hormones'."
+    }
+  ]
+}

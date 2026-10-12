@@ -1,0 +1,75 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The term 'site' has been changed to 'route' to resolve an unclear phrasing in the source text without an approved correction.",
+      "sourcePassage": "or also this transcoelomic site from across a cavity",
+      "rewritePassage": "or by a transcoelomic route, across a cavity"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The hedge 'I think' has been removed from the claim about ovarian cancer.",
+      "sourcePassage": "And I think one of the tumors that does this quite frequently is ovarian cancer, for example.",
+      "rewritePassage": "One tumour that does this quite frequently is ovarian cancer, for example."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer refers to a specific tumour cell shown to the audience and states as a definite observation that it has the appearance of an adenomatous or glandular tumour ('this tumor cell has the appearance...'). The rewrite distorts this into a generalised, hedged statement ('a tumour cell may have the appearance...').",
+      "sourcePassage": "this tumor cell has the appearance of an adenomatous tumor or glandular tumor.",
+      "rewritePassage": "a tumour cell may have the appearance of an adenomatous or glandular tumour"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "This is a personal remark by the lecturer about their speaking habits, which is an allowed omission."
+    },
+    {
+      "sourcePassage": "obviously",
+      "reason": "Omission of conversational filler words like 'obviously' and 'Right' is allowed."
+    },
+    {
+      "sourcePassage": "tumors",
+      "reason": "Changed to British English spelling 'tumours', which is an allowed change."
+    },
+    {
+      "sourcePassage": "primary tumors",
+      "reason": "'Primary tumours' uses British English spelling, which is an allowed change."
+    },
+    {
+      "sourcePassage": "across a pleural cavity, for example, across the abdomen",
+      "reason": "Rephrasing to 'for example across a pleural cavity or across the abdomen' preserves the exact meaning of the examples given."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here, and then you can often see sometimes",
+      "reason": "The phrase 'You see your tumor cells are here' is a deictic pointing remark referring to a slide without further descriptive content, and 'sometimes' alongside 'often' is a spoken false start/reformulation, both appropriately omitted/streamlined."
+    },
+    {
+      "sourcePassage": "So obviously now",
+      "reason": "Omitted as conversational filler."
+    },
+    {
+      "sourcePassage": "very often",
+      "reason": "The rewrite renders 'very often' as 'often', which is an acceptable stylistic variation that conveys substantially the same meaning."
+    },
+    {
+      "sourcePassage": "tumors, the secondary tumors",
+      "reason": "The rewrite uses 'the secondary tumours', treating 'tumors' as a false start or less specific precursor to the lecturer's immediate clarification."
+    },
+    {
+      "sourcePassage": "kind of",
+      "reason": "Dropped as spoken conversational filler."
+    },
+    {
+      "sourcePassage": "Similarly, here you have a brain, and what you have here is a breast cancer that's metastasized to the brain.",
+      "reason": "The text points out the organ (brain) and the disease (breast cancer metastasized to the brain). The rewrite phrases this concisely as 'The other is a breast cancer that has metastasized to the brain', which retains all factual content."
+    },
+    {
+      "sourcePassage": "which will be quite difficult for the patient, if not lethal.",
+      "reason": "The change from 'will be' to 'would be' is a minor stylistic/grammatical adjustment that does not alter the meaning or certainty of the statement."
+    }
+  ]
+}

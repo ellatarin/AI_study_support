@@ -1,0 +1,79 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer makes a general statement about comparing 'any two things', which the rewrite narrows specifically to a comparison 'between two species'.",
+      "sourcePassage": "if you compare any two things, you're going to find differences",
+      "rewritePassage": "any comparison between two species will reveal differences"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer hedges the claim with 'pretty clear' and 'if you like', whereas the rewrite removes these hedges and asserts definitively that it is 'clear'.",
+      "sourcePassage": "it's pretty clear that, if you like, the molecular processes that are occurring are similar.",
+      "rewritePassage": "It is therefore clear that the molecular processes occurring are similar."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds a causal link ('and so') between ending up with a problem in differentiation and ending up with a tumour, whereas the source text merely coordinates the two clauses with 'and'.",
+      "sourcePassage": "can end up with a problem in differentiation, and end up with a tumor and with that disease",
+      "rewritePassage": "can end up with a problem in differentiation, and so with a tumour and with that disease"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Just a slide about the incidence in companion animals since I found this slide some time ago",
+      "reason": "Omitted as meta-talk referring to the lecture slides and course presentation."
+    },
+    {
+      "sourcePassage": "very, very prevalent",
+      "reason": "Reduction of the repeated intensifier 'very, very' to 'very' is an allowed removal of repetition."
+    },
+    {
+      "sourcePassage": "which is different from people",
+      "reason": "Phrasing this as 'which differs from the pattern in people' accurately captures the meaning in textbook prose."
+    },
+    {
+      "sourcePassage": "And similarly",
+      "reason": "Omission of a conversational transitional phrase is an allowed stylistic change."
+    },
+    {
+      "sourcePassage": "You'll be happy to hear",
+      "reason": "This is an address to the audience, which is an allowed omission."
+    },
+    {
+      "sourcePassage": "also ended up with",
+      "reason": "The omission of 'also' is an allowed stylistic omission of a conversational connective/filler."
+    },
+    {
+      "sourcePassage": "This is from injections proposed to be due to the adjuvant that is also added with the injection.",
+      "reason": "Rendering 'This is from injections' as 'Such tumours arise from injections' faithfully captures the reference of 'This' to feline injection site sarcoma."
+    },
+    {
+      "sourcePassage": "digestive tissues, hematopoietic, and skin",
+      "reason": "The rewrite adds 'tissues' after 'hematopoietic' to complete the parallel structure of the noun phrases, which preserves the original meaning and is an allowed grammatical/stylistic adjustment."
+    },
+    {
+      "sourcePassage": "The only thing that was quite interesting to note here is that the rate of malignant tumors is about fivefold higher in reptiles compared to mammals.",
+      "reason": "Rendering 'The only thing that was quite interesting to note here' as 'The one notable difference' faithfully captures the meaning in context, as the noted fact is a fivefold difference between reptiles and mammals."
+    },
+    {
+      "sourcePassage": "become a malignant tumor",
+      "reason": "Changing 'become a malignant tumor' to 'becomes malignant' has identical meaning and is an allowed stylistic change."
+    },
+    {
+      "sourcePassage": "any organism or any animal that has-- any organism, rather, that is multicellular",
+      "reason": "The false start and self-correction were simplified to 'any multicellular organism', which is an allowed change."
+    },
+    {
+      "sourcePassage": "all of these animals, they have differentiation programs",
+      "reason": "The repetitive phrasing was simplified to 'all have differentiation programs', which is an allowed change for spoken-to-written style."
+    },
+    {
+      "sourcePassage": "So you can really consider, as I said, cancer as a disease of development and differentiation.",
+      "reason": "Omitting 'as I said' is allowed as it is a conversational reference to the lecturer's previous remarks, and rendering 'So' as 'therefore' accurately reflects the causal connective in the source."
+    }
+  ]
+}

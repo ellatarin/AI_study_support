@@ -1,0 +1,71 @@
+{
+  "subtopicId": 10,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "In the source text, 'within the lymph nodes, within those structures' is an apposition or clarifying repetition referring to the lymph nodes. The rewrite inserts 'and' ('within the lymph nodes and those structures'), treating 'those structures' as an additional, separate location alongside the lymph nodes.",
+      "sourcePassage": "within the lymph nodes, within those structures",
+      "rewritePassage": "within the lymph nodes and those structures"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Okay? So just so that we're all on the same page in terms of nomenclature, and of course,",
+      "reason": "Omitted as conversational opening remarks and filler directed to the audience."
+    },
+    {
+      "sourcePassage": "plus oma",
+      "reason": "Rendered as 'plus the suffix -oma', which describes '-oma' as a suffix without altering the meaning."
+    },
+    {
+      "sourcePassage": "which are things like lipoma, leiomyoma, papilloma, and adenomas. All of these would be benign tumors in the tissues that they are occurring in. So the fat, smooth muscle or papillomas in the skin, and adenomas, as we were talking about in the colon.",
+      "reason": "The rewrite pairs each tumour with its corresponding tissue based directly on the parallel lists given by the lecturer."
+    },
+    {
+      "sourcePassage": "as we were talking about",
+      "reason": "Rendered as 'as discussed earlier', which is an allowed stylistic phrasing referring to prior lecture material."
+    },
+    {
+      "sourcePassage": "have things like carcinoma and sarcoma attached to them as suffixes",
+      "reason": "The text uses 'things like' colloquially to introduce the specific suffixes mentioned ('carcinoma and sarcoma'); rendering this as 'have the suffixes carcinoma and sarcoma attached to them' faithfully captures the meaning without distorting scientific content."
+    },
+    {
+      "sourcePassage": "on the other hand",
+      "reason": "This is a conversational transitional phrase connecting to the preceding context, and its omission is an allowed stylistic change."
+    },
+    {
+      "sourcePassage": "of course",
+      "reason": "Omitted as conversational filler or remark to the audience."
+    },
+    {
+      "sourcePassage": "which would be solid",
+      "reason": "The modal 'would be' is used here as a spoken expository habit rather than a scientific hedge, so changing it to 'are solid' is an allowed stylistic adjustment."
+    },
+    {
+      "sourcePassage": "solid within the lymph nodes",
+      "reason": "The insertion of the verb 'occur' ('are solid and occur within') provides grammatical flow in textbook prose without changing the meaning."
+    },
+    {
+      "sourcePassage": "Neuroectodermal tumors are the ones that kind of deviate from the nomenclature system.",
+      "reason": "Dropping conversational filler like 'kind of' and 'the ones that' is an allowed change."
+    },
+    {
+      "sourcePassage": "So you have cells, these are tumors that derive from the cells",
+      "reason": "'So you have cells' is a false start that is legitimately omitted."
+    },
+    {
+      "sourcePassage": "and things like retinoblastoma.",
+      "reason": "The lecturer appends retinoblastoma to the list of malignant neuroectodermal tumors ending in -oma; combining it cleanly into the list in the rewrite is an allowed stylistic adjustment."
+    },
+    {
+      "sourcePassage": "So these are these different tumor types",
+      "reason": "This is a conversational transitional remark referring back to preceding content, so dropping it is an allowed change."
+    },
+    {
+      "sourcePassage": "Melanoma is never used for moles",
+      "reason": "Expanding 'Melanoma' to 'The term melanoma' clarifies grammar without adding new information, as the sentence discusses naming conventions."
+    }
+  ]
+}

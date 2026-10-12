@@ -1,0 +1,83 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite inserts 'that is', stating that acetylation or deacetylation is the state of transcription within the cell itself, whereas the source text only juxtaposes them (or lists them as separate items) without asserting this equivalence.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer states that the viruses ('they') can predispose to chronic inflammatory events, whereas the rewrite changes the cause to 'infection' in general, widening the cause.",
+      "sourcePassage": "and they can also predispose to chronic inflammatory events",
+      "rewritePassage": "and infection can also predispose to chronic inflammatory events"
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds 'therefore', stating a causal link for why many changes occur, whereas the source text only used 'So' as an introductory discourse marker.",
+      "sourcePassage": "So there's a lot of changes that occur",
+      "rewritePassage": "Many changes therefore occur"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, so we're just going to start here with our core idea. I'm sure you've seen a cartoon that looks like this many times.",
+      "reason": "The conversational phrasing and remark to the audience ('I'm sure you've seen...') are condensed into 'The core idea is the familiar cartoon...', which is an allowed stylistic change."
+    },
+    {
+      "sourcePassage": "starting off here",
+      "reason": "The pointing phrase indicating a position in a figure is dropped as filler/conversational direction, which is allowed."
+    },
+    {
+      "sourcePassage": "So we know that",
+      "reason": "Dropping the conversational epistemic frame 'we know that' in scientific prose is an allowed stylistic change."
+    },
+    {
+      "sourcePassage": "So I've just made this kind of a much simpler diagram, if you like.",
+      "reason": "The lecturer's personal remark about having made the diagram is appropriately adapted to standard textbook prose using passive voice and the [FIGURE] marker."
+    },
+    {
+      "sourcePassage": "So, as I said, you start off with a normal cell, and a bunch of mutations happen over time, and you go from normal to malignant. And we know that there are gene changes that occur.",
+      "reason": "\"in this progression\" in the rewrite refers anaphorically to the process described of a normal cell mutating over time and becoming malignant, which the lecturer explains consists of gene changes/mutations; it does not introduce an unsourced link or fact."
+    },
+    {
+      "sourcePassage": "So this is what genetic changes would look like, and you would see these changes if you sequenced the genome or you looked at the chromosomal morphology. Right?",
+      "reason": "\"These are the genetic changes, and they would be seen if the genome were sequenced or the chromosomal morphology were examined\" faithfully conveys the lecturer's summary of the listed examples and observational methods without distortion."
+    },
+    {
+      "sourcePassage": "We are also talking about epigenetic changes.",
+      "reason": "The rephrasing 'Epigenetic changes are also involved' conveys the same meaning in textbook prose."
+    },
+    {
+      "sourcePassage": "If you were to sequence the genome, you wouldn't see these changes. You'd have to use other techniques, other specialized techniques, to look at these changes.",
+      "reason": "The rewrite accurately retains the conditional meaning and omits the spoken repetition ('other techniques, other specialized techniques')."
+    },
+    {
+      "sourcePassage": "tumors",
+      "reason": "Changed to the British English spelling 'tumours', which is an allowed change."
+    },
+    {
+      "sourcePassage": "like viruses",
+      "reason": "Changed to 'such as viruses', which has the same meaning."
+    },
+    {
+      "sourcePassage": "that will precipitate cancer",
+      "reason": "Rendered as 'that precipitate cancer', maintaining the same meaning as a present-tense statement of scientific fact."
+    },
+    {
+      "sourcePassage": "as I said",
+      "reason": "This is a conversational repetition/filler referring back to previous speech and may be omitted."
+    },
+    {
+      "sourcePassage": "pretty much",
+      "reason": "This was rephrased as 'largely', which has the same meaning."
+    },
+    {
+      "sourcePassage": "So hopefully, in order to try and address some of these questions, we will start at the beginning. [chuckles]",
+      "reason": "This is a statement about the organisation of the lecture/discussion and can be adapted into textbook prose."
+    }
+  ]
+}

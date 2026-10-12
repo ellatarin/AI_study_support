@@ -1,0 +1,77 @@
+{
+  "subtopicId": 14,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite specifies 'cancer', turning the lecturer's word 'this' into a specific disease description that is not mentioned in the source text (which only refers to 'a tumor' and 'tumors').",
+      "sourcePassage": "Okay, so what does this look like in the clinic? [chuckles] I call this the four horsemen.",
+      "rewritePassage": "the presentation of cancer can be summarised as the \"four horsemen\":"
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite introduces a causal link ('For this reason') where the source text only indicates reflection or a conversational transition ('So in thinking about this').",
+      "sourcePassage": "So in thinking about this",
+      "rewritePassage": "For this reason"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "You show up with something that's itchy, crusty, lumpy, or bloody.",
+      "reason": "Changing the conversational second-person 'You show up' to the textbook-appropriate third-person 'a patient shows up' is an allowed stylistic adjustment."
+    },
+    {
+      "sourcePassage": "These are kind of vague and general things, general signs",
+      "reason": "Condensing the colloquial phrasing and repetition into 'These are vague, general signs' is an allowed change in style and filler removal."
+    },
+    {
+      "sourcePassage": "But very much, tumors can be indirect if they're occurring in non-screenable or non-palpable areas.",
+      "reason": "Phrasing 'tumors can be indirect' as 'Tumours can also present indirectly' is an allowed stylistic shift to standard clinical prose."
+    },
+    {
+      "sourcePassage": "tumors",
+      "reason": "Spelling change from 'tumors' to British English 'tumours' is an allowed change."
+    },
+    {
+      "sourcePassage": "actually",
+      "reason": "Dropping the conversational filler word 'actually' is an allowed change."
+    },
+    {
+      "sourcePassage": "three or four or five",
+      "reason": "Rewording 'three or four or five' to 'three, four or five' is a stylistic adjustment with identical meaning."
+    },
+    {
+      "sourcePassage": "to be able to diagnose earlier and quicker",
+      "reason": "Changing 'to be able to diagnose earlier and quicker' to 'to diagnose earlier and more quickly' is an allowed grammatical and stylistic change preserving the exact meaning."
+    },
+    {
+      "sourcePassage": "we try to jump the gun and try to screen",
+      "reason": "Changing the first-person plural 'we try' to 'the approach is to try' adapts conversational speech into formal textbook style without changing the meaning."
+    },
+    {
+      "sourcePassage": "before we get to a malignant state, because by the time you get to a malignant state",
+      "reason": "Converting 'we get to' and 'you get to' into passive voice ('a malignant state is reached') is an allowed stylistic change."
+    },
+    {
+      "sourcePassage": "So screening is very much the approach.",
+      "reason": "'So' here functions as a logical connector indicating a conclusion, which is faithfully rendered as 'therefore'."
+    },
+    {
+      "sourcePassage": "how you might roll this out across a population, the cost of this is something to bear in mind.",
+      "reason": "Replacing the pronoun 'this' with 'screening' is clear from the immediate context and maintains the same meaning."
+    },
+    {
+      "sourcePassage": "a state at which it can be treatable",
+      "reason": "The rewrite phrases this as 'one at which it can be treated', which conveys the same meaning."
+    },
+    {
+      "sourcePassage": "before it becomes malignant, before it becomes something that's very, very hard to treat, and there's diminishing returns on said treatment.",
+      "reason": "The rewrite consolidates the repetitions into 'before it becomes malignant and very hard to treat, when there are diminishing returns on treatment', preserving the meaning and relations."
+    },
+    {
+      "sourcePassage": "And we also have to be able to do something that is useful for that patient.",
+      "reason": "The rewrite renders this as 'It is also necessary to do something that is useful for that patient', which is an acceptable stylistic phrasing of the lecturer's conversational statement."
+    }
+  ]
+}

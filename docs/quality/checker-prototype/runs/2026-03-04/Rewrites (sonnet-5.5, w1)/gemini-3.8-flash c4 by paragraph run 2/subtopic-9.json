@@ -1,0 +1,39 @@
+{
+  "subtopicId": 9,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer refers to a specific specimen or case ('this meningioma obviously is occurring within the skull'), whereas the rewrite generalizes this into a universal statement ('A meningioma occurs within the skull... so it puts an enormous amount of pressure on the brain and the surrounding structures'), stating as a general fact that meningiomas occur in the skull and exert enormous pressure on the brain.",
+      "sourcePassage": "So this meningioma obviously is occurring within the skull.",
+      "rewritePassage": "A meningioma occurs within the skull, which is a confined space, so it puts an enormous amount of pressure on the brain and the surrounding structures"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Obviously, when there is a suspicion of cancer or of a tumor, everybody gets very nervous about what that diagnosis is going to look like.",
+      "reason": "The rewrite renders this as 'When cancer or a tumour is suspected, there is considerable anxiety about the diagnosis', which accurately conveys the meaning while removing conversational filler."
+    },
+    {
+      "sourcePassage": "smooth muscle fibroid that I showed you",
+      "reason": "Rendered as 'smooth muscle fibroid, as shown earlier' with an added [FIGURE] mark, which is an allowed change."
+    },
+    {
+      "sourcePassage": "Okay, but that's not to say that a benign tumor can't be dangerous, because you can get benign tumors that cause death by growing and constricting on the processes of normal tissues that are adjacent to them.",
+      "reason": "Dropping the conversational filler 'Okay' and rendering the spoken phrasing into standard textbook English preserves the exact meaning and causal link."
+    },
+    {
+      "sourcePassage": "This would put an enormous amount of pressure on the brain and the surrounding structures and would cause and has caused Has caused death in this case.",
+      "reason": "The false start and repetition ('would cause and has caused Has caused') were cleaned up into 'and in this case it caused death', which is an allowed change."
+    },
+    {
+      "sourcePassage": "Also, pituitary adenomas release a lot of hormones and can cause death in that way.",
+      "reason": "Replacing 'a lot of hormones' with 'large amounts of hormones' uses different words with the exact same meaning."
+    },
+    {
+      "sourcePassage": "tumor",
+      "reason": "Spelling 'tumour' in place of 'tumor' is an allowed British English spelling change."
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite states that the cervix is seen 'alongside' the endocervical canal, which introduces a spatial relationship not mentioned in the source text.",
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "rewritePassage": "and the cervix is seen alongside it"
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite replaces the pointing word 'this' with 'Screening', a description that the lecturer did not give.",
+      "sourcePassage": "So this, as I said, is a success story.",
+      "rewritePassage": "Screening is a success story."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer hedged the explanation by stating that women dying of cervical cancer 'would be the ones', whereas the rewrite removes the hedge and asserts definitively that they 'are those'.",
+      "sourcePassage": "the women that are still dying of cervical cancer would be the ones that either are not followed up after their screen or that have declined screening altogether.",
+      "rewritePassage": "The women who are still dying of cervical cancer are those who are either not followed up after their screen or who have declined screening altogether."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "absolutely ideal",
+      "reason": "The omission of the adverbial intensifier 'absolutely' does not change the core meaning that screening is ideal."
+    },
+    {
+      "sourcePassage": "Right. So what does this look like?",
+      "reason": "Rhetorical question and conversational transition; allowed omission."
+    },
+    {
+      "sourcePassage": "as you know",
+      "reason": "Direct remark to the audience; allowed omission."
+    },
+    {
+      "sourcePassage": "The uterus is here in this diagram",
+      "reason": "Accurately represented by 'The uterus hangs down into the vaginal canal, as shown in the diagram. [FIGURE]'."
+    },
+    {
+      "sourcePassage": "because this is what is so interesting to look at",
+      "reason": "This is a conversational remark to the audience and its omission is allowed."
+    },
+    {
+      "sourcePassage": "that it goes between the neck of the womb",
+      "reason": "Rendered as 'runs through the neck of the womb', which resolves the spoken phrasing without altering factual content."
+    },
+    {
+      "sourcePassage": "this nice transition",
+      "reason": "Dropping the subjective adjective 'nice' is an allowed stylistic change."
+    },
+    {
+      "sourcePassage": "Right. So, I will tell you that",
+      "reason": "Omitted conversational filler and lecturer remarks to the audience, which is an allowed change."
+    },
+    {
+      "sourcePassage": "it usually occurs here at this junction",
+      "reason": "The deictic word 'here' was dropped without adding an unsourced descriptive replacement, keeping simply 'at this junction'."
+    },
+    {
+      "sourcePassage": "where one cell type is replaced by another. One adult differentiated cell type is replaced by the other",
+      "reason": "The lecturer's immediate repetition and specification ('where one cell type is replaced by another. One adult differentiated cell type is replaced by the other') was smoothly consolidated into 'in which one adult differentiated cell type is replaced by another'."
+    },
+    {
+      "sourcePassage": "you can get a precursor lesion that is here",
+      "reason": "'a precursor lesion can arise at this site' faithfully conveys 'you can get a precursor lesion that is here' without inventing an anatomical description for the deictic word 'here'."
+    },
+    {
+      "sourcePassage": "So this is what we want to catch, and this is why screening is so effective.",
+      "reason": "'This is the state that screening aims to catch, and this is why screening is so effective' accurately conveys the meaning of the original sentence without introducing new information or links."
+    },
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here",
+      "reason": "This is a direct deictic demonstration of individual cells on the accompanying slide, illustrating the already stated fact that mitotic cells occur at the basement layer, rather than a distinct factual claim."
+    },
+    {
+      "sourcePassage": "So this is that pre-invasive state. You'll notice that the basement layer here is still intact.",
+      "reason": "Combining these consecutive statements into 'This is the pre-invasive state, in which the basement layer is still intact' accurately reflects the meaning of the source without introducing an unsourced definition or causal link."
+    },
+    {
+      "sourcePassage": "neck of the cervix here, the neck of the womb",
+      "reason": "The pointing word 'here' was an oral demonstrative and its omission does not lose subject matter."
+    },
+    {
+      "sourcePassage": "So what you would be looking for is cells that have small nuclei, here, which would denote a normal cell, as opposed to, for example, very big nuclei. And you would be seeing which would be abnormal, and you would be seeing lots of mitotic cells. Again, this would be abnormal. You shouldn't see any of this if you have a normal cervix.",
+      "reason": "The rewrite accurately condenses the lecturer's spoken phrasing into textbook prose without introducing unsourced details or distorting the meaning."
+    },
+    {
+      "sourcePassage": "If you'll notice here from the 1950s to, this is only to 2000, you'll see that",
+      "reason": "The introductory phrasing directs the audience's attention to a visual display and was appropriately omitted as a remark to the audience."
+    },
+    {
+      "sourcePassage": "So this has done very well.",
+      "reason": "Omitted as an allowed repetition of the statement that it is a success story and that mortality rates declined."
+    },
+    {
+      "sourcePassage": "So very much a success story.",
+      "reason": "Omitted as a repetition of the earlier statement that this is a success story."
+    }
+  ]
+}

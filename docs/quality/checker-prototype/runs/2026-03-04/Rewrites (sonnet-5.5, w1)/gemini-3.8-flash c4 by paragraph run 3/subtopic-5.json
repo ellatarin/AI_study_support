@@ -1,0 +1,45 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite uses 'since' to assert a causal link explaining why the terminology is still heard today, whereas the original text uses 'where' to describe the context or situation in which the terminology arises.",
+      "sourcePassage": "And you'll hear this kind of terminology even now, where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable.",
+      "rewritePassage": "This terminology is still heard now, since a surgeon can tell just by holding or touching a tumour whether it is movable or immovable."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The text uses the pronoun 'it' without specifying what becomes immovable, whereas the rewrite makes this complete by specifying 'a tumour'.",
+      "sourcePassage": "So when it becomes immovable",
+      "rewritePassage": "When a tumour becomes immovable"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Okay. So with these tools in hand, I think the important concept to try and get across is invasion and metastasis.",
+      "reason": "'with these tools in hand' and 'Okay. So ... I think ... to try and get across' are rhetorical lecture transitions and remarks about the lecture, which are permitted to be omitted. Changing singular 'concept' to plural 'concepts' aligns grammatically with the two items 'invasion and metastasis'."
+    },
+    {
+      "sourcePassage": "a surgeon can see just by holding or touching a tumor",
+      "reason": "'can tell' is used in place of 'can see', which carries the exact same meaning of discerning or determining in this context."
+    },
+    {
+      "sourcePassage": "that's something that you'll come to appreciate in your practicals",
+      "reason": "This is a remark to the audience and a statement about the course, so dropping it is an allowed change."
+    },
+    {
+      "sourcePassage": "just felt by a surgeon",
+      "reason": "Omitting the word 'just' does not alter the factual meaning that invasion can be felt by a surgeon, falling under allowed stylistic changes."
+    },
+    {
+      "sourcePassage": "So when somebody presents with a lump or a primary tumor, there will be a biopsy to look and to see whether or not the tumor cells are contained or whether or not they're invading into the surrounding tissue.",
+      "reason": "The change from 'somebody' to 'a patient', the use of British spelling ('tumour'), and the omission of the redundant 'look and' in 'look and to see' are allowed stylistic, grammar, and spelling adjustments."
+    },
+    {
+      "sourcePassage": "Right. So, what does that mean for the patient? Well,",
+      "reason": "The lecturer's rhetorical question and filler ('Right', 'Well') were appropriately condensed into the introductory phrase 'For the patient,' without altering meaning."
+    }
+  ]
+}

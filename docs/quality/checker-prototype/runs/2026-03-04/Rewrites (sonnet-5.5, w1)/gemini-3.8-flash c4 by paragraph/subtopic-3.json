@@ -1,0 +1,111 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer refers to 'adolescence and maturation', but the rewrite replaces 'adolescence' with 'differentiation'.",
+      "sourcePassage": "obviously during adolescence and maturation, this occurs from infancy to adulthood",
+      "rewritePassage": "differentiation and maturation also occur from infancy to adulthood"
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite uses 'so that' to link the cells being arranged with them looking uniform in shape and size, stating a link between two separate observations that were merely placed next to each other in the source text.",
+      "sourcePassage": "You'll see that the epithelial cells here are arranged. They look fairly uniform in shape and size.",
+      "rewritePassage": "the epithelial cells are arranged so that they look fairly uniform in shape and size"
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite turns the lecturer's pointing word 'here' into the specific description 'In the image of the invasive tissue', which the lecturer did not give.",
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes.",
+      "rewritePassage": "In the image of the invasive tissue, the cells are of different shapes and sizes."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "In the text, 'signaling' is a noun coordinate with 'basis' (the basement membrane provides signaling and provides a basis for adherence), whereas the rewrite changes 'signalling' into an adjective modifying 'basis' ('a signalling basis for their adherence').",
+      "sourcePassage": "provides a signaling and basis for their adherence to this layer",
+      "rewritePassage": "provides a signalling basis for their adherence to this layer"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The text states 'invading stroma', whereas the rewrite changes the participle to 'invaded stroma'.",
+      "sourcePassage": "into the invading stroma",
+      "rewritePassage": "into the invaded stroma"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So what is cancer, really?",
+      "reason": "This is a rhetorical opening question introducing the subtopic rather than a statement of factual subject matter."
+    },
+    {
+      "sourcePassage": "Here at this stage here",
+      "reason": "The pointing words indicating a slide/stage are appropriately represented by the [FIGURE] tag."
+    },
+    {
+      "sourcePassage": "during the time that you were born",
+      "reason": "This is a conversational restatement or slip regarding the period of embryogenesis, the core point of which is captured by 'during embryogenesis'."
+    },
+    {
+      "sourcePassage": "So we are composed of many organs.",
+      "reason": "Changing 'we are composed' to 'The body is composed' is an allowed stylistic adjustment to textbook prose."
+    },
+    {
+      "sourcePassage": "So if you just look here at this little section of skin",
+      "reason": "This is a direct remark to the audience referencing a visual aid on a slide, which is appropriately replaced by textbook prose and [FIGURE]."
+    },
+    {
+      "sourcePassage": "understand and know",
+      "reason": "Condensing 'understand and know' into 'knows' is an allowed removal of repetitive phrasing."
+    },
+    {
+      "sourcePassage": "So what is cancer? Well, cancer, you have to think, is therefore a failure of this program",
+      "reason": "Omission of rhetorical question and conversational filler ('you have to think') is an allowed change."
+    },
+    {
+      "sourcePassage": "within in situ, within a, if you like, a single space",
+      "reason": "Cleaned up spoken false start ('within in situ') and conversational filler ('if you like') into standard phrasing ('in situ, within a single space')."
+    },
+    {
+      "sourcePassage": "tumor",
+      "reason": "British English spelling 'tumour' is an allowed change."
+    },
+    {
+      "sourcePassage": "metastasize",
+      "reason": "British English spelling 'metastasise' is an allowed change."
+    },
+    {
+      "sourcePassage": "kind of understand",
+      "reason": "Omission of colloquial hedge/filler 'kind of' is an allowed change."
+    },
+    {
+      "sourcePassage": "So histology being one of them, of course.",
+      "reason": "Resolving the pronoun 'them' as 'these tools' refers to context preceding the excerpt and does not alter the factual meaning."
+    },
+    {
+      "sourcePassage": "They have the nucleus on the layer towards the lumen, so they're apical basal regulation in terms of the orientation of those cells within the tissue.",
+      "reason": "'which reflects apical-basal regulation' faithfully conveys the inferential relation indicated by 'so' in the spoken text."
+    },
+    {
+      "sourcePassage": "They have come in,",
+      "reason": "Omitted as an informal false start or repetition elaborating on the cells moving and invading."
+    },
+    {
+      "sourcePassage": "Right?",
+      "reason": "Omitted as a rhetorical remark to the audience."
+    },
+    {
+      "sourcePassage": "So what has happened to lose the structure and to get this invasion?",
+      "reason": "Rewritten as 'The question is what has happened to cause the loss of structure and the invasion', which conveys the same meaning."
+    },
+    {
+      "sourcePassage": "Whoops. I'll just skip forward here to say that the basement membrane, I've kind of written here, basement membrane, because when you're looking via histology, it is something very small to see.",
+      "reason": "The lecturer's remarks about skipping forward and writing on the slide are allowed omissions of presentation commentary and filler."
+    },
+    {
+      "sourcePassage": "And here, the basement membrane protein here is red.",
+      "reason": "The rewrite translates this pointing reference into 'The basement membrane protein is shown in red', which preserves the factual description of the image."
+    }
+  ]
+}

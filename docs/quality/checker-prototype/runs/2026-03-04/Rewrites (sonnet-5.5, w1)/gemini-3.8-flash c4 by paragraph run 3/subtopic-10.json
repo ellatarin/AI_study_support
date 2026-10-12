@@ -1,0 +1,71 @@
+{
+  "subtopicId": 10,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "In the source text, 'within those structures' is an appositive repetition of 'within the lymph nodes'. The rewrite joins them with 'and' ('within the lymph nodes and those structures'), distorting the appositive restatement into a conjunction that suggests lymphomas occur in lymph nodes plus other structures.",
+      "sourcePassage": "within the lymph nodes, within those structures.",
+      "rewritePassage": "within the lymph nodes and those structures."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Okay? So just so that we're all on the same page in terms of nomenclature",
+      "reason": "This is introductory conversational framing and a remark to the audience, which may be omitted."
+    },
+    {
+      "sourcePassage": "So the fat, smooth muscle or papillomas in the skin, and adenomas, as we were talking about in the colon.",
+      "reason": "The rewrite phrases the list as 'lipomas in fat, leiomyomas in smooth muscle, papillomas in the skin, and adenomas, as discussed earlier, in the colon', which faithfully connects the four examples given immediately prior (lipoma, leiomyoma, papilloma, adenoma) to their respective tissues listed by the lecturer."
+    },
+    {
+      "sourcePassage": "plus oma",
+      "reason": "Writing 'plus the suffix -oma' expresses the exact same meaning using standard textbook prose."
+    },
+    {
+      "sourcePassage": "So malignant tumors, on the other hand",
+      "reason": "The discourse marker 'on the other hand' functions as a conversational transition linking back to a previous discussion, so its omission in textbook prose is an allowed change."
+    },
+    {
+      "sourcePassage": "have things like carcinoma and sarcoma attached to them as suffixes",
+      "reason": "The phrase 'things like' is colloquial phrasing introducing the suffixes, accurately rendered as 'have the suffixes carcinoma and sarcoma attached to them'."
+    },
+    {
+      "sourcePassage": "by the time you have these suffixes, this would be a malignant disease",
+      "reason": "Rendered as 'once these suffixes are present, the disease is malignant', which conveys the exact meaning of the lecturer's statement."
+    },
+    {
+      "sourcePassage": "of course,",
+      "reason": "Omitted as conversational filler."
+    },
+    {
+      "sourcePassage": "you have leukemias",
+      "reason": "Rephrasing to 'there are the leukemias' is an allowed grammatical and stylistic change."
+    },
+    {
+      "sourcePassage": "which would be solid",
+      "reason": "Changing 'would be solid' to 'are solid' removes colloquial hedging/spoken phrasing without altering the factual meaning."
+    },
+    {
+      "sourcePassage": "kind of deviate",
+      "reason": "The phrase 'kind of' is spoken filler rather than a scientific hedge qualifying the deviation from the nomenclature system."
+    },
+    {
+      "sourcePassage": "So you have cells,",
+      "reason": "This is a false start by the lecturer and is appropriately omitted."
+    },
+    {
+      "sourcePassage": "and things like retinoblastoma",
+      "reason": "Retinoblastoma is grouped cleanly with the other listed examples (glioma, glioblastoma, neuroblastoma) that contain '-oma' and are malignant."
+    },
+    {
+      "sourcePassage": "So these are these different tumor types",
+      "reason": "This is a transitional remark concluding the preceding discussion, and its omission is an allowed change."
+    },
+    {
+      "sourcePassage": "Melanoma is never used for moles, for example.",
+      "reason": "Adding 'The term' to introduce 'melanoma' clarifies use-mention in written prose without altering the meaning."
+    }
+  ]
+}

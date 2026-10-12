@@ -1,0 +1,53 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite uses 'since' to assert a causal relationship (that the terminology persists because a surgeon can tell by touch), whereas the source text uses 'where' to indicate the context or situation in which the terminology is encountered.",
+      "sourcePassage": "And you'll hear this kind of terminology even now, where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable.",
+      "rewritePassage": "This terminology is still heard now, since a surgeon can tell just by holding or touching a tumour whether it is movable or immovable."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The text uses the pronoun 'it' without an antecedent in the excerpt, leaving the referent unclear. The rewrite resolves this by specifying 'a tumour', choosing one specific reading of an unclear statement.",
+      "sourcePassage": "So when it becomes immovable, these malignant cells",
+      "rewritePassage": "When a tumour becomes immovable, its malignant cells"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Okay. So with these tools in hand, I think the important concept to try and get across is invasion and metastasis.",
+      "reason": "Dropping 'So with these tools in hand' removes conversational framing/meta-discourse, and changing singular 'concept' to plural 'concepts' is a grammatical adjustment for the compound subject."
+    },
+    {
+      "sourcePassage": "back in, I don't know, when surgery was first coming into its own as a discipline",
+      "reason": "Omitting 'I don't know' drops conversational filler."
+    },
+    {
+      "sourcePassage": "What they termed the movable tumor. And a movable tumor is exactly like what it sounds. Surgeons would find that that tumor could move within the tissue or an immovable tumor.",
+      "reason": "Reorganising the lecturer's broken sentence to introduce both 'the movable tumour' and 'the immovable tumour' together cleanly resolves a false start."
+    },
+    {
+      "sourcePassage": "where a surgeon can see just by holding or touching a tumor",
+      "reason": "Using 'can tell' instead of 'can see' conveys the same meaning, as 'see' in the source figuratively denotes discerning or determining through touch."
+    },
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals,",
+      "reason": "This is a remark to the audience and a statement about course practicals, which is an allowed omission."
+    },
+    {
+      "sourcePassage": "but it can also be just felt by a surgeon.",
+      "reason": "Omitting the conversational qualifier 'just' and linking the clause with 'and' instead of 'but' preserves the meaning that invasion can be palpated by a surgeon."
+    },
+    {
+      "sourcePassage": "Right. So, what does that mean for the patient? Well, the invasion",
+      "reason": "The rhetorical question and answer were condensed into 'For the patient, invasion', which preserves the original meaning without introducing unsourced facts."
+    },
+    {
+      "sourcePassage": "to look and to see whether or not",
+      "reason": "Condensing 'to look and to see whether or not' to 'to see whether' removes conversational redundancy while retaining the full meaning."
+    }
+  ]
+}

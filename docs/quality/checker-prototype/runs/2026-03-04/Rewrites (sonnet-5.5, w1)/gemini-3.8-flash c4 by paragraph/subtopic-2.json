@@ -1,0 +1,79 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite inserts 'that is', stating an explicit equivalence/definition between acetylation or deacetylation and the state of transcription, whereas the source text merely juxtaposes the phrases without stating this link.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The text states that 'they' (the human viruses, or infectious agents) can predispose to chronic inflammatory events. The rewrite widens the cause to 'infection' in general.",
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events",
+      "rewritePassage": "There are about seven different human viruses that precipitate cancer, and infection can also predispose to chronic inflammatory events"
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds 'therefore', establishing a causal or consequential link between previous points and the occurrence of many changes, whereas the source text only uses 'So' as a conversational discourse marker.",
+      "sourcePassage": "So there's a lot of changes that occur",
+      "rewritePassage": "Many changes therefore occur"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "I'm sure you've seen a cartoon that looks like this many times. The idea that a normal cell, starting off here, acquires a mutation",
+      "reason": "The rewrite condenses the lecturer's conversational reference to a familiar cartoon illustrating the process into 'The core idea is the familiar cartoon in which a normal cell acquires a mutation', which faithfully conveys the meaning without adding unsourced facts."
+    },
+    {
+      "sourcePassage": "starting off here",
+      "reason": "Omitting the lecturer's deictic gesture/pointing words ('starting off here') is an allowed omission of lecture presentation remarks."
+    },
+    {
+      "sourcePassage": "So we know that",
+      "reason": "Omitting the conversational discourse marker 'So we know that' is an allowed removal of filler/speech habits."
+    },
+    {
+      "sourcePassage": "we really don't have a timeframe",
+      "reason": "'there is no timeframe' has the same meaning as 'we really don't have a timeframe' in this context."
+    },
+    {
+      "sourcePassage": "So I've just made this kind of a much simpler diagram, if you like.",
+      "reason": "Phrasing this as 'A much simpler diagram can be made... [FIGURE]' changes the personal conversational remark into textbook prose while retaining the reference to the diagram."
+    },
+    {
+      "sourcePassage": "And we know that there are gene changes that occur.",
+      "reason": "Omitting 'we know that' removes conversational filler/epistemic framing, and rendering this as 'Gene changes occur in this progression' faithfully reflects the immediate context of going from a normal to a malignant cell over time."
+    },
+    {
+      "sourcePassage": "So this is what genetic changes would look like",
+      "reason": "Rendering this as 'These are the genetic changes' accurately summarizes the preceding list of examples (base substitutions through to polyploidy)."
+    },
+    {
+      "sourcePassage": "We are also talking about epigenetic changes.",
+      "reason": "The shift from the lecturer's conversational framing ('We are also talking about') to the impersonal statement 'Epigenetic changes are also involved' is an allowed stylistic change."
+    },
+    {
+      "sourcePassage": "If you were to sequence the genome, you wouldn't see these changes. You'd have to use other techniques, other specialized techniques, to look at these changes.",
+      "reason": "Recasting the conditional sentence into the passive voice ('These changes would not be seen if the genome were sequenced; other, specialized techniques are needed to look at them') conveys the exact same meaning."
+    },
+    {
+      "sourcePassage": "Certain tumors can arise from infectious agents like viruses.",
+      "reason": "The change from 'tumors' to 'tumours' is an allowed British English spelling difference, and 'such as' has the same meaning as 'like'."
+    },
+    {
+      "sourcePassage": "will precipitate cancer",
+      "reason": "The change to 'precipitate cancer' preserves the meaning of the scientific statement."
+    },
+    {
+      "sourcePassage": "as I said",
+      "reason": "This is a conversational repetition/remark about the lecture that can be omitted under allowed changes."
+    },
+    {
+      "sourcePassage": "So hopefully, in order to try and address some of these questions, we will start at the beginning. [chuckles]",
+      "reason": "The framing of how the discussion will proceed is a remark about the lecture structure, and rewording it to 'the discussion starts at the beginning' is an allowed change."
+    }
+  ]
+}

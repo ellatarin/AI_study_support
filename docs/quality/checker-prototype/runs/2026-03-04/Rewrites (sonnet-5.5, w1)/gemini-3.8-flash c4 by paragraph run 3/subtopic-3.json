@@ -1,0 +1,113 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite changes the term \"adolescence\" to \"differentiation\".",
+      "sourcePassage": "because obviously during adolescence and maturation, this occurs from infancy to adulthood",
+      "rewritePassage": "because differentiation and maturation also occur from infancy to adulthood"
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite specifies that histology is one of these 'tools', adding a noun and classification not present in the source text, which only states 'one of them'.",
+      "sourcePassage": "So histology being one of them, of course.",
+      "rewritePassage": "Histology is one of these tools."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite introduces a link of result or purpose with 'so that' between the epithelial cells being arranged and looking uniform in shape and size, whereas the source text presents them as two separate, juxtaposed observations.",
+      "sourcePassage": "You'll see that the epithelial cells here are arranged. They look fairly uniform in shape and size.",
+      "rewritePassage": "the epithelial cells are arranged so that they look fairly uniform in shape and size"
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite resolves the lecturer's pointing word 'here' into a specific description ('the image of the invasive tissue') that the lecturer did not give.",
+      "sourcePassage": "And you can see here now",
+      "rewritePassage": "In the image of the invasive tissue"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The text states that the matrix provides 'a signaling and basis for their adherence', presenting signalling and a basis for adherence as distinct contributions. The rewrite turns 'signalling' into an adjective modifying 'basis' ('a signalling basis'), changing its grammatical role and meaning.",
+      "sourcePassage": "provides a signaling and basis for their adherence to this layer.",
+      "rewritePassage": "provides a signalling basis for their adherence to this layer."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer speaks of moving into the 'invading stroma', whereas the rewrite changes 'invading' to 'invaded'.",
+      "sourcePassage": "into the invading stroma.",
+      "rewritePassage": "into the invaded stroma."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So what is cancer, really?",
+      "reason": "Omitted as an introductory rhetorical question / remark to the audience rather than substantive subject matter."
+    },
+    {
+      "sourcePassage": "Here at this stage here",
+      "reason": "Deictic pointing gesture appropriately represented by [FIGURE]."
+    },
+    {
+      "sourcePassage": "during the time that you were born",
+      "reason": "Treated as a dropped conversational slip/false start clarifying or repeating \"during embryogenesis\"."
+    },
+    {
+      "sourcePassage": "So we are composed of many organs",
+      "reason": "Changing 'we' to 'The body' is an allowed stylistic adjustment from spoken first-person plural to formal textbook prose without altering the meaning."
+    },
+    {
+      "sourcePassage": "So if you just look here at this little section of skin",
+      "reason": "This is a conversational remark directing audience attention to the slide/diagram; skin as the topic and example is fully retained in the rewrite."
+    },
+    {
+      "sourcePassage": "participate in that function",
+      "reason": "The singular 'that function' in the text refers back to the skin 'doing a lot of things' and having 'a number of functions'; pluralising to 'these functions' preserves the intended meaning accurately."
+    },
+    {
+      "sourcePassage": "obviously",
+      "reason": "Omission of oral filler."
+    },
+    {
+      "sourcePassage": "understand and know",
+      "reason": "Condensing the paired oral synonyms 'understand and know' into 'knows' is an allowed removal of repetition."
+    },
+    {
+      "sourcePassage": "So what is cancer? Well, cancer, you have to think, is therefore a failure of this program",
+      "reason": "The rhetorical question and conversational hedge ('Well, cancer, you have to think') were omitted as conversational framing/filler."
+    },
+    {
+      "sourcePassage": "within in situ, within a, if you like, a single space",
+      "reason": "The false start 'within' before 'in situ' and the filler 'if you like' were omitted."
+    },
+    {
+      "sourcePassage": "we've been using a lot of different tools to try and understand this biology",
+      "reason": "Converting the first-person plural active statement to passive textbook style ('many different tools have been used') preserves the original meaning."
+    },
+    {
+      "sourcePassage": "They have the nucleus on the layer towards the lumen, so they're apical basal regulation in terms of the orientation of those cells within the tissue.",
+      "reason": "The source text states 'so they're apical basal regulation', which is transcribed in an ungrammatical spoken form; the rewrite's rendering 'which reflects apical-basal regulation' faithfully conveys the lecturer's stated link."
+    },
+    {
+      "sourcePassage": "So you can see here is a normal milk duct.",
+      "reason": "The rewrite phrases this as 'It contains a normal milk duct', resolving the deictic 'here' to the tissue section being described without adding unsourced facts."
+    },
+    {
+      "sourcePassage": "They have come in",
+      "reason": "Omitted as a vague false start or repetition of the subsequent 'moved over the basement membrane and invaded'."
+    },
+    {
+      "sourcePassage": "So what has happened to lose the structure and to get this invasion?",
+      "reason": "Phrased as 'what has happened to cause the loss of structure and the invasion', which retains the exact meaning of the question."
+    },
+    {
+      "sourcePassage": "When you're looking within, for example, the intestines, you can see that this epithelial layer is very thin, only one cell thick.",
+      "reason": "The rewrite renders this as 'In the intestine, the epithelial layer is very thin, only one cell thick.' Omitting 'for example' reflects that the specific image being discussed illustrates an intestinal villus projection."
+    },
+    {
+      "sourcePassage": "And here, the basement membrane protein here is red.",
+      "reason": "The rewrite phrases this as 'The basement membrane protein is shown in red', which is an allowed stylistic phrasing to describe figure content without lecturer deictic gestures."
+    }
+  ]
+}

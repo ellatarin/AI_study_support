@@ -1,0 +1,87 @@
+{
+  "subtopicId": 7,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The text refers singular/generically to 'what this looks like for the patient', whereas the rewrite changes this to plural 'these tumours', introducing a reference to multiple specific tumours.",
+      "sourcePassage": "what this looks like for the patient",
+      "rewritePassage": "what these tumours look like for the patient"
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite converts the lecturer's pointing words ('the tumor is here. This is the outer surface of the uterus') into a spatial description ('lies next to') that the lecturer did not state.",
+      "sourcePassage": "You can see that the tumor is here. This is the outer surface of the uterus.",
+      "rewritePassage": "The tumour lies next to the outer surface of the uterus"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The term 'circumspect' was replaced with 'circumscribed' without a corresponding entry in corrections.",
+      "sourcePassage": "circumspect",
+      "rewritePassage": "circumscribed"
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The word 'therefore' introduces a causal or consequential link between the artefact-induced tissue separation and the tumour being circumscribed and separate, whereas the lecturer only made an observational remark ('So you can see again that...').",
+      "sourcePassage": "So you can see again that this is actually circumspect and very separate from the surrounding stroma and the surrounding tissue.",
+      "rewritePassage": "The tumour is therefore circumscribed and very separate from the surrounding stroma and the surrounding tissue."
+    },
+    {
+      "deficiencyType": "omission",
+      "description": "The rewrite omits the frequency qualifier 'very often' when describing the practice of sampling the adjacent lymph node during a biopsy.",
+      "sourcePassage": "very often, for example, with breast cancers, you might sample the adjacent lymph node",
+      "rewritePassage": "as for example with breast cancers, the adjacent lymph node might be sampled"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "This is a meningioma",
+      "reason": "The lecturer's deictic statement referencing the shown tumour is rendered in prose as 'A meningioma is an example:', which accurately conveys that the meningioma illustrates the described benign tumour."
+    },
+    {
+      "sourcePassage": "Movable, and literally, you can scoop it out with no damage to the surrounding tissue.",
+      "reason": "Converting the elliptical fragment and active voice to 'the tumour is movable, and it can literally be scooped out with no damage to the surrounding tissue' preserves the exact meaning."
+    },
+    {
+      "sourcePassage": "All right? So a benign tumor.",
+      "reason": "This is a rhetorical check and repetition/wrap-up marking the end of the point, which can be omitted as spoken discourse filler."
+    },
+    {
+      "sourcePassage": "This is normally a very thin muscle wall that is present in the uterus.",
+      "reason": "The phrasing 'which normally has a very thin muscle wall' conveys the same factual information as the source text."
+    },
+    {
+      "sourcePassage": "which is, as I said, not invaded into the surrounding tissue",
+      "reason": "Omitting 'as I said' drops conversational filler, and adapting the phrasing to 'which has not invaded the surrounding tissue' is an allowed grammatical correction."
+    },
+    {
+      "sourcePassage": "tumor",
+      "reason": "Changing the spelling to British English ('tumour') is explicitly allowed."
+    },
+    {
+      "sourcePassage": "and you have the tumor here, but this tumor is now growing within the wall of the uterus",
+      "reason": "The pointing gesture 'and you have the tumor here' was omitted while keeping the substantive statement that the tumour is growing within the wall of the uterus, which is an allowed change."
+    },
+    {
+      "sourcePassage": "if you like",
+      "reason": "Rephrased as 'in a sense', conveying the same meaning."
+    },
+    {
+      "sourcePassage": "taking this section here",
+      "reason": "Rendered as 'of the section' in 'In a zoomed-in view of the section', faithfully retaining the subject matter without the lecturer's deictic phrasing."
+    },
+    {
+      "sourcePassage": "Okay? So that is what invasion would look like",
+      "reason": "This is a transitional remark referencing a preceding visual or discussion rather than a description of subject matter or a specific figure."
+    },
+    {
+      "sourcePassage": "if it has invaded again into the surrounding tissues",
+      "reason": "The word 'again' here functions as a spoken discourse filler rather than a factual claim of repeat invasion."
+    },
+    {
+      "sourcePassage": "it might be difficult to necessarily find all of the possible secondary tumors",
+      "reason": "Omitting the colloquial filler 'necessarily' does not change the meaning of 'difficult to find'."
+    }
+  ]
+}

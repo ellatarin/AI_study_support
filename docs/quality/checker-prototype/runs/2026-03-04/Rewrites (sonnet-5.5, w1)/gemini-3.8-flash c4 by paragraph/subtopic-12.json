@@ -1,0 +1,85 @@
+{
+  "subtopicId": 12,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite introduces a causal link ('because') between benign tumours being extremely common and the difficulty of a benign tumour becoming malignant, which the text does not state.",
+      "sourcePassage": "So benign tumors are actually incredibly common. Right? So it actually takes a lot for a benign tumor to become malignant in terms of, as I said, the number of changes that have to happen within a tumor.",
+      "rewritePassage": "Benign tumours are extremely common, because it takes a great deal for a benign tumour to become malignant, given the number of changes that have to happen within a tumour."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite includes moles in 'all of which are overgrowths of tissues', whereas in the text the statement 'All of these are overgrowths of tissues' was made only about lipomas, fibroids, and warts before moles were separately introduced.",
+      "sourcePassage": "All of these are overgrowths of tissues. Moles, I mean, who doesn't have moles?",
+      "rewritePassage": "Examples include lipomas, fibroids, warts and moles, all of which are overgrowths of tissues."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite specifies that the numbers give a sense of 'incidence', which the text does not state.",
+      "sourcePassage": "So I've just put these numbers up just so that you can have a sense.",
+      "rewritePassage": "give a sense of incidence"
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite turns the pointing word 'this' into the description 'A further slide', which the lecturer did not state.",
+      "sourcePassage": "And then this is",
+      "rewritePassage": "A further slide shows"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So just talking about incidence, about how often various tumors arise.",
+      "reason": "The rewrite phrases this as 'Incidence describes how often various tumours arise', which accurately captures the lecturer's explanation while omitting conversational spoken phrasing."
+    },
+    {
+      "sourcePassage": "Moles, I mean, who doesn't have moles? I mean, so these are very common. Not necessarily any things to worry about in that regard.",
+      "reason": "Omission of rhetorical remarks ('I mean, who doesn't have moles?') is an allowed change as dropped filler and remarks to the audience."
+    },
+    {
+      "sourcePassage": "for example,",
+      "reason": "Used as conversational framing/filler when specifying the category of tumours under discussion; omitting it does not alter the meaning."
+    },
+    {
+      "sourcePassage": "in young adulthood, in adolescence and young adulthood",
+      "reason": "The initial 'in young adulthood' was a false start/repetition immediately expanded and corrected by the lecturer to 'in adolescence and young adulthood', so dropping the duplicate phrase is allowed."
+    },
+    {
+      "sourcePassage": "And so",
+      "reason": "Used here as a spoken transitional connective rather than an explicit causal claim between treatment difficulty and rapid progression."
+    },
+    {
+      "sourcePassage": "So these are breast carcinomas, colorectal, lung, and prostate cancer.",
+      "reason": "The rewrite uses 'These include breast carcinomas and colorectal, lung and prostate cancer', accurately reflecting the examples given."
+    },
+    {
+      "sourcePassage": "are very big in Chinese populations",
+      "reason": "The rewrite phrases this as 'are very common in Chinese populations', which expresses the same meaning in more formal prose."
+    },
+    {
+      "sourcePassage": "as I said",
+      "reason": "Omitted conversational filler / remark about what the lecturer previously stated."
+    },
+    {
+      "sourcePassage": "So I've just put these numbers up",
+      "reason": "Adapted from lecturer's presentation action to standard textbook prose ('The numbers shown')."
+    },
+    {
+      "sourcePassage": "bowel, prostate, and breast",
+      "reason": "The rewrite adds 'cancer' ('bowel, prostate and breast cancer'), which resolves the ellipsis in context without altering the meaning."
+    },
+    {
+      "sourcePassage": "Oops. Oh, God. It doesn't go backwards. Here we go.",
+      "reason": "Omitted as filler, remarks about equipment, and comments to the audience."
+    },
+    {
+      "sourcePassage": "if you like",
+      "reason": "Omitted as conversational filler."
+    },
+    {
+      "sourcePassage": "As you can see",
+      "reason": "Omitted as a remark to the audience."
+    }
+  ]
+}

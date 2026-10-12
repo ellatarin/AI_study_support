@@ -1,0 +1,75 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The text states that Professor Turner will be teaching three of the lectures, but does not state the total number of lectures. The rewrite specifies that there are six lectures in total ('three of the six').",
+      "sourcePassage": "she will also be teaching three of these lectures",
+      "rewritePassage": "three of the six"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, everyone, shall we get started? Yes. You're very welcome, all of you, to Cancer Biology.",
+      "reason": "The introductory conversational greeting and welcome to the class are remarks to the audience and statements about the course, which are allowed to be omitted or adapted into 'This course is Cancer Biology'."
+    },
+    {
+      "sourcePassage": "because it has such an impact",
+      "reason": "This second mention in 'they're all incredibly grateful for you for taking on such a difficult disease because it has such an impact' is a direct repetition of the preceding sentence and was safely omitted."
+    },
+    {
+      "sourcePassage": "So it is with great hope that these next six lectures will give you some information so that you can actually answer that question when people ask you. Right.",
+      "reason": "This is a statement about the course and its lecture structure, and rendering 'that question' as 'these questions' accurately reflects the multiple questions quoted immediately before."
+    },
+    {
+      "sourcePassage": "So I tag-teamed these lectures with Professor Turner",
+      "reason": "Phrasing this as 'The lectures are shared with Professor Turner' accurately conveys the same meaning."
+    },
+    {
+      "sourcePassage": "hopefully you should be able to grasp",
+      "reason": "Omitting conversational hedges such as 'hopefully' when addressing students about course expectations is an allowed stylistic change, not the removal of a hedge from a scientific claim."
+    },
+    {
+      "sourcePassage": "So in this room, there are natural science students, medical students, and veterinary students",
+      "reason": "Adapting the spoken address to 'The audience includes natural science students, medical students and veterinary students' accurately preserves the meaning."
+    },
+    {
+      "sourcePassage": "However, I would really emphasize that a lot of the concepts that you're going to come across over the next six lectures",
+      "reason": "The introductory framing 'However, I would really emphasize that' and the word 'next' were simplified to textbook style ('Many of the concepts met over the six lectures'), which falls under allowed stylistic adaptation and dropping course-level meta-remarks."
+    },
+    {
+      "sourcePassage": "kind of the full picture in terms of etiologies, treatments, and the patient experience, because they will inform one the other.",
+      "reason": "The filler 'kind of' was omitted and 'inform one the other' was rendered as 'each informs the others', which preserves the exact meaning."
+    },
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there. So you're going to be able to recognize that",
+      "reason": "Phrasing adapted into standard textbook style for stating learning outcomes ('The learning outcomes for this lecture are as follows. Students should be able to recognize that'), which falls under allowed course/lecture framing changes."
+    },
+    {
+      "sourcePassage": "all the different subtypes of cancers",
+      "reason": "Rendered as 'the different subtypes of cancer', which has exactly the same meaning."
+    },
+    {
+      "sourcePassage": "the big takeaway message from today is going to be",
+      "reason": "Rendered as 'The main takeaway message of the lecture is'. Changes concerning references to the lecture or course are allowed."
+    },
+    {
+      "sourcePassage": "So you're going to be comparing the differences between benign and malignant tumors",
+      "reason": "Rendered as 'This involves comparing benign and malignant tumours.', which faithfully preserves the meaning without introducing or dropping subject matter."
+    },
+    {
+      "sourcePassage": "and you're also going to get a little bit of vocabulary, some of the nomenclature, so that we all have the same language to describe the tumors that we're talking about.",
+      "reason": "Rendered as 'Some vocabulary and nomenclature is also introduced, so that there is a common language for describing the tumours under discussion.', converting audience address into formal prose while retaining the original meaning."
+    },
+    {
+      "sourcePassage": "you have to be able to see the process of what we're talking about in the histology of the tumors to look from of the progression of tumor from one stage, the precursor stages, to the malignant stages. So you're going to be able to link this visually in the practicals.",
+      "reason": "The shift from direct address ('you have to be able to see', 'you're going to be able to link') to third-person academic framing ('students must be able to see', 'This is linked visually') accurately captures the instructional statement about course expectations and practicals."
+    },
+    {
+      "sourcePassage": "And then for today, especially from a clinical point of view, we're going to explain why detection works in different subtypes of tumors.",
+      "reason": "The phrasing 'the lecture explains' appropriately adapts the lecturer's conversational statement about the lecture's agenda, and the omission of the conversational filler/emphasis 'especially' is an allowed change for lecture-level meta-talk."
+    }
+  ]
+}

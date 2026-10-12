@@ -1,0 +1,75 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite inserts 'that is', thereby asserting that acetylation or deacetylation is the state of transcription within the cell itself, whereas the source text merely places the two phrases next to each other without stating an explicit link or definition.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "to acetylation or deacetylation, that is, the state of transcription within the cell itself."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The text states that 'they' (the human viruses) can predispose to chronic inflammatory events, whereas the rewrite broadens the cause to 'infection' in general.",
+      "sourcePassage": "and they can also predispose to chronic inflammatory events",
+      "rewritePassage": "and infection can also predispose to chronic inflammatory events"
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds the causal adverb 'therefore', creating a causal link to an unstated prior event or cause, whereas the source text only uses 'So' as a conversational sentence opener.",
+      "sourcePassage": "So there's a lot of changes that occur",
+      "rewritePassage": "Many changes therefore occur"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "I'm sure you've seen a cartoon that looks like this many times.",
+      "reason": "Rendered concisely as 'the familiar cartoon', which preserves the meaning of the lecturer's remark about audience familiarity with such an illustration."
+    },
+    {
+      "sourcePassage": "starting off here",
+      "reason": "Lecturer's pointing gesture/filler dropped without adding an unsourced description."
+    },
+    {
+      "sourcePassage": "So we know that",
+      "reason": "Dropped conversational filler/introductory phrase."
+    },
+    {
+      "sourcePassage": "So I've just made this kind of a much simpler diagram, if you like.",
+      "reason": "The rewrite renders this in passive textbook voice ('A much simpler diagram can be made') with a figure marker, which is an allowed stylistic change."
+    },
+    {
+      "sourcePassage": "So, as I said, you start off with a normal cell, and a bunch of mutations happen over time, and you go from normal to malignant. And we know that there are gene changes that occur.",
+      "reason": "The phrasing 'Gene changes occur in this progression' reflects the context established by going from normal to malignant over time."
+    },
+    {
+      "sourcePassage": "So this is what genetic changes would look like",
+      "reason": "Rendered concisely as 'These are the genetic changes', which accurately preserves the meaning in context."
+    },
+    {
+      "sourcePassage": "We are also talking about epigenetic changes.",
+      "reason": "Rendered as 'Epigenetic changes are also involved', which conveys the same meaning in textbook prose without changing factual content."
+    },
+    {
+      "sourcePassage": "If you were to sequence the genome, you wouldn't see these changes. You'd have to use other techniques, other specialized techniques, to look at these changes.",
+      "reason": "Faithfully captures the condition and requirement while removing conversational repetition."
+    },
+    {
+      "sourcePassage": "Certain tumors can arise from infectious agents like viruses.",
+      "reason": "The spelling 'tumours' is accepted British English, and 'such as' is an exact stylistic equivalent of 'like'."
+    },
+    {
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer",
+      "reason": "Changing 'will precipitate' to 'precipitate' is a standard stylistic adjustment to textbook present tense."
+    },
+    {
+      "sourcePassage": "as I said",
+      "reason": "This is a repetition or remark to the audience and its omission is an allowed change."
+    },
+    {
+      "sourcePassage": "So hopefully, in order to try and address some of these questions, we will start at the beginning. [chuckles]",
+      "reason": "This is a statement about the lecture's progression accompanied by a non-verbal utterance, so rendering it as 'and in order to address some of them, the discussion starts at the beginning' is an allowed change."
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The text merely juxtaposes the mention of explanting tumours with the mention of the slice and stain. By stating that the slice 'illustrates this', the rewrite adds an unsourced link asserting that the stained slice illustrates explanting tumours.",
+      "sourcePassage": "often they will explant the tumor. Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "rewritePassage": "A slice through a tumour, with a stain to show the morphology, illustrates this [FIGURE]."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So the other thing to appreciate is that when, if you like,",
+      "reason": "Dropped as conversational filler and remarks to the audience."
+    },
+    {
+      "sourcePassage": "try to get them to grow in culture to study the properties of these individual tumor cells.",
+      "reason": "Clarifying the pronoun 'them' as 'the cells' is an allowed rewording with the same meaning based directly on the context ('individual tumor cells')."
+    },
+    {
+      "sourcePassage": "tumors",
+      "reason": "Changed to British English spelling 'tumours', which is an allowed change."
+    },
+    {
+      "sourcePassage": "And in doing that, it's actually quite difficult, as you might imagine, to get cells to grow in a dish.",
+      "reason": "Dropping conversational phrases and discourse markers such as 'And in doing that', 'actually', and 'as you might imagine' is allowed as dropping filler/remarks to the audience."
+    },
+    {
+      "sourcePassage": "Primary cells really don't grow in culture.",
+      "reason": "The word 'really' serves as conversational emphasis rather than a scientific hedge, so omitting it is an allowed stylistic change."
+    },
+    {
+      "sourcePassage": "So when HeLa cells, which were the first tumor cells to grow in culture, did that, this was very much a surprise.",
+      "reason": "The rewrite rephrases the sentence to 'HeLa cells were the first tumour cells to grow in culture, and so this was very much a surprise', preserving the meaning that their growth in culture was a surprise."
+    },
+    {
+      "sourcePassage": "Obviously, permissions were not sought from the family",
+      "reason": "Dropping 'Obviously' is allowed as removal of a conversational stance marker."
+    },
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "This is a remark to the audience/personal logistical comment by the lecturer, which is an allowed omission."
+    },
+    {
+      "sourcePassage": "what I want you to appreciate is that",
+      "reason": "This is conversational framing and a direct remark to the audience, which is an allowed omission."
+    },
+    {
+      "sourcePassage": "other things",
+      "reason": "Rendered as 'other components', which carries the same meaning in this context."
+    }
+  ]
+}

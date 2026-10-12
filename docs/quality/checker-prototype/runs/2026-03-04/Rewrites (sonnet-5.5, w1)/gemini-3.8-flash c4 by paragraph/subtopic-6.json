@@ -1,0 +1,71 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite changes 'this transcoelomic site from' to 'by a transcoelomic route', replacing the term 'site' with 'route' and clarifying an unclear phrasing.",
+      "sourcePassage": "this transcoelomic site from across a cavity",
+      "rewritePassage": "by a transcoelomic route, across a cavity"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The hedge 'I think' has been removed from the claim that ovarian cancer frequently spreads this way.",
+      "sourcePassage": "And I think one of the tumors that does this quite frequently is ovarian cancer, for example.",
+      "rewritePassage": "One tumour that does this quite frequently is ovarian cancer, for example."
+    },
+    {
+      "deficiencyType": "omission",
+      "description": "The lecturer states what the figure shows ('this tumor cell has the appearance of an adenomatous tumor or glandular tumor'), but the rewrite omits what the figure shows and instead expresses it as a generalised hypothetical possibility ('a tumour cell may have the appearance...').",
+      "sourcePassage": "this tumor cell has the appearance of an adenomatous tumor or glandular tumor.",
+      "rewritePassage": "a tumour cell may have the appearance of an adenomatous or glandular tumour"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "This is a meta-commentary / personal remark by the lecturer about their speaking habit, which is an allowed omission."
+    },
+    {
+      "sourcePassage": "obviously",
+      "reason": "Omitted conversational filler / adverb without affecting the factual claim."
+    },
+    {
+      "sourcePassage": "primary tumors",
+      "reason": "The change to 'Primary tumours' reflects British English spelling and standard capitalisation at the start of a sentence."
+    },
+    {
+      "sourcePassage": "via a number of routes",
+      "reason": "The change to 'by a number of routes' uses different words with the same meaning."
+    },
+    {
+      "sourcePassage": "across a pleural cavity, for example, across the abdomen",
+      "reason": "The restructuring to 'for example across a pleural cavity or across the abdomen' preserves the meaning of the examples provided."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here",
+      "reason": "This is a deictic pointing phrase referring to a visual display ('here') without further description; dropping it avoids an unsourced addition describing the location."
+    },
+    {
+      "sourcePassage": "often see sometimes",
+      "reason": "The lecturer uses both 'often' and 'sometimes' in a colloquial false start/hesitation; rendering this as 'can often be seen' is an acceptable representation of the meaning without altering the scientific claim."
+    },
+    {
+      "sourcePassage": "Okay. So when you're looking at some of these samples during the practicals, what you might also be able to notice is that very often the tumors, the secondary tumors, will have the features of the primary tumor.",
+      "reason": "The shift from active address to passive textbook prose ('When samples are examined during the practicals, it is often noticeable...'), dropping conversational filler ('Okay. So', 'what you might also be able to notice'), and rendering 'very often' as 'often' are allowed stylistic changes."
+    },
+    {
+      "sourcePassage": "kind of",
+      "reason": "This is conversational filler and can be dropped."
+    },
+    {
+      "sourcePassage": "Similarly, here you have a brain, and what you have here is a breast cancer that's metastasized to the brain.",
+      "reason": "The rewrite condenses 'here you have a brain, and what you have here is a breast cancer that's metastasized to the brain' to 'The other is a breast cancer that has metastasized to the brain', which fully preserves all substantive information and omits only lecturer pointing/phrasing."
+    },
+    {
+      "sourcePassage": "which will be quite difficult for the patient, if not lethal.",
+      "reason": "The change from 'will be' to 'would be' matches the hypothetical/conditional nature of 'there can be' and falls under allowed grammatical adjustments."
+    }
+  ]
+}

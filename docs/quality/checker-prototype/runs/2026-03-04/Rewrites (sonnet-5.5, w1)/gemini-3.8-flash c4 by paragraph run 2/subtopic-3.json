@@ -1,0 +1,111 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer speaks of 'adolescence and maturation', but the rewrite replaces 'adolescence' with 'differentiation'.",
+      "sourcePassage": "during adolescence and maturation",
+      "rewritePassage": "differentiation and maturation"
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite links the arrangement of the epithelial cells to their uniform appearance in shape and size with the phrase 'so that', presenting the latter as a result of the former, whereas the source text presents them as two separate observations.",
+      "sourcePassage": "You'll see that the epithelial cells here are arranged. They look fairly uniform in shape and size.",
+      "rewritePassage": "arranged so that they look fairly uniform in shape and size"
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite replaces the lecturer's deictic reference ('see here now') with a specific description ('In the image of the invasive tissue') that was not given in the spoken text.",
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes.",
+      "rewritePassage": "In the image of the invasive tissue, the cells are of different shapes and sizes."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer refers to the 'invading stroma', but the rewrite alters this to 'invaded stroma'.",
+      "sourcePassage": "into the invading stroma",
+      "rewritePassage": "into the invaded stroma"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The text states that the extracellular matrix provides 'a signaling and basis for their adherence', presenting signaling and basis as two separate things, whereas the rewrite turns 'signalling' into an adjective modifying 'basis' ('a signalling basis').",
+      "sourcePassage": "provides a signaling and basis for their adherence to this layer",
+      "rewritePassage": "provides a signalling basis for their adherence to this layer"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So what is cancer, really?",
+      "reason": "This is a rhetorical opening question that does not state any facts or subject matter, so its omission is an allowed change."
+    },
+    {
+      "sourcePassage": "Here at this stage here",
+      "reason": "This is a lecturer pointing to a slide, appropriately replaced with a [FIGURE] marker."
+    },
+    {
+      "sourcePassage": "during the time that you were born",
+      "reason": "The lecturer immediately corrects or rephrases the timeline of embryogenesis, so omitting this conversational phrasing is an allowed removal of a false start/filler."
+    },
+    {
+      "sourcePassage": "So we are composed of many organs",
+      "reason": "Replacing 'we' with 'The body' is a standard stylistic change to textbook prose with identical meaning."
+    },
+    {
+      "sourcePassage": "So if you just look here at this little section of skin",
+      "reason": "Omission of lecturer's remark directing audience attention to a slide/diagram is an allowed change."
+    },
+    {
+      "sourcePassage": "It's doing a lot of things",
+      "reason": "This is a conversational colloquial summary/filler of the preceding list of functions, preserved accurately in meaning."
+    },
+    {
+      "sourcePassage": "So you can see them all just listed here",
+      "reason": "Reference to the slide/diagram is represented by the [FIGURE] marker, which is an allowed change."
+    },
+    {
+      "sourcePassage": "understand and know",
+      "reason": "Rendered concisely as 'knows', which captures the meaning without changing scientific content."
+    },
+    {
+      "sourcePassage": "So what is cancer? Well, cancer, you have to think, is therefore a failure of this program",
+      "reason": "The rhetorical question and conversational framing ('Well, cancer, you have to think') were omitted as conversational filler, while preserving the core statement."
+    },
+    {
+      "sourcePassage": "within in situ, within a, if you like, a single space",
+      "reason": "'if you like' is filler/speech hesitation, and 'tumour in situ, within a single space' accurately renders the meaning and standard British English spelling."
+    },
+    {
+      "sourcePassage": "And because our understanding of three-dimensional growth and tissue architecture is limited, it is harder for us to kind of understand",
+      "reason": "'kind of' and 'for us' are conversational filler/hedges of speech, and the causal link is accurately preserved via 'so'."
+    },
+    {
+      "sourcePassage": "Histology being one of them, of course.",
+      "reason": "Resolving 'one of them' to 'one of these tools' is standard context resolution and maintains faithful meaning."
+    },
+    {
+      "sourcePassage": "They have the nucleus on the layer towards the lumen, so they're apical basal regulation in terms of the orientation of those cells within the tissue.",
+      "reason": "The text explicitly uses 'so' to link the nuclear location to apical-basal regulation, justifying 'which reflects apical-basal regulation'."
+    },
+    {
+      "sourcePassage": "And you'll see that the stroma is very well behaved. You have vessels here, and you have fibroblasts sitting within the stroma.",
+      "reason": "Combining these into a single sentence using 'with vessels and with fibroblasts sitting within it' is an allowed grammatical consolidation."
+    },
+    {
+      "sourcePassage": "They have come in",
+      "reason": "Omitted as a vague false start or repetition elaborating on invasion and movement across the basement membrane into the stroma."
+    },
+    {
+      "sourcePassage": "which would be here",
+      "reason": "The pointing phrase does not convey independent subject matter and was dropped in textbook prose."
+    },
+    {
+      "sourcePassage": "When you're looking within, for example, the intestines, you can see that this epithelial layer is very thin, only one cell thick.",
+      "reason": "The conversational framing and reference to the audience were removed, and 'the intestines' was rendered as singular 'the intestine', which has the same meaning."
+    },
+    {
+      "sourcePassage": "So I've actually given you three pictures of it here for you to appreciate what this structure looks like in the context of epithelial cells.",
+      "reason": "The conversational remark about providing pictures was appropriately condensed to textbook phrasing accompanied by a figure reference."
+    }
+  ]
+}

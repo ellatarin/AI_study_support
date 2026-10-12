@@ -1,0 +1,49 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The text merely places the statement about explanting tumours and the observation of a slice through a tumour next to each other. The rewrite adds the link that the slice 'illustrates this', presenting the slice as an illustration of tumour explantation.",
+      "sourcePassage": "often they will explant the tumor. Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "rewritePassage": "illustrates this"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "In the source text, 'So' links the surprise to the preceding fact that primary cells do not grow in culture ('Primary cells really don't grow in culture. So when HeLa cells... did that, this was very much a surprise'). In the rewrite, 'and so' connects the surprise directly to HeLa cells being the first tumour cells to grow in culture, changing the stated cause of the surprise.",
+      "sourcePassage": "Primary cells really don't grow in culture. So when HeLa cells, which were the first tumor cells to grow in culture, did that, this was very much a surprise.",
+      "rewritePassage": "Primary cells do not grow in culture. HeLa cells were the first tumour cells to grow in culture, and so this was very much a surprise."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "try to get them to grow in culture to study the properties of these individual tumor cells.",
+      "reason": "The rewrite changes 'them' to 'the cells', which directly reflects 'individual tumor cells' mentioned in the same sentence and preserves the exact meaning."
+    },
+    {
+      "sourcePassage": "for example,",
+      "reason": "Omitting 'for example' from 'cancer biologists will also, for example, disaggregate a tumor' does not alter the scientific meaning, as 'will also disaggregate' already presents this as an additional approach."
+    },
+    {
+      "sourcePassage": "And in doing that, it's actually quite difficult, as you might imagine, to get cells to grow in a dish.",
+      "reason": "The introductory phrase 'And in doing that' and the remark to the audience 'as you might imagine' were omitted as allowed changes."
+    },
+    {
+      "sourcePassage": "If you just take any cells out of your body and you disaggregate some of your tissue and throw it into a plastic tissue culture dish, most of those cells, in fact, all of those cells will not grow.",
+      "reason": "The rewrite changes the informal second-person phrasing ('throw it into') to formal passive voice ('the cells are placed'), which preserves the meaning."
+    },
+    {
+      "sourcePassage": "Obviously, permissions were not sought from the family and ethical practices were different at the time in that no permissions necessarily needed to be sought in terms of tissues.",
+      "reason": "'Obviously' was omitted as conversational filler, and the substantive statements about ethical practices and lack of permissions were kept intact."
+    },
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "This is a remark to the audience / procedural comment and is safely omitted."
+    },
+    {
+      "sourcePassage": "things like the stroma and other things",
+      "reason": "Rendered as 'things such as the stroma and other components', which preserves the original meaning."
+    }
+  ]
+}

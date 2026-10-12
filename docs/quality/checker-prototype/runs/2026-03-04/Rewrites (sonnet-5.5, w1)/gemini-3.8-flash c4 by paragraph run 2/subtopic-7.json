@@ -1,0 +1,71 @@
+{
+  "subtopicId": 7,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite turns the lecturer's pointing words ('the tumor is here. This is the outer surface of the uterus') into a spatial description ('The tumour lies next to the outer surface of the uterus') that the lecturer did not state.",
+      "sourcePassage": "You can see that the tumor is here. This is the outer surface of the uterus.",
+      "rewritePassage": "The tumour lies next to the outer surface of the uterus"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The term 'circumspect' has been changed to 'circumscribed' without being included in the list of term corrections.",
+      "sourcePassage": "this is actually circumspect",
+      "rewritePassage": "The tumour is therefore circumscribed"
+    },
+    {
+      "deficiencyType": "omission",
+      "description": "The rewrite omits the lecturer's qualification that adjacent lymph nodes are sampled 'very often' (for instance, in breast cancer biopsies).",
+      "sourcePassage": "very often, for example, with breast cancers, you might sample the adjacent lymph node",
+      "rewritePassage": "as for example with breast cancers, the adjacent lymph node might be sampled"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So just again, to contrast what this looks like for the patient",
+      "reason": "The change to 'To contrast what these tumours look like for the patient' is an acceptable stylistic rephrasing of the lecturer's introductory remark."
+    },
+    {
+      "sourcePassage": "you can have a benign tumor like this one, which has a capsule around it. This is a meningioma",
+      "reason": "Formulating the demonstrative statement as 'A meningioma is an example:' is an allowed stylistic transition into the textbook description of the figure."
+    },
+    {
+      "sourcePassage": "All right? So a benign tumor.",
+      "reason": "Dropped conversational check ('All right?') and summary repetition of 'a benign tumor'."
+    },
+    {
+      "sourcePassage": "So you can see again that this is actually circumspect and very separate from the surrounding stroma and the surrounding tissue.",
+      "reason": "The use of 'therefore' in the rewrite reflects 'So you can see again that' as a drawing of a conclusion from the preceding observation."
+    },
+    {
+      "sourcePassage": "This is normally a very thin muscle wall that is present in the uterus.",
+      "reason": "The phrasing 'which normally has a very thin muscle wall' conveys the same meaning as the original statement."
+    },
+    {
+      "sourcePassage": "and you have the tumor here, but this tumor is now growing within the wall of the uterus",
+      "reason": "The deictic pointing phrase 'and you have the tumor here' is streamlined into 'but the tumour is now growing within the wall of the uterus', preserving all factual content."
+    },
+    {
+      "sourcePassage": "if you like",
+      "reason": "Rendered as 'in a sense', which retains the exact meaning and hedging of the spoken phrase."
+    },
+    {
+      "sourcePassage": "So if you zoom into what this actually looks like on the slide, taking this section here",
+      "reason": "Rephrased as 'In a zoomed-in view of the section', accurately conveying the visual transition without introducing unsourced details."
+    },
+    {
+      "sourcePassage": "Okay? So that is what invasion would look like",
+      "reason": "This is a transitional remark wrapping up a preceding demonstration or slide rather than substantive lecture content."
+    },
+    {
+      "sourcePassage": "again",
+      "reason": "In 'if it has invaded again into the surrounding tissues', 'again' functions as a spoken discourse marker ('as mentioned before') rather than indicating a repeated invasion event, so its omission does not alter the factual meaning."
+    },
+    {
+      "sourcePassage": "necessarily",
+      "reason": "The text says 'it might be difficult to necessarily find', where 'necessarily' is an informal hedge; the rewrite captures this epistemic modality with 'might therefore be difficult to find'."
+    }
+  ]
+}

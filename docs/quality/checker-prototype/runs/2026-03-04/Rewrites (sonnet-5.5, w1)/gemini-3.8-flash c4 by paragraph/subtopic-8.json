@@ -1,0 +1,199 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite turns the lecturer's pointing word 'here' into the description 'In the slice', which the lecturer did not give (the lecturer refers to a 'slide', not a 'slice').",
+      "sourcePassage": "So, if you have a look here, so again, this is that cauliflower head kind of poking out here.",
+      "rewritePassage": "In the slice, the cauliflower head pokes out"
+    },
+    {
+      "deficiencyType": "omission",
+      "description": "The rewrite omits the causal link explaining that the muscularis mucosae is used as a proxy for the basement membrane because it lies directly underneath the epithelium.",
+      "sourcePassage": "So for our purposes, what we're going to use is the muscularis mucosa here as our proxy for the basement membrane, because here is your normal epithelium and the muscularis mucosa, which would be the, if you like, the thin line of musculature that occurs underneath the epithelium.",
+      "rewritePassage": "For this purpose the muscularis mucosae is used as a proxy for the basement membrane. The muscularis mucosae is the thin line of musculature that occurs underneath the epithelium."
+    },
+    {
+      "deficiencyType": "omission",
+      "description": "The rewrite omits the statement that one would be interested in determining whether there are secondary metastases across the body.",
+      "sourcePassage": "But the question is, of course, you would then be interested in figuring out whether or not there would be secondary metastases across the body.",
+      "rewritePassage": "This is considered an invasive tumour and therefore likely malignant."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The text states 'it's defined as', leaving the referent ambiguous between 'invasion' and 'malignancy'. The rewrite resolves this ambiguity by choosing 'malignancy'.",
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "rewritePassage": "and malignancy is defined as the ability to invade the surrounding tissue."
+    },
+    {
+      "deficiencyType": "omission",
+      "description": "The rewrite omits the limitation regarding 'what that looks like'.",
+      "sourcePassage": "Obviously, again, you're limited into where you're biopsying and what that looks like.",
+      "rewritePassage": "The diagnosis is limited by where the biopsy is taken."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite introduces a causal relationship ('because') between cells never metastasising and failing to survive at the secondary site, whereas the source text merely juxtaposes the two statements.",
+      "sourcePassage": "many of them never metastasize. They never survive in the secondary site.",
+      "rewritePassage": "Many never metastasise, because they never survive at the secondary site."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite interprets the pointing word 'this' as 'Invasion', which the lecturer did not state.",
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "rewritePassage": "Invasion is therefore probably an obligatory step in arriving at a malignant, metastasising tumour."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The text refers to the specific growth being discussed ('this is not necessarily an adenoma'), whereas the rewrite introduces the technical term 'lesion' and makes a general claim ('a lesion is not necessarily an adenoma').",
+      "sourcePassage": "this is not necessarily an adenoma until I understand the histology of this particular polyp",
+      "rewritePassage": "a lesion is not necessarily an adenoma until the histology of that particular polyp is understood"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer's phrase 'before we get there' is unclear (it could refer to reaching that topic in the lecture or reaching the malignant stage in the disease progression) and functions adverbially ('we need to study therefore... before we get there'). The rewrite resolves this ambiguity by specifying 'before malignancy' and attaching it as an adjectival modifier to the stages ('stages before malignancy').",
+      "sourcePassage": "So we need to study therefore what these stages look like before we get there.",
+      "rewritePassage": "The appearance of these stages before malignancy must therefore be studied."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite uses 'so that' to state a result link between cutting the section through the tumour and the stalk and head being visible, whereas the original text merely places the two statements consecutively without stating a link.",
+      "sourcePassage": "this is kind of, again, an H&E section now cut this way through the tumor. You can see the stalk here and the head of the cauliflower here.",
+      "rewritePassage": "The H&E section is cut through the tumour so that the stalk and the head of the cauliflower are visible."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite states that the submucosa 'lies beneath' the muscularis mucosae, turning the lecturer's pointing word ('here') into a spatial description that the lecturer did not give.",
+      "sourcePassage": "The submucosa is here",
+      "rewritePassage": "the submucosa lies beneath it"
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The text refers only to 'the little one', but the rewrite introduces the specific noun 'polyp', which is not mentioned in the source text.",
+      "sourcePassage": "What about the little one that was next to it?",
+      "rewritePassage": "The smaller polyp next to it"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The source phrase 'on two words' is unclear (likely a transcription error for 'untoward'), and replacing or resolving it with 'from their appearance' clarifies an unclear statement.",
+      "sourcePassage": "You wouldn't necessarily be able to say anything on two words about either of these.",
+      "rewritePassage": "Nothing could necessarily be said about either from their appearance"
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The source text presents the two statements side by side without a causal connection, whereas the rewrite links them causally using 'since'.",
+      "sourcePassage": "You wouldn't necessarily be able to say anything on two words about either of these. They both look like little cauliflowers that are sticking out into the lumen.",
+      "rewritePassage": "since both look like little cauliflowers sticking out into the lumen."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite turns the lecturer's pointing words ('over here') into an unstated spatial description ('Elsewhere in the same lesion').",
+      "sourcePassage": "over here you have the adenoma",
+      "rewritePassage": "Elsewhere in the same lesion is the adenoma"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "And we use this particular example because we have knowledge of what the precursor states would look like",
+      "reason": "The rewrite renders this as 'It is a useful example because the precursor states... are known', which conveys the same meaning as the source text."
+    },
+    {
+      "sourcePassage": "And then as you're looking along, you will see this giant cauliflower shaped structure here, which is obviously pathological.",
+      "reason": "'Alongside it is a giant cauliflower-shaped structure, which is pathological' faithfully captures the lecturer's spatial description of scanning along the colonic epithelium to the pathological structure."
+    },
+    {
+      "sourcePassage": "So obviously, let me just orient you here. You're looking at, whoops, the normal colonic epithelium",
+      "reason": "Omission of conversational fillers, false starts, and lecturer orientation remarks ('whoops', 'let me just orient you here') is permitted under allowed changes."
+    },
+    {
+      "sourcePassage": "and then your normal musculature located here",
+      "reason": "The rewrite renders this as 'the normal musculature located beneath', which is grounded in the earlier statement 'you have the muscle underneath'."
+    },
+    {
+      "sourcePassage": "you have normal and you have the muscle underneath",
+      "reason": "The rewrite specifies 'normal epithelium', which is justified by the subsequent sentence mentioning 'the normal epithelium here in green'."
+    },
+    {
+      "sourcePassage": "and you'll be able to look at this in great detail in the practicals",
+      "reason": "This is a remark about the course or practical sessions, which is an allowed omission."
+    },
+    {
+      "sourcePassage": "and it's important for you to look at this within the practicals as well",
+      "reason": "This is an instruction to the audience regarding the practical sessions, which is an allowed omission."
+    },
+    {
+      "sourcePassage": "Well, so no surprise here [chuckles].",
+      "reason": "This is conversational filler and a joke, which is allowed to be omitted."
+    },
+    {
+      "sourcePassage": "You'll also hear about looking for clear margins around any kind of biopsy, to see that you have lifted out the entire tumor.",
+      "reason": "Converting the conversational phrasing 'You'll also hear about looking for' into the passive 'Clear margins around any biopsy are sought' is an allowed change of style."
+    },
+    {
+      "sourcePassage": "So very often when tumor cells are doing this kind of shedding of tumor cells",
+      "reason": "Condensing the repetitive phrasing 'doing this kind of shedding of tumor cells' into 'Tumour cells are often shed' is an allowed removal of repetition and stylistic adjustment."
+    },
+    {
+      "sourcePassage": "So those are all very, very good questions and very, very pertinent questions",
+      "reason": "Omitting 'very, very good questions' while retaining 'very pertinent' is an allowed removal of rhetorical repetition."
+    },
+    {
+      "sourcePassage": "as I said",
+      "reason": "This is a conversational remark referring back to earlier parts of the lecture, which is allowed to be omitted."
+    },
+    {
+      "sourcePassage": "section of tissue, of bowel",
+      "reason": "The lecturer pauses and clarifies 'tissue' with 'bowel'; dropping 'tissue' is an allowed correction of a false start/speech clarification."
+    },
+    {
+      "sourcePassage": "nice normal colonic epithelium",
+      "reason": "Dropping the conversational adjective 'nice' is an allowed removal of conversational filler."
+    },
+    {
+      "sourcePassage": "labeled it here",
+      "reason": "Omitting the pointing word 'here' is an allowed change."
+    },
+    {
+      "sourcePassage": "these benign stages here",
+      "reason": "Omitting the pointing word 'here' is an allowed change."
+    },
+    {
+      "sourcePassage": "What you would think is that these muscle layers here are joined in a circle, and this polyp is kind of hanging out into the lumen of the bowel.",
+      "reason": "The introductory phrase 'What you would think is that' serves as conversational framing to guide the audience's mental picture of the anatomy, so rendering it as a direct factual description of the anatomical layout is an allowed change of style."
+    },
+    {
+      "sourcePassage": "Okay, so here you see everything that's on a stalk. You're looking again at the normal epithelium, and you're looking at the basement membrane here to understand whether or not any invasion has occurred.",
+      "reason": "This is a conversational repetition of the earlier statements about the stalk, the normal epithelium, and checking the basement membrane for invasion, which the rewrite already included."
+    },
+    {
+      "sourcePassage": "Okay? So this is kind of what that looks like.",
+      "reason": "This is a conversational closing remark referencing the slide, which can be omitted as spoken filler."
+    },
+    {
+      "sourcePassage": "And so, very close up here is the intact muscularis mucosa.",
+      "reason": "Dropping the pointing word 'here' to state 'Close up, the muscularis mucosae is intact' is an allowed removal of spoken deictic reference."
+    },
+    {
+      "sourcePassage": "Here's your muscularis mucosa.",
+      "reason": "The change to 'muscularis mucosae' reflects the provided term correction, and replacing the lecturer's pointing statement with 'this one shows normal epithelium and the muscularis mucosae' accurately conveys what is visible in the histological section."
+    },
+    {
+      "sourcePassage": "So now you would consider this an invasive phenotype or phenotype, I think invasive tissue, invasion into the tissue.",
+      "reason": "The speaker hesitates and self-corrects their phrasing; condensing this into 'This is an invasive phenotype, that is, invasion into the tissue' preserves the intended meaning while omitting conversational hesitation."
+    },
+    {
+      "sourcePassage": "muscularis mucosa",
+      "reason": "The rewrite uses 'muscularis mucosae', which is the accepted term correction."
+    },
+    {
+      "sourcePassage": "which you've again diagnosed by looking at the invasion here into the musculature and here past the muscularis mucosa",
+      "reason": "Omitting 'again' and the pointing words 'here' is allowed as dropping conversational remarks to the audience and demonstrative references."
+    },
+    {
+      "sourcePassage": "Hopefully, that's clear in terms of what we're looking for when we do these kinds of diagnostic processes.",
+      "reason": "The shift from 'Hopefully, that's clear in terms of what we're looking for' to 'This is what is looked for' removes conversational framing while preserving the subject matter."
+    }
+  ]
+}

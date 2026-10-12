@@ -1,0 +1,63 @@
+{
+  "subtopicId": 14,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The lecturer refers to 'this' ('what does this look like in the clinic? ... I call this the four horsemen'), which the rewrite interprets and expands into 'the presentation of cancer', introducing a specific description and the term 'cancer' not found in the source text (which only mentions tumours).",
+      "sourcePassage": "Okay, so what does this look like in the clinic? [chuckles] I call this the four horsemen.",
+      "rewritePassage": "the presentation of cancer can be summarised as the \"four horsemen\""
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "These are kind of vague and general things, general signs,",
+      "reason": "Condensing the conversational repetition and filler ('kind of', 'things') into 'vague, general signs' preserves the exact meaning without omitting any information."
+    },
+    {
+      "sourcePassage": "But very much, tumors can be indirect if they're occurring in non-screenable or non-palpable areas.",
+      "reason": "Dropping the conversational intensifier 'very much' and phrasing the sentence as 'Tumours can also present indirectly' is an allowed change of style."
+    },
+    {
+      "sourcePassage": "it's actually quite hard",
+      "reason": "Dropping the conversational filler 'actually' is an allowed change."
+    },
+    {
+      "sourcePassage": "tumors",
+      "reason": "'tumours' is the British English spelling."
+    },
+    {
+      "sourcePassage": "three or four or five visits",
+      "reason": "'three, four or five visits' expresses the exact same meaning using standard punctuation for a list."
+    },
+    {
+      "sourcePassage": "to be able to diagnose earlier and quicker",
+      "reason": "'to diagnose earlier and more quickly' conveys the same meaning with standard British English adverbial usage and stylistic concision."
+    },
+    {
+      "sourcePassage": "So in thinking about this, we try to jump the gun and try to screen for different cancers before we get to a malignant state",
+      "reason": "The transition 'For this reason, the approach is to...' accurately reflects the lecturer's 'So in thinking about this, we try to...' in formal register without altering the meaning."
+    },
+    {
+      "sourcePassage": "So screening is very much the approach.",
+      "reason": "'Screening is therefore very much the approach' faithfully conveys the concluding remark of the lecturer."
+    },
+    {
+      "sourcePassage": "how you might roll this out across a population",
+      "reason": "Rendering 'how you might roll this out' as 'how screening might be rolled out' simply clarifies the pronoun 'this' from the immediate preceding context."
+    },
+    {
+      "sourcePassage": "and you want to find it at an earlier state, a state at which it can be treatable, right, before it becomes malignant, before it becomes something that's very, very hard to treat",
+      "reason": "The rewrite condenses repetitions ('before it becomes malignant and very hard to treat', 'one at which it can be treated') without altering facts or meaning."
+    },
+    {
+      "sourcePassage": "and there's diminishing returns on said treatment",
+      "reason": "Rendering 'and there's diminishing returns on said treatment' as 'when there are diminishing returns on treatment' faithfully reflects the context established by 'said treatment'."
+    },
+    {
+      "sourcePassage": "And we also have to be able to do something that is useful for that patient.",
+      "reason": "The rewrite translates 'we also have to be able to do' into impersonal textbook prose ('It is also necessary to do') without changing the meaning."
+    }
+  ]
+}

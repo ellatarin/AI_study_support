@@ -1,0 +1,93 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer hedges with both 'very likely' and 'probably' (or starts saying 'very likely to' and corrects to 'probably'), but the rewrite removes 'probably' and states only that it is 'very likely', removing a hedge.",
+      "sourcePassage": "very likely to probably already be malignant",
+      "rewritePassage": "very likely to be malignant already"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The source phrasing 'or there's some reason if you're showing symptoms' is unclear and incomplete. The rewrite makes it clear by interpreting symptoms as an example ('such as') of 'some other reason', thereby selecting one reading over other possible interpretations.",
+      "sourcePassage": "or there's some reason if you're showing symptoms",
+      "rewritePassage": "or some other reason, such as the patient showing symptoms"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The source sentence is syntactically incomplete/broken ('many of the people that do go for screening and then for further treatment, it has a very, very high false positive rate', where 'it' refers to breast screening). The rewrite completes this unclear statement by asserting that the people who go for screening and further treatment 'are affected by a very high false positive rate', choosing a specific resolution for an incomplete statement and obscuring that the false positive rate is an attribute of the screening test.",
+      "sourcePassage": "because many of the people that do go for screening and then for further treatment, it has a very, very high false positive rate.",
+      "rewritePassage": "because many of the people who go for screening and then for further treatment are affected by a very high false positive rate."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The text states a causal/consequential link ('so a very, very high cost'), indicating that unnecessary treatment results in a very high cost. The rewrite changes this to an equative link ('which is a very high cost'), equating the treatment itself with the cost.",
+      "sourcePassage": "so a very, very high cost.",
+      "rewritePassage": "which is a very high cost."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "The lecturer refers to pre-cancerous states shown earlier in the lecture. Recasting this audience reference into textbook prose as 'The different pre-cancerous states are present' conveys the same subject matter without introducing an unsourced fact."
+    },
+    {
+      "sourcePassage": "As I said",
+      "reason": "The rewrite renders this spoken reference as 'As stated previously', which is an allowed stylistic adjustment."
+    },
+    {
+      "sourcePassage": "So screening in the colon is a bit trickier.",
+      "reason": "Changing 'a bit trickier' to 'more difficult' uses different words with the same meaning."
+    },
+    {
+      "sourcePassage": "So it is not without its risks.",
+      "reason": "'It is therefore not without its risks' maintains the exact causal link expressed by 'So'."
+    },
+    {
+      "sourcePassage": "ulcerated cauliflower structure, if you like",
+      "reason": "Rewriting this as 'ulcerated cauliflower-like structure' accurately captures the meaning while dropping the conversational filler 'if you like'."
+    },
+    {
+      "sourcePassage": "So already potentially shedding cells for invading into other parts of the body.",
+      "reason": "Using 'It is therefore' captures the causal connective 'So', and 'cells that invade' conveys 'cells for invading' without substantive distortion."
+    },
+    {
+      "sourcePassage": "tumor",
+      "reason": "The spelling 'tumour' is standard British English and an allowed change."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "'as I said' is a reference to earlier lecture content, rephrased as 'Of the screening methods discussed', and 'the cervix is best' accurately corresponds in context to 'cervical screening is the best'."
+    },
+    {
+      "sourcePassage": "Colorectal screening, we're using these FIT tests.",
+      "reason": "Converted from active to passive voice ('FIT tests are used') without changing the meaning."
+    },
+    {
+      "sourcePassage": "And perhaps you might do that if there's some kind of family history",
+      "reason": "Shifting from informal second person ('perhaps you might do that') to passive ('and it might be used') retains the meaning and hedge."
+    },
+    {
+      "sourcePassage": "Breast screening is done, although it's probably over-testing as a population",
+      "reason": "Faithfully rewritten with standard grammar and an expanded contraction ('it's' to 'it is')."
+    },
+    {
+      "sourcePassage": "very, very high",
+      "reason": "The reduction of the repeated intensifier 'very, very' to 'very' is an allowed removal of rhetorical repetition."
+    },
+    {
+      "sourcePassage": "So about a third of those cases are unnecessary treatment",
+      "reason": "Faithfully represented as 'About a third of those cases involve unnecessary treatment'."
+    },
+    {
+      "sourcePassage": "very, very good test",
+      "reason": "The reduction of the repeated intensifier 'very, very' to 'very' is an allowed removal of repetition/filler."
+    },
+    {
+      "sourcePassage": "tumors are very, very slow-growing",
+      "reason": "The reduction of 'very, very' to 'very' is an allowed removal of repetition, and the change from 'tumors' to 'tumours' is an allowed British English spelling change."
+    }
+  ]
+}

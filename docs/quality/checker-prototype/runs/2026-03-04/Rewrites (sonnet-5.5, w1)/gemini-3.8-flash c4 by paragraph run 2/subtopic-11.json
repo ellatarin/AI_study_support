@@ -1,0 +1,77 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite introduces the introductory statement that other effects depend on the site, which is not stated in the source text.",
+      "sourcePassage": null,
+      "rewritePassage": "Other effects depend on the site."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer specifically states that tumours lead to 'erosion of that bone function', which the rewrite changes to 'erosion of the bone'.",
+      "sourcePassage": "erosion of that bone function",
+      "rewritePassage": "erosion of the bone"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The text contains an incomplete or unclear statement ('the hematopoietic stem cells that are there, these will interfere'), which the rewrite resolves by specifying that the tumour interferes with the haematopoietic stem cells ('will interfere with them').",
+      "sourcePassage": "the hematopoietic stem cells that are there, these will interfere.",
+      "rewritePassage": "where the haematopoietic stem cells are located, will interfere with them."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds a causal link ('therefore') between the niche being small and the interference with the bone marrow, whereas the text merely places the two statements next to each other without an explicit causal connection.",
+      "sourcePassage": "This niche is not very big. This will interfere with your bone marrow",
+      "rewritePassage": "This niche is not very big. The tumour will therefore interfere with the bone marrow"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Well, as I was hinting at, it interferes with normal functions.",
+      "reason": "The reference to previously hinting at the point was omitted as conversational lecture framing."
+    },
+    {
+      "sourcePassage": "things like a meningioma will cause pressure. Things like a lung carcinoma will cause blockage.",
+      "reason": "The contrastive conjunction 'whereas' accurately reflects the two contrasting examples given by the lecturer."
+    },
+    {
+      "sourcePassage": "you saw that enormous cauliflower structure within the colon",
+      "reason": "Changing the lecturer's direct reference to what the audience saw into 'seen within the colon' removes conversational audience address while keeping the factual description of the lesion."
+    },
+    {
+      "sourcePassage": "cauliflower structure",
+      "reason": "Changing 'cauliflower structure' to 'cauliflower-like structure' uses different words with the exact same meaning."
+    },
+    {
+      "sourcePassage": "competition with the normal",
+      "reason": "The rewrite renders this as 'Competition with normal tissue', interpreting 'the normal' as normal tissue, which is standard phrasing in this context."
+    },
+    {
+      "sourcePassage": "things like infection and anemia as well",
+      "reason": "The rewrite omits 'things like' and states 'results in infection and anaemia as well', treating 'things like' as conversational phrasing rather than a distinct omission of other unmentioned conditions."
+    },
+    {
+      "sourcePassage": "So you can see that there are lots of different ways in which the cancer can lead to illness and disease in people.",
+      "reason": "The rewrite translates 'So you can see that...' into 'Cancer can therefore lead...', where 'therefore' faithfully reflects the lecturer's 'So'."
+    },
+    {
+      "sourcePassage": "that I was telling you about",
+      "reason": "This is a reference to earlier remarks in the lecture and is an allowed omission."
+    },
+    {
+      "sourcePassage": "As I said",
+      "reason": "This is a conversational filler referring to earlier parts of the lecture, so dropping it is allowed."
+    },
+    {
+      "sourcePassage": "So it's not very good.",
+      "reason": "This is an informal conversational aside/filler, which is an allowed omission."
+    },
+    {
+      "sourcePassage": "you'll succumb",
+      "reason": "Replacing the colloquial generic second-person pronoun 'you' with 'the patient' is an acceptable stylistic adjustment."
+    }
+  ]
+}

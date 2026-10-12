@@ -1,0 +1,51 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The source text places the statement about explanting tumours and the statement about the slice through a tumour side by side without linking them. The rewrite introduces an unsourced link by asserting that the slice 'illustrates this'.",
+      "sourcePassage": "often they will explant the tumor. Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "rewritePassage": "illustrates this [FIGURE]"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So the other thing to appreciate is that when, if you like,",
+      "reason": "Dropped conversational filler and address to the audience, which is an allowed change."
+    },
+    {
+      "sourcePassage": "disaggregate a tumor like this and try to get them to grow in culture to study the properties of these individual tumor cells.",
+      "reason": "Replacing the pronoun 'them' with 'the cells' accurately reflects the immediate context ('these individual tumor cells') and does not add unsourced information."
+    },
+    {
+      "sourcePassage": "And in doing that, it's actually quite difficult, as you might imagine, to get cells to grow in a dish.",
+      "reason": "The introductory conversational phrases 'And in doing that' and 'as you might imagine' were omitted as filler/remarks to the audience without loss of subject matter."
+    },
+    {
+      "sourcePassage": "Primary cells really don't grow in culture.",
+      "reason": "The word 'really' functions as conversational emphasis rather than a scientific hedge, so rendering the statement as 'Primary cells do not grow in culture' is an allowed change."
+    },
+    {
+      "sourcePassage": "So when HeLa cells, which were the first tumor cells to grow in culture, did that, this was very much a surprise.",
+      "reason": "The rewrite rephrases the sentence structure ('HeLa cells were the first tumour cells to grow in culture, and so this was very much a surprise') while accurately conveying the same facts and causal meaning."
+    },
+    {
+      "sourcePassage": "Obviously, permissions were not sought from the family",
+      "reason": "Omitting 'Obviously' is an allowed removal of conversational filler."
+    },
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "This is a remark to the audience regarding lecture management, which is an allowed omission."
+    },
+    {
+      "sourcePassage": "what I want you to appreciate is that",
+      "reason": "Dropped rhetorical framing/meta-talk addressed to the audience, which is an allowed change."
+    },
+    {
+      "sourcePassage": "and other things",
+      "reason": "Rendered as 'and other components', which conveys the same meaning in context."
+    }
+  ]
+}

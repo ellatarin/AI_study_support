@@ -1,0 +1,77 @@
+{
+  "subtopicId": 12,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite introduces a causal relationship ('because') between benign tumours being common and the difficulty of a benign tumour becoming malignant, which is not stated in the source text.",
+      "sourcePassage": "So benign tumors are actually incredibly common. Right? So it actually takes a lot for a benign tumor to become malignant in terms of, as I said, the number of changes that have to happen within a tumor.",
+      "rewritePassage": "Benign tumours are extremely common, because it takes a great deal for a benign tumour to become malignant, given the number of changes that have to happen within a tumour."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite states that the numbers give a sense 'of incidence', but the text only says they give 'a sense' without specifying incidence.",
+      "sourcePassage": "So I've just put these numbers up just so that you can have a sense.",
+      "rewritePassage": "The numbers shown give a sense of incidence"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So just talking about incidence, about how often various tumors arise.",
+      "reason": "Converting the lecturer's conversational framing into 'Incidence describes how often various tumours arise' is an acceptable phrasing change."
+    },
+    {
+      "sourcePassage": "Moles, I mean, who doesn't have moles?",
+      "reason": "The rhetorical question to the audience was omitted as allowed dropped conversational filler while keeping 'moles' in the list."
+    },
+    {
+      "sourcePassage": "There are fibroids that we were talking about",
+      "reason": "The reference to an earlier lecture discussion ('that we were talking about') was dropped as a statement about the course or lecture."
+    },
+    {
+      "sourcePassage": "for example,",
+      "reason": "Omitted as a conversational discourse marker/filler, as mesenchymal lineage tumours are the specific subject being described as rare rather than an example illustrating that all malignant tumours are rare."
+    },
+    {
+      "sourcePassage": "in young adulthood, in adolescence and young adulthood",
+      "reason": "The initial mention of 'in young adulthood' was a false start or repetition that was refined by the speaker to 'in adolescence and young adulthood'; collapsing this is an allowed change."
+    },
+    {
+      "sourcePassage": "And so",
+      "reason": "Treated as a conversational transition/filler rather than a causal link establishing that difficulty in treatment causes rapid progression."
+    },
+    {
+      "sourcePassage": "tumors",
+      "reason": "Spelling adapted to British English ('tumours')."
+    },
+    {
+      "sourcePassage": "So these are breast carcinomas, colorectal, lung, and prostate cancer.",
+      "reason": "Rendering 'these are' as 'These include' faithfully reflects the context, as the lecturer immediately goes on to list other examples such as ovarian and cervix cancer."
+    },
+    {
+      "sourcePassage": "So liver cancer and nasopharyngeal carcinomas are very big in Chinese populations.",
+      "reason": "'Very common' has the same meaning as the colloquial 'very big' in the context of disease prevalence."
+    },
+    {
+      "sourcePassage": "as I said",
+      "reason": "This is a conversational remark referring to an earlier point in the lecture, so its omission is allowed."
+    },
+    {
+      "sourcePassage": "these are in the thousands of people that are affected.",
+      "reason": "Phrased as 'affecting people in the thousands' in the rewrite, which retains the same meaning."
+    },
+    {
+      "sourcePassage": "So, and just a-- Oops. Oh, God. It doesn't go backwards. Here we go.",
+      "reason": "Omitted lecturer's spoken filler and technical trouble with slides, which are allowed omissions."
+    },
+    {
+      "sourcePassage": "bowel, prostate, and breast",
+      "reason": "The rewrite specifies 'bowel, prostate and breast cancer', resolving the obvious ellipsis from the context of tumours without adding unsourced facts."
+    },
+    {
+      "sourcePassage": "tumors",
+      "reason": "Changed to the British English spelling 'tumours', which is an allowed change."
+    }
+  ]
+}

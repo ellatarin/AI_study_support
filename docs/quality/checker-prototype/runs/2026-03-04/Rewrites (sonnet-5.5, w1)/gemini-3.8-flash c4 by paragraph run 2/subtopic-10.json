@@ -1,0 +1,52 @@
+{
+  "subtopicId": 10,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So just so that we're all on the same page in terms of nomenclature",
+      "reason": "This is a conversational remark setting up the topic, which can be omitted as a meta-discursive comment."
+    },
+    {
+      "sourcePassage": "So the fat, smooth muscle or papillomas in the skin, and adenomas, as we were talking about in the colon.",
+      "reason": "The source lists the examples (lipoma, leiomyoma, papilloma, adenoma) and then their corresponding tissues (fat, smooth muscle, skin, colon); the rewrite pairs them explicitly for clarity without adding unsourced facts."
+    },
+    {
+      "sourcePassage": "plus oma",
+      "reason": "Referring to 'oma' as 'the suffix -oma' is a standard description of the morpheme that does not alter the meaning."
+    },
+    {
+      "sourcePassage": "So malignant tumors, on the other hand, of the epithelium, and the mesenchyme have things like carcinoma and sarcoma attached to them as suffixes.",
+      "reason": "The discourse marker 'on the other hand' and conversational filler 'things like' are omitted, which is an allowed change."
+    },
+    {
+      "sourcePassage": "So by the time you have these suffixes, this would be a malignant disease.",
+      "reason": "Rewording the colloquial 'by the time you have' to 'once these suffixes are present' faithfully preserves the meaning."
+    },
+    {
+      "sourcePassage": "of course",
+      "reason": "Dropped conversational filler."
+    },
+    {
+      "sourcePassage": "which would be solid within the lymph nodes, within those structures.",
+      "reason": "Rendered as 'which are solid and occur within the lymph nodes and those structures.', which accurately conveys the meaning without altering the scientific claim."
+    },
+    {
+      "sourcePassage": "Neuroectodermal tumors are the ones that kind of deviate from the nomenclature system.",
+      "reason": "The omission of 'kind of' is the removal of conversational filler rather than a substantive hedge on a scientific claim."
+    },
+    {
+      "sourcePassage": "These are all, even though they have oma in them, these are all malignant tumors, and things like retinoblastoma.",
+      "reason": "The rewrite groups retinoblastoma together with glioma, glioblastoma, and neuroblastoma as examples of tumours with the '-oma' suffix that are malignant, accurately reflecting the lecturer's intended grouping."
+    },
+    {
+      "sourcePassage": "So these are these different tumor types",
+      "reason": "This is a transitional remark concluding the preceding topic/slide, which is an allowed omission."
+    },
+    {
+      "sourcePassage": "Melanoma is never used for moles",
+      "reason": "Phrasing this as 'The term melanoma is never used for moles' makes the metalinguistic usage explicit without altering the meaning."
+    }
+  ]
+}

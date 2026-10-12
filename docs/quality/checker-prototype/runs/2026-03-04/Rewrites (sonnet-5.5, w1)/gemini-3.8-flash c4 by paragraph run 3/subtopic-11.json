@@ -1,0 +1,77 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds a general claim that other effects depend on the anatomical site, which is not stated in the lecture text.",
+      "sourcePassage": null,
+      "rewritePassage": "Other effects depend on the site."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The text states that tumours lead to erosion of 'bone function', but the rewrite alters this to erosion of the 'bone'.",
+      "sourcePassage": "tumors in bones lead to erosion of that bone function, so you can get fractures",
+      "rewritePassage": "Tumours in bones lead to erosion of the bone, so that fractures can occur"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The source sentence is grammatically incomplete and unclear about what interferes with what ('the hematopoietic stem cells that are there, these will interfere'). The rewrite resolves this by making the tumour the subject and haematopoietic stem cells the object ('will interfere with them').",
+      "sourcePassage": "if you have a tumor that is occurring in some of the blood compartments, the hematopoietic stem cells that are there, these will interfere.",
+      "rewritePassage": "A tumour occurring in the blood compartments, where the haematopoietic stem cells are located, will interfere with them."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite inserts 'therefore', asserting a causal link between the niche being small and the interference with the bone marrow, whereas the source text merely juxtaposes the two statements.",
+      "sourcePassage": "This niche is not very big. This will interfere with your bone marrow,",
+      "rewritePassage": "This niche is not very big. The tumour will therefore interfere with the bone marrow,"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Why would a little lump cause a problem for a person, for a patient?",
+      "reason": "The omission of 'for a person' reflects dropping a false start/self-correction in favour of 'for a patient'."
+    },
+    {
+      "sourcePassage": "Well, as I was hinting at",
+      "reason": "Omitted as conversational filler and a remark about the lecture."
+    },
+    {
+      "sourcePassage": "Things like a meningioma will cause pressure. Things like a lung carcinoma will cause blockage.",
+      "reason": "Connecting the two complementary examples with 'whereas' accurately preserves the contrast without introducing new facts or unsourced links."
+    },
+    {
+      "sourcePassage": "you saw that enormous cauliflower structure within the colon",
+      "reason": "The reference to what the audience saw is adapted into descriptive prose ('seen within the colon'), and 'cauliflower structure' to 'cauliflower-like structure' preserves the intended descriptive meaning."
+    },
+    {
+      "sourcePassage": "And also this competition with the normal,",
+      "reason": "The rewrite renders this fragment as 'Competition with normal tissue is also a factor.', supplying 'tissue' to complete the substantivised adjective 'the normal' and framing the topic as a complete sentence, which represents an allowed stylistic completion rather than an independent factual addition."
+    },
+    {
+      "sourcePassage": "So you can see that there are lots of different ways in which the cancer can lead to illness and disease in people.",
+      "reason": "'therefore' in 'Cancer can therefore lead to illness and disease in many different ways' directly translates the lecturer's 'So you can see that'."
+    },
+    {
+      "sourcePassage": "that I was telling you about",
+      "reason": "This is a remark to the audience referencing earlier lecture content and was appropriately omitted."
+    },
+    {
+      "sourcePassage": "As I said",
+      "reason": "This is a conversational filler referring to earlier lecture statements and was legitimately omitted."
+    },
+    {
+      "sourcePassage": "So it's not very good.",
+      "reason": "This is an informal conversational understatement/remark without distinct scientific subject matter and was legitimately omitted."
+    },
+    {
+      "sourcePassage": "you'll succumb",
+      "reason": "Changing the conversational generic second-person pronoun 'you' to 'the patient' is an acceptable stylistic adjustment for textbook prose."
+    },
+    {
+      "sourcePassage": "if they're occurring in things like the meningioma that I was telling you about or in the liver",
+      "reason": "The phrasing 'for example when the tumour occurs in a meningioma or in the liver' faithfully reflects the lecturer's spoken expression without introducing new factual claims."
+    }
+  ]
+}

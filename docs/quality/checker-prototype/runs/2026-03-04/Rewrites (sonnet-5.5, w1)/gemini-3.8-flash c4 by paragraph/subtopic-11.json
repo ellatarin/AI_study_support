@@ -1,0 +1,81 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds a claim that other effects depend on the anatomical site, which is not stated anywhere in the source text.",
+      "sourcePassage": null,
+      "rewritePassage": "Other effects depend on the site."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The source text speaks of 'erosion of that bone function', whereas the rewrite changes this to 'erosion of the bone'.",
+      "sourcePassage": "erosion of that bone function",
+      "rewritePassage": "erosion of the bone"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The text contains an incomplete and unclear statement ('the hematopoietic stem cells that are there, these will interfere'), which the rewrite makes complete by turning the haematopoietic stem cells into the object of interference ('will interfere with them').",
+      "sourcePassage": "the hematopoietic stem cells that are there, these will interfere.",
+      "rewritePassage": "where the haematopoietic stem cells are located, will interfere with them."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds the causal word 'therefore' to link the niche being small to the tumour interfering with the bone marrow, whereas the text merely places these two sentences next to each other.",
+      "sourcePassage": "This niche is not very big. This will interfere with your bone marrow",
+      "rewritePassage": "This niche is not very big. The tumour will therefore interfere with the bone marrow"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "for a person, for a patient",
+      "reason": "The omission of 'for a person' is an allowed removal of a conversational self-correction or repetition."
+    },
+    {
+      "sourcePassage": "Well, as I was hinting at",
+      "reason": "Omitted as dropped conversational filler and a remark referencing earlier lecture content."
+    },
+    {
+      "sourcePassage": "Things like a meningioma will cause pressure. Things like a lung carcinoma will cause blockage.",
+      "reason": "The use of 'whereas' to contrast these two examples faithfully conveys the speaker's parallel comparison."
+    },
+    {
+      "sourcePassage": "you saw that enormous cauliflower structure within the colon",
+      "reason": "The phrase 'you saw' is a conversational reference to a shown slide, and changing 'cauliflower structure' to 'cauliflower-like structure seen within the colon' preserves the subject matter in textbook style."
+    },
+    {
+      "sourcePassage": "tumors",
+      "reason": "Changed to the British English spelling 'Tumours'."
+    },
+    {
+      "sourcePassage": "anemia",
+      "reason": "Changed to the British English spelling 'anaemia'."
+    },
+    {
+      "sourcePassage": "And also this competition with the normal,",
+      "reason": "'Competition with normal tissue is also a factor' provides a grammatically complete sentence in textbook style for the spoken fragment, without changing the meaning."
+    },
+    {
+      "sourcePassage": "So you can see that there are lots of different ways in which the cancer can lead to illness and disease in people.",
+      "reason": "The use of 'therefore' in 'Cancer can therefore lead to illness and disease in many different ways' directly translates the spoken connector 'So'."
+    },
+    {
+      "sourcePassage": "Right.",
+      "reason": "Dropped filler at the start of the sentence."
+    },
+    {
+      "sourcePassage": "that I was telling you about",
+      "reason": "Dropped conversational reference to an earlier part of the lecture."
+    },
+    {
+      "sourcePassage": "As I said,",
+      "reason": "Dropped conversational lecture reference."
+    },
+    {
+      "sourcePassage": "So it's not very good.",
+      "reason": "Dropped conversational concluding remark/informal commentary."
+    }
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The text refers to a 'transcoelomic site', but the rewrite clarifies this garbled or unclear phrase by changing 'site' to 'route'.",
+      "sourcePassage": "also this transcoelomic site from across a cavity",
+      "rewritePassage": "by a transcoelomic route, across a cavity"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The hedge 'I think' was removed from the scientific claim regarding ovarian cancer.",
+      "sourcePassage": "And I think one of the tumors that does this quite frequently is ovarian cancer, for example.",
+      "rewritePassage": "One tumour that does this quite frequently is ovarian cancer, for example."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "This is a remark to the audience / self-reminder by the lecturer containing no scientific subject matter, so omitting it is an allowed change."
+    },
+    {
+      "sourcePassage": "obviously",
+      "reason": "Omitted conversational fillers ('obviously') do not alter the factual claims or scientific meaning."
+    },
+    {
+      "sourcePassage": "across a pleural cavity, for example, across the abdomen",
+      "reason": "Adding the conjunction 'or' ('across a pleural cavity or across the abdomen') is an allowed grammatical adjustment to connect the examples."
+    },
+    {
+      "sourcePassage": "tumors",
+      "reason": "The spelling 'tumours' is an allowed change to British English spelling."
+    },
+    {
+      "sourcePassage": "via a number of routes",
+      "reason": "Changing 'via' to 'by' is an allowed change using different words with the same meaning."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here, and then you can often see sometimes",
+      "reason": "The clause 'You see your tumor cells are here' is a conversational deictic remark pointing at a slide, and 'often see sometimes' is a spoken false start/hesitation that the rewrite reasonably renders as 'can often be seen'."
+    },
+    {
+      "sourcePassage": "So obviously now the diagnosis would be that this is a metastatic tumor as it has access to the lymphatics and could potentially spread around the body.",
+      "reason": "Dropping conversational filler such as 'So obviously now' is an allowed change."
+    },
+    {
+      "sourcePassage": "Okay. So",
+      "reason": "Dropped conversational filler at the beginning of the sentence."
+    },
+    {
+      "sourcePassage": "some of these samples",
+      "reason": "Converted from a spoken deictic reference to practical slide samples into standard passive textbook phrasing ('When samples are examined during the practicals')."
+    },
+    {
+      "sourcePassage": "this tumor cell has the appearance of an adenomatous tumor or glandular tumor.",
+      "reason": "The deictic reference to a slide in the lecture ('this tumor cell has') is adapted into standard textbook style with an accompanying [FIGURE] marker, retaining the subject matter without distortion."
+    },
+    {
+      "sourcePassage": "adenomatous tumor or glandular tumor",
+      "reason": "'Adenomatous' means relating to an adenoma (a glandular tumour), so phrasing this as 'adenomatous or glandular tumour' preserves the exact meaning without repetition."
+    },
+    {
+      "sourcePassage": "kind of where it might be coming from.",
+      "reason": "The informal spoken hedge 'kind of' is appropriately rendered as 'it can be possible to know where it might be coming from', preserving the epistemic modality."
+    },
+    {
+      "sourcePassage": "Similarly, here you have a brain, and what you have here is a breast cancer that's metastasized to the brain.",
+      "reason": "The rewrite condenses 'here you have a brain, and what you have here is a breast cancer that's metastasized to the brain' into 'The other is a breast cancer that has metastasized to the brain', preserving the essential subject matter and the organ involved."
+    },
+    {
+      "sourcePassage": "which will be quite difficult for the patient, if not lethal.",
+      "reason": "Changing 'will be' to 'would be' is a grammatical adjustment following the hypothetical framing 'there can be', and does not alter the meaning of the statement."
+    },
+    {
+      "sourcePassage": "Obviously, the liver is normally a reddish-brown color",
+      "reason": "'Obviously' is a conversational filler/remark, and omitting 'color' after 'reddish-brown' retains the exact meaning."
+    }
+  ]
+}

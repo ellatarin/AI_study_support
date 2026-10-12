@@ -1,0 +1,65 @@
+{
+  "subtopicId": 14,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite introduces 'cancer', which is not mentioned in the source passage; the lecturer only speaks generally of 'this' and later refers to 'tumours'.",
+      "sourcePassage": "what does this look like in the clinic? [chuckles] I call this the four horsemen.",
+      "rewritePassage": "the presentation of cancer can be summarised as the \"four horsemen\""
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The phrase 'For this reason' introduces a causal link that is not present in the original text, which merely framed the upcoming thought ('in thinking about this') rather than stating that 'this' is the reason for the action.",
+      "sourcePassage": "So in thinking about this",
+      "rewritePassage": "For this reason"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "You show up with something that's itchy, crusty, lumpy, or bloody.",
+      "reason": "Replacing the colloquial generic pronoun 'you' with 'a patient' is an allowed stylistic adjustment."
+    },
+    {
+      "sourcePassage": "if you're lucky",
+      "reason": "Replacing the colloquial 'if you're lucky' with 'if one is lucky' is an allowed stylistic change."
+    },
+    {
+      "sourcePassage": "These are kind of vague and general things, general signs",
+      "reason": "Dropping the conversational filler and false start ('kind of vague and general things') in favour of 'vague, general signs' is permitted."
+    },
+    {
+      "sourcePassage": "tumors can be indirect",
+      "reason": "Phrasing 'tumors can be indirect' as 'Tumours can also present indirectly' is an acceptable phrasing of the same meaning in textbook prose."
+    },
+    {
+      "sourcePassage": "tumors",
+      "reason": "Spelled as 'tumours' using standard British English, which is an allowed change."
+    },
+    {
+      "sourcePassage": "it's actually quite hard",
+      "reason": "Dropping the conversational filler 'actually' is an allowed change."
+    },
+    {
+      "sourcePassage": "to be able to diagnose earlier and quicker",
+      "reason": "Replacing colloquial 'quicker' with 'more quickly' and streamlining 'to be able to diagnose' to 'to diagnose' preserves the exact meaning and constitutes an allowed stylistic refinement."
+    },
+    {
+      "sourcePassage": "So screening is very much the approach.",
+      "reason": "'Screening is therefore very much the approach' faithfully conveys the causal meaning of the conversational 'So' in this context."
+    },
+    {
+      "sourcePassage": "how you might roll this out across a population, the cost of this is something to bear in mind.",
+      "reason": "'when considering how screening might be rolled out across a population, its cost has to be borne in mind' resolves the pronoun 'this' to 'screening' and uses passive voice while preserving the original meaning."
+    },
+    {
+      "sourcePassage": "So obviously, the idea is you want to find the cancer, and you want to find it at an earlier state, a state at which it can be treatable, right, before it becomes malignant, before it becomes something that's very, very hard to treat, and there's diminishing returns on said treatment.",
+      "reason": "The rewrite faithfully conveys the meaning of finding cancer early while it is treatable, before malignancy and diminishing returns on treatment, dropping conversational fillers ('So obviously', 'right', repetition of 'very')."
+    },
+    {
+      "sourcePassage": "And we also have to be able to do something that is useful for that patient.",
+      "reason": "The rewrite rephrases 'we also have to be able to do something' as 'It is also necessary to do something', maintaining the essential meaning without distortion."
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite states that the cervix is seen alongside the endocervical canal, introducing a spatial relationship that is not stated in the source text.",
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "rewritePassage": "and the cervix is seen alongside it"
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite replaces the pointing word 'this' with 'Screening', a description that the lecturer did not provide here.",
+      "sourcePassage": "So this, as I said, is a success story.",
+      "rewritePassage": "Screening is a success story."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite removes the hedge 'would be', presenting the claim as a definite fact with 'are'.",
+      "sourcePassage": "the women that are still dying of cervical cancer would be the ones that either are not followed up after their screen or that have declined screening altogether.",
+      "rewritePassage": "The women who are still dying of cervical cancer are those who are either not followed up after their screen or who have declined screening altogether."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Right. So what does this look like?",
+      "reason": "This is a rhetorical question and conversational transition introducing the diagram/topic, which is an allowed omission as spoken filler or a remark to the audience."
+    },
+    {
+      "sourcePassage": "and as you know",
+      "reason": "This is a direct remark to the audience and was appropriately omitted."
+    },
+    {
+      "sourcePassage": "The uterus is here in this diagram, and as you know, it hangs down into the vaginal canal.",
+      "reason": "The reference to the diagram ('is here in this diagram') is captured by 'as shown in the diagram. [FIGURE]'."
+    },
+    {
+      "sourcePassage": "absolutely ideal",
+      "reason": "'absolutely' functions as conversational emphasis/filler and rendering the phrase as 'ideal' preserves the essential meaning."
+    },
+    {
+      "sourcePassage": "that it goes between the neck of the womb",
+      "reason": "Rendered as 'runs through the neck of the womb', which conveys the same anatomical meaning in context."
+    },
+    {
+      "sourcePassage": "because this is what is so interesting to look at",
+      "reason": "Omitted as conversational filler or remark to the audience."
+    },
+    {
+      "sourcePassage": "and you'll see this in your practicals",
+      "reason": "Remark about the course retained in the rewrite."
+    },
+    {
+      "sourcePassage": "where one cell type is replaced by another. One adult differentiated cell type is replaced by the other",
+      "reason": "The lecturer immediately rephrases and refines the definition of metaplasia; merging the repetition into 'in which one adult differentiated cell type is replaced by another' is an allowed removal of repetition/refinement."
+    },
+    {
+      "sourcePassage": "Right. So, I will tell you that",
+      "reason": "Dropped conversational filler and spoken preamble, which is an allowed change."
+    },
+    {
+      "sourcePassage": "if you like,",
+      "reason": "Dropped filler phrase, which is an allowed change."
+    },
+    {
+      "sourcePassage": "precursor lesion that is here",
+      "reason": "The rewrite renders 'here' as 'at this site', which maintains the deictic reference without adding an unsourced anatomical description."
+    },
+    {
+      "sourcePassage": "So this is what we want to catch, and this is why screening is so effective.",
+      "reason": "Rendering 'this is what we want to catch' as 'This is the state that screening aims to catch' faithfully conveys the meaning in standard textbook style, since the preceding clause describes the precursor state and the sentence connects catching it directly to screening."
+    },
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here",
+      "reason": "This is the lecturer pointing out specific examples on a slide to illustrate the preceding statement that mitotic cells occur only at the basement layer, rather than a distinct scientific fact."
+    },
+    {
+      "sourcePassage": "This is what the Pap smear would do, would take cells from the neck of the cervix here, the neck of the womb.",
+      "reason": "Omitting the deictic word 'here' is permissible as it points to a slide or diagram without conveying distinct subject matter not already stated."
+    },
+    {
+      "sourcePassage": "So what you would be looking for is cells that have small nuclei, here, which would denote a normal cell, as opposed to, for example, very big nuclei. And you would be seeing which would be abnormal, and you would be seeing lots of mitotic cells. Again, this would be abnormal.",
+      "reason": "The rewrite faithfully captures that small nuclei indicate normal cells, whereas very big nuclei and lots of mitotic cells are abnormal."
+    },
+    {
+      "sourcePassage": "as I said",
+      "reason": "Allowed change: dropped remark to the audience."
+    },
+    {
+      "sourcePassage": "If you'll notice here",
+      "reason": "Allowed change: dropped remark directing the audience's attention."
+    },
+    {
+      "sourcePassage": "this is only to 2000",
+      "reason": "Allowed change: rendered concisely as the end date of the period 'From the 1950s to 2000'."
+    },
+    {
+      "sourcePassage": "So this has done very well.",
+      "reason": "Allowed change: repetition of the statement that it is a success story."
+    },
+    {
+      "sourcePassage": "if you like",
+      "reason": "Allowed change: dropped filler phrase."
+    },
+    {
+      "sourcePassage": "So very much a success story.",
+      "reason": "Allowed change: dropped repetition of the opening point."
+    }
+  ]
+}

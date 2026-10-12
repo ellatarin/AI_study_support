@@ -1,0 +1,55 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite introduces a causal connection ('since') asserting that the terminology is still heard because a surgeon can tell whether a tumour is movable, whereas the text only connects the two statements with 'where'.",
+      "sourcePassage": "And you'll hear this kind of terminology even now, where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable.",
+      "rewritePassage": "This terminology is still heard now, since a surgeon can tell just by holding or touching a tumour whether it is movable or immovable."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Okay. So with these tools in hand, I think the important concept to try and get across is invasion and metastasis.",
+      "reason": "Omitting 'with these tools in hand' and conversational framing ('I think the important concept to try and get across') is an allowed omission of lecture management and filler."
+    },
+    {
+      "sourcePassage": "back in, I don't know, when surgery was first coming into its own",
+      "reason": "Omitting 'I don't know' is an allowed removal of conversational filler."
+    },
+    {
+      "sourcePassage": "What they termed the movable tumor. And a movable tumor is exactly like what it sounds. Surgeons would find that that tumor could move within the tissue or an immovable tumor.",
+      "reason": "Reorganising the split mention of 'movable tumor' and 'or an immovable tumor' into 'These were termed the movable tumour and the immovable tumour' before defining them is an allowed change of order and style."
+    },
+    {
+      "sourcePassage": "and you could literally lift it out of that capsule",
+      "reason": "The shift from active voice ('you could literally lift it out') to passive voice ('it could literally be lifted out') is an allowed grammatical adjustment."
+    },
+    {
+      "sourcePassage": "So when it becomes immovable, these malignant cells",
+      "reason": "Replacing the anaphoric pronoun 'it' with 'a tumour' and 'these malignant cells' with 'its malignant cells' resolves the pronoun reference appropriately for textbook prose without adding unsourced facts or altering the meaning."
+    },
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals",
+      "reason": "Omitted as an allowed change because it is a remark to the audience and a statement about the course and practicals rather than subject matter."
+    },
+    {
+      "sourcePassage": "just felt",
+      "reason": "Omission of the conversational adverb 'just' is an allowed stylistic change that does not alter the meaning."
+    },
+    {
+      "sourcePassage": "So, what does that mean for the patient? Well, the invasion",
+      "reason": "The rhetorical question and conversational transition were smoothed into 'For the patient, invasion', which preserves the meaning."
+    },
+    {
+      "sourcePassage": "there will be a biopsy to look and to see",
+      "reason": "Phrased as 'a biopsy is taken to see', dropping repetitive conversational filler ('to look and') without altering the meaning."
+    },
+    {
+      "sourcePassage": "tumor",
+      "reason": "Spelled as 'tumour', which is the standard British English spelling."
+    }
+  ]
+}

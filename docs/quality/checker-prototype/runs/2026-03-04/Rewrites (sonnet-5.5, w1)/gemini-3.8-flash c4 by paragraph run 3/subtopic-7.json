@@ -1,0 +1,75 @@
+{
+  "subtopicId": 7,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer refers generally to 'what this looks like for the patient', whereas the rewrite specifies 'what these tumours look like for the patient', resolving an unclear singular reference into a plural description of tumours.",
+      "sourcePassage": "to contrast what this looks like for the patient",
+      "rewritePassage": "To contrast what these tumours look like for the patient"
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite converts the lecturer's pointing words ('here', 'This') into a spatial description ('lies next to the outer surface of the uterus') that was not stated in the text.",
+      "sourcePassage": "You can see that the tumor is here. This is the outer surface of the uterus.",
+      "rewritePassage": "The tumour lies next to the outer surface of the uterus"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite replaces 'circumspect' with 'circumscribed'. Although 'circumspect' is likely a transcription error, this change was not included in the approved corrections list.",
+      "sourcePassage": "this is actually circumspect",
+      "rewritePassage": "The tumour is therefore circumscribed"
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The word 'therefore' creates an unsourced causal or resultant link, implying that the tumour is circumscribed because fixation and dehydration separated it from the muscle, whereas the lecturer merely stated that one can see that it is circumspect.",
+      "sourcePassage": "So you can see again that this is actually circumspect and very separate from the surrounding stroma and the surrounding tissue.",
+      "rewritePassage": "The tumour is therefore circumscribed and very separate from the surrounding stroma and the surrounding tissue."
+    },
+    {
+      "deficiencyType": "omission",
+      "description": "The rewrite omits the detail that sampling the adjacent lymph node occurs 'very often'.",
+      "sourcePassage": "very often",
+      "rewritePassage": "the adjacent lymph node might be sampled"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "This is a meningioma",
+      "reason": "The lecturer presents the meningioma as an instance of a benign tumour ('a benign tumor like this one [...] This is a meningioma'), so describing it as 'an example' conveys the same meaning."
+    },
+    {
+      "sourcePassage": "Movable",
+      "reason": "Supplying 'the tumour is' to complete the adjective fragment into a full clause is an allowed grammatical change."
+    },
+    {
+      "sourcePassage": "literally, you can scoop it out with no damage to the surrounding tissue",
+      "reason": "Changing the active phrasing to the passive 'it can literally be scooped out with no damage to the surrounding tissue' is an allowed grammatical change."
+    },
+    {
+      "sourcePassage": "as I said, not invaded into the surrounding tissue",
+      "reason": "The omission of 'as I said' is an allowed removal of a conversational reference/filler without loss of subject matter ('has not invaded the surrounding tissue')."
+    },
+    {
+      "sourcePassage": "and you have the tumor here, but this tumor is now growing within the wall of the uterus, and has, if you like, invaded within this tissue.",
+      "reason": "The conversational hedge 'if you like' is accurately rendered as 'in a sense', and the deictic reference to where the tumour is on the image is appropriately expressed as the tumour growing within the wall of the uterus."
+    },
+    {
+      "sourcePassage": "So if you zoom into what this actually looks like on the slide, taking this section here",
+      "reason": "Converting the lecturer's conversational instruction to examine the slide section into 'In a zoomed-in view of the section' is an allowed stylistic change preserving the substantive meaning."
+    },
+    {
+      "sourcePassage": "Okay? So that is what invasion would look like",
+      "reason": "This is a transitional remark referencing an earlier visual demonstration rather than a substantive description of what a figure shows."
+    },
+    {
+      "sourcePassage": "again",
+      "reason": "Used here as a conversational discourse marker ('invaded, again, into the surrounding tissues') rather than indicating a second occurrence of invasion."
+    },
+    {
+      "sourcePassage": "necessarily",
+      "reason": "Part of the spoken phrasing 'difficult to necessarily find', accurately captured by 'difficult to find'."
+    }
+  ]
+}

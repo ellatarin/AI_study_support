@@ -1,0 +1,20 @@
+{
+  "subtopicId": 9,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Obviously, when there is a suspicion of cancer or of a tumor, everybody gets very nervous about what that diagnosis is going to look like.",
+      "reason": "The rewrite renders this as 'When cancer or a tumour is suspected, there is considerable anxiety about the diagnosis', which conveys the exact meaning in formal textbook prose."
+    },
+    {
+      "sourcePassage": "that I showed you",
+      "reason": "Rendered as 'as shown earlier', which accurately captures the lecturer's backward reference without introducing new information."
+    },
+    {
+      "sourcePassage": "So this meningioma obviously is occurring within the skull. The skull is a confined space. This would put an enormous amount of pressure on the brain and the surrounding structures and would cause and has caused Has caused death in this case. So things like meningiomas can cause that.",
+      "reason": "The text refers to a specific example ('this meningioma', 'in this case') while drawing the general conclusion that things like meningiomas can cause death. The rewrite condenses the false start and phrasing into 'A meningioma occurs within the skull, which is a confined space, so it puts an enormous amount of pressure on the brain and the surrounding structures, and in this case it caused death. Meningiomas can therefore have this effect', preserving the factual meaning without introducing unsourced details or distortions."
+    }
+  ]
+}

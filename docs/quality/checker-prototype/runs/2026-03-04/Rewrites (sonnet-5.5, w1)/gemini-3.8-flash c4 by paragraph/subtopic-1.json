@@ -1,0 +1,71 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite specifies that there are six lectures in total ('three of the six'), which is not stated in the text.",
+      "sourcePassage": "she will also be teaching three of these lectures.",
+      "rewritePassage": "three of the six."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, everyone, shall we get started? Yes. You're very welcome, all of you, to Cancer Biology.",
+      "reason": "The conversational opening, welcome to the audience, and course introduction are remarks to the audience and course housekeeping, which may be converted to formal textbook prose or omitted."
+    },
+    {
+      "sourcePassage": "because it has such an impact.",
+      "reason": "Omission of the repeated clause is an allowed removal of repetition, as the societal impact of cancer was already stated in the immediately preceding sentence."
+    },
+    {
+      "sourcePassage": "Right.",
+      "reason": "Dropped conversational filler at the end of the turn is an allowed change."
+    },
+    {
+      "sourcePassage": "hopefully you should be able to grasp by the end of each of the specific lectures.",
+      "reason": "The removal of 'hopefully' occurs in a remark about the lecture structure rather than a scientific claim, so it is an allowed change."
+    },
+    {
+      "sourcePassage": "hopefully, you will be interested in different things, different takeaways from these lectures.",
+      "reason": "The omission of 'hopefully' is in a general remark addressed to students rather than a scientific claim, and 'takeaways' is accurately rendered as 'take different messages'."
+    },
+    {
+      "sourcePassage": "over the next six lectures",
+      "reason": "Omitting 'next' in 'over the six lectures' is an allowed change regarding remarks about the course/lecture structure."
+    },
+    {
+      "sourcePassage": "However, I would really emphasize that a lot of the concepts that you're going to come across",
+      "reason": "Dropping the lecturer's conversational framing ('However, I would really emphasize that') is an allowed omission of filler/remarks to the audience."
+    },
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there.",
+      "reason": "This is a statement introducing the lecture learning outcomes and referring to a slide, adapted into standard textbook prose as 'The learning outcomes for this lecture are as follows'."
+    },
+    {
+      "sourcePassage": "So you're going to be able to recognize that due to an accumulation of genetic changes, cancers are arising from a failure of normal cellular differentiation.",
+      "reason": "Faithfully conveyed by 'Students should be able to recognize that, owing to an accumulation of genetic changes, cancers arise from a failure of normal cellular differentiation.'"
+    },
+    {
+      "sourcePassage": "And because of the multitude of cells that you have in your body, you can really consider all the different subtypes of cancers to be distinct diseases because they have different requirements of the different cells and tissues that become aberrant.",
+      "reason": "Faithfully conveyed by 'Because of the multitude of cells in the body, the different subtypes of cancer can be considered distinct diseases, since they have different requirements of the different cells and tissues that become aberrant.'"
+    },
+    {
+      "sourcePassage": "And then really, the big takeaway message from today is going to be the ability to recognize what invasion and metastasis looks like with regard to the start of the tumor to the end point. So you're going to be comparing the differences between benign and malignant tumors, and you're also going to get a little bit of vocabulary, some of the nomenclature, so that we all have the same language to describe the tumors that we're talking about.",
+      "reason": "The rewrite faithfully captures all details of the lecture overview, using British spelling ('tumour') and converting the spoken address into textbook prose without introducing distortions or omitting facts."
+    },
+    {
+      "sourcePassage": "you have to be able to see",
+      "reason": "The change to third-person 'students must be able to see' is an allowed stylistic adjustment to convert speech directed to the audience into textbook prose."
+    },
+    {
+      "sourcePassage": "And then for today, especially from a clinical point of view, we're going to explain why detection works in different subtypes of tumors.",
+      "reason": "The rewording to 'Finally, from a clinical point of view, the lecture explains why detection works in different subtypes of tumours' faithfully conveys the lecture road-mapping statement."
+    },
+    {
+      "sourcePassage": "tumors",
+      "reason": "The rewrite uses the British English spelling 'tumours', which is an allowed change."
+    }
+  ]
+}

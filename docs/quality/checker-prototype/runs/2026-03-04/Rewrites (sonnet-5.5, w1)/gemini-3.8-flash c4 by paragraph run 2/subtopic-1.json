@@ -1,0 +1,67 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c4",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite states that Professor Turner teaches three of 'the six' lectures, specifying a total number of lectures that is not mentioned in the source text.",
+      "sourcePassage": "and so she will also be teaching three of these lectures.",
+      "rewritePassage": "who teaches three of the six."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, everyone, shall we get started? Yes. You're very welcome, all of you, to Cancer Biology.",
+      "reason": "The introductory greeting and remarks to the audience were omitted or condensed into textbook prose without loss of subject matter."
+    },
+    {
+      "sourcePassage": "because it has such an impact",
+      "reason": "Omitted as a repetition of the earlier statement that cancer has an impact on society."
+    },
+    {
+      "sourcePassage": "And then pretty much their next question is, \"Why haven't you solved this problem yet? Why is there no cure for cancer?\" Or, \"Will there ever be a cure for cancer?\"",
+      "reason": "Converted accurately into reported speech and rendered as 'questions' to cover the multiple quoted questions."
+    },
+    {
+      "sourcePassage": "And we have these learning outcomes that hopefully you should be able to grasp by the end of each of the specific lectures.",
+      "reason": "The omission of 'hopefully' and the adaptation from direct address to third person are allowed changes concerning remarks to the audience and course logistics rather than hedges on scientific claims."
+    },
+    {
+      "sourcePassage": "over the next six lectures",
+      "reason": "The omission of 'next' in 'over the six lectures' is an allowed change regarding remarks about the course or lectures."
+    },
+    {
+      "sourcePassage": "you're going to be able to come up with",
+      "reason": "Changing the direct audience reference to 'that can be developed' is an allowed stylistic adjustment."
+    },
+    {
+      "sourcePassage": "So if you really want to become a serious cancer biologist and oncologist in training, then you really have to embrace kind of the full picture",
+      "reason": "Converting the direct address to a general statement ('Anyone who wants to become...') preserves the original meaning while removing speech filler and conversational direct address."
+    },
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there.",
+      "reason": "Rendered as 'The learning outcomes for this lecture are as follows.', which is an allowed stylistic framing for introductory lecture remarks."
+    },
+    {
+      "sourcePassage": "all the different subtypes of cancers",
+      "reason": "Expressed as 'the different subtypes of cancer', which conveys the same meaning without altering technical content."
+    },
+    {
+      "sourcePassage": "And then really, the big takeaway message from today is going to be the ability to recognize what invasion and metastasis looks like with regard to the start of the tumor to the end point.",
+      "reason": "Accurately rendered in the rewrite; changing 'from today' to 'of the lecture' and British spelling ('tumour') are permitted style/lecture-remark adjustments."
+    },
+    {
+      "sourcePassage": "So you're going to be comparing the differences between benign and malignant tumors, and you're also going to get a little bit of vocabulary, some of the nomenclature, so that we all have the same language to describe the tumors that we're talking about.",
+      "reason": "Faithfully expressed in textbook prose without changing the meaning or introducing unsourced technical claims."
+    },
+    {
+      "sourcePassage": "And then really a lot of over the course of these lectures and in the practicals, you have to be able to see the process of what we're talking about in the histology of the tumors to look from of the progression of tumor from one stage, the precursor stages, to the malignant stages.",
+      "reason": "The rewrite renders this pedagogical instruction accurately using British spelling ('tumours'), which is an allowed change."
+    },
+    {
+      "sourcePassage": "And then for today, especially from a clinical point of view, we're going to explain why detection works in different subtypes of tumors.",
+      "reason": "The omission of 'especially' and conversational framing is an allowed simplification of lecture-structuring remarks."
+    }
+  ]
+}
