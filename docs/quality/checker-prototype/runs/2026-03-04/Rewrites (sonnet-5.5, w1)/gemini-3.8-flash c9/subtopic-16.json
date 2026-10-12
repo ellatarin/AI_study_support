@@ -1,0 +1,20 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c9",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "The reference to what the audience saw earlier in the lecture is converted into textbook prose ('The different pre-cancerous states are present'), which removes a remark to the audience without omitting subject matter."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "Rendered as 'Of the screening methods discussed, cervical screening is the best', which faithfully expresses the lecturer's recap ('as I said')."
+    },
+    {
+      "sourcePassage": "an ulcerated cauliflower structure, if you like",
+      "reason": "Rendered as 'an ulcerated cauliflower-like structure', which is an allowed stylistic equivalent."
+    }
+  ]
+}

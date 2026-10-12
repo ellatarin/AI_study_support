@@ -1,0 +1,27 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c9",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite describes a tumour occurring 'in a meningioma', treating a meningioma as an anatomical location or organ rather than as a tumour itself.",
+      "sourcePassage": "if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "rewritePassage": "when the tumour occurs in a meningioma or in the liver."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "erosion of that bone function, so you can get fractures",
+      "reason": "The text awkwardly phrases bone erosion as 'erosion of that bone function'. The rewrite simplifies this to 'erosion of the bone', which accurately conveys the intended meaning and matches the lecturer's later phrasing ('erosion of bones')."
+    },
+    {
+      "sourcePassage": "you saw that enormous cauliflower structure within the colon.",
+      "reason": "The lecturer references a visual presentation previously shown. The rewrite adapts this reference into standard textbook prose ('the enormous cauliflower-like structure seen within the colon') without altering the factual meaning."
+    },
+    {
+      "sourcePassage": "And also this competition with the normal, if you have a tumor that is occurring in some of the blood compartments, the hematopoietic stem cells that are there, these will interfere.",
+      "reason": "The rewrite clarifies the conversational and fragmented phrasing into coherent prose ('Competition with normal tissue is also a factor. A tumour occurring in the blood compartments, where the haematopoietic stem cells are located, will interfere with them.') without introducing unsourced facts."
+    }
+  ]
+}

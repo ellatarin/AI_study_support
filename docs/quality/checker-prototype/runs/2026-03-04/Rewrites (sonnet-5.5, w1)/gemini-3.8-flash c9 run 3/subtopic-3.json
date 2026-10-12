@@ -1,0 +1,27 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c9",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite replaces 'adolescence' with 'differentiation', stating that 'differentiation and maturation' occur from infancy to adulthood rather than 'adolescence and maturation'.",
+      "sourcePassage": "because obviously during adolescence and maturation, this occurs from infancy to adulthood",
+      "rewritePassage": "because differentiation and maturation also occur from infancy to adulthood"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "during embryogenesis, during the time that you were born",
+      "reason": "The phrase 'during the time that you were born' is a spoken slip/restatement for 'during embryogenesis' and was appropriately omitted as a repetition/false start."
+    },
+    {
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes.",
+      "reason": "The rewrite phrases this as 'In the image of the invasive tissue, the cells are of different shapes and sizes.' Specifying 'invasive tissue' is supported by the immediately surrounding text ('invaded and are growing within the stroma')."
+    },
+    {
+      "sourcePassage": "into the invading stroma",
+      "reason": "The rewrite uses 'into the invaded stroma', which grammatically clarifies the speaker's slip ('invading' vs 'invaded') without distorting the underlying biological meaning."
+    }
+  ]
+}

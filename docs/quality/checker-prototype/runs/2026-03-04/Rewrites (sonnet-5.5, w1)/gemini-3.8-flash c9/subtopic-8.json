@@ -1,0 +1,32 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c9",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "muscularis mucosa",
+      "reason": "The term was corrected to 'muscularis mucosae' in accordance with the provided correction list."
+    },
+    {
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "The rewrite phrases this as 'malignancy is defined as the ability to invade the surrounding tissue', which accurately captures the intended biological definition where malignancy (as opposed to benign neoplasia) is defined by invasion into surrounding tissue."
+    },
+    {
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "reason": "The rewrite renders 'this' as 'Invasion is therefore probably an obligatory step', which is supported directly by the context discussing whether tumours invade and subsequently metastasise."
+    },
+    {
+      "sourcePassage": "You wouldn't necessarily be able to say anything on two words about either of these.",
+      "reason": "The rewrite translates this spoken idiom/transcription artefact into 'Nothing could necessarily be said about either from their appearance', preserving the intended meaning."
+    },
+    {
+      "sourcePassage": "But the question is, of course, you would then be interested in figuring out whether or not there would be secondary metastases across the body.",
+      "reason": "Omitted as a conversational false start or conversational transition that the lecturer immediately paused before returning to microscopic features, and the concept of secondary metastases is discussed in detail in the subsequent paragraphs."
+    },
+    {
+      "sourcePassage": "Right. So obviously, let me just orient you here. You're looking at, whoops, the normal colonic epithelium",
+      "reason": "Conversational filler, self-corrections, and audience-directing remarks were omitted in accordance with the allowed changes."
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c9",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite states 'when the tumour occurs in a meningioma', treating a meningioma as an anatomical site or organ (alongside the liver) where a tumour occurs, rather than as a type of tumour itself.",
+      "sourcePassage": "Only 10% of these deaths, generally, if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "rewritePassage": "when the tumour occurs in a meningioma or in the liver."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Also ulceration, you saw that enormous cauliflower structure within the colon.",
+      "reason": "The rewrite's phrasing 'the enormous cauliflower-like structure seen within the colon' captures the lecturer's conversational reference to a previously viewed image or slide without adding unsourced facts."
+    },
+    {
+      "sourcePassage": "This niche is not very big. This will interfere with your bone marrow, and it will result in things like infection and anemia as well.",
+      "reason": "The rewrite uses 'therefore' to connect the limited niche to bone marrow interference, which reflects the causal explanation of competition in the text rather than introducing an unsourced link."
+    },
+    {
+      "sourcePassage": "Things like obstruction of the bile ducts in the liver interferes with digestion. And things like if tumors in bones lead to erosion of that bone function",
+      "reason": "The sentence 'Other effects depend on the site' functions as a summarizing topic sentence based on the context of organ-specific effects, and does not assert a new independent fact."
+    }
+  ]
+}

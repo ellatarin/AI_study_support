@@ -1,0 +1,28 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c9",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "muscularis mucosa",
+      "reason": "The spelling 'muscularis mucosae' was adopted in accordance with the provided correction list."
+    },
+    {
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "The pronoun 'it' in 'it's defined as the ability to invade' was disambiguated to 'malignancy', which is standard in medical pathology (where malignancy is defined by invasive capability) and grammatically follows from the pairing 'invasion and malignancy'."
+    },
+    {
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "reason": "The deictic pronoun 'this' was rendered as 'Invasion', which is supported by the surrounding discussion explaining that local invasion must precede metastasis, so a metastasising tumour that appears non-invasive likely reflects a sampling omission."
+    },
+    {
+      "sourcePassage": "You'll see that over here you have the adenoma which has progressed into an adenocarcinoma.",
+      "reason": "The lecturer's deictic gesture 'over here you have the adenoma' in the context of the same histological section was faithfully rendered as 'Elsewhere in the same lesion is the adenoma'."
+    },
+    {
+      "sourcePassage": "But the question is, of course, you would then be interested in figuring out whether or not there would be secondary metastases across the body.",
+      "reason": "This rhetorical transition prompting audience interest before returning to the slide was omitted as conversational filler/audience framing, while the substantive discussion of secondary metastases is covered in detail in subsequent paragraphs."
+    }
+  ]
+}

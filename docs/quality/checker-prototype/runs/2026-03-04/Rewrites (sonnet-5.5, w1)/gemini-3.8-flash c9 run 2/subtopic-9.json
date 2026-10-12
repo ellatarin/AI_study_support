@@ -1,0 +1,16 @@
+{
+  "subtopicId": 9,
+  "checkerPromptVersion": "c9",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So this meningioma obviously is occurring within the skull. The skull is a confined space. This would put an enormous amount of pressure on the brain and the surrounding structures and would cause and has caused Has caused death in this case.",
+      "reason": "The rewrite renders this as 'A meningioma occurs within the skull, which is a confined space, so it puts an enormous amount of pressure on the brain and the surrounding structures, and in this case it caused death.' It faithfully retains the specific case reference and the causal reasoning without introducing distortions or unsupported additions."
+    },
+    {
+      "sourcePassage": "But things like the smooth muscle fibroid that I showed you, that almost never progresses to a leiomyosarcoma.",
+      "reason": "The rewrite refers to 'as shown earlier' alongside a '[FIGURE]' tag, which is an allowed change for presentation and referencing previous visual material without distorting the substantive medical facts."
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c9",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite introduces a causal link with 'since', asserting that the terminology is still heard because a surgeon can tell by touch, whereas the source text only used 'where' to describe the context or situation in which it is heard.",
+      "sourcePassage": "And you'll hear this kind of terminology even now, where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable.",
+      "rewritePassage": "This terminology is still heard now, since a surgeon can tell just by holding or touching a tumour whether it is movable or immovable."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Okay. So with these tools in hand, I think the important concept to try and get across is invasion and metastasis.",
+      "reason": "The introductory phrase 'with these tools in hand' is a transitional remark about the lecture structure, which is allowed to be omitted."
+    },
+    {
+      "sourcePassage": "back in, I don't know, when surgery was first coming into its own as a discipline",
+      "reason": "The phrase 'I don't know' is conversational filler/hesitation, and its omission is allowed."
+    },
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals",
+      "reason": "This is a direct remark to the audience about their course/practicals, which is allowed to be omitted."
+    }
+  ]
+}

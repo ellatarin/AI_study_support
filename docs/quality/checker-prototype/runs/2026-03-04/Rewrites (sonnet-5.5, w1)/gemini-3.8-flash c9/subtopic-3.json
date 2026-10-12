@@ -1,0 +1,31 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c9",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite replaces 'adolescence' with 'differentiation', stating that 'differentiation and maturation' occur rather than development occurring during 'adolescence and maturation'.",
+      "sourcePassage": "during adolescence and maturation, this occurs from infancy to adulthood",
+      "rewritePassage": "differentiation and maturation also occur from infancy to adulthood"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "during embryogenesis, during the time that you were born",
+      "reason": "The phrase 'during the time that you were born' is a spoken slip of the tongue immediately qualified by 'expansive growth has happened during embryogenesis' and 'occurs obviously in the womb', so omitting it is an allowed removal of a false start/slip."
+    },
+    {
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes. They have come in, they have lost this architecture, moved over the basement membrane and invaded and are growing within the stroma.",
+      "reason": "Resolving 'here' to 'In the image of the invasive tissue' is justified because the text directly describes this view as showing cells that have invaded and lost architecture."
+    },
+    {
+      "sourcePassage": "provides a signaling and basis for their adherence to this layer",
+      "reason": "Rendered as 'provides a signalling basis for their adherence to this layer', which correctly tidies spoken phrasing without altering meaning."
+    },
+    {
+      "sourcePassage": "into the invading stroma",
+      "reason": "'into the invaded stroma' appropriately corrects the lecturer's spoken slip, as the text repeatedly explains that it is the epithelial cells that are invading into the stroma."
+    }
+  ]
+}

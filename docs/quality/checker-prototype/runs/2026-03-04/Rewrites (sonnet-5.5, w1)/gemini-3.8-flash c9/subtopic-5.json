@@ -1,0 +1,27 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c9",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite introduces a causal link using 'since', stating that the terminology is still heard because a surgeon can tell by holding or touching the tumour, whereas the original text used 'where' to describe the circumstance or context rather than asserting a causal relationship.",
+      "sourcePassage": "And you'll hear this kind of terminology even now, where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable.",
+      "rewritePassage": "This terminology is still heard now, since a surgeon can tell just by holding or touching a tumour whether it is movable or immovable."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Okay. So with these tools in hand, I think the important concept to try and get across is",
+      "reason": "This is conversational lecture meta-talk and filler, which is an allowed omission."
+    },
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals,",
+      "reason": "This is a statement about the course and a direct remark to the audience, which is an allowed omission."
+    },
+    {
+      "sourcePassage": "Right. So, what does that mean for the patient? Well,",
+      "reason": "This is a rhetorical question and conversational transition, which was appropriately integrated into textbook prose."
+    }
+  ]
+}

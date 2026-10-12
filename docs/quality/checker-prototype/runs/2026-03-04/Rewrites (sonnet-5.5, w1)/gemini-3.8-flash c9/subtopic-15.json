@@ -1,0 +1,23 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c9",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite turns the lecturer's pointing word 'here' into the description 'alongside it'. The text does not state that the cervix is seen alongside the endocervical canal, and anatomically the canal runs within the cervix rather than lying alongside it.",
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "rewritePassage": "Histologically, the endocervical canal runs through the neck of the womb, and the cervix is seen alongside it."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here, but the cells, as they differentiate, they turn over on their sides, they get thin, and they get flat, and their nuclei become very small.",
+      "reason": "The lecturer's remark pointing out two specific mitotic cells on the slide is an illustration of the stated rule that mitotic cells occur at the basement layer, which is preserved in the rewrite ('Mitotic cells occur only at the basement layer')."
+    },
+    {
+      "sourcePassage": "and you'll see this in your practicals",
+      "reason": "This is a remark about the course practicals, which is permitted to be kept or phrased neutrally."
+    }
+  ]
+}

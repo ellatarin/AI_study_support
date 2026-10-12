@@ -1,0 +1,24 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c9",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "if you compare any two things, you're going to find differences",
+      "reason": "The rewrite renders this general conversational remark as 'although any comparison between two species will reveal differences', which appropriately adapts the colloquial phrasing to the context of comparing species without distorting the meaning."
+    },
+    {
+      "sourcePassage": "Just a slide about the incidence in companion animals since I found this slide some time ago",
+      "reason": "Omitted as meta-talk and lecture presentation remarks about the slides."
+    },
+    {
+      "sourcePassage": "The only thing that was quite interesting to note here is that the rate of malignant tumors is about fivefold higher in reptiles compared to mammals.",
+      "reason": "The rewrite phrases this as 'The one notable difference is that...', which accurately reflects the comparison being made following the discussion of similarities across taxa."
+    },
+    {
+      "sourcePassage": "digestive tissues, hematopoietic, and skin",
+      "reason": "The rewrite expands 'hematopoietic' to 'hematopoietic tissues' to maintain parallel phrasing with 'digestive tissues', which is an allowable stylistic clarification."
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "subtopicId": 12,
+  "checkerPromptVersion": "c9",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite uses 'because' to establish a causal relationship between benign tumours being common and the difficulty of a benign tumour becoming malignant, but the original text does not state that the former is caused by the latter.",
+      "sourcePassage": "So benign tumors are actually incredibly common. Right? So it actually takes a lot for a benign tumor to become malignant in terms of, as I said, the number of changes that have to happen within a tumor.",
+      "rewritePassage": "Benign tumours are extremely common, because it takes a great deal for a benign tumour to become malignant, given the number of changes that have to happen within a tumour."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So I've just put these numbers up just so that you can have a sense.",
+      "reason": "The rewrite adds 'of incidence' ('give a sense of incidence'), but this is the overarching topic established in the opening sentence ('So just talking about incidence') and merely provides cohesive context."
+    },
+    {
+      "sourcePassage": "And then this is, if you like, the percentage of tumors that result in deaths.",
+      "reason": "The rewrite's phrasing 'A further slide shows the percentage of tumours that result in deaths' accurately captures the speaker's statement of what the slide/figure displays."
+    },
+    {
+      "sourcePassage": "There are fibroids that we were talking about",
+      "reason": "Omitting 'that we were talking about' is allowed as it is a conversational reference to earlier lecture material."
+    },
+    {
+      "sourcePassage": "Oops. Oh, God. It doesn't go backwards. Here we go.",
+      "reason": "Omitting this remark is allowed as it is dropped filler and technical commentary during the presentation."
+    }
+  ]
+}

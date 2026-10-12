@@ -1,0 +1,20 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c9",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "This is a personal remark / joke to the audience by the lecturer and was appropriately omitted."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here, and then you can often see sometimes the tumor cells are actually present within a lymphatic duct.",
+      "reason": "The pointing words and conversational repetition were adapted to textbook prose describing the histological observation without altering the factual meaning."
+    },
+    {
+      "sourcePassage": "or also this transcoelomic site from across a cavity, across a pleural cavity, for example, across the abdomen.",
+      "reason": "Phrasing 'transcoelomic route' accurately captures the lecturer's explanation of routes of spread across a cavity."
+    }
+  ]
+}

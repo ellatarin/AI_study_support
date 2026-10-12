@@ -317,12 +317,28 @@ ${QUOTED_REPLY}`,
 	c7: {
 		changed:
 			"The user's rewrite of c4. Reports only a difference that causes issues for a student's learning. Drops 'when not sure, report', 'do not judge a paragraph as a whole', 'even when the changed statement is true', the line on statements next to each other, the line on pointing words and the subject-matter exception of the filler allowance. Adds conflation as a link and the merging of two concerns as a distortion. Moves the process after the two lists.",
-		prompt: (name) => learningIssuePrompt({ name, unsourcedAdditions: C7_ADDITIONS }),
+		prompt: (name) =>
+			learningIssuePrompt({ name, unsourcedAdditions: C7_ADDITIONS, formAllowance: FORM_ALLOWANCE }),
 	},
 	c8: {
 		changed:
 			"Adds to c7 the c4 line on pointing words that become a description, and reports it unless the text shows that the description is correct.",
-		prompt: (name) => learningIssuePrompt({ name, unsourcedAdditions: CHECKED_DESCRIPTION_ADDITIONS }),
+		prompt: (name) =>
+			learningIssuePrompt({
+				name,
+				unsourcedAdditions: CHECKED_DESCRIPTION_ADDITIONS,
+				formAllowance: FORM_ALLOWANCE,
+			}),
+	},
+	c9: {
+		changed:
+			"Narrows the [FIGURE] allowance of c8: a sentence around the mark that says what the figure shows or illustrates is compared with the text, with an example from another subject.",
+		prompt: (name) =>
+			learningIssuePrompt({
+				name,
+				unsourcedAdditions: CHECKED_DESCRIPTION_ADDITIONS,
+				formAllowance: FIGURE_SENTENCE_ALLOWANCE,
+			}),
 	},
 };
 
@@ -338,21 +354,27 @@ const C7_ADDITIONS = `- The rewrite states a fact that the text does not state.
 const CHECKED_DESCRIPTION_ADDITIONS = `${C7_ADDITIONS}
 - The rewrite turns the lecturer's pointing words, such as "here" and "this", into a description that the lecturer did not give. Report it unless the text shows that the description is correct.`;
 
+/** The allowance for changes of form of c9, which keeps a sentence about a figure out of the [FIGURE] mark. */
+const FIGURE_SENTENCE_ALLOWANCE = `${FORM_ALLOWANCE} A sentence around the [FIGURE] mark that says what the figure shows or illustrates is not part of the mark. Compare that sentence with the text, as any other statement. For example, when a speaker says only "Here is a chart", the rewrite "This chart illustrates the fall in sales" adds a link.`;
+
 /**
  * Builds the prompt of the versions from c7, which report a difference only
  * when it causes issues for a student's learning.
  *
- * @param args - The language and the forbidden unsourced additions.
+ * @param args - The language, the forbidden unsourced additions and the allowance for changes of form.
  * @param args.name - The name of the notes' language.
  * @param args.unsourcedAdditions - The lines of the forbidden unsourced additions.
+ * @param args.formAllowance - The allowed-change line for the [FIGURE] mark, order, paragraphs, style and grammar.
  * @returns The prompt.
  */
 function learningIssuePrompt({
 	name,
 	unsourcedAdditions,
+	formAllowance,
 }: {
 	readonly name: string;
 	readonly unsourcedAdditions: string;
+	readonly formAllowance: string;
 }): string {
 	return `# Task
 
@@ -389,7 +411,7 @@ Do not report these changes as deficiencies since they are not forbidden:
 - Dropped filler, false starts, repetitions, jokes, remarks to the audience, and statements about the course or the lecture.
 - Different words with exactly the same meaning.
 ${spellingAllowance(name)}
-${FORM_ALLOWANCE}
+${formAllowance}
 - The right form of a term correction in place of its wrong form. Treat each correction as right.
 
 

@@ -1,0 +1,31 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c9",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer states that this occurs during 'adolescence and maturation', but the rewrite changes 'adolescence' to 'differentiation'.",
+      "sourcePassage": "because obviously during adolescence and maturation, this occurs from infancy to adulthood.",
+      "rewritePassage": "because differentiation and maturation also occur from infancy to adulthood."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "during embryogenesis, during the time that you were born.",
+      "reason": "The lecturer immediately follows 'during embryogenesis' with 'during the time that you were born' as a conversational rephrasing; retaining 'during embryogenesis' captures the intended scientific fact without omission."
+    },
+    {
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes. They have come in, they have lost this architecture, moved over the basement membrane and invaded and are growing within the stroma.",
+      "reason": "The rewrite renders the deictic reference as 'In the image of the invasive tissue', which is directly supported by the context of the slide showing cells that have invaded the stroma."
+    },
+    {
+      "sourcePassage": "provides a signaling and basis for their adherence to this layer.",
+      "reason": "The rewrite condenses 'signaling and basis' to 'signalling basis', treating 'and' as a conversational false start."
+    },
+    {
+      "sourcePassage": "into the invading stroma.",
+      "reason": "The lecturer's phrase 'invading stroma' was a minor spoken slip for the stroma being invaded by the cells, so 'invaded stroma' is an allowable correction of phrasing rather than a distortion."
+    }
+  ]
+}

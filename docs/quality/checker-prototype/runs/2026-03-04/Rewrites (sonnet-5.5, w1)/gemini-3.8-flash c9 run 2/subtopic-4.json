@@ -1,0 +1,27 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c9",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds an unsourced link by stating that the stained slice through the tumour 'illustrates this' (referring to biologists explanting the tumour), whereas the lecturer only noted what was being looked at without asserting that it illustrated explantation.",
+      "sourcePassage": "Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "rewritePassage": "A slice through a tumour, with a stain to show the morphology, illustrates this [FIGURE]."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Primary cells really don't grow in culture.",
+      "reason": "Omitting 'really' in 'Primary cells do not grow in culture' is an acceptable removal of an emphatic filler rather than the removal of a scientific hedge."
+    },
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "This is an offhand remark to the audience and self-correction, which is an allowed omission."
+    },
+    {
+      "sourcePassage": "and other things",
+      "reason": "Rendering 'and other things' as 'and other components' is an acceptable stylistic choice with equivalent meaning in this context."
+    }
+  ]
+}

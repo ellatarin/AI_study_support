@@ -1,0 +1,33 @@
+{
+  "subtopicId": 7,
+  "checkerPromptVersion": "c9",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite converts the lecturer's pointing words ('the tumor is here. This is the outer surface of the uterus') into a specific positional relationship ('lies next to') that the text does not state.",
+      "sourcePassage": "You can see that the tumor is here. This is the outer surface of the uterus.",
+      "rewritePassage": "The tumour lies next to the outer surface of the uterus"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The word 'circumspect' in the spoken text has been altered to 'circumscribed' without an entry in the term corrections list.",
+      "sourcePassage": "So you can see again that this is actually circumspect and very separate from the surrounding stroma and the surrounding tissue.",
+      "rewritePassage": "The tumour is therefore circumscribed and very separate from the surrounding stroma and the surrounding tissue."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So contrast this fibroid that you're seeing here, this leiomyoma, with a malignant case.",
+      "reason": "Rendering 'this leiomyoma' as an appositive explaining 'This fibroid, a leiomyoma' accurately preserves the lecturer's identification of the fibroid as a leiomyoma."
+    },
+    {
+      "sourcePassage": "has, if you like, invaded within this tissue.",
+      "reason": "Translating the colloquial hedge 'if you like' to 'in a sense' maintains the same meaning and hedging without altering the scientific claim."
+    },
+    {
+      "sourcePassage": "All right? So a benign tumor.",
+      "reason": "Omitted conversational check and repetition of the category, which are allowed omissions of spoken discourse markers."
+    }
+  ]
+}

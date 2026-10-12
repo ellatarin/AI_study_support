@@ -1,0 +1,33 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c9",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The addition of 'that is' introduces an unsourced link/definition equating acetylation or deacetylation with the state of transcription within the cell itself.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite changes the pronoun 'they' (which refers specifically to the human viruses that precipitate cancer) to 'infection', thereby widening the cause of chronic inflammatory events from these viruses to infection in general.",
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events that can also help to give rise to cancer.",
+      "rewritePassage": "There are about seven different human viruses that precipitate cancer, and infection can also predispose to chronic inflammatory events, which can also help to give rise to cancer."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "I'm sure you've seen a cartoon that looks like this many times.",
+      "reason": "Omission of conversational remarks to the audience is an allowed change."
+    },
+    {
+      "sourcePassage": "So I've just made this kind of a much simpler diagram, if you like.",
+      "reason": "The insertion of [FIGURE] marks and stylistic rewording into textbook prose are allowed changes."
+    },
+    {
+      "sourcePassage": "So hopefully, in order to try and address some of these questions, we will start at the beginning. [chuckles]",
+      "reason": "Dropping conversational filler, laughter, and rephrasing into textbook prose is allowed."
+    }
+  ]
+}

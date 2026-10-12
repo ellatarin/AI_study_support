@@ -1,0 +1,20 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c9",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "The reference to what the audience saw on previous slides/materials was converted to 'The different pre-cancerous states are present', appropriately removing direct audience address while retaining the subject matter."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "The rewrite phrases this as 'Of the screening methods discussed, cervical screening is the best', which faithfully captures the lecturer's comparative statement in textbook prose without adding unsourced information."
+    },
+    {
+      "sourcePassage": "ulcerated cauliflower structure, if you like",
+      "reason": "Rewriting as 'ulcerated cauliflower-like structure' accurately reflects the colloquial hedge 'if you like'."
+    }
+  ]
+}

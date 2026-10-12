@@ -1,0 +1,19 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c9",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite inserts 'that is', creating an unstated link of equivalence that defines acetylation or deacetylation as the state of transcription within the cell itself.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events that can also help to give rise to cancer.",
+      "reason": "The rewrite renders 'they can also predispose' as 'infection can also predispose', which maintains the lecturer's meaning in context without introducing an unsourced claim."
+    }
+  ]
+}

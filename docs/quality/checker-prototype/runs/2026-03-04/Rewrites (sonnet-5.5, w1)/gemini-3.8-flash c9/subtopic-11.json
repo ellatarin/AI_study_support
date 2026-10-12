@@ -1,0 +1,31 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c9",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite states 'when the tumour occurs in a meningioma or in the liver', phrasing 'meningioma' as an anatomical site in which a tumour occurs (parallel to the liver), whereas a meningioma is itself a type of tumour.",
+      "sourcePassage": "Only 10% of these deaths, generally, if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "rewritePassage": "for example when the tumour occurs in a meningioma or in the liver."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Things like obstruction of the bile ducts in the liver interferes with digestion.",
+      "reason": "The introductory sentence 'Other effects depend on the site' serves as a transition reiterating the earlier phrase 'in the different settings in which they occur' and does not introduce an unsourced claim."
+    },
+    {
+      "sourcePassage": "tumors in bones lead to erosion of that bone function, so you can get fractures",
+      "reason": "Rephrasing 'erosion of that bone function' as 'erosion of the bone' conveys the same clinical meaning clearly and faithfully."
+    },
+    {
+      "sourcePassage": "competition with the normal, if you have a tumor that is occurring in some of the blood compartments, the hematopoietic stem cells that are there, these will interfere.",
+      "reason": "The rewrite resolves the lecturer's false start and spoken syntax into 'will interfere with them' without distorting the underlying explanation that the tumour competes with haematopoietic stem cells."
+    },
+    {
+      "sourcePassage": "you saw that enormous cauliflower structure within the colon.",
+      "reason": "Converting 'you saw that enormous cauliflower structure within the colon' into 'the enormous cauliflower-like structure seen within the colon' faithfully preserves the lecturer's reference to the structure."
+    }
+  ]
+}

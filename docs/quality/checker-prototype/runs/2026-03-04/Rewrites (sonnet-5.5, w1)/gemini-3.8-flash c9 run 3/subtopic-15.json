@@ -1,0 +1,23 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c9",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite converts the lecturer's pointing word 'here' into the spatial description 'alongside it', asserting that the cervix is seen alongside the endocervical canal, which is not stated in the source text.",
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "rewritePassage": "Histologically, the endocervical canal runs through the neck of the womb, and the cervix is seen alongside it."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here",
+      "reason": "This is the lecturer pointing out specific individual mitotic cells on the slide to illustrate the stated rule that mitotic cells occur only at the basement layer, which is faithfully retained in the rewrite."
+    },
+    {
+      "sourcePassage": "So you can see this nice transition between these two different types of epithelium, and you'll see this in your practicals.",
+      "reason": "The reference to seeing the transition and practicals is preserved faithfully in the rewrite."
+    }
+  ]
+}

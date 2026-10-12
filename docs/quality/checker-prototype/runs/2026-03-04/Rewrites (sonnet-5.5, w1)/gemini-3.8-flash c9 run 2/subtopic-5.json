@@ -1,0 +1,16 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c9",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals",
+      "reason": "This is a statement about the practical sessions of the course, which is an allowed omission as a remark to the audience / statement about the course."
+    },
+    {
+      "sourcePassage": "where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable",
+      "reason": "The rewrite renders this as 'since a surgeon can tell just by holding or touching a tumour whether it is movable or immovable', capturing the explanatory sense of 'where' without introducing an unsourced causal distortion."
+    }
+  ]
+}

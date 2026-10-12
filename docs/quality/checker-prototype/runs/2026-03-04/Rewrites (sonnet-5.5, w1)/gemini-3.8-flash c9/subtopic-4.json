@@ -1,0 +1,24 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c9",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "reason": "The rewrite renders this as 'A slice through a tumour, with a stain to show the morphology, illustrates this [FIGURE].', which accurately describes what the lecturer stated was being shown without adding unsourced details."
+    },
+    {
+      "sourcePassage": "Primary cells really don't grow in culture.",
+      "reason": "The word 'really' is used here as a colloquial intensifier rather than a scientific hedge, so rendering the statement as 'Primary cells do not grow in culture' is an acceptable stylistic change."
+    },
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "This is a lecture-management aside and remark to the audience, which is permitted to be dropped."
+    },
+    {
+      "sourcePassage": "with regard to the contributions of things like the stroma and other things.",
+      "reason": "The phrasing 'such as the stroma and other components' is a valid stylistic translation of 'things like the stroma and other things'."
+    }
+  ]
+}

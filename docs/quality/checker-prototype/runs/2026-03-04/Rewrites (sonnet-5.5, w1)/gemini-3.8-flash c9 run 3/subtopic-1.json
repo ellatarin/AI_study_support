@@ -1,0 +1,20 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c9",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, everyone, shall we get started? Yes. You're very welcome, all of you, to Cancer Biology.",
+      "reason": "Omitted conversational opening remarks and welcome to the audience, which is permitted as lecture management and remarks to the audience."
+    },
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there.",
+      "reason": "The pointing phrase ('listed there') referring to a presentation slide was adapted into standard textbook prose ('The learning outcomes for this lecture are as follows'), which is an allowed stylistic change."
+    },
+    {
+      "sourcePassage": "So I tag-teamed these lectures with Professor Turner, and so she will also be teaching three of these lectures.",
+      "reason": "Rendered as 'The lectures are shared with Professor Turner, who teaches three of the six', drawing the total count of six from the earlier mention of 'these next six lectures', which is faithful to the source."
+    }
+  ]
+}

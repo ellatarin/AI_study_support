@@ -1,0 +1,20 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c9",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So I tag-teamed these lectures with Professor Turner, and so she will also be teaching three of these lectures.",
+      "reason": "The rewrite renders this as 'The lectures are shared with Professor Turner, who teaches three of the six.' The total of six lectures was established in the immediately preceding text ('these next six lectures'), making this an accurate consolidation rather than an unsourced addition."
+    },
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there. So you're going to be able to recognize that",
+      "reason": "The pointing phrase 'are listed there' is rephrased as 'The learning outcomes for this lecture are as follows.' Because the speaker proceeds directly to recite those outcomes, this is an acceptable stylistic transformation of spoken pointing words."
+    },
+    {
+      "sourcePassage": "And then really, the big takeaway message from today is going to be the ability to recognize what invasion and metastasis looks like with regard to the start of the tumor to the end point. So you're going to be comparing the differences between benign and malignant tumors",
+      "reason": "The rewrite translates the conversational transition 'So you're going to be comparing...' into 'This involves comparing benign and malignant tumours.' The connection between recognizing invasion/metastasis and distinguishing benign from malignant lesions is directly supported by the lecturer's 'So' in this context."
+    }
+  ]
+}

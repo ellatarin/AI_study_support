@@ -1,0 +1,27 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c9",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer states that 'this is probably an obligatory step', where the referent of 'this' is unclear in the context of the preceding discussion (which references invasion, secondary metastases at other sites, and sampling issues). The rewrite resolves this unclear statement by specifying that 'Invasion' is the obligatory step.",
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "rewritePassage": "Invasion is therefore probably an obligatory step in arriving at a malignant, metastasising tumour."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "The rewrite interprets 'it's defined as' as referring specifically to malignancy ('malignancy is defined as the ability to invade the surrounding tissue'). This is an acceptable resolution of grammatical reference, as invasion cannot tautologically be defined as the ability to invade."
+    },
+    {
+      "sourcePassage": "But the question is, of course, you would then be interested in figuring out whether or not there would be secondary metastases across the body.",
+      "reason": "This rhetorical aside was omitted at this exact point in the narrative where the speaker immediately returned to examining the histology slide; the general topic of secondary metastases across the body is treated in detail in the subsequent paragraphs."
+    },
+    {
+      "sourcePassage": "You'll see that over here you have the adenoma which has progressed into an adenocarcinoma. So one is growing out of the other.",
+      "reason": "The rewrite translates 'over here' to 'Elsewhere in the same lesion'. The context clearly establishes that the speaker is pointing to another region of the same excised polyp under the microscope to show adenoma transitioning into adenocarcinoma."
+    }
+  ]
+}

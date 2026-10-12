@@ -1,0 +1,24 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c9",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "This is a meta-remark and note to oneself by the lecturer, which is permitted to be omitted as lecture management/filler."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here, and then you can often see sometimes the tumor cells are actually present within a lymphatic duct.",
+      "reason": "The pointing phrase 'are here' refers to pointing at a slide/figure during the lecture and is properly rendered into standard descriptive prose."
+    },
+    {
+      "sourcePassage": "or also this transcoelomic site from across a cavity",
+      "reason": "The text lists 'routes' earlier in the sentence ('primary tumors can spread via a number of routes... or also this transcoelomic site...'), so phrasing this as 'by a transcoelomic route' preserves the original meaning and structure."
+    },
+    {
+      "sourcePassage": "Similarly, here you have a brain, and what you have here is a breast cancer that's metastasized to the brain.",
+      "reason": "The rewrite conveys the example accurately ('The other is a breast cancer that has metastasized to the brain') accompanied by a [FIGURE] mark."
+    }
+  ]
+}

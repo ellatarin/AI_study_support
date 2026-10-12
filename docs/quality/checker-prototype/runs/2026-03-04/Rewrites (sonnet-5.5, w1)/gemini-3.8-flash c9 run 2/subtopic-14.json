@@ -1,0 +1,16 @@
+{
+  "subtopicId": 14,
+  "checkerPromptVersion": "c9",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, so what does this look like in the clinic? [chuckles] I call this the four horsemen.",
+      "reason": "The introductory question and chuckling are conversational rhetoric and fillers, suitably adapted to academic prose as 'In the clinic, the presentation of cancer can be summarised as the \"four horsemen\"'."
+    },
+    {
+      "sourcePassage": "So obviously, the idea is you want to find the cancer, and you want to find it at an earlier state, a state at which it can be treatable, right, before it becomes malignant, before it becomes something that's very, very hard to treat, and there's diminishing returns on said treatment.",
+      "reason": "The rewrite condenses the spoken repetitions ('find the cancer, and you want to find it at an earlier state', 'right', 'before it becomes something that's very, very hard to treat') into concise phrasing without losing any factual points or conditions."
+    }
+  ]
+}

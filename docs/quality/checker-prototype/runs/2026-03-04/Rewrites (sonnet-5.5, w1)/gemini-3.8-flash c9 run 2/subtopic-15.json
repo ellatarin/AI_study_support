@@ -1,0 +1,27 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c9",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite elaborates the lecturer's pointing statement ('and so you're looking at the cervix here') into an unsourced spatial description stating that the cervix is seen 'alongside' the canal, which the text does not state.",
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "rewritePassage": "and the cervix is seen alongside it"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here",
+      "reason": "This is the lecturer pointing out specific examples on the slide being presented to demonstrate that mitotic cells occur at the basement layer, which is already fully captured in the rewrite."
+    },
+    {
+      "sourcePassage": "so you can get the columnar epithelium transitioning into something that looks more like a squamous cell type",
+      "reason": "The rewrite uses 'thus' to connect this sentence to the definition of metaplasia, which accurately reflects the causal/consequential link stated in the lecture ('so you can get...')."
+    },
+    {
+      "sourcePassage": "as you know, it hangs down into the vaginal canal",
+      "reason": "Dropping conversational asides to the audience like 'as you know' is an allowed change."
+    }
+  ]
+}
