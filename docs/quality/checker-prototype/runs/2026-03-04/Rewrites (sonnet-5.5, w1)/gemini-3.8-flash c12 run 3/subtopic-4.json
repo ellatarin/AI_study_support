@@ -1,0 +1,24 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c12",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "reason": "The rewrite renders this as 'A slice through a tumour, with a stain to show the morphology, illustrates this [FIGURE].' The lecturer explicitly states what the slide shows (a slice through a tumour with a stain to look at morphology) in the context of explanting tumours ('often they will explant the tumor. Here you're looking at... But cancer biologists will also, for example, disaggregate a tumor like this'), so placing the [FIGURE] mark and linking it to the explanted tumour faithfully conveys the lecturer's pointing words without introducing an unsourced claim."
+    },
+    {
+      "sourcePassage": "Primary cells really don't grow in culture.",
+      "reason": "The word 'really' functions as an informal colloquial intensifier rather than a scientific hedge, so changing this to 'Primary cells do not grow in culture' does not remove a scientific hedge."
+    },
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "This is an extraneous remark to the audience / self-directed comment during the lecture and is properly omitted under allowed changes."
+    },
+    {
+      "sourcePassage": "the stroma and other things",
+      "reason": "The rewrite renders this as 'the stroma and other components', which uses different words with the same meaning in this context."
+    }
+  ]
+}

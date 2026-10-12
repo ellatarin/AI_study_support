@@ -1,0 +1,24 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c12",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "The reference to what the audience saw in previous slides or earlier in the lecture is a remark to the audience / statement about the lecture, which was appropriately adapted into textbook prose as 'The different pre-cancerous states are present'."
+    },
+    {
+      "sourcePassage": "cauliflower structure, if you like",
+      "reason": "The rewrite renders this as 'cauliflower-like structure', which faithfully conveys the colloquial hedge 'if you like'."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "The rewrite renders 'as I said' as 'Of the screening methods discussed', which accurately adapts the spoken cross-reference into academic prose."
+    },
+    {
+      "sourcePassage": "because many of the people that do go for screening and then for further treatment, it has a very, very high false positive rate.",
+      "reason": "The spoken sentence exhibits anacoluthon (broken grammar); the rewrite resolves this grammatical flaw into smooth prose without altering the intended meaning."
+    }
+  ]
+}

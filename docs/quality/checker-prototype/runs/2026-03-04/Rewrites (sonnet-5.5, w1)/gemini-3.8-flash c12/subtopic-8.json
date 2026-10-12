@@ -1,0 +1,33 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c12",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds a causal link ('because') between tumour cells never metastasising and their failure to survive at the secondary site, whereas the lecturer presents these as two consecutive statements without drawing a causal link.",
+      "sourcePassage": "many of them never metastasize. They never survive in the secondary site.",
+      "rewritePassage": "Many never metastasise, because they never survive at the secondary site."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds an explanatory/causal link ('since') between not being able to say anything about the polyps and their both looking like little cauliflowers, which the lecturer stated as separate sentences without a linking word.",
+      "sourcePassage": "You wouldn't necessarily be able to say anything on two words about either of these. They both look like little cauliflowers that are sticking out into the lumen.",
+      "rewritePassage": "Nothing could necessarily be said about either from their appearance, since both look like little cauliflowers sticking out into the lumen."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "Although the singular pronoun 'it' follows two nouns ('invasion and malignancy'), defining malignancy by invasiveness is standard in cancer biology and represents the clear intended meaning rather than an impermissible disambiguation."
+    },
+    {
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "reason": "The context of the discussion directly contrasts invasion with metastasis (and missing the invasive component during sampling), making 'Invasion' the evident referent of 'this'."
+    },
+    {
+      "sourcePassage": "muscularis mucosa",
+      "reason": "Replaced by 'muscularis mucosae' in accordance with the provided technical term corrections."
+    }
+  ]
+}

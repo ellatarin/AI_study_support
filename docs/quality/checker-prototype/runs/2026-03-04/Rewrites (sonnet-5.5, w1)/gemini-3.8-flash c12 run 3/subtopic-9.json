@@ -1,0 +1,16 @@
+{
+  "subtopicId": 9,
+  "checkerPromptVersion": "c12",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So this meningioma obviously is occurring within the skull. The skull is a confined space. This would put an enormous amount of pressure on the brain and the surrounding structures and would cause and has caused Has caused death in this case. So things like meningiomas can cause that.",
+      "reason": "The rewrite renders the lecturer's demonstration of a specific case as 'A meningioma occurs within the skull, which is a confined space, so it puts an enormous amount of pressure on the brain and the surrounding structures, and in this case it caused death. Meningiomas can therefore have this effect.' This preserves the case-specific context ('in this case') as well as the lecturer's generalization without altering the scientific meaning."
+    },
+    {
+      "sourcePassage": "But things like the smooth muscle fibroid that I showed you, that almost never progresses to a leiomyosarcoma.",
+      "reason": "The rewrite inserts a [FIGURE] placeholder and references it with 'as shown earlier', which is an allowed change for presentation of referenced visual materials."
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c12",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The term 'adolescence' was changed to 'differentiation', altering the developmental stages being described.",
+      "sourcePassage": "because obviously during adolescence and maturation, this occurs from infancy to adulthood.",
+      "rewritePassage": "because differentiation and maturation also occur from infancy to adulthood."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "into the invading stroma.",
+      "reason": "The lecturer said 'invading stroma' when referring to the stroma being invaded by cancer cells; rendering this as 'invaded stroma' corrects a spoken slip of the tongue and accurately conveys the meaning."
+    },
+    {
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes. They have come in, they have lost this architecture, moved over the basement membrane and invaded and are growing within the stroma.",
+      "reason": "Describing the image as showing 'invasive tissue' is supported by the lecturer's explicit description of the cells having invaded the stroma."
+    },
+    {
+      "sourcePassage": "provides a signaling and basis for their adherence to this layer.",
+      "reason": "'signalling basis' resolves the spoken disfluency ('signaling and basis') into coherent textbook prose without altering the intended meaning."
+    },
+    {
+      "sourcePassage": "during embryogenesis, during the time that you were born.",
+      "reason": "Omitting 'during the time that you were born' is allowed as it is a spoken false start/repetition following 'during embryogenesis'."
+    }
+  ]
+}

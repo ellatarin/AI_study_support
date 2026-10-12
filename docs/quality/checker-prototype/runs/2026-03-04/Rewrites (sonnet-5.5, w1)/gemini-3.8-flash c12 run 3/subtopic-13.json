@@ -1,0 +1,20 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c12",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Just a slide about the incidence in companion animals since I found this slide some time ago, which is to say that in dogs and cats, they very much get similar tumors to us, and of course, if you compare any two things, you're going to find differences.",
+      "reason": "The reference to finding the slide some time ago is dropped presentation/filler talk, which is an allowed omission."
+    },
+    {
+      "sourcePassage": "And this is my cat, who also ended up with a feline injection site sarcoma. This is from injections proposed to be due to the adjuvant that is also added with the injection. You'll be happy to hear he's doing fine now after his surgery.",
+      "reason": "The personal remark about the lecturer's cat was adapted into objective third-person prose without distorting the scientific facts or introducing unsourced material."
+    },
+    {
+      "sourcePassage": "The only thing that was quite interesting to note here is that the rate of malignant tumors is about fivefold higher in reptiles compared to mammals.",
+      "reason": "Rendering 'quite interesting to note here' as 'one notable difference' accurately reflects the comparison being made between reptiles and mammals without altering the meaning."
+    }
+  ]
+}

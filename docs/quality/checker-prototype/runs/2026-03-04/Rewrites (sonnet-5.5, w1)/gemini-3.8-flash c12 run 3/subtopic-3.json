@@ -1,0 +1,27 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c12",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer states that development continues during adolescence and maturation, but the rewrite changes 'adolescence' to 'differentiation'.",
+      "sourcePassage": "because obviously during adolescence and maturation, this occurs from infancy to adulthood.",
+      "rewritePassage": "because differentiation and maturation also occur from infancy to adulthood."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes. They have come in, they have lost this architecture, moved over the basement membrane and invaded and are growing within the stroma.",
+      "reason": "The rewrite translates pointing words into 'In the image of the invasive tissue', which is directly justified by the lecturer describing the tissue as having invaded the stroma."
+    },
+    {
+      "sourcePassage": "provides a signaling and basis for their adherence to this layer.",
+      "reason": "Rewriting 'a signaling and basis' as 'a signalling basis' is a natural cleanup of spoken dysfluency rather than an unsourced addition or distortion."
+    },
+    {
+      "sourcePassage": "They have the nucleus on the layer towards the lumen, so they're apical basal regulation in terms of the orientation of those cells within the tissue.",
+      "reason": "Phrasing this as 'which reflects apical-basal regulation of the orientation of the cells within the tissue' faithfully conveys the meaning of the spoken sentence."
+    }
+  ]
+}

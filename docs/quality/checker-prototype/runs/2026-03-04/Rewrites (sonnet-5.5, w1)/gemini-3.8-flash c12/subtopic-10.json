@@ -1,0 +1,20 @@
+{
+  "subtopicId": 10,
+  "checkerPromptVersion": "c12",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay? So just so that we're all on the same page in terms of nomenclature, and of course, with any naming system, there are always exceptions to every rule.",
+      "reason": "The introductory remark 'Okay? So just so that we're all on the same page in terms of nomenclature' is an audience remark / filler and is appropriately omitted, while the factual statement regarding naming systems and exceptions is retained."
+    },
+    {
+      "sourcePassage": "So the fat, smooth muscle or papillomas in the skin, and adenomas, as we were talking about in the colon.",
+      "reason": "The rewrite fills in the corresponding tumor names ('lipomas in fat, leiomyomas in smooth muscle') to complete the parallel structure that the lecturer directly indicated across the two consecutive sentences."
+    },
+    {
+      "sourcePassage": "and things like retinoblastoma. So these are these different tumor types and other exceptions as well, things like malignant melanoma.",
+      "reason": "The phrasing and sentence flow were adjusted for textbook prose style without changing or omitting any substantive facts or relationships."
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c12",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The lecturer pointed to the cervix on a slide ('and so you're looking at the cervix here') without stating that it is seen 'alongside' the endocervical canal. Turning the pointing word into the spatial description 'alongside it' adds an unsourced relation that is not supported by the text and is anatomically misleading, as the endocervical canal runs through the cervix rather than running alongside it.",
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "rewritePassage": "and the cervix is seen alongside it"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "The uterus is here in this diagram, and as you know, it hangs down into the vaginal canal.",
+      "reason": "The rewrite retains the lecturer's claim that the uterus hangs down into the vaginal canal, which accurately reflects the spoken text even if anatomically imprecise."
+    },
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here, but the cells, as they differentiate, they turn over on their sides, they get thin, and they get flat, and their nuclei become very small.",
+      "reason": "The omission of 'You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here' is permissible as the removal of conversational pointing to specific examples in a figure."
+    },
+    {
+      "sourcePassage": "So when HPV infection occurs, you can get a precursor lesion that is here",
+      "reason": "Rendering 'that is here' as 'at this site' accurately refers to the squamocolumnar junction discussed immediately prior in the text."
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "subtopicId": 14,
+  "checkerPromptVersion": "c12",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, so what does this look like in the clinic? [chuckles] I call this the four horsemen.",
+      "reason": "The rewrite phrases this as 'In the clinic, the presentation of cancer can be summarised as the \"four horsemen\"', which appropriately resolves the lecturer's pointing/referential question ('what does this look like') using the context of tumours and cancer established immediately afterwards in the passage."
+    },
+    {
+      "sourcePassage": "So in thinking about this, we try to jump the gun and try to screen for different cancers before we get to a malignant state",
+      "reason": "The idiom 'jump the gun' is preserved from the original spoken text without distorting the meaning."
+    }
+  ]
+}

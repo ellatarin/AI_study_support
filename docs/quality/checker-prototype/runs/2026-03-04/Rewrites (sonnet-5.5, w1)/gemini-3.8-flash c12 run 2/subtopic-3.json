@@ -1,0 +1,27 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c12",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The term 'adolescence' has been replaced with 'differentiation', changing the developmental period identified by the lecturer ('during adolescence and maturation') to 'differentiation and maturation'.",
+      "sourcePassage": "because obviously during adolescence and maturation, this occurs from infancy to adulthood.",
+      "rewritePassage": "because differentiation and maturation also occur from infancy to adulthood."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "most of your lineage specification and your expansive growth has happened during embryogenesis, during the time that you were born.",
+      "reason": "The phrase 'during the time that you were born' was omitted because it was a false start or slip of the tongue immediately corrected by the speaker stating that development occurs in the womb."
+    },
+    {
+      "sourcePassage": "And you can see here now the cells are all of different shapes and sizes. They have come in, they have lost this architecture, moved over the basement membrane and invaded and are growing within the stroma.",
+      "reason": "The rewrite resolves the deictic phrase 'here now' to 'In the image of the invasive tissue', which is directly justified by the context of the cells invading the stroma."
+    },
+    {
+      "sourcePassage": "past the basement membrane, which would be here into the invading stroma.",
+      "reason": "The change from 'invading stroma' to 'invaded stroma' corrects a grammatical slip where the stroma is the structure being invaded by the deranged cells, as established repeatedly in the surrounding text."
+    }
+  ]
+}

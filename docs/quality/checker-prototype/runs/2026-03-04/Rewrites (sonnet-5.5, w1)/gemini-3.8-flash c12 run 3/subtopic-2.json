@@ -1,0 +1,25 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c12",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite inserts 'that is,', equating acetylation or deacetylation with the state of transcription within the cell itself, a link not made in the original text.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The text states that 'they' (referring to the human viruses) can predispose to chronic inflammatory events, whereas the rewrite changes this cause to 'infection' generally, making the cause wider.",
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events that can also help to give rise to cancer.",
+      "rewritePassage": "There are about seven different human viruses that precipitate cancer, and infection can also predispose to chronic inflammatory events, which can also help to give rise to cancer."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So there's a lot of changes that occur, and as I said, we don't know pretty much because of this when they occur.",
+      "reason": "The lecturer uses 'So' to draw a conclusion summarizing the preceding list of genetic, epigenetic, and viral changes, so translating this into 'Many changes therefore occur' accurately reflects the link drawn in the text."
+    }
+  ]
+}

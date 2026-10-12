@@ -1,0 +1,20 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c12",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "The rewrite phrases this as 'and malignancy is defined as the ability to invade the surrounding tissue', resolving the pronoun 'it' directly to malignancy in accordance with standard medical definitions and the speaker's preceding distinction between invasion and malignancy."
+    },
+    {
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "reason": "The rewrite renders this as 'Invasion is therefore probably an obligatory step in arriving at a malignant, metastasising tumour', resolving 'this' to invasion, which is established directly by the preceding context discussing local invasion versus metastasis and sampling."
+    },
+    {
+      "sourcePassage": "You'll see that over here you have the adenoma which has progressed into an adenocarcinoma.",
+      "reason": "The rewrite translates 'over here' on the slide of the tumor section into 'Elsewhere in the same lesion', which accurately reflects the histological context described by the lecturer."
+    }
+  ]
+}

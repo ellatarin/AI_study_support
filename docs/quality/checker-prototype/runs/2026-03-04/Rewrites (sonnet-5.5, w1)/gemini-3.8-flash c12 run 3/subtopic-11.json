@@ -1,0 +1,37 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c12",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "A meningioma is a type of tumour, not an anatomical site. The rewrite states 'when the tumour occurs in a meningioma or in the liver', distorting 'meningioma' into a location where a tumour occurs.",
+      "sourcePassage": "Only 10% of these deaths, generally, if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "rewritePassage": "for example when the tumour occurs in a meningioma or in the liver."
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds the linking word 'therefore', asserting a causal link between the small size of the niche and the tumour interfering with the bone marrow, which was not explicitly drawn by the lecturer.",
+      "sourcePassage": "This niche is not very big. This will interfere with your bone marrow",
+      "rewritePassage": "This niche is not very big. The tumour will therefore interfere with the bone marrow"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Things like obstruction of the bile ducts in the liver interferes with digestion.",
+      "reason": "The sentence 'Other effects depend on the site' was added as a stylistic transition to introduce the subsequent site-dependent examples and does not introduce an unsupported factual claim."
+    },
+    {
+      "sourcePassage": "So you can see that there are lots of different ways in which the cancer can lead to illness and disease in people.",
+      "reason": "The word 'therefore' in 'Cancer can therefore lead to illness and disease in many different ways' reflects the conclusion drawn by the lecturer's 'So you can see that'."
+    },
+    {
+      "sourcePassage": "erosion of that bone function, so you can get fractures",
+      "reason": "Rewriting this as 'erosion of the bone, so that fractures can occur' conveys the same clinical meaning."
+    },
+    {
+      "sourcePassage": "Also ulceration, you saw that enormous cauliflower structure within the colon.",
+      "reason": "Describing it as an 'enormous cauliflower-like structure seen within the colon' faithfully captures the lecturer's reference to gross tumour morphology while removing conversational filler."
+    }
+  ]
+}

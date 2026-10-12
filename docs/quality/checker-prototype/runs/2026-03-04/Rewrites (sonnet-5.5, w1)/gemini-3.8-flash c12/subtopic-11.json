@@ -1,0 +1,37 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c12",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer's statement is incomplete and unclear, with 'the hematopoietic stem cells' grammatically positioned as the subject of 'will interfere'. The rewrite resolves this ambiguity by making haematopoietic stem cells the object ('interfere with them') and the tumour the subject, choosing one interpretation of an unclear source statement and altering the grammatical role of the term.",
+      "sourcePassage": "the hematopoietic stem cells that are there, these will interfere",
+      "rewritePassage": "where the haematopoietic stem cells are located, will interfere with them"
+    },
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite adds the causal connector 'therefore', asserting a causal link between the niche not being very big and the tumour interfering with the bone marrow, whereas the lecturer presents these as separate statements without drawing a causal link.",
+      "sourcePassage": "This niche is not very big. This will interfere with your bone marrow",
+      "rewritePassage": "This niche is not very big. The tumour will therefore interfere with the bone marrow"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "And if you think about them in the different settings in which they occur",
+      "reason": "The sentence 'Other effects depend on the site' in the rewrite serves as a paragraph-level topic sentence continuing the lecturer's framing ('in the different settings in which they occur') for the subsequent site-specific examples (bile ducts, bones)."
+    },
+    {
+      "sourcePassage": "you saw that enormous cauliflower structure within the colon",
+      "reason": "Changing this to 'the enormous cauliflower-like structure seen within the colon' retains the substance of the visual example while removing the direct conversational address to the audience."
+    },
+    {
+      "sourcePassage": "if tumors in bones lead to erosion of that bone function",
+      "reason": "Writing 'erosion of the bone' rather than 'erosion of that bone function' aligns with the lecturer's later remark in the same passage ('erosion of bones will lead to skeletal collapse')."
+    },
+    {
+      "sourcePassage": "Only 10% of these deaths, generally, if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "reason": "The rewrite phrasing 'when the tumour occurs in a meningioma or in the liver' directly mirrors the lecturer's colloquial phrasing ('occurring in things like the meningioma')."
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "subtopicId": 10,
+  "checkerPromptVersion": "c12",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So the fat, smooth muscle or papillomas in the skin, and adenomas, as we were talking about in the colon.",
+      "reason": "The text lists tissues corresponding directly to the earlier enumerated benign tumours (lipoma, leiomyoma, papilloma, adenoma). Making these explicit pairings in the rewrite reflects the speaker's parallel list rather than introducing an unsourced addition."
+    },
+    {
+      "sourcePassage": "Okay? So just so that we're all on the same page in terms of nomenclature",
+      "reason": "Omitted conversational filler and audience-directed framing, which is an allowed change."
+    }
+  ]
+}

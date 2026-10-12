@@ -1,0 +1,33 @@
+{
+  "subtopicId": 2,
+  "checkerPromptVersion": "c12",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite inserts 'that is', defining acetylation or deacetylation as being the state of transcription within the cell itself (or equating the two), a link not made in the source text.",
+      "sourcePassage": "to the acetylation or deacetylation, the state of the transcription within the cell itself.",
+      "rewritePassage": "and to acetylation or deacetylation, that is, the state of transcription within the cell itself."
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The lecturer specifies that 'they' (the human viruses that precipitate cancer) can predispose to chronic inflammatory events. The rewrite changes the subject to 'infection', widening the stated cause.",
+      "sourcePassage": "There are about seven different human viruses that will precipitate cancer, and they can also predispose to chronic inflammatory events that can also help to give rise to cancer.",
+      "rewritePassage": "There are about seven different human viruses that precipitate cancer, and infection can also predispose to chronic inflammatory events, which can also help to give rise to cancer."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So there's a lot of changes that occur",
+      "reason": "The rewrite translates 'So' into 'therefore' ('Many changes therefore occur'). Because the lecturer was drawing a summarizing conclusion from the preceding catalogue of changes, this link is present in the text."
+    },
+    {
+      "sourcePassage": "The idea that a normal cell, starting off here, acquires a mutation, and maybe a second mutation, and it becomes slightly abnormal. And then adds another mutation, becoming slightly more abnormal on this journey towards a malignancy.",
+      "reason": "The rewrite faithfully captures these stages and adds an allowed [FIGURE] mark representing the mentioned cartoon."
+    },
+    {
+      "sourcePassage": "And we know that there are gene changes that occur.",
+      "reason": "The rewrite phrases this as 'Gene changes occur in this progression', which connects directly to the progression mentioned in the preceding sentence."
+    }
+  ]
+}

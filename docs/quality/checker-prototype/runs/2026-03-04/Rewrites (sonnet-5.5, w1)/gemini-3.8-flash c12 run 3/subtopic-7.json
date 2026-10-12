@@ -1,0 +1,33 @@
+{
+  "subtopicId": 7,
+  "checkerPromptVersion": "c12",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite turns the lecturer's pointing words ('here', 'This is') into a specific spatial description ('lies next to the outer surface of the uterus') that the text does not state.",
+      "sourcePassage": "You can see that the tumor is here. This is the outer surface of the uterus.",
+      "rewritePassage": "The tumour lies next to the outer surface of the uterus"
+    },
+    {
+      "deficiencyType": "distortion",
+      "description": "The word 'circumspect' is changed to 'circumscribed' despite there being no entry in the corrections list authorising this technical term substitution.",
+      "sourcePassage": "this is actually circumspect",
+      "rewritePassage": "circumscribed"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So you can see again that this is actually circumspect and very separate from the surrounding stroma and the surrounding tissue.",
+      "reason": "The word 'therefore' in the rewrite reflects the lecturer's use of 'So' to draw an inference from the preceding observation about tissue separation."
+    },
+    {
+      "sourcePassage": "so it might be difficult to necessarily find all of the possible secondary tumors",
+      "reason": "The rewrite's use of 'therefore' directly reflects the consequential 'so' used by the lecturer."
+    },
+    {
+      "sourcePassage": "and has, if you like, invaded within this tissue.",
+      "reason": "'in a sense' is an acceptable stylistic equivalent for the lecturer's hedge 'if you like'."
+    }
+  ]
+}

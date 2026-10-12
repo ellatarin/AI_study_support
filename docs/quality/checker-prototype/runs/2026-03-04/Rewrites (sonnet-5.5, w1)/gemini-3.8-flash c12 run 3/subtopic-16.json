@@ -1,0 +1,24 @@
+{
+  "subtopicId": 16,
+  "checkerPromptVersion": "c12",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "You saw those different pre-cancerous states.",
+      "reason": "The reference to what the audience saw on previous slides was adapted into textbook prose as 'The different pre-cancerous states are present', which omits the direct address to the audience as permitted."
+    },
+    {
+      "sourcePassage": "So screening, as I said, the cervix is best.",
+      "reason": "The lecturer's reference to previous material ('as I said') is rendered naturally as 'Of the screening methods discussed, cervical screening is the best' without introducing unsourced substantive claims."
+    },
+    {
+      "sourcePassage": "ulcerated cauliflower structure, if you like",
+      "reason": "Converting 'cauliflower structure, if you like' to 'cauliflower-like structure' is an acceptable stylistic rephrasing that removes verbal filler."
+    },
+    {
+      "sourcePassage": "very, very high false positive rate",
+      "reason": "Reducing conversational repeated intensifiers ('very, very') to 'very' is permitted stylistic smoothing."
+    }
+  ]
+}

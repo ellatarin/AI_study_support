@@ -1,0 +1,23 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c12",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite uses 'since' to introduce a causal explanation, claiming that the terminology is still heard because a surgeon can tell by touch whether a tumour is movable, whereas the lecturer only describes the context ('where a surgeon can see...') without stating a causal link.",
+      "sourcePassage": "And you'll hear this kind of terminology even now, where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable.",
+      "rewritePassage": "This terminology is still heard now, since a surgeon can tell just by holding or touching a tumour whether it is movable or immovable."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Okay. So with these tools in hand, I think the important concept to try and get across is invasion and metastasis.",
+      "reason": "The omission of 'with these tools in hand' and the transition framing is an allowed removal of lecture-structuring remarks and filler."
+    },
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals",
+      "reason": "This is an allowed omission of a remark to the audience and a statement about the course."
+    }
+  ]
+}

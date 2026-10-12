@@ -374,6 +374,18 @@ ${QUOTED_REPLY}`,
 				omissions: POINTED_OUT_OMISSIONS,
 			}),
 	},
+	c12: {
+		changed:
+			"Starts again from c10, without the c11 line. Adds after the line on link words that a link which the lecturer's own words draw is in the text, with examples of 'so' that draws a conclusion and 'so' that only starts a sentence.",
+		prompt: (name) =>
+			learningIssuePrompt({
+				name,
+				unsourcedAdditions: DRAWN_LINK_ADDITIONS,
+				formAllowance: FIGURE_SENTENCE_ALLOWANCE,
+				mergingDistortion: MERGING_WITH_EXAMPLE,
+				omissions: C7_OMISSIONS,
+			}),
+	},
 };
 
 /** The versions in the registry, in the order that they were written. */
@@ -384,9 +396,17 @@ const C7_ADDITIONS = `- The rewrite states a fact that the text does not state.
 - The rewrite states a link between two statements, and the text does not state that link. A link can be a cause, a result, a definition, a conflation, or a statement that two things are the same.
 - One or two words can state a link. For example, "hence" states a cause, and "namely" states that two things are the same. A rewrite that adds such words adds a link.`;
 
-/** The forbidden unsourced additions of c8, which add a description from pointing words that the text does not show to be correct. */
+/** The forbidden unsourced addition of c8 for a description from pointing words that the text does not show to be correct. */
+const CHECKED_DESCRIPTION = `- The rewrite turns the lecturer's pointing words, such as "here" and "this", into a description that the lecturer did not give. Report it unless the text shows that the description is correct.`;
+
+/** The forbidden unsourced additions of c8 to c11. */
 const CHECKED_DESCRIPTION_ADDITIONS = `${C7_ADDITIONS}
-- The rewrite turns the lecturer's pointing words, such as "here" and "this", into a description that the lecturer did not give. Report it unless the text shows that the description is correct.`;
+${CHECKED_DESCRIPTION}`;
+
+/** The forbidden unsourced additions of c12, which do not report a link that the lecturer's own words draw. */
+const DRAWN_LINK_ADDITIONS = `${C7_ADDITIONS}
+- A link is in the text when the lecturer's own words draw it. In speech, "so" sometimes draws a conclusion, as in "Sales fell. So prices were cut". But "so" often only starts a new sentence, as in "So, today we look at sales", and then it draws no link. Do not report a link that the lecturer's words draw. Report a link that the rewrite adds and the lecturer's words do not draw.
+${CHECKED_DESCRIPTION}`;
 
 /** The forbidden omissions of c7. */
 const C7_OMISSIONS = `- A fact, an observation, a step of reasoning or a causal link of the text is not in the rewrite.

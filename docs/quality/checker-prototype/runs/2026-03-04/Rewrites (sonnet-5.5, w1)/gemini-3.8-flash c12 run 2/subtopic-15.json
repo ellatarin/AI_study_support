@@ -1,0 +1,27 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c12",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The lecturer simply points out the cervix ('so you're looking at the cervix here'), but the rewrite adds the spatial description that the cervix is seen 'alongside' the endocervical canal, turning a pointing word into an unsourced description.",
+      "sourcePassage": "Histologically, this is the endocervical canal here, and so you're looking at the cervix here.",
+      "rewritePassage": "and the cervix is seen alongside it"
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "here is the endocervical canal that it goes between the neck of the womb.",
+      "reason": "The rewrite rephrases this as 'the endocervical canal runs through the neck of the womb', which is an allowable stylistic clarification of the colloquial phrasing."
+    },
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here",
+      "reason": "Omission of conversational banter and specific pointing to individual cells on a slide is allowed as dropped audience remarks."
+    },
+    {
+      "sourcePassage": "and you'll see this in your practicals.",
+      "reason": "Retaining the lecturer's mention of practicals ('and it will be seen in the practicals') is acceptable."
+    }
+  ]
+}

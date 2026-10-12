@@ -1,0 +1,27 @@
+{
+  "subtopicId": 8,
+  "checkerPromptVersion": "c12",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite converts the lecturer's demonstrative pointing word 'this' into the specific description 'Invasion' ('Invasion is therefore probably an obligatory step...'), attributing the obligatory step specifically to invasion when the text does not clearly identify the referent of 'this'.",
+      "sourcePassage": "So this is probably an obligatory step in getting to having a malignant metastasizing tumor.",
+      "rewritePassage": "Invasion is therefore probably an obligatory step in arriving at a malignant, metastasising tumour."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "So invasion and malignancy are really, really important diagnostically. So it's defined as the ability to invade the surrounding tissue.",
+      "reason": "The rewrite resolves the pronoun 'it' to 'malignancy' ('and malignancy is defined as the ability to invade the surrounding tissue'). This is the natural grammatical resolution to the proximate singular noun 'malignancy', as 'the ability to invade' defines malignancy rather than the process of invasion itself."
+    },
+    {
+      "sourcePassage": "You'll see that over here you have the adenoma which has progressed into an adenocarcinoma. So one is growing out of the other.",
+      "reason": "The rewrite translates 'over here' into 'Elsewhere in the same lesion'. The preceding sentences discuss 'the malignant part of this tumor' and an 'adenocarcinoma component that has developed out of the adenoma' within the same specimen, which confirms that 'over here' refers to another part of the same lesion."
+    },
+    {
+      "sourcePassage": "Obviously, again, you're limited into where you're biopsying and what that looks like.",
+      "reason": "The rewrite renders this as 'The diagnosis is limited by where the biopsy is taken', which faithfully condenses the lecturer's informal remark without changing the factual meaning."
+    }
+  ]
+}

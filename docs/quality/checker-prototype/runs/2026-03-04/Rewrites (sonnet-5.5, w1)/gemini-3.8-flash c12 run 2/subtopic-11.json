@@ -1,0 +1,27 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c12",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite treats 'meningioma' as an anatomical site where a tumour occurs ('when the tumour occurs in a meningioma'), whereas a meningioma is itself a type of tumour.",
+      "sourcePassage": "Only 10% of these deaths, generally, if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "rewritePassage": "for example when the tumour occurs in a meningioma or in the liver."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Things like if tumors in bones lead to erosion of that bone function, so you can get fractures",
+      "reason": "The rewrite says 'erosion of the bone, so that fractures can occur', which conveys the same meaning as the lecturer's slightly stumbled phrasing 'erosion of that bone function'."
+    },
+    {
+      "sourcePassage": "Also ulceration, you saw that enormous cauliflower structure within the colon.",
+      "reason": "The rewrite phrases this as 'the enormous cauliflower-like structure seen within the colon', which is standard idiomatic descriptive phrasing that accurately conveys the lecturer's meaning."
+    },
+    {
+      "sourcePassage": "And also this competition with the normal, if you have a tumor that is occurring in some of the blood compartments, the hematopoietic stem cells that are there, these will interfere.",
+      "reason": "The rewrite expands 'competition with the normal' to 'Competition with normal tissue is also a factor', which faithfully represents what the lecturer is introducing."
+    }
+  ]
+}

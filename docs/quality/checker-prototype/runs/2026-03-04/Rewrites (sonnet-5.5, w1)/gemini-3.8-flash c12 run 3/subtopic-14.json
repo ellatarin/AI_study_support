@@ -1,0 +1,16 @@
+{
+  "subtopicId": 14,
+  "checkerPromptVersion": "c12",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, so what does this look like in the clinic? [chuckles] I call this the four horsemen. You show up with something that's itchy, crusty, lumpy, or bloody.",
+      "reason": "The rewrite renders this as 'In the clinic, the presentation of cancer can be summarised as the \"four horsemen\": a patient shows up with something that is itchy, crusty, lumpy or bloody', accurately capturing the speaker's phrasing and examples without distortion."
+    },
+    {
+      "sourcePassage": "So in thinking about this, we try to jump the gun and try to screen for different cancers before we get to a malignant state",
+      "reason": "The rewrite rephrases 'in thinking about this' as 'For this reason', which accurately reflects the causal/consequential transition drawn by the speaker ('because of this... So in thinking about this')."
+    }
+  ]
+}

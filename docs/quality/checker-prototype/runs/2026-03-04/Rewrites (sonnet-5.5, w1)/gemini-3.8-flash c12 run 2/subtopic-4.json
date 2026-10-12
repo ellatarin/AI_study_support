@@ -1,0 +1,23 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c12",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite states that the slice through a tumour 'illustrates this' (referring to biologists explanting the tumour), creating an unsourced link between the slice and explanting that the lecturer did not make.",
+      "sourcePassage": "often they will explant the tumor. Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "rewritePassage": "A slice through a tumour, with a stain to show the morphology, illustrates this [FIGURE]."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Primary cells really don't grow in culture.",
+      "reason": "The omission of 'really' ('Primary cells do not grow in culture') is an allowed stylistic removal of conversational emphasis rather than the removal of a scientific hedge."
+    },
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "This is a remark to the audience and self-correction during lecturing, which is allowed to be omitted."
+    }
+  ]
+}

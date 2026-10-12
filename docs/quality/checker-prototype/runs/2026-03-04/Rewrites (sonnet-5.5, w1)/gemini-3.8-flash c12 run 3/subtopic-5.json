@@ -1,0 +1,27 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c12",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite uses 'since' to introduce a causal relationship between the terminology still being heard today and a surgeon being able to determine mobility by touch, whereas the lecturer only used 'where' to describe the context or situation in which the terminology is encountered.",
+      "sourcePassage": "And you'll hear this kind of terminology even now, where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable.",
+      "rewritePassage": "This terminology is still heard now, since a surgeon can tell just by holding or touching a tumour whether it is movable or immovable."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals",
+      "reason": "This is a statement about the course and audience, which is permitted to be omitted."
+    },
+    {
+      "sourcePassage": "Right. So, what does that mean for the patient? Well, the invasion, and whether or not that's seen histologically is probably the most important prognostic or diagnostic factor",
+      "reason": "The rhetorical question and conversational markers were streamlined into textbook prose ('For the patient, invasion...') without altering the meaning or causal links."
+    },
+    {
+      "sourcePassage": "there will be a biopsy to look and to see",
+      "reason": "The rewrite expresses this as 'a biopsy is taken to see', which uses different words with the same meaning."
+    }
+  ]
+}

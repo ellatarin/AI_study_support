@@ -1,0 +1,24 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c12",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "This is a personal remark / joke by the lecturer to themselves and the audience, so omitting it is an allowed change."
+    },
+    {
+      "sourcePassage": "or also this transcoelomic site from across a cavity",
+      "reason": "The rewrite renders this as 'or by a transcoelomic route, across a cavity', maintaining parallelism with the preceding 'routes' (lymphatics, blood circulation) introduced by the speaker; this does not distort the meaning."
+    },
+    {
+      "sourcePassage": "And I think one of the tumors that does this quite frequently is ovarian cancer, for example.",
+      "reason": "'I think' is a conversational filler rather than a scientific hedge on the established fact that ovarian cancer spreads transcoelomically."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here, and then you can often see sometimes the tumor cells are actually present within a lymphatic duct.",
+      "reason": "'You see your tumor cells are here' represents the speaker pointing to an image, and removing the deictic reference while retaining the core observation is permitted."
+    }
+  ]
+}

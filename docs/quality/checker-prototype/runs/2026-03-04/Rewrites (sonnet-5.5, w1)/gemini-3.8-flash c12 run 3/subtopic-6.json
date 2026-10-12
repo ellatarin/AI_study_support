@@ -1,0 +1,24 @@
+{
+  "subtopicId": 6,
+  "checkerPromptVersion": "c12",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "This is just to remind me to say tas instead of metastasis, which I do frequently.",
+      "reason": "This is a personal remark and aside to the audience, which is permitted to be dropped."
+    },
+    {
+      "sourcePassage": "or also this transcoelomic site from across a cavity",
+      "reason": "The speaker slipped when continuing the list of routes ('primary tumors can spread via a number of routes, either through... or through... or also this transcoelomic site'); rewriting this as 'by a transcoelomic route' resolves the false start/slip of the tongue without altering the meaning."
+    },
+    {
+      "sourcePassage": "And I think one of the tumors that does this quite frequently is ovarian cancer, for example.",
+      "reason": "'I think' is used here as a conversational speech mannerism rather than a scientific hedge, so omitting it is an allowed stylistic change."
+    },
+    {
+      "sourcePassage": "You see your tumor cells are here, and then you can often see sometimes the tumor cells are actually present within a lymphatic duct.",
+      "reason": "'You see your tumor cells are here' represents the speaker pointing at the primary tumor mass on a slide during the lecture; condensing this into a description of tumor cells visible within a lymphatic duct accurately preserves the core substantive observation."
+    }
+  ]
+}

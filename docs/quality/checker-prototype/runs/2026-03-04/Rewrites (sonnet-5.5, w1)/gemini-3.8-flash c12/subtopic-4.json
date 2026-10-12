@@ -1,0 +1,27 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c12",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite states that the stained slice through a tumour 'illustrates this' (referring to the explanting of tumours described in the preceding sentence). The lecturer only states that the image shows a slice through a tumour and a stain to look at morphology, without linking it as an illustration of tumour explantation.",
+      "sourcePassage": "So the other thing to appreciate is that when, if you like, biologists are studying tumors, often they will explant the tumor. Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "rewritePassage": "A slice through a tumour, with a stain to show the morphology, illustrates this [FIGURE]."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "This is an informal remark about lecture management and personal timing, which is an allowed omission."
+    },
+    {
+      "sourcePassage": "Primary cells really don't grow in culture.",
+      "reason": "The word 'really' serves as an informal colloquial intensifier rather than a scientific hedge, so phrasing this as 'Primary cells do not grow in culture' is an allowed stylistic change."
+    },
+    {
+      "sourcePassage": "with regard to the contributions of things like the stroma and other things.",
+      "reason": "Rendering 'and other things' as 'and other components' is an allowed stylistic improvement with the same meaning."
+    }
+  ]
+}

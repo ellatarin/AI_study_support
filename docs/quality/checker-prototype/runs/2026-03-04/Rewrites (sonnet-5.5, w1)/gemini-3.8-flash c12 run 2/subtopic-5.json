@@ -1,0 +1,31 @@
+{
+  "subtopicId": 5,
+  "checkerPromptVersion": "c12",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite introduces a causal link with the conjunction 'since', asserting that the terminology is still heard today because a surgeon can tell by touching whether a tumour is movable, whereas the source text only uses 'where' to describe the situation in which the terminology occurs.",
+      "sourcePassage": "And you'll hear this kind of terminology even now, where a surgeon can see just by holding or touching a tumor, whether or not it's movable or immovable.",
+      "rewritePassage": "This terminology is still heard now, since a surgeon can tell just by holding or touching a tumour whether it is movable or immovable."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "Okay. So with these tools in hand, I think the important concept to try and get across is",
+      "reason": "Omitted conversational framing and filler, which is an allowed change."
+    },
+    {
+      "sourcePassage": "back in, I don't know, when surgery was first coming into its own",
+      "reason": "The phrase 'I don't know' was omitted as conversational filler/hesitation."
+    },
+    {
+      "sourcePassage": "and that's something that you'll come to appreciate in your practicals",
+      "reason": "Omitted as a remark to the audience and a statement about the course, which is permitted."
+    },
+    {
+      "sourcePassage": "when somebody presents with a lump or a primary tumor",
+      "reason": "Rendered as 'When a patient presents with a lump or a primary tumour', which preserves the exact clinical meaning."
+    }
+  ]
+}
