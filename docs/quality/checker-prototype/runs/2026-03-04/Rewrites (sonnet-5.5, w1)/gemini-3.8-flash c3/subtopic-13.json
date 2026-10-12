@@ -1,0 +1,16 @@
+{
+  "subtopicId": 13,
+  "checkerPromptVersion": "c3",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "The lecturer's own cat developed a feline injection site sarcoma.",
+      "reason": "The text mentions 'And this is my cat, who also ended up with a feline injection site sarcoma', which is faithfully captured using third-person phrasing in the textbook rewrite."
+    },
+    {
+      "sourcePassage": "digestive tissues, hematopoietic, and skin are the three main categories",
+      "reason": "The rewrite expands 'hematopoietic' to 'hematopoietic tissues' to maintain grammatical parallelism with 'digestive tissues', which introduces no change in scientific meaning."
+    }
+  ]
+}

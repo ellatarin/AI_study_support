@@ -1,0 +1,20 @@
+{
+  "subtopicId": 1,
+  "checkerPromptVersion": "c3",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Okay, everyone, shall we get started? Yes. You're very welcome, all of you, to Cancer Biology.",
+      "reason": "Omitted conversational opening and greetings, which do not contain subject matter."
+    },
+    {
+      "sourcePassage": "So I tag-teamed these lectures with Professor Turner, and so she will also be teaching three of these lectures.",
+      "reason": "Rewritten as 'The lectures are shared with Professor Turner, who teaches three of the six', correctly integrating the previously stated total of six lectures without altering factual meaning."
+    },
+    {
+      "sourcePassage": "So for today, the learning outcomes are listed there.",
+      "reason": "Adapted lecture slide reference into standard textbook prose ('The learning outcomes for this lecture are as follows.')."
+    }
+  ]
+}

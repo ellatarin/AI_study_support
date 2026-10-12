@@ -1,0 +1,20 @@
+{
+  "subtopicId": 3,
+  "checkerPromptVersion": "c3",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "during adolescence and maturation, this occurs from infancy to adulthood",
+      "reason": "In the source text, 'this' refers back to 'development and differentiation' from the preceding sentence. The rewrite's phrasing ('differentiation and maturation also occur from infancy to adulthood') captures the intended meaning without altering the scientific content."
+    },
+    {
+      "sourcePassage": "provides a signaling and basis for their adherence to this layer",
+      "reason": "The rewrite renders this as 'provides a signalling basis for their adherence to this layer', which treats 'signaling and basis' as a spoken stumble for 'signalling basis' without altering the substantive meaning."
+    },
+    {
+      "sourcePassage": "into the invading stroma",
+      "reason": "The lecturer referred to the stroma being invaded by tumour cells as 'the invading stroma'. The rewrite renders this as 'the invaded stroma', resolving the slip of the tongue without changing the scientific meaning."
+    }
+  ]
+}

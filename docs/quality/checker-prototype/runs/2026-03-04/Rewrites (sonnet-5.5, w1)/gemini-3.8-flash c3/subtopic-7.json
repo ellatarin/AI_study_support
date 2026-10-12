@@ -1,0 +1,16 @@
+{
+  "subtopicId": 7,
+  "checkerPromptVersion": "c3",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So you can see again that this is actually circumspect and very separate from the surrounding stroma and the surrounding tissue.",
+      "reason": "The lecturer used the malapropism 'circumspect' when describing the physical boundary of the tumour, which the rewrite appropriately rendered as 'circumscribed'."
+    },
+    {
+      "sourcePassage": "You can see that the tumor is here. This is the outer surface of the uterus.",
+      "reason": "The rewrite translates the lecturer's deictic references to visual slide elements into descriptive prose ('The tumour lies next to the outer surface of the uterus') without altering the factual content."
+    }
+  ]
+}

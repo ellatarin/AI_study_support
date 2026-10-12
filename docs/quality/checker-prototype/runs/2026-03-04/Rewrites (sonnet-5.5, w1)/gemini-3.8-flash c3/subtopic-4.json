@@ -1,0 +1,16 @@
+{
+  "subtopicId": 4,
+  "checkerPromptVersion": "c3",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "Whoops, I forgot to start my clock. Okay.",
+      "reason": "Omitted conversational aside about the lecturer's timing, which contains no scientific information."
+    },
+    {
+      "sourcePassage": "Here you're looking at a slice through a tumor and a stain to look at the morphology.",
+      "reason": "Rephrased as a figure reference ('illustrates this [FIGURE]'), which is an acceptable representation of slide demonstration language."
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "subtopicId": 11,
+  "checkerPromptVersion": "c3",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "distortion",
+      "description": "The rewrite states that a tumour occurs in a meningioma, treating a meningioma as an anatomical site or organ, whereas a meningioma is itself a type of tumour.",
+      "sourcePassage": "Only 10% of these deaths, generally, if they're occurring in things like the meningioma that I was telling you about or in the liver.",
+      "rewritePassage": "Only 10% of deaths are generally caused in this way, for example when the tumour occurs in a meningioma or in the liver."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "you saw that enormous cauliflower structure within the colon.",
+      "reason": "The reference to what the audience saw on a slide or specimen was adapted to 'seen within the colon', retaining the descriptive fact without loss of scientific content."
+    },
+    {
+      "sourcePassage": "This all sounds very terrible in terms of ways in which to die. ... So it's not very good.",
+      "reason": "These are conversational remarks and lecturer commentary rather than scientific facts, so their omission or condensing into textbook style is acceptable."
+    }
+  ]
+}

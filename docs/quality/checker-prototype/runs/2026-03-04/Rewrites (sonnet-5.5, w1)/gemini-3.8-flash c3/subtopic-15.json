@@ -1,0 +1,20 @@
+{
+  "subtopicId": 15,
+  "checkerPromptVersion": "c3",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "The uterus is here in this diagram, and as you know, it hangs down into the vaginal canal.",
+      "reason": "Anatomically, the cervix projects into the vagina, but the lecturer explicitly said the uterus hangs down into the vaginal canal; the rewrite faithfully follows the lecturer's wording without introducing unsourced corrections."
+    },
+    {
+      "sourcePassage": "You can see maybe with sharp eyes, you'll see that there's a mitotic cell here and there's one here",
+      "reason": "This is demonstrative commentary referencing specific features on a slide/figure during the lecture and does not alter the factual explanation that mitotic cells are restricted to the basement layer."
+    },
+    {
+      "sourcePassage": "here is the endocervical canal that it goes between the neck of the womb",
+      "reason": "The transcription phrasing 'goes between the neck of the womb' is rendered as 'runs through the neck of the womb', which preserves the intended meaning without distortion."
+    }
+  ]
+}

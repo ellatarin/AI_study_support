@@ -1,0 +1,23 @@
+{
+  "subtopicId": 12,
+  "checkerPromptVersion": "c3",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [
+    {
+      "deficiencyType": "unsourced-addition",
+      "description": "The rewrite introduces an unsourced causal link ('because') asserting that benign tumours are extremely common because it takes a great deal for them to become malignant.",
+      "sourcePassage": "So benign tumors are actually incredibly common. Right? So it actually takes a lot for a benign tumor to become malignant in terms of, as I said, the number of changes that have to happen within a tumor.",
+      "rewritePassage": "Benign tumours are extremely common, because it takes a great deal for a benign tumour to become malignant, given the number of changes that have to happen within a tumour."
+    }
+  ],
+  "considerations": [
+    {
+      "sourcePassage": "And then this is, if you like, the percentage of tumors that result in deaths.",
+      "reason": "The rewrite renders this slide reference as 'A further slide shows the percentage of tumours that result in deaths', which faithfully conveys the lecturer's presentation context."
+    },
+    {
+      "sourcePassage": "So liver cancer and nasopharyngeal carcinomas are very big in Chinese populations.",
+      "reason": "The rewrite translates 'very big' to 'very common', which preserves the intended meaning without distortion."
+    }
+  ]
+}

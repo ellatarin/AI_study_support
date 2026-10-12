@@ -1,0 +1,16 @@
+{
+  "subtopicId": 10,
+  "checkerPromptVersion": "c3",
+  "modelId": "google/gemini-3.8-flash",
+  "deficiencies": [],
+  "considerations": [
+    {
+      "sourcePassage": "So just so that we're all on the same page in terms of nomenclature, and of course, with any naming system, there are always exceptions to every rule.",
+      "reason": "The introductory conversational remark ('just so that we're all on the same page') is a rhetorical framing phrase and was appropriately omitted as filler."
+    },
+    {
+      "sourcePassage": "So the fat, smooth muscle or papillomas in the skin, and adenomas, as we were talking about in the colon.",
+      "reason": "The lecturer explicitly matches the previously mentioned tumour names to their tissues ('lipoma' to fat, 'leiomyoma' to smooth muscle, etc.), which the rewrite phrases cleanly without adding or distorting facts."
+    }
+  ]
+}
