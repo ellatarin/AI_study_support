@@ -81,7 +81,12 @@ describe("createRewriteSubtopicsStage", () => {
 		await run();
 
 		expect(create()).toHaveBeenCalledTimes(2);
-		expect(await readJsonFile(rewritePath(1))).toMatchObject({ rewrittenSubtopic: [] });
+		expect([await readJsonFile(rewritePath(1)), await readJsonFile(rewritePath(2))]).toStrictEqual(
+			expect.arrayContaining([
+				expect.objectContaining({ rewrittenSubtopic: [] }),
+				expect.objectContaining({ rewrittenSubtopic: [usableParagraph] }),
+			]),
+		);
 	});
 
 	it("should keep a saved rewrite and make no call for its subtopic when the stage runs again", async () => {
