@@ -12,6 +12,7 @@
 			"*.ts",
 			"*.js",
 			"*.json",
+			"docs/quality/*.json",
 			"scripts/**/*.mjs",
 			"!node_modules",
 			"!.claude"
