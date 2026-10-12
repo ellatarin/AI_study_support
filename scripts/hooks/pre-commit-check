@@ -63,8 +63,10 @@ changed_any="$( { git diff HEAD --name-only --diff-filter=ACM; git ls-files --ot
 # The segmentation prototype is left out of Biome's scope in biome.json by
 # decision, and its runs/ archive holds hundreds of generated JSON files that
 # would each be "provided but ignored". It is filtered out here to match, so
-# that anywhere else a path Biome ignores still fails the gate.
-changed_biome="$(echo "$changed_any" | grep -E '\.(ts|tsx|js|mjs|cjs|jsx|json|jsonc)$' | grep -v '^docs/quality/segmentation-prototype/' || true)"
+# that anywhere else a path Biome ignores still fails the gate. The runs/ archive
+# of the checker prototype is generated JSON in the same way, and its folder
+# names hold spaces that xargs would split. It is filtered out for both reasons.
+changed_biome="$(echo "$changed_any" | grep -E '\.(ts|tsx|js|mjs|cjs|jsx|json|jsonc)$' | grep -v -e '^docs/quality/segmentation-prototype/' -e '^docs/quality/checker-prototype/runs/' || true)"
 changed_code="$(echo "$changed_any" | grep -E '\.(ts|tsx|js|mjs|cjs)$' || true)"
 
 fail() {
