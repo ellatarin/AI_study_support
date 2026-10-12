@@ -55,26 +55,31 @@ export function rewritesRunsFolder({
 
 /**
  * Gives the folder of one run: one model with one prompt version, named by the
- * model's short name and the version, such as "gemini-3.8-flash c3".
+ * model's short name and the version, such as "gemini-3.8-flash c3". A repeat
+ * run adds its number, such as "gemini-3.8-flash c3 run 2".
  *
- * @param args - The lecture, the rewrites folder, the model and the version.
+ * @param args - The lecture, the rewrites folder, the model, the version and the run number.
  * @param args.lecture - The date of the lecture.
  * @param args.rewrites - The name of the rewrites folder.
  * @param args.modelId - The OpenRouter model id, such as "google/gemini-3.8-flash".
  * @param args.version - The prompt version, such as "c3".
+ * @param args.runNumber - The number of the run of this model and version, from 1.
  * @returns The absolute path.
  */
 export function checkRunFolder({
 	modelId,
 	version,
+	runNumber,
 	...rewritesFolder
 }: {
 	readonly lecture: string;
 	readonly rewrites: string;
 	readonly modelId: string;
 	readonly version: string;
+	readonly runNumber: number;
 }): string {
-	return join(rewritesRunsFolder(rewritesFolder), `${modelId.split("/").pop() ?? modelId} ${version}`);
+	const repeat = runNumber === 1 ? "" : ` run ${runNumber}`;
+	return join(rewritesRunsFolder(rewritesFolder), `${modelId.split("/").pop() ?? modelId} ${version}${repeat}`);
 }
 
 /**

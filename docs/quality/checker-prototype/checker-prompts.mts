@@ -79,6 +79,77 @@ Reply with a single JSON object and nothing else, in this exact shape:
 
 An empty "deficiencies" list means that the rewrite is faithful.`;
 
+/** The allowance of the versions from c5, which says what a remark to the audience is. */
+const DEFINED_REMARK_ALLOWANCE =
+	"- Dropped filler, false starts, repetitions, jokes, remarks to the audience, and statements about the course or the lecture. A remark to the audience says nothing about the subject, such as a greeting. A sentence that names a structure, a cell or a process, or that asks a question about the subject, is subject matter, even when the lecturer speaks to the students. When such a passage also states subject matter, a dropped statement is an omission.";
+
+/**
+ * Builds the prompt of the versions from c4, which compare one statement at a
+ * time and list the forbidden and the allowed changes.
+ *
+ * @param args - The language and the allowance for dropped material.
+ * @param args.name - The name of the notes' language.
+ * @param args.notSubjectMatterAllowance - The allowed-change line for dropped material that is not subject matter.
+ * @returns The prompt.
+ */
+function forbiddenChangesPrompt({
+	name,
+	notSubjectMatterAllowance,
+}: {
+	readonly name: string;
+	readonly notSubjectMatterAllowance: string;
+}): string {
+	return `${lecturerTask(name)}
+
+${WHAT_YOU_GET}
+
+# Process
+
+1. Read the text and the rewrite.
+2. Take each statement of the text in turn. Find the statement in the rewrite. Compare the two.
+3. Take each statement of the rewrite in turn. Find its source in the text. Compare the two.
+4. For each difference, find it in "Forbidden changes" or in "Allowed changes".
+5. Report each forbidden change. When you are not sure whether a change is forbidden, report it.
+
+Do not judge a paragraph as a whole. A paragraph of the rewrite can keep the main points of the text and still change one statement. A student who reads that paragraph learns the changed statement.
+
+# Forbidden changes
+
+Report each of these changes, even when the changed statement is true.
+
+## Omissions
+
+- A fact, an observation, a step of reasoning or a causal link of the text is not in the rewrite.
+- What the lecturer says that a figure shows is not in the rewrite. A statement of what a figure shows is subject matter, not a remark to the audience.
+
+## Unsourced additions
+
+- The rewrite states a fact that the text does not state.
+- The rewrite states a link between two statements, and the text does not state that link. A link can be a cause, a result, a definition, or a statement that two things are the same.
+- One word can state a link. For example, "hence" states a cause, and "namely" states that two things are the same. A rewrite that adds such a word adds a link.
+- When the text only puts two statements next to each other, the text does not state a link between them.
+- The rewrite turns the lecturer's pointing words, such as "here" and "this", into a description that the lecturer did not give.
+
+## Distortions
+
+- A changed term, name or number.
+- A causal claim with a changed cause or effect. A cause that becomes wider or narrower is a changed cause.
+- A term that keeps its words but gets a different role in the sentence.
+- A hedge removed from a scientific claim.
+- An unclear or incomplete statement of the text that the rewrite makes clear or complete. The rewrite chose one reading, even when that reading is likely.
+
+# Allowed changes
+
+Do not report these changes:
+${notSubjectMatterAllowance}
+- Different words with exactly the same meaning.
+${spellingAllowance(name)}
+${FORM_ALLOWANCE}
+- The right form of a term correction in place of its wrong form. Treat each correction as right.
+
+${QUOTED_REPLY}`;
+}
+
 const CHECKER_PROMPTS: Readonly<Record<string, CheckerPromptVersion>> = {
 	c2: {
 		changed:
@@ -206,55 +277,14 @@ ${QUOTED_REPLY}`,
 	c4: {
 		changed:
 			"Adds a Process section that compares one statement at a time and reports a change when in doubt. Splits the faults into Forbidden changes and Allowed changes. Names a link that the text only suggests, a cause that becomes wider or narrower, a term with a changed role, an unclear statement made clear, and what a figure shows. Gives two example words of a link. Asks for exactly the same meaning. Has no allowance for the repair of a misheard word.",
-		prompt: (name) => `${lecturerTask(name)}
-
-${WHAT_YOU_GET}
-
-# Process
-
-1. Read the text and the rewrite.
-2. Take each statement of the text in turn. Find the statement in the rewrite. Compare the two.
-3. Take each statement of the rewrite in turn. Find its source in the text. Compare the two.
-4. For each difference, find it in "Forbidden changes" or in "Allowed changes".
-5. Report each forbidden change. When you are not sure whether a change is forbidden, report it.
-
-Do not judge a paragraph as a whole. A paragraph of the rewrite can keep the main points of the text and still change one statement. A student who reads that paragraph learns the changed statement.
-
-# Forbidden changes
-
-Report each of these changes, even when the changed statement is true.
-
-## Omissions
-
-- A fact, an observation, a step of reasoning or a causal link of the text is not in the rewrite.
-- What the lecturer says that a figure shows is not in the rewrite. A statement of what a figure shows is subject matter, not a remark to the audience.
-
-## Unsourced additions
-
-- The rewrite states a fact that the text does not state.
-- The rewrite states a link between two statements, and the text does not state that link. A link can be a cause, a result, a definition, or a statement that two things are the same.
-- One word can state a link. For example, "hence" states a cause, and "namely" states that two things are the same. A rewrite that adds such a word adds a link.
-- When the text only puts two statements next to each other, the text does not state a link between them.
-- The rewrite turns the lecturer's pointing words, such as "here" and "this", into a description that the lecturer did not give.
-
-## Distortions
-
-- A changed term, name or number.
-- A causal claim with a changed cause or effect. A cause that becomes wider or narrower is a changed cause.
-- A term that keeps its words but gets a different role in the sentence.
-- A hedge removed from a scientific claim.
-- An unclear or incomplete statement of the text that the rewrite makes clear or complete. The rewrite chose one reading, even when that reading is likely.
-
-# Allowed changes
-
-Do not report these changes:
-${NOT_SUBJECT_MATTER_ALLOWANCE}
-- Different words with exactly the same meaning.
-${spellingAllowance(name)}
-${FORM_ALLOWANCE}
-- The right form of a term correction in place of its wrong form. Treat each correction as right.
-
-${QUOTED_REPLY}`,
+		prompt: (name) =>
+			forbiddenChangesPrompt({ name, notSubjectMatterAllowance: NOT_SUBJECT_MATTER_ALLOWANCE }),
+	},
+	c5: {
+		changed:
+			"Says what a remark to the audience is: a sentence that says nothing about the subject. A sentence that names a structure, a cell or a process, or asks a question about the subject, is subject matter.",
+		prompt: (name) =>
+			forbiddenChangesPrompt({ name, notSubjectMatterAllowance: DEFINED_REMARK_ALLOWANCE }),
 	},
 };
 

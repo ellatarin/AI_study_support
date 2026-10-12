@@ -3,12 +3,14 @@
  * lecture's structured transcript, term corrections and one rewrites folder, and
  * never writes to the lecture. Each pair of model and prompt version gets its
  * own folder under `runs/`. A subtopic with a saved result is not sent again,
- * so a second command finishes a run that failed part of the way.
+ * so a second command finishes a run that failed part of the way. `--runs`
+ * gives the run numbers, 1 by default. A repeat run gets its own folder.
  *
  * Usage, from the project root:
  *   pnpm exec tsx docs/quality/checker-prototype/check-trial.mts \
  *     --lecture 2026-03-04 --rewrites "Rewrites (sonnet-5.5, w1)" \
- *     --prompts c3 --models google/gemini-3.8-flash,openai/gpt-5.6-sol-pro
+ *     --prompts c3 --models google/gemini-3.8-flash,openai/gpt-5.6-sol-pro \
+ *     --runs 2,3
  */
 
 import "dotenv/config";
@@ -24,7 +26,7 @@ import { rewriteAttemptFilePath, subtopicPromptMessages } from "/Users/ellatarin
 import { readStructuredTranscript } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/pipeline/stages/structured-transcript.js";
 import { isSubtopicRewrite } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/pipeline/stages/subtopic-rewrites.js";
 import { isTermCorrectionResult } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/pipeline/stages/term-corrections.js";
-import { readOrMakeSavedFiles, unreadableSavedFileMessage } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/pipeline/stages/saved-files.js";
+import { mapWithConcurrency } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/utils/concurrency.js";
 import { createCostTally } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/utils/cost.js";
 import { pathExists, writeJsonAtomic } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/utils/files.js";
 import { isRecord } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/utils/record.js";
@@ -172,6 +174,7 @@ async function readMaterial({
  * @param args.rewrites - The name of the rewrites folder.
  * @param args.modelId - The OpenRouter model id.
  * @param args.version - The prompt version.
+ * @param args.runNumber - The number of the run of this model and version, from 1.
  * @param args.material - The material of each subtopic.
  * @param args.baseConfig - The pipeline configuration.
  * @returns A one-line summary of the run.
@@ -181,6 +184,7 @@ async function runOne({
 	rewrites,
 	modelId,
 	version,
+	runNumber,
 	material,
 	baseConfig,
 }: {
@@ -188,10 +192,12 @@ async function runOne({
 	readonly rewrites: string;
 	readonly modelId: string;
 	readonly version: string;
+	readonly runNumber: number;
 	readonly material: readonly Material[];
 	readonly baseConfig: ReturnType<typeof parseConfig>;
 }): Promise<string> {
-	const folder = checkRunFolder({ lecture, rewrites, modelId, version });
+	const folder = checkRunFolder({ lecture, rewrites, modelId, version, runNumber });
+	const runName = `${modelId} ${version} run ${runNumber}`;
 	await mkdir(folder, { recursive: true });
 	const borrowed = baseConfig.stages[CHECK_STAGE_ID];
 	if (borrowed === undefined) {
@@ -208,18 +214,15 @@ async function runOne({
 	const startedAt = new Date();
 	let checked = 0;
 
-	try {
-		await readOrMakeSavedFiles({
-			files: material.map((subtopic) => ({
-				...subtopic,
-				path: join(folder, subtopicResultFile(subtopic.subtopicId)),
-			})),
-			label: `${modelId} ${version}`,
-			concurrency: CONCURRENCY,
-			readSaved: (value) => (isCheckerReply(value) ? value : null),
-			unreadable: (path) =>
-				new Error(unreadableSavedFileMessage({ path, content: "check", remake: "check the subtopic" })),
-			make: async ({ subtopicId, path: _path, ...subtopic }) => {
+	await mapWithConcurrency({
+		items: material,
+		limit: CONCURRENCY,
+		work: async ({ item: { subtopicId, ...subtopic } }) => {
+			const resultPath = join(folder, subtopicResultFile(subtopicId));
+			if (await pathExists(resultPath)) {
+				return;
+			}
+			try {
 				const { sent } = await sendUntilAccepted<CheckerReply, UnusableReply>({
 					send: async () => {
 						const { content } = await callModel({
@@ -237,16 +240,18 @@ async function runOne({
 					onFailure: ({ send, failure, replyText }) => {
 						unusableReplies.push({ subtopicId, send, reason: failure, replyText });
 					},
-					exhausted: ({ failure, sends }) =>
-						new Error(`subtopic ${subtopicId} failed after ${sends} sends: ${failure}`),
+					exhausted: ({ failure, sends }) => new Error(`failed after ${sends} sends: ${failure}`),
+				});
+				await writeJsonAtomic({
+					path: resultPath,
+					value: { subtopicId, checkerPromptVersion: version, modelId, ...sent },
 				});
 				checked += 1;
-				return { subtopicId, checkerPromptVersion: version, modelId, ...sent };
-			},
-		});
-	} catch (error: unknown) {
-		failedSubtopics.push({ error: String(error) });
-	}
+			} catch (error: unknown) {
+				failedSubtopics.push({ subtopicId, error: String(error) });
+			}
+		},
+	});
 
 	const runFile = join(folder, "run.json");
 	const earlier: unknown = (await pathExists(runFile)) ? JSON.parse(await readFile(runFile, "utf8")) : null;
@@ -273,7 +278,7 @@ async function runOne({
 		},
 	});
 	const costText = typeof cost?.costUsd === "number" ? `$${cost.costUsd.toFixed(2)}` : "cost unknown";
-	return `${modelId} ${version}: ${checked} checked, ${failedSubtopics.length} failed, ${costText}`;
+	return `${runName}: ${checked} checked, ${failedSubtopics.length} failed, ${costText}`;
 }
 
 /**
@@ -292,18 +297,30 @@ const { values } = parseArgs({
 		rewrites: { type: "string" },
 		prompts: { type: "string" },
 		models: { type: "string" },
+		runs: { type: "string", default: "1" },
 	},
 });
 const prompts = list(values.prompts);
 const models = list(values.models);
+const runNumbers = list(values.runs).map(Number);
+if (runNumbers.some((runNumber) => !Number.isInteger(runNumber) || runNumber < 1)) {
+	throw new Error(`--runs takes run numbers from 1, such as "2,3". It was "${values.runs}".`);
+}
 if (values.lecture === undefined || values.rewrites === undefined || prompts.length === 0 || models.length === 0) {
 	throw new Error("Give --lecture, --rewrites, --prompts and --models. See the usage at the top of this file.");
 }
 const { lecture, rewrites } = values;
 const baseConfig = parseConfig(JSON.parse(await readFile(join(PROJECT_ROOT, "pipeline-config.json"), "utf8")));
 const material = await readMaterial({ workspaceRoot: await workspaceOf(lecture), rewrites });
-for (const modelId of models) {
-	for (const version of prompts) {
-		console.log(await runOne({ lecture, rewrites, modelId, version, material, baseConfig }));
-	}
+const summaries = await Promise.all(
+	models.flatMap((modelId) =>
+		prompts.flatMap((version) =>
+			runNumbers.map((runNumber) =>
+				runOne({ lecture, rewrites, modelId, version, runNumber, material, baseConfig }),
+			),
+		),
+	),
+);
+for (const summary of summaries) {
+	console.log(summary);
 }
