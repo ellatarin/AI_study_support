@@ -1,0 +1,49 @@
+{
+  "question": {
+    "type": "noul",
+    "instructions": "The `rewrite` turns what the lecturer said in `lecture` into textbook prose for students. A checker reported the change in `reportedFault`, about the words in `lecturePassage` and `rewritePassage`. Does this change make a student who learns from the rewrite learn something wrong, or miss something that the lecturer taught?",
+    "criteria": {
+      "true": "Yes: the rewrite states a fact, a link or a description that is wrong or doubtful, such as a link that makes two things the same when the lecturer only lists them, merges two separate things into one, widens or narrows a cause, gives a term a different role, or drops a fact, a step or something that the lecturer points out to look for on a slide.",
+      "false": "No: the rewrite keeps what the student learns. Examples: an added link or description that is correct, as when the lecturer says 'Most seeds never sprout. It takes the right soil, water and warmth' and the rewrite says 'Most seeds never sprout, because it takes the right soil, water and warmth', a repaired slip of speech, a sentence rebuilt with the same meaning, a dropped hedge or filler word, or a dropped remark about the course."
+    }
+  },
+  "inputTokens": 10386,
+  "scores": [
+    {
+      "subtopicId": 11,
+      "faultIndex": 0,
+      "score": 0.89,
+      "jevModel": "jev-1.13.0"
+    },
+    {
+      "subtopicId": 12,
+      "faultIndex": 0,
+      "score": 0.73,
+      "jevModel": "jev-1.13.0"
+    },
+    {
+      "subtopicId": 2,
+      "faultIndex": 0,
+      "score": 0.77,
+      "jevModel": "jev-1.13.0"
+    },
+    {
+      "subtopicId": 3,
+      "faultIndex": 0,
+      "score": 0.74,
+      "jevModel": "jev-1.13.0"
+    },
+    {
+      "subtopicId": 4,
+      "faultIndex": 0,
+      "score": 0.7,
+      "jevModel": "jev-1.13.0"
+    },
+    {
+      "subtopicId": 7,
+      "faultIndex": 0,
+      "score": 0.57,
+      "jevModel": "jev-1.13.0"
+    }
+  ]
+}
