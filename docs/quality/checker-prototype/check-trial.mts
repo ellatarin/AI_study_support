@@ -20,21 +20,18 @@ import { basename, join } from "node:path";
 import { parseArgs } from "node:util";
 import pino from "pino";
 import { parseConfig } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/pipeline/config.js";
-import { stageOutputPath } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/pipeline/layout.js";
 import {
 	callModel,
 	createOpenRouterClientProvider,
 	type OpenRouterClient,
 } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/pipeline/openrouter.js";
-import { rewriteAttemptFilePath, subtopicPromptMessages } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/pipeline/stages/rewrite-attempts.js";
-import { readStructuredTranscript } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/pipeline/stages/structured-transcript.js";
-import { isSubtopicRewrite } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/pipeline/stages/subtopic-rewrites.js";
-import { isTermCorrectionResult } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/pipeline/stages/term-corrections.js";
+import { subtopicPromptMessages } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/pipeline/stages/rewrite-attempts.js";
 import { createCostTally } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/utils/cost.js";
 import { pathExists, writeJsonAtomic } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/utils/files.js";
 import { isRecord } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/utils/record.js";
 import { type FailedSend, sendUntilAccepted } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/utils/resend.js";
 import { createSendGate } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/utils/send-gate.js";
+import { type Material, readChecked, readMaterial } from "./check-results.mts";
 import { checkerSystemPrompt } from "./checker-prompts.mts";
 import { cutIntoParts, type SplitPart } from "./paragraph-parts.mts";
 import {
@@ -45,17 +42,6 @@ import {
 	subtopicResultFile,
 	workspaceOf,
 } from "./prototype-layout.mts";
-
-/** The rewrite attempt that the trial reads: the first round. */
-const ATTEMPT_NUMBER = 1;
-
-/** What the checker gets for one subtopic: the same material as in the pipeline. */
-type Material = {
-	readonly subtopicId: number;
-	readonly text: string;
-	readonly corrections: readonly { readonly wrongForm: string; readonly rightForm: string; readonly reason: string }[];
-	readonly rewrite: readonly string[];
-};
 
 /** What the checker gets in one call: a whole subtopic, or one part of it. */
 type CheckUnit = Omit<Material, "subtopicId">;
@@ -141,79 +127,6 @@ function readReply(content: string): CheckerReply | UnusableReply {
 		return unusable(`not JSON (${String(error)})`);
 	}
 	return isCheckerReply(parsed) ? parsed : unusable("no deficiencies or considerations list");
-}
-
-/**
- * Reads a JSON file and checks its shape.
- *
- * @param args - The file and its check.
- * @param args.path - The absolute path.
- * @param args.isShape - Checks the parsed value.
- * @returns The parsed value.
- * @throws Error when the value does not have the shape.
- * @typeParam TValue - The shape of the file.
- */
-async function readChecked<TValue>({
-	path,
-	isShape,
-}: {
-	readonly path: string;
-	readonly isShape: (value: unknown) => value is TValue;
-}): Promise<TValue> {
-	const value: unknown = JSON.parse(await readFile(path, "utf8"));
-	if (!isShape(value)) {
-		throw new Error(`${path} does not have the expected shape`);
-	}
-	return value;
-}
-
-/**
- * Reads the material of each subtopic: its text, the kept corrections of the
- * first rewrite attempt, and its rewrite from the named rewrites folder.
- *
- * @param args - The workspace and the rewrites folder.
- * @param args.workspaceRoot - The absolute path of the workspace.
- * @param args.rewrites - The name of the rewrites folder in the workspace.
- * @returns The material of each subtopic, in lecture order.
- */
-async function readMaterial({
-	workspaceRoot,
-	rewrites,
-}: {
-	readonly workspaceRoot: string;
-	readonly rewrites: string;
-}): Promise<readonly Material[]> {
-	const transcript = readStructuredTranscript(
-		JSON.parse(await readFile(stageOutputPath({ workspaceRoot, stageId: "structure-transcript" }), "utf8")),
-	);
-	if (transcript === null) {
-		throw new Error(`The structured transcript of ${workspaceRoot} is not readable`);
-	}
-	const subtopics = transcript.topics.flatMap((topic) => topic.subtopics);
-	return Promise.all(
-		subtopics.map(async ({ subtopicId, text }) => {
-			const attempt = { workspaceRoot, subtopicId, attemptNumber: ATTEMPT_NUMBER };
-			const correction = await readChecked({
-				path: rewriteAttemptFilePath({ ...attempt, stageId: "correct-terms" }),
-				isShape: isTermCorrectionResult,
-			});
-			const rewriteFile = basename(rewriteAttemptFilePath({ ...attempt, stageId: "rewrite-subtopics" }));
-			const rewrite = await readChecked({
-				path: join(workspaceRoot, rewrites, rewriteFile),
-				isShape: isSubtopicRewrite,
-			});
-			return {
-				subtopicId,
-				text,
-				corrections: correction.corrections.map(({ wrongForm, rightForm, reason }) => ({
-					wrongForm,
-					rightForm,
-					reason,
-				})),
-				rewrite: rewrite.rewrittenSubtopic,
-			};
-		}),
-	);
 }
 
 /**

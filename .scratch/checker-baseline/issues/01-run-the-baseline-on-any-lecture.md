@@ -28,13 +28,13 @@ The Jev check and the panel exist only as trial scripts in `.scratch/checker-jev
 
 Facts from the trials:
 
-- The Jev request is `POST https://api.typesafe.ai/v1/systemone` with the key `TYPESAFE_API_KEY` from `.env`. The question and its criteria are in `.scratch/checker-jev/jev-judge-link.mts`. Jev gives the same score each time for the same input.
+- The Jev request is `POST https://api.typesafe.ai/v1/systemone` with the key `TYPESAFE_API_KEY` from `.env`. The question and its criteria are in `.scratch/checker-jev/jev-judge-link.mts`.
 - A script that loads `dotenv/config` must run from the project root, or it does not find `.env`.
 
 ## Steps
 
-- [ ] `judge-faults.mts` and `panel-checks.mts` are built test first, with the lecture and the answer key as inputs.
-- [ ] On lecture 3, the two scripts give the same panel result as the trials.
+- [x] `judge-faults.mts` and `panel-checks.mts` are built test first, with the lecture and the answer key as inputs.
+- [x] On lecture 3, the two scripts give the same panel result as the trials.
 - [ ] The user runs the pipeline rewrite on the next lecture.
 - [ ] Sol Pro finds all the potential faults in the new rewrites.
 - [ ] The user marks each fault, and the marks become the answer key of that lecture.
@@ -42,3 +42,9 @@ Facts from the trials:
 - [ ] The result gives the real and false faults by name, for each run and for the panel.
 
 ## Comments
+
+### 2026-10-13: the two scripts are built
+
+The scripts were checked on the nine Flash c20 runs of lecture 3, in all 126 panels of 5, with a Jev bar of 0.6 and 2 votes. With the trial's Jev scores, the scripts give the trial's result: 2.1, 4.A and 11.A in 126 panels, 7.1 in 121, and false 12.1 in 126 and 7.2 in 35.
+
+Jev does not give the same score each time. Three calls with the same input gave 0.66, 0.63 and 0.64. The new scores of the nine runs differ from the trial's by up to 0.04. Two scores of 7.1 moved from 0.57 and 0.58 to 0.60 and 0.62, so 7.1 is now kept in all 126 panels. The `jev-scores.json` files of the nine runs hold the new scores.

@@ -16,16 +16,16 @@ import { parseArgs } from "node:util";
 import { runLogsDirPath } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/pipeline/layout.js";
 import { pathExists } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/utils/files.js";
 import { isRecord } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/utils/record.js";
-import { matchesKeyFault, type QuotedFault } from "./fault-matching.mts";
-import { CHECK_STAGE_ID, PROJECT_ROOT, rewritesRunsFolder, workspaceOf } from "./prototype-layout.mts";
-
-/** The answer key of each lecture and rewrites folder: the review with the user's marks. */
-const ANSWER_KEYS: Readonly<Record<string, string>> = {
-	"2026-03-04/Rewrites (sonnet-5.5, w1)": join(
-		PROJECT_ROOT,
-		"docs/quality/2026-10-11-lecture-3-checker-c2-review.json",
-	),
-};
+import {
+	type CheckerFault,
+	type KeyFault,
+	listSubtopicResultFiles,
+	MATTERS,
+	readAnswerKey,
+	readFaults,
+} from "./check-results.mts";
+import { matchesKeyFault } from "./fault-matching.mts";
+import { CHECK_STAGE_ID, rewritesRunsFolder, workspaceOf } from "./prototype-layout.mts";
 
 /**
  * The run logs of each saved "Checks (…)" folder of a lecture, keyed by the
@@ -46,19 +46,6 @@ const PIPELINE_CHECK_RUN_LOGS: Readonly<Record<string, readonly string[]>> = {
 	"2026-03-04/Checks (sonnet-5.5, w1, gemini-3.8-flash, c3)": ["2026-10-12T10-22-37Z"],
 };
 
-/** The user's mark for a fault that matters. */
-const MATTERS = "matters";
-
-/** A fault that a checker reported. */
-type CheckerFault = QuotedFault & { readonly deficiencyType: string; readonly description: string };
-
-/** A fault of the answer key, with the user's mark. */
-type KeyFault = QuotedFault & {
-	readonly fault: string;
-	readonly description: string;
-	readonly userVerdict: string;
-};
-
 /** One checker's results on the rewrites: its faults and what it cost. */
 type CheckerResults = {
 	readonly name: string;
@@ -66,37 +53,6 @@ type CheckerResults = {
 	readonly subtopicsChecked: number;
 	readonly costUsd: number | null;
 };
-
-/**
- * Gives a passage of a parsed fault, or null.
- *
- * @param value - The passage as parsed.
- * @returns The passage when it is a string, or null.
- */
-function passage(value: unknown): string | null {
-	return typeof value === "string" ? value : null;
-}
-
-/**
- * Reads the faults of one result file of a subtopic.
- *
- * @param path - The absolute path of the file.
- * @returns The faults, with the subtopic of the file.
- */
-async function readFaults(path: string): Promise<readonly CheckerFault[]> {
-	const check: unknown = JSON.parse(await readFile(path, "utf8"));
-	if (!isRecord(check) || typeof check.subtopicId !== "number" || !Array.isArray(check.deficiencies)) {
-		throw new Error(`${path} is not a check of a subtopic`);
-	}
-	const { subtopicId } = check;
-	return check.deficiencies.filter(isRecord).map((fault) => ({
-		subtopicId,
-		deficiencyType: String(fault.deficiencyType),
-		description: String(fault.description),
-		sourcePassage: passage(fault.sourcePassage),
-		rewritePassage: passage(fault.rewritePassage),
-	}));
-}
 
 /**
  * Adds the dollar costs of several records. A record with no dollar cost adds nothing.
@@ -177,7 +133,7 @@ async function readChecker({
 	readonly name: string;
 	readonly costUsd: number | null;
 }): Promise<CheckerResults> {
-	const files = (await readdir(folder)).filter((file) => /^subtopic-\d+/.test(file));
+	const files = await listSubtopicResultFiles(folder);
 	const faults = (await Promise.all(files.map((file) => readFaults(join(folder, file))))).flat();
 	return { name, faults, subtopicsChecked: files.length, costUsd };
 }
@@ -222,26 +178,6 @@ async function readCheckers({
 			}),
 		),
 	]);
-}
-
-/**
- * Reads the answer key of a lecture and rewrites folder.
- *
- * @param key - The lecture and the rewrites folder, joined by "/".
- * @returns The faults of the key: the faults of the review, then the faults that later checkers found.
- * @throws Error when the lecture and rewrites folder have no key.
- */
-async function readAnswerKey(key: string): Promise<readonly KeyFault[]> {
-	const path = ANSWER_KEYS[key];
-	if (path === undefined) {
-		throw new Error(`No answer key for ${key}. The keys are ${Object.keys(ANSWER_KEYS).join(", ")}.`);
-	}
-	const review: unknown = JSON.parse(await readFile(path, "utf8"));
-	if (!isRecord(review) || !Array.isArray(review.faults)) {
-		throw new Error(`${path} has no list of faults`);
-	}
-	const addedFaults = Array.isArray(review.addedFaults) ? review.addedFaults : [];
-	return [...review.faults, ...addedFaults] as readonly KeyFault[];
 }
 
 /**
