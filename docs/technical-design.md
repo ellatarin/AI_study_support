@@ -1679,7 +1679,7 @@ When each subtopic has its file, the stage writes `Slide relocations/slide-reloc
 
 The page follows these rules:
 
-- **Header.** The header shows the lecture title, the date and a list of the topics, with a link to each. One line tells what the highlight means.
+- **Header.** The header shows the lecture title, the date and the switch of the page views. It also shows a list of the topics, with a link to each. A link goes to the topic in the page view that shows. One line explains the page view that shows, such as what the highlight means in the Notes view.
 - **References slide.** The references slide floats next to the last paragraph. Its label is "References", not a figure number. Its caption comes from its slide reading. Its sentence has no highlight.
 - **Maths.** Maths is text between two dollar signs. The opening dollar sign has no space after it. The closing dollar sign has no space before it and no digit after it. So "$5 and $10" stays as text. KaTeX writes the maths as MathML, so the page needs no maths fonts.
 - **A lone Greek letter.** Maths that is one Greek letter only, such as `$\beta$`, shows as the plain letter in the text font. A word such as "β-catenin" then stays on one line, and the letter matches the words around it. Longer maths gets the full maths format.
