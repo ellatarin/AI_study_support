@@ -26,7 +26,6 @@ import {
 	type PromptMessages,
 	promptMessages,
 } from "./model-stage.js";
-import { makeUnlistedStageFolder } from "./pipeline-stage.js";
 import { readOrMakeSavedFiles, unreadableSavedFileMessage } from "./saved-files.js";
 import { type ReadingStage, readInputJson } from "./stage-input.js";
 
@@ -268,44 +267,6 @@ async function writeSubtopicEntriesFile<TKey extends string, TEntry>({
 	const output = { [key]: contents } as { readonly [field in TKey]: readonly TEntry[] };
 	await writeJsonAtomic({ path, value: output });
 	return { output, filesWritten: [...filesWritten, relative(workspaceRoot, path)] };
-}
-
-/**
- * Does the work of an unlisted stage that writes one file for each subtopic and
- * then the file of the whole lecture. It makes the stage's folder, reads or makes
- * the file of each subtopic, and writes the entry of each subtopic under `key`.
- *
- * @param args - The files of each subtopic as for {@link readOrMakeSubtopicFiles}, and the lecture file.
- * @param args.entriesPath - The absolute path of the file of the whole lecture.
- * @param args.key - The field of that file that holds the entries.
- * @returns The content of the file of the whole lecture, and the `filesWritten` entry of each file.
- * @throws The error that `fail` builds, if a saved file is unreadable.
- * @typeParam TKey - The field that holds the entries.
- * @typeParam TSubtopic - The work of one subtopic.
- * @typeParam TContent - The content of the file of one subtopic.
- */
-export async function runUnlistedSubtopicFileStage<
-	TKey extends string,
-	TSubtopic extends { readonly subtopicId: number },
-	TContent,
->({
-	entriesPath,
-	key,
-	...files
-}: Parameters<typeof readOrMakeSubtopicFiles<TSubtopic, TContent>>[0] & {
-	readonly entriesPath: string;
-	readonly key: TKey;
-}): Promise<{
-	readonly output: { readonly [field in TKey]: readonly TContent[] };
-	readonly filesWritten: readonly string[];
-}> {
-	await makeUnlistedStageFolder(files.directory);
-	return writeSubtopicEntriesFile({
-		workspaceRoot: files.workspaceRoot,
-		path: entriesPath,
-		key,
-		...(await readOrMakeSubtopicFiles(files)),
-	});
 }
 
 /**
