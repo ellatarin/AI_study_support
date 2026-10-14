@@ -1602,7 +1602,7 @@ The reply is a list of errors, each with a subtopic number, a passage, a problem
 - A factual error that only one model reports goes into the file with that model's text, and `foundBy` lists that model.
 - With one model, the stage merges nothing.
 
-The stage writes `Fact checks/factual-errors.json`, with `factCheckPromptVersion` and `factualErrors`. The list holds each factual error in lecture order of its subtopic, with the fields of a model file's factual error, `foundBy` and `wordsFound`. Within a subtopic, the primary model's factual errors come first, in the order of its reply.
+The stage writes `Fact checks/factual-errors.json`, with `factCheckPromptVersion`, `checkedBy` and `factualErrors`. `checkedBy` holds the ids of the models that the stage called, the primary model first. `correct-factual-errors` copies it into the file of each subtopic. The list holds each factual error in lecture order of its subtopic, with the fields of a model file's factual error, `foundBy` and `wordsFound`. Within a subtopic, the primary model's factual errors come first, in the order of its reply.
 
 **A failed model.** When one model fails each send, the stage fails, and the file of the other model stays on disk. A stage that starts again makes no call for a model with a saved file. So the next run calls only the model with no saved file. A saved file of a model that is now disabled is not used.
 
@@ -1613,9 +1613,12 @@ The stage writes `Fact checks/factual-errors.json`, with `factCheckPromptVersion
 **Input:** `Structured transcript/structured-transcript.json`, `Rewrites/`, `Fact checks/factual-errors.json`
 **Output:** `Fact corrections/subtopic-<id>.json` for each subtopic, and `Fact corrections/fact-corrected-subtopics.json`
 
-The stage sends each subtopic that has a factual error to the model, with its factual errors, in one call for each subtopic. The call gets the paragraphs of the rewritten subtopic and a numbered list of its factual errors: the passage, the problem and the `correctStatement` of each. It gets no transcript, no slide and no other subtopic. The paragraphs go as a JSON list, with no labels such as "[1]". The prompt is k3 from the prototype, copied word for word. The stage records `factCorrectionPromptVersion`.
+The stage sends each subtopic that has a factual error to the model, with its factual errors, in one call for each subtopic. The call gets the subtopic id and title, the paragraphs of the rewritten subtopic and a numbered list of its factual errors. Each factual error gives its passage, its problem and its `correctStatement`. The user message has the layout of the prototype, word for word. It gets no transcript, no slide and no other subtopic. The paragraphs go as a JSON list, with no labels such as "[1]". The prompt is k3 from the prototype, copied word for word. The stage records `factCorrectionPromptVersion`.
 
-The reply holds the paragraphs of the fact-corrected subtopic and a list of changes. Each change names the factual error by its number, the words before and the words after. Code translates the reply's word "error" into `factualError` where it reads the reply. When the model judges that a factual error is wrong, the change keeps the words and gives the reason. A reply with a blank paragraph is unusable, and the stage resends it.
+The reply holds the paragraphs of the fact-corrected subtopic and a list of changes. Each change names the factual error by its number, the words before and the words after. Code translates the reply's word "error" into `factualError` where it reads the reply. When the model judges that a factual error is wrong, the change keeps the words and gives the reason. Each change must give its four fields as text, and the stage stores `note` as the reply gives it. The stage resends an unusable reply. A reply is unusable in these cases:
+
+- a blank paragraph
+- a change that names a factual error number that the call did not send.
 
 A reply with a different number of paragraphs is kept. `paragraphCountBefore` and `paragraphCountAfter` show the change. The terminal shows no notice, because the notes can join or split a paragraph with no loss.
 
@@ -1627,10 +1630,10 @@ The file of each subtopic holds these fields:
 |---|---|
 | `subtopicId` | The subtopic |
 | `factCorrectionPromptVersion` | The version of the fact-correction prompt |
-| `factualErrors` | The factual errors of the subtopic, from `Fact checks/factual-errors.json` |
+| `factualErrors` | The merged factual errors of the subtopic, as `Fact checks/factual-errors.json` holds them, with `foundBy` and `wordsFound` |
 | `factCorrectedSubtopic` | The paragraphs of the fact-corrected subtopic, in order |
 | `changes` | Each change of the reply, with four fields. `factualError` is the number of the factual error in `factualErrors`, from 1. `before` and `after` are the words. `note` is the reason when the words did not change |
-| `checkedBy` | The models that checked the facts of the subtopic |
+| `checkedBy` | The models that checked the facts of the subtopic, from the `checkedBy` of `Fact checks/factual-errors.json` |
 | `paragraphCountBefore` | The number of paragraphs of the rewritten subtopic |
 | `paragraphCountAfter` | The number of paragraphs of the fact-corrected subtopic |
 

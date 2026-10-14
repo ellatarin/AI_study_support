@@ -1,7 +1,12 @@
 /** The messages that `check-facts` sends (technical-design.md §5, `check-facts`). */
 
+/* jscpd:ignore-start -- the prompt modules import the same message builder and
+   subtopic rewrite. So their import blocks are the same line for line. Imports
+   cannot be shared, and CLAUDE.md (File Organisation) forbids barrel files.
+   Only the imports are exempt. jscpd checks the code below. */
 import { type PromptMessages, promptMessages } from "../model-stage.js";
-import type { SubtopicRewrite } from "../subtopic-rewrites.js";
+import type { TitledSubtopicRewrite } from "../subtopic-rewrites.js";
+/* jscpd:ignore-end */
 
 /**
  * The version of the fact-check prompt. The prompt is f2 of the prototype in
@@ -9,11 +14,6 @@ import type { SubtopicRewrite } from "../subtopic-rewrites.js";
  * the prompt text gets a new version.
  */
 export const FACT_CHECK_PROMPT_VERSION = "f2";
-
-/** The rewrite of one subtopic, with the subtopic id and the title from the structured transcript. */
-export type TitledSubtopicRewrite = Pick<SubtopicRewrite, "subtopicId" | "rewrittenSubtopic"> & {
-	readonly title: string;
-};
 
 /**
  * Gives prompt f2 for one lecture. JSON mode does not fix the shape of the reply,

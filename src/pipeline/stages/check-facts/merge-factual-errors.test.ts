@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { primaryFactCheckModel, secondaryFactCheckModel } from "../../fixtures.js";
-import { type FactualError, mergeFactualErrors } from "./merge-factual-errors.js";
+import type { FactualError } from "../factual-errors.js";
+import { mergeFactualErrors } from "./merge-factual-errors.js";
 
 const PRIMARY_ID = primaryFactCheckModel.modelId;
 const SECONDARY_ID = secondaryFactCheckModel.modelId;

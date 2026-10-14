@@ -1160,6 +1160,7 @@ A transcript check, `check-rewrite-attempts`, and a rewrite loop in the runner w
 - one failed model fails the stage, and the next run calls only the model with no saved file
 - a subtopic with no factual errors gets no call, and its file holds its rewrite unchanged
 - a reply with a different number of paragraphs is kept, with the two counts
+- a fact-correction reply with a blank paragraph, or with a change that names an unknown factual error, is resent
 - a stage that starts again makes no call for a saved file
 - the run summary has one row for each model of `check-facts`.
 

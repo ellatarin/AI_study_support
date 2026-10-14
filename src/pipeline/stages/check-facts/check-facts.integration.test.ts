@@ -6,46 +6,40 @@ import {
 	arrivingTogether,
 	captureError,
 	disabledFactCheckModel,
+	factCheckedSubtopics,
+	factCheckModelFile,
+	factCheckModelIds,
+	factualErrorsFile,
 	makeStageContext,
 	primaryFactCheckModel,
-	readJsonFile,
 	resendPausesTimeoutMs,
 	rewriteFile,
-	rewrittenParagraphs,
 	secondaryFactCheckModel,
 	seedEarlierOutputs,
+	seededTitledRewrites,
 	seedJsonFile,
+	snuffFactualError,
 	stubbedCallCost,
 	stubbedCallsCost,
 	testLecture,
-	transcriptSubtopicsWithIdAndText,
 	useCostTally,
 	useStubLogger,
 	useTempDir,
 	waitTurns,
+	workspaceJsonReader,
 } from "../../fixtures.js";
+import type { FactualError } from "../factual-errors.js";
 import {
 	CheckFactsError,
 	checkFacts,
-	FACT_CHECKS_DIR,
 	readFactCheckInput,
-	type SendToModel,
+	type SendToListedModel,
 } from "./check-facts.js";
-import { FACT_CHECK_PROMPT_VERSION, type TitledSubtopicRewrite } from "./check-facts.prompt.js";
-import type { FactualError } from "./merge-factual-errors.js";
+import { FACT_CHECK_PROMPT_VERSION } from "./check-facts.prompt.js";
 
 /** The file of each model: its model id without the provider. */
 const PRIMARY_MODEL_FILE = "gpt-5.6-sol-pro.json";
 const SECONDARY_MODEL_FILE = "claude-opus-5.5.json";
-
-const subtopics: readonly TitledSubtopicRewrite[] = [
-	{ subtopicId: 1, title: "Opening", rewrittenSubtopic: ["Cancer is a disease of cells."] },
-	{
-		subtopicId: 2,
-		title: "Tobacco",
-		rewrittenSubtopic: ["Tobacco smoke causes most lung cancers.", "Snuff is harmless."],
-	},
-];
 
 /** One factual error as the reply of a fact check gives it. */
 type ReplyError = {
@@ -72,13 +66,23 @@ function asFactualError(error: ReplyError): FactualError {
 	};
 }
 
-const snuffError: ReplyError = {
-	subtopic: 2,
-	passage: "Snuff is harmless.",
-	problem: "Snuff causes oral cancer.",
-	correction: "Snuff causes cancer of the mouth.",
-	severity: "serious",
-};
+/**
+ * Gives a factual error in the words of a fact-check reply.
+ *
+ * @param error - The factual error.
+ * @returns The reply error.
+ */
+function asReplyError(error: FactualError): ReplyError {
+	return {
+		subtopic: error.subtopicId,
+		passage: error.passage,
+		problem: error.problem,
+		correction: error.correctStatement,
+		severity: error.severity,
+	};
+}
+
+const snuffError = asReplyError(snuffFactualError);
 
 /**
  * Builds the text of a fact-check reply in the shape that prompt f2 asks for.
@@ -91,7 +95,10 @@ function factCheckReply(
 ): string {
 	return JSON.stringify({
 		errors,
-		checked: subtopics.map(({ subtopicId }) => ({ subtopic: subtopicId, result: "errors" })),
+		checked: factCheckedSubtopics.map(({ subtopicId }) => ({
+			subtopic: subtopicId,
+			result: "errors",
+		})),
 	});
 }
 
@@ -99,11 +106,14 @@ describe("checkFacts", () => {
 	const workspaceRoot = useTempDir({ prefix: "check-facts-" });
 	const stubLogger = useStubLogger();
 	const costTally = useCostTally();
-	let sendToModel: ReturnType<typeof vi.fn<SendToModel>>;
+	let sendToModel: ReturnType<typeof vi.fn<SendToListedModel>>;
 	let modelCostTallies: CostTallyByModel;
+	const readFile = workspaceJsonReader(workspaceRoot);
 
 	beforeEach(() => {
-		sendToModel = vi.fn<SendToModel>().mockResolvedValue({ content: factCheckReply([snuffError]) });
+		sendToModel = vi
+			.fn<SendToListedModel>()
+			.mockResolvedValue({ content: factCheckReply([snuffError]) });
 		modelCostTallies = createCostTallyByModel();
 	});
 
@@ -125,7 +135,7 @@ describe("checkFacts", () => {
 	function run(models: readonly FactCheckModel[]): ReturnType<typeof checkFacts> {
 		return checkFacts({
 			lectureTitle: testLecture.title,
-			subtopics,
+			subtopics: factCheckedSubtopics,
 			models,
 			workspaceRoot: workspaceRoot(),
 			sendToModel,
@@ -133,16 +143,6 @@ describe("checkFacts", () => {
 			costTally: costTally(),
 			costTallyByModel: costTallyByModel(),
 		});
-	}
-
-	/**
-	 * Reads one file of the stage's folder.
-	 *
-	 * @param fileName - The file name in `Fact checks/`.
-	 * @returns The parsed file.
-	 */
-	function readFactCheckFile(fileName: string): Promise<unknown> {
-		return readJsonFile(join(workspaceRoot(), FACT_CHECKS_DIR, fileName));
 	}
 
 	/**
@@ -166,18 +166,17 @@ describe("checkFacts", () => {
 		return output.factualErrors.map(({ foundBy }) => foundBy);
 	}
 
-	const snuffFactualError = asFactualError(snuffError);
-
 	it("should write the factual errors of the model to the file named by the model, and the merged file, when the stage calls one model", async () => {
 		await run([primaryFactCheckModel]);
 
-		expect(await readFactCheckFile(PRIMARY_MODEL_FILE)).toStrictEqual({
+		expect(await readFile(factCheckModelFile(PRIMARY_MODEL_FILE))).toStrictEqual({
 			modelId: primaryFactCheckModel.modelId,
 			factCheckPromptVersion: FACT_CHECK_PROMPT_VERSION,
 			factualErrors: [snuffFactualError],
 		});
-		expect(await readFactCheckFile("factual-errors.json")).toStrictEqual({
+		expect(await readFile(factualErrorsFile)).toStrictEqual({
 			factCheckPromptVersion: FACT_CHECK_PROMPT_VERSION,
+			checkedBy: [primaryFactCheckModel.modelId],
 			factualErrors: [
 				{ ...snuffFactualError, foundBy: [primaryFactCheckModel.modelId], wordsFound: true },
 			],
@@ -278,9 +277,7 @@ describe("checkFacts", () => {
 
 		// Each model looks for its saved file before its call, and either look can
 		// end first. So the order of the calls is not fixed.
-		expect(new Set(calledModelIds())).toStrictEqual(
-			new Set([primaryFactCheckModel.modelId, secondaryFactCheckModel.modelId]),
-		);
+		expect(new Set(calledModelIds())).toStrictEqual(new Set(factCheckModelIds));
 	});
 
 	const providerFailure = new Error("Model returned an error on each send");
@@ -307,15 +304,15 @@ describe("checkFacts", () => {
 		const error = await captureError(run([primaryFactCheckModel, secondaryFactCheckModel]));
 
 		expect(error).toBe(providerFailure);
-		expect(await readFactCheckFile(SECONDARY_MODEL_FILE)).toMatchObject({
+		expect(await readFile(factCheckModelFile(SECONDARY_MODEL_FILE))).toMatchObject({
 			modelId: secondaryFactCheckModel.modelId,
 		});
 	});
 
-	const oneCallCostOfEachModel = [
-		{ modelId: primaryFactCheckModel.modelId, cost: stubbedCallCost },
-		{ modelId: secondaryFactCheckModel.modelId, cost: stubbedCallCost },
-	];
+	const oneCallCostOfEachModel = factCheckModelIds.map((modelId) => ({
+		modelId,
+		cost: stubbedCallCost,
+	}));
 
 	it("should keep the cost of each model when one model fails each send", async () => {
 		sendToModel.mockImplementation(async ({ model, costTally: modelCostTally }) => {
@@ -363,7 +360,7 @@ describe("checkFacts", () => {
 	});
 
 	it("should fail with CheckFactsError that names the file when a saved file holds nothing readable", async () => {
-		const path = join(workspaceRoot(), FACT_CHECKS_DIR, PRIMARY_MODEL_FILE);
+		const path = join(workspaceRoot(), factCheckModelFile(PRIMARY_MODEL_FILE));
 		await seedJsonFile({ path, contents: { modelId: primaryFactCheckModel.modelId } });
 
 		const error = await captureError(run([primaryFactCheckModel]));
@@ -426,19 +423,16 @@ describe("checkFacts", () => {
 
 		const { output } = await run([secondaryFactCheckModel, primaryFactCheckModel]);
 
+		expect(output.checkedBy).toStrictEqual(factCheckModelIds);
 		expect(output.factualErrors).toStrictEqual([
 			{
 				...asFactualError(cellsError),
 				foundBy: [secondaryFactCheckModel.modelId],
 				wordsFound: true,
 			},
-			{
-				...snuffFactualError,
-				foundBy: [primaryFactCheckModel.modelId, secondaryFactCheckModel.modelId],
-				wordsFound: true,
-			},
+			{ ...snuffFactualError, foundBy: factCheckModelIds, wordsFound: true },
 		]);
-		expect(await readFactCheckFile(SECONDARY_MODEL_FILE)).toMatchObject({
+		expect(await readFile(factCheckModelFile(SECONDARY_MODEL_FILE))).toMatchObject({
 			modelId: secondaryFactCheckModel.modelId,
 			factualErrors: [{ passage: secondarySnuffError.passage }, { passage: cellsError.passage }],
 		});
@@ -448,23 +442,26 @@ describe("checkFacts", () => {
 describe("readFactCheckInput", () => {
 	const workspaceRoot = useTempDir({ prefix: "check-facts-input-" });
 
+	/**
+	 * Reads the input of the stage from the test workspace.
+	 *
+	 * @returns What {@link readFactCheckInput} gives.
+	 */
+	function readInput(): ReturnType<typeof readFactCheckInput> {
+		return readFactCheckInput(makeStageContext({ workspaceRoot: workspaceRoot() }));
+	}
+
 	it("should give the rewrite of each subtopic in lecture order, with its id and title, when the structured transcript and the rewrites are on disk", async () => {
 		await seedEarlierOutputs({
 			workspaceRoot: workspaceRoot(),
 			readsFrom: ["structure-transcript", "rewrite-subtopics"],
 		});
 
-		const input = await readFactCheckInput(makeStageContext({ workspaceRoot: workspaceRoot() }));
+		const input = await readInput();
 
 		expect(input).toStrictEqual({
 			lectureTitle: testLecture.title,
-			subtopics: [...transcriptSubtopicsWithIdAndText.entries()].map(
-				([index, { subtopicId, title }]) => ({
-					subtopicId,
-					title,
-					rewrittenSubtopic: [rewrittenParagraphs[index]],
-				}),
-			),
+			subtopics: seededTitledRewrites,
 		});
 	});
 
@@ -474,9 +471,7 @@ describe("readFactCheckInput", () => {
 			readsFrom: ["structure-transcript"],
 		});
 
-		const error = await captureError(
-			readFactCheckInput(makeStageContext({ workspaceRoot: workspaceRoot() })),
-		);
+		const error = await captureError(readInput());
 
 		expect(error).toBeInstanceOf(CheckFactsError);
 		expect(error.message).toContain(rewriteFile(1));

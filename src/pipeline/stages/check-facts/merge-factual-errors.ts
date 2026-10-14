@@ -4,27 +4,13 @@
  */
 
 import { splitWords } from "../../../utils/text.js";
-
-/** The severities that a fact check gives a factual error. */
-export const SEVERITIES = ["serious", "minor"] as const;
-
-/** One statement that a fact check reports as wrong or doubtful (CONTEXT.md, "Factual error"). */
-export type FactualError = {
-	readonly subtopicId: number;
-	readonly passage: string;
-	readonly problem: string;
-	readonly correctStatement: string;
-	readonly severity: (typeof SEVERITIES)[number];
-};
+import type { FactualError, FactualErrorFoundBy } from "../factual-errors.js";
 
 /** The factual errors of one model. */
 export type ModelFactualErrors = {
 	readonly modelId: string;
 	readonly factualErrors: readonly FactualError[];
 };
-
-/** A factual error after the merge, with the model ids that report it. */
-export type FactualErrorFoundBy = FactualError & { readonly foundBy: readonly string[] };
 
 /** The number of words in a run. Two passages that share a run of this length are the same passage. */
 const RUN_LENGTH = 3;

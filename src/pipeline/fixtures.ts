@@ -57,6 +57,7 @@ import {
 import { createMoneyFormatter, type MoneyFormatter } from "./reports.js";
 import { assembleContext } from "./stage-context.js";
 import { type Subtopic, type SubtopicWithIdAndText, subtopicText } from "./stages/division.js";
+import type { FactualError } from "./stages/factual-errors.js";
 import {
 	type ModelStageFactory,
 	ResendsExhaustedError,
@@ -66,6 +67,7 @@ import {
 import { SavedRunUnreadableError } from "./stages/panel-runs.js";
 import type { SlidePlacement, SlidePlacements } from "./stages/slide-placements.js";
 import type { StructuredTranscript } from "./stages/structured-transcript.js";
+import type { TitledSubtopicRewrite } from "./stages/subtopic-rewrites.js";
 import type { Topic } from "./stages/topics.js";
 import {
 	API_KEY_VARIABLE as ELEVENLABS_KEY_VARIABLE,
@@ -620,6 +622,38 @@ export const secondaryFactCheckModel: FactCheckModel = {
 export const disabledFactCheckModel: FactCheckModel = {
 	modelId: "google/gemini-3.1-pro-preview",
 	role: "disabled",
+};
+
+/** The ids of the two called models of a `check-facts` models list, the primary model first. */
+export const factCheckModelIds = [primaryFactCheckModel.modelId, secondaryFactCheckModel.modelId];
+
+/** Subtopic 1 of the lecture that the fact suites check. It has no factual error. */
+export const openingSubtopic: TitledSubtopicRewrite = {
+	subtopicId: 1,
+	title: "Opening",
+	rewrittenSubtopic: ["Cancer is a disease of cells."],
+};
+
+/** Subtopic 2 of the lecture that the fact suites check. Its second paragraph has {@link snuffFactualError}. */
+export const tobaccoSubtopic: TitledSubtopicRewrite = {
+	subtopicId: 2,
+	title: "Tobacco",
+	rewrittenSubtopic: ["Tobacco smoke causes most lung cancers.", "Snuff is harmless."],
+};
+
+/** The rewrite of each subtopic of the lecture that the fact suites check, in lecture order. */
+export const factCheckedSubtopics: readonly TitledSubtopicRewrite[] = [
+	openingSubtopic,
+	tobaccoSubtopic,
+];
+
+/** The factual error of {@link tobaccoSubtopic}, in the project's words. */
+export const snuffFactualError: FactualError = {
+	subtopicId: 2,
+	passage: "Snuff is harmless.",
+	problem: "Snuff causes oral cancer.",
+	correctStatement: "Snuff causes cancer of the mouth.",
+	severity: "serious",
 };
 
 /**
@@ -1539,6 +1573,34 @@ export function rewriteFile(subtopicId: number): string {
 	return `Rewrites/subtopic-${subtopicId}.json`;
 }
 
+/** The workspace-relative path of the merged file of `check-facts`, stated in full here. */
+export const factualErrorsFile = "Fact checks/factual-errors.json";
+
+/**
+ * The workspace-relative path of the file of one model of `check-facts`. The
+ * folder is stated in full here, and not taken from the production code.
+ *
+ * @param fileName - The file name of the model, such as `gpt-5.6-sol-pro.json`.
+ * @returns The path, relative to the workspace.
+ */
+export function factCheckModelFile(fileName: string): string {
+	return `Fact checks/${fileName}`;
+}
+
+/**
+ * The workspace-relative path of the fact-correction file of a subtopic. The name
+ * is stated in full here, and not taken from the production code.
+ *
+ * @param subtopicId - The subtopic.
+ * @returns The path, relative to the workspace.
+ */
+export function factCorrectionFile(subtopicId: number): string {
+	return `Fact corrections/subtopic-${subtopicId}.json`;
+}
+
+/** The workspace-relative path of the lecture file of `correct-factual-errors`, stated in full here. */
+export const factCorrectedSubtopicsFile = "Fact corrections/fact-corrected-subtopics.json";
+
 /**
  * Gives the reader of the JSON files of a suite's workspace.
  *
@@ -1565,6 +1627,20 @@ const subtopicRewrites: readonly Readonly<Record<string, unknown>>[] = [
 	writerPromptVersion: "w1",
 	rewrittenSubtopic: [paragraph],
 }));
+
+/**
+ * The rewrite of each subtopic that {@link seedEarlierOutputs} writes, with the id
+ * and the title from the structured transcript, in lecture order.
+ */
+export const seededTitledRewrites: readonly TitledSubtopicRewrite[] = [
+	...transcriptSubtopicsWithIdAndText.entries(),
+].map(([index, { subtopicId, title }]) => {
+	const paragraph = rewrittenParagraphs[index];
+	if (paragraph === undefined) {
+		throw new Error(`rewrittenParagraphs has no paragraph for subtopic ${subtopicId}`);
+	}
+	return { subtopicId, title, rewrittenSubtopic: [paragraph] };
+});
 
 /**
  * Gives the function that writes the subtopic files of a stage into a
