@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.96-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
+**Suite version:** 1.97-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
 **Date:** 2026-10-14
 **Status:** For review
 
@@ -1675,7 +1675,16 @@ The stage writes `Slide relocations/subtopic-<id>.json` for each subtopic. The f
 
 When each subtopic has its file, the stage writes `Slide relocations/slide-relocations.json`. Its `slideRelocations` holds the entry of each subtopic in lecture order, with the fields of the subtopic's file. The entries have no titles. The titles are in the structured transcript.
 
-**`build-notes-page` — the notes page.** The stage makes no model call. It writes `Final output/<base name>/notes.html` and `Final output/<base name>/slides/`, with each slide as the PNG file that `render-slides` writes, copied unchanged. The page shows the topic and subtopic titles and the text of each subtopic, from the output of `relocate-slides`. Each slide is small and floats at its sentence, with its figure number and its caption in the right margin. LaTeX becomes maths when the stage builds the page, so the page loads nothing from the internet. A click on a slide opens it in a window that the user can move and change in size, and the page behind stays readable. The page replaces the PDF of the earlier design. A test page, which a script outside the pipeline builds, is the prototype of its layout.
+**`build-notes-page` — the notes page.** The stage makes no model call. It writes `Final output/<base name>/notes.html` and `Final output/<base name>/slides/`, with each slide as the PNG file that `render-slides` writes, copied unchanged. The page shows the topic and subtopic titles and the text of each subtopic, from the output of `relocate-slides`. Each slide is small and floats at its sentence, with its figure number and its caption in the right margin. A slide at the end of a paragraph, such as the references slide, floats next to the paragraph and has no highlight. LaTeX becomes maths when the stage builds the page, so the page loads nothing from the internet. A click on a slide opens it in a window that the user can move and change in size, and the page behind stays readable. The page replaces the PDF of the earlier design. A test page, which a script outside the pipeline builds, is the prototype of its layout.
+
+The page follows these rules:
+
+- **Header.** The header shows the lecture title, the date and a list of the topics, with a link to each. One line tells what the highlight means.
+- **References slide.** The references slide floats next to the last paragraph. Its label is "References", not a figure number. Its caption comes from its slide reading. Its sentence has no highlight.
+- **Maths.** Maths is text between two dollar signs. The opening dollar sign has no space after it. The closing dollar sign has no space before it and no digit after it. So "$5 and $10" stays as text. KaTeX writes the maths as MathML, so the page needs no maths fonts.
+- **A lone Greek letter.** Maths that is one Greek letter only, such as `$\beta$`, shows as the plain letter in the text font. A word such as "β-catenin" then stays on one line, and the letter matches the words around it. Longer maths gets the full maths format.
+- **Fonts and colours.** The page uses fonts that come with the computer, so it loads nothing from the internet. The colours are warm: plum for headings and links, and brick red for the figure labels.
+- **A second build.** The stage checks that the image of each slide is on disk before it deletes the earlier build. So a missing image leaves the earlier page in place. Then the stage deletes the lecture's folder and writes it again.
 
 The lecture's folder in `Final output/` is a lecture file, as the video and the slide deck are (§3.1). A reset of the stage deletes this lecture's folder and keeps the folders of the other lectures. Rename, change-date, delete and normalisation move or delete the folder.
 

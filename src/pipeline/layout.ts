@@ -4,7 +4,7 @@
  * the tests read each name from here.
  */
 
-import { basename, dirname, join, resolve } from "node:path";
+import { basename, dirname, join, posix, resolve } from "node:path";
 import type { StageId } from "../types/pipeline.js";
 
 const SOURCE_DIR = "Source files";
@@ -22,6 +22,12 @@ export const RUN_LOGS_DIR = "Run logs";
 /** The folder at the project root that holds the debug logs, one for each invocation. */
 export const DEBUG_LOGS_DIR = "debug-logs";
 
+/** The notes page in a lecture's folder in the final output folder (technical-design.md §3.1). */
+export const NOTES_PAGE_FILE = "notes.html";
+
+/** The folder beside the notes page that holds the slide images of the notes. */
+export const NOTES_SLIDES_DIR = "slides";
+
 /** The four folders of a module (technical-design.md §3.1). */
 export type ModuleDirs = {
 	/** The folder that holds the video recordings. */
@@ -30,7 +36,7 @@ export type ModuleDirs = {
 	readonly slideDeck: string;
 	/** The processing folder, which holds the workspaces. */
 	readonly processing: string;
-	/** The final output folder, which holds the notes PDFs. */
+	/** The final output folder, which holds the notes of each lecture in a folder of its own. */
 	readonly finalOutput: string;
 };
 
@@ -61,6 +67,37 @@ export function moduleDirs({ moduleRoot }: { readonly moduleRoot: string }): Mod
  */
 export function sharedLectureFileDirs({ dirs }: { readonly dirs: ModuleDirs }): readonly string[] {
 	return [dirs.videoRecording, dirs.slideDeck, dirs.finalOutput];
+}
+
+type LectureInModule = { readonly moduleRoot: string; readonly baseName: string };
+
+/**
+ * Gives the folder of a lecture in one folder of its module. The lecture's folder
+ * has the base name of the lecture.
+ *
+ * @param args - The lecture, and the folder of the module.
+ * @param args.moduleRoot - The absolute path to the module folder.
+ * @param args.baseName - The base name of the lecture.
+ * @param args.moduleDir - The folder of the module that holds the lecture's folder.
+ * @returns The absolute path to the lecture's folder.
+ */
+function lectureDirIn({
+	moduleRoot,
+	baseName,
+	moduleDir,
+}: LectureInModule & { readonly moduleDir: keyof ModuleDirs }): string {
+	return join(moduleDirs({ moduleRoot })[moduleDir], baseName);
+}
+
+/**
+ * Gives the folder of a lecture's notes, in the final output folder. It holds
+ * {@link NOTES_PAGE_FILE} and {@link NOTES_SLIDES_DIR} (technical-design.md §3.1).
+ *
+ * @param lecture - The module and the lecture.
+ * @returns The absolute path to the folder.
+ */
+export function lectureNotesDirPath(lecture: LectureInModule): string {
+	return lectureDirIn({ ...lecture, moduleDir: "finalOutput" });
 }
 
 /**
@@ -137,22 +174,26 @@ export function slideImageFileName(slideNumber: number): string {
 }
 
 /**
- * Gives the workspace of a lecture: a folder named with the base name of the
- * lecture, in the processing folder. {@link moduleRootOf} does the reverse.
+ * Gives the path of the copy of one slide image, relative to the folder of the
+ * lecture's notes. The page links to the copy by this path, and the stage writes
+ * the copy at it. The separator is `/`, as a link needs.
  *
- * @param args - The module and the lecture.
- * @param args.moduleRoot - The absolute path to the module folder.
- * @param args.baseName - The base name of the lecture.
+ * @param slideNumber - The number of the slide in the deck, from 1.
+ * @returns The relative path, such as `slides/slide-004.png`.
+ */
+export function notesSlideImageEntry(slideNumber: number): string {
+	return posix.join(NOTES_SLIDES_DIR, slideImageFileName(slideNumber));
+}
+
+/**
+ * Gives the workspace of a lecture, in the processing folder. {@link moduleRootOf}
+ * does the reverse.
+ *
+ * @param lecture - The module and the lecture.
  * @returns The absolute path to the workspace.
  */
-export function workspaceRootFor({
-	moduleRoot,
-	baseName,
-}: {
-	readonly moduleRoot: string;
-	readonly baseName: string;
-}): string {
-	return join(moduleDirs({ moduleRoot }).processing, baseName);
+export function workspaceRootFor(lecture: LectureInModule): string {
+	return lectureDirIn({ ...lecture, moduleDir: "processing" });
 }
 
 /**

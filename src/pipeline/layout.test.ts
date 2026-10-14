@@ -5,10 +5,13 @@ import { testLecture, testModuleName, testModuleRoot, testTimestampId } from "./
 import {
 	DEBUG_LOGS_DIR,
 	debugLogPath,
+	lectureNotesDirPath,
 	MANIFEST_FILE,
 	moduleDirs,
 	moduleName,
 	moduleRootOf,
+	NOTES_PAGE_FILE,
+	notesSlideImageEntry,
 	RUN_LOGS_DIR,
 	runLogsDirPath,
 	STAGE_FILES,
@@ -53,6 +56,26 @@ describe("sharedLectureFileDirs", () => {
 			SLIDE_DIR,
 			FINAL_OUTPUT_DIR,
 		]);
+	});
+});
+
+describe("lectureNotesDirPath", () => {
+	it("should place a lecture's notes in a folder with its base name in the final output folder when the lecture is named", () => {
+		expect(lectureNotesDirPath({ moduleRoot: MODULE_ROOT, baseName: testLecture.baseName })).toBe(
+			join(FINAL_OUTPUT_DIR, testLecture.baseName),
+		);
+	});
+});
+
+// The page and the slides folder are names on disk that the user reads. The
+// suite states them here once, so a change to either name fails a test.
+describe("the files of a lecture's notes", () => {
+	it("should name the notes page notes.html when the page is written", () => {
+		expect(NOTES_PAGE_FILE).toBe("notes.html");
+	});
+
+	it("should place the copy of a slide image in slides/ beside the page when the slide is numbered", () => {
+		expect(notesSlideImageEntry(4)).toBe("slides/slide-004.png");
 	});
 });
 
