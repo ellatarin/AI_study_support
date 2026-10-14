@@ -8,6 +8,7 @@ import {
 	blockNetwork,
 	captureError,
 	corruptJson,
+	disabledFactCheckModel,
 	exampleConfig,
 	exampleStageConfig,
 	makeConfig,
@@ -16,6 +17,7 @@ import {
 	openRouterStageConfig,
 	openRouterUrls,
 	openRouterUrlsAt,
+	primaryFactCheckModel,
 	resetStubbedApi,
 	transcriptionModelId,
 } from "./fixtures.js";
@@ -354,6 +356,42 @@ describe("loadConfig stage tuning", () => {
 	});
 });
 
+describe("loadConfig check-facts models", () => {
+	it("should give the models list of check-facts when its entry has a models list", async () => {
+		const primary = { ...primaryFactCheckModel, modelId: JUDGE_MODEL_ID };
+		await writeValidConfig((config) => {
+			configuredStages(config)["check-facts"] = { models: [primary] };
+		});
+		mockModelsResponse(KNOWN_MODEL_IDS);
+
+		const loaded = await loadConfig({ projectRoot });
+
+		expect(loaded.stages["check-facts"]).toStrictEqual({
+			models: [{ ...primary, temperature: undefined, maxTokens: undefined }],
+		});
+	});
+
+	it("should throw ConfigError naming check-facts and the model when a disabled model of its list is not in the OpenRouter response", async () => {
+		const unknownModelId = "openai/nonexistent-model";
+		await writeValidConfig((config) => {
+			configuredStages(config)["check-facts"] = {
+				models: [
+					{ ...primaryFactCheckModel, modelId: JUDGE_MODEL_ID },
+					{ ...disabledFactCheckModel, modelId: unknownModelId },
+				],
+			};
+		});
+		mockModelsResponse(KNOWN_MODEL_IDS);
+
+		const error = await configRejection();
+
+		expect(error).toBeInstanceOf(ConfigError);
+		expect(error.message).toContain(
+			`stage "check-facts" names unrecognised model ID "${unknownModelId}"`,
+		);
+	});
+});
+
 /**
  * The cases where the file is missing or is not valid JSON. The missing file
  * case writes nothing.
@@ -682,6 +720,14 @@ const shapeCases: readonly ShapeCase[] = [
 			judgeStage(config).callConcurrency = 4;
 		},
 		match: /stages\.judge-lecture-title\.callConcurrency/,
+	},
+	{
+		// Only check-facts has a list of models. Every other stage has one modelId.
+		name: "a models list is set on a stage other than check-facts",
+		mutate: (config: Record<string, unknown>) => {
+			judgeStage(config).models = [primaryFactCheckModel];
+		},
+		match: /stages\.judge-lecture-title\.models is read only by check-facts/,
 	},
 	{
 		// The gap spaces sends that run at the same time. On a stage with no

@@ -9,7 +9,7 @@
    for line. Imports cannot be shared, and CLAUDE.md (File Organisation) forbids
    barrel files. Only the imports are exempt. jscpd checks the code below. */
 import { join, relative } from "node:path";
-import type { StageContext, StageId, StageResult } from "../../types/pipeline.js";
+import type { SingleModelStageId, StageContext, StageResult } from "../../types/pipeline.js";
 import { NamedError } from "../../utils/errors.js";
 import { configuredConcurrency } from "../../utils/stage-config.js";
 import { savedRunFileName, stageDirectoryPath } from "../layout.js";
@@ -173,7 +173,7 @@ export async function runStagePanel<TRun>({
 	readRun,
 	makeRun,
 }: {
-	readonly stageId: StageId;
+	readonly stageId: SingleModelStageId;
 	readonly context: StageContext;
 } & Pick<Parameters<typeof runPanel<TRun>>[0], "panelSize" | "readRun" | "makeRun">): Promise<
 	StageResult<{ readonly runs: readonly TRun[] }>
@@ -220,7 +220,7 @@ export function runOneCallPanel<TReply, TRun>({
 	calls,
 	request,
 }: {
-	readonly stageId: StageId;
+	readonly stageId: SingleModelStageId;
 	readonly context: StageContext;
 	readonly panelSize: number;
 	readonly readRun: (value: unknown) => TRun | null;

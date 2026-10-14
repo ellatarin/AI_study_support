@@ -216,7 +216,10 @@ function resolveStageRunConfig(args: {
 	readonly config: PipelineConfig;
 	readonly stageId: StageId;
 }): StageConfigUsed | null {
-	const stageConfig = configuredStage(args);
+	if (args.stageId === "check-facts") {
+		return null;
+	}
+	const stageConfig = configuredStage({ config: args.config, stageId: args.stageId });
 	return stageConfig === null ? null : { ...stageConfig };
 }
 

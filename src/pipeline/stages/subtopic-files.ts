@@ -4,7 +4,12 @@
  */
 
 import { join, relative } from "node:path";
-import type { StageContext, StageId, StageResult } from "../../types/pipeline.js";
+import type {
+	SingleModelStageId,
+	StageContext,
+	StageId,
+	StageResult,
+} from "../../types/pipeline.js";
 import { writeJsonAtomic } from "../../utils/files.js";
 import { isRecord, readerFromCheck } from "../../utils/record.js";
 import { type StageInWorkspace, stageDirectoryPath } from "../layout.js";
@@ -156,7 +161,7 @@ type SavedSubtopicFiles<TContent> = {
  * @typeParam TOutput - The output of the stage.
  */
 type SubtopicFileStage<TInput, TSubtopic, TContent, TOutput> = SavedSubtopicFiles<TContent> & {
-	readonly stageId: StageId;
+	readonly stageId: SingleModelStageId;
 	readonly subtopicsOf: (input: TInput) => readonly TSubtopic[];
 	readonly make: (args: SubtopicWork<TInput, TSubtopic>) => Promise<TContent>;
 	readonly getInput: (context: StageContext) => Promise<TInput>;

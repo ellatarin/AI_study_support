@@ -3,6 +3,7 @@ import { join } from "node:path";
 import {
 	CONFIG_FILENAME,
 	type FactCheckModel,
+	type FactCheckStageConfig,
 	MODEL_ROLES,
 	type ModelRole,
 	type PanelSettings,
@@ -440,13 +441,18 @@ function requireModelSettings(
  * @param args.stageId - The stage that the config is for.
  * @returns The checked config.
  * @throws {ConfigError} If the config or a field is not valid. A setting in
- *   {@link SINGLE_STAGE_SETTINGS} on a different stage is not valid.
+ *   {@link SINGLE_STAGE_SETTINGS} on a different stage is not valid, and nor is a `models` list.
  */
 function requireStageConfig(args: {
 	readonly value: unknown;
 	readonly stageId: StageId;
 }): StageConfig {
 	const label = `stages.${args.stageId}`;
+	if (isRecord(args.value) && "models" in args.value) {
+		throw new ConfigError(
+			`${label}.models is read only by check-facts, the one stage with a list of models; remove it`,
+		);
+	}
 	const stage = requireSection({ value: args.value, label });
 	const concurrency = stage.optionalNumber("concurrency");
 	return {
@@ -560,6 +566,20 @@ function requireDistinctFactCheckFiles({ models, label }: CheckedFactCheckModels
 }
 
 /**
+ * Reads the config of `check-facts`: its `models` list in place of one `modelId`
+ * (technical-design.md §6, "A stage with a list of models").
+ *
+ * @param value - The raw config of the stage.
+ * @returns The checked config.
+ * @throws {ConfigError} If the config is not an object, or the list or an entry is not valid.
+ */
+function requireFactCheckStageConfig(value: unknown): FactCheckStageConfig {
+	const label = "stages.check-facts";
+	const stage = requireRecord({ value, label });
+	return { models: readFactCheckModels({ value: stage.models, label: `${label}.models` }) };
+}
+
+/**
  * Reads the `stages` section. A key that names no stage is refused. A typo in a
  * key would leave the intended stage with no config (technical-design.md §6,
  * "A stage key names a stage").
@@ -574,6 +594,9 @@ function requireStages(value: unknown): PipelineConfig["stages"] {
 		Object.entries(record).map(([stageId, stageConfig]) => {
 			if (!isStageId(stageId)) {
 				throw new ConfigError(unknownStageMessage({ subject: `stages."${stageId}"` }));
+			}
+			if (stageId === "check-facts") {
+				return [stageId, requireFactCheckStageConfig(stageConfig)];
 			}
 			return [stageId, requireStageConfig({ value: stageConfig, stageId })];
 		}),
@@ -666,7 +689,10 @@ async function fetchKnownModelIds(baseUrl: string): Promise<ReadonlySet<string>>
 	return new Set(body.data.map((model) => model.id));
 }
 
-function describeModelIdMiss(args: { readonly stageId: string; readonly modelId: string }): string {
+/** One model id that the config file names, and the stage whose entry names it. */
+type ConfiguredModelId = { readonly stageId: string; readonly modelId: string };
+
+function describeModelIdMiss(args: ConfiguredModelId): string {
 	if (args.modelId.startsWith("<")) {
 		return `stage "${args.stageId}" has an un-substituted placeholder "${args.modelId}"`;
 	}
@@ -674,12 +700,10 @@ function describeModelIdMiss(args: { readonly stageId: string; readonly modelId:
 }
 
 function formatModelIdError(args: {
-	readonly misses: ReadonlyArray<readonly [string, StageConfig]>;
+	readonly misses: readonly ConfiguredModelId[];
 	readonly baseUrl: string;
 }): string {
-	const details = args.misses
-		.map(([stageId, stageConfig]) => describeModelIdMiss({ stageId, modelId: stageConfig.modelId }))
-		.join("; ");
+	const details = args.misses.map(describeModelIdMiss).join("; ");
 	return `Model ID check failed in ${CONFIG_FILENAME}: ${details}. Verify each ID at ${modelsPageFor(args.baseUrl)}.`;
 }
 
@@ -703,25 +727,40 @@ function isExemptFromModelIdCheck({
 	return provider !== null && exemptProviders.includes(provider);
 }
 
-async function assertModelIdsResolvable(config: PipelineConfig): Promise<void> {
-	const { exemptProviders } = config.modelIdCheck;
+/**
+ * Gives each model id that the `stages` section names. A `models` list gives each
+ * of its model ids, the disabled ones too (technical-design.md §6, "Model-ID
+ * resolution check").
+ *
+ * @param stages - The checked `stages` section.
+ * @returns Each model id with its stage, in the order of the section.
+ */
+function configuredModelIds(stages: PipelineConfig["stages"]): readonly ConfiguredModelId[] {
 	// `stages` is a partial record, so the type of each value includes `undefined`.
 	// JSON cannot hold an `undefined` value, so a check at run time could never
 	// fail. The assertion removes only `undefined`. The keys stay `string`,
 	// because the error message reads them only as text.
-	const stageEntries = Object.entries(config.stages) as ReadonlyArray<
-		readonly [string, StageConfig]
+	const stageEntries = Object.entries(stages) as ReadonlyArray<
+		readonly [string, StageConfig | FactCheckStageConfig]
 	>;
-	const entries = stageEntries.filter(
-		([, stageConfig]) =>
-			!isExemptFromModelIdCheck({ modelId: stageConfig.modelId, exemptProviders }),
+	return stageEntries.flatMap(([stageId, stageConfig]) =>
+		"models" in stageConfig
+			? stageConfig.models.map(({ modelId }) => ({ stageId, modelId }))
+			: [{ stageId, modelId: stageConfig.modelId }],
+	);
+}
+
+async function assertModelIdsResolvable(config: PipelineConfig): Promise<void> {
+	const { exemptProviders } = config.modelIdCheck;
+	const entries = configuredModelIds(config.stages).filter(
+		({ modelId }) => !isExemptFromModelIdCheck({ modelId, exemptProviders }),
 	);
 	if (entries.length === 0) {
 		return;
 	}
 	const { baseUrl } = config.openRouter;
 	const knownIds = await fetchKnownModelIds(baseUrl);
-	const misses = entries.filter(([, stageConfig]) => !knownIds.has(stageConfig.modelId));
+	const misses = entries.filter(({ modelId }) => !knownIds.has(modelId));
 	if (misses.length === 0) {
 		return;
 	}

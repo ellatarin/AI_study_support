@@ -23,6 +23,7 @@ import type {
 	OutputLanguage,
 	PipelineConfig,
 	PipelineStage,
+	SingleModelStageId,
 	StageConfig,
 	StageConfigUsed,
 	StageContext,
@@ -590,7 +591,7 @@ export const elevenLabsUrls = {
  * @returns The configuration of the stage.
  * @throws {Error} If the example does not configure the stage.
  */
-export function exampleStageConfig(stageId: StageId): StageConfig {
+export function exampleStageConfig(stageId: SingleModelStageId): StageConfig {
 	const configured = exampleConfig.stages[stageId];
 	if (configured === undefined) {
 		throw new Error(`pipeline-config.example.json configures no stage "${stageId}"`);
@@ -725,7 +726,7 @@ export function openRouterStageConfig({
 	stageId,
 	modelId = openRouterModelId,
 }: {
-	readonly stageId: StageId;
+	readonly stageId: SingleModelStageId;
 	readonly modelId?: string;
 }): StageConfig {
 	return { ...exampleStageConfig(stageId), modelId };
@@ -875,7 +876,7 @@ export function configuringStage({
 	stageId,
 	language,
 }: {
-	readonly stageId: StageId;
+	readonly stageId: SingleModelStageId;
 	readonly language?: OutputLanguage;
 }): PipelineConfig {
 	const config = makeConfig();
@@ -2584,7 +2585,7 @@ export function useStageReadingDivision<TInput, TOutput>(
  */
 type StageReadingEarlierOutputs<TInput, TOutput> = {
 	/** The stage under test. It names the temporary directory and selects the config. */
-	readonly stageId: StageId;
+	readonly stageId: SingleModelStageId;
 	/** The earlier stages whose output the stage reads. */
 	readonly readsFrom: readonly SeededStage[];
 	/** The stage factory, as the CLI calls it. */

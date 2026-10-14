@@ -8,7 +8,13 @@
 
 import type OpenAI from "openai";
 import type { Logger } from "pino";
-import type { CostTally, PipelineStage, StageContext, StageResult } from "../../types/pipeline.js";
+import type {
+	CostTally,
+	PipelineStage,
+	SingleModelStageId,
+	StageContext,
+	StageResult,
+} from "../../types/pipeline.js";
 import { errorMessage, NamedError } from "../../utils/errors.js";
 import { type FailedSend, sendUntilAccepted } from "../../utils/resend.js";
 import { createSendGate, type SendGate } from "../../utils/send-gate.js";
@@ -502,7 +508,8 @@ export function defineModelStage<TInput, TOutput>({
 	stageId,
 	getInput,
 	run,
-}: Pick<Parameters<typeof createPipelineStage<TInput, TOutput>>[0], "stageId" | "getInput"> & {
+}: Pick<Parameters<typeof createPipelineStage<TInput, TOutput>>[0], "getInput"> & {
+	readonly stageId: SingleModelStageId;
 	// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- the pino Logger and OpenAI client types have mutable properties that the rule sees. This code only reads them. CLAUDE.md allows a mutable type where a library requires one.
 	readonly run: (args: ModelStageRunArgs<TInput>) => Promise<StageResult<TOutput>>;
 }): ModelStageFactory<TInput, TOutput> {
