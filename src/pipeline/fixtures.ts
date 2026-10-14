@@ -40,8 +40,10 @@ import { MAX_SENDS } from "../utils/resend.js";
 import { createSendGate, type SendGate } from "../utils/send-gate.js";
 import { parseConfig } from "./config.js";
 import {
+	lectureNotesDirPath,
 	type ModuleDirs,
 	moduleDirs,
+	notesPagePath,
 	type StageWithOutputFile,
 	sharedLectureFileDirs,
 	stageDirectoryPath,
@@ -801,7 +803,7 @@ export type TestLecture = {
 	readonly videoRecordingFile: string;
 	/** The slide deck that {@link makeLectureTree} writes for the lecture. */
 	readonly slideDeckFile: string;
-	/** The notes PDF that {@link makeLectureTree} writes in the final output folder. */
+	/** The folder of the lecture's notes, which {@link makeLectureTree} makes in the final output folder. */
 	readonly finalOutputFile: string;
 };
 
@@ -810,7 +812,7 @@ export type TestLecture = {
  * then cannot describe a lecture that the pipeline would not make. A base name
  * that disagreed with its date would make suites fail for an unrelated reason.
  *
- * The video recording, the slide deck and the notes PDF have that base name, as
+ * The video recording, the slide deck and the notes have that base name, as
  * `source-normalisation` leaves them. So their names come from here too, and a
  * suite does not make them again from `${baseName}.mp4`.
  *
@@ -828,7 +830,7 @@ function describeLecture(lecture: Pick<TestLecture, "number" | "date" | "title">
 		baseName,
 		videoRecordingFile: `${baseName}.mp4`,
 		slideDeckFile: `${baseName}.pdf`,
-		finalOutputFile: `${baseName}.pdf`,
+		finalOutputFile: baseName,
 	};
 }
 
@@ -2005,11 +2007,11 @@ export function useTranscribedWorkspace({
 /**
  * Writes the lecture {@link testLecture} on disk as `source-normalisation`
  * leaves it. The tree has the module directories and the empty workspace. It
- * also has a video recording, a slide deck and a notes PDF, each with the base
- * name of the workspace.
+ * also has a video recording, a slide deck and the notes, each with the base
+ * name of the workspace. The notes are a folder that holds the notes page.
  *
  * Code that moves a lecture needs the module directories, the workspace, the
- * video recording, the slide deck and the notes PDF. The `change-date` command and
+ * video recording, the slide deck and the notes. The `change-date` command and
  * `judge-lecture-title` both rename the four lecture files together. So the suites that test a rename get the layout from here.
  * The caller writes all other files that its code reads, such as a transcript
  * or a manifest. The caller removes `tempDir` after the test.
@@ -2031,15 +2033,32 @@ export async function makeLectureTree({ prefix }: { readonly prefix: string }): 
 	const moduleRoot = join(tempDir, testModuleName);
 	const dirs = moduleDirs({ moduleRoot });
 	const workspaceRoot = workspaceRootFor({ moduleRoot, baseName: testLecture.baseName });
+	const notesDir = lectureNotesDirPath({ moduleRoot, baseName: testLecture.baseName });
 
-	for (const dir of [...sharedLectureFileDirs({ dirs }), workspaceRoot]) {
+	for (const dir of [...sharedLectureFileDirs({ dirs }), workspaceRoot, notesDir]) {
 		await mkdir(dir, { recursive: true });
 	}
 	await writeFile(join(dirs.videoRecording, testLecture.videoRecordingFile), "video");
 	await writeFile(join(dirs.slideDeck, testLecture.slideDeckFile), "slides");
-	await writeFile(join(dirs.finalOutput, testLecture.finalOutputFile), "notes");
+	await writeFile(notesPagePath({ moduleRoot, baseName: testLecture.baseName }), "notes");
 
 	return { tempDir, moduleRoot, dirs, workspaceRoot };
+}
+
+/**
+ * Removes the notes of {@link testLecture} from a tree that {@link makeLectureTree}
+ * made. The lecture is then as it is before `build-notes-page` runs.
+ *
+ * @param args - The module.
+ * @param args.dirs - The folders of the module.
+ * @returns A promise that resolves when the notes are removed.
+ */
+export async function removeTestLectureNotes({
+	dirs,
+}: {
+	readonly dirs: ModuleDirs;
+}): Promise<void> {
+	await rm(join(dirs.finalOutput, testLecture.finalOutputFile), { recursive: true });
 }
 
 /**

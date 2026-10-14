@@ -3,21 +3,22 @@
  * (technical-design.md §4.7, "Moving a lecture's files").
  *
  * A lecture has four things on disk with one base name: its video recording, its
- * slide deck, its notes PDF and its workspace. The CLI's `change-date` and
+ * slide deck, its notes and its workspace. The CLI's `change-date` and
  * `judge-lecture-title` both move all four to a new base name, so the code that
  * moves them is here once. It is in `src/pipeline/`, because a stage must not
  * import from the CLI.
  *
- * The video recording, the slide deck and the notes PDF are in folders
- * that all the lectures of the module share. So a lecture's file in such a folder
- * is found by the date in its name.
+ * The video recording, the slide deck and the notes are in folders that all the
+ * lectures of the module share. So a lecture file in such a folder is found by
+ * the date in its name. The notes are a folder.
  */
 
+import type { Dirent } from "node:fs";
 import { rename, rm } from "node:fs/promises";
 import { basename, dirname, extname, join } from "node:path";
 import type { StageContext } from "../types/pipeline.js";
 import { extractDates, formatDateISO } from "../utils/date.js";
-import { listFileNames, listSubdirectoryNames } from "../utils/files.js";
+import { listFileNames, listSubdirectoryNames, readDirSafe } from "../utils/files.js";
 import { lectureBaseName } from "../utils/naming.js";
 import { type ModuleDirs, moduleDirs, sharedLectureFileDirs } from "./layout.js";
 
@@ -77,7 +78,18 @@ type LectureFileQuery = {
 };
 
 /**
- * Finds the file in a folder whose name has the lecture date. The date, not the
+ * Checks that a folder entry can be a lecture file: a file or a folder, and not
+ * a dotfile. The notes of a lecture are a folder (technical-design.md §3.1).
+ *
+ * @param entry - The folder entry.
+ * @returns `true` when the entry can be a lecture file.
+ */
+function isLectureFileEntry(entry: Readonly<Dirent>): boolean {
+	return (entry.isFile() || entry.isDirectory()) && !entry.name.startsWith(".");
+}
+
+/**
+ * Finds the entry in a folder whose name has the lecture date. The date, not the
  * name, identifies a lecture (technical-design.md §3.2).
  *
  * The **last** date in the name is compared. A title can hold a date of its own,
@@ -85,21 +97,37 @@ type LectureFileQuery = {
  * (technical-design.md §4.7).
  *
  * @param args - The folder and the date.
- * @param args.dir - The folder to search. A folder that does not exist holds no file.
+ * @param args.dir - The folder to search. A folder that does not exist holds no lecture file.
  * @param args.lectureDate - The `YYYY-MM-DD` date to match.
- * @returns The file name, or `null` when no file has the date.
+ * @returns The entry, or `null` when no entry has the date.
+ */
+async function findLectureEntryByDate({
+	dir,
+	lectureDate,
+}: LectureFileQuery): Promise<Readonly<Dirent> | null> {
+	for (const entry of (await readDirSafe(dir)).filter(isLectureFileEntry)) {
+		const date = extractDates(entry.name).at(-1);
+		if (date !== undefined && formatDateISO(date) === lectureDate) {
+			return entry;
+		}
+	}
+	return null;
+}
+
+/**
+ * Finds the lecture file in a folder whose name has the lecture date. The lecture
+ * file can be a file or a folder (technical-design.md §3.2).
+ *
+ * @param args - The folder and the date.
+ * @param args.dir - The folder to search. A folder that does not exist holds no lecture file.
+ * @param args.lectureDate - The `YYYY-MM-DD` date to match.
+ * @returns The name of the lecture file, or `null` when no lecture file has the date.
  */
 export async function findLectureFileByDate({
 	dir,
 	lectureDate,
 }: LectureFileQuery): Promise<string | null> {
-	for (const name of await listFileNames(dir)) {
-		const date = extractDates(name).at(-1);
-		if (date !== undefined && formatDateISO(date) === lectureDate) {
-			return name;
-		}
-	}
-	return null;
+	return (await findLectureEntryByDate({ dir, lectureDate }))?.name ?? null;
 }
 
 /** The two source folders of a module, as their keys in {@link ModuleDirs}. */
@@ -150,15 +178,16 @@ export async function locateSourceFile({
 }
 
 /**
- * Removes the file in a folder whose name has the lecture date, if there is one.
- * All the lectures of the module share the video recording, slide deck and final
- * output folders, so such a folder is never cleared whole. `delete` calls this
- * function on each of the three folders (technical-design.md §4.7).
+ * Removes the lecture file in a folder whose name has the lecture date, if there
+ * is one. A lecture file that is a folder goes with everything in it. All the
+ * lectures of the module share the video recording, slide deck and final output
+ * folders, so such a folder is never cleared whole. `delete` calls this function
+ * on each of the three folders (technical-design.md §4.7).
  *
  * @param args - The folder and the date.
- * @param args.dir - The folder to remove the file from.
+ * @param args.dir - The folder to remove the lecture file from.
  * @param args.lectureDate - The `YYYY-MM-DD` date of the lecture.
- * @returns A promise that resolves when the file is removed, or at once when no file has the date.
+ * @returns A promise that resolves when the lecture file is removed, or at once when no lecture file has the date.
  */
 export async function removeLectureFileByDate({
 	dir,
@@ -168,40 +197,43 @@ export async function removeLectureFileByDate({
 	if (name === null) {
 		return;
 	}
-	await rm(join(dir, name), { force: true });
+	await rm(join(dir, name), { recursive: true, force: true });
 }
 
 /**
- * Renames a file to a new base name, and keeps its extension.
+ * Renames a lecture file to a new base name. A file keeps its extension. A folder
+ * gets the whole base name, because a title such as "Dr. Smith" puts a full stop
+ * in the name of a folder that has no extension.
  *
- * @param args - The file and its new base name.
- * @param args.dir - The folder that holds the file.
- * @param args.name - The file's name, or `null` when there is no file to rename.
- * @param args.baseName - The new name, without the extension.
- * @returns A promise that resolves when the file is renamed.
+ * @param args - The lecture file and its new base name.
+ * @param args.dir - The folder that holds the lecture file.
+ * @param args.entry - The lecture file, or `null` when there is no lecture file to rename.
+ * @param args.baseName - The new base name.
+ * @returns A promise that resolves when the lecture file is renamed.
  */
 async function renameToBase({
 	dir,
-	name,
+	entry,
 	baseName,
 }: {
 	readonly dir: string;
-	readonly name: string | null;
+	readonly entry: Readonly<Dirent> | null;
 	readonly baseName: string;
 }): Promise<void> {
-	if (name === null) {
+	if (entry === null) {
 		return;
 	}
-	await rename(join(dir, name), join(dir, `${baseName}${extname(name)}`));
+	const extension = entry.isDirectory() ? "" : extname(entry.name);
+	await rename(join(dir, entry.name), join(dir, `${baseName}${extension}`));
 }
 
 /**
  * Moves a lecture to a new base name: its video recording, its slide deck, its
- * final output file and its workspace folder (technical-design.md §4.7).
+ * notes and its workspace folder (technical-design.md §4.7).
  *
- * A missing file is skipped, because a lecture has no final output file until
- * the stage that writes it runs. A caller that needs a file checks for it first, as `change-date` does for
- * the source pair.
+ * A missing lecture file is skipped, because a lecture has no notes until the
+ * stage that writes them runs. A caller that needs a file checks for it first, as
+ * `change-date` does for the source pair.
  *
  * @param args - The lecture and its new base name.
  * @param args.dirs - The module's folders.
@@ -222,7 +254,11 @@ export async function renameLectureFiles({
 	readonly baseName: string;
 }): Promise<string> {
 	for (const dir of sharedLectureFileDirs({ dirs })) {
-		await renameToBase({ dir, name: await findLectureFileByDate({ dir, lectureDate }), baseName });
+		await renameToBase({
+			dir,
+			entry: await findLectureEntryByDate({ dir, lectureDate }),
+			baseName,
+		});
 	}
 	const movedTo = join(dirname(workspaceRoot), baseName);
 	await rename(workspaceRoot, movedTo);

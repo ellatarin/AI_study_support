@@ -13,7 +13,7 @@ import type { Logger } from "pino";
 import type { Manifest, SourceNormalisationStage } from "../../../types/pipeline.js";
 import { extractDate, formatDateISO } from "../../../utils/date.js";
 import { NamedError } from "../../../utils/errors.js";
-import { listFileNames } from "../../../utils/files.js";
+import { listFileNames, listSubdirectoryNames } from "../../../utils/files.js";
 import { moduleDirs, workspaceRootFor } from "../../layout.js";
 import { MANIFEST_VERSION, pendingStages, readManifest, writeManifest } from "../../manifest.js";
 import {
@@ -97,23 +97,25 @@ function abortOrphanedWorkspaceHandling({
 }
 
 /**
- * Finds the name of each dated file in the final output folder, so that the PDF
- * of a renumbered lecture can be renamed.
+ * Finds the folder name of each lecture's notes in the final output folder, by
+ * the date in the name. The stage then renames the notes of a renumbered lecture.
+ * A file in the final output folder is not a lecture's notes, so the stage leaves
+ * it alone.
  *
  * @param finalOutputDirPath - The absolute path of the final output folder.
- * @returns The current file name for each lecture date.
+ * @returns The current folder name for each lecture date.
  */
 async function discoverFinalOutput(
 	finalOutputDirPath: string,
 ): Promise<ReadonlyMap<string, string>> {
-	const pdfs = new Map<string, string>();
-	for (const name of await listFileNames(finalOutputDirPath)) {
+	const notes = new Map<string, string>();
+	for (const name of await listSubdirectoryNames(finalOutputDirPath)) {
 		const date = extractDate(name);
 		if (date !== null) {
-			pdfs.set(formatDateISO(date), name);
+			notes.set(formatDateISO(date), name);
 		}
 	}
-	return pdfs;
+	return notes;
 }
 
 /**
@@ -250,7 +252,7 @@ export function createSourceNormalisationStage({
 		}
 
 		const existingWorkspaces = await discoverWorkspaces({ moduleRoot });
-		const existingPdfs = await discoverFinalOutput(dirs.finalOutput);
+		const existingNotes = await discoverFinalOutput(dirs.finalOutput);
 
 		const orphanedWorkspaces = findOrphanedWorkspaces({
 			workspaces: existingWorkspaces,
@@ -262,7 +264,7 @@ export function createSourceNormalisationStage({
 			const outcome = await resolveOrphanedWorkspaces({
 				orphanedWorkspaces,
 				moduleRoot,
-				existingPdfs,
+				existingNotes,
 				logger,
 				confirm,
 			});
@@ -302,7 +304,7 @@ export function createSourceNormalisationStage({
 				workspaces: existingWorkspaces,
 				take: (workspace) => workspace.baseName,
 			}),
-			existingPdfs,
+			existingNotes,
 		});
 		await applyRenames(renames);
 		for (const operation of renames) {

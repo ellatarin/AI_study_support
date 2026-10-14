@@ -32,7 +32,7 @@ type PendingRename = { readonly dir: string; readonly temp: string; readonly tar
 
 /**
  * Finds each temporary entry that an interrupted rename left in the four folders
- * of the module. A source file, a workspace folder and a PDF all use the same suffix.
+ * of the module. A source file, a workspace folder and the notes of a lecture all use the same suffix.
  *
  * @param dirs - The folders of the module.
  * @returns Each temporary entry, with the name that it was moving to.
@@ -125,15 +125,15 @@ function renameIfMoved({
 
 /**
  * Plans each rename for the new numbering: the video recording, the slide deck,
- * the workspace folder and the PDF of each lecture. A lecture file that already
+ * the workspace folder and the notes of each lecture. A lecture file that already
  * has its target name gets no rename. So a second normalisation with no change
  * renames nothing.
  *
- * @param args - The lectures, the folders, and the existing workspaces and PDFs.
+ * @param args - The lectures, the folders, and the existing workspaces and notes.
  * @param args.lectures - The lectures with their new numbers.
  * @param args.dirs - The folders of the module.
  * @param args.existingBaseNames - The base names of the existing workspaces, keyed by lecture date.
- * @param args.existingPdfs - The names of the PDFs in the final output folder, keyed by lecture date.
+ * @param args.existingNotes - The folder name of each lecture's notes in the final output folder, keyed by lecture date.
  * @returns The renames, for {@link applyRenames}.
  */
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- a ReadonlyMap is readonly, but the rule does not accept the built-in collection types as readonly. This function only reads both maps.
@@ -141,12 +141,12 @@ export function planRenames({
 	lectures,
 	dirs,
 	existingBaseNames,
-	existingPdfs,
+	existingNotes,
 }: {
 	readonly lectures: readonly Lecture[];
 	readonly dirs: ModuleDirs;
 	readonly existingBaseNames: ReadonlyMap<string, string>;
-	readonly existingPdfs: ReadonlyMap<string, string>;
+	readonly existingNotes: ReadonlyMap<string, string>;
 }): readonly RenameOp[] {
 	return lectures.flatMap((lecture) =>
 		[
@@ -167,8 +167,8 @@ export function planRenames({
 			}),
 			renameIfMoved({
 				dir: dirs.finalOutput,
-				source: existingPdfs.get(lecture.lectureDate),
-				target: `${lecture.baseName}.pdf`,
+				source: existingNotes.get(lecture.lectureDate),
+				target: lecture.baseName,
 			}),
 		].filter((operation) => operation !== null),
 	);

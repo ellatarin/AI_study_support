@@ -14,8 +14,8 @@ import { NamedError } from "../../../utils/errors.js";
 import { writeFileAtomic } from "../../../utils/files.js";
 import {
 	lectureNotesDirPath,
-	NOTES_PAGE_FILE,
 	NOTES_SLIDES_DIR,
+	notesPagePath,
 	notesSlideImageEntry,
 } from "../../layout.js";
 import { readFactCorrections } from "../fact-corrections.js";
@@ -102,10 +102,8 @@ export async function buildNotesPage(context: StageContext): Promise<void> {
 	const slideNumbers = slideNumbersIn(content.slideRelocations);
 	const { workspaceRoot } = context;
 	await checkSlideImagesExist({ context, slideNumbers, fail });
-	const notesDir = lectureNotesDirPath({
-		moduleRoot: context.moduleRoot,
-		baseName: context.manifest.baseName,
-	});
+	const lecture = { moduleRoot: context.moduleRoot, baseName: context.manifest.baseName };
+	const notesDir = lectureNotesDirPath(lecture);
 	await rm(notesDir, { recursive: true, force: true });
 	await mkdir(join(notesDir, NOTES_SLIDES_DIR), { recursive: true });
 	for (const slideNumber of slideNumbers) {
@@ -115,7 +113,7 @@ export async function buildNotesPage(context: StageContext): Promise<void> {
 		);
 	}
 	await writeFileAtomic({
-		path: join(notesDir, NOTES_PAGE_FILE),
+		path: notesPagePath(lecture),
 		content: notesPageHtml(content),
 	});
 }

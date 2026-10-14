@@ -90,7 +90,7 @@ export async function renameLecture({
 
 /**
  * Deletes all the lecture files of a lecture: its video recording, its slide
- * deck, its notes PDF and its workspace. It does not ask the user. The command
+ * deck, its notes and its workspace. It does not ask the user. The command
  * asks first.
  *
  * The function deletes the source pair and the workspace together, so

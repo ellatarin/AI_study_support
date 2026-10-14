@@ -19,7 +19,12 @@ import {
 	vaccinationAsThird,
 	vaccinationSources,
 } from "../../fixtures.js";
-import { moduleDirs, workspaceRootFor } from "../../layout.js";
+import {
+	lectureNotesDirPath,
+	moduleDirs,
+	NOTES_PAGE_FILE,
+	workspaceRootFor,
+} from "../../layout.js";
 import { patchManifest, readManifest } from "../../manifest.js";
 import {
 	createSourceNormalisationStage,
@@ -59,6 +64,28 @@ function finalOutputDir(moduleRoot: string): string {
 async function writeInto(dir: string, name: string): Promise<void> {
 	await mkdir(dir, { recursive: true });
 	await writeFile(join(dir, name), "source bytes");
+}
+
+/** Writes the notes of a lecture: its folder in Final output, with the notes page in it. */
+async function writeNotes({
+	moduleRoot,
+	baseName,
+}: {
+	readonly moduleRoot: string;
+	readonly baseName: string;
+}): Promise<void> {
+	await writeInto(lectureNotesDirPath({ moduleRoot, baseName }), NOTES_PAGE_FILE);
+}
+
+/** Lists the notes pages in Final output, as `<base name>/notes.html`. */
+async function listNotesPages(moduleRoot: string): Promise<readonly string[]> {
+	const pages: string[] = [];
+	for (const baseName of await listNames(finalOutputDir(moduleRoot))) {
+		for (const name of await listNames(join(finalOutputDir(moduleRoot), baseName))) {
+			pages.push(join(baseName, name));
+		}
+	}
+	return pages;
 }
 
 async function listNames(dir: string): Promise<readonly string[]> {
@@ -493,8 +520,8 @@ describe("createSourceNormalisationStage", () => {
 
 		beforeEach(async () => {
 			await normaliseTwoLectures();
-			await writeInto(finalOutputDir(moduleRoot), `${cellInjuryAsFirst}.pdf`);
-			await writeInto(finalOutputDir(moduleRoot), `${vaccinationAsSecond}.pdf`);
+			await writeNotes({ moduleRoot, baseName: cellInjuryAsFirst });
+			await writeNotes({ moduleRoot, baseName: vaccinationAsSecond });
 			freshStage();
 			confirm.mockClear();
 		});
@@ -532,13 +559,13 @@ describe("createSourceNormalisationStage", () => {
 			}
 		});
 
-		it("should delete the workspace and its Final output PDF and renumber the remainder when an orphaned workspace is approved", async () => {
+		it("should delete the workspace and its notes and renumber the remainder when an orphaned workspace is approved", async () => {
 			await removeSourcePair(cellInjuryAsFirst);
 
 			await stage.normaliseModule({ moduleRoot });
 
 			expect(await listNames(processingDir(moduleRoot))).toEqual([vaccinationAsFirst]);
-			expect(await listNames(finalOutputDir(moduleRoot))).toEqual([`${vaccinationAsFirst}.pdf`]);
+			expect(await listNotesPages(moduleRoot)).toEqual([join(vaccinationAsFirst, NOTES_PAGE_FILE)]);
 			expect(await listNames(videoRecordingsDir(moduleRoot))).toEqual([
 				`${vaccinationAsFirst}.mp4`,
 			]);
@@ -567,8 +594,10 @@ describe("createSourceNormalisationStage", () => {
 			expect(promptMessages()).toContainEqual(expect.stringContaining("(untitled)"));
 		});
 
-		it("should delete an orphaned workspace when it has no final output PDF", async () => {
-			await rm(join(finalOutputDir(moduleRoot), `${cellInjuryAsFirst}.pdf`));
+		it("should delete an orphaned workspace when it has no notes", async () => {
+			await rm(lectureNotesDirPath({ moduleRoot, baseName: cellInjuryAsFirst }), {
+				recursive: true,
+			});
 			await removeSourcePair(cellInjuryAsFirst);
 
 			await stage.normaliseModule({ moduleRoot });
@@ -601,9 +630,9 @@ describe("createSourceNormalisationStage", () => {
 
 			await expectNormalisationToAbort([cellInjuryAsFirst, vaccinationAsSecond]);
 
-			expect(await listNames(finalOutputDir(moduleRoot))).toEqual([
-				`${cellInjuryAsFirst}.pdf`,
-				`${vaccinationAsSecond}.pdf`,
+			expect(await listNotesPages(moduleRoot)).toEqual([
+				join(cellInjuryAsFirst, NOTES_PAGE_FILE),
+				join(vaccinationAsSecond, NOTES_PAGE_FILE),
 			]);
 			expect(await listNames(videoRecordingsDir(moduleRoot))).toEqual([
 				`${vaccinationAsSecond}.mp4`,
@@ -611,13 +640,13 @@ describe("createSourceNormalisationStage", () => {
 		});
 	});
 
-	it("should rename the Final output PDF when a lecture is renumbered", async () => {
+	it("should move the notes to the new base name when a lecture is renumbered", async () => {
 		await normaliseTwoLectures();
-		await writeInto(finalOutputDir(moduleRoot), `${vaccinationAsSecond}.pdf`);
+		await writeNotes({ moduleRoot, baseName: vaccinationAsSecond });
 		await writeLecture(immunitySources);
 
 		await stage.normaliseModule({ moduleRoot });
 
-		expect(await listNames(finalOutputDir(moduleRoot))).toEqual([`${vaccinationAsThird}.pdf`]);
+		expect(await listNotesPages(moduleRoot)).toEqual([join(vaccinationAsThird, NOTES_PAGE_FILE)]);
 	});
 });

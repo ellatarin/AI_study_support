@@ -11,6 +11,7 @@ import {
 	moduleName,
 	moduleRootOf,
 	NOTES_PAGE_FILE,
+	notesPagePath,
 	notesSlideImageEntry,
 	RUN_LOGS_DIR,
 	runLogsDirPath,
@@ -72,6 +73,12 @@ describe("lectureNotesDirPath", () => {
 describe("the files of a lecture's notes", () => {
 	it("should name the notes page notes.html when the page is written", () => {
 		expect(NOTES_PAGE_FILE).toBe("notes.html");
+	});
+
+	it("should place the notes page in the lecture's notes folder when the lecture is named", () => {
+		expect(notesPagePath({ moduleRoot: MODULE_ROOT, baseName: testLecture.baseName })).toBe(
+			join(FINAL_OUTPUT_DIR, testLecture.baseName, "notes.html"),
+		);
 	});
 
 	it("should place the copy of a slide image in slides/ beside the page when the slide is numbered", () => {

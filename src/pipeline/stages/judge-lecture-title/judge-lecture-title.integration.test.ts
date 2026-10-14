@@ -14,6 +14,7 @@ import {
 	makeStageContext,
 	makeStubLogger,
 	openRouterClientFor,
+	removeTestLectureNotes,
 	resetStubbedApi,
 	seedEarlierOutputs,
 	seedStageOutput,
@@ -25,7 +26,7 @@ import {
 	transcriptText,
 	withUserTitle,
 } from "../../fixtures.js";
-import { type ModuleDirs, stageOutputPath, workspaceRootFor } from "../../layout.js";
+import { type ModuleDirs, notesPagePath, stageOutputPath, workspaceRootFor } from "../../layout.js";
 import { renameLectureFiles } from "../../lecture-files.js";
 import { readManifest, writeManifest } from "../../manifest.js";
 import { createJudgeLectureTitleStage } from "./judge-lecture-title.js";
@@ -91,7 +92,7 @@ describe("judge-lecture-title against a real module tree", () => {
 			[
 				join(dirs.videoRecording, `${baseName}.mp4`),
 				join(dirs.slideDeck, `${baseName}.pdf`),
-				join(dirs.finalOutput, `${baseName}.pdf`),
+				notesPagePath({ moduleRoot, baseName }),
 				workspaceNamed(baseName),
 			].map(pathExists),
 		);
@@ -211,15 +212,13 @@ describe("judge-lecture-title against a real module tree", () => {
 		);
 	});
 
-	it("should move a lecture that has produced no PDF yet when the outcome is adopted-derived", async () => {
-		await rm(join(dirs.finalOutput, testLecture.finalOutputFile));
+	it("should move a lecture that has produced no notes yet when the outcome is adopted-derived", async () => {
+		await removeTestLectureNotes({ dirs });
 		stubJudgement({ meaningful: false });
 
 		await runStage(await prepareLecture());
 
 		expect(await pathExists(workspaceNamed(aiDerivedLecture.baseName))).toBe(true);
-		expect(await pathExists(join(dirs.finalOutput, `${aiDerivedLecture.baseName}.pdf`))).toBe(
-			false,
-		);
+		expect(await pathExists(join(dirs.finalOutput, aiDerivedLecture.baseName))).toBe(false);
 	});
 });

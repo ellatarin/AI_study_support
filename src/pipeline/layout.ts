@@ -101,6 +101,17 @@ export function lectureNotesDirPath(lecture: LectureInModule): string {
 }
 
 /**
+ * Gives the path of a lecture's notes page, {@link NOTES_PAGE_FILE} in the
+ * lecture's folder in the final output folder.
+ *
+ * @param lecture - The module and the lecture.
+ * @returns The absolute path to the notes page.
+ */
+export function notesPagePath(lecture: LectureInModule): string {
+	return join(lectureNotesDirPath(lecture), NOTES_PAGE_FILE);
+}
+
+/**
  * Gives the run logs folder of a workspace (technical-design.md §4.6).
  *
  * @param args - The workspace.

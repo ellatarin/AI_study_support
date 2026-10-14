@@ -1,4 +1,4 @@
-import { rm, writeFile } from "node:fs/promises";
+import { mkdir, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import {
@@ -7,10 +7,11 @@ import {
 	makeLectureTree,
 	makeManifest,
 	otherLecture,
+	removeTestLectureNotes,
 	testLecture,
 	testUserTitle,
 } from "../pipeline/fixtures.js";
-import { type ModuleDirs, workspaceRootFor } from "../pipeline/layout.js";
+import { type ModuleDirs, notesPagePath, workspaceRootFor } from "../pipeline/layout.js";
 import { baseNameForLecture } from "../pipeline/lecture-files.js";
 import { readManifest, writeManifest } from "../pipeline/manifest.js";
 import type { LectureMatch } from "../types/pipeline.js";
@@ -102,25 +103,33 @@ describe("lecture identity commands", () => {
 			},
 			{ what: "the source slide", path: () => join(dirs.slideDeck, testLecture.slideDeckFile) },
 			{ what: "the workspace and everything in it", path: () => match.workspaceRoot },
-			{ what: "the final output", path: () => join(dirs.finalOutput, testLecture.finalOutputFile) },
+			{
+				what: "the notes and everything in them",
+				path: () => join(dirs.finalOutput, testLecture.finalOutputFile),
+			},
 		])("should remove $what when deleting", async ({ path }) => {
 			await deleteLecture({ match });
 
 			expect(await pathExists(path())).toBe(false);
 		});
 
-		it("should leave other lectures untouched when deleting", async () => {
-			await writeFile(join(dirs.videoRecording, `${otherLecture.baseName}.mp4`), "video");
+		it.each([
+			{
+				what: "video recording",
+				path: () => join(dirs.videoRecording, otherLecture.videoRecordingFile),
+			},
+			{ what: "notes", path: () => join(dirs.finalOutput, otherLecture.finalOutputFile) },
+		])("should leave another lecture's $what untouched when deleting", async ({ path }) => {
+			await writeFile(join(dirs.videoRecording, otherLecture.videoRecordingFile), "video");
+			await mkdir(join(dirs.finalOutput, otherLecture.finalOutputFile));
 
 			await deleteLecture({ match });
 
-			expect(await pathExists(join(dirs.videoRecording, `${otherLecture.baseName}.mp4`))).toBe(
-				true,
-			);
+			expect(await pathExists(path())).toBe(true);
 		});
 
-		it("should succeed when the lecture has produced no final output yet", async () => {
-			await rm(join(dirs.finalOutput, testLecture.finalOutputFile));
+		it("should succeed when the lecture has produced no notes yet", async () => {
+			await removeTestLectureNotes({ dirs });
 
 			await expect(deleteLecture({ match })).resolves.toBeUndefined();
 		});
@@ -171,8 +180,8 @@ describe("lecture identity commands", () => {
 				left: () => match.workspaceRoot,
 			},
 			{
-				what: "the final output",
-				moved: () => join(dirs.finalOutput, `${MOVED_BASE_NAME}.pdf`),
+				what: "the notes",
+				moved: () => notesPagePath({ moduleRoot: match.moduleRoot, baseName: MOVED_BASE_NAME }),
 				left: () => join(dirs.finalOutput, testLecture.finalOutputFile),
 			},
 		])("should rename $what to the new date when changing the date", async ({ moved, left }) => {
@@ -182,8 +191,8 @@ describe("lecture identity commands", () => {
 			expect(await pathExists(left())).toBe(false);
 		});
 
-		it("should succeed when the lecture has produced no final output yet", async () => {
-			await rm(join(dirs.finalOutput, testLecture.finalOutputFile));
+		it("should succeed when the lecture has produced no notes yet", async () => {
+			await removeTestLectureNotes({ dirs });
 
 			await changeDate();
 

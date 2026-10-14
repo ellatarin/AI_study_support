@@ -2,9 +2,16 @@ import { rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { pathExists } from "../utils/files.js";
-import { aiDerivedLecture, makeLectureTree, otherLecture, testLecture } from "./fixtures.js";
-import { type ModuleDirs, workspaceRootFor } from "./layout.js";
 import {
+	aiDerivedLecture,
+	makeLectureTree,
+	otherLecture,
+	removeTestLectureNotes,
+	testLecture,
+} from "./fixtures.js";
+import { lectureNotesDirPath, type ModuleDirs, notesPagePath, workspaceRootFor } from "./layout.js";
+import {
+	baseNameForLecture,
 	findLectureFileByDate,
 	removeLectureFileByDate,
 	renameLectureFiles,
@@ -110,7 +117,7 @@ describe("lecture files", () => {
 		it.each([
 			{ what: "video recording", key: "videoRecording" as const, extension: ".mp4" },
 			{ what: "slide deck", key: "slideDeck" as const, extension: ".pdf" },
-			{ what: "final output PDF", key: "finalOutput" as const, extension: ".pdf" },
+			{ what: "notes", key: "finalOutput" as const, extension: "" },
 		])("should rename the $what when the lecture moves to a new base name", async ({
 			key,
 			extension,
@@ -136,17 +143,35 @@ describe("lecture files", () => {
 			expect(movedTo).toBe(renamedWorkspaceRoot());
 		});
 
-		it("should skip the final output PDF when the lecture has none yet", async () => {
-			await rm(join(dirs.finalOutput, testLecture.finalOutputFile));
+		it("should move the notes page with the notes when the lecture moves", async () => {
+			await renameToNewBase();
+
+			expect(
+				await pathExists(notesPagePath({ moduleRoot, baseName: aiDerivedLecture.baseName })),
+			).toBe(true);
+		});
+
+		it("should give the notes the whole base name when the title holds a full stop", async () => {
+			const baseName = baseNameForLecture({
+				lectureNumber: testLecture.number,
+				title: "Dr. Smith on Cancer",
+				lectureDate: testLecture.date,
+			});
+
+			await renameLectureFiles({ dirs, workspaceRoot, lectureDate: testLecture.date, baseName });
+
+			expect(await pathExists(lectureNotesDirPath({ moduleRoot, baseName }))).toBe(true);
+		});
+
+		it("should skip the notes when the lecture has none yet", async () => {
+			await removeTestLectureNotes({ dirs });
 
 			await renameToNewBase();
 
 			expect(await pathExists(join(dirs.videoRecording, `${aiDerivedLecture.baseName}.mp4`))).toBe(
 				true,
 			);
-			expect(await pathExists(join(dirs.finalOutput, `${aiDerivedLecture.baseName}.pdf`))).toBe(
-				false,
-			);
+			expect(await pathExists(join(dirs.finalOutput, aiDerivedLecture.baseName))).toBe(false);
 		});
 
 		it("should leave another lecture's files untouched when one lecture moves", async () => {

@@ -58,22 +58,22 @@ const vaccination = lectureNamed({
 /**
  * Gives the planned renames as lines of text.
  *
- * @param args - The lectures, and the existing workspaces and PDFs.
+ * @param args - The lectures, and the existing workspaces and notes.
  * @param args.lectures - The lectures with their new numbers.
  * @param args.existingBaseNames - The base names of the existing workspaces, keyed by lecture date.
- * @param args.existingPdfs - The names of the PDFs in the final output folder, keyed by lecture date.
+ * @param args.existingNotes - The folder name of each lecture's notes in the final output folder, keyed by lecture date.
  * @returns One `dir/source → target` line for each planned rename.
  */
 function plannedMoves({
 	lectures,
 	existingBaseNames = new Map<string, string>(),
-	existingPdfs = new Map<string, string>(),
+	existingNotes = new Map<string, string>(),
 }: {
 	readonly lectures: readonly Lecture[];
 	readonly existingBaseNames?: ReadonlyMap<string, string>;
-	readonly existingPdfs?: ReadonlyMap<string, string>;
+	readonly existingNotes?: ReadonlyMap<string, string>;
 }): readonly string[] {
-	return planRenames({ lectures, dirs, existingBaseNames, existingPdfs }).map(
+	return planRenames({ lectures, dirs, existingBaseNames, existingNotes }).map(
 		(operation) => `${join(operation.dir, operation.source)} → ${operation.target}`,
 	);
 }
@@ -98,12 +98,12 @@ describe("planRenames", () => {
 			plannedMoves({
 				lectures: [settled],
 				existingBaseNames: new Map([[settled.lectureDate, cellInjuryAsFirst]]),
-				existingPdfs: new Map([[settled.lectureDate, `${cellInjuryAsFirst}.pdf`]]),
+				existingNotes: new Map([[settled.lectureDate, cellInjuryAsFirst]]),
 			}),
 		).toEqual([]);
 	});
 
-	it("should move the workspace folder and the final PDF too when a lecture is renumbered", () => {
+	it("should move the workspace folder and the notes too when a lecture is renumbered", () => {
 		const renumbered = lectureNamed({
 			baseName: vaccinationAsSecond,
 			videoRecordingName: `${cellInjuryAsFirst}.mp4`,
@@ -115,13 +115,13 @@ describe("planRenames", () => {
 			plannedMoves({
 				lectures: [renumbered],
 				existingBaseNames: new Map([[renumbered.lectureDate, cellInjuryAsFirst]]),
-				existingPdfs: new Map([[renumbered.lectureDate, `${cellInjuryAsFirst}.pdf`]]),
+				existingNotes: new Map([[renumbered.lectureDate, cellInjuryAsFirst]]),
 			}),
 		).toEqual([
 			`${join(dirs.videoRecording, cellInjuryAsFirst)}.mp4 → ${vaccinationAsSecond}.mp4`,
 			`${join(dirs.slideDeck, cellInjuryAsFirst)}.pdf → ${vaccinationAsSecond}.pdf`,
 			`${join(dirs.processing, cellInjuryAsFirst)} → ${vaccinationAsSecond}`,
-			`${join(dirs.finalOutput, cellInjuryAsFirst)}.pdf → ${vaccinationAsSecond}.pdf`,
+			`${join(dirs.finalOutput, cellInjuryAsFirst)} → ${vaccinationAsSecond}`,
 		]);
 	});
 

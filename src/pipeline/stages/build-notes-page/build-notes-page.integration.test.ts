@@ -22,8 +22,8 @@ import {
 } from "../../fixtures.js";
 import {
 	lectureNotesDirPath,
-	NOTES_PAGE_FILE,
 	NOTES_SLIDES_DIR,
+	notesPagePath,
 	notesSlideImageEntry,
 	slideImageFileName,
 } from "../../layout.js";
@@ -83,6 +83,11 @@ describe("buildNotesPage", () => {
 	const notesDirOf = (baseName: string): string =>
 		lectureNotesDirPath({ moduleRoot: tree.moduleRoot, baseName });
 	const notesDir = (): string => notesDirOf(testLecture.baseName);
+	const readNotesPage = (): Promise<string> =>
+		readFile(
+			notesPagePath({ moduleRoot: tree.moduleRoot, baseName: testLecture.baseName }),
+			"utf8",
+		);
 	const imageOf = (slideNumber: number): string =>
 		slideImagePath({ workspaceRoot: tree.workspaceRoot, slideNumber });
 	const build = (): Promise<void> =>
@@ -117,7 +122,7 @@ describe("buildNotesPage", () => {
 	it("should write the notes page into the lecture's folder in the final output folder when the inputs are on disk", async () => {
 		await build();
 
-		const page = await readFile(join(notesDir(), NOTES_PAGE_FILE), "utf8");
+		const page = await readNotesPage();
 		expect(page).toContain(rewrittenParagraphs[0]);
 	});
 
@@ -143,7 +148,10 @@ describe("buildNotesPage", () => {
 	});
 
 	it("should leave the folders of the other lectures in place when the stage builds the page", async () => {
-		const otherPage = join(notesDirOf(otherLecture.baseName), NOTES_PAGE_FILE);
+		const otherPage = notesPagePath({
+			moduleRoot: tree.moduleRoot,
+			baseName: otherLecture.baseName,
+		});
 		const otherContents = "the other lecture";
 		await seedTextFile({ path: otherPage, contents: otherContents });
 
@@ -158,7 +166,7 @@ describe("buildNotesPage", () => {
 
 		await build();
 
-		const page = await readFile(join(notesDir(), NOTES_PAGE_FILE), "utf8");
+		const page = await readNotesPage();
 		const text = page.replace(/<[^>]*>/gu, "");
 		expect(text).toContain(rewrittenParagraphs[1]);
 		expect(text).toContain(correctedSubtopicText);

@@ -104,30 +104,30 @@ function orphanedWorkspacePrompt({ manifest }: { readonly manifest: Manifest }):
 	return `Lecture ${manifest.lectureNumber} "${title}" (${manifest.lectureDate}) has no video recording or slide deck left. Delete its workspace and any final output?`;
 }
 
-/** The module, its PDFs and the logger, which each deletion uses. */
+/** The module, its notes and the logger, which each deletion uses. */
 type OrphanedWorkspaceContext = {
 	readonly moduleRoot: string;
-	readonly existingPdfs: ReadonlyMap<string, string>;
+	readonly existingNotes: ReadonlyMap<string, string>;
 	readonly logger: Logger;
 };
 
 /**
- * Deletes one approved orphaned workspace, with its manifest, and its PDF in the
- * final output folder. It logs the lecture number, title and date that the
+ * Deletes one approved orphaned workspace, with its manifest, and its notes in
+ * the final output folder. It logs the lecture number, title and date that the
  * deletion destroyed.
  *
  * @param args - The orphaned workspace and the locations of its files.
  * @param args.orphanedWorkspace - The orphaned workspace to delete.
  * @param args.moduleRoot - The absolute path of the module.
- * @param args.existingPdfs - The PDFs in the final output folder, keyed by lecture date.
+ * @param args.existingNotes - The folder name of each lecture's notes in the final output folder, keyed by lecture date.
  * @param args.logger - The logger of the stage.
- * @returns A promise that resolves when the workspace and the PDF are deleted.
+ * @returns A promise that resolves when the workspace and the notes are deleted.
  */
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- OrphanedWorkspaceContext holds pino's Logger and a ReadonlyMap. The Logger has mutable properties that the rule cannot ignore. The rule does not accept the ReadonlyMap as readonly. CLAUDE.md permits a mutable type that a library requires.
 async function deleteOrphanedWorkspace({
 	orphanedWorkspace,
 	moduleRoot,
-	existingPdfs,
+	existingNotes,
 	logger,
 }: { readonly orphanedWorkspace: ExistingWorkspace } & OrphanedWorkspaceContext): Promise<void> {
 	const { manifest } = orphanedWorkspace;
@@ -135,9 +135,9 @@ async function deleteOrphanedWorkspace({
 		recursive: true,
 		force: true,
 	});
-	const pdf = existingPdfs.get(manifest.lectureDate);
-	if (pdf !== undefined) {
-		await rm(join(moduleDirs({ moduleRoot }).finalOutput, pdf), { force: true });
+	const notes = existingNotes.get(manifest.lectureDate);
+	if (notes !== undefined) {
+		await rm(join(moduleDirs({ moduleRoot }).finalOutput, notes), { recursive: true, force: true });
 	}
 	logger.info(
 		{
@@ -159,7 +159,7 @@ async function deleteOrphanedWorkspace({
  * @param args - The orphaned workspaces, the locations of their files, and the dependencies.
  * @param args.orphanedWorkspaces - The orphaned workspaces. There is at least one.
  * @param args.moduleRoot - The absolute path of the module.
- * @param args.existingPdfs - The PDFs in the final output folder, keyed by lecture date.
+ * @param args.existingNotes - The folder name of each lecture's notes in the final output folder, keyed by lecture date.
  * @param args.logger - The logger of the stage.
  * @param args.confirm - The function that asks the user each question.
  * @returns `deleted`, or `declined` with the question that the user declined.
@@ -168,7 +168,7 @@ async function deleteOrphanedWorkspace({
 export async function resolveOrphanedWorkspaces({
 	orphanedWorkspaces,
 	moduleRoot,
-	existingPdfs,
+	existingNotes,
 	logger,
 	confirm,
 }: {
@@ -202,7 +202,7 @@ export async function resolveOrphanedWorkspaces({
 	}
 
 	for (const orphanedWorkspace of orphanedWorkspaces) {
-		await deleteOrphanedWorkspace({ orphanedWorkspace, moduleRoot, existingPdfs, logger });
+		await deleteOrphanedWorkspace({ orphanedWorkspace, moduleRoot, existingNotes, logger });
 	}
 	return { state: "deleted" };
 }
