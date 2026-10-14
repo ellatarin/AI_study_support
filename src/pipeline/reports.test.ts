@@ -20,6 +20,8 @@ import {
 	otherLecture,
 	otherModuleName,
 	otherModuleRoot,
+	primaryFactCheckModel,
+	secondaryFactCheckModel,
 	testLecture,
 	testModuleName,
 	testModuleRoot,
@@ -488,6 +490,36 @@ describe("formatRunSummary", () => {
 		expect(summary).toMatch(
 			new RegExp(`Judge lecture title\\s+${JUDGE_MODEL_ID}\\s+0\\s+0 /\\s+0\\s+n/a`),
 		);
+	});
+
+	it("should give each model of a stage with a list of models its own row, with that model's calls and tokens, when the stage ran", () => {
+		const modelCost = (callCount: number): StageCost => ({
+			promptTokens: 12_000 * callCount,
+			completionTokens: 900 * callCount,
+			callCount,
+			costUsd: 0.1 * callCount,
+		});
+		const summary = runSummary({
+			outcomes: [{ stageId: "check-facts", entry: ran("complete") }],
+			manifest: {
+				...runSummaryManifest,
+				stages: {
+					"check-facts": completedEntry({
+						configUsed: { models: [primaryFactCheckModel, secondaryFactCheckModel] },
+						cost: modelCost(3),
+						costByModel: [
+							{ modelId: primaryFactCheckModel.modelId, cost: modelCost(1) },
+							{ modelId: secondaryFactCheckModel.modelId, cost: modelCost(2) },
+						],
+					}),
+				},
+			},
+		});
+
+		const rowOf = (modelId: string): string | undefined =>
+			summary.split("\n").find((line) => line.includes(modelId));
+		expect(rowOf(primaryFactCheckModel.modelId)).toMatch(/Check facts\s+\S+\s+1\s+12,000/u);
+		expect(rowOf(secondaryFactCheckModel.modelId)).toMatch(/Check facts\s+\S+\s+2\s+24,000/u);
 	});
 
 	it("should leave a stage out when it names no model", () => {

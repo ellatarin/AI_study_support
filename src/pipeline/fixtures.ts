@@ -1717,6 +1717,7 @@ export const testTimePeriod = {
  * @param args.completedAt - The time at which the stage completed. The default is {@link stageCompletedAt}.
  * @param args.configUsed - The model and tuning that the stage used. The default is `null`.
  * @param args.cost - The cost of the stage. The default is `null`.
+ * @param args.costByModel - The cost of each model. The default is no field, as for a stage with one model.
  * @param args.filesWritten - The workspace-relative files that the stage recorded. The default is none.
  * @returns The stage entry.
  */
@@ -1725,15 +1726,36 @@ export function completedEntry({
 	completedAt = stageCompletedAt,
 	configUsed = null,
 	cost = null,
+	costByModel,
 	filesWritten = [],
 }: {
 	readonly status?: "complete" | "skipped";
 	readonly completedAt?: string;
 	readonly configUsed?: StageConfigUsed | null;
 	readonly cost?: StageCost | null;
+	readonly costByModel?: readonly ModelCost[];
 	readonly filesWritten?: readonly string[];
 } = {}): StageEntry {
-	return { status, completedAt, configUsed, cost, filesWritten };
+	return {
+		status,
+		completedAt,
+		configUsed,
+		cost,
+		...costByModelField(costByModel),
+		filesWritten,
+	};
+}
+
+/**
+ * Gives the `costByModel` field of a stage entry, or no field.
+ *
+ * @param costByModel - The cost of each model, or `undefined` for a stage with one model.
+ * @returns The field, or an empty object.
+ */
+function costByModelField(costByModel: readonly ModelCost[] | undefined): {
+	readonly costByModel?: readonly ModelCost[];
+} {
+	return costByModel === undefined ? {} : { costByModel };
 }
 
 /** The stage entry of a stage that is running, or that was running when the invocation stopped. */
@@ -1765,7 +1787,7 @@ export function failedEntry({
 		error: "the stage threw",
 		configUsed: null,
 		cost,
-		...(costByModel === undefined ? {} : { costByModel }),
+		...costByModelField(costByModel),
 		filesWritten,
 	};
 }

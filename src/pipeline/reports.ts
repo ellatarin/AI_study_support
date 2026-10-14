@@ -320,6 +320,23 @@ function stageCostRow(entry: StageEntry | undefined): StageCostRow | null {
 }
 
 /**
+ * Gives the rows of a stage in the run summary or the first section of the cost
+ * report. A stage with one model gets the row of {@link stageCostRow}. A stage
+ * with a list of models gets one row for each model that it called, from its
+ * `costByModel`. No row shows that stage's total (technical-design.md §7).
+ *
+ * @param entry - The stage entry, or `undefined` when the manifest has none.
+ * @returns The rows, or none when the stage gets no row.
+ */
+function stageCostRows(entry: StageEntry | undefined): readonly StageCostRow[] {
+	if (entry !== undefined && "costByModel" in entry && entry.costByModel !== undefined) {
+		return entry.costByModel.map(({ modelId, cost }) => ({ model: modelId, cost }));
+	}
+	const row = stageCostRow(entry);
+	return row === null ? [] : [row];
+}
+
+/**
  * The input that the cost report and the run summary share. A report gets a
  * formatter and not a rate, so this module does not know the currency
  * (technical-design.md §7, "Cost and Reporting Modules").
@@ -358,18 +375,12 @@ function currentPipelineSection({ manifest, formatMoney }: ManifestSectionArgs):
 		if (!isCompletedEntry(entry)) {
 			return [];
 		}
-		const row = stageCostRow(entry);
-		if (row === null) {
-			return [];
-		}
-		return [
-			[
-				[stageLabel({ stageId }), CURRENT_PIPELINE_WIDTHS.stage, "left"],
-				[row.model, CURRENT_PIPELINE_WIDTHS.model, "left"],
-				[String(row.cost?.callCount ?? 0), CURRENT_PIPELINE_WIDTHS.calls, "right"],
-				costCell({ amount: row.cost?.costUsd ?? null, formatMoney }),
-			],
-		];
+		return stageCostRows(entry).map((row): readonly Cell[] => [
+			[stageLabel({ stageId }), CURRENT_PIPELINE_WIDTHS.stage, "left"],
+			[row.model, CURRENT_PIPELINE_WIDTHS.model, "left"],
+			[String(row.cost?.callCount ?? 0), CURRENT_PIPELINE_WIDTHS.calls, "right"],
+			costCell({ amount: row.cost?.costUsd ?? null, formatMoney }),
+		]);
 	});
 	return renderCostTable({
 		title: "Current pipeline cost",
@@ -560,8 +571,7 @@ function executedStages({
 		if (outcome.entry.action !== "ran") {
 			continue;
 		}
-		const row = stageCostRow(manifest.stages[outcome.stageId]);
-		if (row !== null) {
+		for (const row of stageCostRows(manifest.stages[outcome.stageId])) {
 			stages.push({ stageId: outcome.stageId, ...row });
 		}
 	}
