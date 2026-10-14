@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.92-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
+**Suite version:** 1.93-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
 **Date:** 2026-10-14
 **Status:** For review
 
@@ -1637,7 +1637,7 @@ A reply is unusable, and the stage resends it, in these cases:
 
 A slide that a figure mark points at goes at that mark. Code gives each slide its figure number, and writes "(Figure N)" in place of each mark that points at a slide (CONTEXT.md, "Figure number"). A mark that points at no slide stays as `[FIGURE]`, and the stage records it. The references slide goes after the last sentence of the last subtopic, with no call and no figure number. The stage writes one file for each subtopic and one file for the whole lecture.
 
-**`build-notes-page` — the notes page.** The stage makes no model call. It writes `Final output/<base name>/notes.html` and `Final output/<base name>/slides/`, with each slide as a JPEG file 2000 pixels wide. The page shows the topic and subtopic titles and the text of each subtopic, from the output of `relocate-slides`. Each slide is small and floats at its sentence, with its figure number and its caption in the right margin. LaTeX becomes maths when the stage builds the page, so the page loads nothing from the internet. A click on a slide opens it in a window that the user can move and change in size, and the page behind stays readable. The page replaces the PDF of the earlier design. A test page, which a script outside the pipeline builds, is the prototype of its layout.
+**`build-notes-page` — the notes page.** The stage makes no model call. It writes `Final output/<base name>/notes.html` and `Final output/<base name>/slides/`, with each slide as the PNG file that `render-slides` writes, copied unchanged. The page shows the topic and subtopic titles and the text of each subtopic, from the output of `relocate-slides`. Each slide is small and floats at its sentence, with its figure number and its caption in the right margin. LaTeX becomes maths when the stage builds the page, so the page loads nothing from the internet. A click on a slide opens it in a window that the user can move and change in size, and the page behind stays readable. The page replaces the PDF of the earlier design. A test page, which a script outside the pipeline builds, is the prototype of its layout.
 
 The lecture's folder in `Final output/` is a lecture file, as the video and the slide deck are (§3.1). A reset of the stage deletes this lecture's folder and keeps the folders of the other lectures. Rename, change-date, delete and normalisation move or delete the folder.
 

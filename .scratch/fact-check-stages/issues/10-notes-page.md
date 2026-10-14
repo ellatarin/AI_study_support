@@ -10,7 +10,7 @@ The design comes from the parked ticket `.scratch/html-notes/issues/01-show-the-
 
 - [ ] The technical design and the requirements describe the stage before the build. FR-3.5 says that the slides are in a folder beside the page.
 - [ ] The stage writes `Final output/<base name>/notes.html` and `Final output/<base name>/slides/`.
-- [ ] Each slide is a JPEG file, 2000 pixels wide.
+- [ ] Each slide is the PNG file that `render-slides` writes, copied unchanged. A JPEG file made the slides too distorted (user, 2026-10-14).
 - [ ] The page shows the topic and subtopic titles and the text of each subtopic, from the output of `relocate-slides`.
 - [ ] Each slide is small and floats at its sentence. Its figure number and caption are in the right margin.
 - [ ] The sentence of each slide is highlighted, as in the test page. A later ticket deletes the highlight after the user's tests.
