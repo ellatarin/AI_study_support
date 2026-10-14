@@ -4,7 +4,7 @@
 
 **Blocked by:** none
 
-**Parked:** the user parked this ticket on 2026-10-08. Other features come first.
+**Unparked:** the user parked this ticket on 2026-10-08 and unparked it on 2026-10-14, after the batch of the Genomics of Disease lectures (see Comments).
 
 **The problem:** a batch runs as many lectures at the same time as `batch.concurrency` allows (technical-design.md §4.7). Each lecture draws its own progress bars on stderr. Each bar thinks that it owns the current line of the terminal. When two lectures draw a bar at the same time, the bars write over each other. The user then sees a line that changes between two bars, or parts of two bars.
 
@@ -33,8 +33,11 @@ The terminal shows these two states on one line, one after the other. The two ba
 - One line for each lecture in flight, with the lecture's name in front of its bar. cli-progress has a `MultiBar` that draws several bars on several lines.
 - No bars during a batch, with the stage notices only.
 
-- [ ] The user chooses what a batch shows.
+- [x] The user chooses what a batch shows (2026-10-14). Each lecture in flight gets one line. The lecture's name stands in front of its bar and its stage lines.
 - [ ] A batch with two or more lectures in flight shows no bar that writes over another bar.
 - [ ] A single `run` shows the same bars as now.
+- [ ] During a batch, each stage line names its lecture, or sits in the block of its lecture. A stage line is a line such as "▶ Transcription…" or "✔ Transcription — 1 call, £0.175".
 
 ## Comments
+
+**2026-10-14, a batch of the two Genomics of Disease lectures with `--concurrency 2`.** The stage lines have the same fault as the bars. The batch prints the heading of each lecture once, at the start. After that, the stage lines of both lectures follow each other with no lecture name. So each line looks as if it belongs to the last heading, "Lecture 2". The line "✔ Transcription — 1 call, £0.175" belonged to Lecture 1. The user read the screen as "Lecture 1 is stalling", stopped the batch, and started it again. The restart sent the Lecture 1 recording to transcription a second time.
