@@ -693,6 +693,18 @@ const shapeCases: readonly ShapeCase[] = [
 		},
 		match: /en-AU/,
 	},
+	...[
+		{ problem: "is missing", bypass: undefined },
+		{ problem: "is not true or false", bypass: "yes" },
+	].map(
+		({ problem, bypass }): ShapeCase => ({
+			name: `stages.correct-factual-errors.bypass ${problem}`,
+			mutate: (config: Record<string, unknown>) => {
+				configuredStages(config)["correct-factual-errors"] = { modelId: JUDGE_MODEL_ID, bypass };
+			},
+			match: /stages\.correct-factual-errors\.bypass/,
+		}),
+	),
 	missingKeyCase("subtopicSplitting"),
 	...countFieldCases({
 		sectionName: "subtopicSplitting",

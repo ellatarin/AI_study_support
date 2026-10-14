@@ -177,22 +177,23 @@ function inProjectWords(reply: CorrectionReply): CorrectedParagraphs {
 
 /**
  * Gives the fact-corrected paragraphs of one subtopic. A subtopic with no factual
- * errors gets no call, and keeps its rewrite.
+ * errors gets no call, and keeps its rewrite. With the stage's `bypass` on, each
+ * subtopic keeps its rewrite.
  *
- * @param args - The subtopic, and the model calls of the stage run.
+ * @param args - The subtopic, the stage context, and the model calls of the stage run.
  * @param args.subtopic - The subtopic and its factual errors.
+ * @param args.context - The stage context, which holds the config of the stage.
  * @param args.calls - The model calls of the stage run.
  * @returns The paragraphs and the changes.
  * @throws {ResendsExhaustedError} If the third send is still unusable.
  */
 async function correctSubtopic({
 	subtopic,
+	context,
 	calls,
-}: Pick<
-	SubtopicWork<FactCorrectionInput, CorrectionSubtopic>,
-	"subtopic" | "calls"
->): Promise<CorrectedParagraphs> {
-	if (subtopic.factualErrors.length === 0) {
+}: SubtopicWork<FactCorrectionInput, CorrectionSubtopic>): Promise<CorrectedParagraphs> {
+	const bypass = context.config.stages[STAGE_ID]?.bypass === true;
+	if (bypass || subtopic.factualErrors.length === 0) {
 		return { factCorrectedSubtopic: subtopic.rewrittenSubtopic, changes: [] };
 	}
 	const { reply } = await calls.sendJsonWithResends({
@@ -210,12 +211,12 @@ async function correctSubtopic({
  * Makes the file of one subtopic: its fact-corrected paragraphs, its changes and
  * its factual errors.
  *
- * @param work - The subtopic, and the model calls of the stage run.
+ * @param work - The subtopic, the stage context, and the model calls of the stage run.
  * @returns The file of the subtopic.
  * @throws {ResendsExhaustedError} If the third send is still unusable.
  */
 async function makeFactCorrectionFile(
-	work: Pick<SubtopicWork<FactCorrectionInput, CorrectionSubtopic>, "subtopic" | "calls">,
+	work: SubtopicWork<FactCorrectionInput, CorrectionSubtopic>,
 ): Promise<FactCorrectionFile> {
 	const { subtopic } = work;
 	const corrected = await correctSubtopic(work);

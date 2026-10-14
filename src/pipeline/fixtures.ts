@@ -19,6 +19,7 @@ import { afterEach, beforeEach, expect, it, type Mock, vi } from "vitest";
 import type {
 	CostTally,
 	FactCheckModel,
+	FactCorrectionStageConfig,
 	Manifest,
 	ModelCost,
 	OutputLanguage,
@@ -2594,7 +2595,7 @@ type StageReadingEarlierOutputs<TInput, TOutput> = {
 	/** The content of the reply to every call, stubbed before each test. `null` in a suite that stubs the network and not the client. */
 	readonly reply: string | null;
 	/** The fields of the stage's config to replace. The default replaces none. */
-	readonly tuning?: Partial<StageConfig>;
+	readonly tuning?: Partial<FactCorrectionStageConfig>;
 	/** The language of the notes. The default is the language of the example config. */
 	readonly language?: OutputLanguage;
 };

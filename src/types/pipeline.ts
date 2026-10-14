@@ -127,6 +127,12 @@ export type StageConfig = {
 	readonly modelId: string;
 } & StageTuning;
 
+/** The configuration of `correct-factual-errors`: one model, and the switch that turns the correction off. */
+export type FactCorrectionStageConfig = StageConfig & {
+	/** `true` makes the stage copy each rewrite unchanged, with no model call. */
+	readonly bypass: boolean;
+};
+
 /** The roles of a model in the `models` list of `check-facts` (technical-design.md §5, `check-facts`, and §6). */
 export const MODEL_ROLES = ["primary", "secondary", "disabled"] as const;
 
@@ -195,6 +201,7 @@ export type PipelineConfig = {
 	};
 	readonly stages: Readonly<Partial<Record<SingleModelStageId, StageConfig>>> & {
 		readonly "check-facts"?: FactCheckStageConfig;
+		readonly "correct-factual-errors"?: FactCorrectionStageConfig;
 	};
 	readonly finalOutput: {
 		/** The language that every stage that writes prose is told to use. */

@@ -4,6 +4,7 @@ import {
 	CONFIG_FILENAME,
 	type FactCheckModel,
 	type FactCheckStageConfig,
+	type FactCorrectionStageConfig,
 	MODEL_ROLES,
 	type ModelRole,
 	type PanelSettings,
@@ -59,6 +60,13 @@ function requireString(args: LabelledValue): string {
 function requireNumber(args: LabelledValue): number {
 	if (typeof args.value !== "number") {
 		throw configFault({ ...args, expected: "a number" });
+	}
+	return args.value;
+}
+
+function requireBoolean(args: LabelledValue): boolean {
+	if (typeof args.value !== "boolean") {
+		throw configFault({ ...args, expected: "true or false" });
 	}
 	return args.value;
 }
@@ -172,6 +180,7 @@ function requireStringArray(args: LabelledValue): readonly string[] {
 type ConfigSection = {
 	readonly string: (field: string) => string;
 	readonly number: (field: string) => number;
+	readonly boolean: (field: string) => boolean;
 	readonly count: (field: string) => number;
 	readonly optionalNumber: (field: string) => number | undefined;
 	readonly url: (field: string) => string;
@@ -208,6 +217,7 @@ function requireSection(args: LabelledValue): ConfigSection {
 	return {
 		string: (field) => read({ field, require: requireString }),
 		number: (field) => read({ field, require: requireNumber }),
+		boolean: (field) => read({ field, require: requireBoolean }),
 		count: (field) => read({ field, require: requireCount }),
 		optionalNumber: (field) => read({ field, require: requireOptionalNumber }),
 		url: (field) => read({ field, require: requireUrl }),
@@ -580,6 +590,22 @@ function requireFactCheckStageConfig(value: unknown): FactCheckStageConfig {
 }
 
 /**
+ * Reads the config of `correct-factual-errors`: the config of a stage with one
+ * model, and its `bypass` switch (technical-design.md §6).
+ *
+ * @param value - The raw config of the stage.
+ * @returns The checked config.
+ * @throws {ConfigError} If the config or a field is not valid, or `bypass` is not `true` or `false`.
+ */
+function requireFactCorrectionStageConfig(value: unknown): FactCorrectionStageConfig {
+	const stageId = "correct-factual-errors";
+	return {
+		...requireStageConfig({ value, stageId }),
+		bypass: requireSection({ value, label: `stages.${stageId}` }).boolean("bypass"),
+	};
+}
+
+/**
  * Reads the `stages` section. A key that names no stage is refused. A typo in a
  * key would leave the intended stage with no config (technical-design.md §6,
  * "A stage key names a stage").
@@ -597,6 +623,9 @@ function requireStages(value: unknown): PipelineConfig["stages"] {
 			}
 			if (stageId === "check-facts") {
 				return [stageId, requireFactCheckStageConfig(stageConfig)];
+			}
+			if (stageId === "correct-factual-errors") {
+				return [stageId, requireFactCorrectionStageConfig(stageConfig)];
 			}
 			return [stageId, requireStageConfig({ value: stageConfig, stageId })];
 		}),

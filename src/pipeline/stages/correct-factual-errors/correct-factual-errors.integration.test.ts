@@ -8,7 +8,6 @@ import {
 	itFailsNamingEachSpoiledFile,
 	itReadsSavedSubtopicFiles,
 	openRouterReplyBody,
-	readJsonFile,
 	resendPausesTimeoutMs,
 	rewriteInput,
 	rewrittenParagraphs,
@@ -16,6 +15,7 @@ import {
 	stageOutputInput,
 	structuredTranscriptInput,
 	useStageReadingEarlierOutputs,
+	workspaceJsonReader,
 } from "../../fixtures.js";
 import {
 	CorrectFactualErrorsError,
@@ -50,23 +50,17 @@ function replyBody(reply: unknown): ReturnType<typeof openRouterReplyBody> {
 	return openRouterReplyBody({ content: JSON.stringify(reply) });
 }
 
-describe("createCorrectFactualErrorsStage", () => {
-	const { workspaceRoot, create, run, logged } = useStageReadingEarlierOutputs({
-		stageId: STAGE_ID,
-		readsFrom: ["structure-transcript", "rewrite-subtopics", "check-facts"],
-		factory: createCorrectFactualErrorsStage,
-		reply: JSON.stringify(usableReply),
-	});
+/** The stage, its earlier stages and its stubbed reply, for each suite of this file. */
+const stageUnderTest = {
+	stageId: STAGE_ID,
+	readsFrom: ["structure-transcript", "rewrite-subtopics", "check-facts"],
+	factory: createCorrectFactualErrorsStage,
+	reply: JSON.stringify(usableReply),
+} as const;
 
-	/**
-	 * Reads a JSON file of the workspace of the current test.
-	 *
-	 * @param file - The path relative to the workspace.
-	 * @returns The parsed file.
-	 */
-	function readFile(file: string): Promise<unknown> {
-		return readJsonFile(join(workspaceRoot(), file));
-	}
+describe("createCorrectFactualErrorsStage", () => {
+	const { workspaceRoot, create, run, logged } = useStageReadingEarlierOutputs(stageUnderTest);
+	const readFile = workspaceJsonReader(workspaceRoot);
 
 	it("should write the fact-corrected subtopic, the changes with factualError in place of the reply's error, the factual errors, checkedBy and both paragraph counts when a subtopic has factual errors", async () => {
 		await run();
@@ -181,5 +175,24 @@ describe("createCorrectFactualErrorsStage", () => {
 		run,
 		errorType: CorrectFactualErrorsError,
 		create,
+	});
+});
+
+describe("createCorrectFactualErrorsStage with the bypass on", () => {
+	const { workspaceRoot, create, run } = useStageReadingEarlierOutputs({
+		...stageUnderTest,
+		tuning: { bypass: true },
+	});
+	const readFile = workspaceJsonReader(workspaceRoot);
+
+	it("should make no call, and write the rewrite unchanged with no changes and the factual errors that the check found, when a subtopic has factual errors", async () => {
+		await run();
+
+		expect(create()).not.toHaveBeenCalled();
+		expect(await readFile(factCorrectionFile(corrected.subtopicId))).toMatchObject({
+			factualErrors: [seededFactualError],
+			factCorrectedSubtopic: [corrected.rewrite],
+			changes: [],
+		});
 	});
 });

@@ -91,6 +91,7 @@
 			]
 		},
 		"correct-factual-errors": {
+			"bypass": false,
 			"modelId": "anthropic/claude-sonnet-5.5",
 			"temperature": null,
 			"maxTokens": null,
