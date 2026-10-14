@@ -283,6 +283,45 @@ describe("createMoneyFormatter", () => {
  * @param overrides - The inputs that a test changes.
  * @returns The report.
  */
+/**
+ * Gives the run log of one pipeline run of `check-facts` with both fact-check
+ * models. The primary model cost 0.1 USD and the secondary model 0.2 USD.
+ *
+ * @param args - The run type and the status of the stage.
+ * @param args.runType - The run type of the pipeline run.
+ * @param args.status - The status of `check-facts` in the run.
+ * @returns The run log.
+ */
+function factCheckRunLog({
+	runType,
+	status,
+}: {
+	readonly runType: RunLog["runType"];
+	readonly status: "complete" | "failed";
+}): RunLog {
+	const ranEntry = {
+		action: "ran",
+		configUsed: { models: [primaryFactCheckModel, secondaryFactCheckModel] },
+		cost: { costUsd: 0.3, callCount: 2 },
+		costByModel: [
+			{ modelId: primaryFactCheckModel.modelId, cost: { costUsd: 0.1, callCount: 1 } },
+			{ modelId: secondaryFactCheckModel.modelId, cost: { costUsd: 0.2, callCount: 1 } },
+		],
+	} as const;
+	return {
+		...ranFrom({ startedAt: "2025-10-12T09:00:00.000Z", endedAt: "2025-10-12T09:05:00.000Z" }),
+		triggeredBy: "from-stage",
+		runType,
+		fromStage: "check-facts",
+		stages: {
+			"check-facts":
+				status === "failed"
+					? { ...ranEntry, status, error: "check-facts failed" }
+					: { ...ranEntry, status },
+		},
+	};
+}
+
 function costReport(overrides: Partial<Parameters<typeof formatCostReport>[0]> = {}): string {
 	return formatCostReport({ runLogs, manifest, formatMoney: formatTestMoney, ...overrides });
 }
@@ -336,11 +375,27 @@ describe("formatCostReport", () => {
 		expect(report).toContain("…");
 	});
 
+	it.each([
+		{ section: "error recovery", runType: "normal", status: "failed" },
+		{ section: "experiment", runType: "experiment", status: "complete" },
+	] as const)("should give each model of a stage with a list of models its own row, with that model's cost, when the $section section shows the stage", ({
+		runType,
+		status,
+	}) => {
+		const report = costReport({ runLogs: [factCheckRunLog({ runType, status })] });
+
+		const rowOf = (modelId: string): string | undefined =>
+			report.split("\n").find((line) => line.includes(modelId));
+		// 0.1 and 0.2 USD at 0.74 = £0.074 and £0.148.
+		expect(rowOf(primaryFactCheckModel.modelId)).toMatch(/£0\.074$/u);
+		expect(rowOf(secondaryFactCheckModel.modelId)).toMatch(/£0\.148$/u);
+	});
+
 	it("should give a failed stage a row when the run that failed was an ordinary one", () => {
 		const report = costReport({ runLogs: [originalFailure] });
 
 		// 0.021 USD at 0.74 = 0.01554.
-		expect(report).toMatch(/read-slides\s+failed\s+£0\.016/);
+		expect(report).toMatch(/read-slides\s+\S+\s+failed\s+£0\.016/);
 	});
 
 	it("should render a stage's cost as n/a when its lookup failed", () => {

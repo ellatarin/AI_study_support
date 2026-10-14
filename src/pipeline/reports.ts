@@ -394,7 +394,29 @@ function currentPipelineSection({ manifest, formatMoney }: ManifestSectionArgs):
 	});
 }
 
-const ERROR_RECOVERY_WIDTHS = { run: 26, stage: 22, status: 8 } as const;
+/** The model and the cost that a section of the cost report shows for one run log entry. */
+type RunLogCostRow = { readonly model: string; readonly costUsd: number | null };
+
+/**
+ * Gives the rows of one run log entry in the error recovery and experiment
+ * sections. A stage with a list of models gets one row for each model that it
+ * called, from its `costByModel`. Another stage gets one row with its model, or
+ * "—" when it names no model.
+ *
+ * @param entry - The run log entry of a stage that ran.
+ * @returns The rows, in the order of the models.
+ */
+function runLogCostRows(entry: RanStageEntry): readonly RunLogCostRow[] {
+	if (entry.costByModel !== undefined) {
+		return entry.costByModel.map(({ modelId, cost }) => ({
+			model: modelId,
+			costUsd: cost.costUsd,
+		}));
+	}
+	return [{ model: singleModelIdOf(entry.configUsed) ?? "—", costUsd: entry.cost.costUsd }];
+}
+
+const ERROR_RECOVERY_WIDTHS = { run: 26, stage: 22, model: MODEL_WIDTH, status: 8 } as const;
 
 /**
  * Makes the error recovery section of the cost report from the run logs. It
@@ -406,19 +428,22 @@ const ERROR_RECOVERY_WIDTHS = { run: 26, stage: 22, status: 8 } as const;
  * @returns The section's lines.
  */
 function errorRecoverySection({ runLogs, formatMoney }: RunLogSectionArgs): readonly string[] {
-	const rows = ranStageEntries({ runLogs, selects: wasSpentOnFailure }).map(
-		({ log, stageId, entry }): readonly Cell[] => [
-			[log.startedAt, ERROR_RECOVERY_WIDTHS.run, "left"],
-			[stageId, ERROR_RECOVERY_WIDTHS.stage, "left"],
-			[entry.status === "failed" ? "failed" : "retry", ERROR_RECOVERY_WIDTHS.status, "right"],
-			costCell({ amount: entry.cost.costUsd, formatMoney }),
-		],
+	const rows = ranStageEntries({ runLogs, selects: wasSpentOnFailure }).flatMap(
+		({ log, stageId, entry }) =>
+			runLogCostRows(entry).map((row): readonly Cell[] => [
+				[log.startedAt, ERROR_RECOVERY_WIDTHS.run, "left"],
+				[stageId, ERROR_RECOVERY_WIDTHS.stage, "left"],
+				[row.model, ERROR_RECOVERY_WIDTHS.model, "left"],
+				[entry.status === "failed" ? "failed" : "retry", ERROR_RECOVERY_WIDTHS.status, "right"],
+				costCell({ amount: row.costUsd, formatMoney }),
+			]),
 	);
 	return renderCostTable({
 		title: "Error recovery cost",
 		columns: [
 			["Run", ERROR_RECOVERY_WIDTHS.run, "left"],
 			["Stage", ERROR_RECOVERY_WIDTHS.stage, "left"],
+			["Model", ERROR_RECOVERY_WIDTHS.model, "left"],
 			["Status", ERROR_RECOVERY_WIDTHS.status, "right"],
 			COST_HEADER,
 		],
@@ -449,14 +474,13 @@ function experimentSection({ runLogs, formatMoney }: RunLogSectionArgs): readonl
 		"Experiment cost",
 		...[...byStage].flatMap(([stageId, entries]) => [
 			`Stage: ${stageId}`,
-			...entries.map(({ log, entry }) => {
-				const model = fitToColumn({
-					text: singleModelIdOf(entry.configUsed) ?? "—",
-					width: MODEL_WIDTH,
-				}).padEnd(MODEL_WIDTH);
-				const cost = formatMoney(entry.cost.costUsd).padStart(COST_WIDTH);
-				return `  Run ${log.startedAt}    ${model}${cost}`;
-			}),
+			...entries.flatMap(({ log, entry }) =>
+				runLogCostRows(entry).map((row) => {
+					const model = fitToColumn({ text: row.model, width: MODEL_WIDTH }).padEnd(MODEL_WIDTH);
+					const cost = formatMoney(row.costUsd).padStart(COST_WIDTH);
+					return `  Run ${log.startedAt}    ${model}${cost}`;
+				}),
+			),
 		]),
 	];
 }
