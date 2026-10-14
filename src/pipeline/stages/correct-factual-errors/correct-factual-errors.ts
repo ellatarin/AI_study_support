@@ -9,10 +9,10 @@
    pipeline types and shared helpers. So their import blocks are the same line
    for line. Imports cannot be shared, and CLAUDE.md (File Organisation) forbids
    barrel files. Only the imports are exempt. jscpd checks the code below. */
-import { join } from "node:path";
 import type { StageContext } from "../../../types/pipeline.js";
 import { NamedError } from "../../../utils/errors.js";
 import { isRecord, isStringList } from "../../../utils/record.js";
+import { stageDirectoryPath, stageOutputPath } from "../../layout.js";
 import {
 	type FactualErrorsFile,
 	type MergedFactualError,
@@ -40,11 +40,7 @@ import {
  */
 export class CorrectFactualErrorsError extends NamedError {}
 
-/** The folder of the stage in the lecture's workspace. */
-const FACT_CORRECTIONS_DIR = "Fact corrections";
-
-/** The file of the fact-corrected subtopic of each subtopic, in {@link FACT_CORRECTIONS_DIR}. */
-const FACT_CORRECTED_SUBTOPICS_FILE = "fact-corrected-subtopics.json";
+const STAGE_ID = "correct-factual-errors";
 
 /** One subtopic of the fact correction: its id, title, paragraphs and merged factual errors. */
 export type CorrectionSubtopic = FactCorrectionMaterial & {
@@ -65,7 +61,7 @@ type FactCorrectionChange = ChangedWords & {
 	readonly factualError: number;
 };
 
-/** The file of one subtopic in {@link FACT_CORRECTIONS_DIR}. */
+/** The file of one subtopic in the folder `Fact corrections`. */
 type FactCorrectionFile = {
 	readonly subtopicId: number;
 	readonly factCorrectionPromptVersion: string;
@@ -261,12 +257,12 @@ async function correctSubtopic({
 
 /**
  * Corrects the factual errors of each subtopic, and writes the file of each
- * subtopic and {@link FACT_CORRECTED_SUBTOPICS_FILE}.
+ * subtopic and `fact-corrected-subtopics.json`.
  *
  * @param run - The fact correction of the lecture: its input, and the stage run.
  * @param run.subtopics - Each subtopic with its factual errors, in lecture order.
  * @param run.checkedBy - The models that checked the facts, for the file of each subtopic.
- * @returns The content of {@link FACT_CORRECTED_SUBTOPICS_FILE}, and the `filesWritten` entry of each file.
+ * @returns The content of `fact-corrected-subtopics.json`, and the `filesWritten` entry of each file.
  * @throws {CorrectFactualErrorsError} If a saved file holds nothing readable.
  * @throws {ResendsExhaustedError} If the third send of a call is still unusable.
  */
@@ -279,10 +275,10 @@ export function correctFactualErrors({
 	readonly output: { readonly factCorrectedSubtopics: readonly FactCorrectionFile[] };
 	readonly filesWritten: readonly string[];
 }> {
-	const directory = join(run.workspaceRoot, FACT_CORRECTIONS_DIR);
+	const stage = { workspaceRoot: run.workspaceRoot, stageId: STAGE_ID } as const;
 	return runUnlistedSubtopicFileStage({
 		workspaceRoot: run.workspaceRoot,
-		directory,
+		directory: stageDirectoryPath(stage),
 		subtopics,
 		isSaved: isFactCorrectionFile,
 		saved: { content: "fact correction", remake: "correct the factual errors of the subtopic" },
@@ -300,7 +296,7 @@ export function correctFactualErrors({
 			};
 		},
 		concurrency: run.concurrency,
-		entriesPath: join(directory, FACT_CORRECTED_SUBTOPICS_FILE),
+		entriesPath: stageOutputPath(stage),
 		key: "factCorrectedSubtopics",
 	});
 }

@@ -124,6 +124,18 @@ describe("moduleName", () => {
 	});
 });
 
+describe("STAGE_IDS", () => {
+	it("should run the fact check, the fact correction, the slide relocation and the notes page after the rewrite when the pipeline is enumerated", () => {
+		expect(STAGE_IDS.slice(STAGE_IDS.indexOf("rewrite-subtopics"))).toStrictEqual([
+			"rewrite-subtopics",
+			"check-facts",
+			"correct-factual-errors",
+			"relocate-slides",
+			"build-notes-page",
+		]);
+	});
+});
+
 describe("STAGE_FILES", () => {
 	it("should describe every stage when the pipeline is enumerated", () => {
 		expect(Object.keys(STAGE_FILES).sort()).toStrictEqual([...STAGE_IDS].sort());
@@ -163,6 +175,11 @@ describe("stageDirectoryPaths", () => {
 			expected: [],
 		},
 		{
+			stageId: "build-notes-page" as const,
+			scenario: "no workspace directory, because the notes go to the final output folder",
+			expected: [],
+		},
+		{
 			// The folder of the saved runs is first, because the panel keeps them in the first folder.
 			stageId: "group-into-topics" as const,
 			scenario: "its grouping runs and then the topics chosen from them",
@@ -182,6 +199,15 @@ describe("stageOutputEntry", () => {
 			expected: join("Slide placements", "placements.json"),
 		},
 		{ stageId: "group-into-topics" as const, expected: join("Topics", "topics.json") },
+		{ stageId: "check-facts" as const, expected: join("Fact checks", "factual-errors.json") },
+		{
+			stageId: "correct-factual-errors" as const,
+			expected: join("Fact corrections", "fact-corrected-subtopics.json"),
+		},
+		{
+			stageId: "relocate-slides" as const,
+			expected: join("Slide relocations", "slide-relocations.json"),
+		},
 	])("should give the workspace-relative output of $stageId when it writes a single file", ({
 		stageId,
 		expected,

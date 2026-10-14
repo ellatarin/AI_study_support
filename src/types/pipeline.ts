@@ -28,6 +28,10 @@ export const STAGE_IDS = [
 	"place-slides",
 	"correct-terms",
 	"rewrite-subtopics",
+	"check-facts",
+	"correct-factual-errors",
+	"relocate-slides",
+	"build-notes-page",
 ] as const;
 
 /** The id of one stage (technical-design.md §4.1). */

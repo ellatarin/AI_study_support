@@ -7,18 +7,12 @@
    readers and checks. So their import blocks are the same line for line. Imports
    cannot be shared, and CLAUDE.md (File Organisation) forbids barrel files. Only
    the imports are exempt. jscpd checks the code below. */
-import { join } from "node:path";
 import { isOneOf, isRecord, isStringList, readerFromCheck } from "../../utils/record.js";
+import { stageDirectoryPath, stageOutputPath } from "../layout.js";
 import { type ReadingStage, readInputJson } from "./stage-input.js";
 import { hasSubtopicId } from "./subtopic-files.js";
 
 /* jscpd:ignore-end */
-
-/** The folder of `check-facts` in the lecture's workspace. */
-const FACT_CHECKS_DIR = "Fact checks";
-
-/** The file of the merged factual errors of the lecture, in {@link FACT_CHECKS_DIR}. */
-const FACTUAL_ERRORS_FILE = "factual-errors.json";
 
 /** The severities that a fact check gives a factual error. */
 export const SEVERITIES = ["serious", "minor"] as const;
@@ -38,7 +32,7 @@ export type FactualErrorFoundBy = FactualError & { readonly foundBy: readonly st
 /** A factual error of the merged file: the models that report it, and whether its passage is in its subtopic. */
 export type MergedFactualError = FactualErrorFoundBy & { readonly wordsFound: boolean };
 
-/** The merged file of the lecture, {@link FACTUAL_ERRORS_FILE}. */
+/** The merged file of the lecture, `factual-errors.json`. */
 export type FactualErrorsFile = {
 	readonly factCheckPromptVersion: string;
 	/** The ids of the models that `check-facts` called, the primary model first. */
@@ -50,20 +44,20 @@ export type FactualErrorsFile = {
  * Gives the absolute path of the folder of `check-facts` in a lecture's workspace.
  *
  * @param workspaceRoot - The absolute path of the lecture's workspace.
- * @returns The absolute path of {@link FACT_CHECKS_DIR}.
+ * @returns The absolute path of the folder.
  */
 export function factChecksDirectory(workspaceRoot: string): string {
-	return join(workspaceRoot, FACT_CHECKS_DIR);
+	return stageDirectoryPath({ workspaceRoot, stageId: "check-facts" });
 }
 
 /**
  * Gives the absolute path of the merged file in a lecture's workspace.
  *
  * @param workspaceRoot - The absolute path of the lecture's workspace.
- * @returns The absolute path of {@link FACTUAL_ERRORS_FILE}.
+ * @returns The absolute path of `factual-errors.json`.
  */
 export function factualErrorsPath(workspaceRoot: string): string {
-	return join(factChecksDirectory(workspaceRoot), FACTUAL_ERRORS_FILE);
+	return stageOutputPath({ workspaceRoot, stageId: "check-facts" });
 }
 
 /** Checks that a value is one of the {@link SEVERITIES}. */
