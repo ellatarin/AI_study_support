@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { rewrittenParagraphs, slideDeckReadings, testLecture } from "../../fixtures.js";
+import {
+	rewrittenParagraphs,
+	seededFactualError,
+	slideDeckReadings,
+	testLecture,
+} from "../../fixtures.js";
 import { notesSlideImageEntry } from "../../layout.js";
 import { figureLabel } from "../slide-relocations.js";
 import type { SlideReading } from "../slides.js";
@@ -83,6 +88,14 @@ const termCorrections: NotesPageContent["termCorrections"] = [
 	{ subtopicId: 2, correctedText: spokenSubtopicTwo },
 ];
 
+/** The change of the fact correction in subtopic 2, which the model reported for the seeded factual error. */
+const reportedChange = {
+	factualError: 1,
+	before: rewriteSlideTwoSentence,
+	after: slideTwoSentence,
+	note: "",
+};
+
 /** Slide 2 is placed at the spoken words of its sentence. */
 const slidePlacements: NotesPageContent["slidePlacements"] = [
 	{
@@ -101,6 +114,7 @@ const content: NotesPageContent = {
 	subtopicRewrites,
 	termCorrections,
 	slidePlacements,
+	factCorrections: [],
 };
 
 /**
@@ -448,6 +462,22 @@ describe("notesPageHtml", () => {
 		expect(choices).toStrictEqual(["notes checked", "rewrite", "corrections", "transcript"]);
 	});
 
+	it.each([
+		{ view: "notes", explains: "<mark>" },
+		{ view: "rewrite", explains: "before the fact correction" },
+		{ view: "corrections", explains: "<del>" },
+		{ view: "transcript", explains: '<span class="not-in-notes">' },
+	])("should explain the $view view in a line of the header that shows with the view when the page is built", ({
+		view,
+		explains,
+	}) => {
+		const [header = ""] = innerHtmlOf({ html: notesPageHtml(content), tag: "header" });
+
+		const legend = new RegExp(`<p class="legend" id="${view}-legend">(.*?)</p>`, "u").exec(header);
+
+		expect(legend?.[1]).toContain(explains);
+	});
+
 	it("should show the rewrite of each subtopic under its title, with no highlight and no colour, when the Rewrite view is built", () => {
 		const withNoSlides: NotesPageContent = {
 			...content,
@@ -553,5 +583,66 @@ describe("notesPageHtml", () => {
 			openingParagraph,
 			unwrittenWords,
 		]);
+	});
+
+	it("should show a word that is only in the rewrite in red with a line, and a word that is only in the notes in green, when the Corrections view is built", () => {
+		const corrections = viewHtml({ html: notesPageHtml(content), view: "corrections" });
+
+		expect(innerHtmlOf({ html: corrections, tag: "del" }).map(pageText)).toStrictEqual([
+			"can be reversed.",
+		]);
+		expect(innerHtmlOf({ html: corrections, tag: "ins" }).map(pageText)).toStrictEqual([
+			"is reversible.",
+		]);
+	});
+
+	it("should show the text with no colour when the fact correction changed nothing but the figure mark that slide relocation numbered", () => {
+		const html = notesPageHtml({
+			...content,
+			slideRelocations: [
+				{ subtopicId: 1, paragraphs: [`${openingParagraph} (${figureLabel(1)})`], slides: [] },
+				...slideRelocations.slice(1),
+			],
+			subtopicRewrites: [
+				{ subtopicId: 1, rewrittenSubtopic: [`${openingParagraph} [FIGURE]`] },
+				{ subtopicId: 2, rewrittenSubtopic: subtopicTwoParagraphs },
+			],
+		});
+
+		expect(viewHtml({ html, view: "corrections" })).not.toMatch(/<(?:del|ins)>/u);
+	});
+
+	it("should put each slide at the start of its sentence in the notes, with no highlight, when the Corrections view is built", () => {
+		const corrections = viewHtml({ html: notesPageHtml(content), view: "corrections" });
+
+		expect(
+			inOrder({
+				text: pageText(corrections),
+				parts: [sentenceBeforeSlideTwo, `${figureLabel(1)}.`, "Some injury", "is reversible."],
+			}),
+		).toBe(true);
+		expect(corrections).not.toContain("<mark>");
+	});
+
+	it.each([
+		{
+			reported: "reported",
+			changes: [reportedChange],
+			note: ` title="${seededFactualError.problem}"`,
+		},
+		{ reported: "did not report", changes: [], note: "" },
+	])("should give each red and green word of a change the problem of its factual error as a note, or no note, when the model $reported the change", ({
+		changes,
+		note,
+	}) => {
+		const html = notesPageHtml({
+			...content,
+			factCorrections: [{ subtopicId: 2, factualErrors: [seededFactualError], changes }],
+		});
+
+		const corrections = viewHtml({ html, view: "corrections" });
+
+		expect(corrections).toContain(`<del${note}>`);
+		expect(corrections).toContain(`<ins${note}>`);
 	});
 });

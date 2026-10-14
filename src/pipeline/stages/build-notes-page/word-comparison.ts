@@ -62,10 +62,36 @@ function placedWords(paragraphs: readonly string[]): readonly PlacedWord[] {
  * @param placed.word - The word as its text writes it.
  * @returns The form that the comparison matches.
  */
-function comparisonKey({ word }: PlacedWord): string {
+function comparisonKey({ word }: Pick<PlacedWord, "word">): string {
 	return LABEL_WORD.test(word) || word.includes(FIGURE_MARK)
 		? FIGURE_MARK
 		: word.toLowerCase().replace(PUNCTUATION, "");
+}
+
+/**
+ * Checks that a text holds a run of words, one after the other, in the form that
+ * the comparison matches. An empty run is in every text.
+ *
+ * @param args - The text, and the words.
+ * @param args.text - The text to search.
+ * @param args.words - The words of the run, as their text writes them.
+ * @returns `true` when the text holds the run.
+ */
+export function holdsWordRun({
+	text,
+	words,
+}: {
+	readonly text: string;
+	readonly words: readonly string[];
+}): boolean {
+	const textKeys = placedWords([text]).map(comparisonKey);
+	const runKeys = words.map((word) => comparisonKey({ word }));
+	return (
+		runKeys.length === 0 ||
+		[...textKeys.keys()].some((start) =>
+			[...runKeys.entries()].every(([offset, key]) => textKeys[start + offset] === key),
+		)
+	);
 }
 
 /**

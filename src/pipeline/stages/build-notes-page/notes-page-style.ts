@@ -52,7 +52,7 @@ nav a:hover { text-decoration: underline; }
 .view-switch legend { padding: 0; margin-bottom: 0.25rem; color: var(--muted); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; }
 .view-switch label { cursor: pointer; }
 .view-switch input { accent-color: var(--accent); }
-.view { display: none; }
+.view, header .legend { display: none; }
 .not-in-notes, del { color: var(--removed-ink); background: var(--removed-bg); border-radius: 2px; }
 del { text-decoration: line-through; text-decoration-thickness: 1px; }
 ins { color: var(--added-ink); background: var(--added-bg); text-decoration: none; border-radius: 2px; }

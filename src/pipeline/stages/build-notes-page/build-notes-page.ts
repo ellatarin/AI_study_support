@@ -18,6 +18,7 @@ import {
 	NOTES_SLIDES_DIR,
 	notesSlideImageEntry,
 } from "../../layout.js";
+import { readFactCorrections } from "../fact-corrections.js";
 import { readSlideRelocations } from "../slide-relocations.js";
 import { checkSlideImagesExist, readSlideReadings, slideImagePath } from "../slides.js";
 import { readStageSlidePlacements, readStageStructuredTranscript } from "../stage-input.js";
@@ -55,11 +56,13 @@ function slideNumbersIn(slideRelocations: NotesPageContent["slideRelocations"]):
  */
 async function readPageContent(context: StageContext): Promise<NotesPageContent> {
 	const reading = { context, purpose: "build the notes page of", fail };
-	const [{ topics }, { placements }, { slideRelocations }] = await Promise.all([
-		readStageStructuredTranscript(reading),
-		readStageSlidePlacements(reading),
-		readSlideRelocations(reading),
-	]);
+	const [{ topics }, { placements }, { factCorrectedSubtopics }, { slideRelocations }] =
+		await Promise.all([
+			readStageStructuredTranscript(reading),
+			readStageSlidePlacements(reading),
+			readFactCorrections(reading),
+			readSlideRelocations(reading),
+		]);
 	const subtopicIds = topics.flatMap(({ subtopics }) =>
 		subtopics.map(({ subtopicId }) => subtopicId),
 	);
@@ -79,6 +82,7 @@ async function readPageContent(context: StageContext): Promise<NotesPageContent>
 		subtopicRewrites,
 		termCorrections,
 		slidePlacements: placements,
+		factCorrections: factCorrectedSubtopics,
 	};
 }
 
