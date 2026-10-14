@@ -14,6 +14,11 @@ import { NamedError } from "../../../utils/errors.js";
 import { isRecord, isStringList } from "../../../utils/record.js";
 import { stageDirectoryPath, stageOutputPath } from "../../layout.js";
 import {
+	type ChangedWords,
+	type FactCorrectionFile,
+	isFactCorrectionFile,
+} from "../fact-corrections.js";
+import {
 	type FactualErrorsFile,
 	type MergedFactualError,
 	readFactualErrorsFile,
@@ -23,7 +28,7 @@ import {
 	sendToStageModelWithResends,
 	type UnlistedStageRun,
 } from "../model-stage.js";
-import { hasSubtopicId, runUnlistedSubtopicFileStage } from "../subtopic-files.js";
+import { runUnlistedSubtopicFileStage } from "../subtopic-files.js";
 import { readTitledRewrites } from "../subtopic-rewrites.js";
 import {
 	buildFactCorrectionMessages,
@@ -45,32 +50,6 @@ const STAGE_ID = "correct-factual-errors";
 /** One subtopic of the fact correction: its id, title, paragraphs and merged factual errors. */
 export type CorrectionSubtopic = FactCorrectionMaterial & {
 	readonly factualErrors: readonly MergedFactualError[];
-};
-
-/** The words of one change, before and after, as the reply and the saved file both give them. */
-type ChangedWords = {
-	readonly before: string;
-	readonly after: string;
-	/** The reason when the words did not change. */
-	readonly note: string;
-};
-
-/** One change of the fact-corrected subtopic, in the project's words. */
-type FactCorrectionChange = ChangedWords & {
-	/** The factual error, by the number that the call gave it ({@link isSentFactualErrorNumber}). */
-	readonly factualError: number;
-};
-
-/** The file of one subtopic in the folder `Fact corrections`. */
-type FactCorrectionFile = {
-	readonly subtopicId: number;
-	readonly factCorrectionPromptVersion: string;
-	readonly factualErrors: readonly MergedFactualError[];
-	readonly factCorrectedSubtopic: readonly string[];
-	readonly changes: readonly FactCorrectionChange[];
-	readonly checkedBy: FactualErrorsFile["checkedBy"];
-	readonly paragraphCountBefore: number;
-	readonly paragraphCountAfter: number;
 };
 
 /** The part of the file of one subtopic that the reply gives. */
@@ -115,25 +94,6 @@ function isCorrectionReply(value: unknown): value is CorrectionReply {
 		isStringList(value.paragraphs) &&
 		Array.isArray(value.changes) &&
 		value.changes.every(isReplyChange)
-	);
-}
-
-/**
- * Checks that a parsed saved file is the file of one subtopic.
- *
- * @param value - The parsed file.
- * @returns `true` when the value is a {@link FactCorrectionFile}.
- */
-function isFactCorrectionFile(value: unknown): value is FactCorrectionFile {
-	return (
-		hasSubtopicId(value) &&
-		typeof value.factCorrectionPromptVersion === "string" &&
-		Array.isArray(value.factualErrors) &&
-		isStringList(value.factCorrectedSubtopic) &&
-		Array.isArray(value.changes) &&
-		isStringList(value.checkedBy) &&
-		typeof value.paragraphCountBefore === "number" &&
-		typeof value.paragraphCountAfter === "number"
 	);
 }
 

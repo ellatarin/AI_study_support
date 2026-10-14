@@ -32,6 +32,7 @@ import type {
 	StageResult,
 } from "../types/pipeline.js";
 import { createCostTally } from "../utils/cost.js";
+import { NamedError } from "../utils/errors.js";
 import { pathExists } from "../utils/files.js";
 import { MAX_SENDS } from "../utils/resend.js";
 import { createSendGate, type SendGate } from "../utils/send-gate.js";
@@ -66,6 +67,7 @@ import {
 } from "./stages/model-stage.js";
 import { SavedRunUnreadableError } from "./stages/panel-runs.js";
 import type { SlidePlacement, SlidePlacements } from "./stages/slide-placements.js";
+import type { ReadingStage } from "./stages/stage-input.js";
 import type { StructuredTranscript } from "./stages/structured-transcript.js";
 import type { TitledSubtopicRewrite } from "./stages/subtopic-rewrites.js";
 import type { Topic } from "./stages/topics.js";
@@ -1141,6 +1143,70 @@ export const unusableJsonContents: readonly {
 	{ state: "not JSON", contents: "Opening, then cell injury." },
 	{ state: "the wrong shape", contents: JSON.stringify({}) },
 ];
+
+/** The error of the reading stage in a suite of a lecture file reader. */
+export class ReadingStageError extends NamedError {}
+
+/**
+ * Runs a reader of a lecture file against the workspace of the current test, with
+ * {@link ReadingStageError} as the reading stage's error.
+ *
+ * @param args - The reader, and the workspace.
+ * @param args.reader - The reader of the lecture file.
+ * @param args.workspaceRoot - Gives the workspace of the current test.
+ * @returns What the reader gives.
+ * @typeParam TFile - The content of the lecture file.
+ */
+export function readLectureFile<TFile>({
+	reader,
+	workspaceRoot,
+}: {
+	readonly reader: (reading: ReadingStage) => Promise<TFile>;
+	readonly workspaceRoot: () => string;
+}): Promise<TFile> {
+	return reader({
+		context: makeStageContext({ workspaceRoot: workspaceRoot() }),
+		fail: (message) => new ReadingStageError(message),
+	});
+}
+
+/**
+ * Adds one test for each of the {@link unusableJsonContents} and for one entry of
+ * the wrong shape. Each test spoils the lecture file and runs its reader. It
+ * checks that the reader fails with the reading stage's error, and that the
+ * error names the file.
+ *
+ * @param args - The reader, its file and the entry of the wrong shape.
+ * @param args.reader - The reader of the lecture file.
+ * @param args.workspaceRoot - Gives the workspace of the current test.
+ * @param args.path - Gives the absolute path of the lecture file in a workspace.
+ * @param args.wrongEntry - A lecture file with one entry that lacks a field, and the name of that state.
+ */
+export function itFailsNamingAnUnusableLectureFile({
+	path,
+	wrongEntry,
+	...read
+}: Parameters<typeof readLectureFile>[0] & {
+	readonly path: (workspaceRoot: string) => string;
+	readonly wrongEntry: { readonly state: string; readonly contents: string };
+}): void {
+	it.each([
+		...unusableJsonContents,
+		wrongEntry,
+	])("should fail with the reading stage's error that names the file when the lecture file is $state", async ({
+		contents,
+	}) => {
+		const spoiled = path(read.workspaceRoot());
+		if (contents !== null) {
+			await seedTextFile({ path: spoiled, contents });
+		}
+
+		const error = await captureError(readLectureFile(read));
+
+		expect(error).toBeInstanceOf(ReadingStageError);
+		expect(error.message).toContain(spoiled);
+	});
+}
 
 /**
  * Pairs each input file with each of the {@link unusableJsonContents}, for a
