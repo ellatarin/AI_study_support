@@ -60,6 +60,20 @@ describe("lecture identity commands", () => {
 			expect(manifest[field]).toBe(expected);
 		});
 
+		it.each([
+			{ field: "userTitle" as const },
+			{ field: "lectureTitle" as const },
+		])("should record $field trimmed and singly spaced when the title has extra whitespace", async ({
+			field,
+		}) => {
+			const typedTitle = `  ${testUserTitle.replaceAll(" ", " \t ")}  `;
+
+			await renameLecture({ workspaceRoot: match.workspaceRoot, title: typedTitle });
+
+			const manifest = await readManifest({ workspaceRoot: match.workspaceRoot });
+			expect(manifest[field]).toBe(testUserTitle);
+		});
+
 		it("should leave the files for the renormalisation to rename when renaming", async () => {
 			await renameLecture({ workspaceRoot: match.workspaceRoot, title: testUserTitle });
 

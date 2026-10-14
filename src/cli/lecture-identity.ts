@@ -19,6 +19,7 @@ import { patchManifest, readManifest } from "../pipeline/manifest.js";
 import type { LectureMatch, Manifest } from "../types/pipeline.js";
 import { errorMessage, NamedError } from "../utils/errors.js";
 import { filenameSafe } from "../utils/naming.js";
+import { collapseWhitespace } from "../utils/text.js";
 
 /**
  * The error for an identity change that cannot be made. The causes are:
@@ -51,7 +52,8 @@ async function openLecture(match: LectureMatch): Promise<{
 
 /**
  * Writes a user title to the manifest, as `userTitle` and as `lectureTitle`. A
- * user title outranks the other titles, and nothing overwrites it.
+ * user title outranks the other titles, and nothing overwrites it. The title is
+ * trimmed, and each run of whitespace in it becomes one space.
  *
  * It changes only the manifest. The normalisation after it renames the lecture
  * files (technical-design.md §4.7, "Identity-change commands").
@@ -69,8 +71,9 @@ export async function renameLecture({
 	readonly workspaceRoot: string;
 	readonly title: string;
 }): Promise<void> {
+	const userTitle = collapseWhitespace(title);
 	try {
-		filenameSafe(title);
+		filenameSafe(userTitle);
 	} catch (error: unknown) {
 		throw new LectureIdentityError(
 			`"${title}" cannot be used as a lecture title: ${errorMessage(error)}`,
@@ -80,7 +83,7 @@ export async function renameLecture({
 	await patchManifest({
 		workspaceRoot,
 		manifest,
-		changes: { userTitle: title, lectureTitle: title },
+		changes: { userTitle, lectureTitle: userTitle },
 		updatedAt: new Date().toISOString(),
 	});
 }
