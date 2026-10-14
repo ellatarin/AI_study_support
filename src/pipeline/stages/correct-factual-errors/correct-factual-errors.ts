@@ -14,6 +14,7 @@ import { isRecord, isStringList } from "../../../utils/record.js";
 import {
 	type ChangedWords,
 	type FactCorrectionFile,
+	hasChangedWords,
 	isFactCorrectionFile,
 } from "../fact-corrections.js";
 import {
@@ -68,13 +69,7 @@ const DOCUMENTED_REPLY_SHAPE = "{ paragraphs, changes: [{ error, before, after, 
  * @returns `true` when the value is a {@link ReplyChange}.
  */
 function isReplyChange(value: unknown): value is ReplyChange {
-	return (
-		isRecord(value) &&
-		typeof value.error === "number" &&
-		typeof value.before === "string" &&
-		typeof value.after === "string" &&
-		typeof value.note === "string"
-	);
+	return hasChangedWords(value) && typeof value.error === "number";
 }
 
 /**

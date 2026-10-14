@@ -9,7 +9,11 @@
    the imports are exempt. jscpd checks the code below. */
 import { isRecord, isStringList, readerFromCheck } from "../../utils/record.js";
 import { stageOutputPath } from "../layout.js";
-import type { FactualErrorsFile, MergedFactualError } from "./factual-errors.js";
+import {
+	type FactualErrorsFile,
+	isMergedFactualError,
+	type MergedFactualError,
+} from "./factual-errors.js";
 import { type ReadingStage, readInputJson } from "./stage-input.js";
 import { hasSubtopicId } from "./subtopic-files.js";
 
@@ -47,7 +51,33 @@ export type FactCorrectedSubtopics = {
 };
 
 /**
- * Checks that a parsed file is the file of one subtopic.
+ * Checks that a value holds the words of one change: `before`, `after` and `note`.
+ *
+ * @param value - One change, from a reply or from a saved file.
+ * @returns `true` when the value has the three fields of {@link ChangedWords}.
+ */
+export function hasChangedWords(value: unknown): value is Record<string, unknown> & ChangedWords {
+	return (
+		isRecord(value) &&
+		typeof value.before === "string" &&
+		typeof value.after === "string" &&
+		typeof value.note === "string"
+	);
+}
+
+/**
+ * Checks that a value is one change of a saved file, with each of its four fields.
+ *
+ * @param value - One entry of the file's `changes`.
+ * @returns `true` when the value is a {@link FactCorrectionChange}.
+ */
+function isFactCorrectionChange(value: unknown): value is FactCorrectionChange {
+	return hasChangedWords(value) && typeof value.factualError === "number";
+}
+
+/**
+ * Checks that a parsed file is the file of one subtopic, with each of its
+ * factual errors and changes.
  *
  * @param value - The parsed file.
  * @returns `true` when the value is a {@link FactCorrectionFile}.
@@ -57,8 +87,10 @@ export function isFactCorrectionFile(value: unknown): value is FactCorrectionFil
 		hasSubtopicId(value) &&
 		typeof value.factCorrectionPromptVersion === "string" &&
 		Array.isArray(value.factualErrors) &&
+		value.factualErrors.every(isMergedFactualError) &&
 		isStringList(value.factCorrectedSubtopic) &&
 		Array.isArray(value.changes) &&
+		value.changes.every(isFactCorrectionChange) &&
 		isStringList(value.checkedBy) &&
 		typeof value.paragraphCountBefore === "number" &&
 		typeof value.paragraphCountAfter === "number"

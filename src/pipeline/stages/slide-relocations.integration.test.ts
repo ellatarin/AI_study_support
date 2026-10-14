@@ -40,9 +40,11 @@ describe("readSlideRelocations", () => {
 		reader: readSlideRelocations,
 		workspaceRoot,
 		path: slideRelocationsPath,
-		wrongEntry: {
-			state: "an entry without its slides",
-			contents: JSON.stringify({ slideRelocations: [{ ...relocation, slides: undefined }] }),
-		},
+		wrongEntries: [
+			{
+				state: "an entry without its slides",
+				contents: JSON.stringify({ slideRelocations: [{ ...relocation, slides: undefined }] }),
+			},
+		],
 	});
 });

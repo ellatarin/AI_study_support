@@ -85,7 +85,7 @@ export function isFactualError(value: unknown): value is FactualError {
  * @param value - One entry of the merged file's `factualErrors`.
  * @returns `true` when the value is a {@link MergedFactualError}.
  */
-function isMergedFactualError(value: unknown): value is MergedFactualError {
+export function isMergedFactualError(value: unknown): value is MergedFactualError {
 	return (
 		isRecord(value) &&
 		isStringList(value.foundBy) &&

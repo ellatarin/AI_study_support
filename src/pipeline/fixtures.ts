@@ -1075,28 +1075,28 @@ export function readLectureFile<TFile>({
 }
 
 /**
- * Adds one test for each of the {@link unusableJsonContents} and for one entry of
- * the wrong shape. Each test spoils the lecture file and runs its reader. It
- * checks that the reader fails with the reading stage's error, and that the
- * error names the file.
+ * Adds one test for each of the {@link unusableJsonContents} and for each lecture
+ * file with an entry of the wrong shape. Each test spoils the lecture file and
+ * runs its reader. It checks that the reader fails with the reading stage's
+ * error, and that the error names the file.
  *
- * @param args - The reader, its file and the entry of the wrong shape.
+ * @param args - The reader, its file and the entries of the wrong shape.
  * @param args.reader - The reader of the lecture file.
  * @param args.workspaceRoot - Gives the workspace of the current test.
  * @param args.path - Gives the absolute path of the lecture file in a workspace.
- * @param args.wrongEntry - A lecture file with one entry that lacks a field, and the name of that state.
+ * @param args.wrongEntries - Each lecture file with one entry that lacks a field, and the name of that state.
  */
 export function itFailsNamingAnUnusableLectureFile({
 	path,
-	wrongEntry,
+	wrongEntries,
 	...read
 }: Parameters<typeof readLectureFile>[0] & {
 	readonly path: (workspaceRoot: string) => string;
-	readonly wrongEntry: { readonly state: string; readonly contents: string };
+	readonly wrongEntries: readonly { readonly state: string; readonly contents: string }[];
 }): void {
 	it.each([
 		...unusableJsonContents,
-		wrongEntry,
+		...wrongEntries,
 	])("should fail with the reading stage's error that names the file when the lecture file is $state", async ({
 		contents,
 	}) => {

@@ -5,6 +5,7 @@ import {
 	factCorrectedSubtopicsFile,
 	itFailsNamingAnUnusableLectureFile,
 	readLectureFile,
+	seededFactualError,
 	seedJsonFile,
 	tobaccoSubtopic,
 	useTempDir,
@@ -41,11 +42,29 @@ describe("readFactCorrections", () => {
 		reader: readFactCorrections,
 		workspaceRoot,
 		path: (root) => join(root, factCorrectedSubtopicsFile),
-		wrongEntry: {
-			state: "an entry without its fact-corrected subtopic",
-			contents: JSON.stringify({
-				factCorrectedSubtopics: [{ ...correction, factCorrectedSubtopic: undefined }],
-			}),
-		},
+		wrongEntries: [
+			{
+				state: "an entry without its fact-corrected subtopic",
+				contents: JSON.stringify({
+					factCorrectedSubtopics: [{ ...correction, factCorrectedSubtopic: undefined }],
+				}),
+			},
+			{
+				state: "a change without its words before",
+				contents: JSON.stringify({
+					factCorrectedSubtopics: [
+						{ ...correction, changes: [{ factualError: 1, after: "two", note: "" }] },
+					],
+				}),
+			},
+			{
+				state: "a factual error without its problem",
+				contents: JSON.stringify({
+					factCorrectedSubtopics: [
+						{ ...correction, factualErrors: [{ ...seededFactualError, problem: undefined }] },
+					],
+				}),
+			},
+		],
 	});
 });
