@@ -14,7 +14,10 @@ import { createOpenRouterClientProvider } from "../pipeline/openrouter.js";
 import { createMoneyFormatter } from "../pipeline/reports.js";
 import { deriveTimestampId, PipelineRunner } from "../pipeline/runner.js";
 import { audioExtractionParts } from "../pipeline/stages/audio-extraction/audio-extraction.js";
+import { createBuildNotesPageStage } from "../pipeline/stages/build-notes-page/build-notes-page.js";
+import { createCheckFactsStage } from "../pipeline/stages/check-facts/check-facts.js";
 import { createChooseDivisionStage } from "../pipeline/stages/choose-division/choose-division.js";
+import { createCorrectFactualErrorsStage } from "../pipeline/stages/correct-factual-errors/correct-factual-errors.js";
 import { createCorrectTermsStage } from "../pipeline/stages/correct-terms/correct-terms.js";
 import { createDeepenSubtopicSplittingStage } from "../pipeline/stages/deepen-subtopic-splitting/deepen-subtopic-splitting.js";
 import { createGroupIntoTopicsStage } from "../pipeline/stages/group-into-topics/group-into-topics.js";
@@ -23,6 +26,7 @@ import { createJudgeLectureTitleStage } from "../pipeline/stages/judge-lecture-t
 import { createSourceFileStage } from "../pipeline/stages/pipeline-stage.js";
 import { createPlaceSlidesStage } from "../pipeline/stages/place-slides/place-slides.js";
 import { createReadSlidesStage } from "../pipeline/stages/read-slides/read-slides.js";
+import { createRelocateSlidesStage } from "../pipeline/stages/relocate-slides/relocate-slides.js";
 import { renderSlidesParts } from "../pipeline/stages/render-slides/render-slides.js";
 import { createRetitleSubtopicsStage } from "../pipeline/stages/retitle-subtopics/retitle-subtopics.js";
 import { createRewriteSubtopicsStage } from "../pipeline/stages/rewrite-subtopics/rewrite-subtopics.js";
@@ -92,7 +96,6 @@ async function assembleDeps({
 			modulePrefixes: config.naming.modulePrefixes,
 		}),
 		// The runner runs these stages in this order, so the list is in pipeline order.
-		// A stage that is not built yet is not in the list.
 		lectureStages: [
 			createSourceFileStage({ logger, ...audioExtractionParts }),
 			createTranscriptionStage({ logger }),
@@ -108,6 +111,10 @@ async function assembleDeps({
 			createPlaceSlidesStage({ logger, client }),
 			createCorrectTermsStage({ logger, client }),
 			createRewriteSubtopicsStage({ logger, client }),
+			createCheckFactsStage({ logger, client }),
+			createCorrectFactualErrorsStage({ logger, client }),
+			createRelocateSlidesStage({ logger, client }),
+			createBuildNotesPageStage({ logger }),
 		],
 		logger,
 		reporter: createPipelineRunReporter({ write, formatMoney }),

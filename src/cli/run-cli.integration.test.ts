@@ -2,14 +2,23 @@ import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import {
+	completedEntry,
 	corruptJson,
 	makeConfig,
+	makeManifest,
 	makeTempDir,
+	readJsonFile,
 	testLecture,
 	testModuleName,
 } from "../pipeline/fixtures.js";
-import { DEBUG_LOGS_DIR, moduleDirs } from "../pipeline/layout.js";
-import { CONFIG_FILENAME } from "../types/pipeline.js";
+import {
+	DEBUG_LOGS_DIR,
+	moduleDirs,
+	runLogsDirPath,
+	workspaceRootFor,
+} from "../pipeline/layout.js";
+import { pendingStages, writeManifest } from "../pipeline/manifest.js";
+import { CONFIG_FILENAME, type RunLog, STAGE_IDS } from "../types/pipeline.js";
 import { listFileNames } from "../utils/files.js";
 import { EXIT_FAILURE, EXIT_SUCCESS } from "./commands.js";
 import { runCli } from "./run-cli.js";
@@ -95,6 +104,31 @@ describe("runCli", () => {
 
 		expect(code).toBe(EXIT_SUCCESS);
 		expect(errors).toEqual([]);
+	});
+
+	it("should give the runner each lecture stage of the stage list, in order, when a lecture runs", async () => {
+		await writeConfig([moduleRoot]);
+		const { videoRecording, slideDeck } = moduleDirs({ moduleRoot });
+		await writeFile(join(videoRecording, testLecture.videoRecordingFile), "video");
+		await writeFile(join(slideDeck, testLecture.slideDeckFile), "slides");
+		const workspaceRoot = workspaceRootFor({ moduleRoot, baseName: testLecture.baseName });
+		await mkdir(workspaceRoot, { recursive: true });
+		await writeManifest({
+			workspaceRoot,
+			manifest: makeManifest({
+				stages: { ...pendingStages(), "audio-extraction": completedEntry({}) },
+			}),
+		});
+
+		await invoke(["run", testLecture.date, "--to-stage", "audio-extraction"]);
+
+		const [runLogName] = await listFileNames(runLogsDirPath({ workspaceRoot }));
+		const runLog = (await readJsonFile(
+			join(runLogsDirPath({ workspaceRoot }), String(runLogName)),
+		)) as RunLog;
+		expect(Object.keys(runLog.stages)).toStrictEqual(
+			STAGE_IDS.filter((stageId) => stageId !== "source-normalisation"),
+		);
 	});
 
 	it("should normalise the module and report no match when the date names no lecture", async () => {
