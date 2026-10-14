@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { splitModelId } from "./model-id.js";
+import { factCheckFileName, splitModelId } from "./model-id.js";
 
 describe("splitModelId", () => {
 	it.each([
@@ -25,5 +25,25 @@ describe("splitModelId", () => {
 		},
 	])("should read the provider as $provider when $scenario", ({ modelId, provider, name }) => {
 		expect(splitModelId(modelId)).toStrictEqual({ provider, name });
+	});
+});
+
+describe("factCheckFileName", () => {
+	it.each([
+		{
+			scenario: "the ID names a provider",
+			modelId: "openai/gpt-5.6-sol-pro",
+			expected: "gpt-5.6-sol-pro.json",
+		},
+		{
+			scenario: "the ID names no provider",
+			modelId: "gpt-5.6-sol-pro",
+			expected: "gpt-5.6-sol-pro.json",
+		},
+	])("should name the file by the model without its provider when $scenario", ({
+		modelId,
+		expected,
+	}) => {
+		expect(factCheckFileName(modelId)).toBe(expected);
 	});
 });

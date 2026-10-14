@@ -87,3 +87,36 @@ export function createCostTally(): CostTally {
 		total: () => total,
 	};
 }
+
+/**
+ * The cost tally of each model of one stage run, for a stage with a list of
+ * models. The caller owns it, so each model's cost is still there when the stage
+ * fails, as the stage's own {@link CostTally} is (technical-design.md §4.5, §7).
+ */
+export type CostTallyByModel = {
+	/** Gives the tally of one model. The first call for a model makes it. */
+	readonly tallyOf: (modelId: string) => CostTally;
+	/** Gives the total of each model that has a cost, in the order of the first `tallyOf` call for each model. */
+	readonly costByModel: () => readonly { readonly modelId: string; readonly cost: StageCost }[];
+};
+
+/**
+ * Makes an empty {@link CostTallyByModel} for one stage run.
+ *
+ * @returns The tally of each model. It has no model until `tallyOf` is called.
+ */
+export function createCostTallyByModel(): CostTallyByModel {
+	const tallies = new Map<string, CostTally>();
+	return {
+		tallyOf: (modelId) => {
+			const tally = tallies.get(modelId) ?? createCostTally();
+			tallies.set(modelId, tally);
+			return tally;
+		},
+		costByModel: () =>
+			[...tallies].flatMap(([modelId, tally]) => {
+				const cost = tally.total();
+				return cost === null ? [] : [{ modelId, cost }];
+			}),
+	};
+}

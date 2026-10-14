@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { isRecord } from "./record.js";
+import { isOneOf, isRecord } from "./record.js";
 
 describe("isRecord", () => {
 	it.each([
@@ -24,5 +24,17 @@ describe("isRecord", () => {
 		const value: unknown = { languageCode: "en" };
 
 		expect(isRecord(value) ? value.languageCode : null).toBe("en");
+	});
+});
+
+describe("isOneOf", () => {
+	const roles = ["primary", "secondary", "disabled"] as const;
+
+	it.each([
+		{ scenario: "the value is in the list", value: "secondary", expected: true },
+		{ scenario: "the value is a string that is not in the list", value: "backup", expected: false },
+		{ scenario: "the value is not a string", value: 3, expected: false },
+	])("should give $expected when $scenario", ({ value, expected }) => {
+		expect(isOneOf(roles)(value)).toBe(expected);
 	});
 });

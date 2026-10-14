@@ -18,6 +18,7 @@ import type { Logger } from "pino";
 import { afterEach, beforeEach, expect, it, type Mock, vi } from "vitest";
 import type {
 	CostTally,
+	FactCheckModel,
 	Manifest,
 	OutputLanguage,
 	PipelineConfig,
@@ -460,6 +461,24 @@ export const transcriptionModelId = exampleStageConfig("transcription").modelId;
  * which fails the model-ID check.
  */
 export const openRouterModelId = "openai/gpt-4o";
+
+/** The primary model of a `check-facts` models list in the suites. */
+export const primaryFactCheckModel: FactCheckModel = {
+	modelId: "openai/gpt-5.6-sol-pro",
+	role: "primary",
+};
+
+/** The secondary model of a `check-facts` models list in the suites. */
+export const secondaryFactCheckModel: FactCheckModel = {
+	modelId: "anthropic/claude-opus-5.5",
+	role: "secondary",
+};
+
+/** A disabled model of a `check-facts` models list in the suites. */
+export const disabledFactCheckModel: FactCheckModel = {
+	modelId: "google/gemini-3.1-pro-preview",
+	role: "disabled",
+};
 
 /**
  * The token counts in the `usage` of a stubbed OpenRouter reply. A suite that
@@ -1387,9 +1406,10 @@ function seedingSubtopicFiles({
 }): (workspaceRoot: string) => Promise<void> {
 	return async (workspaceRoot) => {
 		for (const content of contents) {
-			const path = join(workspaceRoot, file(Number(content.subtopicId)));
-			await mkdir(dirname(path), { recursive: true });
-			await writeFile(path, JSON.stringify(content));
+			await seedJsonFile({
+				path: join(workspaceRoot, file(Number(content.subtopicId))),
+				contents: content,
+			});
 		}
 	};
 }
@@ -1410,9 +1430,10 @@ async function seedSlideReadings({
 	readonly readings: readonly Readonly<Record<string, unknown>>[];
 }): Promise<void> {
 	for (const reading of readings) {
-		const path = join(workspaceRoot, readingFile(Number(reading.slideNumber)));
-		await mkdir(dirname(path), { recursive: true });
-		await writeFile(path, JSON.stringify(reading));
+		await seedJsonFile({
+			path: join(workspaceRoot, readingFile(Number(reading.slideNumber))),
+			contents: reading,
+		});
 	}
 }
 
@@ -2386,7 +2407,25 @@ export async function seedSavedRun({
 	contents,
 	...run
 }: Parameters<typeof savedRunPath>[0] & { readonly contents: unknown }): Promise<void> {
-	const path = savedRunPath(run);
+	await seedJsonFile({ path: savedRunPath(run), contents });
+}
+
+/**
+ * Writes a JSON file on disk, and makes its folder first, as an earlier stage or
+ * an earlier invocation leaves it.
+ *
+ * @param args - The file, and its contents.
+ * @param args.path - The absolute path of the file.
+ * @param args.contents - The contents, written as JSON.
+ * @returns A promise that resolves when the file is written.
+ */
+export async function seedJsonFile({
+	path,
+	contents,
+}: {
+	readonly path: string;
+	readonly contents: unknown;
+}): Promise<void> {
 	await mkdir(dirname(path), { recursive: true });
 	await writeFile(path, JSON.stringify(contents));
 }

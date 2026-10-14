@@ -31,7 +31,20 @@ export function collapseWhitespace(text: string): string {
  * countWords("  cell-cycle arrest "); // 2
  */
 export function countWords(text: string): number {
-	return text.split(WHITESPACE_RUN).filter((word) => word.length > 0).length;
+	return splitWords(text).length;
+}
+
+/**
+ * Splits a text into its words: the groups of characters between whitespace.
+ * The merge of factual errors compares passages by their words.
+ *
+ * @param text - The text to split.
+ * @returns The words, in order.
+ * @example
+ * splitWords("  cell-cycle arrest "); // ["cell-cycle", "arrest"]
+ */
+export function splitWords(text: string): readonly string[] {
+	return text.split(WHITESPACE_RUN).filter((word) => word.length > 0);
 }
 
 /** A word ending in a consonant and `y`, whose plural ends in `ies`. */

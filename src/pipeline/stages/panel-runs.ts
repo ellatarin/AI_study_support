@@ -13,7 +13,7 @@ import type { StageContext, StageId, StageResult } from "../../types/pipeline.js
 import { NamedError } from "../../utils/errors.js";
 import { configuredConcurrency } from "../../utils/stage-config.js";
 import { savedRunFileName, stageDirectoryPath } from "../layout.js";
-import type { OwnJsonRequest, StageModelCalls } from "./model-stage.js";
+import type { OwnJsonRequest, StageModelCalls, UseOfReply } from "./model-stage.js";
 /* jscpd:ignore-end */
 import {
 	readOrMakeSavedFiles,
@@ -227,7 +227,7 @@ export function runOneCallPanel<TReply, TRun>({
 	readonly runName: string;
 	readonly calls: StageModelCalls;
 	readonly request: OwnJsonRequest<TReply> & {
-		readonly use: (reply: TReply) => { readonly reply: TRun } | { readonly failure: string };
+		readonly use: UseOfReply<TReply, TRun>;
 	};
 }): Promise<StageResult<{ readonly runs: readonly TRun[] }>> {
 	return runStagePanel({

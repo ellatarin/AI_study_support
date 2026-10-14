@@ -121,6 +121,29 @@ export async function tryJsonReply<TReply>({
 		sendGate,
 		costTally,
 	});
+	return readJsonReply({ content, isReply, documentedShape });
+}
+
+/**
+ * Checks the text of a JSON reply. It gives the reply when the reply has the
+ * documented shape. Otherwise it gives the reason that the reply is unusable:
+ * empty, not JSON, or the wrong shape. `check-facts` calls it directly, because
+ * its model comes from its `models` list and not from its stage id.
+ *
+ * @param args - The text of the reply, and the check of its shape.
+ * @param args.content - The text of the reply.
+ * @param args.isReply - Tells whether a parsed value is the documented reply.
+ * @param args.documentedShape - The text that ends the failure "The model's reply is not the documented …".
+ * @returns The checked reply, or the reason that it is unusable.
+ * @typeParam TReply - The reply that the stage expects.
+ */
+export function readJsonReply<TReply>({
+	content,
+	isReply,
+	documentedShape,
+}: Pick<JsonReplyRequest<TReply>, "isReply" | "documentedShape"> & {
+	readonly content: string;
+}): JsonReplyOutcome<TReply> {
 	const unusable = (failure: string): UnusableJsonReply => ({ failure, replyText: content });
 	if (content.trim() === "") {
 		return unusable("The model's reply was empty");
@@ -232,14 +255,57 @@ export async function tryJsonReplyAs<TReply, TKept>({
 	use,
 	...request
 }: JsonReplyRequest<TReply> & {
-	readonly use: (reply: TReply) => { readonly reply: TKept } | { readonly failure: string };
+	readonly use: UseOfReply<TReply, TKept>;
 }): Promise<JsonReplyOutcome<TKept>> {
-	const outcome = await tryJsonReply(request);
+	return useJsonReply({ outcome: await tryJsonReply(request), use });
+}
+
+/** Makes what a stage keeps from a documented reply, or gives the reason that it cannot. */
+export type UseOfReply<TReply, TKept> = (
+	reply: TReply,
+) => { readonly reply: TKept } | { readonly failure: string };
+
+/**
+ * Applies `use` to a usable reply. An unusable reply stays as it is.
+ *
+ * @param args - The outcome of one JSON call, and the use of the reply.
+ * @param args.outcome - The documented reply, or the unusable reply.
+ * @param args.use - Makes what the stage keeps from the documented reply, or gives the reason that it cannot.
+ * @returns The value that the stage keeps, or the reason that the reply is unusable.
+ * @typeParam TReply - The reply that the stage expects.
+ * @typeParam TKept - The value that the stage keeps from the reply.
+ */
+function useJsonReply<TReply, TKept>({
+	outcome,
+	use,
+}: {
+	readonly outcome: JsonReplyOutcome<TReply>;
+	readonly use: UseOfReply<TReply, TKept>;
+}): JsonReplyOutcome<TKept> {
 	if ("failure" in outcome) {
 		return outcome;
 	}
 	const kept = use(outcome.reply);
 	return "failure" in kept ? { ...kept, replyText: JSON.stringify(outcome.reply) } : kept;
+}
+
+/**
+ * {@link readJsonReply}, then `use` makes what the stage keeps from a usable
+ * reply, as in {@link tryJsonReplyAs}.
+ *
+ * @param args - As for {@link readJsonReply}, and the use of the reply.
+ * @param args.use - Makes what the stage keeps from the documented reply, or gives the reason that it cannot.
+ * @returns The value that the stage keeps, or the reason that the reply is unusable.
+ * @typeParam TReply - The reply that the stage expects.
+ * @typeParam TKept - The value that the stage keeps from the reply.
+ */
+export function readJsonReplyAs<TReply, TKept>({
+	use,
+	...check
+}: Parameters<typeof readJsonReply<TReply>>[0] & {
+	readonly use: UseOfReply<TReply, TKept>;
+}): JsonReplyOutcome<TKept> {
+	return useJsonReply({ outcome: readJsonReply(check), use });
 }
 
 /** A call whose reply is still unusable after its last send. The message names the call and the last reason. */
@@ -336,7 +402,7 @@ export type StageModelCalls = {
 		// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- as for requestJsonReply: the message-param library type is not deeply readonly
 		request: OwnJsonRequest<TReply> & {
 			readonly what: string;
-			readonly use: (reply: TReply) => { readonly reply: TKept } | { readonly failure: string };
+			readonly use: UseOfReply<TReply, TKept>;
 		},
 	) => Promise<UsableJsonReply<TKept>>;
 };

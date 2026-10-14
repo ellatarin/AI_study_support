@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { accumulateCost, totalCost } from "./cost.js";
+import { accumulateCost, createCostTallyByModel, totalCost } from "./cost.js";
 
 // The two costs that each test below adds, and their total. Only the prices
 // change from test to test. So the tokens and call counts are here, and each
@@ -104,6 +104,21 @@ describe("accumulateCost", () => {
 	it("should take the incoming cost as it is when nothing has been counted yet", () => {
 		const incoming = { ...INCOMING_CALL, costUsd: 0.03 };
 		expect(accumulateCost({ current: null, incoming })).toBe(incoming);
+	});
+});
+
+describe("createCostTallyByModel", () => {
+	it("should give the total of each model that has a cost, in the order that each model's tally was first asked for, when costs are added", () => {
+		const tallies = createCostTallyByModel();
+		tallies.tallyOf("openai/a").add({ ...RUNNING_TOTAL, costUsd: 0.02 });
+		tallies.tallyOf("anthropic/b");
+		tallies.tallyOf("google/c").add({ ...INCOMING_CALL, costUsd: 0.03 });
+		tallies.tallyOf("openai/a").add({ ...INCOMING_CALL, costUsd: 0.03 });
+
+		expect(tallies.costByModel()).toStrictEqual([
+			{ modelId: "openai/a", cost: { ...FOLDED, costUsd: 0.05 } },
+			{ modelId: "google/c", cost: { ...INCOMING_CALL, costUsd: 0.03 } },
+		]);
 	});
 });
 

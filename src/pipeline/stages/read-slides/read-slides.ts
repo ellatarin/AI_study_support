@@ -7,7 +7,7 @@ import { readFile } from "node:fs/promises";
 import { relative } from "node:path";
 import type { StageContext, StageResult } from "../../../types/pipeline.js";
 import { NamedError } from "../../../utils/errors.js";
-import { readerFromCheck } from "../../../utils/record.js";
+import { isOneOf, readerFromCheck } from "../../../utils/record.js";
 import {
 	defineModelStage,
 	type ModelStageFactory,
@@ -69,9 +69,7 @@ function usableReading({
 	if (!Object.hasOwn(SLIDE_KIND_RULES, reply.kind)) {
 		return { failure: `The model's reply gives the unknown kind "${reply.kind}"` };
 	}
-	const unknownFigure = reply.figures.find(
-		(figure) => !(FIGURE_TYPES as readonly string[]).includes(figure.type),
-	);
+	const unknownFigure = reply.figures.find((figure) => !isOneOf(FIGURE_TYPES)(figure.type));
 	if (unknownFigure !== undefined) {
 		return { failure: `The model's reply gives the unknown figure type "${unknownFigure.type}"` };
 	}

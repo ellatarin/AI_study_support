@@ -17,6 +17,21 @@ export function isRecord(value: unknown): value is Record<string, unknown> {
 }
 
 /**
+ * Gives the check that a value is one entry of a fixed list, such as a stage id
+ * or a role. The check takes the value alone, because a type predicate cannot
+ * name a field of an options object.
+ *
+ * @param list - The entries that a value can be.
+ * @returns The check. It gives `true` when the value is an entry of `list`.
+ * @typeParam TEntry - One entry of the list.
+ * @example
+ * isOneOf(MODEL_ROLES)("secondary"); // true
+ */
+export function isOneOf<TEntry>(list: readonly TEntry[]): (value: unknown) => value is TEntry {
+	return (value): value is TEntry => (list as readonly unknown[]).includes(value);
+}
+
+/**
  * Checks that a value is a list of strings.
  *
  * @param value - The value to test.

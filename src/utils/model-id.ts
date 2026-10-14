@@ -3,7 +3,8 @@
  * parts. The config loader compares the provider with
  * `modelIdCheck.exemptProviders`. `transcription` sends ElevenLabs only the
  * name, because that API accepts no other form. Both split the ID here, so they
- * agree on the split (technical-design.md §5, `transcription`, and §6).
+ * agree on the split (technical-design.md §5, `transcription`, and §6). The
+ * fact-check file of a model is named by the name part.
  */
 
 /** The character between the provider and the name in a model ID. */
@@ -38,4 +39,19 @@ export function splitModelId(modelId: string): ModelIdParts {
 		provider: modelId.slice(0, separatorIndex),
 		name: modelId.slice(separatorIndex + PROVIDER_SEPARATOR.length),
 	};
+}
+
+/**
+ * Gives the name of the file in `Fact checks/` that holds the factual errors of
+ * one model. The file is named by the model id without its provider, so the
+ * config loader refuses two models of `check-facts` with the same file name
+ * (technical-design.md §5, `check-facts`, and §6).
+ *
+ * @param modelId - The configured model ID.
+ * @returns The file name.
+ * @example
+ * factCheckFileName("openai/gpt-5.6-sol-pro"); // "gpt-5.6-sol-pro.json"
+ */
+export function factCheckFileName(modelId: string): string {
+	return `${splitModelId(modelId).name}.json`;
 }

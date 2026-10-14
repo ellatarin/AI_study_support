@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.95-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
+**Suite version:** 1.96-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
 **Date:** 2026-10-14
 **Status:** For review
 
@@ -656,7 +656,7 @@ Each stage entry records `configUsed`, a `StageConfigUsed`. It holds the model I
 }
 ```
 
-**A stage with a list of models** (§6) records the cost of each model as well as its total. Its entry has `costByModel`, a list of `{ modelId, cost }` with one item for each model that the stage called. Its `configUsed` holds `models`, the config of each called model with its `role`. The run log entry of the stage has the same two fields. Today only `check-facts` has a list of models.
+**A stage with a list of models** (§6) records the cost of each model as well as its total. Its entry has `costByModel`, a list of `{ modelId, cost }` with one item for each model that the stage called. Its `configUsed` holds `models`, the config of each model that the stage used, with its `role`. A model is used when the stage calls it, or reads its saved reply. The run log entry of the stage has the same two fields. In the stage entry, the cost of each model includes that model's cost in the earlier runs since the last reset, as `cost` does. In the run log, it is the cost of this run only. Today only `check-facts` has a list of models.
 
 Each stage's `cost` is the only record of what that stage cost, and the manifest holds no roll-up of them. A reader that wants a stage's spend reads that stage's entry. Nothing has to be kept in step with anything else. A stage that `--from-stage` resets takes its cost with it when its entry goes back to `pending` (NFR-2.2).
 
@@ -1575,15 +1575,15 @@ The rewrite can state a factual error. The lecturer can state one too, and the w
 
 The list must have exactly one primary model and no more than one secondary model. Otherwise the config loader stops with an error that names the rule (§6).
 
-**The call.** The stage makes one call for each model that is not disabled. The calls go at the same time. Each call gets prompt f2, copied word for word from the prototype, with the lecture title from the structured transcript. The user message is the whole rewrite: the rewritten subtopics in lecture order. Each subtopic is under the heading `## Subtopic <id>: <title>`, with the id and the title from the structured transcript. The call gets no transcript and no slide. The stage records `factCheckPromptVersion`.
+**The call.** The stage makes one call for each model that is not disabled. The calls go at the same time. Each call gets prompt f2, copied word for word from the prototype, with the current title of the lecture. The structured transcript keeps the title of its own run, which is out of date after a rename. The user message is the whole rewrite: the rewritten subtopics in lecture order. Each subtopic is under the heading `## Subtopic <id>: <title>`, with the id and the title from the structured transcript. The call gets no transcript and no slide. The stage records `factCheckPromptVersion`.
 
-The reply is a list of errors, each with a subtopic number, a passage, a problem, a correction and a severity (`serious` or `minor`). A reply that names a subtopic id that is not in the lecture is unusable, and the stage resends it. Code translates the reply's words into the project's words where it reads the reply. A reply's "error" is a factual error, and its "correction" is the `correctStatement`. The word "correction" means a term correction in this project (CONTEXT.md, "Correction").
+The reply is a list of errors, each with a subtopic number, a passage, a problem, a correction and a severity (`serious` or `minor`). A subtopic number written as a string of digits, such as `"3"`, is read as that number. Any other value that is not a whole number makes the reply unusable. A reply that names a subtopic id that is not in the lecture is unusable too. The stage resends an unusable reply. Code translates the reply's words into the project's words where it reads the reply. A reply's "error" is a factual error, and its "correction" is the `correctStatement`. The word "correction" means a term correction in this project (CONTEXT.md, "Correction").
 
 **The file of each model.** The stage writes the factual errors of each model to `Fact checks/<model>.json` as soon as the reply is usable. `<model>` is the model id without its provider part, such as `gpt-5.6-sol-pro.json` for `openai/gpt-5.6-sol-pro`. The file is named by the model and not by its role, so a change of role does not make the reply stale. The file holds `modelId`, `factCheckPromptVersion` and `factualErrors`. Each factual error has `subtopicId`, `passage`, `problem`, `correctStatement` and `severity`. The reply's list of checked subtopics is not stored, because no stage reads it.
 
 **The words of a factual error.** Code looks for the passage of each factual error in the text of its subtopic, as an exact match. Sometimes the passage is not there, because the model changed a word when it quoted. The stage keeps the factual error with `wordsFound` false. The terminal shows a stage notice that names the subtopic (§10). The fact correction still gets the factual error, and its model finds the words from the problem.
 
-**The merge.** With two models, two factual errors of different models become one merged factual error under two conditions. They are in the same subtopic, and their passages share a run of three words. Code compares the words in lower case, with each punctuation mark read as a space. A passage of three words or fewer is one run. Each factual error of the secondary model joins the primary model's factual error whose passage shares the most runs with it. A primary model's factual error takes no more than one secondary model's factual error. The prototype merge uses the same rule.
+**The merge.** With two models, two factual errors of different models become one merged factual error under two conditions. They are in the same subtopic, and their passages share a run of three words. Code compares the words in lower case, with each punctuation mark read as a space. A passage of three words or fewer is one run. Each factual error of the secondary model joins the primary model's factual error whose passage shares the most runs with it. On a tie, the factual error that comes first in the primary model's reply wins. A primary model's factual error takes no more than one secondary model's factual error. The prototype merge ranks by the shared runs as a share of the shorter passage. That share favours a short passage, so the stage ranks by the count.
 
 - A merged factual error takes the primary model's text, and `foundBy` lists both model ids.
 - A factual error that only one model reports goes into the file with that model's text, and `foundBy` lists that model.
@@ -1593,7 +1593,7 @@ The stage writes `Fact checks/factual-errors.json`, with `factCheckPromptVersion
 
 **A failed model.** When one model fails each send, the stage fails, and the file of the other model stays on disk. A stage that starts again makes no call for a model with a saved file. So the next run calls only the model with no saved file. A saved file of a model that is now disabled is not used.
 
-**The cost.** The stage's `cost` is the total of its models. The stage entry also holds `costByModel`, a list of `{ modelId, cost }` with one item for each model that the stage called (§4.5). Its `configUsed` holds `models`, the config of each called model with its `role`. The run summary has one row for each model of the stage, with its calls, tokens and cost (§7).
+**The cost.** The stage's `cost` is the total of its models. The stage entry also holds `costByModel`, a list of `{ modelId, cost }` with one item for each model that the stage called (§4.5). Its `configUsed` holds `models`, the config of each model that the stage used, with its `role` (§4.5). The run summary has one row for each model of the stage, with its calls, tokens and cost (§7).
 
 ### `correct-factual-errors` — the fact correction
 

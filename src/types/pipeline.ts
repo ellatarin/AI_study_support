@@ -107,6 +107,18 @@ export type StageConfig = {
 	readonly modelId: string;
 } & StageTuning;
 
+/** The roles of a model in the `models` list of `check-facts` (technical-design.md §5, `check-facts`, and §6). */
+export const MODEL_ROLES = ["primary", "secondary", "disabled"] as const;
+
+/** The role of a model in the `models` list of `check-facts`. */
+export type ModelRole = (typeof MODEL_ROLES)[number];
+
+/** One entry of the `models` list of `check-facts`: a model, its settings and its role (technical-design.md §6). */
+export type FactCheckModel = {
+	readonly modelId: string;
+	readonly role: ModelRole;
+} & Pick<StageTuning, "temperature" | "maxTokens">;
+
 /** The size of a panel, and its bar. */
 export type PanelSettings = {
 	readonly panelSize: number;

@@ -17,3 +17,5 @@
 - [ ] A live run on lecture 4 by the user, with Sol Pro as primary and Opus 5.5 as secondary.
 
 ## Comments
+
+2026-10-14: built unwired with ticket 04. Done and tested: the calls at the same time, the merge (count rule, as the user chose: most shared three-word runs, a tie goes to the earlier primary error), the disabled model, the failure that keeps the other file, and the next run that calls only the missing model. Each model's cost survives a failure (`createCostTallyByModel`). Waiting for the wiring ticket: the run summary rows, the runner that adds each model's cost to its earlier runs, and the live run.

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { collapseWhitespace, countWords, pluralise } from "./text.js";
+import { collapseWhitespace, countWords, pluralise, splitWords } from "./text.js";
 
 describe("countWords", () => {
 	it.each([
@@ -10,6 +10,20 @@ describe("countWords", () => {
 		{ scenario: "the text is nothing but whitespace", text: " \n ", expected: 0 },
 	])("should count $expected words when $scenario", ({ text, expected }) => {
 		expect(countWords(text)).toBe(expected);
+	});
+});
+
+describe("splitWords", () => {
+	it.each([
+		{
+			scenario: "runs of whitespace separate the words",
+			text: "beta \n\t cell",
+			expected: ["beta", "cell"],
+		},
+		{ scenario: "whitespace leads and trails the text", text: "  cell  ", expected: ["cell"] },
+		{ scenario: "the text is nothing but whitespace", text: " \n ", expected: [] },
+	])("should give the words between whitespace when $scenario", ({ text, expected }) => {
+		expect(splitWords(text)).toStrictEqual(expected);
 	});
 });
 

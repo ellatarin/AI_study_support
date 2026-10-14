@@ -7,6 +7,7 @@
 
 import type { StageId } from "../types/pipeline.js";
 import { STAGE_IDS } from "../types/pipeline.js";
+import { isOneOf } from "./record.js";
 
 /**
  * Every stage id in pipeline order, as text for a message. The message for a
@@ -22,7 +23,7 @@ export const STAGES_IN_ORDER = STAGE_IDS.join(", ");
  * @returns `true` when the string is one of {@link STAGE_IDS}.
  */
 export function isStageId(value: string): value is StageId {
-	return (STAGE_IDS as readonly string[]).includes(value);
+	return isOneOf(STAGE_IDS)(value);
 }
 
 /**

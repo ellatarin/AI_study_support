@@ -2,6 +2,9 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import {
 	CONFIG_FILENAME,
+	type FactCheckModel,
+	MODEL_ROLES,
+	type ModelRole,
 	type PanelSettings,
 	type PipelineConfig,
 	type StageConfig,
@@ -9,8 +12,8 @@ import {
 } from "../types/pipeline.js";
 import { NamedError } from "../utils/errors.js";
 import { isOutputLanguage, unknownLanguageMessage } from "../utils/language.js";
-import { splitModelId } from "../utils/model-id.js";
-import { isRecord } from "../utils/record.js";
+import { factCheckFileName, splitModelId } from "../utils/model-id.js";
+import { isOneOf, isRecord } from "../utils/record.js";
 import { isStageId, unknownStageMessage } from "../utils/stage-id.js";
 import { OPENROUTER_PATHS } from "./openrouter.js";
 
@@ -125,13 +128,38 @@ function requireUrl(args: LabelledValue): string {
 	return url.replace(/\/+$/, "");
 }
 
-function requireStringArray(args: LabelledValue): readonly string[] {
-	if (!Array.isArray(args.value)) {
-		throw configFault({ ...args, expected: "an array of strings" });
+/**
+ * Reads an array, and each entry with its own reader. An entry is named in an
+ * error as `label[index]`.
+ *
+ * @param args - The raw value, its config key, and the reader of an entry.
+ * @param args.value - The raw value.
+ * @param args.label - The config key.
+ * @param args.expected - The value that the key must hold, as it reads after "must be".
+ * @param args.readEntry - Reads one entry with its config key.
+ * @returns The checked entries, in order.
+ * @throws {ConfigError} If the value is not an array, or an entry is not valid.
+ * @typeParam TEntry - One checked entry.
+ */
+function requireArray<TEntry>({
+	value,
+	label,
+	expected,
+	readEntry,
+}: LabelledValue & {
+	readonly expected: string;
+	readonly readEntry: (entry: LabelledValue) => TEntry;
+}): readonly TEntry[] {
+	if (!Array.isArray(value)) {
+		throw configFault({ label, expected });
 	}
-	return Array.from(args.value.entries(), ([index, entry]) =>
-		requireString({ value: entry, label: `${args.label}[${index}]` }),
+	return Array.from(value.entries(), ([index, entry]) =>
+		readEntry({ value: entry, label: `${label}[${index}]` }),
 	);
+}
+
+function requireStringArray(args: LabelledValue): readonly string[] {
+	return requireArray({ ...args, expected: "an array of strings", readEntry: requireString });
 }
 
 /**
@@ -387,6 +415,24 @@ function requireSendGap({
 }
 
 /**
+ * Reads the model and its settings from a stage's config, or from one entry of
+ * the `models` list of `check-facts`.
+ *
+ * @param section - The readers for the stage's config or the entry.
+ * @returns The model id, the temperature and the most tokens of a reply.
+ * @throws {ConfigError} If a field is missing or has the wrong type.
+ */
+function requireModelSettings(
+	section: ConfigSection,
+): Pick<StageConfig, "modelId" | "temperature" | "maxTokens"> {
+	return {
+		modelId: section.string("modelId"),
+		temperature: section.optionalNumber("temperature"),
+		maxTokens: section.optionalNumber("maxTokens"),
+	};
+}
+
+/**
  * Reads the config of one stage.
  *
  * @param args - The raw config and the stage.
@@ -404,9 +450,7 @@ function requireStageConfig(args: {
 	const stage = requireSection({ value: args.value, label });
 	const concurrency = stage.optionalNumber("concurrency");
 	return {
-		modelId: stage.string("modelId"),
-		temperature: stage.optionalNumber("temperature"),
-		maxTokens: stage.optionalNumber("maxTokens"),
+		...requireModelSettings(stage),
 		concurrency,
 		callConcurrency: requireSingleStageSetting({
 			stage,
@@ -416,6 +460,103 @@ function requireStageConfig(args: {
 		}),
 		sendGapSeconds: requireSendGap({ stage, concurrency, label }),
 	};
+}
+
+/**
+ * Reads the `models` list of `check-facts`: each model, its settings and its role
+ * (technical-design.md §5, `check-facts`, and §6, "A stage with a list of models").
+ *
+ * @param args - The raw list and its config key.
+ * @param args.value - The raw `models` list.
+ * @param args.label - The config key of the list, such as `stages.check-facts.models`.
+ * @returns The checked models, in the order of the list.
+ * @throws {ConfigError} If the list or an entry is not valid. The message names the rule.
+ */
+export function readFactCheckModels({ value, label }: LabelledValue): readonly FactCheckModel[] {
+	const models = requireArray({
+		value,
+		label,
+		expected: "an array of model entries",
+		readEntry: requireFactCheckModel,
+	});
+	requireRoleCounts({ models, label });
+	requireDistinctFactCheckFiles({ models, label });
+	return models;
+}
+
+/**
+ * Reads one entry of the `models` list of `check-facts`.
+ *
+ * @param args - The raw entry and its config key.
+ * @param args.value - The raw entry.
+ * @param args.label - The config key of the entry, such as `stages.check-facts.models[1]`.
+ * @returns The checked entry.
+ * @throws {ConfigError} If the entry is not an object, a field has the wrong type, or the role is not one of {@link MODEL_ROLES}.
+ */
+function requireFactCheckModel(args: LabelledValue): FactCheckModel {
+	const model = requireSection(args);
+	const role = model.string("role");
+	if (!isOneOf(MODEL_ROLES)(role)) {
+		throw configFault({
+			label: `${args.label}.role`,
+			expected: `one of ${MODEL_ROLES.map((known) => `"${known}"`).join(", ")}`,
+		});
+	}
+	return { ...requireModelSettings(model), role };
+}
+
+/** The checked entries of the `models` list of `check-facts`, and the config key of the list. */
+type CheckedFactCheckModels = {
+	readonly models: readonly FactCheckModel[];
+	readonly label: string;
+};
+
+/**
+ * Checks that the `models` list of `check-facts` has exactly one primary model and
+ * no more than one secondary model.
+ *
+ * @param args - The checked entries and the config key of the list.
+ * @param args.models - The checked entries.
+ * @param args.label - The config key of the list.
+ * @throws {ConfigError} If the list breaks either rule.
+ */
+function requireRoleCounts({ models, label }: CheckedFactCheckModels): void {
+	const countOf = (role: ModelRole): number => models.filter((model) => model.role === role).length;
+	const primaries = countOf("primary");
+	if (primaries !== 1) {
+		throw new ConfigError(
+			`${label} must have exactly one model with role "primary" (it has ${primaries})`,
+		);
+	}
+	const secondaries = countOf("secondary");
+	if (secondaries > 1) {
+		throw new ConfigError(
+			`${label} must have no more than one model with role "secondary" (it has ${secondaries})`,
+		);
+	}
+}
+
+/**
+ * Checks that no two entries of the `models` list of `check-facts` give the same
+ * fact-check file, which {@link factCheckFileName} names.
+ *
+ * @param args - The checked entries and the config key of the list.
+ * @param args.models - The checked entries.
+ * @param args.label - The config key of the list.
+ * @throws {ConfigError} If two entries give the same file.
+ */
+function requireDistinctFactCheckFiles({ models, label }: CheckedFactCheckModels): void {
+	const firstIndexOfFile = new Map<string, number>();
+	for (const [index, { modelId }] of models.entries()) {
+		const fileName = factCheckFileName(modelId);
+		const firstIndex = firstIndexOfFile.get(fileName);
+		if (firstIndex !== undefined) {
+			throw new ConfigError(
+				`${label}[${index}].modelId must not give the same fact-check file as ${label}[${firstIndex}].modelId ("${fileName}")`,
+			);
+		}
+		firstIndexOfFile.set(fileName, index);
+	}
 }
 
 /**

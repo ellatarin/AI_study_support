@@ -19,3 +19,5 @@
 - [ ] A live run on lecture 4 by the user.
 
 ## Comments
+
+2026-10-14: built unwired in `src/pipeline/stages/check-facts/`. Done and tested: the `models` list check (`readFactCheckModels` in `config.ts`), prompt f2 word for word, the joined rewrite, the two kinds of file, `wordsFound` with a notice, and the resend on an unknown subtopic. Waiting for the wiring ticket: the config loader call, the terminal notice, the run summary row and the live run. User decisions: the fact check sends the current lecture title, and a subtopic number written as digits, such as "3", is read as a number.
