@@ -49,7 +49,7 @@ const CONSONANT_THEN_Y = /[^aeiou]y$/i;
  * @example
  * pluralise({ count: 1, noun: "lecture" });    // "1 lecture"
  * pluralise({ count: 3, noun: "call" });       // "3 calls"
- * pluralise({ count: 2, noun: "deficiency" }); // "2 deficiencies"
+ * pluralise({ count: 2, noun: "summary" });    // "2 summaries"
  */
 export function pluralise({
 	count,

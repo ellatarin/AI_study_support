@@ -4,7 +4,7 @@
 
 **Blocked by:** 06 — Rewrite each subtopic from its corrected text
 
-**Status:** ready-for-agent
+**Status:** wontfix
 
 - [x] Before the build, show the prompt to the user. The user approved prompt `c1` on 2026-10-11.
 - [x] Before the build, propose two models to the user, with the price of each from OpenRouter. The user chose `openai/gpt-5.6-sol-pro` on 2026-10-11, from a different company from the writer.
@@ -27,3 +27,5 @@
 2026-10-11, live run on Lecture 3 with checker prompt `c1` and writer `google/gemini-3.8-flash`. The checker failed 14 of 17 subtopics and found 56 deficiencies. 22 of them were British spellings, such as "tumour" for "tumor": the writer must write in British English, and `c1` did not tell the checker. Subtopic 4 failed on spelling alone. The other 34 deficiencies were mostly changes of certainty, small additions and dropped qualifiers. The stage made 20 calls and cost $2.48 (368,159 prompt tokens, 192,847 completion tokens).
 
 2026-10-11: the user approved checker prompt `c2`. It names the language of the notes, and says that a spelling of that language is not a deficiency. Next, the user plans to save the Lecture 3 results and run the rewrite again with a Sonnet writer, for comparison.
+
+2026-10-14: wontfix. ADR 0003 replaces the transcript check with a fact check. Ticket 01 of `.scratch/fact-check-stages` removes this stage, its code and its tests.

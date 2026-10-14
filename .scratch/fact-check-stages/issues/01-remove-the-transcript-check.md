@@ -6,12 +6,12 @@
 
 **Status:** ready-for-agent
 
-- [ ] `check-rewrite-attempts` is not in the stage list, the config, the example config or the user's config.
-- [ ] The code, the prompt and the tests of the stage are removed. Shared code that only the check used is removed too.
-- [ ] The technical design, the implementation plan and the requirements do not describe the check. The suite version is bumped last.
-- [ ] Tickets 07, 11 and 12 of `rewrite-subtopics` have the status `wontfix`, with a comment that names ADR 0003.
-- [ ] A dry-run script removes the `check-rewrite-attempts` entry from the manifests of lectures 3 and 4. It prints each change and changes nothing without `--apply`. The user runs it with `!`.
-- [ ] The script does not touch any `Checks` folder.
-- [ ] After the user applies the script, a pipeline run on lecture 4 makes no call and reports each stage as completed.
+- [x] `check-rewrite-attempts` is not in the stage list, the config, the example config or the user's config.
+- [x] The code, the prompt and the tests of the stage are removed. Shared code that only the check used is removed too.
+- [x] The technical design, the implementation plan and the requirements do not describe the check. The suite version is bumped last.
+- [x] Tickets 07, 11 and 12 of `rewrite-subtopics` have the status `wontfix`, with a comment that names ADR 0003.
+- [x] A dry-run script removes the `check-rewrite-attempts` entry from the manifests of lectures 3 and 4. It prints each change and changes nothing without `--apply`. The user runs it with `!`.
+- [x] The script does not touch any `Checks` folder.
+- [x] After the user applies the script, a pipeline run on lecture 4 makes no call and reports each stage as completed.
 
 ## Comments

@@ -164,7 +164,6 @@ lecture-notes change-date <date> <new date>
 | `place-slides` | Built |
 | `correct-terms` | Built |
 | `rewrite-subtopics` | Built |
-| `check-rewrite-attempts` | Built, and being removed (ADR 0003) |
 | `check-facts` | Designed, not built |
 | `correct-factual-errors` | Designed, not built |
 | `relocate-slides` | Designed in outline, with a prototype |

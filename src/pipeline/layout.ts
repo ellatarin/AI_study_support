@@ -341,7 +341,6 @@ export const STAGE_FILES = {
 	"place-slides": writesInto({ directory: "Slide placements", file: "placements.json" }),
 	"correct-terms": writesSetInto({ directory: "Term corrections" }),
 	"rewrite-subtopics": writesSetInto({ directory: "Rewrites" }),
-	"check-rewrite-attempts": writesSetInto({ directory: "Checks" }),
 } satisfies Readonly<Record<StageId, StageFiles>>;
 
 /**

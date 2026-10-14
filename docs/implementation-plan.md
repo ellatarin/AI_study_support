@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.94-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
+**Suite version:** 1.95-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
 **Date:** 2026-10-14
 **Status:** For review
 
@@ -1132,7 +1132,7 @@ A transcript check, `check-rewrite-attempts`, and a rewrite loop in the runner w
 **Goal:** End the rewrite at `rewrite-subtopics`, with each stage run once **(ADR 0003)**. The tickets are `.scratch/fact-check-stages/issues/01` and `02`.
 
 **Deliverables:**
-1. `check-rewrite-attempts` goes, with its code, its prompt, its config entry and its tests. Shared code that only the check used goes too.
+1. `check-rewrite-attempts` goes, with its code, its prompt, its config entry and its tests. Shared code that only the check used goes too. The reader of the rewrite files stays, because `check-facts` reads the same files.
 2. A stage entry has no `round`, and the runner has no rule about rounds.
 3. The files of term correction and the rewrite are named `subtopic-<id>.json` and hold no `attemptNumber`. The renames of the names that still speak of a round or an attempt go to the user in a table first.
 4. A dry-run script changes the data of lectures 3 and 4 on disk. It removes the check's manifest entry and each `round`, renames the files, and removes `attemptNumber`. It does not touch any `Checks` folder. The user runs it with `!`.

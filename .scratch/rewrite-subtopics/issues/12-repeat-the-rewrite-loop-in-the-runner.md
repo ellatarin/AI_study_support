@@ -4,7 +4,7 @@
 
 **Blocked by:** 11 — Assemble the rewritten subtopics in one file
 
-**Status:** ready-for-agent
+**Status:** wontfix
 
 - [ ] The config has `rewriting.maxRounds`. The example config sets it to 3.
 - [ ] The stage status `sent-back` exists. Only `check-rewrite-attempts` gets it.
@@ -23,3 +23,7 @@
 - [ ] The run summary has one row for each loop stage, with the total of its rounds.
 - [ ] A stage notice in round 2 or later names the round.
 - [ ] The tests of the runner use stub stages.
+
+## Comments
+
+2026-10-14: wontfix. ADR 0003 removes the transcript check and the rewrite loop. Each stage runs once.

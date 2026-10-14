@@ -1,7 +1,6 @@
 /**
  * The rewrite files that `rewrite-subtopics` writes, for the stages that write
- * and read them (technical-design.md §5, `rewrite-subtopics` and
- * `check-rewrite-attempts`).
+ * and read them (technical-design.md §5, `rewrite-subtopics` and `check-facts`).
  */
 
 /* jscpd:ignore-start -- the modules of the rewrite-attempt files import the same

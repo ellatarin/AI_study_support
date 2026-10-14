@@ -4,7 +4,7 @@
 
 **Blocked by:** 07 — Check each rewrite attempt
 
-**Status:** ready-for-agent
+**Status:** wontfix
 
 - [ ] The stage has its own entry in `STAGE_IDS` and `STAGE_FILES`, after `check-rewrite-attempts`.
 - [ ] For each subtopic, the stage takes its last rewrite attempt, which is the attempt that passed.
@@ -15,3 +15,5 @@
 ## Comments
 
 2026-10-11: a rewrite can now be empty, when a subtopic holds only filler (TD §5, `rewrite-subtopics`). Decide at the seams step whether the stage keeps such a subtopic as an entry with an empty `rewrittenSubtopic`, or leaves it out.
+
+2026-10-14: wontfix. ADR 0003 removes the transcript check and the rounds, so no stage chooses a rewrite attempt that passed. `check-facts` reads the rewrite of each subtopic.
