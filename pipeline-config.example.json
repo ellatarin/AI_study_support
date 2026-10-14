@@ -79,6 +79,13 @@
 			"maxTokens": null,
 			"concurrency": 10,
 			"sendGapSeconds": 0.25
+		},
+		"correct-factual-errors": {
+			"modelId": "anthropic/claude-sonnet-5.5",
+			"temperature": null,
+			"maxTokens": null,
+			"concurrency": 10,
+			"sendGapSeconds": 0.25
 		}
 	},
 	"finalOutput": {

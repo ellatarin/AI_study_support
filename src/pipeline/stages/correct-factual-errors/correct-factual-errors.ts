@@ -1,18 +1,16 @@
 /**
  * The `correct-factual-errors` stage. It sends each subtopic that has factual
  * errors to the model, and writes the fact-corrected subtopic of each subtopic
- * (technical-design.md §5, `correct-factual-errors`). The stage is unlisted
- * (`UnlistedStageRun` in `model-stage.ts`).
+ * (technical-design.md §5, `correct-factual-errors`).
  */
 
-/* jscpd:ignore-start -- the modules of the unlisted stages import the same
+/* jscpd:ignore-start -- the modules of the fact-check stages import the same
    pipeline types and shared helpers. So their import blocks are the same line
    for line. Imports cannot be shared, and CLAUDE.md (File Organisation) forbids
    barrel files. Only the imports are exempt. jscpd checks the code below. */
 import type { StageContext } from "../../../types/pipeline.js";
 import { NamedError } from "../../../utils/errors.js";
 import { isRecord, isStringList } from "../../../utils/record.js";
-import { stageDirectoryPath, stageOutputPath } from "../../layout.js";
 import {
 	type ChangedWords,
 	type FactCorrectionFile,
@@ -23,12 +21,8 @@ import {
 	type MergedFactualError,
 	readFactualErrorsFile,
 } from "../factual-errors.js";
-import {
-	rejectBlankParagraphs,
-	sendToStageModelWithResends,
-	type UnlistedStageRun,
-} from "../model-stage.js";
-import { runUnlistedSubtopicFileStage } from "../subtopic-files.js";
+import { rejectBlankParagraphs } from "../model-stage.js";
+import { defineSubtopicAndLectureFileStage, type SubtopicWork } from "../subtopic-files.js";
 import { readTitledRewrites } from "../subtopic-rewrites.js";
 import {
 	buildFactCorrectionMessages,
@@ -47,9 +41,10 @@ export class CorrectFactualErrorsError extends NamedError {}
 
 const STAGE_ID = "correct-factual-errors";
 
-/** One subtopic of the fact correction: its id, title, paragraphs and merged factual errors. */
-export type CorrectionSubtopic = FactCorrectionMaterial & {
+/** One subtopic of the fact correction: its id, title, paragraphs and merged factual errors, and the models that checked the facts. */
+type CorrectionSubtopic = FactCorrectionMaterial & {
 	readonly factualErrors: readonly MergedFactualError[];
+	readonly checkedBy: FactualErrorsFile["checkedBy"];
 };
 
 /** The part of the file of one subtopic that the reply gives. */
@@ -97,11 +92,10 @@ function isCorrectionReply(value: unknown): value is CorrectionReply {
 	);
 }
 
-/** The input of the fact correction: each subtopic with its factual errors, and the models that checked the facts. */
+/** The input of the fact correction. */
 type FactCorrectionInput = {
 	/** Each subtopic with its factual errors, in lecture order. */
 	readonly subtopics: readonly CorrectionSubtopic[];
-	readonly checkedBy: FactualErrorsFile["checkedBy"];
 };
 
 /**
@@ -122,16 +116,16 @@ function fail(message: string): Error {
  * @returns Each subtopic in lecture order with its title, rewrite and factual errors, and the models that checked the facts.
  * @throws {CorrectFactualErrorsError} If an input file is missing, unreadable or the wrong shape.
  */
-export async function readFactCorrectionInput(context: StageContext): Promise<FactCorrectionInput> {
+async function readFactCorrectionInput(context: StageContext): Promise<FactCorrectionInput> {
 	const [subtopics, { checkedBy, factualErrors }] = await Promise.all([
 		readTitledRewrites({ context, purpose: "correct the factual errors", fail }),
 		readFactualErrorsFile({ context, fail }),
 	]);
 	return {
-		checkedBy,
 		subtopics: subtopics.map((subtopic) => ({
 			...subtopic,
 			factualErrors: factualErrors.filter(({ subtopicId }) => subtopicId === subtopic.subtopicId),
+			checkedBy,
 		})),
 	};
 }
@@ -190,21 +184,23 @@ function inProjectWords(reply: CorrectionReply): CorrectedParagraphs {
  * Gives the fact-corrected paragraphs of one subtopic. A subtopic with no factual
  * errors gets no call, and keeps its rewrite.
  *
- * @param args - The subtopic, and the stage run.
+ * @param args - The subtopic, and the model calls of the stage run.
  * @param args.subtopic - The subtopic and its factual errors.
+ * @param args.calls - The model calls of the stage run.
  * @returns The paragraphs and the changes.
  * @throws {ResendsExhaustedError} If the third send is still unusable.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger type has mutable properties that the rule sees. This code only passes it on. CLAUDE.md allows a mutable type where a library requires one.
 async function correctSubtopic({
 	subtopic,
-	...run
-}: UnlistedStageRun & { readonly subtopic: CorrectionSubtopic }): Promise<CorrectedParagraphs> {
+	calls,
+}: Pick<
+	SubtopicWork<FactCorrectionInput, CorrectionSubtopic>,
+	"subtopic" | "calls"
+>): Promise<CorrectedParagraphs> {
 	if (subtopic.factualErrors.length === 0) {
 		return { factCorrectedSubtopic: subtopic.rewrittenSubtopic, changes: [] };
 	}
-	const { reply } = await sendToStageModelWithResends({
-		...run,
+	const { reply } = await calls.sendJsonWithResends({
 		what: `Fact correction of subtopic ${subtopic.subtopicId}`,
 		messages: buildFactCorrectionMessages(subtopic),
 		isReply: isCorrectionReply,
@@ -216,47 +212,37 @@ async function correctSubtopic({
 }
 
 /**
- * Corrects the factual errors of each subtopic, and writes the file of each
- * subtopic and `fact-corrected-subtopics.json`.
+ * Makes the file of one subtopic: its fact-corrected paragraphs, its changes and
+ * its factual errors.
  *
- * @param run - The fact correction of the lecture: its input, and the stage run.
- * @param run.subtopics - Each subtopic with its factual errors, in lecture order.
- * @param run.checkedBy - The models that checked the facts, for the file of each subtopic.
- * @returns The content of `fact-corrected-subtopics.json`, and the `filesWritten` entry of each file.
- * @throws {CorrectFactualErrorsError} If a saved file holds nothing readable.
- * @throws {ResendsExhaustedError} If the third send of a call is still unusable.
+ * @param work - The subtopic, and the model calls of the stage run.
+ * @returns The file of the subtopic.
+ * @throws {ResendsExhaustedError} If the third send is still unusable.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger type has mutable properties that the rule sees. This code only passes it on. CLAUDE.md allows a mutable type where a library requires one.
-export function correctFactualErrors({
-	subtopics,
-	checkedBy,
-	...run
-}: FactCorrectionInput & UnlistedStageRun): Promise<{
-	readonly output: { readonly factCorrectedSubtopics: readonly FactCorrectionFile[] };
-	readonly filesWritten: readonly string[];
-}> {
-	const stage = { workspaceRoot: run.workspaceRoot, stageId: STAGE_ID } as const;
-	return runUnlistedSubtopicFileStage({
-		workspaceRoot: run.workspaceRoot,
-		directory: stageDirectoryPath(stage),
-		subtopics,
-		isSaved: isFactCorrectionFile,
-		saved: { content: "fact correction", remake: "correct the factual errors of the subtopic" },
-		fail,
-		make: async (subtopic) => {
-			const corrected = await correctSubtopic({ ...run, subtopic });
-			return {
-				subtopicId: subtopic.subtopicId,
-				factCorrectionPromptVersion: FACT_CORRECTION_PROMPT_VERSION,
-				factualErrors: subtopic.factualErrors,
-				...corrected,
-				checkedBy,
-				paragraphCountBefore: subtopic.rewrittenSubtopic.length,
-				paragraphCountAfter: corrected.factCorrectedSubtopic.length,
-			};
-		},
-		concurrency: run.concurrency,
-		entriesPath: stageOutputPath(stage),
-		key: "factCorrectedSubtopics",
-	});
+async function makeFactCorrectionFile(
+	work: Pick<SubtopicWork<FactCorrectionInput, CorrectionSubtopic>, "subtopic" | "calls">,
+): Promise<FactCorrectionFile> {
+	const { subtopic } = work;
+	const corrected = await correctSubtopic(work);
+	return {
+		subtopicId: subtopic.subtopicId,
+		factCorrectionPromptVersion: FACT_CORRECTION_PROMPT_VERSION,
+		factualErrors: subtopic.factualErrors,
+		...corrected,
+		checkedBy: subtopic.checkedBy,
+		paragraphCountBefore: subtopic.rewrittenSubtopic.length,
+		paragraphCountAfter: corrected.factCorrectedSubtopic.length,
+	};
 }
+
+/** Builds the `correct-factual-errors` stage from the logger and the OpenAI client of the invocation. */
+export const createCorrectFactualErrorsStage = defineSubtopicAndLectureFileStage({
+	stageId: STAGE_ID,
+	getInput: readFactCorrectionInput,
+	subtopicsOf: (input) => input.subtopics,
+	isSaved: isFactCorrectionFile,
+	saved: { content: "fact correction", remake: "correct the factual errors of the subtopic" },
+	fail,
+	make: makeFactCorrectionFile,
+	key: "factCorrectedSubtopics",
+});

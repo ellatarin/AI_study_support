@@ -59,7 +59,7 @@ import {
 import { createMoneyFormatter, type MoneyFormatter } from "./reports.js";
 import { assembleContext } from "./stage-context.js";
 import { type Subtopic, type SubtopicWithIdAndText, subtopicText } from "./stages/division.js";
-import type { FactualError } from "./stages/factual-errors.js";
+import type { FactualError, MergedFactualError } from "./stages/factual-errors.js";
 import {
 	type ModelStageFactory,
 	ResendsExhaustedError,
@@ -254,7 +254,7 @@ export function itReadsSavedSubtopicFiles({
 	stageError,
 }: {
 	readonly run: () => Promise<unknown>;
-	readonly sendToModel: () => Mock<SendToStageModel>;
+	readonly sendToModel: () => Mock<SendToStageModel> | StubbedCompletionCall;
 	readonly savedFilePath: () => string;
 	readonly stageError: new (message: string) => Error;
 }): void {
@@ -2493,6 +2493,20 @@ function seedingJsonOutput({
 		seedStageOutput({ workspaceRoot, stageId, contents: JSON.stringify(output) });
 }
 
+/**
+ * The factual error that {@link seedEarlierOutputs} writes for `check-facts`. Its
+ * passage is the seeded rewrite of subtopic 2. Both fact-check models report it.
+ */
+export const seededFactualError: MergedFactualError = {
+	subtopicId: 2,
+	passage: rewrittenParagraphs[1],
+	problem: "Cell injury does not always involve the immune system.",
+	correctStatement: "Cell injury can involve the immune system.",
+	severity: "minor",
+	foundBy: factCheckModelIds,
+	wordsFound: true,
+};
+
 /** The writer of the output of each earlier stage, which {@link seedEarlierOutputs} calls. */
 const EARLIER_OUTPUT_SEEDS = {
 	"choose-division": seedingJsonOutput({ stageId: "choose-division", output: transcriptDivision }),
@@ -2518,6 +2532,14 @@ const EARLIER_OUTPUT_SEEDS = {
 		file: termCorrectionFile,
 	}),
 	"rewrite-subtopics": seedingSubtopicFiles({ contents: subtopicRewrites, file: rewriteFile }),
+	"check-facts": seedingJsonOutput({
+		stageId: "check-facts",
+		output: {
+			factCheckPromptVersion: "f2",
+			checkedBy: factCheckModelIds,
+			factualErrors: [seededFactualError],
+		},
+	}),
 } as const;
 
 /** An earlier stage whose output {@link seedEarlierOutputs} can write. */
