@@ -393,6 +393,14 @@ export const STAGE_FILES = {
 	"place-slides": writesInto({ directory: "Slide placements", file: "placements.json" }),
 	"correct-terms": writesSetInto({ directory: "Term corrections" }),
 	"rewrite-subtopics": writesSetInto({ directory: "Rewrites" }),
+	"check-facts": writesInto({ directory: "Fact checks", file: "factual-errors.json" }),
+	"correct-factual-errors": writesInto({
+		directory: "Fact corrections",
+		file: "fact-corrected-subtopics.json",
+	}),
+	"relocate-slides": writesInto({ directory: "Slide relocations", file: "slide-relocations.json" }),
+	// The stage writes the lecture's folder in `Final output/`, not in the workspace.
+	"build-notes-page": { directories: [], outputFile: null, stageRecord: null },
 } satisfies Readonly<Record<StageId, StageFiles>>;
 
 /**

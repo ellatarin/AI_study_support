@@ -5,6 +5,7 @@ import {
 	type CostResolution,
 	type CostTally,
 	type PipelineConfig,
+	type SingleModelStageId,
 	type StageConfig,
 	type StageCost,
 	type StageId,
@@ -158,7 +159,7 @@ export function createOpenRouterClientProvider({
 
 function stageConfigFor(options: {
 	readonly config: PipelineConfig;
-	readonly stageId: StageId;
+	readonly stageId: SingleModelStageId;
 }): StageConfig {
 	const stageConfig = configuredStage(options);
 	if (stageConfig === null) {
@@ -331,7 +332,7 @@ function replyCost({
  */
 export type ModelCallRequest = {
 	readonly messages: readonly OpenAI.Chat.Completions.ChatCompletionMessageParam[];
-	readonly stageId: StageId;
+	readonly stageId: SingleModelStageId;
 	readonly config: PipelineConfig;
 	readonly responseFormat: ReplyFormat;
 	readonly logger: Logger;

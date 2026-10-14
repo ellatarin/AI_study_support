@@ -43,12 +43,8 @@ type ReadingOutput = ReadingStage & {
 type InputFile = {
 	/** The absolute path of the file. */
 	readonly path: string;
-	/**
-	 * The earlier stage that writes the file, for the failure that a user reads.
-	 * `check-facts` and `relocate-slides` are not yet in `STAGE_IDS`.
-	 * `correct-factual-errors` and `build-notes-page` read their files.
-	 */
-	readonly stageId: StageId | "check-facts" | "relocate-slides";
+	/** The earlier stage that writes the file, for the failure that a user reads. */
+	readonly stageId: StageId;
 	/** Builds the reading stage's own error from a message. */
 	readonly fail: (message: string) => Error;
 };

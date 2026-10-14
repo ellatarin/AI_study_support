@@ -23,6 +23,7 @@ import type {
 	OutputLanguage,
 	PipelineConfig,
 	PipelineStage,
+	SingleModelStageId,
 	StageConfig,
 	StageConfigUsed,
 	StageContext,
@@ -32,6 +33,7 @@ import type {
 	StageResult,
 } from "../types/pipeline.js";
 import { createCostTally } from "../utils/cost.js";
+import { NamedError } from "../utils/errors.js";
 import { pathExists } from "../utils/files.js";
 import { MAX_SENDS } from "../utils/resend.js";
 import { createSendGate, type SendGate } from "../utils/send-gate.js";
@@ -57,15 +59,12 @@ import {
 import { createMoneyFormatter, type MoneyFormatter } from "./reports.js";
 import { assembleContext } from "./stage-context.js";
 import { type Subtopic, type SubtopicWithIdAndText, subtopicText } from "./stages/division.js";
-import type { FactualError } from "./stages/factual-errors.js";
-import {
-	type ModelStageFactory,
-	ResendsExhaustedError,
-	type SendToStageModel,
-	type UnlistedStageRun,
-} from "./stages/model-stage.js";
+import type { FactCorrectedSubtopics } from "./stages/fact-corrections.js";
+import type { FactualError, MergedFactualError } from "./stages/factual-errors.js";
+import { type ModelStageFactory, ResendsExhaustedError } from "./stages/model-stage.js";
 import { SavedRunUnreadableError } from "./stages/panel-runs.js";
 import type { SlidePlacement, SlidePlacements } from "./stages/slide-placements.js";
+import type { ReadingStage } from "./stages/stage-input.js";
 import type { StructuredTranscript } from "./stages/structured-transcript.js";
 import type { TitledSubtopicRewrite } from "./stages/subtopic-rewrites.js";
 import type { Topic } from "./stages/topics.js";
@@ -171,76 +170,13 @@ export function itFailsAfterTheThirdUnusableSend({
 }
 
 /**
- * Gives the stub of the {@link SendToStageModel} of an unlisted stage. Before each
- * test, a new stub is made, and each of its sends replies with `content`.
- *
- * @param content - The text of each reply.
- * @returns A function that gives the stub of the current test.
- */
-export function useStageModelStub(content: string): () => Mock<SendToStageModel> {
-	let stub = vi.fn<SendToStageModel>();
-	beforeEach(() => {
-		stub = vi.fn<SendToStageModel>().mockResolvedValue({ content });
-	});
-	return () => stub;
-}
-
-/** The parts of the run of an unlisted stage in a suite, each made again before each test. */
-type UnlistedStageRunParts = {
-	readonly workspaceRoot: () => string;
-	readonly stubLogger: () => StubLogger;
-	readonly costTally: () => CostTally;
-	readonly sendToModel: () => Mock<SendToStageModel>;
-	/** Reads a JSON file of the workspace by its path relative to the workspace. */
-	readonly readFile: (file: string) => Promise<unknown>;
-	/** Gives the stage run of the current test, with no `concurrency`. */
-	readonly stageRun: () => UnlistedStageRun;
-};
-
-/**
- * Gives the workspace, the stub logger, the cost tally and the model stub of an
- * unlisted stage, for a suite that runs the stage.
- *
- * @param args - The workspace prefix, and the reply.
- * @param args.prefix - The prefix of the name of the temporary workspace.
- * @param args.reply - The reply of each send, before it is written as JSON.
- * @returns A function for each part, which gives the part of the current test.
- */
-export function useUnlistedStageRun({
-	prefix,
-	reply,
-}: {
-	readonly prefix: string;
-	readonly reply: unknown;
-}): UnlistedStageRunParts {
-	const workspaceRoot = useTempDir({ prefix });
-	const stubLogger = useStubLogger();
-	const costTally = useCostTally();
-	const sendToModel = useStageModelStub(JSON.stringify(reply));
-	return {
-		workspaceRoot,
-		stubLogger,
-		costTally,
-		sendToModel,
-		readFile: workspaceJsonReader(workspaceRoot),
-		stageRun: () => ({
-			workspaceRoot: workspaceRoot(),
-			sendToModel: sendToModel(),
-			logger: stubLogger().logger,
-			costTally: costTally(),
-			concurrency: undefined,
-		}),
-	};
-}
-
-/**
- * Adds the two tests of the saved files of an unlisted stage with one file for
- * each subtopic. A stage that starts again makes no call. An unreadable saved
- * file fails the stage with its own error, and the error names the file.
+ * Adds the two tests of the saved files of a stage with one file for each
+ * subtopic. A stage that starts again makes no call. An unreadable saved file
+ * fails the stage with its own error, and the error names the file.
  *
  * @param args - The stage run, its stub, a saved file, and the stage's error.
  * @param args.run - Runs the stage.
- * @param args.sendToModel - Gives the stub of the current test.
+ * @param args.sendToModel - Gives the stubbed completion call of the current test.
  * @param args.savedFilePath - Gives the absolute path of the file of one subtopic in the current test.
  * @param args.stageError - The error class of the stage.
  */
@@ -251,7 +187,7 @@ export function itReadsSavedSubtopicFiles({
 	stageError,
 }: {
 	readonly run: () => Promise<unknown>;
-	readonly sendToModel: () => Mock<SendToStageModel>;
+	readonly sendToModel: () => StubbedCompletionCall;
 	readonly savedFilePath: () => string;
 	readonly stageError: new (message: string) => Error;
 }): void {
@@ -271,39 +207,6 @@ export function itReadsSavedSubtopicFiles({
 
 		expect(error).toBeInstanceOf(stageError);
 		expect(error.message).toContain(savedFilePath());
-	});
-}
-
-/**
- * Adds the test that an unlisted stage resends an unusable reply, and fails after
- * the third send.
- *
- * @param args - The stage run, its stub, the unusable reply, and the number of calls.
- * @param args.run - Runs the stage.
- * @param args.sendToModel - Gives the stub of the current test.
- * @param args.unusableContent - The text of a reply that the stage cannot use.
- * @param args.calls - The number of calls that were in flight. Each is sent three times.
- */
-export function itFailsAfterTheThirdUnusableStageModelSend({
-	run,
-	sendToModel,
-	unusableContent,
-	calls,
-}: {
-	readonly run: () => Promise<unknown>;
-	readonly sendToModel: () => Mock<SendToStageModel>;
-	readonly unusableContent: string;
-	readonly calls: number;
-}): void {
-	it("should resend the call, and fail after the third send, when each reply is unusable", {
-		timeout: resendPausesTimeoutMs,
-	}, async () => {
-		sendToModel().mockResolvedValue({ content: unusableContent });
-
-		const error = await captureError(run());
-
-		expect(error).toBeInstanceOf(ResendsExhaustedError);
-		expect(sendToModel()).toHaveBeenCalledTimes(MAX_SENDS * calls);
 	});
 }
 
@@ -588,7 +491,7 @@ export const elevenLabsUrls = {
  * @returns The configuration of the stage.
  * @throws {Error} If the example does not configure the stage.
  */
-export function exampleStageConfig(stageId: StageId): StageConfig {
+export function exampleStageConfig(stageId: SingleModelStageId): StageConfig {
 	const configured = exampleConfig.stages[stageId];
 	if (configured === undefined) {
 		throw new Error(`pipeline-config.example.json configures no stage "${stageId}"`);
@@ -723,7 +626,7 @@ export function openRouterStageConfig({
 	stageId,
 	modelId = openRouterModelId,
 }: {
-	readonly stageId: StageId;
+	readonly stageId: SingleModelStageId;
 	readonly modelId?: string;
 }): StageConfig {
 	return { ...exampleStageConfig(stageId), modelId };
@@ -873,7 +776,7 @@ export function configuringStage({
 	stageId,
 	language,
 }: {
-	readonly stageId: StageId;
+	readonly stageId: SingleModelStageId;
 	readonly language?: OutputLanguage;
 }): PipelineConfig {
 	const config = makeConfig();
@@ -1141,6 +1044,70 @@ export const unusableJsonContents: readonly {
 	{ state: "not JSON", contents: "Opening, then cell injury." },
 	{ state: "the wrong shape", contents: JSON.stringify({}) },
 ];
+
+/** The error of the reading stage in a suite of a lecture file reader. */
+export class ReadingStageError extends NamedError {}
+
+/**
+ * Runs a reader of a lecture file against the workspace of the current test, with
+ * {@link ReadingStageError} as the reading stage's error.
+ *
+ * @param args - The reader, and the workspace.
+ * @param args.reader - The reader of the lecture file.
+ * @param args.workspaceRoot - Gives the workspace of the current test.
+ * @returns What the reader gives.
+ * @typeParam TFile - The content of the lecture file.
+ */
+export function readLectureFile<TFile>({
+	reader,
+	workspaceRoot,
+}: {
+	readonly reader: (reading: ReadingStage) => Promise<TFile>;
+	readonly workspaceRoot: () => string;
+}): Promise<TFile> {
+	return reader({
+		context: makeStageContext({ workspaceRoot: workspaceRoot() }),
+		fail: (message) => new ReadingStageError(message),
+	});
+}
+
+/**
+ * Adds one test for each of the {@link unusableJsonContents} and for one entry of
+ * the wrong shape. Each test spoils the lecture file and runs its reader. It
+ * checks that the reader fails with the reading stage's error, and that the
+ * error names the file.
+ *
+ * @param args - The reader, its file and the entry of the wrong shape.
+ * @param args.reader - The reader of the lecture file.
+ * @param args.workspaceRoot - Gives the workspace of the current test.
+ * @param args.path - Gives the absolute path of the lecture file in a workspace.
+ * @param args.wrongEntry - A lecture file with one entry that lacks a field, and the name of that state.
+ */
+export function itFailsNamingAnUnusableLectureFile({
+	path,
+	wrongEntry,
+	...read
+}: Parameters<typeof readLectureFile>[0] & {
+	readonly path: (workspaceRoot: string) => string;
+	readonly wrongEntry: { readonly state: string; readonly contents: string };
+}): void {
+	it.each([
+		...unusableJsonContents,
+		wrongEntry,
+	])("should fail with the reading stage's error that names the file when the lecture file is $state", async ({
+		contents,
+	}) => {
+		const spoiled = path(read.workspaceRoot());
+		if (contents !== null) {
+			await seedTextFile({ path: spoiled, contents });
+		}
+
+		const error = await captureError(readLectureFile(read));
+
+		expect(error).toBeInstanceOf(ReadingStageError);
+		expect(error.message).toContain(spoiled);
+	});
+}
 
 /**
  * Pairs each input file with each of the {@link unusableJsonContents}, for a
@@ -2426,6 +2393,44 @@ function seedingJsonOutput({
 		seedStageOutput({ workspaceRoot, stageId, contents: JSON.stringify(output) });
 }
 
+/**
+ * The factual error that {@link seedEarlierOutputs} writes for `check-facts`. Its
+ * passage is the seeded rewrite of subtopic 2. Both fact-check models report it.
+ */
+export const seededFactualError: MergedFactualError = {
+	subtopicId: 2,
+	passage: rewrittenParagraphs[1],
+	problem: "Cell injury does not always involve the immune system.",
+	correctStatement: "Cell injury can involve the immune system.",
+	severity: "minor",
+	foundBy: factCheckModelIds,
+	wordsFound: true,
+};
+
+/**
+ * Gives `fact-corrected-subtopics.json` with the given paragraphs of each
+ * subtopic, each with no factual error.
+ *
+ * @param subtopics - The id and the fact-corrected paragraphs of each subtopic, in lecture order.
+ * @returns The content of the file.
+ */
+export function factCorrectedSubtopicsOf(
+	subtopics: readonly { readonly subtopicId: number; readonly paragraphs: readonly string[] }[],
+): FactCorrectedSubtopics {
+	return {
+		factCorrectedSubtopics: subtopics.map(({ subtopicId, paragraphs }) => ({
+			subtopicId,
+			factCorrectionPromptVersion: "k3",
+			factualErrors: [],
+			factCorrectedSubtopic: paragraphs,
+			changes: [],
+			checkedBy: factCheckModelIds,
+			paragraphCountBefore: paragraphs.length,
+			paragraphCountAfter: paragraphs.length,
+		})),
+	};
+}
+
 /** The writer of the output of each earlier stage, which {@link seedEarlierOutputs} calls. */
 const EARLIER_OUTPUT_SEEDS = {
 	"choose-division": seedingJsonOutput({ stageId: "choose-division", output: transcriptDivision }),
@@ -2451,6 +2456,23 @@ const EARLIER_OUTPUT_SEEDS = {
 		file: termCorrectionFile,
 	}),
 	"rewrite-subtopics": seedingSubtopicFiles({ contents: subtopicRewrites, file: rewriteFile }),
+	"check-facts": seedingJsonOutput({
+		stageId: "check-facts",
+		output: {
+			factCheckPromptVersion: "f2",
+			checkedBy: factCheckModelIds,
+			factualErrors: [seededFactualError],
+		},
+	}),
+	"correct-factual-errors": seedingJsonOutput({
+		stageId: "correct-factual-errors",
+		output: factCorrectedSubtopicsOf(
+			seededTitledRewrites.map(({ subtopicId, rewrittenSubtopic }) => ({
+				subtopicId,
+				paragraphs: rewrittenSubtopic,
+			})),
+		),
+	}),
 } as const;
 
 /** An earlier stage whose output {@link seedEarlierOutputs} can write. */
@@ -2518,7 +2540,7 @@ export function useStageReadingDivision<TInput, TOutput>(
  */
 type StageReadingEarlierOutputs<TInput, TOutput> = {
 	/** The stage under test. It names the temporary directory and selects the config. */
-	readonly stageId: StageId;
+	readonly stageId: SingleModelStageId;
 	/** The earlier stages whose output the stage reads. */
 	readonly readsFrom: readonly SeededStage[];
 	/** The stage factory, as the CLI calls it. */

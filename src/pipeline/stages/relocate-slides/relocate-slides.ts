@@ -2,24 +2,20 @@
  * The `relocate-slides` stage. It moves each placed slide to the start of a
  * sentence in its fact-corrected subtopic. It also writes the figure number of
  * each slide in the text (technical-design.md §5, "After the fact correction").
- * The stage is unlisted (`UnlistedStageRun` in `model-stage.ts`).
  */
 
-/* jscpd:ignore-start -- the modules of the unlisted stages import the same
+/* jscpd:ignore-start -- the modules of the fact-check stages import the same
    pipeline types and shared helpers. So their import blocks are the same line
    for line. Imports cannot be shared, and CLAUDE.md (File Organisation) forbids
    barrel files. Only the imports are exempt. jscpd checks the code below. */
+import type { StageContext } from "../../../types/pipeline.js";
 import { NamedError } from "../../../utils/errors.js";
 import { isNumberOrNull, isRecord } from "../../../utils/record.js";
-import { sendToStageModelWithResends, type UnlistedStageRun } from "../model-stage.js";
-import {
-	isSlideRelocation,
-	type SlideRelocation,
-	type SlideRelocations,
-	slideRelocationsDirectory,
-	slideRelocationsPath,
-} from "../slide-relocations.js";
-import { runUnlistedSubtopicFileStage } from "../subtopic-files.js";
+import { readFactCorrections } from "../fact-corrections.js";
+import { isSlideRelocation, type SlideRelocation } from "../slide-relocations.js";
+import { readSlideReadings } from "../slides.js";
+import { readStageSlidePlacements } from "../stage-input.js";
+import { defineSubtopicAndLectureFileStage, type SubtopicWork } from "../subtopic-files.js";
 /* jscpd:ignore-end */
 import { buildSlideRelocationMessages } from "./relocate-slides.prompt.js";
 import {
@@ -35,14 +31,34 @@ import {
 	writeSlideRelocation,
 } from "./slide-relocation.js";
 
-/** The error of the stage when no subtopic has a paragraph, or when a saved file of a subtopic holds nothing readable. */
+/**
+ * The error of the stage in three cases:
+ * - an input file is missing or unreadable
+ * - no subtopic has a paragraph
+ * - a saved file of a subtopic holds nothing readable.
+ */
 export class RelocateSlidesError extends NamedError {}
 
-/** The slide relocation of one lecture: its input, and what the stage run uses. */
-type SlideRelocationRun = UnlistedStageRun & SlideRelocationInput;
+const STAGE_ID = "relocate-slides";
+
+/** The work on one subtopic: its paragraphs, the figure number of each slide, and the slides that it shows. */
+type SubtopicSlideRelocation = FactCorrectedParagraphs & {
+	readonly figureNumbers: FigureNumbers;
+	readonly shownSlides: ShownSlides;
+};
 
 const DOCUMENTED_REPLY_SHAPE =
 	"{ slides: [{ slide, startWords }], figureMarks: [{ mark, slide }] } object";
+
+/**
+ * Builds the stage's own error from a message.
+ *
+ * @param message - The message.
+ * @returns The error.
+ */
+function fail(message: string): Error {
+	return new RelocateSlidesError(message);
+}
 
 /**
  * Checks that a parsed reply has the shape that prompt r4 asks for.
@@ -66,45 +82,80 @@ function isSlideRelocationReply(value: unknown): value is SlideRelocationReply {
 }
 
 /**
+ * Reads the fact-corrected paragraphs of each subtopic, the slide placements and
+ * the reading of each placed slide.
+ *
+ * @param context - The stage context.
+ * @returns The input of the stage.
+ * @throws {RelocateSlidesError} If an input file is missing, unreadable or the wrong shape, or if no subtopic has a paragraph.
+ */
+async function readSlideRelocationInput(context: StageContext): Promise<SlideRelocationInput> {
+	const [{ factCorrectedSubtopics }, { placements }] = await Promise.all([
+		readFactCorrections({ context, fail }),
+		readStageSlidePlacements({ context, purpose: "relocate the slides", fail }),
+	]);
+	const subtopics = factCorrectedSubtopics.map(({ subtopicId, factCorrectedSubtopic }) => ({
+		subtopicId,
+		paragraphs: factCorrectedSubtopic,
+	}));
+	if (subtopics.every(({ paragraphs }) => paragraphs.length === 0)) {
+		throw fail(
+			"No subtopic of the lecture has a paragraph, so the notes have no place for the slides",
+		);
+	}
+	const readings = await readSlideReadings({
+		context,
+		slideNumbers: placements.map(({ slideNumber }) => slideNumber),
+		fail,
+	});
+	return { subtopics, placements, readings };
+}
+
+/**
+ * Gives the work on each subtopic: its paragraphs, with the figure numbers of the
+ * lecture and the slides that the subtopic shows.
+ *
+ * @param input - The input of the stage.
+ * @returns The work on each subtopic, in lecture order.
+ */
+function subtopicSlideRelocations(input: SlideRelocationInput): readonly SubtopicSlideRelocation[] {
+	const figureNumbers = figureNumbersOf(input.readings);
+	const shown = shownSlidesBySubtopic(input);
+	return input.subtopics.map((subtopic) => ({
+		...subtopic,
+		figureNumbers,
+		// `shown` has an entry for each subtopic of `input.subtopics`.
+		shownSlides: shown.get(subtopic.subtopicId) as ShownSlides,
+	}));
+}
+
+/**
  * Relocates the slides of one subtopic. A subtopic with no slide for the model
  * gets no call.
  *
- * @param args - The slide relocation, and the subtopic.
- * @param args.subtopic - The subtopic and its paragraphs.
- * @param args.figureNumbers - The figure number of each slide of the lecture.
- * @param args.shownSlides - The slides that the subtopic shows.
- * @param args.sendToModel - Sends the messages to the model.
- * @param args.logger - The logger of the stage.
- * @param args.costTally - The cost tally of the stage run.
+ * @param args - The subtopic, and the model calls of the stage run.
+ * @param args.subtopic - The subtopic, its slides and the figure numbers of the lecture.
+ * @param args.calls - The model calls of the stage run.
  * @returns The file of the subtopic.
  * @throws {ResendsExhaustedError} If the third send is still unusable.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger type has mutable properties that the rule sees. This code only logs to it. CLAUDE.md allows a mutable type where a library requires one.
 async function relocateSubtopicSlides({
 	subtopic,
-	figureNumbers,
-	shownSlides,
-	sendToModel,
-	logger,
-	costTally,
-}: SlideRelocationRun & {
-	readonly subtopic: FactCorrectedParagraphs;
-	readonly figureNumbers: FigureNumbers;
-	readonly shownSlides: ShownSlides;
-}): Promise<SlideRelocation> {
+	calls,
+}: Pick<
+	SubtopicWork<SlideRelocationInput, SubtopicSlideRelocation>,
+	"subtopic" | "calls"
+>): Promise<SlideRelocation> {
 	const paragraphs = numberFigureMarks(subtopic.paragraphs);
-	const slides = shownSlides.slidesForModel;
+	const slides = subtopic.shownSlides.slidesForModel;
 	// A mark with no entry in `markSlides` points at no slide.
 	const slidePoints =
 		slides.length === 0
 			? { points: [], markSlides: [] }
 			: (
-					await sendToStageModelWithResends({
+					await calls.sendJsonWithResends({
 						what: `Slide relocation of subtopic ${subtopic.subtopicId}`,
 						messages: buildSlideRelocationMessages({ paragraphs, slides }),
-						sendToModel,
-						logger,
-						costTally,
 						isReply: isSlideRelocationReply,
 						documentedShape: DOCUMENTED_REPLY_SHAPE,
 						use: (relocation) =>
@@ -119,52 +170,20 @@ async function relocateSubtopicSlides({
 		subtopicId: subtopic.subtopicId,
 		paragraphs,
 		...slidePoints,
-		figureNumbers,
-		slidesAtStart: shownSlides.slidesAtStart,
-		slidesAtEnd: shownSlides.slidesAtEnd,
+		figureNumbers: subtopic.figureNumbers,
+		slidesAtStart: subtopic.shownSlides.slidesAtStart,
+		slidesAtEnd: subtopic.shownSlides.slidesAtEnd,
 	});
 }
 
-/**
- * Relocates the slides of each subtopic, and writes the file of each subtopic and
- * `slide-relocations.json`. A saved file of a subtopic is read back, and its
- * subtopic gets no call.
- *
- * @param run - The slide relocation of the lecture.
- * @returns The content of `slide-relocations.json`, and the `filesWritten` entry of each file.
- * @throws {RelocateSlidesError} If no subtopic has a paragraph, or if a saved file holds nothing readable.
- * @throws {ResendsExhaustedError} If the third send of a call is still unusable.
- */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger type has mutable properties that the rule sees. This code only passes it on. CLAUDE.md allows a mutable type where a library requires one.
-export async function relocateSlides(run: SlideRelocationRun): Promise<{
-	readonly output: SlideRelocations;
-	readonly filesWritten: readonly string[];
-}> {
-	if (run.subtopics.every(({ paragraphs }) => paragraphs.length === 0)) {
-		throw new RelocateSlidesError(
-			"No subtopic of the lecture has a paragraph, so the notes have no place for the slides",
-		);
-	}
-	const figureNumbers = figureNumbersOf(run.readings);
-	const shown = shownSlidesBySubtopic(run);
-	const relocated = await runUnlistedSubtopicFileStage({
-		workspaceRoot: run.workspaceRoot,
-		directory: slideRelocationsDirectory(run.workspaceRoot),
-		subtopics: run.subtopics,
-		isSaved: isSlideRelocation,
-		saved: { content: "slide relocation", remake: "relocate the slides of the subtopic" },
-		fail: (message) => new RelocateSlidesError(message),
-		make: (subtopic) =>
-			relocateSubtopicSlides({
-				...run,
-				subtopic,
-				figureNumbers,
-				// `shown` has an entry for each subtopic of `run.subtopics`.
-				shownSlides: shown.get(subtopic.subtopicId) as ShownSlides,
-			}),
-		concurrency: run.concurrency,
-		entriesPath: slideRelocationsPath(run.workspaceRoot),
-		key: "slideRelocations",
-	});
-	return relocated;
-}
+/** Builds the `relocate-slides` stage from the logger and the OpenAI client of the invocation. */
+export const createRelocateSlidesStage = defineSubtopicAndLectureFileStage({
+	stageId: STAGE_ID,
+	getInput: readSlideRelocationInput,
+	subtopicsOf: subtopicSlideRelocations,
+	isSaved: isSlideRelocation,
+	saved: { content: "slide relocation", remake: "relocate the slides of the subtopic" },
+	fail,
+	make: relocateSubtopicSlides,
+	key: "slideRelocations",
+});

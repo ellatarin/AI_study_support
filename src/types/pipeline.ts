@@ -28,6 +28,10 @@ export const STAGE_IDS = [
 	"place-slides",
 	"correct-terms",
 	"rewrite-subtopics",
+	"check-facts",
+	"correct-factual-errors",
+	"relocate-slides",
+	"build-notes-page",
 ] as const;
 
 /** The id of one stage (technical-design.md §4.1). */
@@ -119,6 +123,12 @@ export type FactCheckModel = {
 	readonly role: ModelRole;
 } & Pick<StageTuning, "temperature" | "maxTokens">;
 
+/** The configuration of `check-facts`: a list of models in place of one `modelId` (technical-design.md §6). */
+export type FactCheckStageConfig = { readonly models: readonly FactCheckModel[] };
+
+/** The stages whose configuration has one `modelId`. Only `check-facts` has a list of models. */
+export type SingleModelStageId = Exclude<StageId, "check-facts">;
+
 /** The size of a panel, and its bar. */
 export type PanelSettings = {
 	readonly panelSize: number;
@@ -167,7 +177,9 @@ export type PipelineConfig = {
 		/** The module prefixes that normalisation strips from a filename. The match ignores case. */
 		readonly modulePrefixes: readonly string[];
 	};
-	readonly stages: Readonly<Partial<Record<StageId, StageConfig>>>;
+	readonly stages: Readonly<Partial<Record<SingleModelStageId, StageConfig>>> & {
+		readonly "check-facts"?: FactCheckStageConfig;
+	};
 	readonly finalOutput: {
 		/** The language that every stage that writes prose is told to use. */
 		readonly language: OutputLanguage;

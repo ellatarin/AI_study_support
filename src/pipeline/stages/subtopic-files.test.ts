@@ -1,8 +1,8 @@
 import { join } from "node:path";
 import { describe, expect, it, vi } from "vitest";
 import { NamedError } from "../../utils/errors.js";
-import { readJsonFile, seedJsonFile, useTempDir } from "../fixtures.js";
-import { readOrMakeSubtopicFiles, runUnlistedSubtopicFileStage } from "./subtopic-files.js";
+import { seedJsonFile, useTempDir } from "../fixtures.js";
+import { readOrMakeSubtopicFiles } from "./subtopic-files.js";
 
 /** The error of the stage in this suite. */
 class SubtopicStageError extends NamedError {}
@@ -50,7 +50,7 @@ function stageDirectory(): string {
 }
 
 /**
- * Gives the arguments that both functions of this suite take, for the test subtopics.
+ * Gives the arguments of {@link readOrMakeSubtopicFiles} other than `make`, for the test subtopics.
  *
  * @returns The workspace, the folder, the subtopics, the saved-file check, the error and no `concurrency`.
  */
@@ -76,28 +76,5 @@ describe("readOrMakeSubtopicFiles", () => {
 
 		expect(contents).toStrictEqual([savedEntry, madeEntry({ subtopicId: 2 })]);
 		expect(make.mock.calls).toStrictEqual([[{ subtopicId: 2 }]]);
-	});
-});
-
-describe("runUnlistedSubtopicFileStage", () => {
-	it("should make the folder, write the file of each subtopic and the entries in lecture order under the key, and give the filesWritten entry of each file, when no file is saved", async () => {
-		const entriesPath = join(stageDirectory(), "entries.json");
-
-		const { output, filesWritten } = await runUnlistedSubtopicFileStage({
-			...sharedArgs(),
-			make: async (subtopic) => madeEntry(subtopic),
-			entriesPath,
-			key: "entries",
-		});
-
-		const entries = subtopics.map(madeEntry);
-		expect(output).toStrictEqual({ entries });
-		expect(await readJsonFile(entriesPath)).toStrictEqual({ entries });
-		expect(await readJsonFile(join(stageDirectory(), "subtopic-2.json"))).toStrictEqual(entries[1]);
-		expect(filesWritten).toStrictEqual([
-			join(STAGE_FOLDER, "subtopic-1.json"),
-			join(STAGE_FOLDER, "subtopic-2.json"),
-			join(STAGE_FOLDER, "entries.json"),
-		]);
 	});
 });

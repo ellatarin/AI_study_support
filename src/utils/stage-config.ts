@@ -6,7 +6,12 @@
  * the two callers throws its own error type.
  */
 
-import type { PipelineConfig, StageConfig, StageId } from "../types/pipeline.js";
+import type {
+	PipelineConfig,
+	SingleModelStageId,
+	StageConfig,
+	StageId,
+} from "../types/pipeline.js";
 import { CONFIG_FILENAME } from "../types/pipeline.js";
 
 /**
@@ -22,7 +27,7 @@ export function configuredStage({
 	stageId,
 }: {
 	readonly config: PipelineConfig;
-	readonly stageId: StageId;
+	readonly stageId: SingleModelStageId;
 }): StageConfig | null {
 	return config.stages[stageId] ?? null;
 }
@@ -37,7 +42,7 @@ export function configuredStage({
  */
 export function configuredConcurrency(args: {
 	readonly config: PipelineConfig;
-	readonly stageId: StageId;
+	readonly stageId: SingleModelStageId;
 }): number | undefined {
 	return configuredStage(args)?.concurrency ?? undefined;
 }

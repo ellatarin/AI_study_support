@@ -7,15 +7,12 @@
    readers and checks. So their import blocks are the same line for line. Imports
    cannot be shared, and CLAUDE.md (File Organisation) forbids barrel files. Only
    the imports are exempt. jscpd checks the code below. */
-import { join } from "node:path";
 import { isNumberOrNull, isRecord, isStringList, readerFromCheck } from "../../utils/record.js";
+import { stageDirectoryPath, stageOutputPath } from "../layout.js";
 import { type ReadingStage, readInputJson } from "./stage-input.js";
 import { hasSubtopicId } from "./subtopic-files.js";
 
 /* jscpd:ignore-end */
-
-/** The folder of `relocate-slides` in the lecture's workspace. */
-const SLIDE_RELOCATIONS_DIR = "Slide relocations";
 
 /** The point of a slide or a figure mark in the paragraphs of one subtopic. */
 export type TextPoint = {
@@ -104,10 +101,10 @@ export type SlideRelocations = { readonly slideRelocations: readonly SlideReloca
  * Gives the absolute path of the stage's folder in a lecture's workspace.
  *
  * @param workspaceRoot - The absolute path of the lecture's workspace.
- * @returns The absolute path of {@link SLIDE_RELOCATIONS_DIR}.
+ * @returns The absolute path of the folder.
  */
 export function slideRelocationsDirectory(workspaceRoot: string): string {
-	return join(workspaceRoot, SLIDE_RELOCATIONS_DIR);
+	return stageDirectoryPath({ workspaceRoot, stageId: "relocate-slides" });
 }
 
 /**
@@ -117,7 +114,7 @@ export function slideRelocationsDirectory(workspaceRoot: string): string {
  * @returns The absolute path of the file.
  */
 export function slideRelocationsPath(workspaceRoot: string): string {
-	return join(slideRelocationsDirectory(workspaceRoot), "slide-relocations.json");
+	return stageOutputPath({ workspaceRoot, stageId: "relocate-slides" });
 }
 
 /**
