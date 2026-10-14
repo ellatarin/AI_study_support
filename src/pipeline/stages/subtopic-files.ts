@@ -5,6 +5,7 @@
 
 import { join, relative } from "node:path";
 import type { StageContext, StageId, StageResult } from "../../types/pipeline.js";
+import { writeJsonAtomic } from "../../utils/files.js";
 import { isRecord, readerFromCheck } from "../../utils/record.js";
 import { type StageInWorkspace, stageDirectoryPath } from "../layout.js";
 import {
@@ -15,6 +16,7 @@ import {
 	type PromptMessages,
 	promptMessages,
 } from "./model-stage.js";
+import { makeUnlistedStageFolder } from "./pipeline-stage.js";
 import { readOrMakeSavedFiles, unreadableSavedFileMessage } from "./saved-files.js";
 import { type ReadingStage, readInputJson } from "./stage-input.js";
 
@@ -34,7 +36,22 @@ export function subtopicFilePath({
 	subtopicId,
 	...stage
 }: StageInWorkspace & SubtopicFileFields): string {
-	return join(stageDirectoryPath(stage), `subtopic-${subtopicId}.json`);
+	return subtopicFileIn({ directory: stageDirectoryPath(stage), subtopicId });
+}
+
+/**
+ * Gives the path of the file of one subtopic in a folder.
+ *
+ * @param args - The folder and the subtopic.
+ * @param args.directory - The absolute path of the folder.
+ * @param args.subtopicId - The subtopic.
+ * @returns The absolute path of the file.
+ */
+function subtopicFileIn({
+	directory,
+	subtopicId,
+}: { readonly directory: string } & SubtopicFileFields): string {
+	return join(directory, `subtopic-${subtopicId}.json`);
 }
 
 /**
@@ -118,20 +135,15 @@ export type SubtopicWork<TInput, TSubtopic> = Pick<
 > & { readonly subtopic: TSubtopic };
 
 /**
- * The work of a stage on the file of each subtopic, for
- * {@link readOrMakeSubtopicFiles}.
+ * The saved files of a stage that writes one file for each subtopic. These are
+ * their shape, the words for an unreadable file, and the stage's own error.
  *
- * @typeParam TInput - The input of the stage.
- * @typeParam TSubtopic - The work of one subtopic.
  * @typeParam TContent - The content of the file of one subtopic.
  */
-type SubtopicFiles<TInput, TSubtopic, TContent> = {
-	readonly stageId: StageId;
-	readonly subtopicsOf: (input: TInput) => readonly TSubtopic[];
+type SavedSubtopicFiles<TContent> = {
 	readonly isSaved: (value: unknown) => value is TContent;
 	readonly saved: { readonly content: string; readonly remake: string };
 	readonly fail: (message: string) => Error;
-	readonly make: (args: SubtopicWork<TInput, TSubtopic>) => Promise<TContent>;
 };
 
 /**
@@ -143,65 +155,59 @@ type SubtopicFiles<TInput, TSubtopic, TContent> = {
  * @typeParam TContent - The content of the file of one subtopic.
  * @typeParam TOutput - The output of the stage.
  */
-type SubtopicFileStage<TInput, TSubtopic, TContent, TOutput> = SubtopicFiles<
-	TInput,
-	TSubtopic,
-	TContent
-> & {
+type SubtopicFileStage<TInput, TSubtopic, TContent, TOutput> = SavedSubtopicFiles<TContent> & {
+	readonly stageId: StageId;
+	readonly subtopicsOf: (input: TInput) => readonly TSubtopic[];
+	readonly make: (args: SubtopicWork<TInput, TSubtopic>) => Promise<TContent>;
 	readonly getInput: (context: StageContext) => Promise<TInput>;
 	readonly output: (contents: readonly TContent[]) => TOutput;
 };
 
 /**
  * Reads or makes the file of each subtopic, in one run of a stage. As many
- * subtopics are in work as the stage's `concurrency` allows. Each file is written
- * as soon as it is made. A saved file is read back, and its subtopic gets no call.
+ * subtopics are in work as `concurrency` allows. Each file is written as soon as
+ * it is made. A saved file is read back, and its subtopic gets no call.
  *
- * @param args - The work on the file of each subtopic, and the stage run.
- * @param args.stageId - The stage that writes the files.
- * @param args.subtopicsOf - Gives the work of each subtopic, in lecture order.
+ * @param args - The folder, the subtopics, and the work on the file of each subtopic.
+ * @param args.workspaceRoot - The absolute path of the lecture workspace.
+ * @param args.directory - The absolute path of the folder that holds the files.
+ * @param args.subtopics - The work of each subtopic, in lecture order.
  * @param args.isSaved - Checks that a parsed saved file has the shape that `make` gives.
  * @param args.saved - The words for the message about an unreadable file, such as `subtopic rewrite` and `rewrite the subtopic`.
  * @param args.fail - Builds the stage's own error from a message.
  * @param args.make - Makes the content of the file of one subtopic.
- * @param args.input - The input of the stage.
- * @param args.context - The stage context.
- * @param args.calls - The model calls of this stage run.
- * @param args.concurrency - The number of subtopics in work at the same time.
+ * @param args.concurrency - The number of subtopics in work at the same time. Unset means one at a time.
  * @returns The content of each file in lecture order, and the `filesWritten` entry of each file.
  * @throws The error that `fail` builds, if a saved file is unreadable.
- * @typeParam TInput - The input of the stage.
  * @typeParam TSubtopic - The work of one subtopic.
  * @typeParam TContent - The content of the file of one subtopic.
  */
 export async function readOrMakeSubtopicFiles<
-	TInput,
 	TSubtopic extends { readonly subtopicId: number },
 	TContent,
 >({
-	stageId,
-	subtopicsOf,
+	workspaceRoot,
+	directory,
+	subtopics,
 	isSaved,
 	saved,
 	fail,
 	make,
-	input,
-	context,
-	calls,
 	concurrency,
-}: SubtopicFiles<TInput, TSubtopic, TContent> &
-	Pick<ModelStageRunArgs<TInput>, "input" | "context" | "calls" | "concurrency">): Promise<
+}: SavedSubtopicFiles<TContent> & {
+	readonly workspaceRoot: string;
+	readonly directory: string;
+	readonly subtopics: readonly TSubtopic[];
+	readonly make: (subtopic: TSubtopic) => Promise<TContent>;
+	readonly concurrency: number | undefined;
+}): Promise<
 	Omit<StageResult<unknown>, "output"> & {
 		readonly contents: readonly TContent[];
 	}
 > {
-	const files = subtopicsOf(input).map((subtopic) => ({
+	const files = subtopics.map((subtopic) => ({
 		subtopic,
-		path: subtopicFilePath({
-			workspaceRoot: context.workspaceRoot,
-			stageId,
-			subtopicId: subtopic.subtopicId,
-		}),
+		path: subtopicFileIn({ directory, subtopicId: subtopic.subtopicId }),
 	}));
 	const { contents } = await readOrMakeSavedFiles<(typeof files)[number], TContent>({
 		files,
@@ -209,12 +215,86 @@ export async function readOrMakeSubtopicFiles<
 		concurrency,
 		readSaved: readerFromCheck(isSaved),
 		unreadable: (path) => fail(unreadableSavedFileMessage({ path, ...saved })),
-		make: ({ subtopic }) => make({ subtopic, context, calls }),
+		make: ({ subtopic }) => make(subtopic),
 	});
 	return {
 		contents,
-		filesWritten: files.map((file) => relative(context.workspaceRoot, file.path)),
+		filesWritten: files.map((file) => relative(workspaceRoot, file.path)),
 	};
+}
+
+/**
+ * Writes the file that holds the entry of each subtopic under one key, such as
+ * `{ "factCorrectedSubtopics": [...] }`. A stage writes it when each subtopic has
+ * its file. Its folder must already exist.
+ *
+ * @param args - The workspace, the file, the key and the entries.
+ * @param args.workspaceRoot - The absolute path of the lecture workspace.
+ * @param args.path - The absolute path of the file.
+ * @param args.key - The field that holds the entries.
+ * @param args.entries - The entry of each subtopic, in lecture order.
+ * @returns The value of the file, and the file's `filesWritten` entry.
+ * @typeParam TKey - The field that holds the entries.
+ * @typeParam TEntry - The entry of one subtopic.
+ */
+async function writeSubtopicEntriesFile<TKey extends string, TEntry>({
+	workspaceRoot,
+	path,
+	key,
+	entries,
+}: {
+	readonly workspaceRoot: string;
+	readonly path: string;
+	readonly key: TKey;
+	readonly entries: readonly TEntry[];
+}): Promise<{
+	readonly value: { readonly [field in TKey]: readonly TEntry[] };
+	readonly fileWritten: string;
+}> {
+	// The cast is safe: the object has one field, `key`, which holds the entries.
+	const value = { [key]: entries } as { readonly [field in TKey]: readonly TEntry[] };
+	await writeJsonAtomic({ path, value });
+	return { value, fileWritten: relative(workspaceRoot, path) };
+}
+
+/**
+ * Does the work of an unlisted stage that writes one file for each subtopic and
+ * then the file of the whole lecture. It makes the stage's folder, reads or makes
+ * the file of each subtopic, and writes the entry of each subtopic under `key`.
+ *
+ * @param args - The files of each subtopic as for {@link readOrMakeSubtopicFiles}, and the lecture file.
+ * @param args.entriesPath - The absolute path of the file of the whole lecture.
+ * @param args.key - The field of that file that holds the entries.
+ * @returns The content of the file of the whole lecture, and the `filesWritten` entry of each file.
+ * @throws The error that `fail` builds, if a saved file is unreadable.
+ * @typeParam TKey - The field that holds the entries.
+ * @typeParam TSubtopic - The work of one subtopic.
+ * @typeParam TContent - The content of the file of one subtopic.
+ */
+export async function runUnlistedSubtopicFileStage<
+	TKey extends string,
+	TSubtopic extends { readonly subtopicId: number },
+	TContent,
+>({
+	entriesPath,
+	key,
+	...files
+}: Parameters<typeof readOrMakeSubtopicFiles<TSubtopic, TContent>>[0] & {
+	readonly entriesPath: string;
+	readonly key: TKey;
+}): Promise<{
+	readonly output: { readonly [field in TKey]: readonly TContent[] };
+	readonly filesWritten: readonly string[];
+}> {
+	await makeUnlistedStageFolder(files.directory);
+	const { contents, filesWritten } = await readOrMakeSubtopicFiles(files);
+	const { value, fileWritten } = await writeSubtopicEntriesFile({
+		workspaceRoot: files.workspaceRoot,
+		path: entriesPath,
+		key,
+		entries: contents,
+	});
+	return { output: value, filesWritten: [...filesWritten, fileWritten] };
 }
 
 /**
@@ -223,7 +303,10 @@ export async function readOrMakeSubtopicFiles<
  * subtopic through {@link readOrMakeSubtopicFiles}.
  *
  * @param definition - The stage, its input, and the work that makes the file of one subtopic.
+ * @param definition.stageId - The stage. Its folder holds the files.
  * @param definition.getInput - Gets and checks the input of the stage.
+ * @param definition.subtopicsOf - Gives the work of each subtopic, in lecture order.
+ * @param definition.make - Makes the content of the file of one subtopic.
  * @param definition.output - Gives the output of the stage from the content of each file, in lecture order.
  * @returns A factory that takes the logger and the client of the invocation.
  * @throws The error that `fail` builds, if a saved file is unreadable.
@@ -238,15 +321,26 @@ export function defineSubtopicFileStage<
 	TContent,
 	TOutput,
 >({
+	stageId,
 	getInput,
+	subtopicsOf,
+	make,
 	output,
-	...files
+	...saved
 }: SubtopicFileStage<TInput, TSubtopic, TContent, TOutput>): ModelStageFactory<TInput, TOutput> {
 	return defineModelStage({
-		stageId: files.stageId,
+		stageId,
 		getInput,
-		run: async (run) => {
-			const { contents, ...made } = await readOrMakeSubtopicFiles({ ...files, ...run });
+		run: async ({ input, context, calls, concurrency }) => {
+			const { workspaceRoot } = context;
+			const { contents, ...made } = await readOrMakeSubtopicFiles({
+				...saved,
+				workspaceRoot,
+				directory: stageDirectoryPath({ workspaceRoot, stageId }),
+				subtopics: subtopicsOf(input),
+				make: (subtopic) => make({ subtopic, context, calls }),
+				concurrency,
+			});
 			return { output: output(contents), ...made };
 		},
 	});

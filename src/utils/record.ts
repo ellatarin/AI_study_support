@@ -32,6 +32,16 @@ export function isOneOf<TEntry>(list: readonly TEntry[]): (value: unknown) => va
 }
 
 /**
+ * Checks that a value is a number or null.
+ *
+ * @param value - The value to test.
+ * @returns `true` when the value is a number or `null`.
+ */
+export function isNumberOrNull(value: unknown): value is number | null {
+	return typeof value === "number" || value === null;
+}
+
+/**
  * Checks that a value is a list of strings.
  *
  * @param value - The value to test.

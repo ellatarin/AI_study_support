@@ -69,7 +69,6 @@ export type DeepenSubtopicSplittingOutput = { readonly runs: readonly (readonly 
  */
 type DeepenReply = { readonly cuts: readonly ReplySubtopic[] };
 
-/** The text that ends the failure "The model's reply is not the documented …". */
 const DOCUMENTED_REPLY_SHAPE = "{ cuts: [{ label, groupedBecause, startsWith }] } object";
 
 /**

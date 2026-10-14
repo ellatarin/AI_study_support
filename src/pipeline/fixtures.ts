@@ -57,9 +57,14 @@ import {
 import { createMoneyFormatter, type MoneyFormatter } from "./reports.js";
 import { assembleContext } from "./stage-context.js";
 import { type Subtopic, type SubtopicWithIdAndText, subtopicText } from "./stages/division.js";
-import { type ModelStageFactory, ResendsExhaustedError } from "./stages/model-stage.js";
+import {
+	type ModelStageFactory,
+	ResendsExhaustedError,
+	type SendToStageModel,
+	type UnlistedStageRun,
+} from "./stages/model-stage.js";
 import { SavedRunUnreadableError } from "./stages/panel-runs.js";
-import type { SlidePlacements } from "./stages/slide-placements.js";
+import type { SlidePlacement, SlidePlacements } from "./stages/slide-placements.js";
 import type { StructuredTranscript } from "./stages/structured-transcript.js";
 import type { Topic } from "./stages/topics.js";
 import {
@@ -160,6 +165,143 @@ export function itFailsAfterTheThirdUnusableSend({
 			calls,
 			outputPath: outputPath(),
 		});
+	});
+}
+
+/**
+ * Gives the stub of the {@link SendToStageModel} of an unlisted stage. Before each
+ * test, a new stub is made, and each of its sends replies with `content`.
+ *
+ * @param content - The text of each reply.
+ * @returns A function that gives the stub of the current test.
+ */
+export function useStageModelStub(content: string): () => Mock<SendToStageModel> {
+	let stub = vi.fn<SendToStageModel>();
+	beforeEach(() => {
+		stub = vi.fn<SendToStageModel>().mockResolvedValue({ content });
+	});
+	return () => stub;
+}
+
+/** The parts of the run of an unlisted stage in a suite, each made again before each test. */
+type UnlistedStageRunParts = {
+	readonly workspaceRoot: () => string;
+	readonly stubLogger: () => StubLogger;
+	readonly costTally: () => CostTally;
+	readonly sendToModel: () => Mock<SendToStageModel>;
+	/** Reads a JSON file of the workspace by its path relative to the workspace. */
+	readonly readFile: (file: string) => Promise<unknown>;
+	/** Gives the stage run of the current test, with no `concurrency`. */
+	readonly stageRun: () => UnlistedStageRun;
+};
+
+/**
+ * Gives the workspace, the stub logger, the cost tally and the model stub of an
+ * unlisted stage, for a suite that runs the stage.
+ *
+ * @param args - The workspace prefix, and the reply.
+ * @param args.prefix - The prefix of the name of the temporary workspace.
+ * @param args.reply - The reply of each send, before it is written as JSON.
+ * @returns A function for each part, which gives the part of the current test.
+ */
+export function useUnlistedStageRun({
+	prefix,
+	reply,
+}: {
+	readonly prefix: string;
+	readonly reply: unknown;
+}): UnlistedStageRunParts {
+	const workspaceRoot = useTempDir({ prefix });
+	const stubLogger = useStubLogger();
+	const costTally = useCostTally();
+	const sendToModel = useStageModelStub(JSON.stringify(reply));
+	return {
+		workspaceRoot,
+		stubLogger,
+		costTally,
+		sendToModel,
+		readFile: workspaceJsonReader(workspaceRoot),
+		stageRun: () => ({
+			workspaceRoot: workspaceRoot(),
+			sendToModel: sendToModel(),
+			logger: stubLogger().logger,
+			costTally: costTally(),
+			concurrency: undefined,
+		}),
+	};
+}
+
+/**
+ * Adds the two tests of the saved files of an unlisted stage with one file for
+ * each subtopic. A stage that starts again makes no call. An unreadable saved
+ * file fails the stage with its own error, and the error names the file.
+ *
+ * @param args - The stage run, its stub, a saved file, and the stage's error.
+ * @param args.run - Runs the stage.
+ * @param args.sendToModel - Gives the stub of the current test.
+ * @param args.savedFilePath - Gives the absolute path of the file of one subtopic in the current test.
+ * @param args.stageError - The error class of the stage.
+ */
+export function itReadsSavedSubtopicFiles({
+	run,
+	sendToModel,
+	savedFilePath,
+	stageError,
+}: {
+	readonly run: () => Promise<unknown>;
+	readonly sendToModel: () => Mock<SendToStageModel>;
+	readonly savedFilePath: () => string;
+	readonly stageError: new (message: string) => Error;
+}): void {
+	it("should make no call for a subtopic with a saved file when the stage starts again", async () => {
+		await run();
+		sendToModel().mockClear();
+
+		await run();
+
+		expect(sendToModel()).not.toHaveBeenCalled();
+	});
+
+	it(`should fail with ${stageError.name} that names the file when a saved file holds nothing readable`, async () => {
+		await seedJsonFile({ path: savedFilePath(), contents: {} });
+
+		const error = await captureError(run());
+
+		expect(error).toBeInstanceOf(stageError);
+		expect(error.message).toContain(savedFilePath());
+	});
+}
+
+/**
+ * Adds the test that an unlisted stage resends an unusable reply, and fails after
+ * the third send.
+ *
+ * @param args - The stage run, its stub, the unusable reply, and the number of calls.
+ * @param args.run - Runs the stage.
+ * @param args.sendToModel - Gives the stub of the current test.
+ * @param args.unusableContent - The text of a reply that the stage cannot use.
+ * @param args.calls - The number of calls that were in flight. Each is sent three times.
+ */
+export function itFailsAfterTheThirdUnusableStageModelSend({
+	run,
+	sendToModel,
+	unusableContent,
+	calls,
+}: {
+	readonly run: () => Promise<unknown>;
+	readonly sendToModel: () => Mock<SendToStageModel>;
+	readonly unusableContent: string;
+	readonly calls: number;
+}): void {
+	it("should resend the call, and fail after the third send, when each reply is unusable", {
+		timeout: resendPausesTimeoutMs,
+	}, async () => {
+		sendToModel().mockResolvedValue({ content: unusableContent });
+
+		const error = await captureError(run());
+
+		expect(error).toBeInstanceOf(ResendsExhaustedError);
+		expect(sendToModel()).toHaveBeenCalledTimes(MAX_SENDS * calls);
 	});
 }
 
@@ -1243,6 +1385,18 @@ export function slideReadingReply(
 }
 
 /**
+ * Gives the name of the image and the reading of one slide, with no extension,
+ * such as `slide-001`. The name is stated in full here, and not taken from the
+ * production code.
+ *
+ * @param slideNumber - The number of the slide in the deck, from 1.
+ * @returns The name.
+ */
+function slideFileStem(slideNumber: number): string {
+	return `slide-${String(slideNumber).padStart(3, "0")}`;
+}
+
+/**
  * Writes `count` slide images into a workspace, as `render-slides` leaves them.
  * The bytes of each image are its file name, so a suite can tell the images
  * apart. The file names are stated in full here, and not taken from the
@@ -1264,7 +1418,7 @@ export async function seedSlideImages({
 	await mkdir(directory, { recursive: true });
 	const images: Buffer[] = [];
 	for (let slideNumber = 1; slideNumber <= count; slideNumber++) {
-		const name = `slide-${String(slideNumber).padStart(3, "0")}.png`;
+		const name = `${slideFileStem(slideNumber)}.png`;
 		const bytes = Buffer.from(name);
 		await writeFile(join(directory, name), bytes);
 		images.push(bytes);
@@ -1281,7 +1435,7 @@ export async function seedSlideImages({
  * @returns The path, relative to the workspace.
  */
 export function readingFile(slideNumber: number): string {
-	return `Slide readings/slide-${String(slideNumber).padStart(3, "0")}.json`;
+	return `Slide readings/${slideFileStem(slideNumber)}.json`;
 }
 
 /**
@@ -1300,19 +1454,31 @@ export const slideDeckReadings: readonly Readonly<Record<string, unknown>>[] = [
 export const stubbedPlacedBecause = "The lecturer explains the slide here.";
 
 /**
+ * Gives a placement for each slide, in the subtopic that the map gives it.
+ *
+ * @param subtopicIds - The subtopic of each slide, by slide number.
+ * @returns The placements, in slide-number order.
+ */
+export function slidePlacementsIn(
+	subtopicIds: Readonly<Record<number, number>>,
+): readonly SlidePlacement[] {
+	return Object.entries(subtopicIds).map(([slideNumber, subtopicId]) => ({
+		slideNumber: Number(slideNumber),
+		subtopicId,
+		startWords: null,
+		positionInSubtopic: 0,
+		placedBecause: stubbedPlacedBecause,
+	}));
+}
+
+/**
  * The slide placements that {@link seedEarlierOutputs} writes for `place-slides`.
  * Slides 1, 2 and 4 of the {@link slideDeckReadings} are all in subtopic 2. So
  * subtopic 1 has no placed slide.
  */
 export const slideDeckPlacements: SlidePlacements = {
 	promptVersion: "p2",
-	placements: [1, 2, 4].map((slideNumber) => ({
-		slideNumber,
-		subtopicId: 2,
-		startWords: null,
-		positionInSubtopic: 0,
-		placedBecause: stubbedPlacedBecause,
-	})),
+	placements: slidePlacementsIn({ 1: 2, 2: 2, 4: 2 }),
 };
 
 /**
@@ -1373,6 +1539,18 @@ export function rewriteFile(subtopicId: number): string {
 	return `Rewrites/subtopic-${subtopicId}.json`;
 }
 
+/**
+ * Gives the reader of the JSON files of a suite's workspace.
+ *
+ * @param workspaceRoot - Gives the absolute path to the lecture workspace of the current test.
+ * @returns A function that reads a file by its path relative to the workspace, and gives the parsed file.
+ */
+export function workspaceJsonReader(
+	workspaceRoot: () => string,
+): (file: string) => Promise<unknown> {
+	return (file) => readJsonFile(join(workspaceRoot(), file));
+}
+
 /** The paragraph that the writer writes for each subtopic of {@link transcriptDivision}. */
 export const rewrittenParagraphs = [
 	"The lecture covers its subject today.",
@@ -1422,7 +1600,7 @@ function seedingSubtopicFiles({
  * @param args.readings - The readings, each with its slide number.
  * @returns A promise that resolves when every reading is written.
  */
-async function seedSlideReadings({
+export async function seedSlideReadings({
 	workspaceRoot,
 	readings,
 }: {
@@ -2059,9 +2237,7 @@ export async function seedStageOutput({
 	readonly stageId: StageWithOutputFile;
 	readonly contents?: string;
 }): Promise<string> {
-	const path = stageOutputPath({ workspaceRoot, stageId });
-	await mkdir(dirname(path), { recursive: true });
-	await writeFile(path, contents);
+	await seedTextFile({ path: stageOutputPath({ workspaceRoot, stageId }), contents });
 	return stageOutputEntry(stageId);
 }
 
@@ -2411,23 +2587,41 @@ export async function seedSavedRun({
 }
 
 /**
- * Writes a JSON file on disk, and makes its folder first, as an earlier stage or
+ * Writes a text file on disk, and makes its folder first, as an earlier stage or
  * an earlier invocation leaves it.
+ *
+ * @param args - The file, and its text.
+ * @param args.path - The absolute path of the file.
+ * @param args.contents - The text of the file.
+ * @returns A promise that resolves when the file is written.
+ */
+export async function seedTextFile({
+	path,
+	contents,
+}: {
+	readonly path: string;
+	readonly contents: string;
+}): Promise<void> {
+	await mkdir(dirname(path), { recursive: true });
+	await writeFile(path, contents);
+}
+
+/**
+ * {@link seedTextFile} for a JSON file.
  *
  * @param args - The file, and its contents.
  * @param args.path - The absolute path of the file.
  * @param args.contents - The contents, written as JSON.
  * @returns A promise that resolves when the file is written.
  */
-export async function seedJsonFile({
+export function seedJsonFile({
 	path,
 	contents,
 }: {
 	readonly path: string;
 	readonly contents: unknown;
 }): Promise<void> {
-	await mkdir(dirname(path), { recursive: true });
-	await writeFile(path, JSON.stringify(contents));
+	return seedTextFile({ path, contents: JSON.stringify(contents) });
 }
 
 type FirstSavedRun = {

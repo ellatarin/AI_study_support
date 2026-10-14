@@ -11,6 +11,9 @@
 import type { StageContext } from "../../types/pipeline.js";
 import { NamedError } from "../../utils/errors.js";
 import { isRecord } from "../../utils/record.js";
+import { SENTENCE_END_MARK } from "../../utils/text.js";
+
+const ENDS_A_SENTENCE = new RegExp(`${SENTENCE_END_MARK}$`, "u");
 
 /** One subtopic: its span of the transcript, and the model's title and reason for it. */
 export type Subtopic = {
@@ -295,7 +298,7 @@ function overLeadingConnectives({
 		}
 		position = begin;
 		const before = text.slice(notBefore, begin).trimEnd();
-		if (before === "" || /[.?!]["')\]]?$/u.test(before)) {
+		if (before === "" || ENDS_A_SENTENCE.test(before)) {
 			return position;
 		}
 	}
@@ -334,6 +337,28 @@ export function placeCuts({
 		searchFrom = found + 1;
 	}
 	return { cuts };
+}
+
+/**
+ * Finds start words in one text, as {@link placeCuts} finds the start words of a
+ * cut. `place-slides` and `relocate-slides` use it to find the point of a slide.
+ *
+ * @param args - The text, and the start words.
+ * @param args.text - The text to search, such as the text of one subtopic.
+ * @param args.startWords - The start words from the reply.
+ * @returns The position in the text, or `null` when the text does not hold the words.
+ */
+export function findStartWords({
+	text,
+	startWords,
+}: {
+	readonly text: string;
+	readonly startWords: string;
+}): number | null {
+	// The empty first start words stand for the start of the text. placeCuts never searches for them.
+	const placed = placeCuts({ text, startWords: ["", startWords] });
+	const [, position] = "cuts" in placed ? placed.cuts : [];
+	return position ?? null;
 }
 
 /**

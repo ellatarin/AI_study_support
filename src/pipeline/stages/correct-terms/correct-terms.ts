@@ -15,7 +15,7 @@ import { isRecord } from "../../../utils/record.js";
 import { countWords } from "../../../utils/text.js";
 import type { SubtopicWithIdAndText } from "../division.js";
 import type { ModelStageFactory } from "../model-stage.js";
-import { isSubjectMatter, readSlideReading, type SlideReading } from "../slides.js";
+import { isSubjectMatter, readSlideReadings, type SlideReading } from "../slides.js";
 import { readStageSlidePlacements, readStageSubtopics } from "../stage-input.js";
 import { defineSubtopicFileStage, type SubtopicWork } from "../subtopic-files.js";
 import {
@@ -63,7 +63,6 @@ type CorrectTermsOutput = {
 	readonly results: readonly TermCorrectionResult[];
 };
 
-/** The text that ends the failure "The model's reply is not the documented …". */
 const DOCUMENTED_REPLY_SHAPE = "{ corrections } object";
 
 /**
@@ -288,9 +287,7 @@ async function readCorrectTermsInput(context: StageContext): Promise<CorrectTerm
 	const subtopics = await readStageSubtopics({ context, purpose, fail });
 	const { placements } = await readStageSlidePlacements({ context, purpose, fail });
 	const slideNumbers = [...new Set(placements.map((placement) => placement.slideNumber))];
-	const readings = await Promise.all(
-		slideNumbers.map((slideNumber) => readSlideReading({ context, slideNumber, fail })),
-	);
+	const readings = await readSlideReadings({ context, slideNumbers, fail });
 	const readingOf = new Map(readings.map((reading) => [reading.slideNumber, reading]));
 	return {
 		subtopics: subtopics.map((subtopic) => ({

@@ -41,7 +41,6 @@ type JudgementReply = {
 	readonly judgedBecause: string;
 };
 
-/** The text that ends the failure "The model's reply is not the documented …". */
 const DOCUMENTED_REPLY_SHAPE =
 	"{ provisionalTitleMeaningful, suggestedTitle, judgedBecause } object";
 

@@ -32,7 +32,6 @@ type ReplyTitle = { readonly id: number; readonly title: string };
 /** The reply that the `r9` prompt asks for: a title for each subtopic, by subtopic id. */
 type TitlesReply = { readonly titles: readonly ReplyTitle[] };
 
-/** The text that ends the failure "The model's reply is not the documented …". */
 const DOCUMENTED_REPLY_SHAPE = "{ titles: [{ id, title }] } object";
 
 /**

@@ -9,6 +9,7 @@
 import type { Logger } from "pino";
 import type { PipelineStage, StageContext } from "../../../types/pipeline.js";
 import { NamedError } from "../../../utils/errors.js";
+import { inAscendingOrder } from "../../../utils/sort.js";
 import type { Subtopic } from "../division.js";
 import { distanceFromVote, panelVote } from "../panel-vote.js";
 import { createPipelineStage } from "../pipeline-stage.js";
@@ -71,8 +72,7 @@ function cutSites(
 	cuts: readonly number[],
 ): readonly { readonly first: number; readonly last: number }[] {
 	const sites: { first: number; last: number }[] = [];
-	// eslint-disable-next-line max-params -- the specification sets the parameters of the comparator of Array.prototype.sort.
-	for (const cut of [...cuts].sort((earlier, later) => earlier - later)) {
+	for (const cut of [...cuts].sort(inAscendingOrder)) {
 		const current = sites.at(-1);
 		if (current !== undefined && cut - current.first <= CUT_SITE_TOLERANCE_PERCENT) {
 			current.last = cut;

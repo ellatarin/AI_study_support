@@ -163,6 +163,34 @@ export function readJsonReply<TReply>({
 export type PromptMessages = readonly OpenAI.Chat.Completions.ChatCompletionMessageParam[];
 
 /**
+ * Sends the messages of one call to the model of the stage's own config entry,
+ * and gives the text of the reply. Each send adds its cost to `costTally`. The
+ * pipeline stage gives the OpenRouter call, and a test gives a stub.
+ */
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- the message-param type of the OpenAI library is not deeply readonly. CLAUDE.md allows a mutable type where a library requires one.
+export type SendToStageModel = (args: {
+	readonly messages: PromptMessages;
+	readonly costTally: CostTally;
+}) => Promise<{ readonly content: string }>;
+
+/**
+ * The run of a stage that is not yet in `STAGE_IDS`. The pipeline stage factory
+ * gives these values to a listed stage. An unlisted stage gets them from its
+ * caller, so its module gives only the work of the stage. A later change builds
+ * the pipeline stage around that work.
+ */
+export type UnlistedStageRun = {
+	/** The absolute path of the lecture's workspace. */
+	readonly workspaceRoot: string;
+	readonly sendToModel: SendToStageModel;
+	readonly logger: Logger;
+	/** The cost tally of the stage run. */
+	readonly costTally: CostTally;
+	/** The stage's `concurrency`. Unset means one piece of work at a time. */
+	readonly concurrency: number | undefined;
+};
+
+/**
  * Builds the material of a user message from structured data: the heading that
  * the prompt expects, on its own line, then the data as JSON.
  *
@@ -237,6 +265,22 @@ export async function tryJsonReplyAs<TReply, TKept>({
 export type UseOfReply<TReply, TKept> = (
 	reply: TReply,
 ) => { readonly reply: TKept } | { readonly failure: string };
+
+/**
+ * Checks the paragraphs of a reply. A reply with a blank paragraph is unusable. A
+ * reply with no paragraph is usable (technical-design.md §5, `rewrite-subtopics`).
+ *
+ * @param reply - The parsed reply, with its paragraphs.
+ * @returns The reply, or the reason that it is unusable.
+ * @typeParam TReply - The reply that the stage expects.
+ */
+export function rejectBlankParagraphs<TReply extends { readonly paragraphs: readonly string[] }>(
+	reply: TReply,
+): { readonly reply: TReply } | { readonly failure: string } {
+	return reply.paragraphs.some((paragraph) => paragraph.trim() === "")
+		? { failure: "The model's reply gives a blank paragraph" }
+		: { reply };
+}
 
 /**
  * Applies `use` to a usable reply. An unusable reply stays as it is.
@@ -324,6 +368,43 @@ export async function sendWithResends<TReply>({
 			new ResendsExhaustedError(`${what} failed after ${sends} sends: ${failure}`),
 	});
 	return sent;
+}
+
+/**
+ * Sends one call of an unlisted stage until its reply is usable:
+ * {@link sendWithResends} over {@link readJsonReplyAs}, with the stage's
+ * {@link SendToStageModel}.
+ *
+ * @param args - The call, the check and use of its reply, and the stage run.
+ * @param args.what - The name of the call in the log and in a failure, such as "Fact correction of subtopic 2".
+ * @param args.messages - The messages of the call.
+ * @param args.sendToModel - Sends the messages to the model.
+ * @param args.logger - The logger of the stage.
+ * @param args.costTally - The cost tally that each send adds its cost to.
+ * @returns The value that the stage keeps from the usable reply.
+ * @throws {ResendsExhaustedError} When the reply of the third send is still unusable.
+ * @typeParam TReply - The reply that the stage expects.
+ * @typeParam TKept - The value that the stage keeps from the reply.
+ */
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- the message-param and pino Logger types are library types that are not deeply readonly. CLAUDE.md allows a mutable type where a library requires one.
+export function sendToStageModelWithResends<TReply, TKept>({
+	what,
+	messages,
+	sendToModel,
+	logger,
+	costTally,
+	...check
+}: Pick<UnlistedStageRun, "sendToModel" | "logger" | "costTally"> &
+	Omit<Parameters<typeof readJsonReplyAs<TReply, TKept>>[0], "content"> & {
+		readonly what: string;
+		readonly messages: PromptMessages;
+	}): Promise<UsableJsonReply<TKept>> {
+	return sendWithResends({
+		what,
+		logger,
+		send: async () =>
+			readJsonReplyAs({ content: (await sendToModel({ messages, costTally })).content, ...check }),
+	});
 }
 
 /**

@@ -43,11 +43,30 @@ type ReadingOutput = ReadingStage & {
 type InputFile = {
 	/** The absolute path of the file. */
 	readonly path: string;
-	/** The earlier stage that writes the file, for the failure that a user reads. */
-	readonly stageId: StageId;
+	/**
+	 * The earlier stage that writes the file, for the failure that a user reads.
+	 * `check-facts` and `relocate-slides` are not yet in `STAGE_IDS`.
+	 * `correct-factual-errors` and `build-notes-page` read their files.
+	 */
+	readonly stageId: StageId | "check-facts" | "relocate-slides";
 	/** Builds the reading stage's own error from a message. */
 	readonly fail: (message: string) => Error;
 };
+
+/**
+ * Gives the failure message for an input that an earlier stage did not write.
+ *
+ * @param args - The input, and the earlier stage.
+ * @param args.path - The absolute path of the missing file or folder.
+ * @param args.stageId - The earlier stage that writes it.
+ * @returns The message, which tells the user to run the earlier stage.
+ */
+export function missingInputMessage({
+	path,
+	stageId,
+}: Pick<InputFile, "path" | "stageId">): string {
+	return `No file at ${path}; run ${stageId} first`;
+}
 
 /**
  * Reads a file that an earlier stage wrote.
@@ -62,7 +81,7 @@ type InputFile = {
 function readInputText({ path, stageId, fail }: InputFile): Promise<string> {
 	return readTextFile({
 		path,
-		fail: (error) => fail(`No file at ${path}; run ${stageId} first (${errorMessage(error)})`),
+		fail: (error) => fail(`${missingInputMessage({ path, stageId })} (${errorMessage(error)})`),
 	});
 }
 
@@ -250,7 +269,7 @@ export function readStageTopics(
  * @returns The structured transcript.
  * @throws The error that `fail` builds, if the file is missing, empty, not JSON, or not a structured transcript.
  */
-function readStageStructuredTranscript(
+export function readStageStructuredTranscript(
 	reading: Omit<ReadingOutput, "stageId">,
 ): Promise<StructuredTranscript> {
 	return readStageJson({

@@ -126,6 +126,17 @@ export function slideFileName({
 }
 
 /**
+ * Gives the file name of one slide image. `render-slides` writes the image with
+ * this name, and the notes page keeps the name for its copy.
+ *
+ * @param slideNumber - The number of the slide in the deck, from 1.
+ * @returns The file name, such as `slide-004.png`.
+ */
+export function slideImageFileName(slideNumber: number): string {
+	return slideFileName({ slideNumber, extension: "png" });
+}
+
+/**
  * Gives the workspace of a lecture: a folder named with the base name of the
  * lecture, in the processing folder. {@link moduleRootOf} does the reverse.
  *

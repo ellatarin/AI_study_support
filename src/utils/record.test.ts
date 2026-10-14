@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { isOneOf, isRecord } from "./record.js";
+import { isNumberOrNull, isOneOf, isRecord } from "./record.js";
 
 describe("isRecord", () => {
 	it.each([
@@ -24,6 +24,17 @@ describe("isRecord", () => {
 		const value: unknown = { languageCode: "en" };
 
 		expect(isRecord(value) ? value.languageCode : null).toBe("en");
+	});
+});
+
+describe("isNumberOrNull", () => {
+	it.each([
+		{ scenario: "the value is a number", value: 3, expected: true },
+		{ scenario: "the value is null", value: null, expected: true },
+		{ scenario: "the value is a string of digits", value: "3", expected: false },
+		{ scenario: "the value is absent", value: undefined, expected: false },
+	])("should give $expected when $scenario", ({ value, expected }) => {
+		expect(isNumberOrNull(value)).toBe(expected);
 	});
 });
 

@@ -9,6 +9,13 @@
 const WHITESPACE_RUN = /\s+/g;
 
 /**
+ * The regular-expression source of the mark that ends a sentence. The mark is a
+ * full stop, a question mark or an exclamation mark, then an optional closing
+ * quote or bracket.
+ */
+export const SENTENCE_END_MARK = String.raw`[.?!]["')\]]?`;
+
+/**
  * Makes each run of whitespace a single space, and trims the ends.
  *
  * @param text - The text to tidy.

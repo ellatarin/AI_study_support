@@ -44,7 +44,6 @@ export type ReadSlidesOutput = {
 	readonly readings: readonly SlideReading[];
 };
 
-/** The text that ends the failure "The model's reply is not the documented …". */
 const DOCUMENTED_REPLY_SHAPE = "{ title, body, tables, figures, caption, kind } object";
 
 /**

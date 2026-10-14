@@ -11,8 +11,8 @@ import type { StageContext, StageResult } from "../../../types/pipeline.js";
 import { errorMessage, NamedError } from "../../../utils/errors.js";
 // jscpd:ignore-end
 import { writeFileAtomic } from "../../../utils/files.js";
-import { slideFileName, stageDirectoryPath } from "../../layout.js";
 import type { SourceFileInput, SourceFileStageParts } from "../pipeline-stage.js";
+import { slideImagePath } from "../slides.js";
 
 /**
  * The error when the slide deck of the lecture is missing, not unique, or not a
@@ -27,7 +27,6 @@ export type RenderSlidesOutput = {
 };
 
 const STAGE_ID = "render-slides";
-const SLIDE_IMAGE_EXTENSION = "png";
 const POINTS_PER_INCH = 72;
 const DOTS_PER_INCH = 150;
 
@@ -74,10 +73,6 @@ async function renderSlides({
 	readonly input: SourceFileInput;
 	readonly context: StageContext;
 }): Promise<StageResult<RenderSlidesOutput>> {
-	const slideImagesDir = stageDirectoryPath({
-		workspaceRoot: context.workspaceRoot,
-		stageId: STAGE_ID,
-	});
 	const deck = await openSlideDeck(input.sourceFilePath);
 	const slideImagePaths: string[] = [];
 	for (let slideNumber = 1; slideNumber <= deck.numPages; slideNumber++) {
@@ -86,10 +81,7 @@ async function renderSlides({
 		const canvas = createCanvas(viewport.width, viewport.height);
 		// @ts-expect-error -- pdfjs-dist types the canvas as a browser HTMLCanvasElement. In Node, pdfjs-dist renders to an @napi-rs/canvas canvas, which has no DOM type.
 		await page.render({ canvas, viewport }).promise;
-		const path = join(
-			slideImagesDir,
-			slideFileName({ slideNumber, extension: SLIDE_IMAGE_EXTENSION }),
-		);
+		const path = slideImagePath({ workspaceRoot: context.workspaceRoot, slideNumber });
 		await writeFileAtomic({ path, content: canvas.toBuffer("image/png") });
 		slideImagePaths.push(path);
 	}

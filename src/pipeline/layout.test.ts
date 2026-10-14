@@ -16,6 +16,7 @@ import {
 	savedRunFileName,
 	sharedLectureFileDirs,
 	slideFileName,
+	slideImageFileName,
 	stageDirectoryPaths,
 	stageOutputEntry,
 	stageOutputPath,
@@ -201,6 +202,13 @@ describe("savedRunFileName", () => {
 		expected,
 	}) => {
 		expect(savedRunFileName({ runNumber })).toBe(expected);
+	});
+});
+
+describe("slideImageFileName", () => {
+	// The slideFileName table checks the number part of the name.
+	it("should give a slide image the PNG extension when the slide is numbered", () => {
+		expect(slideImageFileName(4)).toMatch(/\.png$/u);
 	});
 });
 

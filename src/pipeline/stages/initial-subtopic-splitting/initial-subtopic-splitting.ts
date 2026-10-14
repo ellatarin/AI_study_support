@@ -50,7 +50,6 @@ export type InitialSubtopicSplittingOutput = { readonly runs: readonly (readonly
 /** The reply that the `s6` prompt asks for. */
 type SplitReply = { readonly subtopics: readonly ReplySubtopic[] };
 
-/** The text that ends the failure "The model's reply is not the documented …". */
 const DOCUMENTED_REPLY_SHAPE = "{ subtopics: [{ label, groupedBecause, startsWith }] } object";
 
 /**

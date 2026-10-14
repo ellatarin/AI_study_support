@@ -35,7 +35,6 @@ type ReplyTopic = TitledReplyPart & { readonly firstSubtopicId: number };
 /** The reply that the `g23` prompt asks for: the topics of one grouping run, in order. */
 type GroupingReply = { readonly topics: readonly ReplyTopic[] };
 
-/** The text that ends the failure "The model's reply is not the documented …". */
 const DOCUMENTED_REPLY_SHAPE = "{ topics: [{ label, groupedBecause, firstSubtopicId }] } object";
 
 /**

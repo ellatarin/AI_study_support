@@ -12,7 +12,7 @@
 import type { StageContext, StageResult } from "../../../types/pipeline.js";
 import { NamedError } from "../../../utils/errors.js";
 import { isRecord } from "../../../utils/record.js";
-import { placeCuts, type SubtopicWithIdAndText } from "../division.js";
+import { findStartWords, type SubtopicWithIdAndText } from "../division.js";
 import {
 	defineModelStage,
 	type ModelStageFactory,
@@ -28,9 +28,9 @@ import {
 } from "../slide-placements.js";
 import {
 	findSlideImages,
+	isReferences,
 	isSubjectMatter,
-	readSlideReading,
-	type SlideKind,
+	readSlideReadings,
 	type SlideReading,
 } from "../slides.js";
 import { readStageSubtopics } from "../stage-input.js";
@@ -57,10 +57,7 @@ type ReplyPlacement = PlacedSlideFields & { readonly startsWith: string };
 /** The reply that the prompt asks for. */
 type PlacementReply = { readonly placements: readonly ReplyPlacement[] };
 
-/** The text that ends the failure "The model's reply is not the documented …". */
 const DOCUMENTED_REPLY_SHAPE = "{ placements } object";
-
-const REFERENCES: SlideKind = "references";
 
 /** The reason that the stage writes for each references slide, which the code places. */
 const REFERENCES_REASON = "A references slide goes at the end of the last subtopic.";
@@ -104,28 +101,6 @@ function placesOf({
 	readonly slideNumber: number;
 }): readonly ReplyPlacement[] {
 	return reply.placements.filter((placement) => placement.slideNumber === slideNumber);
-}
-
-/**
- * Finds start words in the text of one subtopic, as the division stages find
- * the start words of a cut.
- *
- * @param args - The subtopic, and the start words.
- * @param args.subtopic - The subtopic that the reply names.
- * @param args.startWords - The start words from the reply.
- * @returns The position in the subtopic's text, or `null` when the subtopic does not hold the words.
- */
-function findStartWords({
-	subtopic,
-	startWords,
-}: {
-	readonly subtopic: SubtopicWithIdAndText;
-	readonly startWords: string;
-}): number | null {
-	// The empty first start words stand for the start of the subtopic. placeCuts never searches for them.
-	const placed = placeCuts({ text: subtopic.text, startWords: ["", startWords] });
-	const [, position] = "cuts" in placed ? placed.cuts : [];
-	return position ?? null;
 }
 
 /**
@@ -208,7 +183,7 @@ function usablePlacements({
 		const positionInSubtopic =
 			subtopic === undefined
 				? null
-				: findStartWords({ subtopic, startWords: placement.startsWith });
+				: findStartWords({ text: subtopic.text, startWords: placement.startsWith });
 		if (positionInSubtopic === null) {
 			return {
 				failure: `The model's start words "${placement.startsWith}" for slide ${placement.slideNumber} are not in subtopic ${placement.subtopicId}`,
@@ -246,11 +221,11 @@ async function readPlacementInput(context: StageContext): Promise<PlacementInput
 	const images = await findSlideImages({ context, fail });
 	return {
 		subtopics,
-		slides: await Promise.all(
-			[...images.keys()].map((index) =>
-				readSlideReading({ context, slideNumber: index + 1, fail }),
-			),
-		),
+		slides: await readSlideReadings({
+			context,
+			slideNumbers: [...images.keys()].map((index) => index + 1),
+			fail,
+		}),
 	};
 }
 
@@ -283,7 +258,7 @@ async function placeSlides({
 	});
 	const lastSubtopic = input.subtopics.at(-1);
 	const placements = input.slides.flatMap((slide): readonly SlidePlacement[] =>
-		slide.kind === REFERENCES && lastSubtopic !== undefined
+		isReferences(slide) && lastSubtopic !== undefined
 			? [
 					{
 						slideNumber: slide.slideNumber,

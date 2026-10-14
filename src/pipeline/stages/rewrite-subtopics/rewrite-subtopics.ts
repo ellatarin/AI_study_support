@@ -11,7 +11,7 @@
 import type { StageContext } from "../../../types/pipeline.js";
 import { NamedError } from "../../../utils/errors.js";
 import { isRecord, isStringList } from "../../../utils/record.js";
-import type { ModelStageFactory } from "../model-stage.js";
+import { type ModelStageFactory, rejectBlankParagraphs } from "../model-stage.js";
 import { readStageSubtopics } from "../stage-input.js";
 import { defineSubtopicFileStage, type SubtopicWork } from "../subtopic-files.js";
 import { isSubtopicRewrite, type SubtopicRewrite } from "../subtopic-rewrites.js";
@@ -49,7 +49,6 @@ type RewriteSubtopicsOutput = {
 	readonly rewrites: readonly SubtopicRewrite[];
 };
 
-/** The text that ends the failure "The model's reply is not the documented …". */
 const DOCUMENTED_REPLY_SHAPE = "{ paragraphs } object";
 
 /**
@@ -80,22 +79,6 @@ async function readRewriteSubtopicsInput(context: StageContext): Promise<Rewrite
 }
 
 /**
- * Gives the reply, or the reason that it is unusable. A reply with a blank
- * paragraph is unusable. A reply with no paragraph is usable, because a subtopic
- * of only filler has no prose to keep (technical-design.md §5, `rewrite-subtopics`).
- *
- * @param reply - The parsed reply, with the documented shape.
- * @returns The reply, or the reason that it is unusable.
- */
-function usableReply(
-	reply: WriterReply,
-): { readonly reply: WriterReply } | { readonly failure: string } {
-	return reply.paragraphs.some((paragraph) => paragraph.trim() === "")
-		? { failure: "The model's reply gives a blank paragraph" }
-		: { reply };
-}
-
-/**
  * Rewrites one subtopic from its corrected text.
  *
  * @param args - The subtopic, the stage context and the model calls of the stage run.
@@ -118,7 +101,7 @@ async function rewriteSubtopic({
 		}),
 		isReply: isWriterReply,
 		documentedShape: DOCUMENTED_REPLY_SHAPE,
-		use: usableReply,
+		use: rejectBlankParagraphs,
 	});
 	return {
 		subtopicId: subtopic.subtopicId,

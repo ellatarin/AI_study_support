@@ -8,7 +8,7 @@
    shared, and CLAUDE.md (File Organisation) forbids barrel files. Only the
    imports are exempt. jscpd checks the code below. */
 import { isStringList } from "../../utils/record.js";
-import type { ReadingStage } from "./stage-input.js";
+import { type ReadingStage, readStageSubtopics } from "./stage-input.js";
 import { hasSubtopicId, readSubtopicFile, type SubtopicFileFields } from "./subtopic-files.js";
 /* jscpd:ignore-end */
 
@@ -29,6 +29,37 @@ export function isSubtopicRewrite(value: unknown): value is SubtopicRewrite {
 		hasSubtopicId(value) &&
 		typeof value.writerPromptVersion === "string" &&
 		isStringList(value.rewrittenSubtopic)
+	);
+}
+
+/** The rewrite of one subtopic, with the subtopic id and the title from the structured transcript. */
+export type TitledSubtopicRewrite = Pick<SubtopicRewrite, "subtopicId" | "rewrittenSubtopic"> & {
+	readonly title: string;
+};
+
+/**
+ * Reads the subtopics of the structured transcript, and the rewrite of each one.
+ *
+ * @param args - The reading stage, and its purpose.
+ * @param args.context - The stage context.
+ * @param args.purpose - The use that the reading stage makes of the subtopics, such as "check the facts".
+ * @param args.fail - Builds the reading stage's own error from a message.
+ * @returns The rewrite of each subtopic in lecture order, with its id and title.
+ * @throws The error that `fail` builds, if an input file is missing, unreadable or the wrong shape.
+ */
+export async function readTitledRewrites({
+	context,
+	purpose,
+	fail,
+}: ReadingStage & { readonly purpose: string }): Promise<readonly TitledSubtopicRewrite[]> {
+	const subtopics = await readStageSubtopics({ context, purpose, fail });
+	return Promise.all(
+		subtopics.map(async ({ subtopicId, title }) => ({
+			subtopicId,
+			title,
+			rewrittenSubtopic: (await readSubtopicRewrite({ context, subtopicId, fail }))
+				.rewrittenSubtopic,
+		})),
 	);
 }
 
