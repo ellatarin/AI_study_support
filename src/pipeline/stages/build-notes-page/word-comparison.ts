@@ -4,7 +4,7 @@
  */
 
 import { PUNCTUATION } from "../../../utils/text.js";
-import { BRACKETED_FIGURE_LABEL, FIGURE_MARK } from "../slide-relocations.js";
+import { BRACKETED_FIGURE_LABEL, FIGURE_MARK, type TextPoint } from "../slide-relocations.js";
 
 /**
  * A word of a text: the characters between whitespace. A figure label in
@@ -16,30 +16,53 @@ const WORD = new RegExp(String.raw`\S*${BRACKETED_FIGURE_LABEL}\S*|\S+`, "gu");
 const LABEL_WORD = new RegExp(BRACKETED_FIGURE_LABEL, "u");
 
 /**
- * Splits a text into the words that the comparison compares.
- *
- * @param text - The text.
- * @returns The words, in order.
+ * One word of a word comparison, as its text writes it, with its point in each
+ * text that has it.
  */
-function comparedWords(text: string): readonly string[] {
-	return text.match(WORD) ?? [];
-}
+export type ComparedWord =
+	| {
+			readonly word: string;
+			readonly change: "unchanged";
+			readonly before: TextPoint;
+			readonly after: TextPoint;
+	  }
+	| { readonly word: string; readonly change: "removed"; readonly before: TextPoint }
+	| { readonly word: string; readonly change: "added"; readonly after: TextPoint };
 
 /** The mark of one word of a word comparison. */
-export type WordChange = "unchanged" | "removed" | "added";
+export type WordChange = ComparedWord["change"];
 
-/** One word of a word comparison, as its text writes it. */
-export type ComparedWord = { readonly word: string; readonly change: WordChange };
+/** The two lists of a word comparison: the list of the earlier text and the list of the later text. */
+type BeforeAndAfter<TList> = { readonly before: TList; readonly after: TList };
+
+/** One word of a text, and its point in the paragraphs of the text. */
+type PlacedWord = { readonly word: string; readonly point: TextPoint };
+
+/**
+ * Splits the paragraphs of a text into the words that the comparison compares.
+ *
+ * @param paragraphs - The paragraphs of the text.
+ * @returns The words, in order, each with its point.
+ */
+function placedWords(paragraphs: readonly string[]): readonly PlacedWord[] {
+	return [...paragraphs.entries()].flatMap(([paragraphIndex, paragraph]) =>
+		[...paragraph.matchAll(WORD)].map((match) => ({
+			word: match[0],
+			point: { paragraphIndex, characterOffset: match.index },
+		})),
+	);
+}
 
 /**
  * Gives the form of a word that the comparison matches: lower case, with no
  * punctuation. Each word at a figure has the same form, so a figure label in
  * brackets matches a figure mark.
  *
- * @param word - The word as its text writes it.
+ * @param placed - The word and its point.
+ * @param placed.word - The word as its text writes it.
  * @returns The form that the comparison matches.
  */
-function comparisonKey(word: string): string {
+function comparisonKey({ word }: PlacedWord): string {
 	return LABEL_WORD.test(word) || word.includes(FIGURE_MARK)
 		? FIGURE_MARK
 		: word.toLowerCase().replace(PUNCTUATION, "");
@@ -57,10 +80,10 @@ function comparisonKey(word: string): string {
 function sharedRunLengths({
 	before,
 	after,
-}: {
-	readonly before: readonly string[];
-	readonly after: readonly string[];
-}): (indexes: { readonly beforeIndex: number; readonly afterIndex: number }) => number {
+}: BeforeAndAfter<readonly string[]>): (indexes: {
+	readonly beforeIndex: number;
+	readonly afterIndex: number;
+}) => number {
 	const width = after.length + 1;
 	const lengths = new Uint32Array((before.length + 1) * width);
 	for (let beforeIndex = before.length - 1; beforeIndex >= 0; beforeIndex -= 1) {
@@ -80,24 +103,20 @@ function sharedRunLengths({
  * of words that both texts have in the same order. In a place where the texts
  * differ, the removed words come before the added words.
  *
- * @param texts - The two texts.
- * @param texts.before - The earlier text, such as the rewrite.
- * @param texts.after - The later text, such as the notes.
- * @returns Each word of both texts in reading order, with its mark.
+ * @param texts - The paragraphs of the two texts.
+ * @param texts.before - The paragraphs of the earlier text, such as the rewrite.
+ * @param texts.after - The paragraphs of the later text, such as the notes.
+ * @returns Each word of both texts in reading order, with its mark and its point in each text that has it.
  * @example
- * compareWords({ before: "Some injury", after: "Some damage" });
- * // [{ word: "Some", change: "unchanged" }, { word: "injury", change: "removed" },
- * //  { word: "damage", change: "added" }]
+ * compareWords({ before: ["Some injury"], after: ["Some damage"] }).map(({ change }) => change);
+ * // ["unchanged", "removed", "added"]
  */
 export function compareWords({
 	before,
 	after,
-}: {
-	readonly before: string;
-	readonly after: string;
-}): readonly ComparedWord[] {
-	const beforeWords = comparedWords(before);
-	const afterWords = comparedWords(after);
+}: BeforeAndAfter<readonly string[]>): readonly ComparedWord[] {
+	const beforeWords = placedWords(before);
+	const afterWords = placedWords(after);
 	const beforeKeys = beforeWords.map(comparisonKey);
 	const afterKeys = afterWords.map(comparisonKey);
 	const lengthFrom = sharedRunLengths({ before: beforeKeys, after: afterKeys });
@@ -107,8 +126,17 @@ export function compareWords({
 	while (beforeIndex < beforeWords.length || afterIndex < afterWords.length) {
 		const beforeWord = beforeWords[beforeIndex];
 		const afterWord = afterWords[afterIndex];
-		if (afterWord !== undefined && beforeKeys[beforeIndex] === afterKeys[afterIndex]) {
-			compared.push({ word: afterWord, change: "unchanged" });
+		if (
+			beforeWord !== undefined &&
+			afterWord !== undefined &&
+			beforeKeys[beforeIndex] === afterKeys[afterIndex]
+		) {
+			compared.push({
+				word: afterWord.word,
+				change: "unchanged",
+				before: beforeWord.point,
+				after: afterWord.point,
+			});
 			beforeIndex += 1;
 			afterIndex += 1;
 		} else if (
@@ -117,10 +145,10 @@ export function compareWords({
 				lengthFrom({ beforeIndex: beforeIndex + 1, afterIndex }) >=
 					lengthFrom({ beforeIndex, afterIndex: afterIndex + 1 }))
 		) {
-			compared.push({ word: beforeWord, change: "removed" });
+			compared.push({ word: beforeWord.word, change: "removed", before: beforeWord.point });
 			beforeIndex += 1;
-		} else {
-			compared.push({ word: afterWord ?? "", change: "added" });
+		} else if (afterWord !== undefined) {
+			compared.push({ word: afterWord.word, change: "added", after: afterWord.point });
 			afterIndex += 1;
 		}
 	}
