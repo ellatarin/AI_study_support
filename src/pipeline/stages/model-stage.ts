@@ -19,7 +19,12 @@ import { errorMessage, NamedError } from "../../utils/errors.js";
 import { type FailedSend, sendUntilAccepted } from "../../utils/resend.js";
 import { createSendGate, type SendGate } from "../../utils/send-gate.js";
 import { configuredConcurrency, configuredStage } from "../../utils/stage-config.js";
-import { callModel, type ModelCallRequest, type OpenRouterClient } from "../openrouter.js";
+import {
+	callModel,
+	type ModelCallRequest,
+	type OpenRouterClient,
+	stageConfigFor,
+} from "../openrouter.js";
 import { createPipelineStage } from "./pipeline-stage.js";
 
 /**
@@ -52,10 +57,9 @@ export type ModelStageRunArgs<TInput> = {
  *
  * @typeParam TReply - The reply that the stage expects.
  */
-export type JsonReplyRequest<TReply> = Pick<
-	ModelCallRequest,
-	"messages" | "stageId" | "sendGate"
-> & {
+export type JsonReplyRequest<TReply> = Pick<ModelCallRequest, "messages" | "sendGate"> & {
+	/** The stage that makes the call. Its config entry gives the model and the tuning. */
+	readonly stageId: SingleModelStageId;
 	readonly context: StageContext;
 	readonly costTally: CostTally;
 	readonly isReply: (value: unknown) => value is TReply;
@@ -102,6 +106,7 @@ export type JsonReplyOutcome<TReply> = UsableJsonReply<TReply> | UnusableJsonRep
  * @param args.sendGate - The send gate of the stage run. The call waits on it.
  * @param args.costTally - The cost tally of the stage run. Each send of the call adds its cost to it.
  * @returns The checked reply, or the reason that it is unusable.
+ * @throws {UnconfiguredStageError} If the configuration has no entry for the stage. Its message names the stage.
  * @typeParam TReply - The reply that the stage expects.
  */
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- the message-param, pino Logger and OpenAI client types are library types that are not deeply readonly. CLAUDE.md allows a mutable type where a library requires one.
@@ -119,7 +124,7 @@ export async function tryJsonReply<TReply>({
 	const { content } = await callModel({
 		messages,
 		stageId,
-		config: context.config,
+		stageConfig: stageConfigFor({ config: context.config, stageId }),
 		responseFormat: "json",
 		logger,
 		client,
@@ -167,34 +172,6 @@ export function readJsonReply<TReply>({
 
 /** The messages that a stage sends: its prompt, then the material that the prompt is about. */
 export type PromptMessages = readonly OpenAI.Chat.Completions.ChatCompletionMessageParam[];
-
-/**
- * Sends the messages of one call to the model of the stage's own config entry,
- * and gives the text of the reply. Each send adds its cost to `costTally`. The
- * pipeline stage gives the OpenRouter call, and a test gives a stub.
- */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- the message-param type of the OpenAI library is not deeply readonly. CLAUDE.md allows a mutable type where a library requires one.
-export type SendToStageModel = (args: {
-	readonly messages: PromptMessages;
-	readonly costTally: CostTally;
-}) => Promise<{ readonly content: string }>;
-
-/**
- * The run of a stage that is not yet in `STAGE_IDS`. The pipeline stage factory
- * gives these values to a listed stage. An unlisted stage gets them from its
- * caller, so its module gives only the work of the stage. A later change builds
- * the pipeline stage around that work.
- */
-export type UnlistedStageRun = {
-	/** The absolute path of the lecture's workspace. */
-	readonly workspaceRoot: string;
-	readonly sendToModel: SendToStageModel;
-	readonly logger: Logger;
-	/** The cost tally of the stage run. */
-	readonly costTally: CostTally;
-	/** The stage's `concurrency`. Unset means one piece of work at a time. */
-	readonly concurrency: number | undefined;
-};
 
 /**
  * Builds the material of a user message from structured data: the heading that
@@ -374,43 +351,6 @@ export async function sendWithResends<TReply>({
 			new ResendsExhaustedError(`${what} failed after ${sends} sends: ${failure}`),
 	});
 	return sent;
-}
-
-/**
- * Sends one call of an unlisted stage until its reply is usable:
- * {@link sendWithResends} over {@link readJsonReplyAs}, with the stage's
- * {@link SendToStageModel}.
- *
- * @param args - The call, the check and use of its reply, and the stage run.
- * @param args.what - The name of the call in the log and in a failure, such as "Fact correction of subtopic 2".
- * @param args.messages - The messages of the call.
- * @param args.sendToModel - Sends the messages to the model.
- * @param args.logger - The logger of the stage.
- * @param args.costTally - The cost tally that each send adds its cost to.
- * @returns The value that the stage keeps from the usable reply.
- * @throws {ResendsExhaustedError} When the reply of the third send is still unusable.
- * @typeParam TReply - The reply that the stage expects.
- * @typeParam TKept - The value that the stage keeps from the reply.
- */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- the message-param and pino Logger types are library types that are not deeply readonly. CLAUDE.md allows a mutable type where a library requires one.
-export function sendToStageModelWithResends<TReply, TKept>({
-	what,
-	messages,
-	sendToModel,
-	logger,
-	costTally,
-	...check
-}: Pick<UnlistedStageRun, "sendToModel" | "logger" | "costTally"> &
-	Omit<Parameters<typeof readJsonReplyAs<TReply, TKept>>[0], "content"> & {
-		readonly what: string;
-		readonly messages: PromptMessages;
-	}): Promise<UsableJsonReply<TKept>> {
-	return sendWithResends({
-		what,
-		logger,
-		send: async () =>
-			readJsonReplyAs({ content: (await sendToModel({ messages, costTally })).content, ...check }),
-	});
 }
 
 /**

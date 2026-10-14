@@ -10,6 +10,7 @@ import {
 	useStubbedOpenRouter,
 	useStubLogger,
 } from "../fixtures.js";
+import { UnconfiguredStageError } from "../openrouter.js";
 import {
 	type JsonReplyOutcome,
 	type JsonReplyRequest,
@@ -107,6 +108,16 @@ describe("tryJsonReply", () => {
 		failure,
 	}) => {
 		expect(await ask(content)).toEqual({ failure, replyText: content });
+	});
+
+	it("should fail with UnconfiguredStageError that names the stage and the config file, and make no call, when the config does not configure the stage", async () => {
+		const error = await captureError(
+			tryJsonReply({ ...greetingRequest("{}"), stageId: "place-slides" }),
+		);
+
+		expect(error).toBeInstanceOf(UnconfiguredStageError);
+		expect(error.message).toContain('stage "place-slides" in pipeline-config.json');
+		expect(create()).not.toHaveBeenCalled();
 	});
 });
 

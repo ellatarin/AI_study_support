@@ -10,6 +10,7 @@ import {
 	openRouterClientFor,
 	openRouterModelId,
 	openRouterReplyBody,
+	openRouterStageConfig,
 	openRouterUrls,
 	openRouterUrlsAt,
 	resetStubbedApi,
@@ -33,11 +34,11 @@ import {
 	NoReplyChoicesError,
 	API_KEY_VARIABLE as OPENROUTER_KEY_VARIABLE,
 	ProviderError,
-	UnconfiguredStageError,
 } from "./openrouter.js";
 
 const STAGE_ID = "judge-lecture-title";
 const config: PipelineConfig = configuringStage({ stageId: STAGE_ID });
+const stageConfig = openRouterStageConfig({ stageId: STAGE_ID });
 
 /**
  * The words that OpenRouter sent this account on 2026-08-31, when the upstream
@@ -138,7 +139,7 @@ function call(overrides: Record<string, unknown> = {}): Promise<{ readonly conte
 	return callModel({
 		messages,
 		stageId: STAGE_ID,
-		config,
+		stageConfig,
 		responseFormat: "text",
 		logger: logged().logger,
 		// The caller must give the client, because there is no shared client. The
@@ -276,12 +277,9 @@ describe("callModel", () => {
 	// can serve it. So tuning that a stage does not set must be absent from the
 	// body. A `null` would count as a parameter (technical-design.md §6).
 	it("should send no tuning parameters at all when the stage configures none", async () => {
-		const untuned: PipelineConfig = {
-			...config,
-			stages: { [STAGE_ID]: { modelId: openRouterModelId } },
-		};
-
-		const { body } = await callCapturingRequest({ config: untuned });
+		const { body } = await callCapturingRequest({
+			stageConfig: { modelId: openRouterModelId },
+		});
 
 		expect(body).not.toHaveProperty("temperature");
 		expect(body).not.toHaveProperty("max_tokens");
@@ -295,10 +293,7 @@ describe("callModel", () => {
 		const gatewayReply = nock(gateway.origin).post(gateway.completions).reply(200, replyBody());
 		const openRouter = { ...config.openRouter, baseUrl: GATEWAY_BASE_URL };
 
-		await call({
-			config: { ...config, openRouter },
-			client: () => createOpenRouterClient({ openRouter }),
-		});
+		await call({ client: () => createOpenRouterClient({ openRouter }) });
 
 		expect(gatewayReply.isDone()).toBe(true);
 	});
@@ -606,13 +601,5 @@ describe("callModel", () => {
 		const error = await captureError(call({ client: () => client }));
 
 		expect(error.message).toMatch(/timed out|timeout/i);
-	});
-
-	it("should throw when the requested stage is not present in the config", async () => {
-		const error = await captureError(call({ stageId: "place-slides" }));
-
-		expect(error).toBeInstanceOf(UnconfiguredStageError);
-		expect(error.message).toContain("place-slides");
-		expect(error.message).toContain(CONFIG_FILENAME);
 	});
 });

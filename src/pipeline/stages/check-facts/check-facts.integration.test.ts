@@ -1,3 +1,4 @@
+import { mkdir } from "node:fs/promises";
 import { join } from "node:path";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { FactCheckModel } from "../../../types/pipeline.js";
@@ -6,11 +7,14 @@ import {
 	arrivingTogether,
 	captureError,
 	disabledFactCheckModel,
+	driveModelStage,
 	factCheckedSubtopics,
 	factCheckModelFile,
 	factCheckModelIds,
 	factualErrorsFile,
+	makeConfig,
 	makeStageContext,
+	openRouterReplyBody,
 	primaryFactCheckModel,
 	resendPausesTimeoutMs,
 	rewriteFile,
@@ -23,8 +27,10 @@ import {
 	stubbedCallsCost,
 	testLecture,
 	useCostTally,
+	useStubbedOpenRouter,
 	useStubLogger,
 	useTempDir,
+	useTranscribedWorkspace,
 	waitTurns,
 	workspaceJsonReader,
 } from "../../fixtures.js";
@@ -32,6 +38,7 @@ import type { FactualError } from "../factual-errors.js";
 import {
 	CheckFactsError,
 	checkFacts,
+	createCheckFactsStage,
 	readFactCheckInput,
 	type SendToListedModel,
 } from "./check-facts.js";
@@ -110,11 +117,13 @@ describe("checkFacts", () => {
 	let modelCostTallies: CostTallyByModel;
 	const readFile = workspaceJsonReader(workspaceRoot);
 
-	beforeEach(() => {
+	beforeEach(async () => {
 		sendToModel = vi
 			.fn<SendToListedModel>()
 			.mockResolvedValue({ content: factCheckReply([snuffError]) });
 		modelCostTallies = createCostTallyByModel();
+		// The stage factory makes the folder before a stage run. This suite runs the fact check alone.
+		await mkdir(join(workspaceRoot(), "Fact checks"), { recursive: true });
 	});
 
 	/**
@@ -436,6 +445,57 @@ describe("checkFacts", () => {
 			modelId: secondaryFactCheckModel.modelId,
 			factualErrors: [{ passage: secondarySnuffError.passage }, { passage: cellsError.passage }],
 		});
+	});
+});
+
+describe("createCheckFactsStage", () => {
+	const workspace = useTranscribedWorkspace({ prefix: "check-facts-stage-" });
+	const logged = useStubLogger();
+	const { client, create } = useStubbedOpenRouter();
+	const config = makeConfig({
+		stages: { "check-facts": { models: [primaryFactCheckModel, disabledFactCheckModel] } },
+	});
+
+	beforeEach(async () => {
+		create().mockResolvedValue(openRouterReplyBody({ content: factCheckReply([snuffError]) }));
+		await seedEarlierOutputs({
+			workspaceRoot: workspace().workspaceRoot,
+			readsFrom: ["structure-transcript", "rewrite-subtopics"],
+		});
+	});
+
+	it("should send each call to the model of the models list, and record the file of the model and the merged file, when the stage runs", async () => {
+		const result = await driveModelStage({
+			factory: createCheckFactsStage,
+			client: client(),
+			config,
+			workspaceRoot: workspace().workspaceRoot,
+			logger: logged().logger,
+		});
+
+		expect(create().mock.calls.map(([body]) => body.model)).toStrictEqual([
+			primaryFactCheckModel.modelId,
+		]);
+		expect(result.filesWritten).toStrictEqual([
+			factCheckModelFile(PRIMARY_MODEL_FILE),
+			factualErrorsFile,
+		]);
+	});
+
+	it("should fail with CheckFactsError that names the config file, and call no model, when the config has no entry for check-facts", async () => {
+		const error = await captureError(
+			driveModelStage({
+				factory: createCheckFactsStage,
+				client: client(),
+				config: makeConfig(),
+				workspaceRoot: workspace().workspaceRoot,
+				logger: logged().logger,
+			}),
+		);
+
+		expect(error).toBeInstanceOf(CheckFactsError);
+		expect(error.message).toContain('stage "check-facts" in pipeline-config.json');
+		expect(create()).not.toHaveBeenCalled();
 	});
 });
 

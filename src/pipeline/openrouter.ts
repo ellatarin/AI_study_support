@@ -157,7 +157,16 @@ export function createOpenRouterClientProvider({
 	};
 }
 
-function stageConfigFor(options: {
+/**
+ * Gives the config entry of a stage with one model.
+ *
+ * @param options - The config, and the stage.
+ * @param options.config - The checked pipeline config.
+ * @param options.stageId - The stage.
+ * @returns The stage's model and tuning.
+ * @throws {UnconfiguredStageError} If the config has no entry for the stage. Its message names the stage.
+ */
+export function stageConfigFor(options: {
 	readonly config: PipelineConfig;
 	readonly stageId: SingleModelStageId;
 }): StageConfig {
@@ -332,8 +341,10 @@ function replyCost({
  */
 export type ModelCallRequest = {
 	readonly messages: readonly OpenAI.Chat.Completions.ChatCompletionMessageParam[];
-	readonly stageId: SingleModelStageId;
-	readonly config: PipelineConfig;
+	/** The stage that makes the call, for the messages of a failure. */
+	readonly stageId: StageId;
+	/** The model and its tuning: the stage's config entry, or one model of the `models` list of `check-facts`. */
+	readonly stageConfig: StageConfig;
 	readonly responseFormat: ReplyFormat;
 	readonly logger: Logger;
 	readonly client: OpenRouterClient;
@@ -395,7 +406,7 @@ type AnsweredSend = {
  */
 async function sendOnce(
 	// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- the same library types as for callModel, which are not deeply readonly
-	options: ModelCallRequest & { readonly stageConfig: StageConfig; readonly openAiClient: OpenAI },
+	options: ModelCallRequest & { readonly openAiClient: OpenAI },
 ): Promise<AnsweredSend | FailedSend> {
 	const { stageConfig, openAiClient: client } = options;
 	// The latency is measured here, because only the code that makes the call can
@@ -456,8 +467,8 @@ async function sendOnce(
  *
  * @param options - The call.
  * @param options.messages - The chat messages to send.
- * @param options.stageId - The stage whose model and tuning the call uses.
- * @param options.config - The checked pipeline config.
+ * @param options.stageId - The stage that makes the call, for the messages of a failure.
+ * @param options.stageConfig - The model and its tuning.
  * @param options.responseFormat - The form of the reply. A `"json"` caller must also ask for
  *   JSON in its messages (technical-design.md §6).
  * @param options.logger - The stage's logger. The call is logged on it at `debug` (§10).
@@ -466,8 +477,6 @@ async function sendOnce(
  *   waits for its turn (§6, `sendGapSeconds`).
  * @param options.costTally - The cost tally of the stage run. Each send adds its cost to it.
  * @returns The answer.
- * @throws {UnconfiguredStageError} If the configuration has no entry for the stage. Its message
- *   names the stage.
  * @throws {ContextLengthError} If the prompt is longer than the model's context window. Its
  *   message names the model.
  * @throws {ProviderError} If the provider reports any other error, or a provider error on
@@ -479,7 +488,7 @@ export async function callModel(
 	// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- the OpenAI client, message and pino Logger types are library types that are not deeply readonly (CLAUDE.md allows mutable types when a library requires them)
 	options: ModelCallRequest,
 ): Promise<{ readonly content: string }> {
-	const stageConfig = stageConfigFor({ config: options.config, stageId: options.stageId });
+	const { stageConfig } = options;
 	const { modelId } = stageConfig;
 	// The client is asked for only here, when a call needs it. So a command that
 	// calls no model never needs the API key.
@@ -487,7 +496,7 @@ export async function callModel(
 	const { sent, sends } = await sendUntilAccepted<AnsweredSend>({
 		send: async () => {
 			await options.sendGate.waitTurn();
-			return sendOnce({ ...options, stageConfig, openAiClient });
+			return sendOnce({ ...options, openAiClient });
 		},
 		onFailure: ({ send, failure }) => {
 			options.logger.warn(

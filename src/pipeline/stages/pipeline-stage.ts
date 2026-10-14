@@ -115,19 +115,6 @@ async function prepareStageDirectories({
 	}
 }
 
-/**
- * Makes the folder of a stage that is not yet in `STAGE_IDS`. The factory makes
- * the folders of a listed stage with {@link prepareStageDirectories}, but an
- * unlisted stage has no factory (`UnlistedStageRun` in `model-stage.ts`).
- *
- * @param directory - The absolute path of the folder.
- * @returns The absolute path of the folder.
- */
-export async function makeUnlistedStageFolder(directory: string): Promise<string> {
-	await mkdir(directory, { recursive: true });
-	return directory;
-}
-
 /** The output file that a writer put in place. */
 type RecordedStageOutput = {
 	/** The absolute path of the output file. */

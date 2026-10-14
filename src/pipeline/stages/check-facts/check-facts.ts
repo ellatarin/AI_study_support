@@ -1,26 +1,29 @@
 /**
  * The `check-facts` stage. It sends the whole rewrite of the lecture to one or two
  * models, and merges their factual errors (technical-design.md §5, `check-facts`).
- * The stage is unlisted (`UnlistedStageRun` in `model-stage.ts`).
  */
 
-/* jscpd:ignore-start -- the modules of the unlisted stages import the same
+/* jscpd:ignore-start -- the modules of the fact-check stages import the same
    pipeline types and shared helpers. So their import blocks are the same line
    for line. Imports cannot be shared, and CLAUDE.md (File Organisation) forbids
    barrel files. Only the imports are exempt. jscpd checks the code below. */
-import { join } from "node:path";
+import { join, relative } from "node:path";
+import type { Logger } from "pino";
 import type {
 	CostTally,
 	FactCheckModel,
 	ModelRole,
 	StageContext,
 } from "../../../types/pipeline.js";
-import type { CostTallyByModel } from "../../../utils/cost.js";
+import { type CostTallyByModel, createCostTallyByModel } from "../../../utils/cost.js";
 import { NamedError } from "../../../utils/errors.js";
 import { writeJsonAtomic } from "../../../utils/files.js";
 import { factCheckFileName } from "../../../utils/model-id.js";
 import { isRecord, readerFromCheck } from "../../../utils/record.js";
+import { createSendGate } from "../../../utils/send-gate.js";
+import { unconfiguredStageMessage } from "../../../utils/stage-config.js";
 import { collapseWhitespace } from "../../../utils/text.js";
+import { callModel } from "../../openrouter.js";
 import {
 	type FactualError,
 	type FactualErrorsFile,
@@ -31,11 +34,12 @@ import {
 	type MergedFactualError,
 } from "../factual-errors.js";
 import {
-	type SendToStageModel,
-	sendToStageModelWithResends,
-	type UnlistedStageRun,
+	type ModelStageFactory,
+	type PromptMessages,
+	readJsonReplyAs,
+	sendWithResends,
 } from "../model-stage.js";
-import { makeUnlistedStageFolder } from "../pipeline-stage.js";
+import { createPipelineStage } from "../pipeline-stage.js";
 import { readOrMakeSavedFiles, unreadableSavedFileMessage } from "../saved-files.js";
 import { readTitledRewrites, type TitledSubtopicRewrite } from "../subtopic-rewrites.js";
 import {
@@ -57,14 +61,21 @@ import { type ModelFactualErrors, mergeFactualErrors } from "./merge-factual-err
  */
 export class CheckFactsError extends NamedError {}
 
+const STAGE_ID = "check-facts";
+
 /**
- * {@link SendToStageModel} with the model of the call. One stage run calls each
- * model of the `models` list, so the send gets the model.
+ * Sends the messages of one call to a model of the `models` list, and gives the
+ * text of the reply. Each send adds its cost to `costTally`. The stage gives the
+ * OpenRouter call, and a test gives a stub.
  */
 export type SendToListedModel = (
 	// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- the message-param type of the OpenAI library is not deeply readonly. CLAUDE.md allows a mutable type where a library requires one.
-	args: Parameters<SendToStageModel>[0] & { readonly model: FactCheckModel },
-) => ReturnType<SendToStageModel>;
+	args: {
+		readonly messages: PromptMessages;
+		readonly costTally: CostTally;
+		readonly model: FactCheckModel;
+	},
+) => Promise<{ readonly content: string }>;
 
 /** The file of one model in the folder `Fact checks`. */
 type ModelFactCheckFile = ModelFactualErrors & { readonly factCheckPromptVersion: string };
@@ -78,6 +89,8 @@ type ModelFactCheckFile = ModelFactualErrors & { readonly factCheckPromptVersion
 type FactCheckResult = {
 	/** The merged file. */
 	readonly output: FactualErrorsFile;
+	/** The `filesWritten` entry of the file of each model and of the merged file. */
+	readonly filesWritten: readonly string[];
 	/** The stage notices that the user must see. */
 	readonly notices: readonly string[];
 	/** The config of each model that is not disabled, with its role. */
@@ -243,7 +256,12 @@ export async function readFactCheckInput(context: StageContext): Promise<FactChe
 }
 
 /** The fact check of one lecture: the rewrite, the models, and what the stage run uses. */
-type FactCheckRun = Pick<UnlistedStageRun, "workspaceRoot" | "logger" | "costTally"> & {
+type FactCheckRun = {
+	/** The absolute path of the lecture's workspace. */
+	readonly workspaceRoot: string;
+	readonly logger: Logger;
+	/** The cost tally of the stage run. */
+	readonly costTally: CostTally;
 	/** The lecture title from the structured transcript. */
 	readonly lectureTitle: string;
 	/** The rewrite of each subtopic, in lecture order. */
@@ -290,7 +308,6 @@ function passageFound({
  */
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger type has mutable properties that the rule sees. This code only passes it on. CLAUDE.md allows a mutable type where a library requires one.
 export async function checkFacts(run: FactCheckRun): Promise<FactCheckResult> {
-	await makeUnlistedStageFolder(factChecksDirectory(run.workspaceRoot));
 	const { primary, secondary } = modelsByRole(run.models);
 	const models = secondary === undefined ? [primary] : [primary, secondary];
 	const checks = models.map((model) => ({
@@ -331,9 +348,13 @@ export async function checkFacts(run: FactCheckRun): Promise<FactCheckResult> {
 			wordsFound: passageFound({ error, subtopics: run.subtopics }),
 		})),
 	};
-	await writeJsonAtomic({ path: factualErrorsPath(run.workspaceRoot), value: output });
+	const mergedPath = factualErrorsPath(run.workspaceRoot);
+	await writeJsonAtomic({ path: mergedPath, value: output });
 	return {
 		output,
+		filesWritten: [...checks.map(({ path }) => path), mergedPath].map((path) =>
+			relative(run.workspaceRoot, path),
+		),
 		notices: wordsNotFoundNotices(output.factualErrors),
 		configUsed: { models },
 	};
@@ -361,21 +382,24 @@ async function makeModelFile({
 	readonly model: FactCheckModel;
 	readonly modelCostTally: CostTally;
 }): Promise<ModelFactCheckFile> {
-	const { reply: factualErrors } = await sendToStageModelWithResends({
-		what: `Fact check by ${model.modelId}`,
-		messages: buildFactCheckMessages(run),
-		sendToModel: (send) => run.sendToModel({ ...send, model }),
-		logger: run.logger,
-		costTally: {
-			add: (cost) => {
-				modelCostTally.add(cost);
-				run.costTally.add(cost);
-			},
-			total: modelCostTally.total,
+	const messages = buildFactCheckMessages(run);
+	const costTally: CostTally = {
+		add: (cost) => {
+			modelCostTally.add(cost);
+			run.costTally.add(cost);
 		},
-		isReply: isFactCheckReply,
-		documentedShape: DOCUMENTED_REPLY_SHAPE,
-		use: (reply) => factualErrorsOf({ reply, subtopicIds: subtopicIdsOf(run.subtopics) }),
+		total: modelCostTally.total,
+	};
+	const { reply: factualErrors } = await sendWithResends({
+		what: `Fact check by ${model.modelId}`,
+		logger: run.logger,
+		send: async () =>
+			readJsonReplyAs({
+				content: (await run.sendToModel({ messages, costTally, model })).content,
+				isReply: isFactCheckReply,
+				documentedShape: DOCUMENTED_REPLY_SHAPE,
+				use: (reply) => factualErrorsOf({ reply, subtopicIds: subtopicIdsOf(run.subtopics) }),
+			}),
 	});
 	return {
 		modelId: model.modelId,
@@ -419,3 +443,56 @@ function wordsNotFoundNotices(factualErrors: readonly MergedFactualError[]): rea
 				`The passage of a factual error is not in subtopic ${subtopicId}: "${passage}"`,
 		);
 }
+
+/**
+ * Builds the `check-facts` stage from the logger and the OpenAI client of the
+ * invocation. Each call goes to a model of the stage's `models` list, with that
+ * model's settings.
+ *
+ * @param dependencies - The logger and the client of the invocation.
+ * @param dependencies.logger - The logger of the invocation.
+ * @param dependencies.client - The provider of the invocation's OpenAI client.
+ * @returns The stage.
+ */
+export const createCheckFactsStage: ModelStageFactory<FactCheckInput, FactualErrorsFile> = ({
+	logger,
+	client,
+}) => {
+	// The two models are called at the same time, so their sends are not spaced.
+	const sendGate = createSendGate({ gapSeconds: undefined });
+	return createPipelineStage({
+		stageId: STAGE_ID,
+		logger,
+		getInput: readFactCheckInput,
+		run: async ({ input, context, logger: stageLogger, costTally }) => {
+			const models = context.config.stages[STAGE_ID]?.models;
+			if (models === undefined) {
+				throw new CheckFactsError(unconfiguredStageMessage({ stageId: STAGE_ID }));
+			}
+			const { output, filesWritten } = await checkFacts({
+				...input,
+				models,
+				workspaceRoot: context.workspaceRoot,
+				logger: stageLogger,
+				costTally,
+				costTallyByModel: createCostTallyByModel(),
+				sendToModel: ({ messages, costTally: modelCostTally, model }) =>
+					callModel({
+						messages,
+						stageId: STAGE_ID,
+						stageConfig: {
+							modelId: model.modelId,
+							temperature: model.temperature,
+							maxTokens: model.maxTokens,
+						},
+						responseFormat: "json",
+						logger: stageLogger,
+						client,
+						sendGate,
+						costTally: modelCostTally,
+					}),
+			});
+			return { output, filesWritten };
+		},
+	});
+};
