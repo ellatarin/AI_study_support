@@ -34,6 +34,8 @@
 ## The final output folder
 
 - [ ] `build-notes-page` fails when a subtopic has no entry in `slide-relocations.json`. The error names the subtopic.
+- [ ] A placed slide that is in no subtopic's entry of `slide-relocations.json` does not stop the stage. The terminal shows a warning that names the slide (user, 2026-10-14). Two causes exist: the slide has no reading, or `place-slides` gave it a subtopic that is not in the lecture.
+- [ ] `relocate-slides` reads the slide placements and the slide readings, as now. A missing file stops the stage with an error that names the file.
 - [ ] A reset of `build-notes-page` deletes only this lecture's folder in `Final output/`.
 - [ ] Rename, change-date and normalisation give the lecture's folder in `Final output/` the new base name. Its contents stay. Today these commands rename one file, `<base name>.pdf`, and they do not find a folder.
 - [ ] The delete command deletes the lecture's folder in `Final output/`. Today it deletes one file, `<base name>.pdf`.
