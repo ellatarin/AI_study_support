@@ -1,14 +1,14 @@
 # Lecture Notes Generator — Implementation Plan
 
-**Suite version:** 1.91-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
-**Date:** 2026-10-12
+**Suite version:** 1.92-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
+**Date:** 2026-10-14
 **Status:** For review
 
 ---
 
 ## Overview
 
-The pipeline is built in twenty-five phases. Phases 1–3 make the project scaffold and the shared infrastructure before any stage code is written. Phases 4–7 implement the stages from `source-normalisation` to two stages that rewrote and checked the whole transcript at once. Phase 19 removes those two stages. Phases 8–14 divide the transcript. Two phases make the groundwork. Then the stages split the transcript, choose a division, retitle its subtopics and group them. Phase 15 moves the title judgement to a new stage after grouping. Phases 16–18 build the three slide stages. Phases 19–22 move the pipeline to the rewrite loop, which corrects, rewrites and checks each subtopic. Phase 23 runs the rewrite loop on one lecture and designs the stages after it. Phase 24 builds those stages. Phase 25 checks the full pipeline from end to end against a real lecture.
+The pipeline is built in twenty-seven phases. Phases 1–3 make the project scaffold and the shared infrastructure before any stage code is written. Phases 4–7 implement the stages from `source-normalisation` to two stages that rewrote and checked the whole transcript at once. Phase 19 removes those two stages. Phases 8–14 divide the transcript. Two phases make the groundwork. Then the stages split the transcript, choose a division, retitle its subtopics and group them. Phase 15 moves the title judgement to a new stage after grouping. Phases 16–18 build the three slide stages. Phases 19–22 move the pipeline to a rewrite that corrects the terms of each subtopic and rewrites it. Phase 23 removes the transcript check and the rounds. Phase 24 checks and corrects the facts of the rewrite. Phase 25 moves the slides into the notes and writes the notes page. Phase 26 adds the new stages to the pipeline. Phase 27 checks the full pipeline from end to end against a real lecture.
 
 Testing is not a final phase — unit tests are written alongside each deliverable per the project conventions. Integration tests are noted explicitly where unit testing alone is insufficient.
 
@@ -1117,62 +1117,78 @@ Tests for the stage (real temp directory, the shared stage fixture):
 
 ---
 
-## Phase 22 — The rewrite loop
+## Phase 22 — The rewrite
 
-**Goal:** Rewrite each subtopic as checked prose. Four stages do the work: `correct-terms`, `rewrite-subtopics`, `check-rewrite-attempts` and `assemble-rewrites`. The runner repeats the first three while the check sends subtopics back **(TD §4.7, "The rewrite loop", TD §5, "The rewrite loop", and ADR 0002)**.
+**Goal:** Rewrite each subtopic as prose. Two stages do the work: `correct-terms` and `rewrite-subtopics` **(TD §5, "The rewrite")**. Term correction, once the first step of `rewrite-subtopics`, became its own stage. A live run on one lecture followed each stage, and the user judged it.
 
-Built in five steps, each a ticket of its own. The stages come first, because their prompts and their live runs are the uncertain work. The runner loop comes last, when the faults of a real checker are known:
+A transcript check, `check-rewrite-attempts`, and a rewrite loop in the runner were designed and partly built in this phase. Phase 23 removes them (ADR 0003).
 
-1. **`correct-terms` and the round.** Term correction, now the first step of `rewrite-subtopics`, becomes its own stage. Every stage entry gets `round`. A one-time migration sets `round` to 1 in each manifest. It also moves the term corrections of each lecture that ran them to the new stage id. The move takes the stage entry, its files, its folder and its run log entries.
-2. **`rewrite-subtopics`.** The writer gets the corrected text of one subtopic and writes the rewritten subtopic with its figure marks. A live run on one lecture follows, and the user judges it.
-3. **`check-rewrite-attempts`.** The checker judges each rewrite attempt and writes `Checks/round-<n>.json`. A live run on one lecture follows, and the user judges the checker.
-4. **`assemble-rewrites`.** Code writes `Rewritten subtopics/rewritten-subtopics.json` from the attempt of each subtopic that passed.
-5. **The rewrite loop in the runner.** The runner reads the result file of the check. It records `sent-back` and goes back to `correct-terms` while subtopics fail and rounds are left. In a later round, term correction and the writer get the faults that concern them. `rewriting.maxRounds` sets the number of rounds.
-
-Before each stage is built, the user sees its prompt and agrees its model. The names of the fields in the stored files are agreed with the user before they are written.
-
-**Tests:** Each step's ticket names its tests. Together they cover these behaviours:
-- each check of a correction in code, in the order of TD §5
-- the change of each occurrence of the wrong form
-- the writer gets the corrected text of one subtopic and nothing else
-- the five kinds of detail to keep go into the writer's prompt and the checker's prompt as the same numbered rules
-- the checker gets the verbatim text, the corrections with their reasons and the rewritten subtopic, and no slide text
-- one fault fails a rewrite attempt, and the faults of a round reach term correction and the writer in the next round
-- a later round works only on the subtopics that failed
-- a failure in the last round fails the check and names each failed subtopic and its faults
-- a loop stage is completed only for the current round, and a crash between the result file and the stage entry is safe
-- `--from-stage` on any loop stage resets the loop from `correct-terms`
-- a loop stage that ran in several rounds has one run log entry with the total of its rounds
-- a stage that starts again makes no call for a subtopic with a saved file in the current round.
-
-**Acceptance:** A lecture gains a rewritten subtopic for each subtopic, and a file for each step of each rewrite attempt.
+**Acceptance:** A lecture gains a rewritten subtopic for each subtopic.
 
 ---
 
-## Phase 23 — Live run of the rewrite loop, and the design of the stages after it
+## Phase 23 — Remove the transcript check and the rounds
 
-**Goal:** Judge the rewrite loop on one real lecture, then design the placement after the rewrite and the HTML stage.
+**Goal:** End the rewrite at `rewrite-subtopics`, with each stage run once **(ADR 0003)**. The tickets are `.scratch/fact-check-stages/issues/01` and `02`.
 
-**Activities:**
-1. The user runs the rewrite loop on one lecture. The measured cost from the manifest is recorded.
-2. The number of rounds, and the subtopics that failed in each round, are recorded.
-3. Each correction and each ignored correction is recorded. The lecture of 2026-03-06 shows whether "beta-naphthylene" becomes "β-naphthylamine".
-4. The user judges the rewritten subtopics against the five kinds of detail to keep.
-5. The figure marks of each subtopic are recorded beside the slides placed in that subtopic.
-6. The user and the agent design the placement after the rewrite **(TD §5, "After the rewrite")**. They decide its stage id, and what happens when a subtopic has more figure marks than slides or fewer. They decide whether it uses the point from `place-slides` as a hint.
-7. The user and the agent design the HTML stage. They decide its stage id and the name of the page. They decide how a reset takes one lecture's page from `Final output/`.
+**Deliverables:**
+1. `check-rewrite-attempts` goes, with its code, its prompt, its config entry and its tests. Shared code that only the check used goes too.
+2. A stage entry has no `round`, and the runner has no rule about rounds.
+3. The files of term correction and the rewrite are named `subtopic-<id>.json` and hold no `attemptNumber`. The renames of the names that still speak of a round or an attempt go to the user in a table first.
+4. A dry-run script changes the data of lectures 3 and 4 on disk. It removes the check's manifest entry and each `round`, renames the files, and removes `attemptNumber`. It does not touch any `Checks` folder. The user runs it with `!`.
 
-**Acceptance:** The judgement is recorded, and the technical design describes both stages in full.
+**Acceptance:** After the user applies the script, a pipeline run on lecture 4 makes no call and reports each stage as completed.
 
 ---
 
-## Phase 24 — The placement after the rewrite, and the HTML stage
+## Phase 24 — Checking facts
 
-**Goal:** Build the two stages that Phase 23 designs. Their deliverables and tests are written into this plan when the design is agreed.
+**Goal:** Find and correct the factual errors in the rewrite **(TD §5, "Checking facts")**. The tickets are `.scratch/fact-check-stages/issues/03` to `07`.
+
+**Deliverables:**
+1. A prototype run of prompt k3 on lecture 4. The user chose k3 for the fact correction.
+2. `check-facts` with one model, then with two models and the merge.
+3. `correct-factual-errors`, with prompt k3.
+
+**Tests:** Each ticket names its tests. Together they cover these behaviours:
+- the config loader refuses a list of models with no primary model, two primary models, or two secondary models
+- the stage joins the rewritten subtopics in lecture order, under their ids and titles
+- a reply that names an unknown subtopic is resent
+- a passage that is not in its subtopic is kept with `wordsFound` false, and a stage notice names the subtopic
+- two factual errors merge when they are in the same subtopic and share a run of three words
+- a merged factual error takes the primary model's text
+- one failed model fails the stage, and the next run calls only the model with no saved file
+- a subtopic with no factual errors gets no call, and its file holds its rewrite unchanged
+- a reply with a different number of paragraphs is kept, with the two counts
+- a stage that starts again makes no call for a saved file
+- the run summary has one row for each model of `check-facts`.
+
+**Acceptance:** The user runs both stages on lecture 4. A page shows each fact-corrected subtopic beside the f2k2 notes of the prototype, and a table gives the cost of each model.
 
 ---
 
-## Phase 25 — End-to-End Validation
+## Phase 25 — Slide relocation and the notes page
+
+**Goal:** Put each slide at its point in the fact-corrected notes, and write the notes as an HTML page **(TD §5, "After the fact correction")**. The tickets are `.scratch/fact-check-stages/issues/08` to `10`.
+
+**Deliverables:**
+1. A prototype of slide relocation on lecture 4. The user judges the moves.
+2. `relocate-slides`, with the prompt and the model of the prototype. The names of its folder, files and fields go to the user in one table before the build.
+3. `build-notes-page`, which writes `Final output/<base name>/notes.html` and `slides/`.
+
+**Acceptance:** The user runs both stages on lecture 4 and reads the page in a browser with no network.
+
+---
+
+## Phase 26 — Wire in the new stages
+
+**Goal:** Add each new stage to `STAGE_IDS`, the config and the runner. A pipeline run then goes from the source files to the notes page. Phases 24 and 25 build each stage without this step, so that the stages can be built at the same time.
+
+**Acceptance:** A pipeline run on lecture 4 reaches `build-notes-page`.
+
+---
+
+## Phase 27 — End-to-End Validation
 
 **Goal:** Run the full pipeline against a real lecture and check the output quality and the pipeline mechanics.
 

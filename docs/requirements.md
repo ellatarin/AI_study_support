@@ -1,7 +1,7 @@
 # Lecture Notes Generator — Requirements Specification
 
-**Suite version:** 1.91-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
-**Date:** 2026-10-12
+**Suite version:** 1.92-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
+**Date:** 2026-10-14
 **Status:** For review
 
 ---
@@ -42,27 +42,21 @@ The system shall take a set of lecture recordings (video files) and accompanying
 
 **FR-3.2** Before the rewrite, the system shall correct each misheard term in a subtopic against the readings of the slides placed in that subtopic. A correction shall change a term only. It shall never add or remove a fact.
 
-**FR-3.3** The rewritten text shall keep each fact of the lecturer's words, in the lecturer's order, and add none.
+**FR-3.3** The rewritten text shall keep each fact of the lecturer's words, in the lecturer's order, and add none. A fact correction (FR-4) is the one exception: where the lecturer states a factual error, the notes shall state the correct fact.
 
 **FR-3.4** The rewritten text shall be written in fluent, idiomatic British English, in a textbook style: coherent prose and academically appropriate language.
 
-**FR-3.5** The system shall produce the notes of each lecture as one HTML page. The page shall show the rewritten subtopics under their topic and subtopic titles. It shall show each placed slide image, with its figure number and caption, at its place.
+**FR-3.5** The system shall produce the notes of each lecture as one HTML page, with the slide images in a folder beside the page. The page shall show the fact-corrected subtopics under their topic and subtopic titles. It shall show each placed slide image, with its figure number and caption, at its place in the text. The page shall load nothing from the internet.
 
-### FR-4 — Quality Assurance
+### FR-4 — Checking Facts
 
-**FR-4.1** The system shall check each rewritten subtopic against the lecturer's words for that subtopic and against the term corrections made in it.
+**FR-4.1** The system shall check the whole rewrite of each lecture for factual errors, with one model or two models. The check shall not use the transcript.
 
-**FR-4.2** The check shall identify any content of the lecturer's words that is absent from the rewritten subtopic.
+**FR-4.2** With two models, the system shall merge the factual errors that both models report on the same passage. A merged factual error shall take the text of the model that the configuration names as primary.
 
-**FR-4.3** The check shall identify places where the rewritten subtopic has introduced any of the following:
+**FR-4.3** The system shall correct the factual errors of each subtopic that has one, with the smallest change to the text. A subtopic with no factual error shall stay unchanged.
 
-- **factual errors** — claims that contradict the lecturer's words
-- **unsupported claims** — statements that the lecturer's words do not carry
-- **wrong corrections** — term corrections that change a fact, or that change a term to a wrong one.
-
-**FR-4.4** When the check finds a fault, the system shall correct the terms and rewrite the subtopic again. It shall give each fault to the step that it concerns.
-
-**FR-4.5** The system shall make at most a configured number of attempts at each subtopic, three by default. When the last attempt fails the check, the system shall stop and report the subtopic and its faults.
+**FR-4.4** The system shall keep each factual error and each change on disk. The user can then read what the check found and what the correction changed.
 
 ### FR-5 — Model Configurability
 

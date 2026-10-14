@@ -1,7 +1,7 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.91-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
-**Date:** 2026-10-12
+**Suite version:** 1.92-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
+**Date:** 2026-10-14
 **Status:** For review
 
 ---
@@ -57,7 +57,7 @@ Biology of Disease/
 
 All pipeline artefacts for a lecture live inside a single named workspace folder. Files inside each folder use simple, stage-agnostic names — the folder itself carries the full lecture identity. This means re-numbering a lecture requires renaming only the folder, not any of its contents.
 
-`Final output/` is a direct subfolder of the module root and is the human-facing deliverable. It holds one HTML page for each lecture. The HTML stage writes the page (§5, "After the rewrite"). The page's file name is decided with the design of that stage.
+`Final output/` is a direct subfolder of the module root and is the human-facing deliverable. It holds one folder for each lecture, named by the lecture's base name. The folder holds `notes.html` and `slides/`. `build-notes-page` writes the folder (§5, "After the fact correction").
 
 **Folder-name convention.** Only `moduleRoots[i]` is configurable (see §6). The subfolder names shown above — `Source files/`, `Video recordings/`, `Slide decks/`, `Pipeline processing/`, `Final output/` — are fixed conventions baked into the pipeline. Every module folder that the pipeline manages MUST follow this layout. The tool creates these subfolders on demand; users should not rename them.
 
@@ -205,23 +205,24 @@ Lecture 1 - Disease Cell Injury and the Immune System - 2025-10-10/
 │   └── placements.json                        # place-slides — the subtopic and the point of each placed slide
 │
 ├── Term corrections/
-│   ├── subtopic-1-attempt-1.json              # correct-terms — the corrections of one subtopic in one round
+│   ├── subtopic-1.json                        # correct-terms — the corrections of one subtopic
 │   └── ...
 │
 ├── Rewrites/
-│   ├── subtopic-1-attempt-1.json              # rewrite-subtopics — the rewritten subtopic of one subtopic in one round
+│   ├── subtopic-1.json                        # rewrite-subtopics — the rewritten subtopic of one subtopic
 │   └── ...
 │
-├── Checks/
-│   ├── subtopic-1-attempt-1.json              # check-rewrite-attempts — the check of one subtopic in one round
-│   ├── round-1.json                           # check-rewrite-attempts — the subtopics that failed in the round, for the runner
-│   └── ...
+├── Fact checks/
+│   ├── <model>.json                           # check-facts — the reply of one model, named by the model and not by its role
+│   └── factual-errors.json                    # check-facts — the merged factual errors of the lecture
 │
-└── Rewritten subtopics/
-    └── rewritten-subtopics.json               # assemble-rewrites — the rewritten subtopic of each subtopic
+└── Fact corrections/
+    ├── subtopic-1.json                        # correct-factual-errors — the fact-corrected subtopic of one subtopic
+    ├── ...
+    └── fact-corrected-subtopics.json          # correct-factual-errors — the fact-corrected subtopic of each subtopic
 ```
 
-The stages after `assemble-rewrites` are designed in outline only (§5, "After the rewrite"). Their folders and files are decided with their design.
+The stages after `correct-factual-errors` are designed in outline only (§5, "After the fact correction"). Their folders and files are decided with their design.
 
 #### The layout has one owner
 
@@ -282,8 +283,9 @@ STAGE_FILES = { … } satisfies Readonly<Record<StageId, StageFiles>>
 // What each stage owns: the directories its work sits in, and the single file it writes where it writes one.
 // `outputFile` is null for source-normalisation (which writes nothing of its own), and for the stages
 // producing a set rather than a file (initial-subtopic-splitting and deepen-subtopic-splitting, one file per
-// splitting run; render-slides and read-slides, one file per slide; correct-terms, rewrite-subtopics and
-// check-rewrite-attempts, one file per rewrite attempt). group-into-topics works in two directories, `Grouping runs/`
+// splitting run; render-slides and read-slides, one file per slide; correct-terms and rewrite-subtopics, one
+// file per subtopic). check-facts and correct-factual-errors write a set of files and also one file for the
+// whole lecture. Their `outputFile` is that lecture file, which the next stage reads. group-into-topics works in two directories, `Grouping runs/`
 // and `Topics/`, and its file is `Topics/topics.json`.
 // Declared as the literal it is rather than annotated as the map, so the compiler keeps which stages carry a
 // file; `satisfies` still proves every stage appears, so one added to StageId and forgotten here fails to
@@ -321,7 +323,7 @@ If a new lecture is inserted whose date falls between existing lectures, `source
 
 - Workspace folders in `Pipeline processing/`
 - Source video and slide files in `Source files/`
-- Pages in `Final output/`
+- Lecture folders in `Final output/`
 - Updates `lectureNumber` in each affected manifest
 
 Because all other files inside the workspace use simple names, only the four lecture files above need renaming per affected lecture. Manifests use relative paths throughout and survive folder renames without modification.
@@ -347,14 +349,14 @@ Because all other files inside the workspace use simple names, only the four lec
 | `render-slides` | Per-lecture | Render each page of the slide deck as one image. No model call |
 | `read-slides` | Per-lecture | Read each slide image with a vision model: its title, body, tables, figures, caption and kind |
 | `place-slides` | Per-lecture | Put each subject-matter slide at its point in the subtopic where the lecturer discusses it, in deck order |
-| `correct-terms` | Per-lecture | Correct the misheard terms of each subtopic from the slides placed in it. First stage of the rewrite loop |
-| `rewrite-subtopics` | Per-lecture | Rewrite the corrected text of each subtopic as prose. Second stage of the rewrite loop |
-| `check-rewrite-attempts` | Per-lecture | Check each rewritten subtopic against the verbatim text and the corrections of its attempt. Send the failed subtopics back for another round. Last stage of the rewrite loop |
-| `assemble-rewrites` | Per-lecture | Write the rewritten subtopic and the corrections of each subtopic in one file. No model call |
+| `correct-terms` | Per-lecture | Correct the misheard terms of each subtopic from the slides placed in it |
+| `rewrite-subtopics` | Per-lecture | Rewrite the corrected text of each subtopic as prose |
+| `check-facts` | Per-lecture | Find the factual errors in the whole rewrite, with one or two models and no transcript. Merge the factual errors of the two models |
+| `correct-factual-errors` | Per-lecture | Correct the factual errors of each subtopic that has one, and write the fact-corrected subtopic of each subtopic in one file |
+| `relocate-slides` | Per-lecture | Move each placed slide to its point in the fact-corrected subtopic, and give the figure numbers. Designed in outline only |
+| `build-notes-page` | Per-lecture | Write the lecture's notes as one HTML page, with its slide images, into `Final output/`. Designed in outline only |
 
-The runner repeats the rewrite loop while the check sends subtopics back, up to `rewriting.maxRounds` rounds (§4.7, "The rewrite loop", and ADR 0002).
-
-Two more stages follow `assemble-rewrites`. Both are designed in outline only, and neither has a stage id yet (§5, "After the rewrite"). The first puts the slides in the rewritten text. The HTML stage then writes the page in `Final output/`. The README's stage list uses the names that the code will take when the redesign is carried through.
+Each stage runs once. No stage sends work back to an earlier stage (ADR 0003).
 
 ### 4.2 Stage Interface
 
@@ -368,11 +370,10 @@ A stage's context is assembled before its own entry is marked `running`, so the 
 - `StageResult.filesWritten` holds paths relative to `workspaceRoot`. They MUST resolve under `moduleRoot` — enforced by §4.4.
 - `StageCost` is discriminated on `costUsd`. A resolved cost is a `number`. A failed lookup is `null` paired with an `unknownCostReason` (see §7).
 - `StageResult.identityChanges` holds the lecture-identity fields the stage decided — `lectureTitle`, `aiDerivedTitle`, `baseName` — for the runner to write. Absent and `{}` both mean the stage decided nothing. Only `judge-lecture-title` ever decides anything. `baseName` is the lecture's canonical base name recorded in the manifest, not the runner's handle on the workspace — the runner locates that itself (§4.7).
+- `StageResult.notices` holds the stage notices that the user must see (§10, "Stage Notices"). Absent means none.
 - `lectureTitle` is always non-null — seeded by `source-normalisation`, possibly overwritten by `judge-lecture-title` (see §3.2, and §5, `judge-lecture-title`).
 
 `isComplete()` checks two conditions: the manifest marks the stage `'complete'` or `'skipped'`, AND every path in `manifest.stages[stageId].filesWritten` exists on disk. Both must be true. The two statuses count alike because a run that honours this check records `skipped` in place of the `complete` it read, so from the next run's point of view they describe the same disk — the work is done and does not need paying for again. This means a completed stage whose output was manually deleted returns `false` and re-runs automatically. A recorded path that cannot be resolved at all counts as absent rather than as an error, since deleting a stage's output usually removes its containing directory too; a path resolving *outside* `moduleRoot` is a different matter and always throws (§4.4).
-
-A stage of the rewrite loop must meet a third condition: its round must be the current round (§4.7, "The rewrite loop").
 
 That check is the same for every stage. So each stage is built through a shared factory that supplies `isComplete` for the stage id. A stage defines only the two things that differ: how it gets its input, and what it does.
 
@@ -422,7 +423,6 @@ writeStageOutputWithStageRecord(args: {
 | `pending` | Has not run in this pipeline configuration |
 | `running` | Currently executing, or crashed mid-run — treated as `failed` on the next run |
 | `complete` | `run()` succeeded and all output files are on disk |
-| `sent-back` | `check-rewrite-attempts` only. The check finished a round, subtopics failed, and rounds are left. The runner starts the next round (§4.7, "The rewrite loop") |
 | `failed` | `run()` threw an exception. `error` and `failedAt` are set |
 | `skipped` | `isComplete()` returned `true` before the stage was invoked — output already existed from a prior run |
 
@@ -534,8 +534,6 @@ MANIFEST_VERSION: string   // "1" — the schema version stamped into every mani
 // manifest, and the fixtures, which seed one per suite — would otherwise hold their own, and nothing reads
 // `version` back to notice. Bumping it here bumps what the suites seed, so a migration is tested against the
 // version it migrates from.
-FIRST_ROUND: number   // 1 — the round of a stage entry outside the rewrite loop, and of the loop's first round
-// The runner and the test fixtures both write it.
 pendingStages(): Manifest["stages"]   // every stage `pending`, as source-normalisation writes it for a new workspace
 // Beside the version and for the same reason: source-normalisation writes this map and the fixtures seed one, and each had
 // been building its own. Nothing reads the map back in a way that would notice the two drifting apart.
@@ -555,9 +553,7 @@ readManifestSafe(args: { workspaceRoot: string }): Promise<Manifest | null>
 // fact to skip over rather than an error, since both source-normalisation and the runner scan those folders speculatively.
 // "Readable" is judged on the parsed value, not on whether parsing threw: a `manifest.json` holding `{}` or
 // `[]` parses perfectly and still identifies no lecture. The check is the three fields every scanning caller
-// goes on to read — `lectureNumber`, `lectureDate`, `stages` — and the `round` of each stage entry that is not
-// `pending`. A manifest with an entry that has no `round` fails, so a pipeline run stops before the runner
-// reads a missing round. The check reads nothing else in a stage entry.
+// goes on to read — `lectureNumber`, `lectureDate`, `stages`. The check reads nothing in a stage entry.
 writeManifest(args: { workspaceRoot: string; manifest: Manifest }): Promise<void>   // atomic (§4.3); creates the workspace if absent
 patchManifest(args: { workspaceRoot: string; manifest: Manifest; changes: Partial<Manifest>; updatedAt: string }): Promise<Manifest>
 // Lays changes over the manifest, stamps `updatedAt`, and writes the result. All three callers do exactly
@@ -582,8 +578,7 @@ Each stage entry records `configUsed`, a `StageConfigUsed`. It holds the model I
   "updatedAt": "2025-10-10T10:15:00.000Z",
   "stages": {
     "audio-extraction": {
-      "status": "complete",          // pending | running | complete | sent-back | failed | skipped
-      "round": 1,                    // always 1 outside the rewrite loop
+      "status": "complete",          // pending | running | complete | failed | skipped
       "completedAt": "...",
       "configUsed": null,
       "cost": null,
@@ -647,30 +642,16 @@ Each stage entry records `configUsed`, a `StageConfigUsed`. It holds the model I
     },
     "correct-terms": {
       "status": "complete",
-      "round": 2,                    // round 2 corrected only the subtopics that round 1 sent back
       "completedAt": "...",
       "configUsed": { "modelId": "google/gemini-3.8-flash", "concurrency": 5 },
       "cost": { "promptTokens": "…", "completionTokens": "…", "costUsd": "…", "callCount": "…" },
-      "filesWritten": ["Term corrections/subtopic-1-attempt-1.json", "…", "Term corrections/subtopic-7-attempt-2.json"]
-    },
-    "check-rewrite-attempts": {
-      "status": "sent-back",         // round 1 failed subtopic 7, and rounds are left
-      "round": 1,
-      "completedAt": "...",
-      "configUsed": { "modelId": "openai/gpt-5.6-sol-pro", "concurrency": 5 },
-      "cost": { "promptTokens": "…", "completionTokens": "…", "costUsd": "…", "callCount": "…" },
-      "filesWritten": ["Checks/subtopic-1-attempt-1.json", "…", "Checks/round-1.json"]
+      "filesWritten": ["Term corrections/subtopic-1.json", "…", "Term corrections/subtopic-21.json"]
     }
   }
 }
 ```
 
-The example stops in round 2, after `correct-terms` and before `rewrite-subtopics`. The entry of `rewrite-subtopics` still records round 1, so the runner runs it next.
-
-**The round of each stage entry.** Each stage entry that is not `pending` records the round of the stage's last run: `running`, `complete`, `failed` and `skipped` alike. A `pending` entry has no round, because the stage has not run since it was created or reset. A stage outside the rewrite loop always records round 1. A stage of the rewrite loop records the round that it last did. A stage entry never goes back to `pending` during a pipeline run. A later round raises the round in place (§4.7, "The rewrite loop").
-**`sent-back` is a status of `check-rewrite-attempts` only.** It means that the check finished a round, that subtopics failed, and that rounds are left. `complete` keeps one meaning for every stage: the stage finished, and its output can be used. So a lecture whose check is `sent-back` is not past the rewrite loop. When subtopics fail in the last round, the check is `failed`, with an error that names each failed subtopic and its faults.
-
-The `cost` of a stage of the rewrite loop is the total of all its rounds since its last reset. Its output on disk holds the files of each of those rounds, so the cost of each round is part of that output.
+**A stage with a list of models** (§6) records the cost of each model as well as its total. Its entry has `costByModel`, a list of `{ modelId, cost }` with one item for each model that the stage called. Its `configUsed` holds `models`, the config of each called model with its `role`. The run log entry of the stage has the same two fields. Today only `check-facts` has a list of models.
 
 Each stage's `cost` is the only record of what that stage cost, and the manifest holds no roll-up of them. A reader that wants a stage's spend reads that stage's entry. Nothing has to be kept in step with anything else. A stage that `--from-stage` resets takes its cost with it when its entry goes back to `pending` (NFR-2.2).
 
@@ -705,7 +686,6 @@ Each log records which stages were attempted, skipped, or re-run; cost and model
       "status": "failed",
       "configUsed": { "modelId": "google/gemini-2.5-flash", "temperature": 0.1, "maxTokens": 4096, "concurrency": 3 },
       "error": "Rate limit exceeded after 3 retries on slide 14",
-      "rounds": 1,                  // more than 1 only for a stage of the rewrite loop
       "cost": { "costUsd": 0.021, "callCount": 13 }
     },
     "place-slides":      { "action": "not-reached" },
@@ -715,8 +695,6 @@ Each log records which stages were attempted, skipped, or re-run; cost and model
 ```
 
 A run log records what each stage of that run cost and stops there — no figure for the run as a whole (NFR-2.2).
-
-**A stage of the rewrite loop can run in several rounds of one pipeline run.** Its run log entry is still one entry. `rounds` gives the number of rounds that the stage ran in that pipeline run. Its cost and its call count are the totals of those rounds. The `configUsed` and the status are those of the last round. So the cost report reads the run log as it reads it now.
 
 ### 4.7 Pipeline Runner
 
@@ -809,7 +787,7 @@ isCompletedEntry(entry: StageEntry | undefined): entry is CompletedStageEntry
 
 **Pipeline order comes from `STAGE_IDS`.** `src/types/pipeline.ts` declares `STAGE_IDS` as the ordered stage list, and everything that walks the stages in order — the runner's `--from-stage` reset, the cost report's per-stage breakdown — iterates that array. A map elsewhere in the code is a lookup keyed *by* stage, and its key order is that map's own; the pipeline's order has one statement, and adding a stage to it is what puts the stage in the sequence.
 
-**`--from-stage <stageId>`:** Resets the nominated stage and all downstream stages to `pending` in the manifest. Also deletes the intermediate files of each stage that runs again, such as `Slide readings/*.json` for `read-slides`. So the new run makes entirely fresh output. Upstream stages are untouched. A stage of the rewrite loop resets the loop from its first stage ("The rewrite loop", below). The deletion uses the hard-coded directories of each stage (see §4.4), and never `filesWritten` from the manifest.
+**`--from-stage <stageId>`:** Resets the nominated stage and all downstream stages to `pending` in the manifest. Also deletes the intermediate files of each stage that runs again, such as `Slide readings/*.json` for `read-slides`. So the new run makes entirely fresh output. Upstream stages are untouched. The deletion uses the hard-coded directories of each stage (see §4.4), and never `filesWritten` from the manifest.
 
 **The reset is confirmed before anything is deleted (NFR-4.3).** The CLI asks once per invocation, leading with the number of lectures that will lose work, and declining runs nothing at all rather than running without the reset. The count is what makes the question worth reading, because nothing the user typed states it: `run <date>` covers however many lectures that date matched and they then chose, and `batch` covers every lecture in the module named — or, with no module named, in every configured one. The question is asked wherever that set first becomes known, which is the CLI for a date and, for a batch, only after `countLectures` has scanned the modules (§4.7, "Counting a batch's scope"). Establishing the count costs that scan, so it is taken only when a stage is nominated; an ordinary run asks nothing and pays nothing. There is no flag to suppress the question.
 
@@ -820,22 +798,6 @@ It is a position in `STAGE_IDS`, not a name to match, so a stage the pipeline ha
 Given with `--from-stage`, the two flags bound the run at both ends, and the pair must be in pipeline order. The parser refuses `--from-stage place-slides --to-stage transcription`, so the run does not silently do nothing.
 
 The flag exists because of the cost of the stages after the ones that a run needs. A segmentation experiment on five lectures reads only `Transcript/transcript.txt`. Without this flag, that run also pays for every model stage after `transcription` on every lecture.
-
-#### The rewrite loop
-
-`correct-terms`, `rewrite-subtopics` and `check-rewrite-attempts` are the rewrite loop. The runner runs them in `STAGE_IDS` order, and then it can go back to `correct-terms` for another round. ADR 0002 gives the reasons for a loop in the runner. These are the rules:
-
-1. **The current round.** When a pipeline run reaches `correct-terms`, the runner finds the current round from the manifest. If the entry of `check-rewrite-attempts` is `sent-back` in round *n*, the current round is *n* + 1. If not, the current round is the highest round that a loop stage records. A lecture that has never reached the loop is in round 1.
-2. **A loop stage is completed only for its round.** Three conditions make it a completed stage. Its entry is `complete` or `skipped`. Its round is the current round. Its files are on disk. A loop stage with a lower round runs again.
-3. **The stage context carries the round.** In round 1, a loop stage works on every subtopic. In a later round, it works only on the subtopics in the result file of the round before. The rule that gives this list has one home, which the three stages share.
-4. **The check writes its result file first.** At the end of a round, `check-rewrite-attempts` writes `Checks/round-<n>.json` with `round` and `failedSubtopicIds`. It writes the file before it returns, so the file is on disk before the runner records the stage. A crash between the two leaves the stage `running`. The next run runs the check again for that round, and its saved checks make that rerun cost nothing.
-5. **The runner reads the result file.** An empty `failedSubtopicIds` makes the check `complete`, and the runner goes on to `assemble-rewrites`. A list with subtopics makes the check `sent-back`, and the runner goes back to `correct-terms` in the next round.
-6. **The last round.** In round `rewriting.maxRounds`, a failed subtopic makes `check-rewrite-attempts` fail. Its error names each failed subtopic and its faults. A later run reads the saved checks of that round and fails again with no call. To start the loop again, use `--from-stage`.
-7. **The faults go back.** In a later round, `rewrite-subtopics` gets the faults that the check found in the rewrite. This is the one place where a stage reads the output of a later stage. The check does not judge the corrections, so `correct-terms` gets no faults. What `correct-terms` does in a later round is not decided yet.
-8. **A reset of a loop stage starts at `correct-terms`.** `--from-stage` on any loop stage resets the whole loop and every stage after it. A reset in the middle would keep the saved attempts of a later round. The check results that caused those attempts would be gone.
-9. **`--to-stage` inside the loop stops the run there.** The next run continues the loop from the manifest.
-
-`assemble-rewrites` is an ordinary stage after the loop. The runner reaches it only when the check is `complete`, so no state for the whole loop is stored.
 
 **Natural restart after failure:** Does not clear intermediate files. The slide readings from `read-slides` stay, so a failed run continues from the slide where it stopped.
 
@@ -1515,18 +1477,18 @@ The stage fails without a model call when the structured transcript or a reading
 
 ---
 
-### The rewrite loop — `correct-terms`, `rewrite-subtopics`, `check-rewrite-attempts`
+### The rewrite — `correct-terms`, `rewrite-subtopics`
 
-These three stages turn the text of each subtopic into checked prose (CONTEXT.md, "Rewriting a subtopic"). The runner repeats them while the check sends subtopics back (§4.7, "The rewrite loop", and ADR 0002). `assemble-rewrites` then writes the result in one file.
+These two stages turn the text of each subtopic into prose (CONTEXT.md, "Rewriting a subtopic"). The fact check and the fact correction follow them ("Checking facts", below). Each stage runs once. No stage sends a subtopic back (ADR 0003).
 
-Each of the three stages works on several subtopics at the same time, up to its `concurrency` (§6). Its `sendGapSeconds` spaces its sends. As in the other stages, one send gate serves all the lectures of a batch (§6, "The send gap is shared by the whole invocation"). Each model call takes the shared resend of an unusable reply (§5, "Dividing the transcript", Panel runs).
+Each of the stages that works on one subtopic at a time works on several subtopics at the same time, up to its `concurrency` (§6). These are `correct-terms`, `rewrite-subtopics` and `correct-factual-errors`. Its `sendGapSeconds` spaces its sends. As in the other stages, one send gate serves all the lectures of a batch (§6, "The send gap is shared by the whole invocation"). Each model call takes the shared resend of an unusable reply (§5, "Dividing the transcript", Panel runs).
 
-**The subtopics of a round.** In round 1, each stage works on every subtopic. In a later round, each stage works only on the subtopics in `Checks/round-<n>.json` of the round before. Each stage writes one file for each subtopic in each round, named by the rewrite attempt. A stage that starts again reads its saved files of the current round, and makes no call for them.
+**The files of each subtopic.** Each of these stages writes one file for each subtopic, named `subtopic-<id>.json`. It writes the file as soon as the reply is usable. A stage that starts again reads its saved files, and makes no call for them.
 
 ### `correct-terms` — term correction
 
-**Input:** `Structured transcript/structured-transcript.json`, `Slide placements/placements.json`, `Slide readings/`, and in a later round the checks of the round before
-**Output:** `Term corrections/subtopic-<id>-attempt-<n>.json` for each subtopic in each round
+**Input:** `Structured transcript/structured-transcript.json`, `Slide placements/placements.json`, `Slide readings/`
+**Output:** `Term corrections/subtopic-<id>.json` for each subtopic
 
 The transcriber mishears technical terms, and a slide often prints the right form. For example, a lecture says "beta-naphthylene" where its slide prints "β-naphthylamine". The stage makes one call for each subtopic that has a placed subject-matter slide, and no call for a subtopic with none. The call gets the subtopic text and the readings of the subject-matter slides placed in that subtopic. The references slide is never sent. The reply is a list of corrections (CONTEXT.md, "Correction"). Each correction holds a wrong form, a right form and a reason. Each form has one to four words, and the prompt states that limit. A reply that gives a blank form is unusable, and the stage resends it.
 
@@ -1540,16 +1502,13 @@ Each check is an exact match, with case, hyphens and spaces as written. A form m
 
 Code changes each occurrence of the wrong form of each kept correction to its right form, and records the number of changes. The longest wrong form goes first. A shorter wrong form changes only the text that no longer form changed. Code finds each wrong form in the text before term correction, so it never changes a right form again.
 
-A correction that fails a check is not resent. The stage writes the corrections into its own file for the rewrite attempt. It never edits the file of an earlier stage.
+A correction that fails a check is not resent. The stage writes the corrections into its own file for the subtopic. It never edits the file of an earlier stage.
 
-**In a later round,** the stage gets no faults, because the check does not judge the corrections. What the stage does in a later round is not decided yet (§4.7, "The rewrite loop").
-
-The file of a rewrite attempt holds these fields:
+The file of each subtopic holds these fields:
 
 | Field | What it holds |
 |---|---|
 | `subtopicId` | The subtopic |
-| `attemptNumber` | The number of the rewrite attempt, which is the number of the round |
 | `termCorrectionPromptVersion` | The version of the term-correction prompt |
 | `slideNumbers` | The slides placed in the subtopic. An empty list means that term correction made no call |
 | `corrections` | Each kept correction: `wrongForm`, `rightForm`, `reason` and `occurrencesChanged` |
@@ -1560,8 +1519,8 @@ The file of a rewrite attempt holds these fields:
 
 ### `rewrite-subtopics` — each subtopic as prose
 
-**Input:** `Structured transcript/structured-transcript.json`, `Term corrections/`, and in a later round the checks of the round before
-**Output:** `Rewrites/subtopic-<id>-attempt-<n>.json` for each subtopic in each round
+**Input:** `Structured transcript/structured-transcript.json`, `Term corrections/`
+**Output:** `Rewrites/subtopic-<id>.json` for each subtopic
 
 The stage takes the list of subtopics from the structured transcript. So a missing term-correction file fails the stage, and the error names the file. The writer gets the corrected text of one subtopic, and nothing else: no title, no slides and no other subtopic. It writes the rewritten subtopic (CONTEXT.md, "Rewritten subtopic"):
 
@@ -1580,96 +1539,107 @@ The writer drops filler, jokes and course arrangements. It keeps these exactly:
 
 R2 forbids an omission, R3 an addition, R4 to R8 are the five kinds of detail above, and R9 says what the writer drops. The prompt also tells the writer to write in the language of `finalOutput.language` (§6).
 
-The reply is `{ "paragraphs": [...] }`. A reply with a blank paragraph is unusable, and the stage resends it. The stage keeps the paragraphs as the rewritten subtopic. A reply with no paragraph is usable. A subtopic that holds only filler or course arrangements, such as a lecturer's closing words, has no prose to keep. The check finds each point that an empty rewrite drops, as an omission.
+The reply is `{ "paragraphs": [...] }`. A reply with a blank paragraph is unusable, and the stage resends it. The stage keeps the paragraphs as the rewritten subtopic. A reply with no paragraph is usable. A subtopic that holds only filler or course arrangements, such as a lecturer's closing words, has no prose to keep. No stage compares the rewrite with the transcript, so no stage finds a point that an empty rewrite drops (ADR 0003).
 
-**In a later round,** the call also gets the faults that the check found in the rewrite of that subtopic.
-
-The file of a rewrite attempt holds these fields:
+The file of each subtopic holds these fields:
 
 | Field | What it holds |
 |---|---|
 | `subtopicId` | The subtopic |
-| `attemptNumber` | The number of the rewrite attempt, which is the number of the round |
 | `writerPromptVersion` | The version of the writer prompt |
 | `rewrittenSubtopic` | The paragraphs of the rewritten subtopic, in order |
 
-**The model** is `google/gemini-3.8-flash`, set on the stage's own entry (§6). It is the model of term correction. The checker is from a different company, so the check does not share the blind spots of either step.
-
-### `check-rewrite-attempts` — the check of each rewrite attempt
-
-**Input:** `Structured transcript/structured-transcript.json`, `Term corrections/`, `Rewrites/`
-**Output:** `Checks/subtopic-<id>-attempt-<n>.json` for each subtopic in each round, and `Checks/round-<n>.json` for each round
-
-The checker gets three things: the verbatim text of the subtopic, the kept corrections of the attempt with their reasons, and the rewritten subtopic. Without the corrections, it would report each corrected term as a distortion. It gets no slide text. It looks for an omission, a distortion and an unsourced addition (CONTEXT.md, "Checking quality").
-
-The checker prompt does not state the writer's rules. It gives one test instead. A change is a fault only when a student who learns from the rewrite would learn something different from what the lecturer said. The checker decides which changes pass the test. The prompt names causal, defining and equating links, and says that a link can be one word. The prompt also lists the changes that are not faults, such as dropped filler.
-
-The checker treats each correction as right, and does not judge it. A model that judged the corrections from its own knowledge would make more errors than the slides hold.
-
-The checker prompt names the language of `finalOutput.language`, because the writer had to write in it. A spelling of that language is not a deficiency, such as "colour" for the transcriber's "color". The text has the transcriber's spelling. Without this rule, each spelling of the notes' language that differs from it reads as a changed term.
-
-The checker does not look for these faults:
-
-- underexplained content, because that fault asks the writer to add
-- a change of the lecturer's order (R1). A moved step of a mechanism is still a distortion
-- prose faults.
-
-One deficiency of any kind fails the rewrite attempt. So a deficiency has no severity.
-
-A reply is unusable, and the stage resends it, in these cases:
-
-- a deficiency has an unknown type
-- a deficiency has no description
-- the passages of a deficiency do not agree with its type. A distortion has both passages. An omission has a source passage, and an unsourced addition has a rewrite passage. The other passage of each is a quote or null
-- a consideration has no source passage or no reason.
-
-A stage that starts again makes no call for a subtopic with a saved check. It writes the result file of the round again from the saved checks.
-
-**The end of a round.** When each subtopic of the round has its check, the stage writes `Checks/round-<n>.json`. The file holds `round` and `failedSubtopicIds`, the subtopics with a fault. An empty list means that each subtopic passed. The runner reads this file to decide the next round (§4.7, "The rewrite loop"). In round `rewriting.maxRounds`, a failed subtopic makes the stage fail. The error names each failed subtopic and its faults. No reviser edits a rewritten subtopic.
-
-The checker also lists its considerations: each passage that it examined and found not to be a deficiency, with the reason. No stage reads them. They show, when a check is debugged, what the checker looked at.
-
-The file of each check holds these fields:
-
-| Field | What it holds |
-|---|---|
-| `subtopicId` | The subtopic |
-| `attemptNumber` | The number of the rewrite attempt, which is the number of the round |
-| `checkerPromptVersion` | The version of the checker prompt |
-| `deficiencies` | Each deficiency: `deficiencyType` (`omission`, `distortion` or `unsourced-addition`), `description`, `sourcePassage` and `rewritePassage`. For an omission, `rewritePassage` is the words of the rewrite where the fact should be, or null. For an unsourced addition, `sourcePassage` is the words of the text that the addition is built on, or null |
-| `considerations` | Each consideration: `sourcePassage` and `reason` |
-
-The checker quotes these two passages where it can, because a quote shows a later repair where the fault is. A check file of prompt c2 also holds a `rule` for each deficiency: the writer's rule that the rewrite breaks.
-
-**The model** is `openai/gpt-5.6-sol-pro`, set on the stage's own entry (§6). It is the checker that issue #8 chose for the earlier verification stage.
-
-### `assemble-rewrites` — the rewritten subtopics in one file
-
-**Input:** `Structured transcript/structured-transcript.json`, `Term corrections/`, `Rewrites/`, `Checks/`
-**Output:** `Rewritten subtopics/rewritten-subtopics.json`
-
-The stage makes no model call. The runner reaches it only after the check passed each subtopic. For each subtopic, the stage takes the rewrite attempt that passed: the last attempt of that subtopic. It writes one entry for each subtopic, in lecture order, under `rewrittenSubtopics`:
-
-| Field | What it holds |
-|---|---|
-| `subtopicId` | The subtopic |
-| `attemptNumber` | The rewrite attempt that passed. It names the files of that attempt |
-| `rewrittenSubtopic` | The paragraphs of the rewritten subtopic, in order |
-| `corrections` | The kept corrections of that attempt, with the fields of `correct-terms` |
-
-The entries have no titles. The titles are in the structured transcript.
-
-The stage fails when a subtopic of the structured transcript has no rewrite attempt that passed. The error names the subtopic.
+**The model** is `google/gemini-3.8-flash` in the example config, set on the stage's own entry (§6). It is the model of term correction.
 
 ---
 
-### After the rewrite
+### Checking facts — `check-facts`, `correct-factual-errors`
 
-Two stages follow `assemble-rewrites`. Both are designed in outline only. Their stage ids, their files and their other rules are decided after a live run of the rewrite loop on one lecture.
+The rewrite can state a factual error. The lecturer can state one too, and the writer keeps it. These two stages find the factual errors in the whole rewrite and correct them (CONTEXT.md, "Checking facts"). Where the lecturer states a factual error, the notes state the correct fact (CONTEXT.md, **Faithfulness**). No stage compares the notes with the transcript (ADR 0003).
 
-**Placing the slides in the rewritten text.** The stage works on one subtopic at a time. It puts a slide at each figure mark, and code gives the figure numbers. It places a slide with no figure mark by its subject matter. Two questions stay open. The first is what happens when a subtopic has more figure marks than slides, or fewer. The second is whether the stage uses the point from `place-slides` as a hint.
+### `check-facts` — the fact check
 
-**The HTML stage.** The stage joins the rewritten subtopics under their topic and subtopic titles. It shows each slide at its place, with its figure number and its caption. It writes one HTML page for the lecture into `Final output/`. The page is the lecture's notes, and it replaces the PDF of the earlier design. A test page, which a script outside the pipeline builds, is the prototype of its layout. A reset must take this lecture's page from `Final output/` and keep the pages of the other lectures. The design of the stage must add a way to do this (§4.4).
+**Input:** `Structured transcript/structured-transcript.json`, `Rewrites/`
+**Output:** `Fact checks/<model>.json` for each model that the stage calls, and `Fact checks/factual-errors.json`
+
+**The models.** The stage's config entry has `models`, a list of model entries in place of one `modelId` (§6). Each entry has the usual model settings and a `role`:
+
+- `primary`: the stage calls the model, and the model's text wins in a merged factual error.
+- `secondary`: the stage calls the model, and the model's factual errors join the primary model's errors.
+- `disabled`: the stage does not call the model. The entry stays in the config, so that the user can turn the model on again with one word.
+
+The list must have exactly one primary model and no more than one secondary model. Otherwise the config loader stops with an error that names the rule (§6).
+
+**The call.** The stage makes one call for each model that is not disabled. The calls go at the same time. Each call gets prompt f2, copied word for word from the prototype, with the lecture title from the structured transcript. The user message is the whole rewrite: the rewritten subtopics in lecture order. Each subtopic is under the heading `## Subtopic <id>: <title>`, with the id and the title from the structured transcript. The call gets no transcript and no slide. The stage records `factCheckPromptVersion`.
+
+The reply is a list of errors, each with a subtopic number, a passage, a problem, a correction and a severity (`serious` or `minor`). A reply that names a subtopic id that is not in the lecture is unusable, and the stage resends it. Code translates the reply's words into the project's words where it reads the reply. A reply's "error" is a factual error, and its "correction" is the `correctStatement`. The word "correction" means a term correction in this project (CONTEXT.md, "Correction").
+
+**The file of each model.** The stage writes the factual errors of each model to `Fact checks/<model>.json` as soon as the reply is usable. `<model>` is the model id without its provider part, such as `gpt-5.6-sol-pro.json` for `openai/gpt-5.6-sol-pro`. The file is named by the model and not by its role, so a change of role does not make the reply stale. The file holds `modelId`, `factCheckPromptVersion` and `factualErrors`. Each factual error has `subtopicId`, `passage`, `problem`, `correctStatement` and `severity`. The reply's list of checked subtopics is not stored, because no stage reads it.
+
+**The words of a factual error.** Code looks for the passage of each factual error in the text of its subtopic, as an exact match. Sometimes the passage is not there, because the model changed a word when it quoted. The stage keeps the factual error with `wordsFound` false. The terminal shows a stage notice that names the subtopic (§10). The fact correction still gets the factual error, and its model finds the words from the problem.
+
+**The merge.** With two models, two factual errors of different models become one merged factual error under two conditions. They are in the same subtopic, and their passages share a run of three words. Code compares the words in lower case, with each punctuation mark read as a space. A passage of three words or fewer is one run. Each factual error of the secondary model joins the primary model's factual error whose passage shares the most runs with it. A primary model's factual error takes no more than one secondary model's factual error. The prototype merge uses the same rule.
+
+- A merged factual error takes the primary model's text, and `foundBy` lists both model ids.
+- A factual error that only one model reports goes into the file with that model's text, and `foundBy` lists that model.
+- With one model, the stage merges nothing.
+
+The stage writes `Fact checks/factual-errors.json`, with `factCheckPromptVersion` and `factualErrors`. The list holds each factual error in lecture order of its subtopic, with the fields of a model file's factual error, `foundBy` and `wordsFound`. Within a subtopic, the primary model's factual errors come first, in the order of its reply.
+
+**A failed model.** When one model fails each send, the stage fails, and the file of the other model stays on disk. A stage that starts again makes no call for a model with a saved file. So the next run calls only the model with no saved file. A saved file of a model that is now disabled is not used.
+
+**The cost.** The stage's `cost` is the total of its models. The stage entry also holds `costByModel`, a list of `{ modelId, cost }` with one item for each model that the stage called (§4.5). Its `configUsed` holds `models`, the config of each called model with its `role`. The run summary has one row for each model of the stage, with its calls, tokens and cost (§7).
+
+### `correct-factual-errors` — the fact correction
+
+**Input:** `Structured transcript/structured-transcript.json`, `Rewrites/`, `Fact checks/factual-errors.json`
+**Output:** `Fact corrections/subtopic-<id>.json` for each subtopic, and `Fact corrections/fact-corrected-subtopics.json`
+
+The stage sends each subtopic that has a factual error to the model, with its factual errors, in one call for each subtopic. The call gets the paragraphs of the rewritten subtopic and a numbered list of its factual errors: the passage, the problem and the `correctStatement` of each. It gets no transcript, no slide and no other subtopic. The paragraphs go as a JSON list, with no labels such as "[1]". The prompt is k3 from the prototype, copied word for word. The stage records `factCorrectionPromptVersion`.
+
+The reply holds the paragraphs of the fact-corrected subtopic and a list of changes. Each change names the factual error by its number, the words before and the words after. Code translates the reply's word "error" into `factualError` where it reads the reply. When the model judges that a factual error is wrong, the change keeps the words and gives the reason. A reply with a blank paragraph is unusable, and the stage resends it.
+
+A reply with a different number of paragraphs is kept. `paragraphCountBefore` and `paragraphCountAfter` show the change. The terminal shows no notice, because the notes can join or split a paragraph with no loss.
+
+A subtopic with no factual errors gets no call. Its file holds its rewrite unchanged, an empty `factualErrors` list and the full `checkedBy` list.
+
+The file of each subtopic holds these fields:
+
+| Field | What it holds |
+|---|---|
+| `subtopicId` | The subtopic |
+| `factCorrectionPromptVersion` | The version of the fact-correction prompt |
+| `factualErrors` | The factual errors of the subtopic, from `Fact checks/factual-errors.json` |
+| `factCorrectedSubtopic` | The paragraphs of the fact-corrected subtopic, in order |
+| `changes` | Each change of the reply, with four fields. `factualError` is the number of the factual error in `factualErrors`, from 1. `before` and `after` are the words. `note` is the reason when the words did not change |
+| `checkedBy` | The models that checked the facts of the subtopic |
+| `paragraphCountBefore` | The number of paragraphs of the rewritten subtopic |
+| `paragraphCountAfter` | The number of paragraphs of the fact-corrected subtopic |
+
+**The end of the stage.** When each subtopic has its file, the stage writes `Fact corrections/fact-corrected-subtopics.json`. Its `factCorrectedSubtopics` holds the entry of each subtopic in lecture order, with the fields of the subtopic's file. The entries have no titles. The titles are in the structured transcript.
+
+**The model** is `anthropic/claude-sonnet-5.5`, with `concurrency` 10 and `sendGapSeconds` 0.25, set on the stage's own entry (§6).
+
+---
+
+### After the fact correction
+
+Two stages follow `correct-factual-errors`. Both are designed in outline only. The prototype of slide relocation on lecture 4 decides the prompt, the model and the shape of the files. Their folders, files and fields go to the user in one table before the build.
+
+**`relocate-slides` — slide relocation.** `place-slides` puts each slide at a point in the transcript. The notes are prose, so that point is not in them. The stage moves each placed slide to the start of a sentence in its fact-corrected subtopic (CONTEXT.md, "Slide relocation"). It makes one call for each subtopic that has slides, and no call for a subtopic with none. The call gets the paragraphs of the subtopic as a JSON list, with a number on each figure mark. For each slide, it gets the title, the body, the reason from `place-slides`, and about 60 words of transcript from the old start words. It gets no figure description and no caption. The reply gives the start words of a sentence for each slide, and the slide that each figure mark points at, or no slide.
+
+A reply is unusable, and the stage resends it, in these cases:
+
+- start words that are not in the text
+- a slide with no point, or with two points
+- an unknown slide
+- slides out of deck order.
+
+A slide that a figure mark points at goes at that mark. Code gives each slide its figure number, and writes "(Figure N)" in place of each mark that points at a slide (CONTEXT.md, "Figure number"). A mark that points at no slide stays as `[FIGURE]`, and the stage records it. The references slide goes after the last sentence of the last subtopic, with no call and no figure number. The stage writes one file for each subtopic and one file for the whole lecture.
+
+**`build-notes-page` — the notes page.** The stage makes no model call. It writes `Final output/<base name>/notes.html` and `Final output/<base name>/slides/`, with each slide as a JPEG file 2000 pixels wide. The page shows the topic and subtopic titles and the text of each subtopic, from the output of `relocate-slides`. Each slide is small and floats at its sentence, with its figure number and its caption in the right margin. LaTeX becomes maths when the stage builds the page, so the page loads nothing from the internet. A click on a slide opens it in a window that the user can move and change in size, and the page behind stays readable. The page replaces the PDF of the earlier design. A test page, which a script outside the pipeline builds, is the prototype of its layout.
+
+The lecture's folder in `Final output/` is a lecture file, as the video and the slide deck are (§3.1). A reset of the stage deletes this lecture's folder and keeps the folders of the other lectures. Rename, change-date, delete and normalisation move or delete the folder.
 
 ---
 
@@ -1783,13 +1753,22 @@ A reply that carries the provider's error and an answer as well — a choice who
 
 **A tuning parameter can be left unset out loud.** Each optional field of a stage entry can be `null`: `temperature`, `maxTokens`, `concurrency`, `callConcurrency` and `sendGapSeconds`. A `null` means the same as a missing key: the request carries no such parameter. There are two ways to say it, because the choice is worth a record. Under the routing restriction above, the parameters of a request decide which endpoints can serve it. Providers differ in what they accept. The same model takes a `temperature` through one provider and not through another. So the tuning that a stage sets is part of the choice of what can answer it. A `null` records a deliberate omission beside the tuning that is set. A missing key reads as an oversight.
 
-**Three settings say how much runs at once.** `batch.concurrency` is how many lectures a batch runs at once (§4.7). A stage's `concurrency` is how many of its runs, slides, images or subtopics are in flight at once. `callConcurrency` is how many calls one run makes at once. Only `deepen-subtopic-splitting` has one, because it is the only stage whose run makes more than one call on one piece of work (§5). `rewrite-subtopics` and `check-rewrite-attempts` make one call for each subtopic, so their `concurrency` counts their calls. Unset, runs and calls are each made one at a time. On any other stage, nothing would read `callConcurrency`. So the loader raises a `ConfigError` at startup that names the stage.
+**Three settings say how much runs at once.** `batch.concurrency` is how many lectures a batch runs at once (§4.7). A stage's `concurrency` is how many of its runs, slides, images or subtopics are in flight at once. `callConcurrency` is how many calls one run makes at once. Only `deepen-subtopic-splitting` has one, because it is the only stage whose run makes more than one call on one piece of work (§5). `correct-terms`, `rewrite-subtopics` and `correct-factual-errors` make one call for each subtopic, so their `concurrency` counts their calls. Unset, runs and calls are each made one at a time. On any other stage, nothing would read `callConcurrency`. So the loader raises a `ConfigError` at startup that names the stage.
 
 **The send gap is shared by the whole invocation.** `sendGapSeconds` is the least time between the starts of two sends of a stage. Unset, sends are not spaced (§5, "Dividing the transcript", Panel runs). The CLI builds each stage once, and a batch runs every lecture through that one stage. So the gap holds across all the lectures of a batch. It limits the rate of the stage's sends, however many lectures run at once. Without it, two lectures with a `concurrency` of 20 each could start 40 sends at once. The gap spaces sends that run at the same time. So a stage that sets `sendGapSeconds` must also set `concurrency`, or the loader raises a `ConfigError` that names the stage.
 
-**A stage key names a stage.** Every key of the `stages` section is checked against the stage IDs, and one that names no stage is a `ConfigError` at startup listing the stages it could have named. Configuration reaches a stage by its key alone, so this check is what makes "the stage is configured" and "the config file mentions the stage" the same statement.
+**A stage with a list of models.** The entry of `check-facts` has `models` in place of `modelId` (§5, `check-facts`). Each item of the list is a model entry with the usual fields, and a `role`: `primary`, `secondary` or `disabled`. The loader raises a `ConfigError` that names the stage and the rule in each of these cases:
 
-**Model-ID resolution check.** At startup `loadConfig` fetches the model list once from `${openRouter.baseUrl}/models` and asserts every configured `stages[*].modelId` appears in it, so placeholders left un-substituted, typos, and retired IDs are caught before any billable call. A miss throws a `ConfigError` naming the offending stages and linking to the models page. The list is fetched once per invocation, which is the only time it is wanted: `loadConfig` runs once, and asks for the list once.
+- the list has no primary model, or more than one
+- the list has more than one secondary model
+- an item has a `role` that is not one of the three
+- two items have the same model id without its provider part, because each model's file is named by that part (§5, `check-facts`).
+
+The other stages keep one `modelId`. A `models` list on any other stage is a `ConfigError` that names the stage.
+
+**A stage key names a stage.** The loader checks each key of the `stages` section against the stage IDs. A key that names no stage is a `ConfigError` at startup, which lists the stages that the key could name. Configuration reaches a stage by its key alone. So with this check, "the stage is configured" and "the config file mentions the stage" mean the same thing.
+
+**Model-ID resolution check.** At startup, `loadConfig` fetches the model list once from `${openRouter.baseUrl}/models`. It checks that each configured `stages[*].modelId` is in the list. It also checks each model id of a `models` list, the disabled ones included. So the check finds placeholders, typos and retired IDs before any billable call. A miss throws a `ConfigError` naming the offending stages and linking to the models page. The list is fetched once per invocation, which is the only time it is wanted: `loadConfig` runs once, and asks for the list once.
 
 **Exempting non-OpenRouter providers.** Not every stage calls OpenRouter — `transcription` transcribes through ElevenLabs — so checking its model ID against OpenRouter's list would always fail. `modelIdCheck.exemptProviders` lists provider prefixes (the part of a model ID before the `/`) that the check skips, so a stage on any non-OpenRouter provider can still declare its model in config and have it recorded in the manifest and cost report. The mechanism is general: it is not specific to ElevenLabs, and a stage whose provider is not exempt is always checked. Exempting a provider trades away the typo protection for its IDs, so keep the list to providers that genuinely sit outside OpenRouter.
 
@@ -1888,16 +1867,19 @@ Each prefix is matched literally, so one carrying a pattern character means itse
       "concurrency": 10,                          // subtopics rewritten at once
       "sendGapSeconds": 0.25                      // the least time between two sends of the stage
     },
-    "check-rewrite-attempts": {
-      "modelId": "openai/gpt-5.6-sol-pro",        // the checker: from a different company from the writer
+    "check-facts": {
+      "models": [                                 // one call for each model that is not disabled, all at once
+        { "modelId": "openai/gpt-5.6-sol-pro", "role": "primary", "temperature": null, "maxTokens": null },
+        { "modelId": "anthropic/claude-opus-5.5", "role": "secondary", "temperature": null, "maxTokens": null }
+      ]
+    },
+    "correct-factual-errors": {
+      "modelId": "anthropic/claude-sonnet-5.5",   // one call for each subtopic with a factual error
       "temperature": null,
       "maxTokens": null,
-      "concurrency": 10,                          // subtopics checked at once
+      "concurrency": 10,                          // subtopics corrected at once
       "sendGapSeconds": 0.25                      // the least time between two sends of the stage
     }
-  },
-  "rewriting": {
-    "maxRounds": 3                     // the most rounds of the rewrite loop before the check fails
   },
   "subtopicSplitting": {
     "panelSize": 18,                   // splitting runs per lecture
@@ -1964,7 +1946,7 @@ The pipeline runner classifies each run automatically by inspecting the manifest
 |---|---|
 | Normal run, no `--from-stage` | `normal` |
 | `--from-stage` targets a stage whose output stands — `complete` or `skipped` | `experiment` |
-| `--from-stage` targets a stage in any other state — `failed`, `running`, `sent-back`, `pending`, or with no entry at all | `error-recovery` |
+| `--from-stage` targets a stage in any other state — `failed`, `running`, `pending`, or with no entry at all | `error-recovery` |
 
 The two `--from-stage` rows divide on whether the target's output is already on disk, which is the same `complete`-or-`skipped` reading §4.2 gives stage idempotency. Where it stands, the run produces that output a second time under whatever the configuration now names, and the two figures are there to be compared — an experiment. Where it does not, the output the run is after does not exist yet.
 
@@ -1985,7 +1967,7 @@ Place slides            google/gemini-3.8-flash           1     22,616 /  38,475
 ──────────────────────────────────────────────────────────────────────────────────────────
 ```
 
-A stage of the rewrite loop has one row, even when it ran in several rounds. Its row shows the total of its rounds, as its run log entry does (§4.6).
+A stage with a list of models has one row for each model that it called, from its `costByModel` (§4.5). Each row shows the model's calls, tokens and cost. No row shows the stage's total, for the reason below.
 
 The table closes on its last stage. No line sums the run (NFR-2.2). Each stage that this invocation ran and that names a model has one row, by the rule of the report's first section. The cost cell reads `n/a` wherever no figure was resolved. That is a lookup that failed, as for Place slides above, or a stage that failed before it called anything. A stage that names no model has no row, because it has no model spend to show. A stage that failed is named beneath the table either way, with its message.
 
@@ -2059,10 +2041,10 @@ The split is by kind rather than by size. Rendering reads manifests, run logs an
 ```typescript
 accumulateCost(args: { current: StageCost; incoming: StageCost }): StageCost
 // Folds the calls a single stage made into that stage's one StageCost, summing tokens, call counts and cost
-// at full precision (rounding is a display concern). read-slides makes one call for each slide, and each
-// stage of the rewrite loop one call for each subtopic. Each has a single figure to record — this is how they
-// reach it, and it stays inside one stage. The runner uses it too, to add the rounds of a loop stage
-// into one run log entry (§4.6). The merged cost is resolved only when both inputs resolved; if either is null the result
+// at full precision (rounding is a display concern). read-slides makes one call for each slide, and
+// correct-terms, rewrite-subtopics and correct-factual-errors one call for each subtopic. Each has a single
+// figure to record — this is how they reach it, and it stays inside one stage. check-facts also folds the
+// calls of each model into that model's own StageCost (§4.5). The merged cost is resolved only when both inputs resolved; if either is null the result
 // is null and the errors are joined, so a stage whose lookup failed for one call reports `n/a` rather than
 // the part that happened to come back. Takes no rate and does no formatting: it works entirely in stored USD,
 // which is what keeps it unaffected by the presentation currency.
@@ -2137,7 +2119,9 @@ Items 4 and 5 split one job in two, because the two audiences need different thi
 
 **`read-slides`.** The stage writes each slide reading to `Slide readings/slide-001.json` and so on, as soon as its reply is usable. On restart after a `failed` stage, the stage reads only the slides that have no reading. The stage is marked `complete` when every slide has a reading.
 
-**The stages of the rewrite loop.** Each stage writes the file of each subtopic as soon as its reply is usable. On restart, the stage reads its saved files of the current round, and makes calls only for the subtopics without one (§5, "The rewrite loop").
+**The stages that work on one subtopic at a time.** `correct-terms`, `rewrite-subtopics` and `correct-factual-errors` write the file of each subtopic as soon as its reply is usable. On restart, each stage reads its saved files, and makes calls only for the subtopics without one (§5, "The rewrite").
+
+**`check-facts`.** The stage writes the file of each model as soon as its reply is usable. On restart, the stage calls only the models with no saved file (§5, `check-facts`).
 
 ### API Error Handling
 
@@ -2205,8 +2189,8 @@ src/
 │       ├── place-slides/             # stage module and its prompt module
 │       ├── correct-terms/            # stage module and its prompt module
 │       ├── rewrite-subtopics/        # stage module and its writer prompt module
-│       ├── check-rewrite-attempts/   # stage module and its checker prompt module
-│       └── assemble-rewrites/        # stage module: no model call, no prompt
+│       ├── check-facts/              # stage module, its fact-check prompt module, and the merge
+│       └── correct-factual-errors/   # stage module and its fact-correction prompt module
 └── utils/
     ├── date.ts                       # Date extraction and normalisation (chrono-node)
     ├── naming.ts                     # Lecture folder and file naming helpers
@@ -2271,10 +2255,11 @@ The runner tells the user what it is doing, one stage at a time, through a `Pipe
 ```typescript
 type PipelineRunEvent =
   | { event: "lecture-started"; manifest: Manifest }
-  | { event: "stage-started"; stageId: StageId; round: number }
-  | { event: "stage-skipped"; stageId: StageId; round: number }
-  | { event: "stage-completed"; stageId: StageId; round: number; cost: StageCost | null }
-  | { event: "stage-failed"; stageId: StageId; round: number }
+  | { event: "stage-started"; stageId: StageId }
+  | { event: "stage-skipped"; stageId: StageId }
+  | { event: "stage-completed"; stageId: StageId; cost: StageCost | null }
+  | { event: "stage-failed"; stageId: StageId }
+  | { event: "stage-notice"; stageId: StageId; notice: string }
 type PipelineRunReporter = (event: PipelineRunEvent) => void
 // Facts, not sentences. The wording is `src/cli/pipeline-run-reporter.ts`'s, which is what keeps the runner out of the
 // business of writing to a user (§8) while still letting it speak at the moment there is something to say.
@@ -2289,7 +2274,7 @@ Lecture 1: Cell Injury (2025-10-10)
 ✖ Synthesis — failed
 ```
 
-A notice of a stage in round 2 or later names the round, for example "▶ Correct terms, round 2…". A notice in round 1 does not name it, so the notices of the other stages do not change.
+A stage notice is a fact that the stage found and that the user must see. An example is the passage of a factual error that `check-facts` did not find in its subtopic (§5, `check-facts`). The stage returns its notices on `StageResult.notices`. The runner reports each notice after the stage's completed line, so a stage never writes to the terminal.
 
 A completed stage that makes no model call, such as `audio-extraction` or `render-slides`, ends with "no model call". It shows no zero, because a zero would read as a measured cost. It shows no blank, because a blank would read as an unknown cost (§7). A failed stage is marked, but its message is not repeated here. The message and the pointer to the debug log follow the run summary (§8). This line exists so that a stage announced as started is not left open. The lecture's name comes from `lectureHeading` (§7). The end-of-run summary and the cost report name it in the same way, so a batch's notices cannot identify one lecture in two ways.
 

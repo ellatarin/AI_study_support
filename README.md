@@ -7,13 +7,13 @@ subtopic titles, with each slide at the point where the lecturer discusses it. I
 the lecturer said. A student reads it in place of the recording and the slides. So it must be
 complete, and it must be right.
 
-> **Status: in progress.** The pipeline currently runs from a module's source files to the placed slides. The rewrite loop, which corrects, rewrites and checks each subtopic, is designed and is being built. The placement of the slides in the rewritten text, and the HTML page, are designed in outline only. See [Where the project is up to](#where-the-project-is-up-to).
+> **Status: in progress.** The pipeline currently runs from a module's source files to the rewritten subtopics. The fact check and the fact correction are designed and are being built. Slide relocation and the notes page are designed in outline, and slide relocation has a prototype. See [Where the project is up to](#where-the-project-is-up-to).
 
 ## Design philosophy
 
-**Nothing lost, nothing invented.** A student learning from the notes cannot tell what is missing or what was made up. So the standard every stage is held to is **faithfulness**: the notes carry everything the sources carry, and assert nothing they do not. In addition there must be no distortions that would mislead the student.
+**Nothing lost, nothing invented.** A student learning from the notes cannot tell what is missing or what was made up. So the standard every stage is held to is **faithfulness**: the notes carry everything the sources carry, and assert nothing they do not. In addition there must be no distortions that would mislead the student. There is one exception: where the lecturer states a factual error, the notes state the correct fact.
 
-**All work is verified with separate models.** Wherever a model transforms or edits any content, separate model calls are then made in order to check the result against its source and report any discrepancies. The checker never fixes anything itself, because a model cannot be as critical as possible and write corrections in the same call. All verification findings come with their reasons, including the things the verifier looked at and cleared. That way a verification step that missed something can be told apart from one that checked and found it fine.
+**All work is verified with separate models.** When a model changes content, other model calls check the result against its source and report each difference. The checker never corrects anything itself. A model cannot be as critical as possible and write corrections in the same call. All verification findings come with their reasons, including the things the verifier looked at and cleared. That way a verification step that missed something can be told apart from one that checked and found it fine. The rewrite is the exception for now. No stage compares the rewrite with the lecturer's words. A fact check reads the rewrite alone. A separate model corrects the factual errors that the check finds. ADR 0003 in `docs/adr/` gives the reasons.
 
 **Models are not asked to do anything that would be more reliable using code.** By way of example, when the transcript is divided into parts, the model is asked only *where* each part begins. The text itself is sliced from the original using code, so a divided transcript is always byte-identical to the original. Nothing can be dropped or reworded along the way.
 
@@ -86,23 +86,20 @@ re-run from it or stop after it.
     discuss it. The model names the subtopic and the sentence. Code checks that every slide has one
     place and that the slides keep their deck order. A references slide goes at the end of the last
     subtopic, and content-free slides are left out.
-15. **The rewrite loop.** Three stages turn each subtopic into textbook prose. The pipeline repeats
-    them for the subtopics that fail the check, up to three rounds by default:
-    - **`correct-terms`.** A model compares the subtopic text with the readings of the slides placed
-      in it, and proposes corrections of misheard terms. Code accepts a correction only when its right
-      form is on one of those slides and its wrong form is in the text.
-    - **`rewrite-subtopics`.** A writer gets the corrected text of that one subtopic and nothing else.
-      It writes paragraphs in the lecturer's order, drops filler and jokes, and keeps every fact. It
-      puts a **figure mark** where the lecturer points at a slide.
-    - **`check-rewrite-attempts`.** A checker from a different company compares the rewritten
-      subtopic with the lecturer's own words and the corrections. One omission, distortion or addition
-      sends the subtopic back for another round.
-16. **`assemble-rewrites`.** Puts the rewritten subtopics and their corrections in one file. No model
-    call.
-17. **Placing the slides in the rewritten text.** Puts a slide at each figure mark and numbers the
-    figures. Designed in outline only.
-18. **The HTML page.** Joins the rewritten subtopics under their topic and subtopic titles, with the
-    slides at their places, and puts the page in `Final output/`. Designed in outline only.
+15. **`correct-terms`.** A model compares the text of each subtopic with the readings of the slides
+    placed in it, and proposes corrections of misheard terms. Code accepts a correction only when its
+    right form is on one of those slides and its wrong form is in the text.
+16. **`rewrite-subtopics`.** A writer gets the corrected text of one subtopic and nothing else. It
+    writes paragraphs in the lecturer's order, drops filler and jokes, and keeps every fact. It puts a
+    **figure mark** where the lecturer points at a slide.
+17. **`check-facts`.** One or two models read the whole rewrite, with no transcript, and list its
+    factual errors. Where both models report the same error, the error takes the primary model's text.
+18. **`correct-factual-errors`.** A model corrects the factual errors of each subtopic that has one,
+    with the smallest change to the text.
+19. **`relocate-slides`.** Moves each placed slide from its point in the transcript to the sentence of
+    the notes where its explanation starts, and numbers the figures. Designed in outline only.
+20. **`build-notes-page`.** Writes the notes page and its slide images into a folder for the lecture in
+    `Final output/`. Designed in outline only.
 
 
 Transcription uses ElevenLabs. Every other model call goes through OpenRouter, so any model it offers can be assigned to any stage.
@@ -165,13 +162,13 @@ lecture-notes change-date <date> <new date>
 | `read-slides` | Built |
 | `verify-slides` | Planned |
 | `place-slides` | Built |
-| `correct-terms` | Built, as the first step of `rewrite-subtopics`. Being moved to its own stage |
-| `rewrite-subtopics` | Designed, not built |
-| `check-rewrite-attempts` | Designed, not built |
-| The rewrite loop in the runner | Designed, not built |
-| `assemble-rewrites` | Designed, not built |
-| Placing the slides in the rewritten text | Designed in outline |
-| The HTML page | Designed in outline |
+| `correct-terms` | Built |
+| `rewrite-subtopics` | Built |
+| `check-rewrite-attempts` | Built, and being removed (ADR 0003) |
+| `check-facts` | Designed, not built |
+| `correct-factual-errors` | Designed, not built |
+| `relocate-slides` | Designed in outline, with a prototype |
+| `build-notes-page` | Designed in outline |
 
 The commands (`run`, `batch`, `cost-report`, `rename`, `delete`, `change-date`) are built.
 Some built stages still carry their earlier names in the code until the redesign is carried through.
