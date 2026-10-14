@@ -14,6 +14,7 @@ import type {
 	PipelineStageOutcome,
 	RunLog,
 	RunLogStageEntry,
+	StageConfigUsed,
 	StageCost,
 	StageEntry,
 	StageId,
@@ -286,6 +287,16 @@ type StageCostRow = {
 };
 
 /**
+ * Gives the one model that a stage ran with.
+ *
+ * @param configUsed - The config that the stage ran with, or `null` for a stage with no config.
+ * @returns The model id, or `null` for a stage with no model or with a list of models.
+ */
+function singleModelIdOf(configUsed: StageConfigUsed | null): string | null {
+	return configUsed !== null && "modelId" in configUsed ? configUsed.modelId : null;
+}
+
+/**
  * Gives the row of a stage in the run summary or the first section of the cost
  * report. A stage gets a row only when its stage entry names a model. A stage
  * that names no model makes no model call, so it has no model cost to compare
@@ -301,8 +312,8 @@ function stageCostRow(entry: StageEntry | undefined): StageCostRow | null {
 	if (entry === undefined || entry.status === "pending" || entry.status === "running") {
 		return null;
 	}
-	const model = entry.configUsed?.modelId;
-	if (model === undefined || model === null) {
+	const model = singleModelIdOf(entry.configUsed);
+	if (model === null) {
 		return null;
 	}
 	return { model, cost: entry.cost };
@@ -429,7 +440,7 @@ function experimentSection({ runLogs, formatMoney }: RunLogSectionArgs): readonl
 			`Stage: ${stageId}`,
 			...entries.map(({ log, entry }) => {
 				const model = fitToColumn({
-					text: entry.configUsed?.modelId ?? "—",
+					text: singleModelIdOf(entry.configUsed) ?? "—",
 					width: MODEL_WIDTH,
 				}).padEnd(MODEL_WIDTH);
 				const cost = formatMoney(entry.cost.costUsd).padStart(COST_WIDTH);

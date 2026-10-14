@@ -4,7 +4,7 @@
  * `src/pipeline/reports.ts` (technical-design.md §7, "Cost and Reporting Modules").
  */
 
-import type { CostTally, StageCost } from "../types/pipeline.js";
+import type { CostTally, CostTallyByModel, StageCost } from "../types/pipeline.js";
 
 /** The text between two reasons in the reason for an unknown cost. */
 const REASON_SEPARATOR = "; ";
@@ -87,18 +87,6 @@ export function createCostTally(): CostTally {
 		total: () => total,
 	};
 }
-
-/**
- * The cost tally of each model of one stage run, for a stage with a list of
- * models. The caller owns it, so each model's cost is still there when the stage
- * fails, as the stage's own {@link CostTally} is (technical-design.md §4.5, §7).
- */
-export type CostTallyByModel = {
-	/** Gives the tally of one model. The first call for a model makes it. */
-	readonly tallyOf: (modelId: string) => CostTally;
-	/** Gives the total of each model that has a cost, in the order of the first `tallyOf` call for each model. */
-	readonly costByModel: () => readonly { readonly modelId: string; readonly cost: StageCost }[];
-};
 
 /**
  * Makes an empty {@link CostTallyByModel} for one stage run.

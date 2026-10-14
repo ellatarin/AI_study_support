@@ -11,11 +11,11 @@ import { join, relative } from "node:path";
 import type { Logger } from "pino";
 import type {
 	CostTally,
+	CostTallyByModel,
 	FactCheckModel,
 	ModelRole,
 	StageContext,
 } from "../../../types/pipeline.js";
-import { type CostTallyByModel, createCostTallyByModel } from "../../../utils/cost.js";
 import { NamedError } from "../../../utils/errors.js";
 import { writeJsonAtomic } from "../../../utils/files.js";
 import { factCheckFileName } from "../../../utils/model-id.js";
@@ -81,10 +81,8 @@ export type SendToListedModel = (
 type ModelFactCheckFile = ModelFactualErrors & { readonly factCheckPromptVersion: string };
 
 /**
- * The result of the fact check of one lecture, for the pipeline stage. The stage
- * entry does not yet have `configUsed.models`. A later change adds it
- * (technical-design.md §4.5). The cost of each model is in the caller's
- * {@link CostTallyByModel}.
+ * The result of the fact check of one lecture, for the pipeline stage. The cost
+ * of each model is in the caller's {@link CostTallyByModel}.
  */
 type FactCheckResult = {
 	/** The merged file. */
@@ -93,8 +91,6 @@ type FactCheckResult = {
 	readonly filesWritten: readonly string[];
 	/** The stage notices that the user must see. */
 	readonly notices: readonly string[];
-	/** The config of each model that is not disabled, with its role. */
-	readonly configUsed: { readonly models: readonly FactCheckModel[] };
 };
 
 /** One error of a fact-check reply, in the words of the reply. */
@@ -302,7 +298,7 @@ function passageFound({
  * merged file `factual-errors.json`.
  *
  * @param run - The fact check of the lecture.
- * @returns The merged file, the stage notices, the cost of each called model and the config of each model that is not disabled.
+ * @returns The merged file, the `filesWritten` entry of each file, and the stage notices.
  * @throws {CheckFactsError} If the `models` list has no primary model, or a saved file holds nothing readable.
  * @throws The error of a model that fails, after the other model's check settles.
  */
@@ -356,7 +352,6 @@ export async function checkFacts(run: FactCheckRun): Promise<FactCheckResult> {
 			relative(run.workspaceRoot, path),
 		),
 		notices: wordsNotFoundNotices(output.factualErrors),
-		configUsed: { models },
 	};
 }
 
@@ -464,7 +459,7 @@ export const createCheckFactsStage: ModelStageFactory<FactCheckInput, FactualErr
 		stageId: STAGE_ID,
 		logger,
 		getInput: readFactCheckInput,
-		run: async ({ input, context, logger: stageLogger, costTally }) => {
+		run: async ({ input, context, logger: stageLogger, costTally, costTallyByModel }) => {
 			const models = context.config.stages[STAGE_ID]?.models;
 			if (models === undefined) {
 				throw new CheckFactsError(unconfiguredStageMessage({ stageId: STAGE_ID }));
@@ -475,7 +470,7 @@ export const createCheckFactsStage: ModelStageFactory<FactCheckInput, FactualErr
 				workspaceRoot: context.workspaceRoot,
 				logger: stageLogger,
 				costTally,
-				costTallyByModel: createCostTallyByModel(),
+				costTallyByModel,
 				sendToModel: ({ messages, costTally: modelCostTally, model }) =>
 					callModel({
 						messages,

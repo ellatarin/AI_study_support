@@ -20,6 +20,7 @@ import type {
 	CostTally,
 	FactCheckModel,
 	Manifest,
+	ModelCost,
 	OutputLanguage,
 	PipelineConfig,
 	PipelineStage,
@@ -32,7 +33,7 @@ import type {
 	StageId,
 	StageResult,
 } from "../types/pipeline.js";
-import { createCostTally } from "../utils/cost.js";
+import { createCostTally, createCostTallyByModel } from "../utils/cost.js";
 import { NamedError } from "../utils/errors.js";
 import { pathExists } from "../utils/files.js";
 import { MAX_SENDS } from "../utils/resend.js";
@@ -1746,14 +1747,17 @@ export const runningEntry: StageEntry = { status: "running" };
  * @param args - The files that the stage recorded before it failed, and what it spent.
  * @param args.filesWritten - The workspace-relative files that the stage left. The default is none.
  * @param args.cost - What the stage spent before it failed. The default is `null`.
+ * @param args.costByModel - What each model spent before the stage failed. The default is no field, as for a stage with one model.
  * @returns The stage entry.
  */
 export function failedEntry({
 	filesWritten = [],
 	cost = null,
+	costByModel,
 }: {
 	readonly filesWritten?: readonly string[];
 	readonly cost?: StageCost | null;
+	readonly costByModel?: readonly ModelCost[];
 } = {}): StageEntry {
 	return {
 		status: "failed",
@@ -1761,6 +1765,7 @@ export function failedEntry({
 		error: "the stage threw",
 		configUsed: null,
 		cost,
+		...(costByModel === undefined ? {} : { costByModel }),
 		filesWritten,
 	};
 }
@@ -2927,7 +2932,12 @@ export async function driveStage<TInput, TOutput>({
 	readonly context: StageContext;
 	readonly costTally?: CostTally;
 }): Promise<StageResult<TOutput>> {
-	return stage.run({ input: await stage.getInput(context), context, costTally });
+	return stage.run({
+		input: await stage.getInput(context),
+		context,
+		costTally,
+		costTallyByModel: createCostTallyByModel(),
+	});
 }
 
 /**

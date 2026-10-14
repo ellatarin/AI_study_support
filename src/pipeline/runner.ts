@@ -7,6 +7,7 @@ import type {
 	LectureIdentityChanges,
 	LectureMatch,
 	Manifest,
+	ModelCost,
 	PipelineConfig,
 	PipelineRunOptions,
 	PipelineRunReporter,
@@ -32,7 +33,7 @@ import {
 	STAGE_IDS,
 } from "../types/pipeline.js";
 import { mapWithConcurrency } from "../utils/concurrency.js";
-import { createCostTally, totalCost } from "../utils/cost.js";
+import { createCostTally, createCostTallyByModel, totalCost } from "../utils/cost.js";
 import { errorMessage } from "../utils/errors.js";
 import { listFileNames, readJsonSafe, writeJsonAtomic } from "../utils/files.js";
 import { createStageLogger } from "../utils/logger.js";
@@ -217,7 +218,8 @@ function resolveStageRunConfig(args: {
 	readonly stageId: StageId;
 }): StageConfigUsed | null {
 	if (args.stageId === "check-facts") {
-		return null;
+		const models = args.config.stages["check-facts"]?.models ?? [];
+		return { models: models.filter(({ role }) => role !== "disabled") };
 	}
 	const stageConfig = configuredStage({ config: args.config, stageId: args.stageId });
 	return stageConfig === null ? null : { ...stageConfig };
@@ -309,6 +311,44 @@ function spentInEarlierRuns(entry: StageEntry | undefined): StageCost | null {
 	return entry !== undefined && "cost" in entry ? entry.cost : null;
 }
 
+/**
+ * Gives the `costByModel` field of an entry, or no field when the list is empty.
+ * Only a stage with a list of models spends by model (technical-design.md §4.5).
+ *
+ * @param costByModel - The cost of each model.
+ * @returns The field, or an empty object.
+ * @typeParam TModelCost - The cost of one model, as the entry records it.
+ */
+function withCostByModel<TModelCost>(costByModel: readonly TModelCost[]): {
+	readonly costByModel?: readonly TModelCost[];
+} {
+	return costByModel.length === 0 ? {} : { costByModel };
+}
+
+/**
+ * Adds the cost of each model in this run to its cost in the earlier runs since
+ * the last reset. The stage entry's `cost` adds up in the same way.
+ *
+ * @param args - The stage entry before this run, and the cost of each model in this run.
+ * @param args.entry - The stage entry before this run, or `undefined` when the manifest has none.
+ * @param args.costByModel - The cost of each model in this run.
+ * @returns The cost of each model, the models of the earlier runs first.
+ */
+function costByModelSinceReset({
+	entry,
+	costByModel,
+}: {
+	readonly entry: StageEntry | undefined;
+	readonly costByModel: readonly ModelCost[];
+}): readonly ModelCost[] {
+	const earlier = entry !== undefined && "costByModel" in entry ? (entry.costByModel ?? []) : [];
+	const sinceReset = createCostTallyByModel();
+	for (const { modelId, cost } of [...earlier, ...costByModel]) {
+		sinceReset.tallyOf(modelId).add(cost);
+	}
+	return sinceReset.costByModel();
+}
+
 function runLogCost(cost: StageCost | null): RunLogCost {
 	if (cost === null) {
 		return { costUsd: null, callCount: 0 };
@@ -331,6 +371,13 @@ type StageOutcome = {
  * context from the last write (technical-design.md §4.7). Each write finds the workspace
  * first, because the stage can move it.
  */
+/** The config that a stage run used, and what it spent: in total, and for each model. */
+type StageRunSpend = {
+	readonly configUsed: StageConfigUsed | null;
+	readonly cost: StageCost | null;
+	readonly costByModel: readonly ModelCost[];
+};
+
 type StageStatusWriter = {
 	/** The stage's output is on disk. The entry keeps the details of the earlier completion. */
 	skipped(): Promise<void>;
@@ -341,17 +388,9 @@ type StageStatusWriter = {
 	 */
 	running(): Promise<void>;
 	/** The stage returned. The entry records what it made and spent, with any lecture identity that it decided (technical-design.md §4.2). */
-	complete(args: {
-		readonly configUsed: StageConfigUsed | null;
-		readonly result: StageResult<unknown>;
-		readonly cost: StageCost | null;
-	}): Promise<void>;
+	complete(args: StageRunSpend & { readonly result: StageResult<unknown> }): Promise<void>;
 	/** The stage threw. The entry records the error message that the user sees, and what the stage spent before it failed. */
-	failed(args: {
-		readonly configUsed: StageConfigUsed | null;
-		readonly error: string;
-		readonly cost: StageCost | null;
-	}): Promise<void>;
+	failed(args: StageRunSpend & { readonly error: string }): Promise<void>;
 	/** The context for the next stage, from the last write. */
 	context(): StageContext;
 };
@@ -380,7 +419,21 @@ function createStageStatusWriter({
 	// The context for the NEXT stage. The stage that runs keeps the context it was
 	// given, so its own entry does not change during its run.
 	let nextContext = context;
-	const spentBefore = spentInEarlierRuns(context.manifest.stages[stageId]);
+	const earlierEntry = context.manifest.stages[stageId];
+	const spentBefore = spentInEarlierRuns(earlierEntry);
+	// The config and the spend of this run, with the spend of the earlier runs since the last reset added.
+	const spendSinceReset = ({
+		configUsed,
+		cost,
+		costByModel,
+	}: StageRunSpend): Pick<
+		Extract<StageEntry, { readonly status: "failed" }>,
+		"configUsed" | "cost" | "costByModel"
+	> => ({
+		configUsed,
+		cost: totalCost([spentBefore, cost]),
+		...withCostByModel(costByModelSinceReset({ entry: earlierEntry, costByModel })),
+	});
 	const write = async ({
 		entry,
 		identityChanges,
@@ -408,25 +461,23 @@ function createStageStatusWriter({
 		skipped: () =>
 			write({ entry: skippedEntry({ context, stageId, timestamp }), identityChanges: {} }),
 		running: () => write({ entry: { status: "running" }, identityChanges: {} }),
-		complete: ({ configUsed, result, cost }) =>
+		complete: ({ result, ...spend }) =>
 			write({
 				entry: {
 					status: "complete",
 					completedAt: timestamp,
-					configUsed,
-					cost: totalCost([spentBefore, cost]),
+					...spendSinceReset(spend),
 					filesWritten: result.filesWritten,
 				},
 				identityChanges: result.identityChanges ?? {},
 			}),
-		failed: ({ configUsed, error, cost }) =>
+		failed: ({ error, ...spend }) =>
 			write({
 				entry: {
 					status: "failed",
 					failedAt: timestamp,
 					error,
-					configUsed,
-					cost: totalCost([spentBefore, cost]),
+					...spendSinceReset(spend),
 					filesWritten: [],
 				},
 				identityChanges: {},
@@ -463,6 +514,7 @@ async function runStage({
 	reporter({ event: "stage-started", stageId });
 	await statusWriter.running();
 	const costTally = createCostTally();
+	const costTallyByModel = createCostTallyByModel();
 	// The outcome of a stage that ran. Its cost is the total of the stage run's cost tally.
 	const ranOutcome = (
 		ending: { readonly status: "complete" } | { readonly status: "failed"; readonly error: string },
@@ -472,14 +524,25 @@ async function runStage({
 			...ending,
 			configUsed,
 			cost: runLogCost(costTally.total()),
+			...withCostByModel(
+				costTallyByModel.costByModel().map(({ modelId, cost }) => ({
+					modelId,
+					cost: runLogCost(cost),
+				})),
+			),
 		},
 		context: statusWriter.context(),
 	});
 	try {
 		const input = await stage.getInput(context);
-		const result = await stage.run({ input, context, costTally });
+		const result = await stage.run({ input, context, costTally, costTallyByModel });
 		const cost = costTally.total();
-		await statusWriter.complete({ configUsed, result, cost });
+		await statusWriter.complete({
+			configUsed,
+			result,
+			cost,
+			costByModel: costTallyByModel.costByModel(),
+		});
 		reporter({ event: "stage-completed", stageId, cost });
 		for (const notice of result.notices ?? []) {
 			reporter({ event: "stage-notice", stageId, notice });
@@ -491,7 +554,12 @@ async function runStage({
 		// unexpected failure is diagnosed (technical-design.md §8, §10).
 		createStageLogger({ logger, stageId }).error({ err: error }, "Stage failed");
 		reporter({ event: "stage-failed", stageId });
-		await statusWriter.failed({ configUsed, error: message, cost: costTally.total() });
+		await statusWriter.failed({
+			configUsed,
+			error: message,
+			cost: costTally.total(),
+			costByModel: costTallyByModel.costByModel(),
+		});
 		return ranOutcome({ status: "failed", error: message });
 	}
 }

@@ -1,13 +1,7 @@
 import { mkdir } from "node:fs/promises";
 import { basename } from "node:path";
 import type { Logger } from "pino";
-import type {
-	CostTally,
-	PipelineStage,
-	StageContext,
-	StageId,
-	StageResult,
-} from "../../types/pipeline.js";
+import type { PipelineStage, StageContext, StageId, StageResult } from "../../types/pipeline.js";
 import {
 	cleanTmpFiles,
 	jsonFileContent,
@@ -255,18 +249,15 @@ export async function writeStageOutputWithStageRecord({
 
 /**
  * The work of a stage. It gets the stage's input, the stage context, a logger
- * that names the stage and the lecture, and the cost tally of the stage run.
+ * that names the stage and the lecture, and the cost tallies of the stage run.
  *
  * @typeParam TInput - The input of the stage.
  * @typeParam TOutput - The output of the stage.
  */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger type has mutable properties that the rule sees. This code only reads the logger. CLAUDE.md allows a mutable type where a library requires one.
-type StageRun<TInput, TOutput> = (args: {
-	readonly input: TInput;
-	readonly context: StageContext;
-	readonly logger: Logger;
-	readonly costTally: CostTally;
-}) => Promise<StageResult<TOutput>>;
+type StageRun<TInput, TOutput> = (
+	// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger type has mutable properties that the rule sees. This code only reads the logger. CLAUDE.md allows a mutable type where a library requires one.
+	args: Parameters<PipelineStage<TInput, TOutput>["run"]>[0] & { readonly logger: Logger },
+) => Promise<StageResult<TOutput>>;
 
 /** The input of a stage that reads one source file of the lecture. */
 export type SourceFileInput = {
@@ -363,7 +354,8 @@ export function createPipelineStage<TInput, TOutput>({
 		stageId,
 		isComplete: (context) => isStageComplete({ context, stageId }),
 		getInput,
-		run: async ({ input, context, costTally }) => {
+		run: async (args) => {
+			const { context } = args;
 			await prepareStageDirectories({ workspaceRoot: context.workspaceRoot, stageId });
 			// The lecture is added at each call of `run`, because a batch runs one stage
 			// object for several lectures at the same time (technical-design.md §10).
@@ -372,7 +364,7 @@ export function createPipelineStage<TInput, TOutput>({
 				lectureNumber: context.lectureNumber,
 				lectureDate: context.lectureDate,
 			});
-			return run({ input, context, logger: lectureLogger, costTally });
+			return run({ ...args, logger: lectureLogger });
 		},
 	};
 }

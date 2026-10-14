@@ -1,8 +1,8 @@
 import { mkdir } from "node:fs/promises";
 import { join } from "node:path";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { FactCheckModel, PipelineConfig } from "../../../types/pipeline.js";
-import { type CostTallyByModel, createCostTallyByModel } from "../../../utils/cost.js";
+import type { CostTallyByModel, FactCheckModel, PipelineConfig } from "../../../types/pipeline.js";
+import { createCostTallyByModel } from "../../../utils/cost.js";
 import {
 	arrivingTogether,
 	captureError,
@@ -378,22 +378,15 @@ describe("checkFacts", () => {
 		expect(error.message).toContain(path);
 	});
 
-	it("should give the cost of each called model, and the config of each model that is not disabled, when the stage completes", async () => {
+	it("should give the cost of each called model when the stage completes", async () => {
 		sendToModel.mockImplementation(({ costTally: modelCostTally }) => {
 			modelCostTally.add(stubbedCallCost);
 			return Promise.resolve({ content: factCheckReply([]) });
 		});
 
-		const result = await run([
-			primaryFactCheckModel,
-			disabledFactCheckModel,
-			secondaryFactCheckModel,
-		]);
+		await run([primaryFactCheckModel, disabledFactCheckModel, secondaryFactCheckModel]);
 
 		expect(costTallyByModel().costByModel()).toStrictEqual(oneCallCostOfEachModel);
-		expect(result.configUsed).toStrictEqual({
-			models: [primaryFactCheckModel, secondaryFactCheckModel],
-		});
 		expect(costTally().total()).toStrictEqual(stubbedCallsCost({ calls: 2 }));
 	});
 

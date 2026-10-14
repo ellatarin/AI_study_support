@@ -83,6 +83,21 @@ export type CostTally = {
 	readonly total: () => StageCost | null;
 };
 
+/** The cost of one model of a stage with a list of models (technical-design.md §4.5). */
+export type ModelCost = { readonly modelId: string; readonly cost: StageCost };
+
+/**
+ * The cost tally of each model of one stage run, for a stage with a list of
+ * models. The runner owns it, so each model's cost is still there when the stage
+ * fails, as the stage's own {@link CostTally} is (technical-design.md §4.5, §7).
+ */
+export type CostTallyByModel = {
+	/** Gives the tally of one model. The first call for a model makes it. */
+	readonly tallyOf: (modelId: string) => CostTally;
+	/** Gives the total of each model that has a cost, in the order of the first `tallyOf` call for each model. */
+	readonly costByModel: () => readonly ModelCost[];
+};
+
 /** A stage's tuning: its model settings other than the model itself (technical-design.md §6). */
 type StageTuning = {
 	readonly temperature?: number;
@@ -102,9 +117,10 @@ type StageTuning = {
  * The runner never writes `modelId: null`. For a stage with no configuration, it
  * writes `null` in place of the whole value.
  */
-export type StageConfigUsed = {
-	readonly modelId: string | null;
-} & StageTuning;
+export type StageConfigUsed =
+	| ({ readonly modelId: string | null } & StageTuning)
+	/** The config of each model of the list that the stage used: called, or read the saved reply of. */
+	| FactCheckStageConfig;
 
 /** One stage's configuration in `pipeline-config.json` (technical-design.md §6). */
 export type StageConfig = {
@@ -189,6 +205,11 @@ export type PipelineConfig = {
 /** The cost and the files of a stage entry. The files come from the stage's result, and the cost from its cost tally. */
 type StageCostAndFiles = {
 	readonly cost: StageCost | null;
+	/**
+	 * The cost of each model that the stage called, since the last reset. Only a
+	 * stage with a list of models has it (technical-design.md §4.5).
+	 */
+	readonly costByModel?: readonly ModelCost[];
 	readonly filesWritten: readonly string[];
 };
 
@@ -320,6 +341,8 @@ export type PipelineStage<TInput, TOutput> = {
 		readonly input: TInput;
 		readonly context: StageContext;
 		readonly costTally: CostTally;
+		/** The cost tally of each model, for a stage with a list of models. */
+		readonly costTallyByModel: CostTallyByModel;
 	}): Promise<StageResult<TOutput>>;
 };
 
@@ -358,6 +381,8 @@ type RanStageBase = {
 	readonly action: "ran";
 	readonly configUsed: StageConfigUsed | null;
 	readonly cost: RunLogCost;
+	/** The cost of each model that the stage called in this run. Only a stage with a list of models has it (technical-design.md §4.5). */
+	readonly costByModel?: readonly { readonly modelId: string; readonly cost: RunLogCost }[];
 };
 
 /**

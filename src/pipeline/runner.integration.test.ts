@@ -24,6 +24,7 @@ import {
 	aiDerivedLecture,
 	completedEntry,
 	corruptJson,
+	disabledFactCheckModel,
 	failedEntry,
 	loggedAt,
 	makeConfig,
@@ -31,6 +32,7 @@ import {
 	makeTempDir,
 	otherLecture,
 	otherModuleName,
+	primaryFactCheckModel,
 	readJsonFile,
 	runningEntry,
 	sameDateLecture,
@@ -81,8 +83,24 @@ const DECIDED_IDENTITY: LectureIdentityChanges = {
 
 // Each test uses one configured stage, so its configuration is set here once.
 const RUNNER_CONFIG: PipelineConfig = makeConfig({
-	stages: { "audio-extraction": { modelId: "openrouter/model-a" } },
+	stages: {
+		"audio-extraction": { modelId: "openrouter/model-a" },
+		"check-facts": { models: [primaryFactCheckModel, disabledFactCheckModel] },
+	},
 });
+
+/** A model that a stub stage spends on by model, as a stage with a list of models does. */
+const LISTED_MODEL_ID = "openrouter/model-b";
+
+/**
+ * Gives the `costByModel` of an entry in which {@link LISTED_MODEL_ID} alone spent.
+ *
+ * @param cost - The fields of the model's cost that the test checks.
+ * @returns The list with the one model.
+ */
+function listedModelCost(cost: Partial<StageCost>): readonly unknown[] {
+	return [{ modelId: LISTED_MODEL_ID, cost }];
+}
 
 // The result of a stub stage when the test checks only if the stage ran: no
 // output and no files.
@@ -565,12 +583,13 @@ describe("PipelineRunner integration", () => {
 			expect(manifest.stages["audio-extraction"]?.status).toBe("failed");
 		});
 
-		it("should record what a failed stage spent in its run log and its stage entry when the stage throws after a call", async () => {
+		it("should record what a failed stage spent, in total and for each model, in its run log and its stage entry when the stage throws after a call", async () => {
 			const spent = oneCallCosting(0.25);
 			const stage = makeStubStage({
 				stageId: "audio-extraction",
-				run: ({ costTally }) => {
+				run: ({ costTally, costTallyByModel }) => {
 					costTally.add(spent);
+					costTallyByModel.tallyOf(LISTED_MODEL_ID).add(spent);
 					return Promise.reject(new Error(AUDIO_EXTRACTION_FAILURE));
 				},
 			});
@@ -581,8 +600,58 @@ describe("PipelineRunner integration", () => {
 				status: "failed",
 				error: AUDIO_EXTRACTION_FAILURE,
 				cost: { costUsd: 0.25, callCount: 1 },
+				costByModel: listedModelCost({ costUsd: 0.25, callCount: 1 }),
 			});
-			expect(stageEntry).toMatchObject({ status: "failed", cost: spent });
+			expect(stageEntry).toMatchObject({
+				status: "failed",
+				cost: spent,
+				costByModel: listedModelCost(spent),
+			});
+		});
+
+		it("should add each model's spend in this run to its spend in the failed run before it in the stage entry, and log this run's spend alone, when the stage runs again", async () => {
+			const earlier = oneCallCosting(0.25);
+			await writeManifest({
+				workspaceRoot,
+				manifest: makeManifest({
+					stages: stagesWith({
+						stageId: "audio-extraction",
+						entry: failedEntry({
+							cost: earlier,
+							costByModel: [{ modelId: LISTED_MODEL_ID, cost: earlier }],
+						}),
+					}),
+				}),
+			});
+			const stage = makeStubStage({
+				stageId: "audio-extraction",
+				run: ({ costTallyByModel }) => {
+					costTallyByModel.tallyOf(LISTED_MODEL_ID).add(oneCallCosting(0.5));
+					return Promise.resolve(PRODUCED_NOTHING);
+				},
+			});
+
+			const { runLogEntry, stageEntry } = await runAudioStageAndReadEntries(stage);
+
+			expect(runLogEntry).toMatchObject({
+				costByModel: listedModelCost({ costUsd: 0.5, callCount: 1 }),
+			});
+			expect(stageEntry).toMatchObject({
+				costByModel: listedModelCost({ costUsd: 0.75, callCount: 2 }),
+			});
+		});
+
+		it("should record the config of each model that is not disabled, with its role, in the run log and the stage entry when check-facts runs", async () => {
+			const checking = makeStubStage({ stageId: "check-facts" });
+
+			const summary = await makeRunner([checking]).runLecture({ workspaceRoot });
+
+			const configUsed = { models: [primaryFactCheckModel] };
+			const runLog = await readRunLog(workspaceRoot, summary.pipelineRunId);
+			expect(runLog.stages["check-facts"]).toMatchObject({ configUsed });
+			expect((await readManifest({ workspaceRoot })).stages["check-facts"]).toMatchObject({
+				configUsed,
+			});
 		});
 
 		it("should record the cost tally of a completed stage in its run log and its stage entry when the stage completes", async () => {
