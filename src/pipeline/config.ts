@@ -636,8 +636,9 @@ function requireStages(value: unknown): PipelineConfig["stages"] {
 }
 
 /**
- * Reads the `finalOutput` section: the language of the notes, and the page views
- * of the notes page. A language that has no name for the prompts is refused
+ * Reads the `finalOutput` section: the language of the notes, the page views of
+ * the notes page and the highlight switch. A language that has no name for the
+ * prompts is refused
  * (technical-design.md §6, "`finalOutput.language` is a closed set").
  *
  * @param value - The raw `finalOutput` section.
@@ -652,7 +653,11 @@ function requireFinalOutput(value: unknown): PipelineConfig["finalOutput"] {
 			unknownLanguageMessage({ subject: `finalOutput.language "${language}"` }),
 		);
 	}
-	return { language, pageViews: requirePageViews(finalOutput.stringArray("pageViews")) };
+	return {
+		language,
+		pageViews: requirePageViews(finalOutput.stringArray("pageViews")),
+		highlightSlideSentences: finalOutput.boolean("highlightSlideSentences"),
+	};
 }
 
 /**

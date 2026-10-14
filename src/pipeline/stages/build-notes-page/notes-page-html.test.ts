@@ -118,6 +118,7 @@ const content: NotesPageContent = {
 	slidePlacements,
 	factCorrections: [],
 	pageViews: PAGE_VIEW_IDS,
+	highlightSlideSentences: true,
 };
 
 /**
@@ -333,6 +334,15 @@ describe("notesPageHtml", () => {
 
 	it("should highlight the slide's sentence up to its end when the paragraph has more than one sentence", () => {
 		expect(highlightedSentences(notesPageHtml(content))).toStrictEqual([slideTwoSentence]);
+	});
+
+	it("should highlight no sentence, and leave the highlight out of the Notes legend, when the highlight switch is off", () => {
+		const html = notesPageHtml({ ...content, highlightSlideSentences: false });
+
+		const [header = ""] = innerHtmlOf({ html, tag: "header" });
+		expect(highlightedSentences(html)).toStrictEqual([]);
+		expect(header).not.toContain("<mark>");
+		expect(header).toContain("Click a slide to show it larger.");
 	});
 
 	it("should show the references slide next to the last paragraph, labelled References and with no highlight, when the lecture has a references slide", () => {

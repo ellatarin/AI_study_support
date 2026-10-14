@@ -217,6 +217,8 @@ export type PipelineConfig = {
 		readonly language: OutputLanguage;
 		/** The page views that the notes page shows. The page keeps its own order of the views. */
 		readonly pageViews: readonly PageViewId[];
+		/** `true` colours the sentence of each slide in the Notes view. */
+		readonly highlightSlideSentences: boolean;
 	};
 };
 

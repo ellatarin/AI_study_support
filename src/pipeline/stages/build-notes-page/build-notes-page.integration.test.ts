@@ -1,7 +1,7 @@
 import { readdir, readFile, rm } from "node:fs/promises";
 import { basename, join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import type { StageContext } from "../../../types/pipeline.js";
+import type { PipelineConfig, StageContext } from "../../../types/pipeline.js";
 import { pathExists } from "../../../utils/files.js";
 import {
 	captureError,
@@ -233,20 +233,36 @@ describe("createBuildNotesPageStage", () => {
 		).toBe(true);
 	});
 
-	it("should build the page with only the page views of the config when the config lists two views", async () => {
+	/**
+	 * Builds the page with some settings of the `finalOutput` section replaced.
+	 *
+	 * @param finalOutput - The settings to replace.
+	 * @returns The notes page.
+	 */
+	async function buildWithFinalOutput(
+		finalOutput: Partial<PipelineConfig["finalOutput"]>,
+	): Promise<string> {
 		const config = makeConfig();
 		await driveStage({
 			stage: stage(),
 			context: makeStageContext({
 				workspaceRoot: tree.workspaceRoot,
-				config: {
-					...config,
-					finalOutput: { ...config.finalOutput, pageViews: ["notes", "transcript"] },
-				},
+				config: { ...config, finalOutput: { ...config.finalOutput, ...finalOutput } },
 			}),
 		});
+		return readNotesPage();
+	}
 
-		expect(pageViewsIn(await readNotesPage())).toStrictEqual(["notes", "transcript"]);
+	it("should build the page with only the page views of the config when the config lists two views", async () => {
+		const page = await buildWithFinalOutput({ pageViews: ["notes", "transcript"] });
+
+		expect(pageViewsIn(page)).toStrictEqual(["notes", "transcript"]);
+	});
+
+	it("should build the page with no highlight when the highlight switch of the config is off", async () => {
+		const page = await buildWithFinalOutput({ highlightSlideSentences: false });
+
+		expect(page).not.toContain("<mark>");
 	});
 
 	it.each([

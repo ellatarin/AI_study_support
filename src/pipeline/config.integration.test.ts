@@ -694,6 +694,18 @@ const shapeCases: readonly ShapeCase[] = [
 		match: /en-AU/,
 	},
 	...[
+		{ problem: "is missing", highlightSlideSentences: undefined },
+		{ problem: "is not true or false", highlightSlideSentences: "no" },
+	].map(
+		({ problem, highlightSlideSentences }): ShapeCase => ({
+			name: `finalOutput.highlightSlideSentences ${problem}`,
+			mutate: (config: Record<string, unknown>) => {
+				config.finalOutput = finalOutputSection({ highlightSlideSentences });
+			},
+			match: /finalOutput\.highlightSlideSentences/,
+		}),
+	),
+	...[
 		{ problem: "is missing", pageViews: undefined },
 		{ problem: "names a view that the page does not have", pageViews: ["notes", "slides"] },
 		{ problem: "names a view twice", pageViews: ["notes", "transcript", "notes"] },

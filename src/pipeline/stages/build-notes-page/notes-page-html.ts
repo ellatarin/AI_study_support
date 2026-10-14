@@ -59,6 +59,8 @@ export type NotesPageContent = {
 	readonly factCorrections: readonly SubtopicFactCorrection[];
 	/** The page views that the page shows, from `finalOutput.pageViews`. */
 	readonly pageViews: readonly PageViewId[];
+	/** `true` colours the sentence of each slide in the Notes view, from `finalOutput.highlightSlideSentences`. */
+	readonly highlightSlideSentences: boolean;
 };
 
 /** The page views in the order of the switch, each with its name on the switch (CONTEXT.md, "Page view"). */
@@ -66,8 +68,12 @@ const PAGE_VIEWS = [
 	{
 		view: "notes",
 		name: "Notes",
-		legend:
-			"Each slide sits at the sentence where its discussion starts. That sentence is <mark>highlighted</mark>. Click a slide to show it larger.",
+		legend: (content: NotesPageContent): string =>
+			[
+				"Each slide sits at the sentence where its discussion starts.",
+				...(content.highlightSlideSentences ? ["That sentence is <mark>highlighted</mark>."] : []),
+				"Click a slide to show it larger.",
+			].join(" "),
 	},
 	{
 		view: "rewrite",
@@ -89,7 +95,8 @@ const PAGE_VIEWS = [
 ] as const satisfies readonly {
 	readonly view: PageViewId;
 	readonly name: string;
-	readonly legend: string;
+	/** The line of the header that explains the view. A function makes the line from the content of the page. */
+	readonly legend: string | ((content: NotesPageContent) => string);
 }[];
 
 /** One page view of the notes page. */
@@ -604,6 +611,8 @@ type SubtopicSources = {
 		readonly positionInSubtopic: number;
 	}[];
 	readonly readings: readonly SlideReading[];
+	/** `true` colours the sentence of each slide in the Notes view. */
+	readonly highlightSlideSentences: boolean;
 };
 
 /**
@@ -655,6 +664,7 @@ function subtopicSources({
 				return slide === undefined ? [] : [{ slide, positionInSubtopic }];
 			}),
 		readings: content.slideReadings,
+		highlightSlideSentences: content.highlightSlideSentences,
 	};
 }
 
@@ -696,8 +706,10 @@ ${subtopics.join("\n")}
 
 /** The text of a subtopic in each page view. */
 const SUBTOPIC_BODIES: Readonly<Record<PageView, SubtopicBody>> = {
-	notes: ({ relocation, readings }) =>
-		relocation === undefined ? "" : paragraphsHtml({ ...relocation, readings, highlight: true }),
+	notes: ({ relocation, readings, highlightSlideSentences }) =>
+		relocation === undefined
+			? ""
+			: paragraphsHtml({ ...relocation, readings, highlight: highlightSlideSentences }),
 	rewrite: ({ rewrite, relocation, readings }) => {
 		const slides =
 			relocation === undefined || rewrite.length === 0
@@ -908,7 +920,10 @@ function headerHtml(content: NotesPageContent): string {
 <h1>${escapeHtml(content.lectureTitle)}</h1>
 ${viewSwitchHtml(content)}
 ${shownViews(content)
-	.map(({ view, legend }) => `<p class="legend" id="${view}-legend">${legend}</p>`)
+	.map(
+		({ view, legend }) =>
+			`<p class="legend" id="${view}-legend">${typeof legend === "string" ? legend : legend(content)}</p>`,
+	)
 	.join("\n")}
 <nav aria-label="Topics"><ol>${links.join("")}</ol></nav>
 </header>`;

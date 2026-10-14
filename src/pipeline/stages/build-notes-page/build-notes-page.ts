@@ -138,6 +138,7 @@ async function readPageContent(context: StageContext): Promise<NotesPageContent>
 		slidePlacements: placements,
 		factCorrections: factCorrectedSubtopics,
 		pageViews: context.config.finalOutput.pageViews,
+		highlightSlideSentences: context.config.finalOutput.highlightSlideSentences,
 	};
 }
 

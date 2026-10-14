@@ -108,6 +108,7 @@
 	},
 	"finalOutput": {
 		"language": "en-GB",
-		"pageViews": ["notes", "rewrite", "corrections", "transcript"]
+		"pageViews": ["notes", "rewrite", "corrections", "transcript"],
+		"highlightSlideSentences": true
 	}
 }
