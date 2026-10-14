@@ -1688,6 +1688,26 @@ The page follows these rules:
 
 The lecture's folder in `Final output/` is a lecture file, as the video and the slide deck are (§3.1). A reset of the stage deletes this lecture's folder and keeps the folders of the other lectures. Rename, change-date, delete and normalisation move or delete the folder.
 
+**Input:** `Structured transcript/structured-transcript.json`, `Slide images/`, `Slide readings/`, `Slide placements/placements.json`, `Term corrections/`, `Rewrites/`, `Fact corrections/fact-corrected-subtopics.json` and `Slide relocations/slide-relocations.json`.
+
+**The page views.** One switch at the top of the page chooses the page view (CONTEXT.md, "Page view"). The page opens on the Notes view. The page holds the four views, so it is about four times as large as the notes alone. The stage makes no model call for the views.
+
+- **Notes.** The page as the rules above describe it.
+- **Rewrite.** The rewritten subtopic of each subtopic under its title, before the fact correction. The view has no highlight and no colour. Each slide is in front of the rewrite word that the word comparison of the Corrections view links to the slide's word in the notes.
+- **Corrections.** The notes, with the changes that the fact correction made to the rewrite. A word that is only in the rewrite is red, with a line through it. A word that is only in the fact-corrected subtopic is green. Each slide is at the sentence that it has in the Notes view, with no highlight. The view also shows a change that the model did not report.
+- **Transcript.** The term-corrected text of each subtopic under its title (`correctedText` in `Term corrections/`). The rewrite received this text, so a term that term correction changed does not show as dropped. Each spoken word that is not in the notes at the same place has a red highlight, with no line through it. A subtopic with no paragraph shows all its spoken text in red.
+
+**The word comparison.** The stage compares two texts one subtopic at a time (CONTEXT.md, "Word comparison"). It splits each text at whitespace, and keeps the longest run of words that both texts have in the same order. Two words match when they are the same in lower case and without their punctuation marks. A figure label such as "(Figure 3)" counts as one word, and it matches a figure mark `[FIGURE]`. So the figure numbers that `relocate-slides` writes are not changes. A phrase that the notes move to another place shows as removed where it was, and as added where it is now. The user accepts this extra colour.
+
+- The Corrections view compares the rewrite with the notes text of `relocate-slides`. The notes text is the fact-corrected subtopic with its figure numbers.
+- The Transcript view compares the term-corrected text with the same notes text. That is the text that the reader of the notes gets.
+
+**Paragraphs.** The Corrections view and the Transcript view take their paragraph breaks from the notes. A word that the comparison links to a notes word goes in the paragraph of that notes word. A word with no link goes in the paragraph of the word before it. The notes paragraphs are the paragraphs of the rewrite, unless the fact correction joined or split a paragraph.
+
+**Slides in the Transcript view.** Each slide is in the subtopic that `place-slides` gave it. The stage counts the words of the subtopic's text before the slide's `positionInSubtopic`. The slide goes in front of the word with that number in the term-corrected text. A correction changes a phrase of one to four words to another phrase of one to four words. So the slide moves by a few words at most. This rough place is enough. The references slide is after the last word.
+
+**The note of a change.** The mouse can rest on a red or green word of the Corrections view. Then a note shows the problem of the factual error that caused the change. A run of red and green words between two unchanged words takes the note of one reported change. That change is the first one whose `before` holds all the red words in order and whose `after` holds all the green words in order. The match ignores case and punctuation. The note is the `problem` of the factual error that the change names in `factualErrors`, counting from 1. A run that no reported change matches has no note.
+
 ---
 
 ## 6. Model Configuration
