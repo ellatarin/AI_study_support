@@ -39,7 +39,7 @@ The folder in a module that holds the workspaces of all its lectures.
 _Avoid_: output folder, pipeline folder
 
 **Final output folder**:
-The folder in a module that holds the notes of all its lectures, one HTML page for each lecture. The config section `finalOutput` holds the settings for them.
+The folder in a module that holds the notes of all its lectures, one folder for each lecture. The config section `finalOutput` holds the settings for them.
 _Avoid_: notes folder, output folder
 
 **Transcript**:
@@ -51,7 +51,7 @@ The verbatim transcript arranged as the lecture's structure. It holds the lectur
 _Avoid_: divided transcript, lecture file, cleaned transcript, formatted transcript
 
 **Notes**:
-The finished document for one lecture, delivered as one HTML page. It is continuous academic prose under the topic and subtopic titles, with each slide at its place. It is the only artefact a student is meant to read.
+The finished document for one lecture, delivered as one HTML page. The page and its slide images are in one folder, which has the lecture's base name. It is continuous academic prose under the topic and subtopic titles, with each slide at its place. It is the only artefact a student is meant to read.
 _Avoid_: summary, write-up, output, document
 
 ### A lecture's identity
@@ -132,7 +132,7 @@ A pipeline run told to stop after a named stage (`--to-stage`). It does not reac
 _Avoid_: partial run
 
 **Reset**:
-Clearing the work of a stage and of every stage after it, so that `--from-stage` runs them again. The cleared stages go back to pending. A reset of a stage in the rewrite loop starts at the first stage of the loop.
+Clearing the work of a stage and of every stage after it, so that `--from-stage` runs them again. The cleared stages go back to pending.
 _Avoid_: wipe, clean
 
 **Run type**:
@@ -152,7 +152,7 @@ A lecture's own record: its identity, how far each stage has got, and what each 
 _Avoid_: state file, metadata, db, run manifest
 
 **Stage entry**:
-One stage's part of the manifest: its status, its round, the settings it ran with, what it cost and the files it wrote. A stage outside the rewrite loop always has round 1. The status of the check is *sent back* when subtopics failed and rounds are left.
+One stage's part of the manifest: its status, the settings it ran with, what it cost and the files it wrote.
 _Avoid_: manifest entry, stage map (for one entry)
 
 **Stage record**:
@@ -176,7 +176,7 @@ The table printed after a pipeline run. It has one row for each stage that ran, 
 _Avoid_: end-of-run report
 
 **Completed stage**:
-A stage whose stage entry is `complete` or `skipped` and whose recorded files are all on disk. This pipeline run or an earlier one can have made the files. The runner does not run a completed stage again, and does not pay for it twice. A stage of the rewrite loop is completed only for the round that its stage entry records. Saved runs from a failed panel do not make a stage completed. A title or identity that a stage chooses is *decided*.
+A stage whose stage entry is `complete` or `skipped` and whose recorded files are all on disk. This pipeline run or an earlier one can have made the files. The runner does not run a completed stage again, and does not pay for it twice. Saved runs from a failed panel do not make a stage completed. A title or identity that a stage chooses is *decided*.
 _Avoid_: settled, done, cached, finished
 
 **Orphaned workspace**:
@@ -233,8 +233,16 @@ A references slide is not content-free. The notes leave content-free slides out.
 _Avoid_: filler slide, empty slide, administrative slide
 
 **Slide placement**:
-Putting each slide with the subtopic where the lecturer discusses it. The slide goes at the point where the lecturer starts to discuss it. Each slide is placed once. Slides keep their deck order: no slide is placed at a point earlier than the point of the slide before it. A references slide goes with the lecture's last subtopic, outside the deck order. A content-free slide is not placed.
+Putting each slide with the subtopic where the lecturer discusses it. The slide goes at the point in the transcript where the lecturer starts to discuss it. Slide relocation later moves it into the notes. Each slide is placed once. Slides keep their deck order: no slide is placed at a point earlier than the point of the slide before it. A references slide goes with the lecture's last subtopic, outside the deck order. A content-free slide is not placed.
 _Avoid_: slide assignment, slide merging, slide matching
+
+**Slide relocation**:
+Moving each placed slide from its point in the transcript to the sentence of the fact-corrected subtopic where its discussion starts. The slide stays in its subtopic, and slides keep their deck order. A slide that a figure mark points at goes at that mark.
+_Avoid_: slide replacement, re-placement
+
+**Figure number**:
+The order of a slide among the slides in the notes, counting from 1. A references slide has no figure number.
+_Avoid_: slide number (that is the slide's page in the deck)
 
 ### Rewriting a subtopic
 
@@ -251,25 +259,13 @@ The prose that the rewrite makes from the text of one subtopic after term correc
 _Avoid_: passage, section, notes (the notes are the whole page)
 
 **Figure mark**:
-A mark with no number that the writer puts where the lecturer points at a slide. A later step puts a slide at each figure mark and gives it its number.
+A mark with no number that the writer puts where the lecturer points at a slide. Slide relocation puts the slide at the mark and writes the slide's figure number in place of the mark. A mark that points at no slide stays in the text, so that a reader can see it.
 _Avoid_: slide reference, placeholder
-
-**Rewrite loop**:
-The three stages that repeat: term correction, the rewrite and the check. The runner runs them in order. When the check finds a fault in a subtopic, the runner sends the lecture back to term correction for another round.
-_Avoid_: retry loop, cycle
-
-**Round**:
-One pass of the rewrite loop over a lecture. Round 1 includes every subtopic. A later round includes only the subtopics that failed the check in the round before. The configuration sets the largest number of rounds. A subtopic that fails in the last round makes the check fail.
-_Avoid_: pass, iteration, cycle
-
-**Rewrite attempt**:
-The work on one subtopic in one round: its term correction, its rewrite and its check. The number of a rewrite attempt is always the number of its round.
-_Avoid_: try, iteration
 
 ### Checking quality
 
 **Faithfulness**:
-The standard the output must meet: it carries everything the sources carry, and it asserts nothing they do not. Both halves matter. Their failures are opposite, and so are their remedies.
+The standard the output must meet: it carries everything the sources carry, and it asserts nothing they do not. Both halves matter. Their failures are opposite, and so are their remedies. A fact correction is the one permitted departure: where the lecturer states a factual error, the notes state the correct fact.
 _Avoid_: accuracy, correctness, fidelity (reserved below for the segmentation sense)
 
 **Checker**:
@@ -299,6 +295,28 @@ _Avoid_: hallucination, inaccuracy, error
 **Unsourced addition**:
 Content in the output that the source does not carry at all. The remedy is to delete it. Never look for another source to support it, because that leads to invented citations. It is kept apart from distortion because the two look alike in a report, and their remedies are opposite.
 _Avoid_: hallucination, invention, embellishment
+
+### Checking facts
+
+**Fact check**:
+The stage that reads the whole rewrite for statements that are scientifically wrong or doubtful. It gets no transcript, so it judges against scientific knowledge and not against the sources. One or two models make it, as the configuration sets.
+_Avoid_: fact-checking (as a noun), science check, verification
+
+**Factual error**:
+One statement that a fact check reports as wrong or doubtful, with what is correct. It is not a deficiency, because a deficiency is measured against the source.
+_Avoid_: error (alone), mistake, deficiency, issue
+
+**Merged factual error**:
+The factual errors that two models report on the same passage of one subtopic, joined as one.
+_Avoid_: combined error, group
+
+**Fact correction**:
+The stage that rewrites each subtopic that has factual errors, so that the errors are gone. It changes nothing else. A subtopic with no factual error stays as the rewrite made it.
+_Avoid_: correction (alone, since a correction belongs to term correction), error correction
+
+**Fact-corrected subtopic**:
+The rewritten subtopic after fact correction.
+_Avoid_: corrected subtopic (it reads as term correction), revised subtopic
 
 ### Dividing a transcript
 
@@ -457,7 +475,7 @@ _Avoid_: criteria (as a bare noun), checklist, test cases
 *Words for how the code is built, not for the problem it solves. Each is also documented where the code defines it.*
 
 **Runner**:
-The code that drives a pipeline run. It runs a lecture's stages in order and skips completed ones. It repeats the rewrite loop while the check sends subtopics back. It writes each stage entry and the run log. It also carries out resets and bounded runs.
+The code that drives a pipeline run. It runs a lecture's stages in order and skips completed ones. It writes each stage entry and the run log. It also carries out resets and bounded runs.
 _Avoid_: orchestrator, engine
 
 **Stage context**:
@@ -493,5 +511,5 @@ A checker's overall pass or fail on an output. A model's decision on whether a p
 _Avoid_: result, outcome
 
 **Lecture file**:
-One of the four things that share a lecture's base name: its video recording, its slide deck, its workspace and its notes. The workspace is a folder, but it counts as a lecture file. A rename moves all four.
+One of the four things that share a lecture's base name: its video recording, its slide deck, its workspace and its notes. The workspace and the notes are folders, but each counts as a lecture file. A rename moves all four.
 _Avoid_: item, asset, entry

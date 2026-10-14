@@ -1,5 +1,7 @@
 # The runner repeats the rewrite loop
 
+Replaced by ADR 0003. The pipeline has no rewrite loop now.
+
 Term correction, the rewrite and the check are three stages, and the runner repeats them. When the check finds a fault in a subtopic, the runner sends the lecture back to term correction for another round. Only the failed subtopics are worked on again. The runner already orders stages, skips completed work and records each stage entry. A loop inside one stage would make a second copy of that job.
 
 ## Considered options
