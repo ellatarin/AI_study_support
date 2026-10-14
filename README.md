@@ -97,7 +97,7 @@ re-run from it or stop after it.
 18. **`correct-factual-errors`.** A model corrects the factual errors of each subtopic that has one,
     with the smallest change to the text.
 19. **`relocate-slides`.** Moves each placed slide from its point in the transcript to the sentence of
-    the notes where its explanation starts, and numbers the figures. Designed in outline only.
+    the notes where its explanation starts, and numbers the figures. Designed, not built.
 20. **`build-notes-page`.** Writes the notes page and its slide images into a folder for the lecture in
     `Final output/`. Designed in outline only.
 

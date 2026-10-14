@@ -1,6 +1,6 @@
 # Lecture Notes Generator — Technical Design
 
-**Suite version:** 1.93-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
+**Suite version:** 1.94-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
 **Date:** 2026-10-14
 **Status:** For review
 
@@ -216,13 +216,18 @@ Lecture 1 - Disease Cell Injury and the Immune System - 2025-10-10/
 │   ├── <model>.json                           # check-facts — the reply of one model, named by the model and not by its role
 │   └── factual-errors.json                    # check-facts — the merged factual errors of the lecture
 │
-└── Fact corrections/
-    ├── subtopic-1.json                        # correct-factual-errors — the fact-corrected subtopic of one subtopic
+├── Fact corrections/
+│   ├── subtopic-1.json                        # correct-factual-errors — the fact-corrected subtopic of one subtopic
+│   ├── ...
+│   └── fact-corrected-subtopics.json          # correct-factual-errors — the fact-corrected subtopic of each subtopic
+│
+└── Slide relocations/
+    ├── subtopic-1.json                        # relocate-slides — the paragraphs and the slide points of one subtopic
     ├── ...
-    └── fact-corrected-subtopics.json          # correct-factual-errors — the fact-corrected subtopic of each subtopic
+    └── slide-relocations.json                 # relocate-slides — the entry of each subtopic, in lecture order
 ```
 
-The stages after `correct-factual-errors` are designed in outline only (§5, "After the fact correction"). Their folders and files are decided with their design.
+`build-notes-page` is designed in outline only (§5, "After the fact correction"). It writes into `Final output/`, not into the workspace.
 
 #### The layout has one owner
 
@@ -353,7 +358,7 @@ Because all other files inside the workspace use simple names, only the four lec
 | `rewrite-subtopics` | Per-lecture | Rewrite the corrected text of each subtopic as prose |
 | `check-facts` | Per-lecture | Find the factual errors in the whole rewrite, with one or two models and no transcript. Merge the factual errors of the two models |
 | `correct-factual-errors` | Per-lecture | Correct the factual errors of each subtopic that has one, and write the fact-corrected subtopic of each subtopic in one file |
-| `relocate-slides` | Per-lecture | Move each placed slide to its point in the fact-corrected subtopic, and give the figure numbers. Designed in outline only |
+| `relocate-slides` | Per-lecture | Move each placed slide to its point in the fact-corrected subtopic, and give the figure numbers |
 | `build-notes-page` | Per-lecture | Write the lecture's notes as one HTML page, with its slide images, into `Final output/`. Designed in outline only |
 
 Each stage runs once. No stage sends work back to an earlier stage (ADR 0003).
@@ -1624,9 +1629,9 @@ The file of each subtopic holds these fields:
 
 ### After the fact correction
 
-Two stages follow `correct-factual-errors`. Both are designed in outline only. The prototype of slide relocation on lecture 4 decides the prompt, the model and the shape of the files. Their folders, files and fields go to the user in one table before the build.
+Two stages follow `correct-factual-errors`. The prototype of slide relocation on lecture 4 decided the prompt, the model and the shape of the files of `relocate-slides`. The user approved its folder, files and fields on 2026-10-14. `build-notes-page` is designed in outline only.
 
-**`relocate-slides` — slide relocation.** `place-slides` puts each slide at a point in the transcript. The notes are prose, so that point is not in them. The stage moves each placed slide to the start of a sentence in its fact-corrected subtopic (CONTEXT.md, "Slide relocation"). It makes one call for each subtopic that has slides, and no call for a subtopic with none. The call gets the paragraphs of the subtopic as a JSON list, with a number on each figure mark. For each slide, it gets the title, the body, the reason from `place-slides`, and about 60 words of transcript from the old start words. It gets no figure description and no caption. The reply gives the start words of a sentence for each slide, and the slide that each figure mark points at, or no slide.
+**`relocate-slides` — slide relocation.** `place-slides` puts each slide at a point in the transcript. The notes are prose, so that point is not in them. The stage moves each placed slide to the start of a sentence in its fact-corrected subtopic (CONTEXT.md, "Slide relocation"). It makes one call for each subtopic that has slides, and no call for a subtopic with none. The subtopic of each slide comes from `place-slides`. The call uses prompt `r4` of the prototype, and the model is set in the stage's own config entry (`google/gemini-3.8-flash`). The call gets the paragraphs of the subtopic as a JSON list, with a number on each figure mark. For each slide, it gets the whole slide reading. It gets no transcript words and no reason from `place-slides`. The reply gives the start words of a sentence for each slide, and the slide that each figure mark points at, or no slide.
 
 A reply is unusable, and the stage resends it, in these cases:
 
@@ -1635,7 +1640,16 @@ A reply is unusable, and the stage resends it, in these cases:
 - an unknown slide
 - slides out of deck order.
 
-A slide that a figure mark points at goes at that mark. Code gives each slide its figure number, and writes "(Figure N)" in place of each mark that points at a slide (CONTEXT.md, "Figure number"). A mark that points at no slide stays as `[FIGURE]`, and the stage records it. The references slide goes after the last sentence of the last subtopic, with no call and no figure number. The stage writes one file for each subtopic and one file for the whole lecture.
+A slide that a figure mark points at goes at that mark. Code gives each slide its figure number, and writes "(Figure N)" in place of each mark that points at a slide (CONTEXT.md, "Figure number"). A mark that points at no slide stays as `[FIGURE]`, and the stage records it. The references slide goes after the last sentence of the last subtopic, with no call and no figure number.
+
+The stage writes `Slide relocations/subtopic-<id>.json` for each subtopic. The file holds:
+
+- `subtopicId`, and `slideRelocationPromptVersion`
+- `paragraphs`: the fact-corrected paragraphs, with "(Figure N)" in place of each figure mark that points at a slide
+- `slides`: each slide of the subtopic in deck order, with `slideNumber`, `paragraphIndex` (from 0), `characterOffset` and `figureNumber`. The offset is the start of the slide's sentence, in characters. For the references slide, the offset is the end of the last paragraph, and `figureNumber` is `null`
+- `figureMarksWithNoSlide`: the `paragraphIndex` and `characterOffset` of each `[FIGURE]` mark that points at no slide.
+
+When each subtopic has its file, the stage writes `Slide relocations/slide-relocations.json`. Its `slideRelocations` holds the entry of each subtopic in lecture order, with the fields of the subtopic's file. The entries have no titles. The titles are in the structured transcript.
 
 **`build-notes-page` — the notes page.** The stage makes no model call. It writes `Final output/<base name>/notes.html` and `Final output/<base name>/slides/`, with each slide as the PNG file that `render-slides` writes, copied unchanged. The page shows the topic and subtopic titles and the text of each subtopic, from the output of `relocate-slides`. Each slide is small and floats at its sentence, with its figure number and its caption in the right margin. LaTeX becomes maths when the stage builds the page, so the page loads nothing from the internet. A click on a slide opens it in a window that the user can move and change in size, and the page behind stays readable. The page replaces the PDF of the earlier design. A test page, which a script outside the pipeline builds, is the prototype of its layout.
 

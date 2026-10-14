@@ -19,3 +19,5 @@
 ## Comments
 
 2026-10-14: the user chose prompt r4 of the prototype (`.scratch/slide-relocation/prompts.mts`). r4 makes one call for each subtopic, with the subtopic from `place-slides`. Each slide is sent as its whole slide reading, with no transcript words and no reason from `place-slides`. A mark that points at a slide in another subtopic cannot work with this call shape. Ticket 11 covers it.
+
+2026-10-14: the user approved the names: folder `Slide relocations/`, files `subtopic-<id>.json` and `slide-relocations.json` (field `slideRelocations`), and the fields `subtopicId`, `slideRelocationPromptVersion`, `paragraphs`, `slides` (`slideNumber`, `paragraphIndex`, `characterOffset`, `figureNumber`) and `figureMarksWithNoSlide`. Config entry `relocate-slides`: `google/gemini-3.8-flash`, `concurrency` 10, `sendGapSeconds` 0.25. TD §5 "After the fact correction" holds them, with the r4 call.
