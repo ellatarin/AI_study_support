@@ -40,6 +40,18 @@ export type RelocatedSlide =
 	| RelocatedReferencesSlide
 	| (TextPoint & { readonly slideNumber: number; readonly figureNumber: number });
 
+/** The figure mark that the writer puts in the notes (CONTEXT.md, "Figure mark"). */
+export const FIGURE_MARK = "[FIGURE]";
+
+/** The word that starts the label of a slide in the notes. */
+const FIGURE_WORD = "Figure";
+
+/**
+ * The regular-expression source of a figure label in brackets, such as
+ * "(Figure 3)". Slide relocation writes it in place of a figure mark.
+ */
+export const BRACKETED_FIGURE_LABEL = String.raw`\(${FIGURE_WORD} \d+\)`;
+
 /**
  * Gives the label of a slide in the notes, such as "Figure 3" (CONTEXT.md, "Figure number").
  *
@@ -47,7 +59,18 @@ export type RelocatedSlide =
  * @returns The label.
  */
 export function figureLabel(figureNumber: number): string {
-	return `Figure ${figureNumber}`;
+	return `${FIGURE_WORD} ${figureNumber}`;
+}
+
+/**
+ * Gives the figure label in brackets that slide relocation writes in place of a
+ * figure mark, such as "(Figure 3)".
+ *
+ * @param figureNumber - The figure number of the slide.
+ * @returns The label in brackets.
+ */
+export function bracketedFigureLabel(figureNumber: number): string {
+	return `(${figureLabel(figureNumber)})`;
 }
 
 /**

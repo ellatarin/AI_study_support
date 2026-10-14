@@ -9,6 +9,12 @@
 const WHITESPACE_RUN = /\s+/g;
 
 /**
+ * A character that is not a letter, a digit, an underscore or whitespace. The
+ * merge of factual errors and the word comparison of the notes page ignore it.
+ */
+export const PUNCTUATION = /[^\p{L}\p{N}_\s]/gu;
+
+/**
  * The regular-expression source of the mark that ends a sentence. The mark is a
  * full stop, a question mark or an exclamation mark, then an optional closing
  * quote or bracket.
