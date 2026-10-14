@@ -46,7 +46,7 @@ import {
 	workspaceRootFor,
 } from "./layout.js";
 import { baseNameForLecture } from "./lecture-files.js";
-import { FIRST_ROUND, MANIFEST_VERSION, pendingStages } from "./manifest.js";
+import { MANIFEST_VERSION, pendingStages } from "./manifest.js";
 import {
 	createOpenRouterClientProvider,
 	API_KEY_VARIABLE as OPENROUTER_KEY_VARIABLE,
@@ -127,7 +127,7 @@ async function expectResendsExhaustedWithoutOutput({
 }
 
 /**
- * Adds the test that a stage of the rewrite loop fails when each reply is
+ * Adds the test that a stage with one file for each subtopic fails when each reply is
  * unusable. Each call is sent three times, and the stage writes no file for the
  * subtopic.
  *
@@ -1001,15 +1001,15 @@ export function slideReadingInput(slideNumber: number): InputFile {
 }
 
 /**
- * Gives the function that makes the file of a stage of the rewrite loop, for
- * one subtopic in round 1, an input file.
+ * Gives the function that makes the file of a stage for one subtopic an input
+ * file.
  *
  * @param args - The name of the file in a test title, and its path.
  * @param args.name - The name of the file, such as `rewrite file`.
  * @param args.file - Gives the workspace-relative path of the file of a subtopic.
  * @returns The function that gives the input file of a subtopic.
  */
-function rewriteAttemptInput({
+function subtopicFileInput({
 	name,
 	file,
 }: {
@@ -1022,14 +1022,14 @@ function rewriteAttemptInput({
 	});
 }
 
-/** Gives the term-correction file of one subtopic in round 1 as an input file. */
-export const termCorrectionInput = rewriteAttemptInput({
+/** Gives the term-correction file of one subtopic as an input file. */
+export const termCorrectionInput = subtopicFileInput({
 	name: "term-correction file",
 	file: termCorrectionFile,
 });
 
-/** Gives the rewrite file of one subtopic in round 1 as an input file. */
-export const rewriteInput = rewriteAttemptInput({ name: "rewrite file", file: rewriteFile });
+/** Gives the rewrite file of one subtopic as an input file. */
+export const rewriteInput = subtopicFileInput({ name: "rewrite file", file: rewriteFile });
 
 /** The structured transcript as an input file. */
 export const structuredTranscriptInput = stageOutputInput({
@@ -1297,14 +1297,14 @@ export const slideDeckPlacements: SlidePlacements = {
 };
 
 /**
- * The workspace-relative path of the term-correction file of a subtopic in round
- * 1. The name is stated in full here, and not taken from the production code.
+ * The workspace-relative path of the term-correction file of a subtopic. The
+ * name is stated in full here, and not taken from the production code.
  *
  * @param subtopicId - The subtopic.
  * @returns The path, relative to the workspace.
  */
 export function termCorrectionFile(subtopicId: number): string {
-	return `Term corrections/subtopic-${subtopicId}-attempt-1.json`;
+	return `Term corrections/subtopic-${subtopicId}.json`;
 }
 
 /**
@@ -1326,7 +1326,6 @@ export const correctedSubtopicText = "Cell injury and the immune system.";
  */
 export const noSlideTermCorrection = {
 	subtopicId: 1,
-	attemptNumber: 1,
 	termCorrectionPromptVersion: "t1",
 	slideNumbers: [],
 	corrections: [],
@@ -1337,7 +1336,6 @@ export const noSlideTermCorrection = {
 /** The term-correction file of subtopic 2, as `correct-terms` writes it after {@link usableTermCorrection}. */
 export const usedTermCorrection = {
 	subtopicId: 2,
-	attemptNumber: 1,
 	termCorrectionPromptVersion: "t1",
 	slideNumbers: [1, 2],
 	corrections: [{ ...usableTermCorrection, occurrencesChanged: 1 }],
@@ -1346,14 +1344,14 @@ export const usedTermCorrection = {
 } as const;
 
 /**
- * The workspace-relative path of the rewrite of a subtopic in round 1. The name
- * is stated in full here, and not taken from the production code.
+ * The workspace-relative path of the rewrite of a subtopic. The name is stated
+ * in full here, and not taken from the production code.
  *
  * @param subtopicId - The subtopic.
  * @returns The path, relative to the workspace.
  */
 export function rewriteFile(subtopicId: number): string {
-	return `Rewrites/subtopic-${subtopicId}-attempt-1.json`;
+	return `Rewrites/subtopic-${subtopicId}.json`;
 }
 
 /** The paragraph that the writer writes for each subtopic of {@link transcriptDivision}. */
@@ -1367,32 +1365,31 @@ const subtopicRewrites: readonly Readonly<Record<string, unknown>>[] = [
 	...rewrittenParagraphs.entries(),
 ].map(([index, paragraph]) => ({
 	subtopicId: index + 1,
-	attemptNumber: 1,
 	writerPromptVersion: "w1",
 	rewrittenSubtopic: [paragraph],
 }));
 
 /**
- * Gives the function that writes the files of a stage of the rewrite loop into
- * a workspace, as the stage leaves them in round 1.
+ * Gives the function that writes the subtopic files of a stage into a
+ * workspace, as the stage leaves them.
  *
  * @param args - The content of each file, and the path of the file of a subtopic.
- * @param args.attempts - The content of each file. Each one has a `subtopicId`.
+ * @param args.contents - The content of each file. Each one has a `subtopicId`.
  * @param args.file - Gives the workspace-relative path of the file of a subtopic.
  * @returns The function that writes the files into a workspace.
  */
-function seedingRewriteAttempts({
-	attempts,
+function seedingSubtopicFiles({
+	contents,
 	file,
 }: {
-	readonly attempts: readonly Readonly<Record<string, unknown>>[];
+	readonly contents: readonly Readonly<Record<string, unknown>>[];
 	readonly file: (subtopicId: number) => string;
 }): (workspaceRoot: string) => Promise<void> {
 	return async (workspaceRoot) => {
-		for (const attempt of attempts) {
-			const path = join(workspaceRoot, file(Number(attempt.subtopicId)));
+		for (const content of contents) {
+			const path = join(workspaceRoot, file(Number(content.subtopicId)));
 			await mkdir(dirname(path), { recursive: true });
-			await writeFile(path, JSON.stringify(attempt));
+			await writeFile(path, JSON.stringify(content));
 		}
 	};
 }
@@ -1482,11 +1479,11 @@ export function completedEntry({
 	readonly cost?: StageCost | null;
 	readonly filesWritten?: readonly string[];
 } = {}): StageEntry {
-	return { status, completedAt, round: FIRST_ROUND, configUsed, cost, filesWritten };
+	return { status, completedAt, configUsed, cost, filesWritten };
 }
 
 /** The stage entry of a stage that is running, or that was running when the invocation stopped. */
-export const runningEntry: StageEntry = { status: "running", round: FIRST_ROUND };
+export const runningEntry: StageEntry = { status: "running" };
 
 /**
  * The stage entry of a failed stage. It has every field. So a suite tests a
@@ -1508,7 +1505,6 @@ export function failedEntry({
 	return {
 		status: "failed",
 		failedAt: stageCompletedAt,
-		round: FIRST_ROUND,
 		error: "the stage threw",
 		configUsed: null,
 		cost,
@@ -2166,11 +2162,11 @@ const EARLIER_OUTPUT_SEEDS = {
 	"read-slides": (workspaceRoot: string) =>
 		seedSlideReadings({ workspaceRoot, readings: slideDeckReadings }),
 	"place-slides": seedingJsonOutput({ stageId: "place-slides", output: slideDeckPlacements }),
-	"correct-terms": seedingRewriteAttempts({
-		attempts: [noSlideTermCorrection, usedTermCorrection],
+	"correct-terms": seedingSubtopicFiles({
+		contents: [noSlideTermCorrection, usedTermCorrection],
 		file: termCorrectionFile,
 	}),
-	"rewrite-subtopics": seedingRewriteAttempts({ attempts: subtopicRewrites, file: rewriteFile }),
+	"rewrite-subtopics": seedingSubtopicFiles({ contents: subtopicRewrites, file: rewriteFile }),
 } as const;
 
 /** An earlier stage whose output {@link seedEarlierOutputs} can write. */

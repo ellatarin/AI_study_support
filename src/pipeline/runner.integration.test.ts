@@ -464,20 +464,6 @@ describe("PipelineRunner integration", () => {
 			});
 		});
 
-		it.each([
-			{ outcome: "completes", stage: () => audioStageCosting(null) },
-			{ outcome: "fails", stage: failingAudioStage },
-		])("should record round 1 in the stage entry and rounds 1 in the run log when a stage outside the rewrite loop $outcome", async ({
-			stage,
-		}) => {
-			const summary = await makeRunner([stage()]).runLecture({ workspaceRoot });
-
-			const manifest = await readManifest({ workspaceRoot });
-			expect(manifest.stages["audio-extraction"]).toMatchObject({ round: 1 });
-			const runLog = await readRunLog(workspaceRoot, summary.pipelineRunId);
-			expect(runLog.stages["audio-extraction"]).toMatchObject({ rounds: 1 });
-		});
-
 		it("should record the unresolved cost and its reason when a stage's cost could not be established", async () => {
 			const unknownCostReason = "the generation endpoint timed out";
 			const stage = makeStubStage({
@@ -512,7 +498,7 @@ describe("PipelineRunner integration", () => {
 			});
 		});
 
-		it("should mark the stage running in round 1 on disk before it begins when a stage runs", async () => {
+		it("should mark the stage running on disk before it begins when a stage runs", async () => {
 			let entryDuringRun: StageEntry | undefined;
 			const stage = makeStubStage({
 				stageId: "audio-extraction",
@@ -525,7 +511,7 @@ describe("PipelineRunner integration", () => {
 
 			await makeRunner([stage]).runLecture({ workspaceRoot });
 
-			expect(entryDuringRun).toEqual({ status: "running", round: 1 });
+			expect(entryDuringRun).toEqual({ status: "running" });
 		});
 
 		it("should log the failure with its stack against the stage when a stage throws", async () => {

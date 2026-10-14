@@ -35,7 +35,7 @@ describe("createRewriteSubtopicsStage", () => {
 		});
 
 	/**
-	 * The absolute path of the rewrite of a subtopic in round 1.
+	 * The absolute path of the rewrite of a subtopic.
 	 *
 	 * @param subtopicId - The subtopic.
 	 * @returns The path in the workspace of the current test.
@@ -57,7 +57,6 @@ describe("createRewriteSubtopicsStage", () => {
 		expect(result.filesWritten).toStrictEqual([rewriteFile(1), rewriteFile(2)]);
 		expect(await readJsonFile(rewritePath(2))).toStrictEqual({
 			subtopicId: 2,
-			attemptNumber: 1,
 			writerPromptVersion: "w1",
 			rewrittenSubtopic: [usableParagraph],
 		});

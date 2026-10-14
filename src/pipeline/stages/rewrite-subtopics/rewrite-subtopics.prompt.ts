@@ -7,7 +7,7 @@
 import type { OutputLanguage } from "../../../types/pipeline.js";
 import { languageRule } from "../../../utils/language.js";
 import type { PromptMessages } from "../model-stage.js";
-import { subtopicPromptMessages } from "../rewrite-attempts.js";
+import { subtopicPromptMessages } from "../subtopic-files.js";
 /* jscpd:ignore-end */
 
 /**

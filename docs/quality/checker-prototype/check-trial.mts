@@ -25,7 +25,7 @@ import {
 	createOpenRouterClientProvider,
 	type OpenRouterClient,
 } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/pipeline/openrouter.js";
-import { subtopicPromptMessages } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/pipeline/stages/rewrite-attempts.js";
+import { subtopicPromptMessages } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/pipeline/stages/subtopic-files.js";
 import { createCostTally } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/utils/cost.js";
 import { pathExists, writeJsonAtomic } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/utils/files.js";
 import { isRecord } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/utils/record.js";

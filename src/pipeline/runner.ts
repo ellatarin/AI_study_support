@@ -29,7 +29,6 @@ import type {
 import {
 	DEFAULT_BATCH_OPTIONS,
 	DEFAULT_PIPELINE_RUN_OPTIONS,
-	ROUNDS_PER_PIPELINE_RUN,
 	STAGE_IDS,
 } from "../types/pipeline.js";
 import { mapWithConcurrency } from "../utils/concurrency.js";
@@ -42,13 +41,7 @@ import { configuredStage } from "../utils/stage-config.js";
 import { isStageAfter } from "../utils/stage-id.js";
 import { runLogsDirPath, type StageInWorkspace, stageDirectoryPaths } from "./layout.js";
 import { listWorkspaces } from "./lecture-files.js";
-import {
-	FIRST_ROUND,
-	patchManifest,
-	readManifest,
-	readManifestSafe,
-	writeManifest,
-} from "./manifest.js";
+import { patchManifest, readManifest, readManifestSafe, writeManifest } from "./manifest.js";
 import { createMoneyFormatter, formatCostReport } from "./reports.js";
 import {
 	isCompletedEntry,
@@ -295,7 +288,6 @@ function skippedEntry({
 	return {
 		status: "skipped",
 		completedAt: completed?.completedAt ?? timestamp,
-		round: completed?.round ?? FIRST_ROUND,
 		configUsed: completed?.configUsed ?? null,
 		cost: completed?.cost ?? null,
 		filesWritten: completed?.filesWritten ?? [],
@@ -412,13 +404,12 @@ function createStageStatusWriter({
 	return {
 		skipped: () =>
 			write({ entry: skippedEntry({ context, stageId, timestamp }), identityChanges: {} }),
-		running: () => write({ entry: { status: "running", round: FIRST_ROUND }, identityChanges: {} }),
+		running: () => write({ entry: { status: "running" }, identityChanges: {} }),
 		complete: ({ configUsed, result, cost }) =>
 			write({
 				entry: {
 					status: "complete",
 					completedAt: timestamp,
-					round: FIRST_ROUND,
 					configUsed,
 					cost: totalCost([spentBefore, cost]),
 					filesWritten: result.filesWritten,
@@ -430,7 +421,6 @@ function createStageStatusWriter({
 				entry: {
 					status: "failed",
 					failedAt: timestamp,
-					round: FIRST_ROUND,
 					error,
 					configUsed,
 					cost: totalCost([spentBefore, cost]),
@@ -478,7 +468,6 @@ async function runStage({
 			action: "ran",
 			...ending,
 			configUsed,
-			rounds: ROUNDS_PER_PIPELINE_RUN,
 			cost: runLogCost(costTally.total()),
 		},
 		context: statusWriter.context(),

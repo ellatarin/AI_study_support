@@ -69,12 +69,12 @@ describe("createCorrectTermsStage", () => {
 	});
 
 	/**
-	 * The first rewrite attempt of a subtopic, parsed from disk.
+	 * The term-correction result of a subtopic, parsed from disk.
 	 *
 	 * @param subtopicId - The subtopic.
 	 * @returns The parsed file.
 	 */
-	function writtenAttempt(subtopicId: number): Promise<unknown> {
+	function writtenResult(subtopicId: number): Promise<unknown> {
 		return readJsonFile(join(workspaceRoot(), termCorrectionFile(subtopicId)));
 	}
 
@@ -82,14 +82,14 @@ describe("createCorrectTermsStage", () => {
 	 * Stubs every reply with these corrections, and runs the stage.
 	 *
 	 * @param corrections - The corrections of the reply.
-	 * @returns The first rewrite attempt of subtopic 2, parsed from disk.
+	 * @returns The term-correction result of subtopic 2, parsed from disk.
 	 */
-	async function attemptAfterReply(
+	async function resultAfterReply(
 		corrections: readonly Record<string, unknown>[],
 	): Promise<unknown> {
 		create().mockResolvedValue(openRouterReplyBody({ content: replyWith(corrections) }));
 		await run();
-		return writtenAttempt(2);
+		return writtenResult(2);
 	}
 
 	/**
@@ -145,22 +145,22 @@ describe("createCorrectTermsStage", () => {
 		await run();
 
 		expect(create()).toHaveBeenCalledTimes(1);
-		expect(await writtenAttempt(1)).toStrictEqual(noSlideTermCorrection);
+		expect(await writtenResult(1)).toStrictEqual(noSlideTermCorrection);
 	});
 
-	it("should write the corrections, the slides sent and the corrected text in the first rewrite attempt when the stage completes", async () => {
+	it("should write the corrections, the slides sent and the corrected text in the term-correction result when the stage completes", async () => {
 		const result = await run();
 
 		expect(result.filesWritten).toStrictEqual([termCorrectionFile(1), termCorrectionFile(2)]);
-		expect(await writtenAttempt(2)).toStrictEqual(usedTermCorrection);
+		expect(await writtenResult(2)).toStrictEqual(usedTermCorrection);
 	});
 
 	it("should change each occurrence of the wrong form and count the changes when the wrong form occurs more than once", async () => {
 		await seedSecondSubtopicText("cell injury, then more cell injury.");
 
-		const attempt = await attemptAfterReply([usableTermCorrection]);
+		const result = await resultAfterReply([usableTermCorrection]);
 
-		expect(attempt).toMatchObject({
+		expect(result).toMatchObject({
 			corrections: [{ ...usableTermCorrection, occurrencesChanged: 2 }],
 			correctedText: "Cell injury, then more Cell injury.",
 		});
@@ -169,9 +169,9 @@ describe("createCorrectTermsStage", () => {
 	it("should change the longer wrong form first, and the shorter one only where it is left, when two wrong forms overlap", async () => {
 		const shorter = correction({ wrongForm: "injury", rightForm: "Injury" });
 
-		const attempt = await attemptAfterReply([shorter, usableTermCorrection]);
+		const result = await resultAfterReply([shorter, usableTermCorrection]);
 
-		expect(attempt).toMatchObject({
+		expect(result).toMatchObject({
 			corrections: [
 				{ ...shorter, occurrencesChanged: 0 },
 				{ ...usableTermCorrection, occurrencesChanged: 1 },
@@ -189,9 +189,9 @@ describe("createCorrectTermsStage", () => {
 	}) => {
 		const fromField = correction({ wrongForm: "immune", rightForm });
 
-		const attempt = await attemptAfterReply([fromField]);
+		const result = await resultAfterReply([fromField]);
 
-		expect(attempt).toMatchObject({ corrections: [fromField], ignoredCorrections: [] });
+		expect(result).toMatchObject({ corrections: [fromField], ignoredCorrections: [] });
 	});
 
 	it.each([
@@ -234,9 +234,9 @@ describe("createCorrectTermsStage", () => {
 		ignored,
 		ignoredBecause,
 	}) => {
-		const attempt = await attemptAfterReply([ignored, usableTermCorrection]);
+		const result = await resultAfterReply([ignored, usableTermCorrection]);
 
-		expect(attempt).toMatchObject({
+		expect(result).toMatchObject({
 			corrections: [{ ...usableTermCorrection, occurrencesChanged: 1 }],
 			ignoredCorrections: [{ ...ignored, ignoredBecause }],
 			correctedText: correctedSubtopicText,
@@ -287,7 +287,7 @@ describe("createCorrectTermsStage", () => {
 		expect(peak()).toBe(2);
 	});
 
-	it("should keep a saved first rewrite attempt and make no call for its subtopic when the stage runs again", async () => {
+	it("should keep a saved term-correction result and make no call for its subtopic when the stage runs again", async () => {
 		await run();
 		const saved = await readFile(join(workspaceRoot(), termCorrectionFile(2)), "utf8");
 

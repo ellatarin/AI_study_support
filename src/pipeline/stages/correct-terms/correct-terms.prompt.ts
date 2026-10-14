@@ -5,13 +5,13 @@
    cannot be shared, and CLAUDE.md (File Organisation) forbids barrel files.
    Only the imports are exempt. jscpd checks the code below. */
 import type { PromptMessages } from "../model-stage.js";
-import { subtopicPromptMessages } from "../rewrite-attempts.js";
 import type { SlideReading } from "../slides.js";
+import { subtopicPromptMessages } from "../subtopic-files.js";
 /* jscpd:ignore-end */
 
 /**
  * The version of {@link TERM_CORRECTION_PROMPT}. A change to the prompt text gets
- * a new version, so that each rewrite attempt names the prompt that made it.
+ * a new version, so that each term-correction result names the prompt that made it.
  */
 export const TERM_CORRECTION_PROMPT_VERSION = "t1";
 

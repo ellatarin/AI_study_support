@@ -25,7 +25,6 @@ import {
 	type LectureMatch,
 	type OverallStatus,
 	type PipelineRunSummary,
-	ROUNDS_PER_PIPELINE_RUN,
 } from "../types/pipeline.js";
 import {
 	type CliDeps,
@@ -96,7 +95,6 @@ describe("executeCommand", () => {
 						action: "ran",
 						status: "complete",
 						configUsed: { modelId: transcriptionModelId },
-						rounds: ROUNDS_PER_PIPELINE_RUN,
 						cost: { costUsd: 0.2, callCount: 1 },
 					},
 				},

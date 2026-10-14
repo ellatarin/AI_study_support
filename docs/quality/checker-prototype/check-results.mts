@@ -5,9 +5,9 @@
  */
 
 import { readdir, readFile } from "node:fs/promises";
-import { basename, join } from "node:path";
+import { join } from "node:path";
 import { stageOutputPath } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/pipeline/layout.js";
-import { rewriteAttemptFilePath } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/pipeline/stages/rewrite-attempts.js";
+import { subtopicFilePath } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/pipeline/stages/subtopic-files.js";
 import { readStructuredTranscript } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/pipeline/stages/structured-transcript.js";
 import { isSubtopicRewrite } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/pipeline/stages/subtopic-rewrites.js";
 import { isTermCorrectionResult } from "/Users/ellatarin/my_repositories/Ella_AI_project/src/pipeline/stages/term-corrections.js";
@@ -23,8 +23,16 @@ const ANSWER_KEYS: Readonly<Record<string, string>> = {
 	),
 };
 
-/** The rewrite attempt that the prototype reads: the first round. */
-const ATTEMPT_NUMBER = 1;
+/**
+ * Gives the name of a rewrite file in a copied rewrites folder. The copies were
+ * made before the pipeline dropped the attempt number, so they keep the old name.
+ *
+ * @param subtopicId - The subtopic.
+ * @returns The file name.
+ */
+function copiedRewriteFileName(subtopicId: number): string {
+	return `subtopic-${subtopicId}-attempt-1.json`;
+}
 
 /** What the checker gets for one subtopic: the same material as in the pipeline. */
 export type Material = {
@@ -84,14 +92,12 @@ export async function readMaterial({
 	const subtopics = transcript.topics.flatMap((topic) => topic.subtopics);
 	return Promise.all(
 		subtopics.map(async ({ subtopicId, text }) => {
-			const attempt = { workspaceRoot, subtopicId, attemptNumber: ATTEMPT_NUMBER };
 			const correction = await readChecked({
-				path: rewriteAttemptFilePath({ ...attempt, stageId: "correct-terms" }),
+				path: subtopicFilePath({ workspaceRoot, subtopicId, stageId: "correct-terms" }),
 				isShape: isTermCorrectionResult,
 			});
-			const rewriteFile = basename(rewriteAttemptFilePath({ ...attempt, stageId: "rewrite-subtopics" }));
 			const rewrite = await readChecked({
-				path: join(workspaceRoot, rewrites, rewriteFile),
+				path: join(workspaceRoot, rewrites, copiedRewriteFileName(subtopicId)),
 				isShape: isSubtopicRewrite,
 			});
 			return {

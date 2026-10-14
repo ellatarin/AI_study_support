@@ -4,17 +4,13 @@
  * `rewrite-subtopics`).
  */
 
-/* jscpd:ignore-start -- the modules of the rewrite-attempt files import the same
+/* jscpd:ignore-start -- the modules of the subtopic files import the same
    readers. So their import blocks are the same line for line. Imports cannot be
    shared, and CLAUDE.md (File Organisation) forbids barrel files. Only the
    imports are exempt. jscpd checks the code below. */
 import { isRecord } from "../../utils/record.js";
-import {
-	hasRewriteAttemptFields,
-	type RewriteAttemptFields,
-	readRewriteAttemptFile,
-} from "./rewrite-attempts.js";
 import type { ReadingStage } from "./stage-input.js";
+import { hasSubtopicId, readSubtopicFile, type SubtopicFileFields } from "./subtopic-files.js";
 
 /* jscpd:ignore-end */
 
@@ -37,12 +33,11 @@ export type Correction = ReplyCorrection & { readonly occurrencesChanged: number
 type IgnoredCorrection = ReplyCorrection & { readonly ignoredBecause: IgnoredBecause };
 
 /**
- * The term-correction part of one rewrite attempt of a subtopic, as
- * `correct-terms` writes it (technical-design.md §5, `correct-terms`).
+ * The term-correction result of one subtopic, as `correct-terms` writes it
+ * (technical-design.md §5, `correct-terms`).
  */
 export type TermCorrectionResult = {
 	readonly subtopicId: number;
-	readonly attemptNumber: number;
 	readonly termCorrectionPromptVersion: string;
 	/** The slides placed in the subtopic. An empty list means that term correction made no call. */
 	readonly slideNumbers: readonly number[];
@@ -75,7 +70,7 @@ export function isReplyCorrection(value: unknown): value is ReplyCorrection {
  */
 export function isTermCorrectionResult(value: unknown): value is TermCorrectionResult {
 	return (
-		hasRewriteAttemptFields(value) &&
+		hasSubtopicId(value) &&
 		typeof value.termCorrectionPromptVersion === "string" &&
 		Array.isArray(value.slideNumbers) &&
 		value.slideNumbers.every((slideNumber) => typeof slideNumber === "number") &&
@@ -94,16 +89,16 @@ export function isTermCorrectionResult(value: unknown): value is TermCorrectionR
 }
 
 /**
- * Reads the term-correction file of one rewrite attempt of a subtopic.
+ * Reads the term-correction file of one subtopic.
  *
- * @param file - The stage context, the subtopic, the rewrite attempt, and the error to raise.
+ * @param file - The stage context, the subtopic, and the error to raise.
  * @returns The term-correction result.
  * @throws The error that `fail` builds, if the file is missing, not JSON or not a term-correction result.
  */
 export function readTermCorrectionResult(
-	file: RewriteAttemptFields & ReadingStage,
+	file: SubtopicFileFields & ReadingStage,
 ): Promise<TermCorrectionResult> {
-	return readRewriteAttemptFile({
+	return readSubtopicFile({
 		...file,
 		stageId: STAGE_ID,
 		isFile: isTermCorrectionResult,

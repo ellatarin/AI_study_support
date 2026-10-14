@@ -1,13 +1,12 @@
 /**
- * The files that the stages of the rewrite loop write. Each stage writes one file
- * for each rewrite attempt of a subtopic (CONTEXT.md, "Rewrite attempt").
+ * The files of the stages that write one file for each subtopic, such as
+ * `correct-terms` and `rewrite-subtopics`.
  */
 
 import { join, relative } from "node:path";
 import type { StageContext, StageId, StageResult } from "../../types/pipeline.js";
 import { isRecord, readerFromCheck } from "../../utils/record.js";
 import { type StageInWorkspace, stageDirectoryPath } from "../layout.js";
-import { FIRST_ROUND } from "../manifest.js";
 import {
 	defineModelStage,
 	labelledJson,
@@ -19,62 +18,53 @@ import {
 import { readOrMakeSavedFiles, unreadableSavedFileMessage } from "./saved-files.js";
 import { type ReadingStage, readInputJson } from "./stage-input.js";
 
-/** The fields that each file of a rewrite attempt starts with. */
-export type RewriteAttemptFields = { readonly subtopicId: number; readonly attemptNumber: number };
+/** The field that each subtopic file starts with. */
+export type SubtopicFileFields = { readonly subtopicId: number };
 
 /**
- * Gives the path of the file that a stage of the rewrite loop writes for one
- * rewrite attempt of a subtopic.
+ * Gives the path of the file that a stage writes for one subtopic.
  *
- * @param args - The stage, the workspace, the subtopic and the rewrite attempt.
+ * @param args - The stage, the workspace and the subtopic.
  * @param args.workspaceRoot - The absolute path to the lecture workspace.
  * @param args.stageId - The stage that writes the file.
  * @param args.subtopicId - The subtopic.
- * @param args.attemptNumber - The number of the rewrite attempt, from 1.
  * @returns The absolute path of the file.
  */
-export function rewriteAttemptFilePath({
+export function subtopicFilePath({
 	subtopicId,
-	attemptNumber,
 	...stage
-}: StageInWorkspace & RewriteAttemptFields): string {
-	return join(stageDirectoryPath(stage), `subtopic-${subtopicId}-attempt-${attemptNumber}.json`);
+}: StageInWorkspace & SubtopicFileFields): string {
+	return join(stageDirectoryPath(stage), `subtopic-${subtopicId}.json`);
 }
 
 /**
- * Checks that a parsed file has the fields that each file of a rewrite attempt
- * starts with: `subtopicId` and `attemptNumber`, both numbers.
+ * Checks that a parsed file has the field that each subtopic file starts with:
+ * `subtopicId`, a number.
  *
  * @param value - The parsed file.
- * @returns `true` when the value has both fields.
+ * @returns `true` when the value has the field.
  */
-export function hasRewriteAttemptFields(
+export function hasSubtopicId(
 	value: unknown,
-): value is Record<string, unknown> & RewriteAttemptFields {
-	return (
-		isRecord(value) &&
-		typeof value.subtopicId === "number" &&
-		typeof value.attemptNumber === "number"
-	);
+): value is Record<string, unknown> & SubtopicFileFields {
+	return isRecord(value) && typeof value.subtopicId === "number";
 }
 
 /**
- * Reads the file that an earlier stage of the rewrite loop wrote for one rewrite
- * attempt of a subtopic.
+ * Reads the file that an earlier stage wrote for one subtopic.
  *
  * @param args - The reading stage, the earlier stage, the file and its shape.
  * @param args.context - The stage context.
  * @param args.fail - Builds the reading stage's error from a message.
  * @param args.stageId - The earlier stage that writes the file.
  * @param args.subtopicId - The subtopic.
- * @param args.attemptNumber - The number of the rewrite attempt, from 1.
  * @param args.isFile - Checks that the parsed file has the shape that the earlier stage writes.
  * @param args.shape - The shape, for the failure that a user reads, such as `a subtopic rewrite`.
  * @returns The content of the file.
  * @throws The error that `fail` builds, if the file is missing, not JSON or not of the shape.
  * @typeParam TContent - The content of the file.
  */
-export function readRewriteAttemptFile<TContent>({
+export function readSubtopicFile<TContent>({
 	context,
 	fail,
 	stageId,
@@ -82,13 +72,13 @@ export function readRewriteAttemptFile<TContent>({
 	shape,
 	...file
 }: ReadingStage &
-	RewriteAttemptFields & {
+	SubtopicFileFields & {
 		readonly stageId: StageId;
 		readonly isFile: (value: unknown) => value is TContent;
 		readonly shape: string;
 	}): Promise<TContent> {
 	return readInputJson({
-		path: rewriteAttemptFilePath({ workspaceRoot: context.workspaceRoot, stageId, ...file }),
+		path: subtopicFilePath({ workspaceRoot: context.workspaceRoot, stageId, ...file }),
 		stageId,
 		fail,
 		read: readerFromCheck(isFile),
@@ -97,8 +87,8 @@ export function readRewriteAttemptFile<TContent>({
 }
 
 /**
- * Builds the messages of the call of a rewrite-loop stage for one subtopic: the
- * prompt, then the material of the subtopic as labelled JSON.
+ * Builds the messages of the call for one subtopic: the prompt, then the
+ * material of the subtopic as labelled JSON.
  *
  * @param args - The prompt, and the material of the subtopic.
  * @param args.system - The prompt of the stage.
@@ -116,44 +106,44 @@ export function subtopicPromptMessages({
 }
 
 /**
- * The work on one subtopic that the `make` of a rewrite-loop stage gets: the
- * subtopic, the stage context and the model calls of the stage run.
+ * The work on one subtopic that the `make` of a stage gets: the subtopic, the
+ * stage context and the model calls of the stage run.
  *
  * @typeParam TInput - The input of the stage.
  * @typeParam TSubtopic - The work of one subtopic.
  */
-export type RewriteAttemptWork<TInput, TSubtopic> = Pick<
+export type SubtopicWork<TInput, TSubtopic> = Pick<
 	ModelStageRunArgs<TInput>,
 	"context" | "calls"
 > & { readonly subtopic: TSubtopic };
 
 /**
- * The work of a stage of the rewrite loop on the file of each subtopic, for
- * {@link readOrMakeRewriteAttempts}.
+ * The work of a stage on the file of each subtopic, for
+ * {@link readOrMakeSubtopicFiles}.
  *
  * @typeParam TInput - The input of the stage.
  * @typeParam TSubtopic - The work of one subtopic.
  * @typeParam TContent - The content of the file of one subtopic.
  */
-type RewriteAttemptFiles<TInput, TSubtopic, TContent> = {
+type SubtopicFiles<TInput, TSubtopic, TContent> = {
 	readonly stageId: StageId;
 	readonly subtopicsOf: (input: TInput) => readonly TSubtopic[];
 	readonly isSaved: (value: unknown) => value is TContent;
 	readonly saved: { readonly content: string; readonly remake: string };
 	readonly fail: (message: string) => Error;
-	readonly make: (args: RewriteAttemptWork<TInput, TSubtopic>) => Promise<TContent>;
+	readonly make: (args: SubtopicWork<TInput, TSubtopic>) => Promise<TContent>;
 };
 
 /**
- * The definition of a stage of the rewrite loop, for
- * {@link defineRewriteAttemptStage}.
+ * The definition of a stage that writes one file for each subtopic, for
+ * {@link defineSubtopicFileStage}.
  *
  * @typeParam TInput - The input of the stage.
  * @typeParam TSubtopic - The work of one subtopic.
  * @typeParam TContent - The content of the file of one subtopic.
  * @typeParam TOutput - The output of the stage.
  */
-type RewriteAttemptStage<TInput, TSubtopic, TContent, TOutput> = RewriteAttemptFiles<
+type SubtopicFileStage<TInput, TSubtopic, TContent, TOutput> = SubtopicFiles<
 	TInput,
 	TSubtopic,
 	TContent
@@ -163,10 +153,9 @@ type RewriteAttemptStage<TInput, TSubtopic, TContent, TOutput> = RewriteAttemptF
 };
 
 /**
- * Reads or makes the file of the first rewrite attempt of each subtopic, in one
- * run of a stage of the rewrite loop. As many subtopics are in work as the
- * stage's `concurrency` allows. Each file is written as soon as it is made. A
- * saved file is read back, and its subtopic gets no call.
+ * Reads or makes the file of each subtopic, in one run of a stage. As many
+ * subtopics are in work as the stage's `concurrency` allows. Each file is written
+ * as soon as it is made. A saved file is read back, and its subtopic gets no call.
  *
  * @param args - The work on the file of each subtopic, and the stage run.
  * @param args.stageId - The stage that writes the files.
@@ -185,7 +174,7 @@ type RewriteAttemptStage<TInput, TSubtopic, TContent, TOutput> = RewriteAttemptF
  * @typeParam TSubtopic - The work of one subtopic.
  * @typeParam TContent - The content of the file of one subtopic.
  */
-export async function readOrMakeRewriteAttempts<
+export async function readOrMakeSubtopicFiles<
 	TInput,
 	TSubtopic extends { readonly subtopicId: number },
 	TContent,
@@ -200,7 +189,7 @@ export async function readOrMakeRewriteAttempts<
 	context,
 	calls,
 	concurrency,
-}: RewriteAttemptFiles<TInput, TSubtopic, TContent> &
+}: SubtopicFiles<TInput, TSubtopic, TContent> &
 	Pick<ModelStageRunArgs<TInput>, "input" | "context" | "calls" | "concurrency">): Promise<
 	Omit<StageResult<unknown>, "output"> & {
 		readonly contents: readonly TContent[];
@@ -208,11 +197,10 @@ export async function readOrMakeRewriteAttempts<
 > {
 	const files = subtopicsOf(input).map((subtopic) => ({
 		subtopic,
-		path: rewriteAttemptFilePath({
+		path: subtopicFilePath({
 			workspaceRoot: context.workspaceRoot,
 			stageId,
 			subtopicId: subtopic.subtopicId,
-			attemptNumber: FIRST_ROUND,
 		}),
 	}));
 	const { contents } = await readOrMakeSavedFiles<(typeof files)[number], TContent>({
@@ -230,9 +218,9 @@ export async function readOrMakeRewriteAttempts<
 }
 
 /**
- * Defines a stage of the rewrite loop, and gives the factory that the CLI builds
- * it with. The stage reads or makes the file of the first rewrite attempt of
- * each subtopic through {@link readOrMakeRewriteAttempts}.
+ * Defines a stage that writes one file for each subtopic, and gives the factory
+ * that the CLI builds it with. The stage reads or makes the file of each
+ * subtopic through {@link readOrMakeSubtopicFiles}.
  *
  * @param definition - The stage, its input, and the work that makes the file of one subtopic.
  * @param definition.getInput - Gets and checks the input of the stage.
@@ -244,7 +232,7 @@ export async function readOrMakeRewriteAttempts<
  * @typeParam TContent - The content of the file of one subtopic.
  * @typeParam TOutput - The output of the stage.
  */
-export function defineRewriteAttemptStage<
+export function defineSubtopicFileStage<
 	TInput,
 	TSubtopic extends { readonly subtopicId: number },
 	TContent,
@@ -253,12 +241,12 @@ export function defineRewriteAttemptStage<
 	getInput,
 	output,
 	...files
-}: RewriteAttemptStage<TInput, TSubtopic, TContent, TOutput>): ModelStageFactory<TInput, TOutput> {
+}: SubtopicFileStage<TInput, TSubtopic, TContent, TOutput>): ModelStageFactory<TInput, TOutput> {
 	return defineModelStage({
 		stageId: files.stageId,
 		getInput,
 		run: async (run) => {
-			const { contents, ...made } = await readOrMakeRewriteAttempts({ ...files, ...run });
+			const { contents, ...made } = await readOrMakeSubtopicFiles({ ...files, ...run });
 			return { output: output(contents), ...made };
 		},
 	});

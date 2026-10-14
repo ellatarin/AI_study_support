@@ -11,10 +11,9 @@
 import type { StageContext } from "../../../types/pipeline.js";
 import { NamedError } from "../../../utils/errors.js";
 import { isRecord, isStringList } from "../../../utils/record.js";
-import { FIRST_ROUND } from "../../manifest.js";
 import type { ModelStageFactory } from "../model-stage.js";
-import { defineRewriteAttemptStage, type RewriteAttemptWork } from "../rewrite-attempts.js";
 import { readStageSubtopics } from "../stage-input.js";
+import { defineSubtopicFileStage, type SubtopicWork } from "../subtopic-files.js";
 import { isSubtopicRewrite, type SubtopicRewrite } from "../subtopic-rewrites.js";
 import { readTermCorrectionResult, type TermCorrectionResult } from "../term-corrections.js";
 import { buildWriterMessages, WRITER_PROMPT_VERSION } from "./rewrite-subtopics.prompt.js";
@@ -75,9 +74,7 @@ async function readRewriteSubtopicsInput(context: StageContext): Promise<Rewrite
 	const subtopics = await readStageSubtopics({ context, purpose: "rewrite", fail });
 	return {
 		corrected: await Promise.all(
-			subtopics.map(({ subtopicId }) =>
-				readTermCorrectionResult({ context, subtopicId, attemptNumber: FIRST_ROUND, fail }),
-			),
+			subtopics.map(({ subtopicId }) => readTermCorrectionResult({ context, subtopicId, fail })),
 		),
 	};
 }
@@ -112,7 +109,7 @@ async function rewriteSubtopic({
 	subtopic,
 	context,
 	calls,
-}: RewriteAttemptWork<RewriteSubtopicsInput, TermCorrectionResult>): Promise<SubtopicRewrite> {
+}: SubtopicWork<RewriteSubtopicsInput, TermCorrectionResult>): Promise<SubtopicRewrite> {
 	const sent = await calls.sendJsonWithResends({
 		what: `Rewrite of subtopic ${subtopic.subtopicId}`,
 		messages: buildWriterMessages({
@@ -125,7 +122,6 @@ async function rewriteSubtopic({
 	});
 	return {
 		subtopicId: subtopic.subtopicId,
-		attemptNumber: FIRST_ROUND,
 		writerPromptVersion: WRITER_PROMPT_VERSION,
 		rewrittenSubtopic: sent.reply.paragraphs,
 	};
@@ -135,7 +131,7 @@ async function rewriteSubtopic({
 export const createRewriteSubtopicsStage: ModelStageFactory<
 	RewriteSubtopicsInput,
 	RewriteSubtopicsOutput
-> = defineRewriteAttemptStage({
+> = defineSubtopicFileStage({
 	stageId: STAGE_ID,
 	getInput: readRewriteSubtopicsInput,
 	subtopicsOf: (input) => input.corrected,

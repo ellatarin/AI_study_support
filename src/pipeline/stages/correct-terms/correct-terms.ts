@@ -1,7 +1,7 @@
 /**
  * The `correct-terms` stage. It corrects the misheard terms of each subtopic
- * from the slides placed in it. It saves the term-correction result of the first
- * rewrite attempt of each subtopic (technical-design.md §5, `correct-terms`).
+ * from the slides placed in it. It saves the term-correction result of each
+ * subtopic (technical-design.md §5, `correct-terms`).
  */
 
 /* jscpd:ignore-start -- the model-calling stages import the same pipeline types,
@@ -13,12 +13,11 @@ import type { StageContext } from "../../../types/pipeline.js";
 import { NamedError } from "../../../utils/errors.js";
 import { isRecord } from "../../../utils/record.js";
 import { countWords } from "../../../utils/text.js";
-import { FIRST_ROUND } from "../../manifest.js";
 import type { SubtopicWithIdAndText } from "../division.js";
 import type { ModelStageFactory } from "../model-stage.js";
-import { defineRewriteAttemptStage, type RewriteAttemptWork } from "../rewrite-attempts.js";
 import { isSubjectMatter, readSlideReading, type SlideReading } from "../slides.js";
 import { readStageSlidePlacements, readStageSubtopics } from "../stage-input.js";
+import { defineSubtopicFileStage, type SubtopicWork } from "../subtopic-files.js";
 import {
 	type Correction,
 	type IgnoredBecause,
@@ -61,7 +60,7 @@ type TermCorrectionReply = { readonly corrections: readonly ReplyCorrection[] };
 /** The output of `correct-terms`. */
 type CorrectTermsOutput = {
 	/** The term-correction result of each subtopic, in lecture order. */
-	readonly attempts: readonly TermCorrectionResult[];
+	readonly results: readonly TermCorrectionResult[];
 };
 
 /** The text that ends the failure "The model's reply is not the documented …". */
@@ -244,9 +243,9 @@ function applyCorrections({
  * @param args.subtopic - The subtopic.
  * @param args.slides - The reading of each slide placed in the subtopic.
  * @param args.corrections - The corrections of the reply, in reply order.
- * @returns The term-correction result of the first rewrite attempt of the subtopic.
+ * @returns The term-correction result of the subtopic.
  */
-function correctedAttempt({
+function buildTermCorrectionResult({
 	subtopic,
 	slides,
 	corrections,
@@ -265,7 +264,6 @@ function correctedAttempt({
 	});
 	return {
 		subtopicId: subtopic.subtopicId,
-		attemptNumber: FIRST_ROUND,
 		termCorrectionPromptVersion: TERM_CORRECTION_PROMPT_VERSION,
 		slideNumbers: slides.map((slide) => slide.slideNumber),
 		corrections: applied.corrections,
@@ -323,9 +321,9 @@ async function readCorrectTermsInput(context: StageContext): Promise<CorrectTerm
 async function correctSubtopicTerms({
 	subtopic: entry,
 	calls,
-}: RewriteAttemptWork<CorrectTermsInput, SubtopicWithSlides>): Promise<TermCorrectionResult> {
+}: SubtopicWork<CorrectTermsInput, SubtopicWithSlides>): Promise<TermCorrectionResult> {
 	if (entry.slides.length === 0) {
-		return correctedAttempt({ ...entry, corrections: [] });
+		return buildTermCorrectionResult({ ...entry, corrections: [] });
 	}
 	const sent = await calls.sendJsonWithResends({
 		what: `Term correction of subtopic ${entry.subtopicId}`,
@@ -334,12 +332,12 @@ async function correctSubtopicTerms({
 		documentedShape: DOCUMENTED_REPLY_SHAPE,
 		use: usableReply,
 	});
-	return correctedAttempt({ ...entry, corrections: sent.reply.corrections });
+	return buildTermCorrectionResult({ ...entry, corrections: sent.reply.corrections });
 }
 
 /** Builds the `correct-terms` stage from the logger and the OpenAI client of the invocation. */
 export const createCorrectTermsStage: ModelStageFactory<CorrectTermsInput, CorrectTermsOutput> =
-	defineRewriteAttemptStage({
+	defineSubtopicFileStage({
 		stageId: STAGE_ID,
 		getInput: readCorrectTermsInput,
 		subtopicsOf: (input) => input.subtopics,
@@ -347,5 +345,5 @@ export const createCorrectTermsStage: ModelStageFactory<CorrectTermsInput, Corre
 		saved: { content: "term-correction file", remake: "correct the subtopic" },
 		fail: (message) => new CorrectTermsError(message),
 		make: correctSubtopicTerms,
-		output: (attempts) => ({ attempts }),
+		output: (results) => ({ results }),
 	});

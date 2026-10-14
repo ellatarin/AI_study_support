@@ -22,11 +22,6 @@ import {
 	writeManifest,
 } from "./manifest.js";
 
-/** A completed stage entry with no `round`, which the manifest check rejects. */
-const completedEntryWithoutRound = Object.fromEntries(
-	Object.entries(completedEntry()).filter(([field]) => field !== "round"),
-);
-
 describe("manifest I/O", () => {
 	let workspaceRoot: string;
 
@@ -66,6 +61,13 @@ describe("manifest I/O", () => {
 			expect(await readManifest({ workspaceRoot })).toEqual(manifest);
 		});
 
+		it("should return the parsed manifest when it holds a completed stage entry", async () => {
+			const manifest = { ...makeManifest(), stages: { "audio-extraction": completedEntry() } };
+			await writeRaw(JSON.stringify(manifest));
+
+			expect(await readManifest({ workspaceRoot })).toEqual(manifest);
+		});
+
 		// Each failure of this reader, and the error type that it throws. The type
 		// tells which failure occurred, so the table checks the type, not only the
 		// message. The rows with ManifestShapeError hold values that readManifestSafe
@@ -93,14 +95,6 @@ describe("manifest I/O", () => {
 			{
 				scenario: "dates the lecture to a day that does not exist",
 				content: JSON.stringify({ ...makeManifest(), lectureDate: "2025-02-30" }),
-				expected: ManifestShapeError,
-			},
-			{
-				scenario: "holds a completed stage entry with no round",
-				content: JSON.stringify({
-					...makeManifest(),
-					stages: { "audio-extraction": completedEntryWithoutRound },
-				}),
 				expected: ManifestShapeError,
 			},
 		])("should reject with $expected.name when the manifest $scenario", async ({
