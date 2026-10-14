@@ -117,6 +117,7 @@ describe("extractDate", () => {
 		{ scenario: "six digits that are no date", filename: `993456 ${LECTURE_TITLE}.mp4` },
 		{ scenario: "a longer digit run", filename: `1010202512 ${LECTURE_TITLE}.mp4` },
 		{ scenario: "two different separators", filename: `26:09.2026 ${LECTURE_TITLE}.mp4` },
+		{ scenario: "a year with three digits", filename: `10-10-202 ${LECTURE_TITLE}.mp4` },
 		{ scenario: "a clock time in hours and minutes", filename: `${LECTURE_TITLE} 14:30.mp4` },
 		{ scenario: "a clock time with seconds", filename: `${LECTURE_TITLE} 10:15:20.mp4` },
 	])("should return null when the filename holds $scenario", ({ filename }) => {
