@@ -49,6 +49,15 @@ export const OUTPUT_LANGUAGES = {
 /** The tag of a language that the notes can be written in (technical-design.md §6). */
 export type OutputLanguage = keyof typeof OUTPUT_LANGUAGES;
 
+/** The page views of the notes page, in the order of the page's switch (CONTEXT.md, "Page view"). */
+export const PAGE_VIEW_IDS = ["notes", "rewrite", "corrections", "transcript"] as const;
+
+/** The id of one page view of the notes page. */
+export type PageViewId = (typeof PAGE_VIEW_IDS)[number];
+
+/** The page view that the notes page opens on. `finalOutput.pageViews` must hold it. */
+export const FIRST_PAGE_VIEW: PageViewId = "notes";
+
 /**
  * The status of a stage entry in the manifest (technical-design.md §4.2).
  *
@@ -206,6 +215,8 @@ export type PipelineConfig = {
 	readonly finalOutput: {
 		/** The language that every stage that writes prose is told to use. */
 		readonly language: OutputLanguage;
+		/** The page views that the notes page shows. The page keeps its own order of the views. */
+		readonly pageViews: readonly PageViewId[];
 	};
 };
 

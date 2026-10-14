@@ -5,6 +5,7 @@
  */
 
 import katex from "katex";
+import { FIRST_PAGE_VIEW, type PageViewId } from "../../../types/pipeline.js";
 import { SENTENCE_END_MARK, splitWords } from "../../../utils/text.js";
 import { notesSlideImageEntry } from "../../layout.js";
 import { type FactCorrectionFile, FIRST_FACTUAL_ERROR_NUMBER } from "../fact-corrections.js";
@@ -56,6 +57,8 @@ export type NotesPageContent = {
 	>[];
 	/** The factual errors and the reported changes of each subtopic, for the notes of the Corrections view. */
 	readonly factCorrections: readonly SubtopicFactCorrection[];
+	/** The page views that the page shows, from `finalOutput.pageViews`. */
+	readonly pageViews: readonly PageViewId[];
 };
 
 /** The page views in the order of the switch, each with its name on the switch (CONTEXT.md, "Page view"). */
@@ -83,21 +86,36 @@ const PAGE_VIEWS = [
 		legend:
 			'This view shows the spoken text after the term correction. <span class="not-in-notes">Red words</span> are not in the notes.',
 	},
-] as const;
+] as const satisfies readonly {
+	readonly view: PageViewId;
+	readonly name: string;
+	readonly legend: string;
+}[];
 
 /** One page view of the notes page. */
 type PageView = (typeof PAGE_VIEWS)[number]["view"];
 
 /** The page view that shows when the page opens. Its topic sections have the ids that the header links point at. */
-const FIRST_VIEW: PageView = "notes";
+const FIRST_VIEW: PageView = FIRST_PAGE_VIEW;
+
+/**
+ * Gives the page views that the content lists, in the order of the page.
+ *
+ * @param content - The content of the page.
+ * @returns The listed page views, each with its name and legend.
+ */
+function shownViews(content: NotesPageContent): readonly (typeof PAGE_VIEWS)[number][] {
+	return PAGE_VIEWS.filter(({ view }) => content.pageViews.includes(view));
+}
 
 /**
  * Gives the switch of the page views. The first view is chosen.
  *
+ * @param content - The content of the page.
  * @returns The HTML of the switch.
  */
-function viewSwitchHtml(): string {
-	const choices = PAGE_VIEWS.map(
+function viewSwitchHtml(content: NotesPageContent): string {
+	const choices = shownViews(content).map(
 		({ view, name }) =>
 			`<label><input type="radio" name="view" value="${view}"${view === FIRST_VIEW ? " checked" : ""}> ${name}</label>`,
 	);
@@ -888,8 +906,10 @@ function headerHtml(content: NotesPageContent): string {
 	return `<header>
 <p class="eyebrow">${escapeHtml(content.lectureDate)}</p>
 <h1>${escapeHtml(content.lectureTitle)}</h1>
-${viewSwitchHtml()}
-${PAGE_VIEWS.map(({ view, legend }) => `<p class="legend" id="${view}-legend">${legend}</p>`).join("\n")}
+${viewSwitchHtml(content)}
+${shownViews(content)
+	.map(({ view, legend }) => `<p class="legend" id="${view}-legend">${legend}</p>`)
+	.join("\n")}
 <nav aria-label="Topics"><ol>${links.join("")}</ol></nav>
 </header>`;
 }
@@ -901,7 +921,7 @@ ${PAGE_VIEWS.map(({ view, legend }) => `<p class="legend" id="${view}-legend">${
  * @returns The whole page, as one HTML text.
  */
 export function notesPageHtml(content: NotesPageContent): string {
-	const views = PAGE_VIEWS.map(({ view }) => pageViewHtml({ content, view }));
+	const views = shownViews(content).map(({ view }) => pageViewHtml({ content, view }));
 	return `<!doctype html>
 <html>
 <head>

@@ -5,8 +5,11 @@ import {
 	type FactCheckModel,
 	type FactCheckStageConfig,
 	type FactCorrectionStageConfig,
+	FIRST_PAGE_VIEW,
 	MODEL_ROLES,
 	type ModelRole,
+	PAGE_VIEW_IDS,
+	type PageViewId,
 	type PanelSettings,
 	type PipelineConfig,
 	type StageConfig,
@@ -633,13 +636,13 @@ function requireStages(value: unknown): PipelineConfig["stages"] {
 }
 
 /**
- * Reads the `finalOutput` section: the language of the notes. A language that has
- * no name for the prompts is refused
+ * Reads the `finalOutput` section: the language of the notes, and the page views
+ * of the notes page. A language that has no name for the prompts is refused
  * (technical-design.md §6, "`finalOutput.language` is a closed set").
  *
  * @param value - The raw `finalOutput` section.
  * @returns The checked section.
- * @throws {ConfigError} If the section is not an object, a field is missing or has the wrong type, or the language is not in `OUTPUT_LANGUAGES`.
+ * @throws {ConfigError} If the section or a field is missing or has the wrong type. Also if the language is not in `OUTPUT_LANGUAGES`, or the page views are not valid.
  */
 function requireFinalOutput(value: unknown): PipelineConfig["finalOutput"] {
 	const finalOutput = requireSection({ value, label: "finalOutput" });
@@ -649,7 +652,34 @@ function requireFinalOutput(value: unknown): PipelineConfig["finalOutput"] {
 			unknownLanguageMessage({ subject: `finalOutput.language "${language}"` }),
 		);
 	}
-	return { language };
+	return { language, pageViews: requirePageViews(finalOutput.stringArray("pageViews")) };
+}
+
+/**
+ * Checks the page views that the notes page shows. Each one is a view of the
+ * page, and none comes twice. The list holds the Notes view, because the page
+ * opens on it.
+ *
+ * @param pageViews - The raw list of `finalOutput.pageViews`.
+ * @returns The checked list.
+ * @throws {ConfigError} If a name is not a page view, a name comes twice, or the list lacks the Notes view.
+ */
+function requirePageViews(pageViews: readonly string[]): readonly PageViewId[] {
+	const label = "finalOutput.pageViews";
+	const views = PAGE_VIEW_IDS.map((view) => `"${view}"`).join(", ");
+	const unknown = pageViews.find((view) => !isOneOf(PAGE_VIEW_IDS)(view));
+	if (unknown !== undefined) {
+		throw new ConfigError(`${label} names "${unknown}", which is not a page view (${views})`);
+	}
+	if (new Set(pageViews).size !== pageViews.length) {
+		throw new ConfigError(`${label} must name each page view no more than once`);
+	}
+	if (!pageViews.includes(FIRST_PAGE_VIEW)) {
+		throw new ConfigError(
+			`${label} must name "${FIRST_PAGE_VIEW}", the view that the page opens on`,
+		);
+	}
+	return pageViews.filter(isOneOf(PAGE_VIEW_IDS));
 }
 
 /**

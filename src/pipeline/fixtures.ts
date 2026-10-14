@@ -2063,6 +2063,16 @@ export async function removeTestLectureNotes({
 }
 
 /**
+ * Gives the page views of a notes page, from the ids of their sections.
+ *
+ * @param html - The notes page.
+ * @returns The id of each page view, in page order.
+ */
+export function pageViewsIn(html: string): readonly string[] {
+	return [...html.matchAll(/<div class="view" id="(\w+)-view">/gu)].map(([, view]) => view ?? "");
+}
+
+/**
  * Makes an empty temporary directory, in which a suite makes its own tree. The
  * suite removes it after the test.
  *

@@ -107,6 +107,7 @@
 		}
 	},
 	"finalOutput": {
-		"language": "en-GB"
+		"language": "en-GB",
+		"pageViews": ["notes", "rewrite", "corrections", "transcript"]
 	}
 }

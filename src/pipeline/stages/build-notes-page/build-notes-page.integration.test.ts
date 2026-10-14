@@ -8,10 +8,12 @@ import {
 	correctedSubtopicText,
 	driveStage,
 	eachUnusableJsonFile,
+	makeConfig,
 	makeStageContext,
 	makeStubLogger,
 	makeWorkspaceTree,
 	otherLecture,
+	pageViewsIn,
 	rewriteInput,
 	rewrittenParagraphs,
 	seedEarlierOutputs,
@@ -229,6 +231,22 @@ describe("createBuildNotesPageStage", () => {
 				notesPagePath({ moduleRoot: tree.moduleRoot, baseName: testLecture.baseName }),
 			),
 		).toBe(true);
+	});
+
+	it("should build the page with only the page views of the config when the config lists two views", async () => {
+		const config = makeConfig();
+		await driveStage({
+			stage: stage(),
+			context: makeStageContext({
+				workspaceRoot: tree.workspaceRoot,
+				config: {
+					...config,
+					finalOutput: { ...config.finalOutput, pageViews: ["notes", "transcript"] },
+				},
+			}),
+		});
+
+		expect(pageViewsIn(await readNotesPage())).toStrictEqual(["notes", "transcript"]);
 	});
 
 	it.each([

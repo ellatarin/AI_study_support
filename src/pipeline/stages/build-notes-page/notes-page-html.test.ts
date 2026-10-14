@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
+import { PAGE_VIEW_IDS } from "../../../types/pipeline.js";
 import {
+	pageViewsIn,
 	rewrittenParagraphs,
 	seededFactualError,
 	slideDeckReadings,
@@ -115,7 +117,22 @@ const content: NotesPageContent = {
 	termCorrections,
 	slidePlacements,
 	factCorrections: [],
+	pageViews: PAGE_VIEW_IDS,
 };
+
+/**
+ * Gives each choice of the switch of the page views, with " checked" after the chosen one.
+ *
+ * @param html - The page.
+ * @returns The value of each choice, in the order of the switch.
+ */
+function switchChoices(html: string): readonly string[] {
+	return [
+		...html.matchAll(
+			/<input type="radio" name="view" value="(?<view>\w+)"(?<checked> checked)?>/gu,
+		),
+	].map(({ groups }) => `${groups?.view}${groups?.checked ?? ""}`);
+}
 
 /**
  * Gives the inner HTML of one page view.
@@ -453,13 +470,22 @@ describe("notesPageHtml", () => {
 	});
 
 	it("should show a switch with the four page views, and choose the Notes view, when the page is built", () => {
-		const choices = [
-			...notesPageHtml(content).matchAll(
-				/<input type="radio" name="view" value="(?<view>\w+)"(?<checked> checked)?>/gu,
-			),
-		].map(({ groups }) => `${groups?.view}${groups?.checked ?? ""}`);
+		expect(switchChoices(notesPageHtml(content))).toStrictEqual([
+			"notes checked",
+			"rewrite",
+			"corrections",
+			"transcript",
+		]);
+	});
 
-		expect(choices).toStrictEqual(["notes checked", "rewrite", "corrections", "transcript"]);
+	it("should show only the listed page views, in the order of the page, with their switch choices and legend lines, when the content lists two views", () => {
+		const html = notesPageHtml({ ...content, pageViews: ["transcript", "notes"] });
+
+		expect(switchChoices(html)).toStrictEqual(["notes checked", "transcript"]);
+		expect(pageViewsIn(html)).toStrictEqual(["notes", "transcript"]);
+		expect(
+			[...html.matchAll(/<p class="legend" id="(\w+)-legend">/gu)].map(([, view]) => view),
+		).toStrictEqual(["notes", "transcript"]);
 	});
 
 	it.each([

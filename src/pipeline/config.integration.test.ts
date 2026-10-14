@@ -694,6 +694,20 @@ const shapeCases: readonly ShapeCase[] = [
 		match: /en-AU/,
 	},
 	...[
+		{ problem: "is missing", pageViews: undefined },
+		{ problem: "names a view that the page does not have", pageViews: ["notes", "slides"] },
+		{ problem: "names a view twice", pageViews: ["notes", "transcript", "notes"] },
+		{ problem: "does not name the Notes view", pageViews: ["transcript"] },
+	].map(
+		({ problem, pageViews }): ShapeCase => ({
+			name: `finalOutput.pageViews ${problem}`,
+			mutate: (config: Record<string, unknown>) => {
+				config.finalOutput = finalOutputSection({ pageViews });
+			},
+			match: /finalOutput\.pageViews/,
+		}),
+	),
+	...[
 		{ problem: "is missing", bypass: undefined },
 		{ problem: "is not true or false", bypass: "yes" },
 	].map(
