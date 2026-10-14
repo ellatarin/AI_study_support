@@ -69,7 +69,7 @@ Source videos may have the date in any position and any format. `source-normalis
 
 An "on" directly before a date belongs to the date, so it is removed with the date. `BOD_Complement on 17102025 Fri.mp4` gives `Complement`. An "on" in any other place stays in the title.
 
-**Dates are read in British convention.** A four-digit component is the year; otherwise the day leads. Month-first is never read. All eight numeric forms are accepted:
+**Dates are read in British convention.** A four-digit component is the year. Otherwise the day leads. Month-first is never read. All fourteen numeric forms are accepted:
 
 | Day first | Year first |
 |---|---|
@@ -77,10 +77,15 @@ An "on" directly before a date belongs to the date, so it is removed with the da
 | `10-11-2025` | `2025-11-10` |
 | `10.11.2025` | `2025.11.10` |
 | `10/11/2025` | `2025/11/10` |
+| `10:11:2025` | `2025:11:10` |
+| `10_11_2025` | `2025_11_10` |
+| `10 11 2025` | `2025 11 10` |
 
-Each of those is the tenth of November. Single-digit day and month are accepted (`1/2/2025` is the first of February).
+Each of those is the tenth of November. A date uses the same separator twice, so `26:09.2026` is not a date. The `:` form exists because macOS Finder stores a `/` that a user types in a name as `:` on disk. Single-digit day and month are accepted (`1/2/2025` is the first of February).
 
-A **two-digit year** is read only in the trailing position, and always as this century: `10-11-26` is the tenth of November 2026. A leading two-digit component is always the day, so `YY-MM-DD` is not a supported form — nothing in `26-11-10` distinguishes it from `DD-MM-YY`, and the year-first convention is written with four digits precisely because it sorts.
+When two candidates in digits overlap, the candidate with a four-digit year wins, also when the other candidate starts earlier. So `Lecture 3 12 10 2026` gives the twelfth of October 2026, and not `3 12 10`. The digits of the losing candidate that are outside the winning date stay in the title, where the lecture-number removal can take them.
+
+A **two-digit year** is read only in the trailing position, and always as this century: `10-11-26` is the tenth of November 2026. It is read with every separator. When another date in digits in the filename names a real day with a four-digit year, each date with a two-digit year gives no date. Its text is still removed from the title. So `Lecture 2026-10-14 10:05:20` gives only the fourteenth of October 2026. When a filename has no four-digit year, a clock time with seconds can read as a date: `Rec 10:05:20` is the tenth of May 2020. A leading two-digit component is always the day. So `YY-MM-DD` is not a supported form, because nothing in `26-11-10` makes it different from `DD-MM-YY`. The year-first convention is written with four digits because that form sorts.
 
 `DDMMYY` — six bare digits — is tried **last**, only when the filename yields no date any other way, prose included. Six digits are as likely to be an identifier as a date, and unlike the eight-digit form there is no four-digit year to anchor the reading. Where a stray identifier does resolve, `source-normalisation`'s 1:1 video-to-slide date match is the backstop: an invented date will not have a matching slide deck, so the module is refused and the file named.
 

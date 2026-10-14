@@ -38,10 +38,16 @@ type DateMatch = TextMatch & {
  * never read. This module reads these dates, and not chrono, because chrono reads
  * them month first (technical-design.md §3.2).
  *
+ * The separator is one of `-`, `.`, `/`, `:`, `_` or a space, and the date uses
+ * the same separator twice. macOS Finder stores a typed `/` as `:` on disk.
+ *
  * The boundary is "not a digit" and not `\b`. So a date next to `_` is found,
  * although `_` is a word character.
+ *
+ * The pattern is a lookahead, so it finds candidates that overlap, as in
+ * `Lecture 1 26 09 2026`. `preferFullYears` then chooses among them.
  */
-const SEPARATED_DATE = /(?<!\d)(\d{1,4})([-./])(\d{1,2})\2(\d{1,4})(?!\d)/g;
+const SEPARATED_DATE = /(?<!\d)(?=((\d{1,4})([-./:_ ])(\d{1,2})\3(\d{1,4}))(?!\d))/g;
 
 /** A date in eight digits with no separators: `DDMMYYYY` or `YYYYMMDD`. */
 const EIGHT_DIGIT_DATE = /(?<!\d)(\d{8})(?!\d)/g;
@@ -219,39 +225,86 @@ function fromEightDigits(digits: string): Date | null {
 	return fromDayFirstDigits({ digits, year: trailingYear });
 }
 
-/** A form of date in digits: its global pattern, and the reader for one match. */
+/**
+ * A form of date in digits: its global pattern, and the readers for one match.
+ * Group 1 of each pattern holds the whole date.
+ */
 type DigitDateFormat = {
 	readonly pattern: Readonly<RegExp>;
 	/** Reads one match as a date. It gives `null` when the match names no real day. */
 	readonly read: (match: readonly string[]) => Date | null;
+	/** Checks that the match writes its year in four digits. */
+	readonly hasFullYear: (match: readonly string[]) => boolean;
 };
+
+/** A digit match before `preferFullYears` chooses among the matches that overlap. */
+type DigitDateCandidate = TextMatch & {
+	readonly hasFullYear: boolean;
+};
+
+const FULL_YEAR_DIGITS = 4;
 
 /** Day, month and year with separators, in either order: `10-10-2025`, `2025.10.10`. */
 const SEPARATED_DATE_FORMAT: DigitDateFormat = {
 	pattern: SEPARATED_DATE,
-	read: (match) => fromSeparated([match[1] as string, match[3] as string, match[4] as string]),
+	read: (match) => fromSeparated([match[2] as string, match[4] as string, match[5] as string]),
+	hasFullYear: (match) =>
+		(match[2] as string).length === FULL_YEAR_DIGITS ||
+		(match[5] as string).length === FULL_YEAR_DIGITS,
 };
 
 /** Eight digits, in either order: `10102025`, `20251010`. */
 const EIGHT_DIGIT_DATE_FORMAT: DigitDateFormat = {
 	pattern: EIGHT_DIGIT_DATE,
 	read: (match) => fromEightDigits(match[1] as string),
+	hasFullYear: () => true,
 };
 
 /** Six digits, day first: `101025`. */
 const SIX_DIGIT_DATE_FORMAT: DigitDateFormat = {
 	pattern: SIX_DIGIT_DATE,
 	read: (match) => fromSixDigits(match[1] as string),
+	hasFullYear: () => false,
 };
+
+/**
+ * Keeps the candidates that overlap no stronger candidate. A candidate with a
+ * four-digit year is stronger than one without. Between two equal candidates,
+ * the earlier one is stronger. So `Lecture 3 12 10 2026` gives `12 10 2026`, and
+ * not `3 12 10` (technical-design.md §3.2).
+ *
+ * @param candidates - Every digit match, overlaps included.
+ * @returns The kept matches, in text order.
+ */
+function preferFullYears<TCandidate extends DigitDateCandidate>(
+	candidates: readonly TCandidate[],
+): readonly TCandidate[] {
+	const inTextOrder = [...candidates].sort(byIndex);
+	const strongestFirst = [
+		...inTextOrder.filter((candidate) => candidate.hasFullYear),
+		...inTextOrder.filter((candidate) => !candidate.hasFullYear),
+	];
+	const kept: TCandidate[] = [];
+	for (const candidate of strongestFirst) {
+		if (!overlaps({ matches: kept, index: candidate.index, length: candidate.length })) {
+			kept.push(candidate);
+		}
+	}
+	return kept.sort(byIndex);
+}
 
 /**
  * Finds every date in the given digit forms, in text order. A match is kept
  * also when it names no real day, so that it stops chrono from reading that text.
  *
+ * When one match names a real day with a four-digit year, each match with a
+ * two-digit year gives no date. Each such match is still removed from the title.
+ * So `Lecture 2026-10-14 10:05:20` gives only 2026-10-14 (technical-design.md §3.2).
+ *
  * @param args - The text, and the digit forms to find.
  * @param args.text - The text to search.
  * @param args.formats - The digit forms to find.
- * @returns One match for each place that a form matched, in text order.
+ * @returns One match for each place that a form matched and no stronger match overlaps, in text order.
  */
 function digitDateMatches({
 	text,
@@ -260,16 +313,21 @@ function digitDateMatches({
 	readonly text: string;
 	readonly formats: readonly DigitDateFormat[];
 }): readonly DateMatch[] {
-	return formats
-		.flatMap(({ pattern, read }) =>
+	const kept = preferFullYears(
+		formats.flatMap(({ pattern, read, hasFullYear }) =>
 			[...text.matchAll(pattern)].map((match) => ({
 				index: match.index,
-				length: match[0].length,
+				length: (match[1] as string).length,
 				date: read(match),
 				confident: true,
+				hasFullYear: hasFullYear(match),
 			})),
-		)
-		.sort(byIndex);
+		),
+	);
+	const textHasFullYearDate = kept.some((match) => match.hasFullYear && match.date !== null);
+	return kept.map((match) =>
+		textHasFullYearDate && !match.hasFullYear ? { ...match, date: null } : match,
+	);
 }
 
 /**

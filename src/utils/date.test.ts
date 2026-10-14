@@ -43,6 +43,24 @@ describe("extractDate", () => {
 		{ filename: `11-10-2025 ${LECTURE_TITLE}.mp4`, iso: ELEVENTH_OF_OCTOBER },
 		{ filename: `11.10.2025 ${LECTURE_TITLE}.mp4`, iso: ELEVENTH_OF_OCTOBER },
 		{ filename: `11/10/2025 ${LECTURE_TITLE}.mp4`, iso: ELEVENTH_OF_OCTOBER },
+		{ filename: `10:11:2025 ${LECTURE_TITLE}.mp4`, iso: TENTH_OF_NOVEMBER },
+		{ filename: `10_11_2025 ${LECTURE_TITLE}.mp4`, iso: TENTH_OF_NOVEMBER },
+		{ filename: `10 11 2025 ${LECTURE_TITLE}.mp4`, iso: TENTH_OF_NOVEMBER },
+		{ filename: `2025:11:10 ${LECTURE_TITLE}.mp4`, iso: TENTH_OF_NOVEMBER },
+		{ filename: `2025_11_10 ${LECTURE_TITLE}.mp4`, iso: TENTH_OF_NOVEMBER },
+		{ filename: `2025 11 10 ${LECTURE_TITLE}.mp4`, iso: TENTH_OF_NOVEMBER },
+
+		// These rows are real file names. A number in the title must not become part of the date.
+		{ filename: "CGD-Cell-Biology-Lecture-10-Stem-Cells-26:09:2026.mp4", iso: "2026-09-26" },
+		{ filename: "CGD_Cell_Biology_9_Stem_Cells1 25:09:2026 (1).pdf", iso: "2026-09-25" },
+		{ filename: "GD_Kate Baker GoDule lecture 9:10:2026.pdf", iso: "2026-10-09" },
+		{ filename: "HPI_Lecture_1_Introduction _to_Pathogens 08:10:2026.pdf", iso: "2026-10-08" },
+		{ filename: "Lecture 10 Stem Cells 26 09 2026.mp4", iso: "2026-09-26" },
+
+		{ filename: "Lecture 1 26 09 2026.mp4", iso: "2026-09-26" },
+		{ filename: "Lecture_1_26_09_2026.mp4", iso: "2026-09-26" },
+		{ filename: "Lecture 3 12 10 2026.mp4", iso: "2026-10-12" },
+		{ filename: "Rec 10:05:20.mp4", iso: "2020-05-10" },
 
 		// Single-digit day and month.
 		{ filename: `1/2/2025 ${LECTURE_TITLE}.mp4`, iso: "2025-02-01" },
@@ -98,6 +116,9 @@ describe("extractDate", () => {
 		},
 		{ scenario: "six digits that are no date", filename: `993456 ${LECTURE_TITLE}.mp4` },
 		{ scenario: "a longer digit run", filename: `1010202512 ${LECTURE_TITLE}.mp4` },
+		{ scenario: "two different separators", filename: `26:09.2026 ${LECTURE_TITLE}.mp4` },
+		{ scenario: "a clock time in hours and minutes", filename: `${LECTURE_TITLE} 14:30.mp4` },
+		{ scenario: "a clock time with seconds", filename: `${LECTURE_TITLE} 10:15:20.mp4` },
 	])("should return null when the filename holds $scenario", ({ filename }) => {
 		expect(extractDate(filename)).toBeNull();
 	});
@@ -126,6 +147,12 @@ describe("extractDates", () => {
 		expect(found.map(formatDateISO)).toEqual(["2019-02-01", TENTH_OF_OCTOBER]);
 	});
 
+	it("should ignore a date with a two-digit year when another date in the filename has a four-digit year", () => {
+		const found = extractDates("Lecture 2026-10-14 10:05:20.mp4");
+
+		expect(found.map(formatDateISO)).toEqual(["2026-10-14"]);
+	});
+
 	it("should return the one date when a filename carries a single date", () => {
 		const found = extractDates(`${TENTH_OF_OCTOBER} ${LECTURE_TITLE}.mp4`);
 
@@ -148,6 +175,9 @@ describe("stripDateTokens", () => {
 		// An "on" before a date is always removed, also when it belongs to the title.
 		{ input: "Carry on 2025-10-10 with Immunity", expected: "Carry with Immunity" },
 		{ input: "Lights on", expected: "Lights on" },
+		{ input: "Lecture 1 26 09 2026", expected: "Lecture 1" },
+		{ input: "Lecture 3 12 10 2026", expected: "Lecture 3" },
+		{ input: "Lecture 2026-10-14 10:05:20", expected: "Lecture" },
 	])("should remove date tokens when input is $input", ({ input, expected }) => {
 		expect(stripDateTokens(input)).toBe(expected);
 	});
