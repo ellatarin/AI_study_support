@@ -1,16 +1,22 @@
-import { readdir, readFile, rm, writeFile } from "node:fs/promises";
+import { readdir, readFile, rm } from "node:fs/promises";
 import { basename, join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { pathExists } from "../../../utils/files.js";
 import {
 	captureError,
+	correctedSubtopicText,
+	eachUnusableJsonFile,
 	makeStageContext,
 	makeWorkspaceTree,
 	otherLecture,
+	rewriteInput,
 	rewrittenParagraphs,
 	seedEarlierOutputs,
 	seedJsonFile,
 	seedTextFile,
+	spoilJsonFile,
+	stageOutputInput,
+	termCorrectionInput,
 	testLecture,
 	type WorkspaceTree,
 } from "../../fixtures.js";
@@ -81,17 +87,27 @@ describe("buildNotesPage", () => {
 		slideImagePath({ workspaceRoot: tree.workspaceRoot, slideNumber });
 	const build = (): Promise<void> =>
 		buildNotesPage(makeStageContext({ workspaceRoot: tree.workspaceRoot }));
+	const seedSlideRelocations = (entries: readonly SlideRelocation[]): Promise<void> =>
+		seedJsonFile({
+			path: slideRelocationsPath(tree.workspaceRoot),
+			contents: { slideRelocations: entries },
+		});
 
 	beforeEach(async () => {
 		tree = await makeWorkspaceTree({ prefix: "build-notes-page-" });
 		await seedEarlierOutputs({
 			workspaceRoot: tree.workspaceRoot,
-			readsFrom: ["structure-transcript", "render-slides", "read-slides"],
+			readsFrom: [
+				"structure-transcript",
+				"render-slides",
+				"read-slides",
+				"rewrite-subtopics",
+				"correct-terms",
+				"place-slides",
+				"correct-factual-errors",
+			],
 		});
-		await seedJsonFile({
-			path: slideRelocationsPath(tree.workspaceRoot),
-			contents: { slideRelocations },
-		});
+		await seedSlideRelocations(slideRelocations);
 	});
 
 	afterEach(async () => {
@@ -136,19 +152,40 @@ describe("buildNotesPage", () => {
 		expect(await readFile(otherPage, "utf8")).toBe(otherContents);
 	});
 
-	it.each([
-		{ problem: "missing", spoil: (path: string) => rm(path) },
-		{ problem: "the wrong shape", spoil: (path: string) => writeFile(path, "{}") },
-	])("should fail with BuildNotesPageError that names the file when slide-relocations.json is $problem", async ({
-		spoil,
+	it("should write the rewrite and the term-corrected text of a subtopic into the page when the inputs are on disk", async () => {
+		// With no slide, no figure stands between the words of a text.
+		await seedSlideRelocations(slideRelocations.map((entry) => ({ ...entry, slides: [] })));
+
+		await build();
+
+		const page = await readFile(join(notesDir(), NOTES_PAGE_FILE), "utf8");
+		const text = page.replace(/<[^>]*>/gu, "");
+		expect(text).toContain(rewrittenParagraphs[1]);
+		expect(text).toContain(correctedSubtopicText);
+	});
+
+	it.each(
+		eachUnusableJsonFile([
+			{ file: "slide relocations file", path: slideRelocationsPath },
+			rewriteInput(2),
+			termCorrectionInput(2),
+			stageOutputInput({ file: "slide placements file", stageId: "place-slides" }),
+			stageOutputInput({
+				file: "fact-corrected subtopics file",
+				stageId: "correct-factual-errors",
+			}),
+		]),
+	)("should fail with BuildNotesPageError that names the file when the $file is $state", async ({
+		path,
+		contents,
 	}) => {
-		const path = slideRelocationsPath(tree.workspaceRoot);
-		await spoil(path);
+		const spoiled = path(tree.workspaceRoot);
+		await spoilJsonFile({ path: spoiled, contents });
 
 		const error = await captureError(build());
 
 		expect(error).toBeInstanceOf(BuildNotesPageError);
-		expect(error.message).toContain(basename(path));
+		expect(error.message).toContain(spoiled);
 	});
 
 	it("should fail with BuildNotesPageError that names the slide when the PNG of a slide in the notes is missing", async () => {

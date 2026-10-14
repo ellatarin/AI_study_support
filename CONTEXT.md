@@ -54,6 +54,14 @@ _Avoid_: divided transcript, lecture file, cleaned transcript, formatted transcr
 The finished document for one lecture, delivered as one HTML page. The page and its slide images are in one folder, which has the lecture's base name. It is continuous academic prose under the topic and subtopic titles, with each slide at its place. It is the only artefact a student is meant to read.
 _Avoid_: summary, write-up, output, document
 
+**Page view**:
+One of the four ways that the notes page shows a lecture: Notes, Rewrite, Corrections and Transcript. A switch at the top chooses the page view.
+_Avoid_: tab, mode, page (alone)
+
+**Word comparison**:
+Matching the words of two texts in order, one subtopic at a time, without case or punctuation. Each word is unchanged, removed or added.
+_Avoid_: diff, alignment
+
 ### A lecture's identity
 
 **Lecture date**:

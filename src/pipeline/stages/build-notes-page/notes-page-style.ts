@@ -9,7 +9,8 @@
  * them: the rule for a dark system setting, and the rule for `data-theme="dark"`.
  */
 const DARK_COLOURS = `--paper: #1b1615; --ink: #efe5de; --muted: #b1a39b; --rule: #382d2a; --panel: #241d1b;
-  --accent: #dca2cf; --figure-label: #f0a08f; --mark: #40302a; color-scheme: dark;`;
+  --accent: #dca2cf; --figure-label: #f0a08f; --mark: #40302a;
+  --removed-ink: #f2a39a; --removed-bg: #4a2420; --added-ink: #9fdcae; --added-bg: #1f3a27; color-scheme: dark;`;
 
 /**
  * The stylesheet of the notes page. The text column is narrow, as in a textbook.
@@ -26,6 +27,10 @@ export const NOTES_PAGE_STYLE = `
   --accent: #6a3360;
   --figure-label: #b0423f;
   --mark: #f7e2c6;
+  --removed-ink: #9b2c2c;
+  --removed-bg: #f8dcd8;
+  --added-ink: #1f5f33;
+  --added-bg: #d9efdc;
   --font-text: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
   --font-ui: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
@@ -43,6 +48,14 @@ h1 { font-weight: 600; font-size: 2.25rem; line-height: 1.15; margin: 0; text-wr
 nav ol { margin: 0; padding-left: 1.4rem; font-family: var(--font-ui); font-size: 0.95rem; display: grid; gap: 0.2rem; }
 nav a { color: var(--accent); text-decoration: none; }
 nav a:hover { text-decoration: underline; }
+.view-switch { margin: 0; padding: 0; border: 0; display: flex; flex-wrap: wrap; gap: 0.25rem 1rem; font-family: var(--font-ui); font-size: 0.9rem; }
+.view-switch legend { padding: 0; margin-bottom: 0.25rem; color: var(--muted); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; }
+.view-switch label { cursor: pointer; }
+.view-switch input { accent-color: var(--accent); }
+.view, header .legend { display: none; }
+.not-in-notes, del { color: var(--removed-ink); background: var(--removed-bg); border-radius: 2px; }
+del { text-decoration: line-through; text-decoration-thickness: 1px; }
+ins { color: var(--added-ink); background: var(--added-bg); text-decoration: none; border-radius: 2px; }
 .topic { display: grid; gap: 2rem; }
 h2 { font-weight: 600; font-size: 1.6rem; line-height: 1.25; margin: 0; padding-top: 1.5rem; border-top: 2px solid var(--accent); text-wrap: balance; }
 h3 { font-weight: 600; font-size: 1.2rem; line-height: 1.3; margin: 0 0 0.75rem; text-wrap: balance; }
@@ -79,7 +92,8 @@ mark { background: var(--mark); color: inherit; border-radius: 2px; }
 /**
  * The script of the notes page. A click on a slide shows it in a window that
  * does not cover the page. The reader moves the window by its border and changes
- * its size from its corner. The close button and the Esc key close it.
+ * its size from its corner. The close button and the Esc key close it. A link
+ * to a topic goes to the topic in the page view that shows.
  */
 export const NOTES_PAGE_SCRIPT = `
 const windowFrame = document.getElementById("enlarged");
@@ -104,6 +118,15 @@ for (const button of document.querySelectorAll(".figure-image")) {
       placeWindow();
       windowFrame.show();
     }
+  });
+}
+for (const link of document.querySelectorAll("nav a")) {
+  link.addEventListener("click", (event) => {
+    const view = document.querySelector('input[name="view"]:checked').value;
+    const topic = document.getElementById(view + "-" + link.hash.slice(1));
+    if (topic === null) return;
+    event.preventDefault();
+    topic.scrollIntoView();
   });
 }
 windowFrame.querySelector(".close").addEventListener("click", () => windowFrame.close());

@@ -3,7 +3,7 @@
  * `check-facts`, "The merge", and CONTEXT.md, "Merged factual error").
  */
 
-import { splitWords } from "../../../utils/text.js";
+import { PUNCTUATION, splitWords } from "../../../utils/text.js";
 import type { FactualError, FactualErrorFoundBy } from "../factual-errors.js";
 
 /** The factual errors of one model. */
@@ -14,9 +14,6 @@ export type ModelFactualErrors = {
 
 /** The number of words in a run. Two passages that share a run of this length are the same passage. */
 const RUN_LENGTH = 3;
-
-/** A character that is not a letter, a digit, an underscore or whitespace. The merge reads it as a space. */
-const PUNCTUATION = /[^\p{L}\p{N}_\s]/gu;
 
 /**
  * Gives the runs of three words of a passage, in lower case, with each

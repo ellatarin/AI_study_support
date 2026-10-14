@@ -7,7 +7,8 @@ import { inAscendingOrder } from "../../../utils/sort.js";
 import { findStartWords } from "../division.js";
 import type { SlidePlacement } from "../slide-placements.js";
 import {
-	figureLabel,
+	bracketedFigureLabel,
+	FIGURE_MARK,
 	type RelocatedSlide,
 	type SlideRelocation,
 	type TextPoint,
@@ -285,9 +286,6 @@ export function figureNumbersOf(readings: readonly SlideReading[]): FigureNumber
 /** The figure number of each slide, by slide number. A slide with no figure number is not a key. */
 export type FigureNumbers = Readonly<Record<number, number>>;
 
-/** The figure mark that the writer puts in the notes (CONTEXT.md, "Figure mark"). */
-const FIGURE_MARK = "[FIGURE]";
-
 /**
  * Gives each figure mark of a subtopic its number, from 1, in text order, such as
  * "[FIGURE 2]". The model names each mark by its number.
@@ -346,7 +344,7 @@ function writeParagraph({
 			const slide = markSlides[Number(markNumber) - 1] ?? null;
 			const figureNumber = slide === null ? undefined : figureNumbers[slide];
 			const replacement =
-				figureNumber === undefined ? FIGURE_MARK : `(${figureLabel(figureNumber)})`;
+				figureNumber === undefined ? FIGURE_MARK : bracketedFigureLabel(figureNumber);
 			if (figureNumber === undefined) {
 				marksWithNoSlide.push(markOffset + totalChange);
 			}

@@ -18,10 +18,13 @@ import {
 	NOTES_SLIDES_DIR,
 	notesSlideImageEntry,
 } from "../../layout.js";
+import { readFactCorrections } from "../fact-corrections.js";
 import { readSlideRelocations } from "../slide-relocations.js";
 import { checkSlideImagesExist, readSlideReadings, slideImagePath } from "../slides.js";
-import { readStageStructuredTranscript } from "../stage-input.js";
-import { notesPageHtml } from "./notes-page-html.js";
+import { readStageSlidePlacements, readStageStructuredTranscript } from "../stage-input.js";
+import { readSubtopicRewrite } from "../subtopic-rewrites.js";
+import { readTermCorrectionResult } from "../term-corrections.js";
+import { type NotesPageContent, notesPageHtml } from "./notes-page-html.js";
 
 /** The error of the stage when an input file is missing or unreadable. */
 export class BuildNotesPageError extends NamedError {}
@@ -35,6 +38,55 @@ export class BuildNotesPageError extends NamedError {}
 const fail = (message: string): BuildNotesPageError => new BuildNotesPageError(message);
 
 /**
+ * Gives the slide number of each slide in the notes.
+ *
+ * @param slideRelocations - The entry of each subtopic in `slide-relocations.json`.
+ * @returns The slide numbers, in lecture order.
+ */
+function slideNumbersIn(slideRelocations: NotesPageContent["slideRelocations"]): readonly number[] {
+	return slideRelocations.flatMap(({ slides }) => slides.map(({ slideNumber }) => slideNumber));
+}
+
+/**
+ * Reads the content of the notes page from the output of the earlier stages.
+ *
+ * @param context - The stage context of the lecture.
+ * @returns The content of the page.
+ * @throws {BuildNotesPageError} If an input file is missing, unreadable or the wrong shape.
+ */
+async function readPageContent(context: StageContext): Promise<NotesPageContent> {
+	const reading = { context, purpose: "build the notes page of", fail };
+	const [{ topics }, { placements }, { factCorrectedSubtopics }, { slideRelocations }] =
+		await Promise.all([
+			readStageStructuredTranscript(reading),
+			readStageSlidePlacements(reading),
+			readFactCorrections(reading),
+			readSlideRelocations(reading),
+		]);
+	const subtopicIds = topics.flatMap(({ subtopics }) =>
+		subtopics.map(({ subtopicId }) => subtopicId),
+	);
+	const [subtopicRewrites, termCorrections, slideReadings] = await Promise.all([
+		Promise.all(subtopicIds.map((subtopicId) => readSubtopicRewrite({ ...reading, subtopicId }))),
+		Promise.all(
+			subtopicIds.map((subtopicId) => readTermCorrectionResult({ ...reading, subtopicId })),
+		),
+		readSlideReadings({ ...reading, slideNumbers: slideNumbersIn(slideRelocations) }),
+	]);
+	return {
+		lectureTitle: context.lectureTitle,
+		lectureDate: context.lectureDate,
+		topics,
+		slideRelocations,
+		slideReadings,
+		subtopicRewrites,
+		termCorrections,
+		slidePlacements: placements,
+		factCorrections: factCorrectedSubtopics,
+	};
+}
+
+/**
  * Writes the notes of one lecture into the lecture's folder in the final output
  * folder. The folder holds `notes.html`, and `slides/` holds a copy of each slide
  * image of the notes.
@@ -46,16 +98,8 @@ const fail = (message: string): BuildNotesPageError => new BuildNotesPageError(m
  * @throws {BuildNotesPageError} If an input file or a slide image is missing, unreadable or the wrong shape.
  */
 export async function buildNotesPage(context: StageContext): Promise<void> {
-	const { topics } = await readStageStructuredTranscript({
-		context,
-		purpose: "build the notes page of",
-		fail,
-	});
-	const { slideRelocations } = await readSlideRelocations({ context, fail });
-	const slideNumbers = slideRelocations.flatMap(({ slides }) =>
-		slides.map(({ slideNumber }) => slideNumber),
-	);
-	const slideReadings = await readSlideReadings({ context, slideNumbers, fail });
+	const content = await readPageContent(context);
+	const slideNumbers = slideNumbersIn(content.slideRelocations);
 	const { workspaceRoot } = context;
 	await checkSlideImagesExist({ context, slideNumbers, fail });
 	const notesDir = lectureNotesDirPath({
@@ -72,12 +116,6 @@ export async function buildNotesPage(context: StageContext): Promise<void> {
 	}
 	await writeFileAtomic({
 		path: join(notesDir, NOTES_PAGE_FILE),
-		content: notesPageHtml({
-			lectureTitle: context.lectureTitle,
-			lectureDate: context.lectureDate,
-			topics,
-			slideRelocations,
-			slideReadings,
-		}),
+		content: notesPageHtml(content),
 	});
 }
