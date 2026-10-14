@@ -15,6 +15,7 @@ import {
 } from "../slide-relocations.js";
 import { findSlideReading, type SlideReading } from "../slides.js";
 import type { TopicWithSubtopics } from "../structured-transcript.js";
+import type { SubtopicRewrite } from "../subtopic-rewrites.js";
 import { NOTES_PAGE_SCRIPT, NOTES_PAGE_STYLE } from "./notes-page-style.js";
 
 /** The paragraphs and the slides of one subtopic. The page reads no other field of the entry. */
@@ -31,17 +32,67 @@ export type NotesPageContent = {
 	readonly slideRelocations: readonly SubtopicSlideRelocation[];
 	/** The reading of each slide in the notes, for its caption. */
 	readonly slideReadings: readonly SlideReading[];
+	/** The rewrite of each subtopic, for the Rewrite view. */
+	readonly subtopicRewrites: readonly Pick<SubtopicRewrite, "subtopicId" | "rewrittenSubtopic">[];
 };
 
+/** The page views in the order of the switch, each with its name on the switch (CONTEXT.md, "Page view"). */
+const PAGE_VIEWS = [
+	{ view: "notes", name: "Notes" },
+	{ view: "rewrite", name: "Rewrite" },
+	{ view: "corrections", name: "Corrections" },
+	{ view: "transcript", name: "Transcript" },
+] as const;
+
+/** One page view of the notes page. */
+type PageView = (typeof PAGE_VIEWS)[number]["view"];
+
+/** The page view that shows when the page opens. Its topic sections have the ids that the header links point at. */
+const FIRST_VIEW: PageView = "notes";
+
 /**
- * Gives the id of a topic's section, which the link to the topic in the header
- * points at.
+ * Gives the switch of the page views. The first view is chosen.
  *
- * @param topicIndex - The place of the topic in the lecture, from 0.
- * @returns The id, such as `topic-1`.
+ * @returns The HTML of the switch.
  */
-function topicAnchor(topicIndex: number): string {
-	return `topic-${topicIndex + 1}`;
+function viewSwitchHtml(): string {
+	const choices = PAGE_VIEWS.map(
+		({ view, name }) =>
+			`<label><input type="radio" name="view" value="${view}"${view === FIRST_VIEW ? " checked" : ""}> ${name}</label>`,
+	);
+	return `<fieldset class="view-switch"><legend>Page view</legend>${choices.join("")}</fieldset>`;
+}
+
+/**
+ * Gives the style rule of each page view, which shows the view when the switch chooses it.
+ *
+ * @returns The CSS of the rules.
+ */
+function viewStyle(): string {
+	return PAGE_VIEWS.map(
+		({ view }) =>
+			`body:has(input[name="view"][value="${view}"]:checked) #${view}-view { display: block; }`,
+	).join("\n");
+}
+
+/**
+ * Gives the id of a topic's section in a page view. A link to the topic in the
+ * header points at the id in the first view.
+ *
+ * @param args - The page view, and the place of the topic.
+ * @param args.view - The page view.
+ * @param args.topicIndex - The place of the topic in the lecture, from 0.
+ * @returns The id, such as `topic-1` in the first view and `rewrite-topic-1` in the Rewrite view.
+ */
+function topicAnchor({
+	view,
+	topicIndex,
+}: {
+	readonly view: PageView;
+	readonly topicIndex: number;
+}): string {
+	const anchor = `topic-${topicIndex + 1}`;
+	return view === FIRST_VIEW ? anchor : `${view}-${anchor}`;
 }
 
 /**
@@ -252,40 +303,88 @@ function paragraphsHtml({
 		.join("\n");
 }
 
+/** Gives the HTML of the text of one subtopic in one page view, from its subtopic id. */
+type SubtopicBody = (subtopicId: number) => string;
+
 /**
  * Gives the section of one topic, with the section of each of its subtopics.
  *
- * @param args - The topic, its section id, the entry of each subtopic, and the slide readings.
+ * @param args - The topic, its section id, and the text of each subtopic.
  * @param args.topic - The topic.
  * @param args.anchor - The id of the topic's section.
- * @param args.slideRelocations - The entry of each subtopic of the lecture.
- * @param args.readings - The slide readings of the notes.
+ * @param args.subtopicBody - Gives the HTML of the text of a subtopic.
  * @returns The HTML of the topic.
  */
 function topicHtml({
 	topic,
 	anchor,
-	slideRelocations,
-	readings,
+	subtopicBody,
 }: {
 	readonly topic: TopicWithSubtopics;
 	readonly anchor: string;
-	readonly slideRelocations: readonly SubtopicSlideRelocation[];
-	readonly readings: readonly SlideReading[];
+	readonly subtopicBody: SubtopicBody;
 }): string {
 	const subtopics = topic.subtopics.map(
 		(subtopic) => `<section class="subtopic">
 <h3>${escapeHtml(subtopic.title)}</h3>
-${paragraphsHtml({
-	relocation: slideRelocations.find(({ subtopicId }) => subtopicId === subtopic.subtopicId),
-	readings,
-})}
+${subtopicBody(subtopic.subtopicId)}
 </section>`,
 	);
 	return `<section class="topic" id="${anchor}">
 <h2>${escapeHtml(topic.title)}</h2>
 ${subtopics.join("\n")}
 </section>`;
+}
+
+/**
+ * Gives the text of each subtopic in each page view.
+ *
+ * @param content - The content of the page.
+ * @returns The function of each page view that gives the HTML of the text of a subtopic.
+ */
+function subtopicBodies(content: NotesPageContent): Readonly<Record<PageView, SubtopicBody>> {
+	const relocationOf = (subtopicId: number): SubtopicSlideRelocation | undefined =>
+		content.slideRelocations.find((entry) => entry.subtopicId === subtopicId);
+	const rewriteOf = (subtopicId: number): readonly string[] =>
+		content.subtopicRewrites.find((entry) => entry.subtopicId === subtopicId)?.rewrittenSubtopic ??
+		[];
+	const notes: SubtopicBody = (subtopicId) =>
+		paragraphsHtml({ relocation: relocationOf(subtopicId), readings: content.slideReadings });
+	return {
+		notes,
+		rewrite: (subtopicId) =>
+			rewriteOf(subtopicId)
+				.map((paragraph) => `<p>${textHtml(paragraph)}</p>`)
+				.join("\n"),
+		corrections: notes,
+		transcript: notes,
+	};
+}
+
+/**
+ * Gives one page view: the section of each topic, with the text of the view.
+ *
+ * @param args - The content of the page, the view, and the text of each subtopic in the view.
+ * @param args.content - The content of the page.
+ * @param args.view - The page view.
+ * @param args.subtopicBody - Gives the HTML of the text of a subtopic in the view.
+ * @returns The HTML of the view.
+ */
+function pageViewHtml({
+	content,
+	view,
+	subtopicBody,
+}: {
+	readonly content: NotesPageContent;
+	readonly view: PageView;
+	readonly subtopicBody: SubtopicBody;
+}): string {
+	const sections = [...content.topics.entries()].map(([topicIndex, topic]) =>
+		topicHtml({ topic, anchor: topicAnchor({ view, topicIndex }), subtopicBody }),
+	);
+	return `<div class="view" id="${view}-view">
+${sections.join("\n")}
+</div>`;
 }
 
 /**
@@ -297,11 +396,13 @@ ${subtopics.join("\n")}
  */
 function headerHtml(content: NotesPageContent): string {
 	const links = [...content.topics.entries()].map(
-		([index, topic]) => `<li><a href="#${topicAnchor(index)}">${escapeHtml(topic.title)}</a></li>`,
+		([topicIndex, topic]) =>
+			`<li><a href="#${topicAnchor({ view: FIRST_VIEW, topicIndex })}">${escapeHtml(topic.title)}</a></li>`,
 	);
 	return `<header>
 <p class="eyebrow">${escapeHtml(content.lectureDate)}</p>
 <h1>${escapeHtml(content.lectureTitle)}</h1>
+${viewSwitchHtml()}
 <p class="legend">Each slide sits at the sentence where its discussion starts. That sentence is <mark>highlighted</mark>. Click a slide to show it larger.</p>
 <nav aria-label="Topics"><ol>${links.join("")}</ol></nav>
 </header>`;
@@ -314,13 +415,9 @@ function headerHtml(content: NotesPageContent): string {
  * @returns The whole page, as one HTML text.
  */
 export function notesPageHtml(content: NotesPageContent): string {
-	const sections = [...content.topics.entries()].map(([index, topic]) =>
-		topicHtml({
-			topic,
-			anchor: topicAnchor(index),
-			slideRelocations: content.slideRelocations,
-			readings: content.slideReadings,
-		}),
+	const bodies = subtopicBodies(content);
+	const views = PAGE_VIEWS.map(({ view }) =>
+		pageViewHtml({ content, view, subtopicBody: bodies[view] }),
 	);
 	return `<!doctype html>
 <html>
@@ -328,13 +425,13 @@ export function notesPageHtml(content: NotesPageContent): string {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${escapeHtml(content.lectureTitle)}</title>
-<style>${NOTES_PAGE_STYLE}</style>
+<style>${NOTES_PAGE_STYLE}${viewStyle()}</style>
 </head>
 <body>
 <div class="page">
 ${headerHtml(content)}
 <main>
-${sections.join("\n")}
+${views.join("\n")}
 </main>
 </div>
 <dialog id="enlarged" aria-label="Enlarged slide"><button class="close" type="button">Close</button><img alt=""><span class="figure-text"></span></dialog>

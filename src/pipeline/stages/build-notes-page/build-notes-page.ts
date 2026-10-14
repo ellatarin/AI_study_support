@@ -21,6 +21,7 @@ import {
 import { readSlideRelocations } from "../slide-relocations.js";
 import { checkSlideImagesExist, readSlideReadings, slideImagePath } from "../slides.js";
 import { readStageStructuredTranscript } from "../stage-input.js";
+import { readSubtopicRewrite } from "../subtopic-rewrites.js";
 import { notesPageHtml } from "./notes-page-html.js";
 
 /** The error of the stage when an input file is missing or unreadable. */
@@ -52,6 +53,12 @@ export async function buildNotesPage(context: StageContext): Promise<void> {
 		fail,
 	});
 	const { slideRelocations } = await readSlideRelocations({ context, fail });
+	const subtopicIds = topics.flatMap(({ subtopics }) =>
+		subtopics.map(({ subtopicId }) => subtopicId),
+	);
+	const subtopicRewrites = await Promise.all(
+		subtopicIds.map((subtopicId) => readSubtopicRewrite({ context, subtopicId, fail })),
+	);
 	const slideNumbers = slideRelocations.flatMap(({ slides }) =>
 		slides.map(({ slideNumber }) => slideNumber),
 	);
@@ -78,6 +85,7 @@ export async function buildNotesPage(context: StageContext): Promise<void> {
 			topics,
 			slideRelocations,
 			slideReadings,
+			subtopicRewrites,
 		}),
 	});
 }

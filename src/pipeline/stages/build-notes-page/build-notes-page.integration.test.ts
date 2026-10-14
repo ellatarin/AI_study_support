@@ -86,7 +86,7 @@ describe("buildNotesPage", () => {
 		tree = await makeWorkspaceTree({ prefix: "build-notes-page-" });
 		await seedEarlierOutputs({
 			workspaceRoot: tree.workspaceRoot,
-			readsFrom: ["structure-transcript", "render-slides", "read-slides"],
+			readsFrom: ["structure-transcript", "render-slides", "read-slides", "rewrite-subtopics"],
 		});
 		await seedJsonFile({
 			path: slideRelocationsPath(tree.workspaceRoot),

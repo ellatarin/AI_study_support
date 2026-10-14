@@ -58,13 +58,40 @@ const slideRelocations: readonly SubtopicOnPage[] = [
 
 const slideReadings: readonly SlideReading[] = [slideTwoReading as SlideReading];
 
+/** The sentence of slide 2 in the rewrite. The fact correction changed it to {@link slideTwoSentence}. */
+const rewriteSlideTwoSentence = "Some injury can be reversed.";
+
+const subtopicRewrites: NotesPageContent["subtopicRewrites"] = [
+	{ subtopicId: 1, rewrittenSubtopic: [openingParagraph] },
+	{
+		subtopicId: 2,
+		rewrittenSubtopic: [
+			`${sentenceBeforeSlideTwo} ${rewriteSlideTwoSentence} The cell then recovers.`,
+			subtopicTwoParagraphs[1],
+		],
+	},
+];
+
 const content: NotesPageContent = {
 	lectureTitle: testLecture.title,
 	lectureDate: testLecture.date,
 	topics,
 	slideRelocations,
 	slideReadings,
+	subtopicRewrites,
 };
+
+/**
+ * Gives the inner HTML of one page view.
+ *
+ * @param args - The page, and the view.
+ * @param args.html - The page.
+ * @param args.view - The value of the view on the switch, such as `rewrite`.
+ * @returns The inner HTML of the view.
+ */
+function viewHtml({ html, view }: { readonly html: string; readonly view: string }): string {
+	return new RegExp(`<div class="view" id="${view}-view">(.*?)</div>`, "su").exec(html)?.[1] ?? "";
+}
 
 /**
  * Gives the content with a new text for the paragraph of subtopic 1, which has no slide.
@@ -153,16 +180,24 @@ function inOrder({
 }
 
 /**
- * Gives the highlighted sentences of the notes. The header also has a highlight,
- * which explains the highlight, so the search covers only `<main>`.
+ * Gives the inner HTML of the Notes view of a page.
  *
  * @param html - The page.
- * @returns The text of each highlight in the notes, trimmed.
+ * @returns The inner HTML of the Notes view.
+ */
+function notesView(html: string): string {
+	return viewHtml({ html, view: "notes" });
+}
+
+/**
+ * Gives the highlighted sentences of the Notes view. The header also has a
+ * highlight, which explains the highlight, so the search covers only the view.
+ *
+ * @param html - The page.
+ * @returns The text of each highlight in the Notes view, trimmed.
  */
 function highlightedSentences(html: string): readonly string[] {
-	return innerHtmlOf({ html, tag: "main" })
-		.flatMap((main) => innerHtmlOf({ html: main, tag: "mark" }))
-		.map((inner) => pageText(inner).trim());
+	return innerHtmlOf({ html: notesView(html), tag: "mark" }).map((inner) => pageText(inner).trim());
 }
 
 describe("notesPageHtml", () => {
@@ -226,7 +261,9 @@ describe("notesPageHtml", () => {
 		const html = notesPageHtml({ ...content, slideRelocations: slideRelocations.slice(1) });
 
 		expect(pageText(html)).toContain(openingSubtopicTitle);
-		expect(innerHtmlOf({ html, tag: "p" })).toHaveLength(subtopicTwoParagraphs.length);
+		expect(innerHtmlOf({ html: notesView(html), tag: "p" })).toHaveLength(
+			subtopicTwoParagraphs.length,
+		);
 	});
 
 	it("should highlight the slide's sentence up to its end when the paragraph has more than one sentence", () => {
@@ -263,7 +300,7 @@ describe("notesPageHtml", () => {
 
 		expect(
 			inOrder({
-				text: html,
+				text: notesView(html),
 				parts: [slideTwoSentence, "<p>", notesSlideImageEntry(4), subtopicTwoParagraphs[1]],
 			}),
 		).toBe(true);
@@ -365,5 +402,34 @@ describe("notesPageHtml", () => {
 
 	it("should point each slide image at its copy beside the page when the page is built", () => {
 		expect(notesPageHtml(content)).toContain(`src="${notesSlideImageEntry(2)}"`);
+	});
+
+	it("should show a switch with the four page views, and choose the Notes view, when the page is built", () => {
+		const choices = [
+			...notesPageHtml(content).matchAll(
+				/<input type="radio" name="view" value="(?<view>\w+)"(?<checked> checked)?>/gu,
+			),
+		].map(({ groups }) => `${groups?.view}${groups?.checked ?? ""}`);
+
+		expect(choices).toStrictEqual(["notes checked", "rewrite", "corrections", "transcript"]);
+	});
+
+	it("should show the rewrite of each subtopic under its title, with no highlight and no colour, when the Rewrite view is built", () => {
+		const rewrite = viewHtml({ html: notesPageHtml(content), view: "rewrite" });
+
+		expect(
+			inOrder({
+				text: pageText(rewrite),
+				parts: topics.flatMap((topic) => [
+					topic.title,
+					...topic.subtopics.flatMap((subtopic) => [
+						subtopic.title,
+						...(subtopicRewrites.find(({ subtopicId }) => subtopicId === subtopic.subtopicId)
+							?.rewrittenSubtopic ?? []),
+					]),
+				]),
+			}),
+		).toBe(true);
+		expect(rewrite).not.toMatch(/<(?:mark|del|ins)\b|not-in-notes/u);
 	});
 });

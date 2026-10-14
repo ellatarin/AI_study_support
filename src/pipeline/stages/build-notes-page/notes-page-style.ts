@@ -43,6 +43,11 @@ h1 { font-weight: 600; font-size: 2.25rem; line-height: 1.15; margin: 0; text-wr
 nav ol { margin: 0; padding-left: 1.4rem; font-family: var(--font-ui); font-size: 0.95rem; display: grid; gap: 0.2rem; }
 nav a { color: var(--accent); text-decoration: none; }
 nav a:hover { text-decoration: underline; }
+.view-switch { margin: 0; padding: 0; border: 0; display: flex; flex-wrap: wrap; gap: 0.25rem 1rem; font-family: var(--font-ui); font-size: 0.9rem; }
+.view-switch legend { padding: 0; margin-bottom: 0.25rem; color: var(--muted); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; }
+.view-switch label { cursor: pointer; }
+.view-switch input { accent-color: var(--accent); }
+.view { display: none; }
 .topic { display: grid; gap: 2rem; }
 h2 { font-weight: 600; font-size: 1.6rem; line-height: 1.25; margin: 0; padding-top: 1.5rem; border-top: 2px solid var(--accent); text-wrap: balance; }
 h3 { font-weight: 600; font-size: 1.2rem; line-height: 1.3; margin: 0 0 0.75rem; text-wrap: balance; }
@@ -79,7 +84,8 @@ mark { background: var(--mark); color: inherit; border-radius: 2px; }
 /**
  * The script of the notes page. A click on a slide shows it in a window that
  * does not cover the page. The reader moves the window by its border and changes
- * its size from its corner. The close button and the Esc key close it.
+ * its size from its corner. The close button and the Esc key close it. A link
+ * to a topic goes to the topic in the page view that shows.
  */
 export const NOTES_PAGE_SCRIPT = `
 const windowFrame = document.getElementById("enlarged");
@@ -104,6 +110,15 @@ for (const button of document.querySelectorAll(".figure-image")) {
       placeWindow();
       windowFrame.show();
     }
+  });
+}
+for (const link of document.querySelectorAll("nav a")) {
+  link.addEventListener("click", (event) => {
+    const view = document.querySelector('input[name="view"]:checked').value;
+    const topic = document.getElementById(view + "-" + link.hash.slice(1));
+    if (topic === null) return;
+    event.preventDefault();
+    topic.scrollIntoView();
   });
 }
 windowFrame.querySelector(".close").addEventListener("click", () => windowFrame.close());
