@@ -7,7 +7,7 @@
 import katex from "katex";
 import { SENTENCE_END_MARK, splitWords } from "../../../utils/text.js";
 import { notesSlideImageEntry } from "../../layout.js";
-import type { FactCorrectionFile } from "../fact-corrections.js";
+import { type FactCorrectionFile, FIRST_FACTUAL_ERROR_NUMBER } from "../fact-corrections.js";
 import type { SlidePlacement } from "../slide-placements.js";
 import {
 	figureLabel,
@@ -748,7 +748,8 @@ function changeNotes({
 		const note =
 			change === undefined
 				? null
-				: (factCorrection?.factualErrors[change.factualError - 1]?.problem ?? null);
+				: (factCorrection?.factualErrors[change.factualError - FIRST_FACTUAL_ERROR_NUMBER]
+						?.problem ?? null);
 		notes.push(...run.map(() => note), null);
 		start = end + 1;
 	}

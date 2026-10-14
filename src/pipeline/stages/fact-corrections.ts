@@ -27,9 +27,12 @@ export type ChangedWords = {
 	readonly note: string;
 };
 
+/** The number that the call gives the first factual error of its numbered list. */
+export const FIRST_FACTUAL_ERROR_NUMBER = 1;
+
 /** One change of the fact-corrected subtopic, in the project's words. */
 type FactCorrectionChange = ChangedWords & {
-	/** The factual error, by the number that the call gave it, from 1 in the order of `factualErrors`. */
+	/** The factual error, by the number that the call gave it, from {@link FIRST_FACTUAL_ERROR_NUMBER} in the order of `factualErrors`. */
 	readonly factualError: number;
 };
 

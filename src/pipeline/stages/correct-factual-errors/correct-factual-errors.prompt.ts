@@ -1,5 +1,7 @@
 /** The messages that `correct-factual-errors` sends (technical-design.md §5, `correct-factual-errors`). */
 
+/* jscpd:ignore-end */
+import { FIRST_FACTUAL_ERROR_NUMBER } from "../fact-corrections.js";
 /* jscpd:ignore-start -- the prompt modules import the same message builder and
    subtopic rewrite. So their import blocks are the same line for line. Imports
    cannot be shared, and CLAUDE.md (File Organisation) forbids barrel files.
@@ -7,7 +9,6 @@
 import type { FactualError } from "../factual-errors.js";
 import { type PromptMessages, promptMessages } from "../model-stage.js";
 import type { TitledSubtopicRewrite } from "../subtopic-rewrites.js";
-/* jscpd:ignore-end */
 
 /**
  * The version of the fact-correction prompt. The prompt is k3 of the prototype in
@@ -80,9 +81,6 @@ Reply with JSON only, in this shape:
 export type FactCorrectionMaterial = TitledSubtopicRewrite & {
 	readonly factualErrors: readonly Pick<FactualError, "passage" | "problem" | "correctStatement">[];
 };
-
-/** The number that the call gives the first factual error of its numbered list. */
-const FIRST_FACTUAL_ERROR_NUMBER = 1;
 
 /**
  * Checks that a reply names a factual error by a number that the call sent.
