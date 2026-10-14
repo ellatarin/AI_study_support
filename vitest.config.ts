@@ -1,4 +1,4 @@
-import { defineConfig } from "vitest/config";
+import { configDefaults, defineConfig } from "vitest/config";
 
 export default defineConfig({
 	test: {
@@ -11,6 +11,9 @@ export default defineConfig({
 		// TypeScript project, so a .ts suite in such a folder fails type-aware
 		// linting for want of a project rather than for anything it does.
 		include: ["**/*.{test,integration.test}.{ts,tsx,js,mjs,mts}"],
+		// The prototypes in .scratch/ are disposable, so their suites stay out of
+		// the commit gate. A prototype runs its suite with an explicit config.
+		exclude: [...configDefaults.exclude, ".scratch/**"],
 
 		// Coverage: v8 provider (native, fast). The thresholds are a ratchet floor,
 		// set just under the measurement of the day and raised as coverage climbs,
