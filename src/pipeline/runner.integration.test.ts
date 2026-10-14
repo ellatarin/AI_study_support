@@ -45,7 +45,7 @@ import {
 	useStubLogger,
 } from "./fixtures.js";
 import {
-	moduleDirs,
+	notesPagePath,
 	runLogsDirPath,
 	type StageWithOutputFile,
 	stageDirectoryPaths,
@@ -949,16 +949,31 @@ describe("PipelineRunner integration", () => {
 			expect(await whichExist(groupingDirs)).toStrictEqual(groupingSurvives);
 		});
 
-		// No stage works outside the workspace, so a reset from the first lecture
-		// stage leaves the lecture's file in the module's `Final output/`.
-		it("should leave the lecture's final output in place when --from-stage is given", async () => {
-			const finalOutput = moduleDirs({ moduleRoot }).finalOutput;
-			await mkdir(finalOutput, { recursive: true });
-			await writeFile(join(finalOutput, testLecture.finalOutputFile), "page");
+		describe("with the notes of two lectures in Final output", () => {
+			/** Gives the notes page of a lecture in the module of the test. */
+			const notesPageOf = (baseName: string): string => notesPagePath({ moduleRoot, baseName });
 
-			await runFromStage("audio-extraction");
+			beforeEach(async () => {
+				for (const baseName of [testLecture.baseName, otherLecture.baseName]) {
+					await mkdir(dirname(notesPageOf(baseName)), { recursive: true });
+					await writeFile(notesPageOf(baseName), "page");
+				}
+			});
 
-			expect(await pathExists(join(finalOutput, testLecture.finalOutputFile))).toBe(true);
+			it.each([
+				"audio-extraction",
+				"build-notes-page",
+			] as const)("should delete the lecture's notes when --from-stage %s is given", async (fromStage) => {
+				await runFromStage(fromStage);
+
+				expect(await pathExists(dirname(notesPageOf(testLecture.baseName)))).toBe(false);
+			});
+
+			it("should leave another lecture's notes in place when --from-stage is given", async () => {
+				await runFromStage("build-notes-page");
+
+				expect(await pathExists(notesPageOf(otherLecture.baseName))).toBe(true);
+			});
 		});
 	});
 

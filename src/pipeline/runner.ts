@@ -40,7 +40,13 @@ import { createStageLogger } from "../utils/logger.js";
 import { isRecord } from "../utils/record.js";
 import { configuredStage } from "../utils/stage-config.js";
 import { isStageAfter } from "../utils/stage-id.js";
-import { runLogsDirPath, type StageInWorkspace, stageDirectoryPaths } from "./layout.js";
+import {
+	lectureNotesDirPath,
+	moduleRootOf,
+	runLogsDirPath,
+	type StageInWorkspace,
+	stageDirectoryPaths,
+} from "./layout.js";
 import { listWorkspaces } from "./lecture-files.js";
 import { patchManifest, readManifest, readManifestSafe, writeManifest } from "./manifest.js";
 import { createMoneyFormatter, formatCostReport } from "./reports.js";
@@ -567,15 +573,25 @@ async function runStage({
 /**
  * Deletes one stage's output for one lecture. Each workspace directory of the
  * stage is deleted whole (technical-design.md §4.4, "Stage cleanup boundaries").
+ * The output of `build-notes-page` is outside the workspace: it is the lecture's
+ * folder in the final output folder, and only that folder is deleted.
  *
  * @param args - The lecture and the stage.
  * @param args.workspaceRoot - Absolute path to the lecture workspace.
  * @param args.stageId - The stage whose output to delete.
+ * @param args.baseName - The current base name of the lecture.
  * @returns A promise that resolves when the output is deleted.
  */
-async function deleteStageOutput(args: StageInWorkspace): Promise<void> {
-	for (const path of stageDirectoryPaths(args)) {
+async function deleteStageOutput({
+	baseName,
+	...stage
+}: StageInWorkspace & { readonly baseName: string }): Promise<void> {
+	for (const path of stageDirectoryPaths(stage)) {
 		await rm(path, { recursive: true, force: true });
+	}
+	if (stage.stageId === "build-notes-page") {
+		const moduleRoot = moduleRootOf({ workspaceRoot: stage.workspaceRoot });
+		await rm(lectureNotesDirPath({ moduleRoot, baseName }), { recursive: true, force: true });
 	}
 }
 
@@ -594,7 +610,7 @@ async function resetFromStage({
 	let stages = manifest.stages;
 	for (const stageId of STAGE_IDS.slice(STAGE_IDS.indexOf(fromStage))) {
 		stages = patchStages({ stages, stageId, entry: { status: "pending" } });
-		await deleteStageOutput({ workspaceRoot, stageId });
+		await deleteStageOutput({ workspaceRoot, stageId, baseName: manifest.baseName });
 	}
 	const updated: Manifest = { ...manifest, stages, updatedAt: timestamp };
 	await writeManifest({ workspaceRoot, manifest: updated });

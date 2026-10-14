@@ -69,7 +69,8 @@ export function sharedLectureFileDirs({ dirs }: { readonly dirs: ModuleDirs }): 
 	return [dirs.videoRecording, dirs.slideDeck, dirs.finalOutput];
 }
 
-type LectureInModule = { readonly moduleRoot: string; readonly baseName: string };
+/** A lecture as the layout finds its folders: its module and its base name. */
+export type LectureInModule = { readonly moduleRoot: string; readonly baseName: string };
 
 /**
  * Gives the folder of a lecture in one folder of its module. The lecture's folder

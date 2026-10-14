@@ -2,29 +2,35 @@
  * The `build-notes-page` stage. It writes the page and the slide images of one
  * lecture into the lecture's folder in the final output folder. It makes no model
  * call (technical-design.md §5, "After the fact correction").
- *
- * The stage is not yet in `STAGE_IDS`. So this module gives the work of the stage,
- * and a later change builds the pipeline stage around it.
  */
 
 import { copyFile, mkdir, rm } from "node:fs/promises";
-import { join } from "node:path";
-import type { StageContext } from "../../../types/pipeline.js";
+import { join, relative } from "node:path";
+/* jscpd:ignore-start -- jscpd matches these imports with the first imports of choose-division.ts.
+   Both modules build a stage with a logger and a named error. An import is not logic, so nothing here can be extracted.
+   The duplication floor stays where it is for code that can be extracted. */
+import type { Logger } from "pino";
+import type { PipelineStage, StageContext } from "../../../types/pipeline.js";
 import { NamedError } from "../../../utils/errors.js";
-import { writeFileAtomic } from "../../../utils/files.js";
+/* jscpd:ignore-end */
+import { pathExists, writeFileAtomic } from "../../../utils/files.js";
 import {
+	type LectureInModule,
 	lectureNotesDirPath,
 	NOTES_SLIDES_DIR,
 	notesPagePath,
 	notesSlideImageEntry,
 } from "../../layout.js";
 import { readFactCorrections } from "../fact-corrections.js";
-import { readSlideRelocations } from "../slide-relocations.js";
+import { createPipelineStage } from "../pipeline-stage.js";
+import { readSlideRelocations, slideRelocationsPath } from "../slide-relocations.js";
 import { checkSlideImagesExist, readSlideReadings, slideImagePath } from "../slides.js";
 import { readStageSlidePlacements, readStageStructuredTranscript } from "../stage-input.js";
 import { readSubtopicRewrite } from "../subtopic-rewrites.js";
 import { readTermCorrectionResult } from "../term-corrections.js";
 import { type NotesPageContent, notesPageHtml } from "./notes-page-html.js";
+
+const STAGE_ID = "build-notes-page";
 
 /** The error of the stage when an input file is missing or unreadable. */
 export class BuildNotesPageError extends NamedError {}
@@ -48,6 +54,53 @@ function slideNumbersIn(slideRelocations: NotesPageContent["slideRelocations"]):
 }
 
 /**
+ * Checks that each subtopic of the lecture has an entry in the slide relocations.
+ * A subtopic with no entry has no notes text, so the page cannot show it.
+ *
+ * @param args - The lecture, its subtopics and its slide relocations.
+ * @param args.context - The stage context of the lecture.
+ * @param args.subtopicIds - The id of each subtopic, in lecture order.
+ * @param args.slideRelocations - The entry of each subtopic in `slide-relocations.json`.
+ * @throws {BuildNotesPageError} If a subtopic has no entry. The error names the subtopic.
+ */
+function checkEachSubtopicRelocated({
+	context,
+	subtopicIds,
+	slideRelocations,
+}: {
+	readonly context: StageContext;
+	readonly subtopicIds: readonly number[];
+	readonly slideRelocations: NotesPageContent["slideRelocations"];
+}): void {
+	const relocated = new Set(slideRelocations.map(({ subtopicId }) => subtopicId));
+	const missing = subtopicIds.find((subtopicId) => !relocated.has(subtopicId));
+	if (missing !== undefined) {
+		throw fail(
+			`${slideRelocationsPath(context.workspaceRoot)} has no entry for subtopic ${missing}`,
+		);
+	}
+}
+
+/**
+ * Gives a notice for each placed slide that no subtopic's relocation entry has.
+ * The page leaves such a slide out. The slide has no reading, or `place-slides`
+ * gave it a subtopic that is not in the lecture.
+ *
+ * @param content - The content of the page.
+ * @returns One notice for each such slide, in the order of the placements.
+ */
+function unrelocatedSlideNotices(content: NotesPageContent): readonly string[] {
+	const relocated = new Set(slideNumbersIn(content.slideRelocations));
+	return content.slidePlacements
+		.map(({ slideNumber }) => slideNumber)
+		.filter((slideNumber) => !relocated.has(slideNumber))
+		.map(
+			(slideNumber) =>
+				`Slide ${slideNumber} is placed, but no subtopic's relocation entry has it, so the notes page leaves it out.`,
+		);
+}
+
+/**
  * Reads the content of the notes page from the output of the earlier stages.
  *
  * @param context - The stage context of the lecture.
@@ -66,6 +119,7 @@ async function readPageContent(context: StageContext): Promise<NotesPageContent>
 	const subtopicIds = topics.flatMap(({ subtopics }) =>
 		subtopics.map(({ subtopicId }) => subtopicId),
 	);
+	checkEachSubtopicRelocated({ context, subtopicIds, slideRelocations });
 	const [subtopicRewrites, termCorrections, slideReadings] = await Promise.all([
 		Promise.all(subtopicIds.map((subtopicId) => readSubtopicRewrite({ ...reading, subtopicId }))),
 		Promise.all(
@@ -87,33 +141,94 @@ async function readPageContent(context: StageContext): Promise<NotesPageContent>
 }
 
 /**
- * Writes the notes of one lecture into the lecture's folder in the final output
- * folder. The folder holds `notes.html`, and `slides/` holds a copy of each slide
- * image of the notes.
- * The stage first deletes the folder of an earlier build. A missing input stops
- * the stage before the delete.
+ * Gives the lecture of a stage context as the layout module names it: its module
+ * and its current base name.
  *
  * @param context - The stage context of the lecture.
- * @returns A promise that resolves when the folder is written.
+ * @returns The module root and the base name.
+ */
+function lectureOf(context: StageContext): LectureInModule {
+	return { moduleRoot: context.moduleRoot, baseName: context.manifest.baseName };
+}
+
+/**
+ * Reads the content of the page and checks that each slide image of the notes
+ * exists. So a missing input stops the stage before it deletes anything.
+ *
+ * @param context - The stage context of the lecture.
+ * @returns The content of the page.
  * @throws {BuildNotesPageError} If an input file or a slide image is missing, unreadable or the wrong shape.
  */
-export async function buildNotesPage(context: StageContext): Promise<void> {
+async function readCheckedPageContent(context: StageContext): Promise<NotesPageContent> {
 	const content = await readPageContent(context);
-	const slideNumbers = slideNumbersIn(content.slideRelocations);
-	const { workspaceRoot } = context;
-	await checkSlideImagesExist({ context, slideNumbers, fail });
-	const lecture = { moduleRoot: context.moduleRoot, baseName: context.manifest.baseName };
+	await checkSlideImagesExist({
+		context,
+		slideNumbers: slideNumbersIn(content.slideRelocations),
+		fail,
+	});
+	return content;
+}
+
+/**
+ * Writes the notes of one lecture into the lecture's folder in the final output
+ * folder. The folder holds `notes.html`, and `slides/` holds a copy of each slide
+ * image of the notes. The stage first deletes the folder of an earlier build. The
+ * page is written last, so a stage that stops part of the way leaves no page.
+ *
+ * @param args - The content of the page and the stage context.
+ * @param args.content - The content of the page.
+ * @param args.context - The stage context of the lecture.
+ * @returns The path of the notes page, relative to the workspace.
+ */
+async function writeNotes({
+	content,
+	context,
+}: {
+	readonly content: NotesPageContent;
+	readonly context: StageContext;
+}): Promise<string> {
+	const lecture = lectureOf(context);
 	const notesDir = lectureNotesDirPath(lecture);
 	await rm(notesDir, { recursive: true, force: true });
 	await mkdir(join(notesDir, NOTES_SLIDES_DIR), { recursive: true });
-	for (const slideNumber of slideNumbers) {
+	for (const slideNumber of slideNumbersIn(content.slideRelocations)) {
 		await copyFile(
-			slideImagePath({ workspaceRoot, slideNumber }),
+			slideImagePath({ workspaceRoot: context.workspaceRoot, slideNumber }),
 			join(notesDir, notesSlideImageEntry(slideNumber)),
 		);
 	}
-	await writeFileAtomic({
-		path: notesPagePath(lecture),
-		content: notesPageHtml(content),
-	});
+	const notesPage = notesPagePath(lecture);
+	await writeFileAtomic({ path: notesPage, content: notesPageHtml(content) });
+	return relative(context.workspaceRoot, notesPage);
+}
+
+/**
+ * Builds the `build-notes-page` stage. The stage counts as complete when the
+ * notes page is on disk under the lecture's current base name. To build the page
+ * again, the user deletes `notes.html` (technical-design.md §5,
+ * `build-notes-page`).
+ *
+ * @param args - The dependencies of the stage.
+ * @param args.logger - The logger of the invocation.
+ * @returns The stage.
+ */
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger has mutable properties that the rule cannot ignore. This function only gives the logger to the stage.
+export function createBuildNotesPageStage({
+	logger,
+}: {
+	readonly logger: Logger;
+}): PipelineStage<NotesPageContent, null> {
+	return {
+		...createPipelineStage({
+			stageId: STAGE_ID,
+			logger,
+			getInput: readCheckedPageContent,
+			run: async ({ input, context }) => ({
+				output: null,
+				filesWritten: [await writeNotes({ content: input, context })],
+				notices: unrelocatedSlideNotices(input),
+			}),
+		}),
+		isComplete: (context) => pathExists(notesPagePath(lectureOf(context))),
+	};
 }

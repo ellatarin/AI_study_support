@@ -1,12 +1,15 @@
 import { readdir, readFile, rm } from "node:fs/promises";
 import { basename, join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import type { StageContext } from "../../../types/pipeline.js";
 import { pathExists } from "../../../utils/files.js";
 import {
 	captureError,
 	correctedSubtopicText,
+	driveStage,
 	eachUnusableJsonFile,
 	makeStageContext,
+	makeStubLogger,
 	makeWorkspaceTree,
 	otherLecture,
 	rewriteInput,
@@ -29,7 +32,7 @@ import {
 } from "../../layout.js";
 import { type SlideRelocation, slideRelocationsPath } from "../slide-relocations.js";
 import { slideImagePath } from "../slides.js";
-import { BuildNotesPageError, buildNotesPage } from "./build-notes-page.js";
+import { BuildNotesPageError, createBuildNotesPageStage } from "./build-notes-page.js";
 
 const PROMPT_VERSION = "r4";
 
@@ -72,7 +75,7 @@ const slideNumbersInNotes = slideRelocations.flatMap(({ slides }) =>
 	slides.map(({ slideNumber }) => slideNumber),
 );
 
-describe("buildNotesPage", () => {
+describe("createBuildNotesPageStage", () => {
 	let tree: WorkspaceTree;
 	/**
 	 * Gives the folder of a lecture's notes in the module of the test.
@@ -90,8 +93,11 @@ describe("buildNotesPage", () => {
 		);
 	const imageOf = (slideNumber: number): string =>
 		slideImagePath({ workspaceRoot: tree.workspaceRoot, slideNumber });
-	const build = (): Promise<void> =>
-		buildNotesPage(makeStageContext({ workspaceRoot: tree.workspaceRoot }));
+	const stage = (): ReturnType<typeof createBuildNotesPageStage> =>
+		createBuildNotesPageStage({ logger: makeStubLogger().logger });
+	const context = (): StageContext => makeStageContext({ workspaceRoot: tree.workspaceRoot });
+	const build = (): ReturnType<typeof driveStage> =>
+		driveStage({ stage: stage(), context: context() });
 	const seedSlideRelocations = (entries: readonly SlideRelocation[]): Promise<void> =>
 		seedJsonFile({
 			path: slideRelocationsPath(tree.workspaceRoot),
@@ -194,6 +200,53 @@ describe("buildNotesPage", () => {
 
 		expect(error).toBeInstanceOf(BuildNotesPageError);
 		expect(error.message).toContain(spoiled);
+	});
+
+	it("should fail with BuildNotesPageError that names the subtopic when a subtopic has no slide relocation entry", async () => {
+		await seedSlideRelocations(slideRelocations.slice(1));
+
+		const error = await captureError(build());
+
+		expect(error).toBeInstanceOf(BuildNotesPageError);
+		expect(error.message).toContain("subtopic 1");
+	});
+
+	it("should write the page and give a notice that names the slide when a placed slide is in no slide relocation entry", async () => {
+		await seedSlideRelocations(
+			slideRelocations.map((entry) => ({
+				...entry,
+				slides: entry.slides.filter(({ slideNumber }) => slideNumber !== 2),
+			})),
+		);
+
+		const { notices } = await build();
+
+		expect(notices).toStrictEqual([
+			"Slide 2 is placed, but no subtopic's relocation entry has it, so the notes page leaves it out.",
+		]);
+		expect(
+			await pathExists(
+				notesPagePath({ moduleRoot: tree.moduleRoot, baseName: testLecture.baseName }),
+			),
+		).toBe(true);
+	});
+
+	it.each([
+		{ state: "is on disk", complete: true, afterBuild: async (): Promise<void> => {} },
+		{
+			state: "is missing",
+			complete: false,
+			afterBuild: (): Promise<void> =>
+				rm(notesPagePath({ moduleRoot: tree.moduleRoot, baseName: testLecture.baseName })),
+		},
+	])("should count the stage as complete only when the notes page under the current base name $state", async ({
+		complete,
+		afterBuild,
+	}) => {
+		await build();
+		await afterBuild();
+
+		expect(await stage().isComplete(context())).toBe(complete);
 	});
 
 	it("should fail with BuildNotesPageError that names the slide when the PNG of a slide in the notes is missing", async () => {
