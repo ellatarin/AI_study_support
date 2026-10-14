@@ -1,6 +1,6 @@
 # 01 — Show the notes as an HTML page with the slides beside the text
 
-**Status:** needs-triage
+**Status:** resolved
 
 **Blocked by:** none
 
@@ -17,3 +17,7 @@
 - [x] The user decides if the HTML page replaces the PDF or comes in addition to it. The page replaces the PDF.
 - [ ] The requirements and the technical design describe the page.
 - [ ] The page renders LaTeX in the text and in the captions as symbols, for example `$\beta$` as β (slide-placement ticket 07).
+
+## Comments
+
+2026-10-14: the design moved to `.scratch/fact-check-stages/issues/10-notes-page.md`, with the decisions of the grilling of 2026-10-14. The open items above are criteria of that ticket.
