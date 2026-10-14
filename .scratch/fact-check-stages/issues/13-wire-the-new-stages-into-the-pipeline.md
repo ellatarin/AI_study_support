@@ -52,3 +52,24 @@
 Ticket 07, the user's live run on lecture 4, can start.
 
 ## Comments
+
+### Hand-off 2026-10-14
+
+The user approved ten test points in this order. Each step below is committed on `main`, and the commit gate passed on each one.
+
+1. Stage list and layout: 1308c77f.
+2. Config, with the `models` list of `check-facts`: dcc00e5c. The reader of `fact-corrected-subtopics.json` is eb7a5d92. Ticket 12 shares it.
+3. `correct-factual-errors` through the stage factory: da5deb2d. The new definer `defineSubtopicAndLectureFileStage` writes the subtopic files and then the lecture file.
+4. `relocate-slides` through the stage factory: 8f040e7b. It reads the fact-corrected subtopics, the slide placements and the slide readings.
+5. `check-facts` through the stage factory: 5a5dcd48. `callModel` takes the model and its tuning (`stageConfig`). The user rejected a thin wrapper that dodged two lint rules. The word "unlisted" is gone from `src/`.
+6. Stage notices: 45604014. The line is `⚠ <Stage> — <notice>`. The user has not yet seen this wording. The cost and the config of each model: 2020c872. The runner owns the tally of each model and gives it to each stage run.
+7. One row for each model in the run summary and in the first section of the cost report: 46274db3. The error recovery section and the experiment section still show one line with "—" for `check-facts`. The user has not yet answered whether they want one row for each model there.
+
+Not done:
+
+- Step 9, next: the lecture's folder in `Final output/`. Rename, change-date, normalisation (two passes) and `judge-lecture-title` give the folder the new base name. Delete and the delete of an orphaned workspace delete the folder. The fixture `testLecture.finalOutputFile` becomes a folder. A trap: `renameToBase` keeps the extension, and a folder name with "Dr. Smith" has an extension by `extname`. The code reads the final output folder in `lecture-files.ts`, `source-normalisation.ts` (`discoverFinalOutput`, files only), `source-renames.ts` and `orphaned-workspaces.ts`. The tests are in `lecture-files.integration.test.ts`, `lecture-identity.integration.test.ts`, `runner.integration.test.ts`, `judge-lecture-title.integration.test.ts`, `source-normalisation.integration.test.ts` and `source-renames.test.ts`.
+- Step 10: the CLI builds a stage for each entry in the stage list.
+- Step 8, after the merge of ticket 12: `build-notes-page` through the stage factory. A subtopic with no relocation entry fails the stage. A placed slide in no entry gives a warning, not a failure (user). A reset deletes only this lecture's folder. The stage is skipped when the folder under the current base name holds `notes.html` (user's choice A).
+- The user's `pipeline-config.json` gets the three entries. It is git-ignored.
+- The documents, then the suite version, once, after the merge of ticket 12.
+- A question for the user: the parameter `sendToModel` of the test helper `itReadsSavedSubtopicFiles` now holds the stubbed completion call. Propose a rename table.
