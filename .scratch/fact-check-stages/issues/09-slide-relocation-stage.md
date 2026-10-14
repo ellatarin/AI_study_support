@@ -17,3 +17,5 @@
 - [ ] A live run on lecture 4 by the user.
 
 ## Comments
+
+2026-10-14: the user chose prompt r4 of the prototype (`.scratch/slide-relocation/prompts.mts`). r4 makes one call for each subtopic, with the subtopic from `place-slides`. Each slide is sent as its whole slide reading, with no transcript words and no reason from `place-slides`. A mark that points at a slide in another subtopic cannot work with this call shape. Ticket 11 covers it.
