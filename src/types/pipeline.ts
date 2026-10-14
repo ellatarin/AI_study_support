@@ -282,6 +282,8 @@ export type LectureIdentityChanges = Partial<
  */
 export type StageResult<TOutput> = Pick<StageCostAndFiles, "filesWritten"> & {
 	readonly output: TOutput;
+	/** The facts that the stage found and that the user must see. Absent means none (technical-design.md §10, "Stage Notices"). */
+	readonly notices?: readonly string[];
 	/** The lecture identity that the stage decided. Absent and `{}` both mean nothing. */
 	readonly identityChanges?: LectureIdentityChanges;
 };
@@ -461,7 +463,8 @@ export type PipelineRunEvent =
 			readonly stageId: StageId;
 			readonly cost: StageCost | null;
 	  }
-	| { readonly event: "stage-failed"; readonly stageId: StageId };
+	| { readonly event: "stage-failed"; readonly stageId: StageId }
+	| { readonly event: "stage-notice"; readonly stageId: StageId; readonly notice: string };
 
 /** Receives the runner's events (technical-design.md §10). */
 export type PipelineRunReporter = (event: PipelineRunEvent) => void;

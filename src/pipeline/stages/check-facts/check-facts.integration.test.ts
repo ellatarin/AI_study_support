@@ -1,7 +1,7 @@
 import { mkdir } from "node:fs/promises";
 import { join } from "node:path";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { FactCheckModel } from "../../../types/pipeline.js";
+import type { FactCheckModel, PipelineConfig } from "../../../types/pipeline.js";
 import { type CostTallyByModel, createCostTallyByModel } from "../../../utils/cost.js";
 import {
 	arrivingTogether,
@@ -464,14 +464,24 @@ describe("createCheckFactsStage", () => {
 		});
 	});
 
-	it("should send each call to the model of the models list, and record the file of the model and the merged file, when the stage runs", async () => {
-		const result = await driveModelStage({
+	/**
+	 * Runs the stage on the seeded lecture, as the runner does.
+	 *
+	 * @param stageConfig - The config of the run. The default has the models list of this suite.
+	 * @returns The result of the stage.
+	 */
+	function runStage(stageConfig: PipelineConfig = config): ReturnType<typeof driveModelStage> {
+		return driveModelStage({
 			factory: createCheckFactsStage,
 			client: client(),
-			config,
+			config: stageConfig,
 			workspaceRoot: workspace().workspaceRoot,
 			logger: logged().logger,
 		});
+	}
+
+	it("should send each call to the model of the models list, and record the file of the model and the merged file, when the stage runs", async () => {
+		const result = await runStage();
 
 		expect(create().mock.calls.map(([body]) => body.model)).toStrictEqual([
 			primaryFactCheckModel.modelId,
@@ -482,16 +492,16 @@ describe("createCheckFactsStage", () => {
 		]);
 	});
 
+	it("should give a notice that names the subtopic when the passage of a factual error is not in its subtopic", async () => {
+		const result = await runStage();
+
+		expect(result.notices).toStrictEqual([
+			`The passage of a factual error is not in subtopic 2: "${snuffError.passage}"`,
+		]);
+	});
+
 	it("should fail with CheckFactsError that names the config file, and call no model, when the config has no entry for check-facts", async () => {
-		const error = await captureError(
-			driveModelStage({
-				factory: createCheckFactsStage,
-				client: client(),
-				config: makeConfig(),
-				workspaceRoot: workspace().workspaceRoot,
-				logger: logged().logger,
-			}),
-		);
+		const error = await captureError(runStage(makeConfig()));
 
 		expect(error).toBeInstanceOf(CheckFactsError);
 		expect(error.message).toContain('stage "check-facts" in pipeline-config.json');

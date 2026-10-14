@@ -21,6 +21,9 @@ const SKIPPED = "−";
 /** The mark of the notice for a stage that failed. */
 const FAILED = "✖";
 
+/** The mark of a fact that a stage found and that the user must see. */
+const WARNING = "⚠";
+
 /**
  * Writes the end of a completed stage's notice: the number of calls and their
  * cost. A stage with no cost says that it made no model call, and does not show
@@ -73,6 +76,9 @@ function noticeFor({
 	}
 	if (event.event === "stage-completed") {
 		return `${COMPLETED} ${label}${spendTail({ cost: event.cost, formatMoney })}\n`;
+	}
+	if (event.event === "stage-notice") {
+		return `${WARNING} ${label} — ${event.notice}\n`;
 	}
 	// The error message comes after the run summary (technical-design.md §10). This
 	// line only closes the "started" notice.

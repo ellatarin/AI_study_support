@@ -481,6 +481,9 @@ async function runStage({
 		const cost = costTally.total();
 		await statusWriter.complete({ configUsed, result, cost });
 		reporter({ event: "stage-completed", stageId, cost });
+		for (const notice of result.notices ?? []) {
+			reporter({ event: "stage-notice", stageId, notice });
+		}
 		return ranOutcome({ status: "complete" });
 	} catch (error: unknown) {
 		const message = errorMessage(error);

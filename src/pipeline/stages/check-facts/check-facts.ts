@@ -81,10 +81,10 @@ export type SendToListedModel = (
 type ModelFactCheckFile = ModelFactualErrors & { readonly factCheckPromptVersion: string };
 
 /**
- * The result of the fact check of one lecture, for the pipeline stage. The stage result
- * and the stage entry do not yet have `notices` and `configUsed.models`. A later
- * change adds them (technical-design.md §4.5, §10). The cost of each model is in
- * the caller's {@link CostTallyByModel}.
+ * The result of the fact check of one lecture, for the pipeline stage. The stage
+ * entry does not yet have `configUsed.models`. A later change adds it
+ * (technical-design.md §4.5). The cost of each model is in the caller's
+ * {@link CostTallyByModel}.
  */
 type FactCheckResult = {
 	/** The merged file. */
@@ -469,7 +469,7 @@ export const createCheckFactsStage: ModelStageFactory<FactCheckInput, FactualErr
 			if (models === undefined) {
 				throw new CheckFactsError(unconfiguredStageMessage({ stageId: STAGE_ID }));
 			}
-			const { output, filesWritten } = await checkFacts({
+			const { output, filesWritten, notices } = await checkFacts({
 				...input,
 				models,
 				workspaceRoot: context.workspaceRoot,
@@ -492,7 +492,7 @@ export const createCheckFactsStage: ModelStageFactory<FactCheckInput, FactualErr
 						costTally: modelCostTally,
 					}),
 			});
-			return { output, filesWritten };
+			return { output, filesWritten, notices };
 		},
 	});
 };

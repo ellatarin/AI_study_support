@@ -101,6 +101,12 @@ describe("createPipelineRunReporter", () => {
 		expect(printed()).toContain("failed");
 	});
 
+	it("should give the stage and the notice on a line with a warning mark when a stage reports a notice", () => {
+		report({ event: "stage-notice", stageId: "check-facts", notice: "The passage is missing." });
+
+		expect(printed()).toBe("⚠ Check facts — The passage is missing.\n");
+	});
+
 	it("should end each notice with a newline when several are written in turn", () => {
 		report({ event: "stage-started", stageId: "transcription" });
 		report({ event: "stage-completed", stageId: "transcription", cost: null });

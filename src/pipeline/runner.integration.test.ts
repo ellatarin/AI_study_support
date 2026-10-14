@@ -395,6 +395,25 @@ describe("PipelineRunner integration", () => {
 				]);
 			});
 
+			it("should report each notice of the stage, in order, after the stage's completed event when the stage returns notices", async () => {
+				const notices = ["The first fact.", "The second fact."];
+				const noticing = makeStubStage({
+					stageId: "audio-extraction",
+					run: () => Promise.resolve({ ...PRODUCED_NOTHING, notices }),
+				});
+
+				await makeRunner([noticing]).runLecture({ workspaceRoot });
+
+				expect(events.slice(-3)).toEqual([
+					{ event: "stage-completed", stageId: "audio-extraction", cost: null },
+					...notices.map((notice) => ({
+						event: "stage-notice",
+						stageId: "audio-extraction",
+						notice,
+					})),
+				]);
+			});
+
 			it("should report the cost the stage recorded when it completes", async () => {
 				const cost = oneCallCosting(0.5);
 
