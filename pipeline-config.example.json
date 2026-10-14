@@ -80,6 +80,16 @@
 			"concurrency": 10,
 			"sendGapSeconds": 0.25
 		},
+		"check-facts": {
+			"models": [
+				{
+					"modelId": "anthropic/claude-opus-5.5",
+					"role": "primary",
+					"temperature": null,
+					"maxTokens": null
+				}
+			]
+		},
 		"correct-factual-errors": {
 			"modelId": "anthropic/claude-sonnet-5.5",
 			"temperature": null,
