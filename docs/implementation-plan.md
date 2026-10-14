@@ -454,7 +454,7 @@ Integration tests for the runner following the move:
 
 ## Phase 7 — `transcript-verification` (removed in Phase 19)
 
-**Removed in Phase 19.** The stage is gone, with its view, `markdownVersion` and the QA types that only it used. The shared code that this phase made stays: `requestJsonReply` in `model-stage.ts`.
+**Removed in Phase 19.** The stage is gone, with its view, `markdownVersion` and the QA types that only it used. The shared code that this phase made stays: the dependency pair and run arguments in `model-stage.ts`.
 
 **Goal:** Report what `transcript-structuring` lost, underexplained, distorted, or invented, without letting the verdict stop anything.
 
@@ -470,7 +470,7 @@ Integration tests for the runner following the move:
 
 `QA_SEVERITIES` in `src/types/pipeline.ts` **(TD §4.1)** — the three severities as an ordered list, worst first, with `QaSeverity` derived from it as `StageId` is from `STAGE_IDS`. The stage validates a reply against it and the view orders findings by it, and an ordering written beside a membership check is the same fact twice.
 
-`src/pipeline/stages/model-stage.ts` **(TD §6, "A stage asks for a JSON reply through one shared act")** — `requestJsonReply`, plus the dependency pair and run arguments every model-calling stage takes. Extracted here because `transcript-verification` is the second stage to do all three, and `transcript-structuring` moves onto it in the same change. No test file of its own; both stages' suites exercise it, each failure included.
+`src/pipeline/stages/model-stage.ts` **(TD §6, "A stage asks for a JSON reply through one shared act")** — the dependency pair and run arguments every model-calling stage takes.
 
 The stage set gains a tenth entry **(TD §4.1)** — `STAGE_IDS`, `STAGE_FILES`, the cost report's labels and the config example all follow from it; the manifest, config keys, `--from-stage` validation and the run log derive from `STAGE_IDS` and need no edit.
 
@@ -547,7 +547,7 @@ Every doc naming a moved file is updated in the same commit.
 
 `src/pipeline/stages/panel-runs.ts` **(TD §5, "Dividing the transcript", Panel runs; TD §8, "Intra-Stage Resumability")** — the whole of the panel-run behaviour the TD describes, each of its failures a named error: `sendWithResends` for one call, `runPanel` for the panel.
 
-`tryJsonReply` in `src/pipeline/stages/model-stage.ts` **(TD §6, "A stage asks for a JSON reply through one shared act")**. It is the JSON call that returns a bad reply and does not throw it. `requestJsonReply` is rebuilt on it.
+`tryJsonReply` in `src/pipeline/stages/model-stage.ts` **(TD §6, "A stage asks for a JSON reply through one shared act")**. It is the JSON call that returns a bad reply and does not throw it.
 
 `mapWithConcurrency` in `src/utils/concurrency.ts` — the batch runner's bounded-concurrency loop, moved out so the panel shares it. `accumulateCost` accepts a running total of `null`, meaning nothing counted yet.
 

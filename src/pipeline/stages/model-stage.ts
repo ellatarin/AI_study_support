@@ -42,8 +42,7 @@ export type ModelStageRunArgs<TInput> = {
 
 /**
  * A request for a JSON reply: the prompt, the stage, and the check of the reply.
- * {@link tryJsonReply} and {@link requestJsonReply} take it. They differ only in
- * what they do with an unusable reply.
+ * {@link tryJsonReply} takes it.
  *
  * @typeParam TReply - The reply that the stage expects.
  */
@@ -158,32 +157,6 @@ export function readJsonReply<TReply>({
 		return unusable(`The model's reply is not the documented ${documentedShape}`);
 	}
 	return { reply: parsed };
-}
-
-/**
- * {@link tryJsonReply} for a stage that makes one call and cannot go on without
- * the answer. An unusable reply becomes the error that `fail` builds. So each
- * stage raises its own error, and the reasons are the same in every stage
- * (technical-design.md §6).
- *
- * @param args - As for {@link tryJsonReply}, and the error to raise.
- * @param args.fail - Builds the stage's own error from a message.
- * @returns The checked reply.
- * @throws The error that `fail` builds, if the reply is empty, not JSON, or not the documented shape.
- * @typeParam TReply - The reply that the stage expects.
- */
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- as for tryJsonReply: library types that are not deeply readonly
-export async function requestJsonReply<TReply>({
-	fail,
-	...request
-}: JsonReplyRequest<TReply> & {
-	readonly fail: (message: string) => Error;
-}): Promise<UsableJsonReply<TReply>> {
-	const outcome = await tryJsonReply(request);
-	if ("failure" in outcome) {
-		throw fail(outcome.failure);
-	}
-	return outcome;
 }
 
 /** The messages that a stage sends: its prompt, then the material that the prompt is about. */
@@ -392,14 +365,9 @@ export type OwnJsonRequest<TReply> = Pick<
  * run. So a stage passes only its own part of each request.
  */
 export type StageModelCalls = {
-	/** {@link requestJsonReply} for this stage run. */
-	readonly requestJsonReply: <TReply>(
-		// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- the message-param type of the OpenAI library is not deeply readonly. CLAUDE.md allows a mutable type where a library requires one.
-		request: OwnJsonRequest<TReply> & { readonly fail: (message: string) => Error },
-	) => Promise<UsableJsonReply<TReply>>;
 	/** {@link sendJsonWithResends} for this stage run. */
 	readonly sendJsonWithResends: <TReply, TKept>(
-		// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- as for requestJsonReply: the message-param library type is not deeply readonly
+		// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- the message-param type of the OpenAI library is not deeply readonly. CLAUDE.md allows a mutable type where a library requires one.
 		request: OwnJsonRequest<TReply> & {
 			readonly what: string;
 			readonly use: UseOfReply<TReply, TKept>;
@@ -419,7 +387,6 @@ function stageModelCalls(
 		ModelStageDependencies,
 ): StageModelCalls {
 	return {
-		requestJsonReply: (request) => requestJsonReply({ ...run, ...request }),
 		sendJsonWithResends: (request) => sendJsonWithResends({ ...run, ...request }),
 	};
 }

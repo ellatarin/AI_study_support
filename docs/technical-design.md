@@ -1204,7 +1204,7 @@ stageDirectoryPath(args: { workspaceRoot: string; stageId: StageId }): string
 sendJsonWithResends<TReply, TKept>(args: JsonReplyRequest<TReply> & { what: string; use }): Promise<UsableJsonReply<TKept>>
 // tryJsonReplyAs, resent until usable: every call the splitting, retitling, grouping and title-judging stages make.
 // The third unusable reply is a ResendsExhaustedError.
-type StageModelCalls = { requestJsonReply; sendJsonWithResends }
+type StageModelCalls = { sendJsonWithResends }
 // A stage's run gets these as `calls`. defineModelStage gives them the stage id, the stage context, the logger,
 // the client and the send gate of the stage run. So a stage passes only its own part of each request.
 
@@ -1768,9 +1768,9 @@ OpenRouter's own parameter reference states that JSON mode requires the prompt t
 - refuse a reply that does not parse
 - refuse a reply that parses into a shape other than the documented shape.
 
-`requestJsonReply` in `src/pipeline/stages/model-stage.ts` does all three and gives back the checked reply. The stage supplies its messages and the predicate that recognises its reply. It also supplies the shape in words, and the way to raise its own named error. So each stage keeps its own error type. The two sentences that a user reads are the same in every stage. The same module names the dependency pair (`{ logger, client }`) and the run arguments that every model-calling stage takes. Without it, each stage would state them again.
+`tryJsonReply` in `src/pipeline/stages/model-stage.ts` does all three. The stage supplies its messages and the predicate that recognises its reply. It also supplies the shape in words. The same module names the dependency pair (`{ logger, client }`) and the run arguments that every model-calling stage takes. Without it, each stage would state them again.
 
-`requestJsonReply` is built on `tryJsonReply`. `tryJsonReply` makes the same call, and returns a bad reply instead of throwing it. It gives the reply, or the reason that the reply cannot be used: empty, not JSON, or the wrong shape. The panel stages resend a bad reply (§5, "Dividing the transcript", Panel runs). A thrown error would end the stage before the resend. An empty reply has its own reason, because it is the common case. It also says something different from prose: the provider answered with nothing, not with the wrong thing.
+`tryJsonReply` returns a bad reply and does not throw it. It gives the reply, or the reason that the reply cannot be used: empty, not JSON, or the wrong shape. The panel stages resend a bad reply (§5, "Dividing the transcript", Panel runs). A thrown error would end the stage before the resend. An empty reply has its own reason, because it is the common case. It also says something different from prose: the provider answered with nothing, not with the wrong thing.
 
 `tryJsonReplyAs` is `tryJsonReply` followed by the stage turning the reply into what it keeps — where the stage may still find it unusable, as a splitting reply naming words the transcript does not contain — so that failure is resent like any other. The same module builds the two messages a stage sends (`promptMessages`: the prompt as the system message, the material as the user message) and defines a model-calling stage from its id, input reader and run (`defineModelStage`), returning the factory the CLI calls with the logger and client.
 
