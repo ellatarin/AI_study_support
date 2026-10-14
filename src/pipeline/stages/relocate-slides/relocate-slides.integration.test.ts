@@ -173,7 +173,7 @@ describe("createRelocateSlidesStage", () => {
 
 	itReadsSavedSubtopicFiles({
 		run,
-		sendToModel: create,
+		create,
 		savedFilePath: () => join(workspaceRoot(), slideRelocationFile(2)),
 		stageError: RelocateSlidesError,
 	});

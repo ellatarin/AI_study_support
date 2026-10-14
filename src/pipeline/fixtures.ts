@@ -177,28 +177,28 @@ export function itFailsAfterTheThirdUnusableSend({
  *
  * @param args - The stage run, its stub, a saved file, and the stage's error.
  * @param args.run - Runs the stage.
- * @param args.sendToModel - Gives the stubbed completion call of the current test.
+ * @param args.create - Gives the stubbed completion call of the current test.
  * @param args.savedFilePath - Gives the absolute path of the file of one subtopic in the current test.
  * @param args.stageError - The error class of the stage.
  */
 export function itReadsSavedSubtopicFiles({
 	run,
-	sendToModel,
+	create,
 	savedFilePath,
 	stageError,
 }: {
 	readonly run: () => Promise<unknown>;
-	readonly sendToModel: () => StubbedCompletionCall;
+	readonly create: () => StubbedCompletionCall;
 	readonly savedFilePath: () => string;
 	readonly stageError: new (message: string) => Error;
 }): void {
 	it("should make no call for a subtopic with a saved file when the stage starts again", async () => {
 		await run();
-		sendToModel().mockClear();
+		create().mockClear();
 
 		await run();
 
-		expect(sendToModel()).not.toHaveBeenCalled();
+		expect(create()).not.toHaveBeenCalled();
 	});
 
 	it(`should fail with ${stageError.name} that names the file when a saved file holds nothing readable`, async () => {

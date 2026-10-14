@@ -138,7 +138,7 @@ describe("createCorrectFactualErrorsStage", () => {
 
 	itReadsSavedSubtopicFiles({
 		run,
-		sendToModel: create,
+		create,
 		savedFilePath: () => join(workspaceRoot(), factCorrectionFile(corrected.subtopicId)),
 		stageError: CorrectFactualErrorsError,
 	});
