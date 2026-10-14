@@ -237,7 +237,7 @@ Putting each slide with the subtopic where the lecturer discusses it. The slide 
 _Avoid_: slide assignment, slide merging, slide matching
 
 **Slide relocation**:
-Moving each placed slide from its point in the transcript to the sentence of the fact-corrected subtopic where its discussion starts. The slide stays in its subtopic, and slides keep their deck order. A slide that a figure mark points at goes at that mark.
+Moving each placed slide from its point in the transcript to the sentence of the fact-corrected subtopic where its discussion starts. The slide stays in its subtopic. When the subtopic has no paragraph, the slide moves to the nearest subtopic that has one. Slides keep their deck order. A slide that a figure mark points at goes at that mark.
 _Avoid_: slide replacement, re-placement
 
 **Figure number**:

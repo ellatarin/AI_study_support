@@ -1654,15 +1654,23 @@ A reply is unusable, and the stage resends it, in these cases:
 - start words that are not in the text
 - a slide with no point, or with two points
 - an unknown slide
+- a figure mark with no answer. "No slide" is an answer, but silence is not, because then the stage cannot tell whether the mark points at a slide
 - slides out of deck order.
 
 A slide that a figure mark points at goes at that mark. Code gives each slide its figure number, and writes "(Figure N)" in place of each mark that points at a slide (CONTEXT.md, "Figure number"). A mark that points at no slide stays as `[FIGURE]`, and the stage records it. The references slide goes after the last sentence of the last subtopic, with no call and no figure number.
+
+A subtopic can have no paragraph, because the rewrite can make an empty list. Lecture 3 of Biology of Disease has one: its last subtopic is 50 words of closing remarks. A subtopic with no paragraph gets no call, and its file lists no slide. Each slide of that subtopic, the references slide included, goes to a subtopic that has a paragraph:
+
+- The slide goes after the last sentence of the nearest earlier subtopic that has a paragraph. It comes after the slides that are already at that point, in deck order.
+- If no earlier subtopic has a paragraph, the slide goes before the first sentence of the nearest later subtopic that has a paragraph.
+
+The file of that subtopic lists the slide. The slide keeps its figure number. If no subtopic of the lecture has a paragraph, the stage fails with `RelocateSlidesError`.
 
 The stage writes `Slide relocations/subtopic-<id>.json` for each subtopic. The file holds:
 
 - `subtopicId`, and `slideRelocationPromptVersion`
 - `paragraphs`: the fact-corrected paragraphs, with "(Figure N)" in place of each figure mark that points at a slide
-- `slides`: each slide of the subtopic in deck order, with `slideNumber`, `paragraphIndex` (from 0), `characterOffset` and `figureNumber`. The offset is the start of the slide's sentence, in characters. For the references slide, the offset is the end of the last paragraph, and `figureNumber` is `null`
+- `slides`: each slide that the subtopic shows, in deck order, with `slideNumber`, `paragraphIndex` (from 0), `characterOffset` and `figureNumber`. The offset is the start of the slide's sentence, in characters. For the references slide, the offset is the end of the last paragraph, and `figureNumber` is `null`. For a slide of an earlier subtopic with no paragraph, the offset is 0 in the first paragraph. For a slide of a later subtopic with no paragraph, the offset is the end of the last paragraph
 - `figureMarksWithNoSlide`: the `paragraphIndex` and `characterOffset` of each `[FIGURE]` mark that points at no slide.
 
 When each subtopic has its file, the stage writes `Slide relocations/slide-relocations.json`. Its `slideRelocations` holds the entry of each subtopic in lecture order, with the fields of the subtopic's file. The entries have no titles. The titles are in the structured transcript.

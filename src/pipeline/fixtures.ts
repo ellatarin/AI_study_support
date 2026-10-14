@@ -1602,6 +1602,17 @@ export function factCorrectionFile(subtopicId: number): string {
 export const factCorrectedSubtopicsFile = "Fact corrections/fact-corrected-subtopics.json";
 
 /**
+ * The workspace-relative path of the slide-relocation file of a subtopic. The
+ * name is stated in full here, and not taken from the production code.
+ *
+ * @param subtopicId - The subtopic.
+ * @returns The path, relative to the workspace.
+ */
+export function slideRelocationFile(subtopicId: number): string {
+	return `Slide relocations/subtopic-${subtopicId}.json`;
+}
+
+/**
  * Gives the reader of the JSON files of a suite's workspace.
  *
  * @param workspaceRoot - Gives the absolute path to the lecture workspace of the current test.
