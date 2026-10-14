@@ -46,6 +46,21 @@ describe("extractProvisionalTitle", () => {
 		{ filename: "BOD_Cell injury on Fri 10th Oct.mp4", expected: "Cell injury" },
 		{ filename: "2025-10-10 BOD_Lights on.mp4", expected: "Lights on" },
 		{ filename: "  BOD_Cell injury 2025-10-10  .mp4", expected: "Cell injury" },
+		{ filename: "Lecture_6_Stem Cells 2026-10-10.mp4", expected: "Stem Cells" },
+		{ filename: "Lecture-6-Stem Cells 2026-10-10.mp4", expected: "Stem Cells" },
+		{
+			filename: "CGD-Cell-Biology-Lecture-10-Stem-Cells-26:09:2026.mp4",
+			expected: "CGD-Cell-Biology-Stem-Cells",
+		},
+		{
+			filename: "HPI_Lecture_1_Introduction _to_Pathogens 08:10:2026.pdf",
+			expected: "HPI Introduction to Pathogens",
+		},
+		{ filename: "GD_Kate Baker GoDule lecture 9:10:2026.pdf", expected: "GD Kate Baker GoDule" },
+		{ filename: "Lecture_6_Stem_Cells 2026-10-10.mp4", expected: "Stem Cells" },
+		{ filename: "Lecture-10-Stem-Cells 2026-10-10.mp4", expected: "Stem-Cells" },
+		{ filename: "Lectures on Immunity 2026-10-10.mp4", expected: "Lectures on Immunity" },
+		{ filename: "Guest Lecturer Talk 2026-10-10.mp4", expected: "Guest Lecturer Talk" },
 	])("should extract provisional title when filename is $filename", ({ filename, expected }) => {
 		expect(extractProvisionalTitle({ filename, modulePrefixes: MODULE_PREFIXES })).toBe(expected);
 	});
@@ -60,6 +75,25 @@ describe("extractProvisionalTitle", () => {
 	}) => {
 		expect(extractProvisionalTitle({ filename, modulePrefixes: ["Biology of Disease"] })).toBe(
 			"Cell injury",
+		);
+	});
+
+	it.each([
+		{
+			filename: "CGD-Cell-Biology-Lecture-7-Life-and-Death-of-Cells-27:09:2026.mp4",
+			expected: "Cell-Biology-Life-and-Death-of-Cells",
+		},
+		{ filename: "2026.10.08 HPI.mp4", expected: "" },
+		{ filename: "2026.10.09_GD.mp4", expected: "" },
+		{ filename: "GD_Genomics of Disease on 12.10.2026 Mon.mp4", expected: "Genomics of Disease" },
+		{ filename: "GD_Kate Baker GoDule lecture 9:10:2026.pdf", expected: "Kate Baker GoDule" },
+		{ filename: "HPIx Cell Biology 2026-10-10.mp4", expected: "HPIx Cell Biology" },
+	])("should strip a module prefix followed by a hyphen, an underscore, a space or the end when filename is $filename", ({
+		filename,
+		expected,
+	}) => {
+		expect(extractProvisionalTitle({ filename, modulePrefixes: ["CGD", "GD", "HPI"] })).toBe(
+			expected,
 		);
 	});
 

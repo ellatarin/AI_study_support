@@ -65,7 +65,15 @@ All pipeline artefacts for a lecture live inside a single named workspace folder
 
 #### Video recordings
 
-Source videos may have the date in any position and any format. `source-normalisation` extracts the date, assigns a lecture number by date order, and produces the provisional title by stripping the date, day names (Mon–Sun), configured module prefixes (e.g. `BOD_`, `Biology of Disease -`), any embedded lecture-number token (e.g. `Lecture 1`, which would otherwise duplicate the assigned number), and trailing artefacts (`co`, `copy`) from the original filename, keeping the lecturer's capitalisation as typed. The separators left behind by those removals go too, so a name `source-normalisation` itself produced reads back as the title it was built from: `Lecture 1 - Cell Injury - 2025-10-10.mp4` gives `Cell Injury`, which is how a lecture renamed by a run that stopped before writing its manifest keeps its title on the next one.
+Source videos may have the date in any position and any format. `source-normalisation` extracts the date and assigns a lecture number by date order. It makes the provisional title from the original filename. It removes these parts:
+
+- the date and the day names (Mon–Sun)
+- the configured module prefixes, such as `BOD_`, `CGD-` or `Biology of Disease -`, in any case. A prefix needs a space, `_` or `-` after it, or the end of the name. A letter or digit directly before or after it keeps it in the title, so `HPIx` stays.
+- an embedded lecture-number token, such as `Lecture 1`, `Lecture_1`, `Lecture-1` or `Lecture1`, in any case. The token would otherwise duplicate the assigned number.
+- the word `lecture` with no number, in any case, as a whole word. This removal comes after the removal of the numbered token, so `Lecture 6` does not leave its `6`. `Lectures` and `Lecturer` stay.
+- the trailing artefacts, such as `co` and `copy`.
+
+The capitals stay as the lecturer typed them. The separators left behind by those removals go too. So a name that `source-normalisation` produced reads back as the title that it was built from. `Lecture 1 - Cell Injury - 2025-10-10.mp4` gives `Cell Injury`. So a lecture keeps its title on the next run when a run renamed it and stopped before it wrote the manifest.
 
 An "on" directly before a date belongs to the date, so it is removed with the date. `BOD_Complement on 17102025 Fri.mp4` gives `Complement`. An "on" in any other place stays in the title.
 

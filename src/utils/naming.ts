@@ -26,8 +26,10 @@ const PATTERN_METACHARACTERS = /[.*+?^${}()|[\]\\]/g;
 
 /**
  * Builds the pattern for a module prefix and the separator after it, such as
- * `BOD_`, `BOD ` or `Biology of Disease_`. The case is ignored, because
- * lecturers do not write their module prefix in one case.
+ * `BOD_`, `BOD-`, `BOD ` or `Biology of Disease_`. A prefix at the end of the
+ * text needs no separator. The case is ignored, because lecturers do not write their module prefix
+ * in one case. The start boundary is "not a letter or digit" and not `\b`, so
+ * the `GD` in `_GD` is found.
  *
  * @param modulePrefixes - The module prefixes from the config file.
  * @returns The pattern, or `null` when the list is empty.
@@ -39,14 +41,23 @@ function modulePrefixPattern(modulePrefixes: readonly string[]): RegExp | null {
 	const alternatives = modulePrefixes
 		.map((prefix) => prefix.replace(PATTERN_METACHARACTERS, "\\$&"))
 		.join("|");
-	return new RegExp(`\\b(?:${alternatives})[_ ]+`, "gi");
+	return new RegExp(`(?<![a-z\\d])(?:${alternatives})(?:[\\s_-]+|$)`, "gi");
 }
 
 /**
- * A lecture number in a filename, such as `Lecture 1`. It is removed, because the
- * lecture number that `source-normalisation` gives is already in the base name.
+ * A lecture number in a filename, such as `Lecture 1`, `Lecture_1`, `Lecture-1`
+ * or `Lecture1`, and one separator after it. It is removed, because the lecture
+ * number that `source-normalisation` gives is already in the base name. The
+ * boundaries are "not a letter or digit" and not `\b`, so `HPI_Lecture_1_` is found.
  */
-const LECTURE_NUMBER_TOKEN = /\bLectures?\s*\d+\b/gi;
+const LECTURE_NUMBER_TOKEN = /(?<![a-z\d])Lectures?[\s_-]*\d+(?![a-z\d])[\s_-]?/gi;
+
+/**
+ * The word `lecture` with no number, in any case, and one separator after it. It
+ * is removed after {@link LECTURE_NUMBER_TOKEN}. Otherwise `Lecture 6` would keep
+ * its `6`. `Lectures` and `Lecturer` are other words, so they stay.
+ */
+const LECTURE_WORD = /(?<![a-z\d])Lecture(?![a-z\d])[\s_-]?/gi;
 
 /**
  * Separators left at either end after the removals. The base name
@@ -94,7 +105,7 @@ function stripControlChars(text: string): string {
 /**
  * Reads the provisional title from a source filename. It removes these parts:
  * - the extension, the dates and the weekdays
- * - the module prefixes, a lecture number and the underscores
+ * - the module prefixes, a lecture number, the word `lecture` and the underscores
  * - the separators at either end, and the words that tools add at the end.
  *
  * A filename with only a date and `Lecture N` gives an empty string. The capitals
@@ -132,7 +143,10 @@ export function extractProvisionalTitle({
 	const withoutExtension = filename.replace(FILE_EXTENSION, "");
 	const withoutDates = stripDateTokens(withoutExtension);
 	const withoutPrefixes = prefixes === null ? withoutDates : withoutDates.replace(prefixes, " ");
-	const withoutNoise = withoutPrefixes.replace(LECTURE_NUMBER_TOKEN, " ").replace(UNDERSCORES, " ");
+	const withoutNoise = withoutPrefixes
+		.replace(LECTURE_NUMBER_TOKEN, "")
+		.replace(LECTURE_WORD, "")
+		.replace(UNDERSCORES, " ");
 	const normalised = collapseWhitespace(withoutNoise);
 	const withoutEdges = normalised.replace(EDGE_SEPARATORS, "");
 	return withoutEdges.replace(TRAILING_ARTEFACTS, "").trim();
