@@ -9,7 +9,8 @@
  * them: the rule for a dark system setting, and the rule for `data-theme="dark"`.
  */
 const DARK_COLOURS = `--paper: #1b1615; --ink: #efe5de; --muted: #b1a39b; --rule: #382d2a; --panel: #241d1b;
-  --accent: #dca2cf; --figure-label: #f0a08f; --mark: #40302a; color-scheme: dark;`;
+  --accent: #dca2cf; --figure-label: #f0a08f; --mark: #40302a;
+  --removed-ink: #f2a39a; --removed-bg: #4a2420; --added-ink: #9fdcae; --added-bg: #1f3a27; color-scheme: dark;`;
 
 /**
  * The stylesheet of the notes page. The text column is narrow, as in a textbook.
@@ -26,6 +27,10 @@ export const NOTES_PAGE_STYLE = `
   --accent: #6a3360;
   --figure-label: #b0423f;
   --mark: #f7e2c6;
+  --removed-ink: #9b2c2c;
+  --removed-bg: #f8dcd8;
+  --added-ink: #1f5f33;
+  --added-bg: #d9efdc;
   --font-text: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
   --font-ui: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
@@ -48,6 +53,9 @@ nav a:hover { text-decoration: underline; }
 .view-switch label { cursor: pointer; }
 .view-switch input { accent-color: var(--accent); }
 .view { display: none; }
+.not-in-notes, del { color: var(--removed-ink); background: var(--removed-bg); border-radius: 2px; }
+del { text-decoration: line-through; text-decoration-thickness: 1px; }
+ins { color: var(--added-ink); background: var(--added-bg); text-decoration: none; border-radius: 2px; }
 .topic { display: grid; gap: 2rem; }
 h2 { font-weight: 600; font-size: 1.6rem; line-height: 1.25; margin: 0; padding-top: 1.5rem; border-top: 2px solid var(--accent); text-wrap: balance; }
 h3 { font-weight: 600; font-size: 1.2rem; line-height: 1.3; margin: 0 0 0.75rem; text-wrap: balance; }

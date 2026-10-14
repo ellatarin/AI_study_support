@@ -5,18 +5,22 @@
  */
 
 import katex from "katex";
-import { SENTENCE_END_MARK } from "../../../utils/text.js";
+import { SENTENCE_END_MARK, splitWords } from "../../../utils/text.js";
 import { notesSlideImageEntry } from "../../layout.js";
+import type { SlidePlacement } from "../slide-placements.js";
 import {
 	figureLabel,
 	isRelocatedReferencesSlide,
 	type RelocatedSlide,
 	type SlideRelocation,
+	type TextPoint,
 } from "../slide-relocations.js";
 import { findSlideReading, type SlideReading } from "../slides.js";
 import type { TopicWithSubtopics } from "../structured-transcript.js";
 import type { SubtopicRewrite } from "../subtopic-rewrites.js";
+import type { TermCorrectionResult } from "../term-corrections.js";
 import { NOTES_PAGE_SCRIPT, NOTES_PAGE_STYLE } from "./notes-page-style.js";
+import { type ComparedWord, compareWords, type WordChange } from "./word-comparison.js";
 
 /** The paragraphs and the slides of one subtopic. The page reads no other field of the entry. */
 type SubtopicSlideRelocation = Pick<SlideRelocation, "subtopicId" | "paragraphs" | "slides">;
@@ -34,6 +38,13 @@ export type NotesPageContent = {
 	readonly slideReadings: readonly SlideReading[];
 	/** The rewrite of each subtopic, for the Rewrite view. */
 	readonly subtopicRewrites: readonly Pick<SubtopicRewrite, "subtopicId" | "rewrittenSubtopic">[];
+	/** The term-corrected text of each subtopic, for the Transcript view. */
+	readonly termCorrections: readonly Pick<TermCorrectionResult, "subtopicId" | "correctedText">[];
+	/** The point of each placed slide in the text of its subtopic, for the Transcript view. */
+	readonly slidePlacements: readonly Pick<
+		SlidePlacement,
+		"slideNumber" | "subtopicId" | "positionInSubtopic"
+	>[];
 };
 
 /** The page views in the order of the switch, each with its name on the switch (CONTEXT.md, "Page view"). */
@@ -204,6 +215,24 @@ function figureHtml({
 }
 
 /**
+ * Gives several slides, each as a small figure.
+ *
+ * @param args - The slides, and the slide readings.
+ * @param args.slides - The slides, in deck order.
+ * @param args.readings - The slide readings of the notes.
+ * @returns The HTML of the figures.
+ */
+function figuresHtml({
+	slides,
+	readings,
+}: {
+	readonly slides: readonly RelocatedSlide[];
+	readonly readings: readonly SlideReading[];
+}): string {
+	return slides.map((slide) => figureHtml({ slide, readings })).join("");
+}
+
+/**
  * A sentence end that a new sentence follows: the end mark, then spaces, then an
  * optional opening quote or bracket and a capital letter or a digit.
  */
@@ -233,75 +262,259 @@ function sentenceEndAfter({
 	return paragraph.length;
 }
 
+/** The text of one paragraph, its slides, and whether the sentence of each slide has a highlight. */
+type SlidesInParagraph = {
+	readonly paragraph: string;
+	/** The slides of the paragraph, in deck order. */
+	readonly slides: readonly RelocatedSlide[];
+	readonly readings: readonly SlideReading[];
+	readonly highlight: boolean;
+};
+
 /**
- * Gives one paragraph, with each of its slides at the start of the slide's sentence.
- * A slide at the end of the paragraph has no sentence, so it gets no highlight.
+ * Gives one paragraph, with each of its slides at its point. The Notes view
+ * highlights the sentence of each slide. A slide at the end of the paragraph has
+ * no sentence, so it gets no highlight.
  *
- * @param args - The paragraph, its slides, and the slide readings.
+ * @param args - The paragraph, its slides, the slide readings, and the highlight.
  * @param args.paragraph - The text of the paragraph.
  * @param args.slides - The slides of the paragraph, in deck order.
  * @param args.readings - The slide readings of the notes.
+ * @param args.highlight - `true` when the sentence of each slide has a highlight.
  * @returns The HTML of the paragraph.
  */
-function paragraphHtml({
-	paragraph,
-	slides,
-	readings,
-}: {
-	readonly paragraph: string;
-	readonly slides: readonly RelocatedSlide[];
-	readonly readings: readonly SlideReading[];
-}): string {
+function paragraphHtml({ paragraph, slides, readings, highlight }: SlidesInParagraph): string {
 	// A slide at the end of the paragraph has no sentence to highlight. The
 	// references slide is one such slide. It floats from the paragraph's start, so
 	// it shows next to the paragraph and not below it.
 	const isAtEnd = (slide: RelocatedSlide): boolean =>
 		paragraph.slice(slide.characterOffset).trim() === "";
-	let html = slides
-		.filter(isAtEnd)
-		.map((slide) => figureHtml({ slide, readings }))
-		.join("");
+	let html = figuresHtml({ slides: slides.filter(isAtEnd), readings });
 	let cursor = 0;
 	const figures = slides.filter((slide) => !isAtEnd(slide));
 	for (const [index, slide] of figures.entries()) {
+		html += `${textHtml(paragraph.slice(cursor, slide.characterOffset))}${figureHtml({ slide, readings })}`;
+		cursor = slide.characterOffset;
+		if (!highlight) {
+			continue;
+		}
 		const sentenceEnd = Math.min(
 			sentenceEndAfter({ paragraph, offset: slide.characterOffset }),
 			figures[index + 1]?.characterOffset ?? paragraph.length,
 		);
-		html += `${textHtml(paragraph.slice(cursor, slide.characterOffset))}${figureHtml({ slide, readings })}<mark>${textHtml(paragraph.slice(slide.characterOffset, sentenceEnd))}</mark>`;
+		html += `<mark>${textHtml(paragraph.slice(cursor, sentenceEnd))}</mark>`;
 		cursor = sentenceEnd;
 	}
 	return `<p>${html}${textHtml(paragraph.slice(cursor))}</p>`;
 }
 
 /**
- * Gives the paragraphs of one subtopic.
+ * Gives the paragraphs of one subtopic, each with its slides.
  *
- * @param args - The entry of the subtopic, and the slide readings.
- * @param args.relocation - The entry of the subtopic, or `undefined` when it has none.
+ * @param args - The paragraphs, their slides, the slide readings, and the highlight.
+ * @param args.paragraphs - The paragraphs of the subtopic.
+ * @param args.slides - The slides of the subtopic, in deck order, at their points in the paragraphs.
  * @param args.readings - The slide readings of the notes.
+ * @param args.highlight - `true` when the sentence of each slide has a highlight.
  * @returns The HTML of the paragraphs.
  */
 function paragraphsHtml({
-	relocation,
+	paragraphs,
+	slides,
 	readings,
-}: {
-	readonly relocation: SubtopicSlideRelocation | undefined;
-	readonly readings: readonly SlideReading[];
-}): string {
-	if (relocation === undefined) {
-		return "";
-	}
-	return [...relocation.paragraphs.entries()]
+	highlight,
+}: Omit<SlidesInParagraph, "paragraph"> & { readonly paragraphs: readonly string[] }): string {
+	return [...paragraphs.entries()]
 		.map(([index, paragraph]) =>
 			paragraphHtml({
 				paragraph,
-				slides: relocation.slides.filter(({ paragraphIndex }) => paragraphIndex === index),
+				slides: slides.filter(({ paragraphIndex }) => paragraphIndex === index),
 				readings,
+				highlight,
 			}),
 		)
 		.join("\n");
 }
+
+/**
+ * Checks that a point in the paragraphs of a subtopic is at or after another point.
+ *
+ * @param args - The two points.
+ * @param args.point - The point to test.
+ * @param args.from - The point to compare it with.
+ * @returns `true` when `point` is not before `from`.
+ */
+function isAtOrAfter({
+	point,
+	from,
+}: {
+	readonly point: TextPoint;
+	readonly from: TextPoint;
+}): boolean {
+	return (
+		point.paragraphIndex > from.paragraphIndex ||
+		(point.paragraphIndex === from.paragraphIndex && point.characterOffset >= from.characterOffset)
+	);
+}
+
+/**
+ * Gives the point of each slide of the notes in the rewrite of its subtopic. A
+ * slide goes in front of the first rewrite word that the word comparison links
+ * to a notes word at or after the slide. A slide with no such word goes at the
+ * end of the rewrite.
+ *
+ * @param args - The rewrite, and the entry of the subtopic in the slide relocations.
+ * @param args.rewrite - The paragraphs of the rewrite.
+ * @param args.relocation - The paragraphs and the slides of the notes.
+ * @returns The slides at their points in the rewrite, in deck order.
+ */
+function slidesInRewrite({
+	rewrite,
+	relocation,
+}: {
+	readonly rewrite: readonly string[];
+	readonly relocation: SubtopicSlideRelocation;
+}): readonly RelocatedSlide[] {
+	const lastIndex = rewrite.length - 1;
+	const end: TextPoint = {
+		paragraphIndex: lastIndex,
+		characterOffset: rewrite[lastIndex]?.length ?? 0,
+	};
+	const linked = compareWords({ before: rewrite, after: relocation.paragraphs }).flatMap((word) =>
+		word.change === "unchanged" ? [word] : [],
+	);
+	return relocation.slides.map((slide) => ({
+		...slide,
+		...(linked.find(({ after }) => isAtOrAfter({ point: after, from: slide }))?.before ?? end),
+	}));
+}
+
+/** One word that a page view shows from a word comparison, with its paragraph and the slides in front of it. */
+type ShownWord = {
+	readonly word: string;
+	readonly change: WordChange;
+	readonly paragraphIndex: number;
+	readonly slides: readonly RelocatedSlide[];
+};
+
+/**
+ * Gives the words that a page view shows from a word comparison. A word that the
+ * comparison links to a notes word shows in the paragraph of that notes word. A
+ * removed word shows in the paragraph of the word before it.
+ *
+ * @param args - The compared words, the marks that the view shows, and the slides.
+ * @param args.compared - The words of the comparison, in reading order.
+ * @param args.shown - The marks of the words that the view shows.
+ * @param args.slidesInFront - Gives the slides in front of a compared word, from its place in `compared`.
+ * @returns The shown words, in reading order, each with its paragraph and its slides.
+ */
+function shownWords({
+	compared,
+	shown,
+	slidesInFront,
+}: {
+	readonly compared: readonly ComparedWord[];
+	readonly shown: readonly WordChange[];
+	readonly slidesInFront: (comparedIndex: number) => readonly RelocatedSlide[];
+}): readonly ShownWord[] {
+	const words: ShownWord[] = [];
+	let paragraphIndex = 0;
+	for (const [comparedIndex, word] of compared.entries()) {
+		if (word.change !== "removed") {
+			paragraphIndex = word.after.paragraphIndex;
+		}
+		if (shown.includes(word.change)) {
+			const slides = slidesInFront(comparedIndex);
+			words.push({ word: word.word, change: word.change, paragraphIndex, slides });
+		}
+	}
+	return words;
+}
+
+/** The HTML that wraps a run of shown words with one mark, in one page view. */
+type MarkHtml = Readonly<Record<WordChange, (html: string) => string>>;
+
+/** The words that one page view shows of one subtopic, and how the view shows them. */
+type ShownText = {
+	readonly words: readonly ShownWord[];
+	readonly markHtml: MarkHtml;
+	readonly readings: readonly SlideReading[];
+	/** The slides after the last word. They float from the start of the last paragraph. */
+	readonly slidesAtEnd: readonly RelocatedSlide[];
+};
+
+/**
+ * Gives one paragraph of shown words. Each run of words with the same mark is
+ * wrapped once. A slide breaks the run of the word that it stands in front of.
+ *
+ * @param args - The shown words of the paragraph, the HTML of each mark, and the slides.
+ * @param args.words - The shown words of the paragraph, in reading order.
+ * @param args.markHtml - Wraps a run of words with one mark.
+ * @param args.readings - The slide readings of the notes.
+ * @param args.slidesAtStart - The slides that float from the start of the paragraph, such as a slide after the last word.
+ * @returns The HTML of the paragraph.
+ */
+function shownParagraphHtml({
+	words,
+	markHtml,
+	readings,
+	slidesAtStart,
+}: Omit<ShownText, "slidesAtEnd"> & { readonly slidesAtStart: readonly RelocatedSlide[] }): string {
+	let html = figuresHtml({ slides: slidesAtStart, readings });
+	let run: string[] = [];
+	let runChange: WordChange | undefined;
+	const closeRun = (): void => {
+		if (runChange !== undefined && run.length > 0) {
+			html += `${markHtml[runChange](textHtml(run.join(" ")))} `;
+		}
+		run = [];
+	};
+	for (const { word, change, slides } of words) {
+		if (change !== runChange || slides.length > 0) {
+			closeRun();
+			runChange = change;
+		}
+		html += figuresHtml({ slides, readings });
+		run.push(word);
+	}
+	closeRun();
+	return `<p>${html.trimEnd()}</p>`;
+}
+
+/**
+ * Gives the paragraphs of the shown words of one subtopic.
+ *
+ * @param text - The shown words, the HTML of each mark, the slide readings, and the slides at the end.
+ * @param text.words - The shown words, in reading order.
+ * @param text.markHtml - Wraps a run of words with one mark.
+ * @param text.readings - The slide readings of the notes.
+ * @param text.slidesAtEnd - The slides after the last word.
+ * @returns The HTML of the paragraphs.
+ */
+function shownParagraphsHtml({ words, markHtml, readings, slidesAtEnd }: ShownText): string {
+	const paragraphIndexes = [...new Set(words.map(({ paragraphIndex }) => paragraphIndex))];
+	const lastIndex = paragraphIndexes.at(-1);
+	return paragraphIndexes
+		.map((index) =>
+			shownParagraphHtml({
+				words: words.filter(({ paragraphIndex }) => paragraphIndex === index),
+				markHtml,
+				readings,
+				slidesAtStart: index === lastIndex ? slidesAtEnd : [],
+			}),
+		)
+		.join("\n");
+}
+
+/**
+ * The marks of the Transcript view. A spoken word that the notes do not have
+ * gets a red highlight with no line. The view does not show an added word.
+ */
+const TRANSCRIPT_MARKS: MarkHtml = {
+	unchanged: (html) => html,
+	removed: (html) => `<span class="not-in-notes">${html}</span>`,
+	added: (html) => html,
+};
 
 /** Gives the HTML of the text of one subtopic in one page view, from its subtopic id. */
 type SubtopicBody = (subtopicId: number) => string;
@@ -348,16 +561,84 @@ function subtopicBodies(content: NotesPageContent): Readonly<Record<PageView, Su
 	const rewriteOf = (subtopicId: number): readonly string[] =>
 		content.subtopicRewrites.find((entry) => entry.subtopicId === subtopicId)?.rewrittenSubtopic ??
 		[];
-	const notes: SubtopicBody = (subtopicId) =>
-		paragraphsHtml({ relocation: relocationOf(subtopicId), readings: content.slideReadings });
+	const readings = content.slideReadings;
+	const notes: SubtopicBody = (subtopicId) => {
+		const relocation = relocationOf(subtopicId);
+		return relocation === undefined
+			? ""
+			: paragraphsHtml({ ...relocation, readings, highlight: true });
+	};
 	return {
 		notes,
-		rewrite: (subtopicId) =>
-			rewriteOf(subtopicId)
-				.map((paragraph) => `<p>${textHtml(paragraph)}</p>`)
-				.join("\n"),
+		rewrite: (subtopicId) => {
+			const rewrite = rewriteOf(subtopicId);
+			const relocation = relocationOf(subtopicId);
+			const slides =
+				relocation === undefined || rewrite.length === 0
+					? []
+					: slidesInRewrite({ rewrite, relocation });
+			return paragraphsHtml({ paragraphs: rewrite, slides, readings, highlight: false });
+		},
 		corrections: notes,
-		transcript: notes,
+		transcript: (subtopicId) => shownParagraphsHtml(transcriptText({ content, subtopicId })),
+	};
+}
+
+/**
+ * Gives the words that the Transcript view shows of one subtopic, with its
+ * slides. The view compares the term-corrected text with the notes. Each slide
+ * goes in front of the spoken word whose number is the number of words in front
+ * of the slide's point in the text of the structured transcript.
+ *
+ * @param args - The content of the page, and the subtopic.
+ * @param args.content - The content of the page.
+ * @param args.subtopicId - The subtopic.
+ * @returns The shown words and how the view shows them.
+ */
+function transcriptText({
+	content,
+	subtopicId,
+}: {
+	readonly content: NotesPageContent;
+	readonly subtopicId: number;
+}): ShownText {
+	const compared = compareWords({
+		before: [
+			content.termCorrections.find((entry) => entry.subtopicId === subtopicId)?.correctedText ?? "",
+		],
+		after:
+			content.slideRelocations.find((entry) => entry.subtopicId === subtopicId)?.paragraphs ?? [],
+	});
+	const structuredText =
+		content.topics
+			.flatMap(({ subtopics }) => subtopics)
+			.find((subtopic) => subtopic.subtopicId === subtopicId)?.text ?? "";
+	const relocated = content.slideRelocations.flatMap(({ slides }) => slides);
+	const placed = content.slidePlacements
+		.filter((placement) => placement.subtopicId === subtopicId)
+		.flatMap((placement) => {
+			const slide = relocated.find(({ slideNumber }) => slideNumber === placement.slideNumber);
+			const wordNumber = splitWords(structuredText.slice(0, placement.positionInSubtopic)).length;
+			return slide === undefined ? [] : [{ slide, wordNumber }];
+		});
+	// The place in `compared` of each spoken word, by its number in the spoken text.
+	const spokenIndexes = [...compared.entries()]
+		.filter(([, word]) => word.change !== "added")
+		.map(([comparedIndex]) => comparedIndex);
+	return {
+		words: shownWords({
+			compared,
+			shown: ["unchanged", "removed"],
+			slidesInFront: (comparedIndex) =>
+				placed
+					.filter(({ wordNumber }) => spokenIndexes[wordNumber] === comparedIndex)
+					.map(({ slide }) => slide),
+		}),
+		markHtml: TRANSCRIPT_MARKS,
+		readings: content.slideReadings,
+		slidesAtEnd: placed
+			.filter(({ wordNumber }) => wordNumber >= spokenIndexes.length)
+			.map(({ slide }) => slide),
 	};
 }
 

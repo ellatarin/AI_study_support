@@ -14,18 +14,6 @@ const [slideOneReading, slideTwoReading, , referencesReading] =
 
 const openingSubtopicTitle = "Opening";
 
-/** Two topics, each title used once, so a test can find each title by its words. */
-const topics: readonly TopicWithSubtopics[] = [
-	{
-		title: "Introduction",
-		subtopics: [{ subtopicId: 1, title: openingSubtopicTitle, text: "Today" }],
-	},
-	{
-		title: "Cell injury",
-		subtopics: [{ subtopicId: 2, title: "Reversible and lethal injury", text: "Cells" }],
-	},
-];
-
 const openingParagraph = rewrittenParagraphs[0];
 
 /** The sentence before the sentence of slide 2. */
@@ -39,6 +27,24 @@ const subtopicTwoParagraphs = [
 	`${sentenceBeforeSlideTwo} ${slideTwoSentence} The cell then recovers.`,
 	"Other injury kills the cell. The [FIGURE] mark here points at no slide.",
 ] as const;
+
+/** The spoken words of subtopic 2 that are not in its notes. */
+const unwrittenWords = "Right, so";
+
+/** The spoken text of subtopic 2. Term correction changed none of its words. */
+const spokenSubtopicTwo = `${unwrittenWords} ${subtopicTwoParagraphs[0]}`;
+
+/** Two topics, each title used once, so a test can find each title by its words. */
+const topics: readonly TopicWithSubtopics[] = [
+	{
+		title: "Introduction",
+		subtopics: [{ subtopicId: 1, title: openingSubtopicTitle, text: openingParagraph }],
+	},
+	{
+		title: "Cell injury",
+		subtopics: [{ subtopicId: 2, title: "Reversible and lethal injury", text: spokenSubtopicTwo }],
+	},
+];
 
 const slideRelocations: readonly SubtopicOnPage[] = [
 	{ subtopicId: 1, paragraphs: [openingParagraph], slides: [] },
@@ -72,6 +78,20 @@ const subtopicRewrites: NotesPageContent["subtopicRewrites"] = [
 	},
 ];
 
+const termCorrections: NotesPageContent["termCorrections"] = [
+	{ subtopicId: 1, correctedText: openingParagraph },
+	{ subtopicId: 2, correctedText: spokenSubtopicTwo },
+];
+
+/** Slide 2 is placed at the spoken words of its sentence. */
+const slidePlacements: NotesPageContent["slidePlacements"] = [
+	{
+		slideNumber: 2,
+		subtopicId: 2,
+		positionInSubtopic: spokenSubtopicTwo.indexOf(slideTwoSentence),
+	},
+];
+
 const content: NotesPageContent = {
 	lectureTitle: testLecture.title,
 	lectureDate: testLecture.date,
@@ -79,6 +99,8 @@ const content: NotesPageContent = {
 	slideRelocations,
 	slideReadings,
 	subtopicRewrites,
+	termCorrections,
+	slidePlacements,
 };
 
 /**
@@ -177,6 +199,18 @@ function inOrder({
 		from = at + part.length;
 	}
 	return true;
+}
+
+/**
+ * Gives the text of each run of spoken words with the red highlight of the Transcript view.
+ *
+ * @param html - The HTML of the Transcript view.
+ * @returns The text of each run, in page order.
+ */
+function redWords(html: string): readonly string[] {
+	return [...html.matchAll(/<span class="not-in-notes">(.*?)<\/span>/gu)].map(([, inner]) =>
+		pageText(inner ?? ""),
+	);
 }
 
 /**
@@ -415,7 +449,12 @@ describe("notesPageHtml", () => {
 	});
 
 	it("should show the rewrite of each subtopic under its title, with no highlight and no colour, when the Rewrite view is built", () => {
-		const rewrite = viewHtml({ html: notesPageHtml(content), view: "rewrite" });
+		const withNoSlides: NotesPageContent = {
+			...content,
+			slideRelocations: slideRelocations.map((entry) => ({ ...entry, slides: [] })),
+		};
+
+		const rewrite = viewHtml({ html: notesPageHtml(withNoSlides), view: "rewrite" });
 
 		expect(
 			inOrder({
@@ -431,5 +470,88 @@ describe("notesPageHtml", () => {
 			}),
 		).toBe(true);
 		expect(rewrite).not.toMatch(/<(?:mark|del|ins)\b|not-in-notes/u);
+	});
+
+	it("should put a slide in front of the rewrite word that matches the slide's word in the notes when the Rewrite view is built", () => {
+		const rewrite = viewHtml({ html: notesPageHtml(content), view: "rewrite" });
+
+		expect(
+			inOrder({
+				text: rewrite,
+				parts: [sentenceBeforeSlideTwo, notesSlideImageEntry(2), rewriteSlideTwoSentence],
+			}),
+		).toBe(true);
+		expect(rewrite).not.toContain("<mark>");
+	});
+
+	it("should show the term-corrected text of each subtopic under its title when the Transcript view is built", () => {
+		const html = notesPageHtml({ ...content, slidePlacements: [] });
+
+		const transcript = pageText(viewHtml({ html, view: "transcript" }));
+
+		expect(
+			inOrder({
+				text: transcript,
+				parts: topics.flatMap((topic) => [
+					topic.title,
+					...topic.subtopics.flatMap((subtopic) => [
+						subtopic.title,
+						termCorrections.find(({ subtopicId }) => subtopicId === subtopic.subtopicId)
+							?.correctedText ?? "",
+					]),
+				]),
+			}),
+		).toBe(true);
+	});
+
+	it("should give a red highlight with no line to each spoken word that the notes do not have at its place when the Transcript view is built", () => {
+		const transcript = viewHtml({ html: notesPageHtml(content), view: "transcript" });
+
+		expect(redWords(transcript)).toStrictEqual([unwrittenWords]);
+		expect(transcript).not.toContain("<del>");
+	});
+
+	it("should put each spoken word in the paragraph of its notes word, and an unwritten word in the paragraph of the word before it, when the Transcript view is built", () => {
+		const filler = "um";
+		const [firstParagraph, secondParagraph] = subtopicTwoParagraphs;
+
+		const html = notesPageHtml({
+			...content,
+			termCorrections: [
+				{ subtopicId: 2, correctedText: `${firstParagraph} ${filler} ${secondParagraph}` },
+			],
+			slidePlacements: [],
+		});
+
+		expect(
+			innerHtmlOf({ html: viewHtml({ html, view: "transcript" }), tag: "p" }).map(pageText),
+		).toStrictEqual([`${firstParagraph} ${filler}`, secondParagraph]);
+	});
+
+	it("should put a slide in its subtopic in front of the spoken word where the lecturer starts to discuss it when the Transcript view is built", () => {
+		const transcript = viewHtml({ html: notesPageHtml(content), view: "transcript" });
+
+		expect(
+			inOrder({
+				text: transcript,
+				parts: [sentenceBeforeSlideTwo, notesSlideImageEntry(2), slideTwoSentence],
+			}),
+		).toBe(true);
+		expect(pageText(transcript)).toContain(`${figureLabel(1)}.`);
+	});
+
+	it("should show the whole spoken text of a subtopic in red when its notes have no paragraph", () => {
+		const html = notesPageHtml({
+			...content,
+			slideRelocations: [
+				{ subtopicId: 1, paragraphs: [], slides: [] },
+				...slideRelocations.slice(1),
+			],
+		});
+
+		expect(redWords(viewHtml({ html, view: "transcript" }))).toStrictEqual([
+			openingParagraph,
+			unwrittenWords,
+		]);
 	});
 });
