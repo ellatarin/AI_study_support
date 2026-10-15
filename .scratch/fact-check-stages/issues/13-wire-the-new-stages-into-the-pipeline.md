@@ -44,8 +44,8 @@
 
 ## The documents
 
-- [ ] The technical design, the plan and the requirements describe the wired pipeline. When the build finds a divergence, the document changes to match the code.
-- [ ] The suite version goes up last.
+- [x] The technical design, the plan and the requirements describe the wired pipeline. When the build finds a divergence, the document changes to match the code.
+- [x] The suite version goes up last.
 
 ## After this ticket
 
@@ -77,3 +77,5 @@ Not done:
 **2026-10-15, later:** the technical design part of the documents box is written, but it is not committed. It is in the working tree of `main`, in `docs/technical-design.md`. It also holds the docs of the run flags (`.scratch/run-flags/issues/01`) and of the Safari note box. The plan and the requirements are not written yet. Then the suite version goes up once, from 1.97-draft. The commit gate refuses every commit while the fast version of the notes PDF is in the working tree (`.scratch/notes-pdf/issues/01`).
 
 **2026-10-15, box check:** The stage list box is done in 1308c77f. The folder name box is done in 1308c77f. The box of the fact-corrected input of `relocate-slides` is done in 8f040e7b and eb7a5d92. The box of the subtopic stage path is done in da5deb2d and 8f040e7b. The "unlisted" box is done in 5a5dcd48. No file of `src/` or `CONTEXT.md` on `main` holds the word. The input-file type box is done in eb7a5d92. The config loader box is done in dcc00e5c. `build-notes-page` has no stage entry. Its switches are in `finalOutput`, from c2e4da77 and caeb91cc. The box of the cost of each model is done in 2020c872. The stage notice box is done in 45604014. The box of the files of `check-facts` is done in 5a5dcd48. The box of a row for each model is done in 46274db3. The box of a subtopic with no relocation entry is done in 6694633d. The box of the warning for a placed slide is done in 6694633d. The box of the missing input of `relocate-slides` is done in 8f040e7b. The reset box is done in 6694633d. The rename box is done in 11520b83. The delete box is done in 11520b83. The orphaned workspace box is done in 11520b83. The fixture box is done in 11520b83.
+
+**2026-10-15, docs:** The documents box is done in cfc02116. The technical design, the plan (Phase 26) and the requirements (FR-3.6, FR-3.7, FR-4.5) describe the wired pipeline. The suite version went up last, from 1.97-draft to 1.98-draft, in fd137ca7. Two config boxes are still open: the example config entries, and the OpenRouter send that takes a model entry.
