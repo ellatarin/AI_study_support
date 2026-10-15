@@ -23,6 +23,7 @@ The system is a TypeScript/Node.js CLI tool made of stages, each named by its id
 | Transcription | ElevenLabs (`@elevenlabs/elevenlabs-js`) | Already built |
 | LLM access (all new stages) | `openai` SDK pointed at OpenRouter | OpenRouter is compatible with the OpenAI API. So the project needs no client of its own, and it gets retry logic and TypeScript types from the SDK |
 | PDF-to-image rendering | `pdfjs-dist` + `@napi-rs/canvas` | Pure Node, with a prebuilt canvas. It needs no system library and no build toolchain. `pdfjs-dist` uses this canvas in Node |
+| Notes PDF | `puppeteer` | Chrome prints the PDF from HTML, so the PDF and the notes page use the same HTML and maths. `pnpm install` downloads puppeteer's Chrome |
 | Image metadata in tests | `sharp` | Standard Node image processing library |
 | Date parsing | `chrono-node` | Parses natural-language dates in the many forms that source filenames use |
 | CLI prompts | `@inquirer/prompts` | Already in use |
@@ -54,12 +55,13 @@ Biology of Disease/
 └── Final output/
     └── Lecture 1 - Disease Cell Injury and the Immune System - 2025-10-10/
         ├── notes.html
+        ├── notes.pdf
         └── slides/
 ```
 
 All pipeline artefacts for a lecture live inside a single named workspace folder. Files inside each folder use simple, stage-agnostic names — the folder itself carries the full lecture identity. This means re-numbering a lecture requires renaming only the folder, not any of its contents.
 
-`Final output/` is a direct subfolder of the module root and is the human-facing deliverable. It holds one folder for each lecture, named by the lecture's base name. The folder holds `notes.html` and `slides/`. `build-notes-page` writes the folder (§5, "After the fact correction"). The folder is a lecture file, as the video and the slide deck are. So the commands that rename or delete a lecture move or delete the folder with everything in it (§4.7).
+`Final output/` is a direct subfolder of the module root and is the human-facing deliverable. It holds one folder for each lecture, named by the lecture's base name. The folder holds `notes.html`, the Notes PDF `notes.pdf` and `slides/`. `build-notes-page` writes the folder (§5, "After the fact correction"). The folder is a lecture file, as the video and the slide deck are. So the commands that rename or delete a lecture move or delete the folder with everything in it (§4.7).
 
 **Folder-name convention.** Only `moduleRoots[i]` is configurable (see §6). The subfolder names shown above — `Source files/`, `Video recordings/`, `Slide decks/`, `Pipeline processing/`, `Final output/` — are fixed conventions baked into the pipeline. Every module folder that the pipeline manages MUST follow this layout. The tool creates these subfolders on demand; users should not rename them.
 
@@ -260,11 +262,13 @@ type ModuleDirs = { videoRecording: string; slideDeck: string; processing: strin
 moduleDirs(args: { moduleRoot: string }): ModuleDirs      // the module layout of §3.1, stated once
 type LectureInModule = { moduleRoot: string; baseName: string }
 NOTES_PAGE_FILE: string                                   // "notes.html"
+NOTES_PDF_FILE: string                                    // "notes.pdf"
 NOTES_SLIDES_DIR: string                                  // "slides"
 lectureNotesDirPath(lecture: LectureInModule): string
 // The lecture's folder in `Final output/`, named by the base name. build-notes-page writes it, and a reset
 // of the stage deletes it (§4.7).
 notesPagePath(lecture: LectureInModule): string           // notes.html in that folder
+notesPdfPath(lecture: LectureInModule): string            // notes.pdf in that folder
 notesSlideImageEntry(slideNumber: number): string
 // The path of a slide image relative to the notes page, such as `slides/slide-004.png`. The page links to
 // the image by this path, and the stage copies the image to it.
@@ -386,7 +390,7 @@ Because all other files inside the workspace use simple names, only the four lec
 | `check-facts` | Per-lecture | Find the factual errors in the whole rewrite, with one or two models and no transcript. Merge the factual errors of the two models |
 | `correct-factual-errors` | Per-lecture | Correct the factual errors of each subtopic that has one, and write the fact-corrected subtopic of each subtopic in one file |
 | `relocate-slides` | Per-lecture | Move each placed slide to its point in the fact-corrected subtopic, and give the figure numbers |
-| `build-notes-page` | Per-lecture | Write the lecture's notes as one HTML page, with its slide images, into `Final output/`. No model call |
+| `build-notes-page` | Per-lecture | Write the lecture's notes as one HTML page and as a Notes PDF, with its slide images, into `Final output/`. No model call |
 
 Each stage runs once. No stage sends work back to an earlier stage (ADR 0003).
 
@@ -407,7 +411,7 @@ A stage's context is assembled before its own entry is marked `running`, so the 
 
 `isComplete()` checks two conditions: the manifest marks the stage `'complete'` or `'skipped'`, AND every path in `manifest.stages[stageId].filesWritten` exists on disk. Both must be true. The two statuses count alike because a run that honours this check records `skipped` in place of the `complete` it read, so from the next run's point of view they describe the same disk — the work is done and does not need paying for again. This means a completed stage whose output was manually deleted returns `false` and re-runs automatically. A recorded path that cannot be resolved at all counts as absent rather than as an error, since deleting a stage's output usually removes its containing directory too; a path resolving *outside* `moduleRoot` is a different matter and always throws (§4.4).
 
-That check is the same for every stage but one. `build-notes-page` is complete when `notes.html` is in the lecture's folder in `Final output/`, under the lecture's current base name. Its manifest entry does not count. So the next run builds a page again when the user deletes it (§5, "After the fact correction"). Each stage is built through a shared factory that supplies `isComplete` for the stage id. A stage defines only the two things that differ: how it gets its input, and what it does.
+That check is the same for every stage but one. `build-notes-page` is complete when `notes.html` and `notes.pdf` are both in the lecture's folder in `Final output/`, under the lecture's current base name. Its manifest entry does not count. So the next run builds both files again when the user deletes either one (§5, "After the fact correction"). Each stage is built through a shared factory that supplies `isComplete` for the stage id. A stage defines only the two things that differ: how it gets its input, and what it does.
 
 The factory carries two further things every stage would otherwise restate. It prepares the stage's output directories before `run` begins (§4.3), and it binds the run's logger to the stage **once, at construction**, so `run` is handed a logger already stamping `{ stage }` (§10). `logger` sits on the factory rather than on `PipelineStage.run`: the runner invokes a stage with the input and the context and nothing else, so the logging capability never travels through the stage contract, and `src/types/pipeline.ts` stays free of any dependency on the logging library.
 
@@ -594,7 +598,7 @@ patchManifest(args: { workspaceRoot: string; manifest: Manifest; changes: Partia
 // entry, so the manifest and the entry inside it name one moment.
 ```
 
-Each stage entry records `configUsed`, a `StageConfigUsed`. It holds the model ID and the tuning that the run resolved: temperature, max tokens, concurrency, calls at once and send gap. It is `null` for stages that make no LLM calls, except `build-notes-page`. That stage records `pageViews` and `highlightSlideSentences`, the two values of `finalOutput` that shape the page (§6). `correct-factual-errors` records `bypass` with its model settings. Each value is the one that the run used, after any flag of the run (§4.7, "Flags that override the config"). This lets spend be attributed to a specific model and configuration and lets model experiments be compared (NFR-3.2). The run logs (§4.6) record the same `configUsed` per attempt.
+Each stage entry records `configUsed`, a `StageConfigUsed`. It holds the model ID and the tuning that the run resolved: temperature, max tokens, concurrency, calls at once and send gap. It is `null` for stages that make no LLM calls, except `build-notes-page`. That stage records `pageViews` and `highlightSlideSentences`, the two values of `finalOutput` that shape the page, and `pdf`, the settings of the Notes PDF (§6). `correct-factual-errors` records `bypass` with its model settings. Each value is the one that the run used, after any flag of the run (§4.7, "Flags that override the config"). This lets spend be attributed to a specific model and configuration and lets model experiments be compared (NFR-3.2). The run logs (§4.6) record the same `configUsed` per attempt.
 
 ```jsonc
 {
@@ -1717,7 +1721,7 @@ The stage writes `Slide relocations/subtopic-<id>.json` for each subtopic. The f
 
 When each subtopic has its file, the stage writes `Slide relocations/slide-relocations.json`. Its `slideRelocations` holds the entry of each subtopic in lecture order, with the fields of the subtopic's file. The entries have no titles. The titles are in the structured transcript.
 
-**`build-notes-page` — the notes page.** The stage makes no model call. It writes `Final output/<base name>/notes.html` and `Final output/<base name>/slides/`, with each slide as the PNG file that `render-slides` writes, copied unchanged. The page shows the topic and subtopic titles and the text of each subtopic, from the output of `relocate-slides`. Each slide is small and floats at its sentence, with its figure number and its caption in the right margin. A slide at the end of a paragraph, such as the references slide, floats next to the paragraph and has no highlight. LaTeX becomes maths when the stage builds the page, so the page loads nothing from the internet. A click on a slide opens it in a window that the user can move and change in size, and the page behind stays readable. The page replaces the PDF of the earlier design. A test page, which a script outside the pipeline builds, is the prototype of its layout.
+**`build-notes-page` — the notes page.** The stage makes no model call. It writes `Final output/<base name>/notes.html`, `Final output/<base name>/notes.pdf` and `Final output/<base name>/slides/`, with each slide as the PNG file that `render-slides` writes, copied unchanged. The page shows the topic and subtopic titles and the text of each subtopic, from the output of `relocate-slides`. Each slide is small and floats at its sentence, with its figure number and its caption in the right margin. A slide at the end of a paragraph, such as the references slide, floats next to the paragraph and has no highlight. LaTeX becomes maths when the stage builds the page, so the page loads nothing from the internet. A click on a slide opens it in a window that the user can move and change in size, and the page behind stays readable. The Notes PDF holds the Notes view only, for print or a tablet ("The Notes PDF", below). A test page, which a script outside the pipeline builds, is the prototype of its layout.
 
 The page follows these rules:
 
@@ -1726,15 +1730,30 @@ The page follows these rules:
 - **Maths.** Maths is text between two dollar signs. The opening dollar sign has no space after it. The closing dollar sign has no space before it and no digit after it. So "$5 and $10" stays as text. KaTeX writes the maths as MathML, so the page needs no maths fonts.
 - **A lone Greek letter.** Maths that is one Greek letter only, such as `$\beta$`, shows as the plain letter in the text font. A word such as "β-catenin" then stays on one line, and the letter matches the words around it. Longer maths gets the full maths format.
 - **Fonts and colours.** The page uses fonts that come with the computer, so it loads nothing from the internet. The colours are warm: plum for headings and links, and brick red for the figure labels.
-- **A second build.** The stage checks that the image of each slide is on disk before it deletes the earlier build. So a missing image leaves the earlier page in place. Then the stage deletes the lecture's folder and writes it again. It writes `notes.html` last, so a stage that stops part of the way leaves no page.
+- **A second build.** The stage checks that the image of each slide is on disk before it deletes the earlier build. So a missing image leaves the earlier page in place. Then the stage deletes the lecture's folder and writes it again. It copies the slide images, prints `notes.pdf` and writes `notes.html` last. So a stage that stops part of the way leaves no page, and the stage is not complete.
 
 The lecture's folder in `Final output/` is a lecture file, as the video and the slide deck are (§3.1). A reset of the stage deletes this lecture's folder and keeps the folders of the other lectures. Every stage comes before `build-notes-page`, so a reset from any stage deletes the folder. Rename, change-date, delete and normalisation move or delete the folder (§4.7).
 
-**When the stage is complete.** The stage is complete when `notes.html` is in the lecture's folder under the lecture's current base name (§4.2). To build the page again at no cost, the user deletes `notes.html` and runs the lecture again.
+**When the stage is complete.** The stage is complete when `notes.html` and `notes.pdf` are both in the lecture's folder under the lecture's current base name (§4.2). When either file is missing, the next run builds both again, at no cost. So a notes folder from before the Notes PDF gets its PDF on the next run. To build the notes again, the user deletes `notes.html` and runs the lecture again. `filesWritten` holds the paths of `notes.pdf` and `notes.html`.
 
 **Slides and subtopics with no entry.** A subtopic with no entry in `slide-relocations.json` stops the stage with `BuildNotesPageError`, which names the subtopic. A placed slide that no subtopic's entry holds does not stop the stage. The page leaves the slide out, and the stage returns a stage notice that names the slide (§10). Two causes exist: the slide has no reading, or `place-slides` gave it a subtopic that is not in the lecture.
 
 **The two switches of the page.** Two values of `finalOutput` shape the page (§6). `pageViews` lists the page views that the page holds, and the switch at the top shows only those views. `highlightSlideSentences` sets whether the Notes view highlights the sentence of each slide. With the highlight off, the line that explains the Notes view does not mention a highlight. The flags `--page-views` and `--highlight-slide-sentences` replace the two values for one invocation (§4.7). The run log records the values that the stage used (§4.5).
+
+**The Notes PDF.** The stage prints the Notes PDF from the same input as the page (CONTEXT.md, "Notes PDF"). Chrome prints it through `puppeteer`, from HTML that holds each slide image as data. So the stage writes no temporary page. The PDF has a stylesheet of its own. It takes the colours and the fonts from the stylesheet of the page, so the two state them once. The text, the maths and the slide labels come from the same code as the page.
+
+- **What it shows.** The PDF shows the lecture date and the lecture title. Then it shows each topic title and subtopic title, with the text of the Notes view, in lecture order. It shows no other page view, no view switch, no list of topic links and no highlight. `pageViews` and `highlightSlideSentences` have no effect on it.
+- **Slides.** Each slide is at the start of its sentence, as on the page. The paragraph stops there, the slide is in the middle of the column, and the paragraph continues under it. A slide at the end of a paragraph goes after the paragraph. The slide image has its label and its caption under it, as "Figure N. caption" or "References. caption". Slides at one point keep the deck order of `relocate-slides`.
+- **Page.** The page is A4. The page number is at the bottom, in the middle, in the margin. The settings of `finalOutput.pdf` give the text size, the margin, the slide width and the space above and below each slide (§6). The text is justified.
+- **Page breaks.** A slide never splits across two pages, and a title never splits. A page never ends with a title. A topic title stays with the first subtopic title of the topic. A subtopic title stays with the start of the subtopic. The start is the first 3 lines of the first paragraph, or the whole paragraph when it is shorter. When the subtopic starts with a slide, the start is that slide. When a slide comes after line 1, the start is the lines before it and the slide. A block of text that splits across two pages keeps at least 3 lines on each page.
+- **Failure.** When Chrome cannot print the PDF, the stage fails with `BuildNotesPageError`. The message names the path of `notes.pdf` and the cause. The stage then writes no `notes.html`.
+
+The look, such as the sizes of the titles and the space below a paragraph, is in the stylesheet of the PDF. A test cannot judge how a page looks. So the user checks these on real lectures:
+
+- the slide size and the space around each slide
+- the text size and the margins
+- the empty areas at page breaks
+- the space between the page number and the text.
 
 **Input:** `Structured transcript/structured-transcript.json`, `Slide images/`, `Slide readings/`, `Slide placements/placements.json`, `Term corrections/`, `Rewrites/`, `Fact corrections/fact-corrected-subtopics.json` and `Slide relocations/slide-relocations.json`.
 
@@ -1887,6 +1906,13 @@ The other stages keep one `modelId`. A `models` list on any other stage is a `Co
 - `finalOutput.pageViews` lists the page views of the notes page: `notes`, `rewrite`, `corrections` and `transcript`. The list must name `notes`, because the page opens on it. A name that is not a page view, or a name that comes twice, is a `ConfigError`.
 - `finalOutput.highlightSlideSentences` is `true` or `false`. `true` highlights the sentence of each slide in the Notes view (§5, "After the fact correction").
 
+**The settings of the Notes PDF.** `finalOutput.pdf` holds five numbers: `fontSizePt`, `marginMm`, `slideWidthPercent`, `slideSpaceBeforeMm` and `slideSpaceAfterMm` (§5, "The Notes PDF"). Each key is required. No flag overrides these settings. The loader raises a `ConfigError` that names the key in these cases:
+
+- a missing section or key
+- a value that is not a number
+- a value of 0 or less
+- a `slideWidthPercent` above 100.
+
 **A stage key names a stage.** The loader checks each key of the `stages` section against the stage IDs. A key that names no stage is a `ConfigError` at startup, which lists the stages that the key could name. Configuration reaches a stage by its key alone. So with this check, "the stage is configured" and "the config file mentions the stage" mean the same thing.
 
 **Model-ID resolution check.** At startup, `loadConfig` fetches the model list once from `${openRouter.baseUrl}/models`. It checks that each configured `stages[*].modelId` is in the list. It also checks each model id of a `models` list, the disabled ones included. So the check finds placeholders, typos and retired IDs before any billable call. A miss throws a `ConfigError` naming the offending stages and linking to the models page. The list is fetched once per invocation, which is the only time it is wanted: `loadConfig` runs once, and asks for the list once.
@@ -2030,7 +2056,14 @@ Each prefix is matched literally, so one carrying a pattern character means itse
   "finalOutput": {
     "language": "en-GB",               // language the NOTES are written in (en-GB | en-US). Not elevenLabs.languageCode above
     "pageViews": ["notes", "rewrite", "corrections", "transcript"],   // the views of the notes page. The list must name "notes"
-    "highlightSlideSentences": true    // highlight the sentence of each slide in the Notes view
+    "highlightSlideSentences": true,   // highlight the sentence of each slide in the Notes view
+    "pdf": {                           // the page settings of the Notes PDF
+      "fontSizePt": 11,                // the text size, in points
+      "marginMm": 18,                  // the margin on each of the four sides, in millimetres
+      "slideWidthPercent": 60,         // the slide width, as a percent of the text column
+      "slideSpaceBeforeMm": 5,         // the space above each slide, in millimetres
+      "slideSpaceAfterMm": 5           // the space below each slide, under its caption, in millimetres
+    }
   }
 }
 ```
@@ -2331,7 +2364,8 @@ src/
 │       ├── fact-corrections.ts       # The files that correct-factual-errors writes, for the stages that write and read them
 │       ├── relocate-slides/          # stage module, its r4 prompt module, and the checks and text changes (slide-relocation.ts)
 │       ├── slide-relocations.ts      # The files that relocate-slides writes, for the stages that write and read them
-│       └── build-notes-page/         # stage module, the page HTML, its style and script, and the word comparison: no model call, no prompt
+│       └── build-notes-page/         # stage module, the page HTML, its style and script, and the word comparison: no model call, no prompt.
+│                                     # The text HTML that the page and the Notes PDF share, the PDF HTML and its style, and the printer (print-notes-pdf.ts)
 └── utils/
     ├── date.ts                       # Date extraction and normalisation (chrono-node)
     ├── naming.ts                     # Lecture folder and file naming helpers

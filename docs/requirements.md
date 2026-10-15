@@ -58,6 +58,8 @@ The configuration shall name the views that the page holds. The notes view shall
 
 **FR-3.7** The configuration shall set whether the notes view marks the sentence of each slide.
 
+**FR-3.8** The system shall also produce the notes of each lecture as a PDF of A4 pages, beside the page. The PDF shall show the notes view only, with each slide at its place. A page of the PDF shall never end with a title, and a slide shall never split across two pages. The configuration shall set the text size, the margin and the size of the slides.
+
 ### FR-4 — Checking Facts
 
 **FR-4.1** The system shall check the whole rewrite of each lecture for factual errors, with one model or two models. The check shall not use the transcript.

@@ -8,7 +8,7 @@
 
 ## Overview
 
-The pipeline is built in twenty-seven phases. Phases 1–3 make the project scaffold and the shared infrastructure before any stage code is written. Phases 4–7 implement the stages from `source-normalisation` to two stages that rewrote and checked the whole transcript at once. Phase 19 removes those two stages. Phases 8–14 divide the transcript. Two phases make the groundwork. Then the stages split the transcript, choose a division, retitle its subtopics and group them. Phase 15 moves the title judgement to a new stage after grouping. Phases 16–18 build the three slide stages. Phases 19–22 move the pipeline to a rewrite that corrects the terms of each subtopic and rewrites it. Phase 23 removes the transcript check and the rounds. Phase 24 checks and corrects the facts of the rewrite. Phase 25 moves the slides into the notes and writes the notes page. Phase 26 adds the new stages to the pipeline, with the flags that replace three config values for one run. Phase 27 checks the full pipeline from end to end against a real lecture.
+The pipeline is built in twenty-eight phases. Phases 1–3 make the project scaffold and the shared infrastructure before any stage code is written. Phases 4–7 implement the stages from `source-normalisation` to two stages that rewrote and checked the whole transcript at once. Phase 19 removes those two stages. Phases 8–14 divide the transcript. Two phases make the groundwork. Then the stages split the transcript, choose a division, retitle its subtopics and group them. Phase 15 moves the title judgement to a new stage after grouping. Phases 16–18 build the three slide stages. Phases 19–22 move the pipeline to a rewrite that corrects the terms of each subtopic and rewrites it. Phase 23 removes the transcript check and the rounds. Phase 24 checks and corrects the facts of the rewrite. Phase 25 moves the slides into the notes and writes the notes page. Phase 26 adds the new stages to the pipeline, with the flags that replace three config values for one run. Phase 27 adds the Notes PDF. Phase 28 checks the full pipeline from end to end against a real lecture.
 
 Testing is not a final phase — unit tests are written alongside each deliverable per the project conventions. Integration tests are noted explicitly where unit testing alone is insufficient.
 
@@ -1209,7 +1209,33 @@ A transcript check, `check-rewrite-attempts`, and a rewrite loop in the runner w
 
 ---
 
-## Phase 27 — End-to-End Validation
+## Phase 27 — The Notes PDF
+
+**Goal:** `build-notes-page` also writes the notes as a Notes PDF, for print or a tablet **(TD §5, "The Notes PDF")**. The tickets are `.scratch/notes-pdf/issues/01` and `02`, and the spec is `.scratch/notes-pdf/spec.md`.
+
+**Deliverables:**
+1. The `finalOutput.pdf` section of the config (TD §6).
+2. The HTML and the stylesheet of the PDF, with the text HTML that the page and the PDF share.
+3. The printer, which prints the HTML with Chrome through `puppeteer`.
+4. `notes.pdf` beside `notes.html`, with the PDF settings in the run log of the stage.
+
+**Tests:** Unit tests check the HTML of the PDF with no Chrome. Integration tests print with Chrome and read the PDF back with `pdfjs-dist`. Tests of the stage that are not about printing do not start Chrome. Together the tests cover these behaviours:
+- the PDF shows the Notes view only, with no other view and no highlight
+- a slide divides its paragraph, and a slide at the end of a paragraph goes after it
+- the text and the slides are in lecture order
+- no page ends with a topic title or a subtopic title
+- a subtopic title and the first 3 lines of its first paragraph are on one page
+- the page is A4, and the settings of the config change the PDF
+- the config loader refuses a missing section or key, and a value that is not a number
+- the config loader refuses a value of 0 or less, and a slide width above 100 percent
+- a notes folder with `notes.html` and no `notes.pdf` makes the stage run again, and the run writes both files
+- a PDF that Chrome cannot print fails the stage with an error that names the path, and the stage writes no `notes.html`.
+
+**Acceptance:** The user prints the PDF of a real lecture and checks the slide size, the text size, the margins and the page breaks.
+
+---
+
+## Phase 28 — End-to-End Validation
 
 **Goal:** Run the full pipeline against a real lecture and check the output quality and the pipeline mechanics.
 
@@ -1217,7 +1243,7 @@ A transcript check, `check-rewrite-attempts`, and a rewrite loop in the runner w
 1. Run `source-normalisation` against the Biology of Disease source folder. Verify the workspace folders and the renamed source files
 2. Run the full pipeline on one lecture. Verify the manifest state and the run log after each stage
 3. Verify that the three-section cost report is correct and agrees with the run log data
-4. Verify that the HTML page opens and is readable
+4. Verify that the HTML page opens and is readable, and that the Notes PDF prints
 5. Simulate a failure during a run: stop the process during `read-slides`. Verify that the stage continues on restart
 6. Run `--from-stage read-slides` on a completed lecture. Verify fresh slide readings and a new run of each later stage
 7. Add a new lecture to the source folder, and run `source-normalisation` again. Verify that the new numbers reach every later lecture
