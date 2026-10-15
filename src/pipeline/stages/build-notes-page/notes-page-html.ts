@@ -21,7 +21,7 @@ import { findSlideReading, type SlideReading } from "../slides.js";
 import type { TopicWithSubtopics } from "../structured-transcript.js";
 import type { SubtopicRewrite } from "../subtopic-rewrites.js";
 import type { TermCorrectionResult } from "../term-corrections.js";
-import { NOTES_PAGE_SCRIPT, NOTES_PAGE_STYLE } from "./notes-page-style.js";
+import { NOTE_ATTRIBUTE, NOTES_PAGE_SCRIPT, NOTES_PAGE_STYLE } from "./notes-page-style.js";
 import {
 	type ComparedWord,
 	compareWords,
@@ -84,7 +84,7 @@ const PAGE_VIEWS = [
 		view: "corrections",
 		name: "Corrections",
 		legend:
-			"This view shows the changes that the fact correction made. <del>Red words</del> are only in the rewrite. <ins>Green words</ins> are only in the notes. Rest the mouse on a coloured word to see the problem that caused the change.",
+			"This view shows the changes that the fact correction made. <del>Red words</del> are only in the rewrite. <ins>Green words</ins> are only in the notes. Rest the mouse on a coloured word, or tap it, to see the problem that caused the change.",
 	},
 	{
 		view: "transcript",
@@ -732,13 +732,16 @@ const CORRECTIONS_MARKS: MarkHtml = {
 };
 
 /**
- * Gives the attribute that shows a note when the mouse rests on an element.
+ * Gives the attributes of an element that has a note. The page script shows the
+ * note in a box when the mouse rests on the element. A tap or the keyboard also
+ * shows it. The browser's own `title` note is not used, because Safari shows it
+ * late and a touch screen never shows it.
  *
  * @param note - The note, or null when the element has none.
- * @returns The `title` attribute with a space in front, or an empty text.
+ * @returns The note attribute and `tabindex` with a space in front, or an empty text.
  */
 function noteAttribute(note: string | null): string {
-	return note === null ? "" : ` title="${escapeHtml(note)}"`;
+	return note === null ? "" : ` ${NOTE_ATTRIBUTE}="${escapeHtml(note)}" tabindex="0"`;
 }
 
 /**
@@ -953,6 +956,7 @@ ${views.join("\n")}
 </main>
 </div>
 <dialog id="enlarged" aria-label="Enlarged slide"><button class="close" type="button">Close</button><img alt=""><span class="figure-text"></span></dialog>
+<div id="note" role="tooltip" hidden></div>
 <script>${NOTES_PAGE_SCRIPT}</script>
 </body>
 </html>

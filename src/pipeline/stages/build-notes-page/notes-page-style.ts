@@ -12,6 +12,11 @@ const DARK_COLOURS = `--paper: #1b1615; --ink: #efe5de; --muted: #b1a39b; --rule
   --accent: #dca2cf; --figure-label: #f0a08f; --mark: #40302a;
   --removed-ink: #f2a39a; --removed-bg: #4a2420; --added-ink: #9fdcae; --added-bg: #1f3a27; color-scheme: dark;`;
 
+/** The attribute that holds the note of an element. The page script shows the note in a box. */
+export const NOTE_ATTRIBUTE = "data-note";
+
+const NOTED_ELEMENT = `[${NOTE_ATTRIBUTE}]`;
+
 /**
  * The stylesheet of the notes page. The text column is narrow, as in a textbook.
  * Each slide floats at its sentence, and on a wide screen its caption hangs in the
@@ -56,6 +61,11 @@ nav a:hover { text-decoration: underline; }
 .not-in-notes, del { color: var(--removed-ink); background: var(--removed-bg); border-radius: 2px; }
 del { text-decoration: line-through; text-decoration-thickness: 1px; }
 ins { color: var(--added-ink); background: var(--added-bg); text-decoration: none; border-radius: 2px; }
+${NOTED_ELEMENT} { cursor: help; }
+${NOTED_ELEMENT}:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+#note { position: fixed; z-index: 1; max-width: min(24rem, calc(100vw - 32px)); padding: 0.45rem 0.65rem; box-sizing: border-box;
+  border: 1px solid var(--accent); border-radius: 4px; background: var(--panel); color: var(--ink); box-shadow: 0 6px 20px rgb(0 0 0 / 0.25);
+  font: 0.85rem/1.45 var(--font-ui); pointer-events: none; }
 .topic { display: grid; gap: 2rem; }
 h2 { font-weight: 600; font-size: 1.6rem; line-height: 1.25; margin: 0; padding-top: 1.5rem; border-top: 2px solid var(--accent); text-wrap: balance; }
 h3 { font-weight: 600; font-size: 1.2rem; line-height: 1.3; margin: 0 0 0.75rem; text-wrap: balance; }
@@ -93,7 +103,9 @@ mark { background: var(--mark); color: inherit; border-radius: 2px; }
  * The script of the notes page. A click on a slide shows it in a window that
  * does not cover the page. The reader moves the window by its border and changes
  * its size from its corner. The close button and the Esc key close it. A link
- * to a topic goes to the topic in the page view that shows.
+ * to a topic goes to the topic in the page view that shows. A box shows the note
+ * of a word when the mouse rests on the word, or when a tap or the keyboard
+ * selects it. Esc and a scroll of the page hide the box.
  */
 export const NOTES_PAGE_SCRIPT = `
 const windowFrame = document.getElementById("enlarged");
@@ -129,9 +141,49 @@ for (const link of document.querySelectorAll("nav a")) {
     topic.scrollIntoView();
   });
 }
+const noteBox = document.getElementById("note");
+const NOTE_GAP_PX = 6;
+const NOTE_EDGE_PX = 16;
+let noteWord = null;
+function showNote(word) {
+  noteWord = word;
+  noteBox.textContent = word.getAttribute("${NOTE_ATTRIBUTE}");
+  noteBox.hidden = false;
+  const wordBox = word.getClientRects()[0] ?? word.getBoundingClientRect();
+  const box = noteBox.getBoundingClientRect();
+  const left = Math.max(NOTE_EDGE_PX, Math.min(wordBox.left, window.innerWidth - box.width - NOTE_EDGE_PX));
+  const below = wordBox.bottom + NOTE_GAP_PX;
+  const top = below + box.height <= window.innerHeight ? below : wordBox.top - NOTE_GAP_PX - box.height;
+  noteBox.style.left = left + "px";
+  noteBox.style.top = top + "px";
+}
+function hideNote() {
+  noteWord = null;
+  noteBox.hidden = true;
+}
+document.addEventListener("pointerover", (event) => {
+  if (event.pointerType !== "mouse") return;
+  const word = event.target.closest("${NOTED_ELEMENT}");
+  if (word !== null && word !== noteWord) showNote(word);
+});
+document.addEventListener("pointerout", (event) => {
+  if (event.pointerType !== "mouse") return;
+  const word = event.target.closest("${NOTED_ELEMENT}");
+  if (word !== null && !word.contains(event.relatedTarget) && word !== document.activeElement) hideNote();
+});
+document.addEventListener("focusin", (event) => {
+  const word = event.target.closest("${NOTED_ELEMENT}");
+  if (word !== null) showNote(word);
+});
+document.addEventListener("focusout", (event) => {
+  if (event.target === noteWord) hideNote();
+});
+window.addEventListener("scroll", hideNote, { passive: true });
 windowFrame.querySelector(".close").addEventListener("click", () => windowFrame.close());
 document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape" && windowFrame.open) windowFrame.close();
+  if (event.key !== "Escape") return;
+  hideNote();
+  if (windowFrame.open) windowFrame.close();
 });
 windowFrame.addEventListener("pointerdown", (event) => {
   if (event.target !== windowFrame) return;

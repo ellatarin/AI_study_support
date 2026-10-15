@@ -664,7 +664,7 @@ describe("notesPageHtml", () => {
 		{
 			reported: "reported",
 			changes: [reportedChange],
-			note: ` title="${seededFactualError.problem}"`,
+			note: ` data-note="${seededFactualError.problem}" tabindex="0"`,
 		},
 		{ reported: "did not report", changes: [], note: "" },
 	])("should give each red and green word of a change the problem of its factual error as a note, or no note, when the model $reported the change", ({
