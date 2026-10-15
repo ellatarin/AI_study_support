@@ -3,6 +3,7 @@
  * "Notes PDF"). It shows the Notes page view only.
  */
 
+import { readFile } from "node:fs/promises";
 import { FIRST_PAGE_VIEW, type NotesPdfSettings } from "../../../types/pipeline.js";
 import type { RelocatedSlide } from "../slide-relocations.js";
 import type { SlideReading } from "../slides.js";
@@ -26,6 +27,17 @@ export type NotesPdfContent = Pick<
 
 /** Gives the URL of the image of a slide, from its slide number. */
 type SlideImageUrl = (slideNumber: number) => string;
+
+/**
+ * Reads a PNG image as a data URL. The PDF HTML holds each slide image this way,
+ * so Chrome loads no file and the stage writes no temporary page.
+ *
+ * @param path - The path of the PNG file.
+ * @returns The data URL.
+ */
+export async function readPngDataUrl(path: string): Promise<string> {
+	return `data:image/png;base64,${await readFile(path, "base64")}`;
+}
 
 /** The slide readings of the notes, and the source of each slide image. */
 type SlideSources = {
@@ -100,6 +112,7 @@ function paragraphBlocksHtml({
  */
 export function notesPdfHtml({
 	content,
+	settings,
 	slideImageUrl,
 }: {
 	readonly content: NotesPdfContent;
@@ -130,7 +143,7 @@ export function notesPdfHtml({
 <head>
 <meta charset="utf-8">
 <title>${escapeHtml(content.lectureTitle)}</title>
-<style>${notesPdfStyle()}</style>
+<style>${notesPdfStyle(settings)}</style>
 </head>
 <body>
 <header>
