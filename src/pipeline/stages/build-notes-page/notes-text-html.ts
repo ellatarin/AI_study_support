@@ -10,6 +10,7 @@ import {
 	isRelocatedReferencesSlide,
 	type RelocatedSlide,
 } from "../slide-relocations.js";
+import { findSlideReading, type SlideReading } from "../slides.js";
 import type { TopicWithSubtopics } from "../structured-transcript.js";
 
 /**
@@ -175,6 +176,44 @@ ${subtopics.join("\n")}
  */
 export function slideLabel(slide: RelocatedSlide): string {
 	return isRelocatedReferencesSlide(slide) ? "References" : figureLabel(slide.figureNumber);
+}
+
+/** The parts of the figure of one slide. */
+export type SlideFigureParts = {
+	/** The label, such as "Figure 3" or "References", with no full stop. */
+	readonly label: string;
+	/** The label with its full stop, then the caption from the slide reading. */
+	readonly captionHtml: string;
+	/** The slide image, with the title of the slide reading as its text alternative. */
+	readonly imageHtml: string;
+};
+
+/**
+ * Gives the parts of the figure of one slide. A slide with no reading gets a
+ * blank caption and a blank text alternative.
+ *
+ * @param args - The slide, the slide readings, and the URL of the slide image.
+ * @param args.slide - The slide.
+ * @param args.readings - The slide readings of the notes.
+ * @param args.imageUrl - The URL of the slide image.
+ * @returns The label, the caption and the image.
+ */
+export function slideFigureParts({
+	slide,
+	readings,
+	imageUrl,
+}: {
+	readonly slide: RelocatedSlide;
+	readonly readings: readonly SlideReading[];
+	readonly imageUrl: string;
+}): SlideFigureParts {
+	const reading = findSlideReading({ slideReadings: readings, slideNumber: slide.slideNumber });
+	const label = slideLabel(slide);
+	return {
+		label,
+		captionHtml: `<span class="figure-label">${label}.</span> ${textHtml(reading?.caption ?? "")}`,
+		imageHtml: `<img src="${escapeHtml(imageUrl)}" alt="${escapeHtml(reading?.title ?? "")}">`,
+	};
 }
 
 /**

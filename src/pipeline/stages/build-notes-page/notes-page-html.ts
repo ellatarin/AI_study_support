@@ -10,7 +10,7 @@ import { notesSlideImageEntry } from "../../layout.js";
 import { type FactCorrectionFile, FIRST_FACTUAL_ERROR_NUMBER } from "../fact-corrections.js";
 import type { SlidePlacement } from "../slide-placements.js";
 import type { RelocatedSlide, SlideRelocation, TextPoint } from "../slide-relocations.js";
-import { findSlideReading, type SlideReading } from "../slides.js";
+import type { SlideReading } from "../slides.js";
 import type { TopicWithSubtopics } from "../structured-transcript.js";
 import type { SubtopicRewrite } from "../subtopic-rewrites.js";
 import type { TermCorrectionResult } from "../term-corrections.js";
@@ -21,7 +21,7 @@ import {
 	lectureHeadingHtml,
 	paragraphsWithSlides,
 	type Subtopic,
-	slideLabel,
+	slideFigureParts,
 	splitParagraphAtSlides,
 	textHtml,
 	topicHtml,
@@ -182,12 +182,14 @@ function figureHtml({
 	readonly slide: RelocatedSlide;
 	readonly readings: readonly SlideReading[];
 }): string {
-	const reading = findSlideReading({ slideReadings: readings, slideNumber: slide.slideNumber });
-	const image = notesSlideImageEntry(slide.slideNumber);
-	const label = slideLabel(slide);
+	const { label, captionHtml, imageHtml } = slideFigureParts({
+		slide,
+		readings,
+		imageUrl: notesSlideImageEntry(slide.slideNumber),
+	});
 	return `<span class="figure" role="figure" aria-label="${label}">
-<span class="figure-text"><span class="caption"><span class="figure-label">${label}.</span> ${textHtml(reading?.caption ?? "")}</span></span>
-<button class="figure-image" type="button" aria-label="Show ${label} larger"><img src="${escapeHtml(image)}" alt="${escapeHtml(reading?.title ?? "")}"></button>
+<span class="figure-text"><span class="caption">${captionHtml}</span></span>
+<button class="figure-image" type="button" aria-label="Show ${label} larger">${imageHtml}</button>
 </span>`;
 }
 
