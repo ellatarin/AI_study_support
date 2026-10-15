@@ -111,11 +111,11 @@ export type CostTallyByModel = {
 type StageTuning = {
 	readonly temperature?: number;
 	readonly maxTokens?: number;
-	/** The number of splitting or grouping runs that a panel stage makes at once. Unset means one at a time. */
+	/** The number of panel runs, subtopics or slides that a stage works on at the same time. Unset means one at a time. */
 	readonly concurrency?: number;
 	/** The number of calls that one splitting run makes at once in deepening. Only `deepen-subtopic-splitting` reads it. */
 	readonly callConcurrency?: number;
-	/** The send gate, in seconds. Only `group-into-topics` reads it. */
+	/** The least time, in seconds, between the starts of two sends of the stage. Unset means no gap (technical-design.md §6). */
 	readonly sendGapSeconds?: number;
 };
 
