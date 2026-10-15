@@ -1,6 +1,6 @@
 # 01 — Override the three config switches from the command line
 
-**Status:** needs-triage
+**Status:** resolved
 
 **Blocked by:** none
 
@@ -33,7 +33,7 @@ To change one switch for one run, the user must edit the config file and then ed
 - [x] `--page-views all` gives all four views. A list without `notes` is an error.
 - [x] The run log of `build-notes-page` records the page views and the highlight switch.
 - [x] The technical design and the requirements describe the three flags.
-- [ ] The user runs Cell Biology lecture 4 with `--fact-correction run --page-views all`, and checks the page.
+- [x] The user runs Cell Biology lecture 4 with `--fact-correction run --page-views all`, and checks the page.
 
 ## Comments
 
@@ -42,3 +42,5 @@ To change one switch for one run, the user must edit the config file and then ed
 **2026-10-15, later:** the technical design part of the docs box is written, but it is not committed. It is in the working tree of `main`, in `docs/technical-design.md`, with the docs of ticket 13 of `fact-check-stages`. The requirements are not written yet. The commit gate refuses every commit while the fast version of the notes PDF is in the working tree (`.scratch/notes-pdf/issues/01`).
 
 **2026-10-15, docs:** the docs box is done in cfc02116. The technical design describes the flags in §4.7, "Flags that override the config". The requirements add FR-6.8. The suite version went up to 1.98-draft in fd137ca7. The user's run of Cell Biology lecture 4 is still open.
+
+**2026-10-15, run check:** the user tested the flags on other lectures, in place of Cell Biology lecture 4, and accepted the result. The ticket is resolved.
