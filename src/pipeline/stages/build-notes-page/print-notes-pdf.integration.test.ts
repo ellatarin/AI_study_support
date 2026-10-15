@@ -1,6 +1,5 @@
 import { rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
-import { getDocument, OPS, VerbosityLevel } from "pdfjs-dist/legacy/build/pdf.mjs";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import type { NotesPdfSettings } from "../../../types/pipeline.js";
 import {
@@ -13,15 +12,15 @@ import {
 import type { RelocatedSlide } from "../slide-relocations.js";
 import type { SlideReading } from "../slides.js";
 import type { TopicWithSubtopics } from "../structured-transcript.js";
+import {
+	type PageBox,
+	type PdfLine,
+	type PdfPageLayout,
+	PRINT_TIMEOUT_MS,
+	readPdfLayout,
+} from "./fixtures.js";
 import { type NotesPdfContent, notesPdfHtml, readPngDataUrl } from "./notes-pdf-html.js";
 import { printNotesPdf } from "./print-notes-pdf.js";
-
-/**
- * The time that one test of this suite can take. A test takes under 2 seconds
- * alone, but the commit gate runs every suite at once with coverage, and one test
- * then took 30 seconds.
- */
-const PRINT_TIMEOUT_MS = 120_000;
 
 /**
  * Gives a length in millimetres as points, at 72 points to the inch.
@@ -33,169 +32,6 @@ const mmToPoints = (millimetres: number): number => (millimetres / 25.4) * 72;
 
 /** The size of an A4 page: 210 mm by 297 mm. */
 const A4_POINTS = { width: mmToPoints(210), height: mmToPoints(297) };
-
-/** A box on a page, in points from the top left corner of the page. */
-type PageBox = {
-	readonly left: number;
-	readonly right: number;
-	readonly top: number;
-	readonly bottom: number;
-};
-
-/** One line of text on a page. */
-type PdfLine = PageBox & { readonly text: string; readonly fontSize: number };
-
-/** One page of a printed PDF, as a reader sees it. */
-type PdfPageLayout = {
-	readonly width: number;
-	readonly height: number;
-	/** The lines of text, from the top of the page down. */
-	readonly lines: readonly PdfLine[];
-	/** The box of each image, in the order that the page draws them. */
-	readonly images: readonly PageBox[];
-};
-
-/** A transform of PDF user space: `[a, b, c, d, e, f]`. */
-type Transform = readonly [number, number, number, number, number, number];
-
-const IDENTITY: Transform = [1, 0, 0, 1, 0, 0];
-
-/**
- * Gives the transform that applies `inner`, then `outer`.
- *
- * @param args - The two transforms.
- * @param args.outer - The current transform.
- * @param args.inner - The transform that the page adds.
- * @returns The product.
- */
-function multiply({
-	outer,
-	inner,
-}: {
-	readonly outer: Transform;
-	readonly inner: Transform;
-}): Transform {
-	const [a, b, c, d, e, f] = outer;
-	const [ia, ib, ic, id, ie, iF] = inner;
-	return [
-		ia * a + ib * c,
-		ia * b + ib * d,
-		ic * a + id * c,
-		ic * b + id * d,
-		ie * a + iF * c + e,
-		ie * b + iF * d + f,
-	];
-}
-
-/**
- * Reads the box of each image that a page draws. An image fills the unit square
- * of the transform at the time that the page draws it.
- *
- * @param args - The page, and its height.
- * @param args.page - The page of pdfjs.
- * @param args.height - The height of the page, in points.
- * @returns The box of each image.
- */
-async function readImageBoxes({
-	page,
-	height,
-}: {
-	readonly page: Awaited<ReturnType<Awaited<ReturnType<typeof getDocument>["promise"]>["getPage"]>>;
-	readonly height: number;
-}): Promise<readonly PageBox[]> {
-	const { fnArray, argsArray } = await page.getOperatorList();
-	const saved: Transform[] = [];
-	let current = IDENTITY;
-	const boxes: PageBox[] = [];
-	for (const [index, operator] of fnArray.entries()) {
-		if (operator === OPS.save) {
-			saved.push(current);
-		} else if (operator === OPS.restore) {
-			current = saved.pop() ?? IDENTITY;
-		} else if (operator === OPS.transform) {
-			current = multiply({ outer: current, inner: argsArray[index] as Transform });
-		} else if (operator === OPS.paintImageXObject) {
-			const [a, , , d, e, f] = current;
-			boxes.push({ left: e, right: e + a, top: height - (f + d), bottom: height - f });
-		}
-	}
-	return boxes;
-}
-
-/** One piece of text that pdfjs reads from a page. */
-type TextPiece = { readonly str: string; readonly transform: Transform; readonly width: number };
-
-/**
- * Joins the pieces of text of a page into lines. Pieces on one baseline are one
- * line.
- *
- * @param args - The pieces, and the height of the page.
- * @param args.pieces - The pieces of text.
- * @param args.height - The height of the page, in points.
- * @returns The lines, from the top of the page down.
- */
-function joinLines({
-	pieces,
-	height,
-}: {
-	readonly pieces: readonly TextPiece[];
-	readonly height: number;
-}): readonly PdfLine[] {
-	const byBaseline = new Map<number, TextPiece[]>();
-	for (const piece of pieces.filter(({ str }) => str.trim() !== "")) {
-		const baseline = Math.round(piece.transform[5]);
-		byBaseline.set(baseline, [...(byBaseline.get(baseline) ?? []), piece]);
-	}
-	return [...byBaseline.entries()]
-		.sort(([first], [second]) => second - first)
-		.map(([baseline, linePieces]) => {
-			const sorted = [...linePieces].sort(
-				(first, second) => first.transform[4] - second.transform[4],
-			);
-			const fontSize = Math.max(...sorted.map(({ transform }) => Math.abs(transform[3])));
-			return {
-				text: sorted
-					.map(({ str }) => str.trim())
-					.join(" ")
-					.replace(/\s+/gu, " "),
-				left: Math.min(...sorted.map(({ transform }) => transform[4])),
-				right: Math.max(...sorted.map(({ transform, width }) => transform[4] + width)),
-				top: height - baseline - fontSize,
-				bottom: height - baseline,
-				fontSize,
-			};
-		});
-}
-
-/**
- * Reads the layout of each page of a PDF.
- *
- * @param path - The path of the PDF.
- * @returns The layout of each page, in page order.
- */
-async function readPdfLayout(path: string): Promise<readonly PdfPageLayout[]> {
-	const loading = getDocument({ url: path, verbosity: VerbosityLevel.ERRORS });
-	const pdf = await loading.promise;
-	const pages: PdfPageLayout[] = [];
-	for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
-		const page = await pdf.getPage(pageNumber);
-		const { width, height } = page.getViewport({ scale: 1 });
-		const { items } = await page.getTextContent();
-		const pieces = items.flatMap((item): TextPiece[] =>
-			"str" in item
-				? [{ str: item.str, width: item.width, transform: item.transform as unknown as Transform }]
-				: [],
-		);
-		pages.push({
-			width,
-			height,
-			lines: joinLines({ pieces, height }),
-			images: await readImageBoxes({ page, height }),
-		});
-	}
-	await loading.destroy();
-	return pages;
-}
 
 /** The marker of an image in {@link readingOrder}. */
 const IMAGE = "image";
