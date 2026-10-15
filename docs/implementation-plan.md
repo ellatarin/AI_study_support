@@ -8,7 +8,7 @@
 
 ## Overview
 
-The pipeline is built in twenty-eight phases. Phases 1–3 make the project scaffold and the shared infrastructure before any stage code is written. Phases 4–7 implement the stages from `source-normalisation` to two stages that rewrote and checked the whole transcript at once. Phase 19 removes those two stages. Phases 8–14 divide the transcript. Two phases make the groundwork. Then the stages split the transcript, choose a division, retitle its subtopics and group them. Phase 15 moves the title judgement to a new stage after grouping. Phases 16–18 build the three slide stages. Phases 19–22 move the pipeline to a rewrite that corrects the terms of each subtopic and rewrites it. Phase 23 removes the transcript check and the rounds. Phase 24 checks and corrects the facts of the rewrite. Phase 25 moves the slides into the notes and writes the notes page. Phase 26 adds the new stages to the pipeline, with the flags that replace three config values for one run. Phase 27 adds the Notes PDF. Phase 28 checks the full pipeline from end to end against a real lecture.
+The pipeline is built in twenty-nine phases. Phases 1–3 make the project scaffold and the shared infrastructure before any stage code is written. Phases 4–7 implement the stages from `source-normalisation` to two stages that rewrote and checked the whole transcript at once. Phase 19 removes those two stages. Phases 8–14 divide the transcript. Two phases make the groundwork. Then the stages split the transcript, choose a division, retitle its subtopics and group them. Phase 15 moves the title judgement to a new stage after grouping. Phases 16–18 build the three slide stages. Phases 19–22 move the pipeline to a rewrite that corrects the terms of each subtopic and rewrites it. Phase 23 removes the transcript check and the rounds. Phase 24 checks and corrects the facts of the rewrite. Phase 25 moves the slides into the notes and writes the notes page. Phase 26 adds the new stages to the pipeline, with the flags that replace three config values for one run. Phase 27 adds the Notes PDF. Phase 28 adds a switch that bypasses the fact check, records each bypass, and shows the fact-check line. Phase 29 checks the full pipeline from end to end against a real lecture.
 
 Testing is not a final phase — unit tests are written alongside each deliverable per the project conventions. Integration tests are noted explicitly where unit testing alone is insufficient.
 
@@ -1235,7 +1235,33 @@ A transcript check, `check-rewrite-attempts`, and a rewrite loop in the runner w
 
 ---
 
-## Phase 28 — End-to-End Validation
+## Phase 28 — Bypass the fact check
+
+**Goal:** The user can bypass a fact check that fails. Each bypass is on record. So no reader takes notes as checked or corrected when they are not **(TD §5, `check-facts`, and "After the fact correction")**. The ticket is `.scratch/fact-check-stages/issues/15`.
+
+**Deliverables:**
+1. The required switch `stages.check-facts.bypass`, and the flag `--fact-check run|bypass` of `run` and `batch` (TD §4.7, §6).
+2. The bypass marks. `factual-errors.json`, each file of `Fact corrections/` and each entry of `fact-corrected-subtopics.json` hold `bypassed`. That file also holds `correctedBy` and `correctedOn` (TD §5).
+3. The status `bypassed` in the manifest and the run log, written by the runner from the stage result (TD §4.2).
+4. A terminal line of its own for a bypassed stage (TD §10, "Stage Notices").
+5. The fact-check line on the notes page and in the Notes PDF (TD §5, "After the fact correction").
+
+**Tests:** The ticket names its tests. Together they cover these behaviours:
+- the config loader refuses a missing switch, and a value that is not `true` or `false`
+- the flag replaces the switch for one invocation, and a bad value is a usage error
+- a bypassed fact check makes no call and writes an empty `factual-errors.json` marked as bypassed
+- a bypassed fact check does not bypass the fact correction
+- a bypassed fact correction records no model and no date
+- the runner records `bypassed`, does not run the stage again, and keeps the `bypassed` entry on a later run
+- the readers refuse a fact file without its bypass mark, and a correction file without its model or date
+- the fact-check line names the models, the prompt versions and the date when both stages ran, and is "Uncorrected" otherwise
+- the Notes PDF has the fact-check line in the top margin of each page.
+
+**Acceptance:** The user runs Host-Pathogen Interactions lecture 2 with `--fact-check bypass`, and checks the page.
+
+---
+
+## Phase 29 — End-to-End Validation
 
 **Goal:** Run the full pipeline against a real lecture and check the output quality and the pipeline mechanics.
 

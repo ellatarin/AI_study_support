@@ -8,7 +8,7 @@
 
 ## 1. System Overview
 
-The system is a TypeScript/Node.js CLI tool made of stages, each named by its id (§4.1). `source-normalisation` is a batch normalisation step across all lectures in a module. Every other stage runs per lecture, orchestrated by a pipeline runner that reads and writes a per-lecture run manifest. Every stage is idempotent — if its output exists and the manifest marks it complete or skipped, it is skipped.
+The system is a TypeScript/Node.js CLI tool made of stages, each named by its id (§4.1). `source-normalisation` is a batch normalisation step across all lectures in a module. Every other stage runs per lecture, orchestrated by a pipeline runner that reads and writes a per-lecture run manifest. Every stage is idempotent — if its output exists and the manifest marks it complete, bypassed or skipped, it is skipped.
 
 ---
 
@@ -407,9 +407,10 @@ A stage's context is assembled before its own entry is marked `running`, so the 
 - `StageCost` is discriminated on `costUsd`. A resolved cost is a `number`. A failed lookup is `null` paired with an `unknownCostReason` (see §7).
 - `StageResult.identityChanges` holds the lecture-identity fields the stage decided — `lectureTitle`, `aiDerivedTitle`, `baseName` — for the runner to write. Absent and `{}` both mean the stage decided nothing. Only `judge-lecture-title` ever decides anything. `baseName` is the lecture's canonical base name recorded in the manifest, not the runner's handle on the workspace — the runner locates that itself (§4.7).
 - `StageResult.notices` holds the stage notices that the user must see (§10, "Stage Notices"). Absent means none.
+- `StageResult.bypassed` is `true` when the stage was a bypassed stage (CONTEXT.md, "Bypassed stage"). The runner then records the status `bypassed` in place of `complete`. Absent and `false` both mean that the stage did its work. Only `check-facts` and `correct-factual-errors` can be bypassed (§5).
 - `lectureTitle` is always non-null — seeded by `source-normalisation`, possibly overwritten by `judge-lecture-title` (see §3.2, and §5, `judge-lecture-title`).
 
-`isComplete()` checks two conditions: the manifest marks the stage `'complete'` or `'skipped'`, AND every path in `manifest.stages[stageId].filesWritten` exists on disk. Both must be true. The two statuses count alike because a run that honours this check records `skipped` in place of the `complete` it read, so from the next run's point of view they describe the same disk — the work is done and does not need paying for again. This means a completed stage whose output was manually deleted returns `false` and re-runs automatically. A recorded path that cannot be resolved at all counts as absent rather than as an error, since deleting a stage's output usually removes its containing directory too; a path resolving *outside* `moduleRoot` is a different matter and always throws (§4.4).
+`isComplete()` checks two conditions. The manifest marks the stage `'complete'`, `'bypassed'` or `'skipped'`. Every path in `manifest.stages[stageId].filesWritten` exists on disk. Both must be true. A bypassed stage wrote the output that the next stages read, so its output stands as the output of a completed stage does. A run that obeys this check records `skipped` in place of the `complete` that it read. So for the next run, the statuses describe the same disk: the work is done, and the run does not pay for it again. When the user deletes the output of a completed stage, the check returns `false`, and the stage runs again. A deleted output usually takes its folder with it. So a recorded path that cannot be resolved counts as absent, not as an error. A path that resolves *outside* `moduleRoot` always throws (§4.4).
 
 That check is the same for every stage but one. `build-notes-page` is complete when `notes.html` and `notes.pdf` are both in the lecture's folder in `Final output/`, under the lecture's current base name. Its manifest entry does not count. So the next run builds both files again when the user deletes either one (§5, "After the fact correction"). Each stage is built through a shared factory that supplies `isComplete` for the stage id. A stage defines only the two things that differ: how it gets its input, and what it does.
 
@@ -459,10 +460,13 @@ writeStageOutputWithStageRecord(args: {
 | `pending` | Has not run in this pipeline configuration |
 | `running` | Currently executing, or crashed mid-run — treated as `failed` on the next run |
 | `complete` | `run()` succeeded and all output files are on disk |
+| `bypassed` | `run()` succeeded as a bypassed stage: it did none of its work, and wrote the output that the next stages read (CONTEXT.md, "Bypassed stage") |
 | `failed` | `run()` threw an exception. `error` and `failedAt` are set |
 | `skipped` | `isComplete()` returned `true` before the stage was invoked — output already existed from a prior run |
 
-`skipped` is distinct from `not-reached`, the run log action used when an upstream failure prevented a stage from being attempted at all. A `skipped` stage was eligible to run; a `not-reached` stage was never considered.
+`skipped` is not `not-reached`. The run log records `not-reached` for a stage that the run never tried, because an earlier stage failed. A `skipped` stage was ready to run. A `not-reached` stage was never considered.
+
+A later run that skips a `bypassed` stage leaves its manifest entry as it is, and does not write `skipped` over it. So the manifest keeps the bypass on record until `--from-stage` resets the stage. The run log of that later run records `skipped` for the stage, as for any completed stage.
 
 ### 4.3 Atomic File Writes
 
@@ -598,7 +602,7 @@ patchManifest(args: { workspaceRoot: string; manifest: Manifest; changes: Partia
 // entry, so the manifest and the entry inside it name one moment.
 ```
 
-Each stage entry records `configUsed`, a `StageConfigUsed`. It holds the model ID and the tuning that the run resolved: temperature, max tokens, concurrency, calls at once and send gap. It is `null` for stages that make no LLM calls, except `build-notes-page`. That stage records `pageViews` and `highlightSlideSentences`, the two values of `finalOutput` that shape the page, and `pdf`, the settings of the Notes PDF (§6). `correct-factual-errors` records `bypass` with its model settings. Each value is the one that the run used, after any flag of the run (§4.7, "Flags that override the config"). This lets spend be attributed to a specific model and configuration and lets model experiments be compared (NFR-3.2). The run logs (§4.6) record the same `configUsed` per attempt.
+Each stage entry records `configUsed`, a `StageConfigUsed`. It holds the model ID and the tuning that the run resolved: temperature, max tokens, concurrency, calls at once and send gap. It is `null` for stages that make no LLM calls, except `build-notes-page`. That stage records `pageViews` and `highlightSlideSentences`, the two values of `finalOutput` that shape the page, and `pdf`, the settings of the Notes PDF (§6). `check-facts` records `bypass` with its models, and `correct-factual-errors` records `bypass` with its model settings. Each value is the one that the run used, after any flag of the run (§4.7, "Flags that override the config"). This lets spend be attributed to a specific model and configuration and lets model experiments be compared (NFR-3.2). The run logs (§4.6) record the same `configUsed` per attempt.
 
 ```jsonc
 {
@@ -614,7 +618,7 @@ Each stage entry records `configUsed`, a `StageConfigUsed`. It holds the model I
   "updatedAt": "2025-10-10T10:15:00.000Z",
   "stages": {
     "audio-extraction": {
-      "status": "complete",          // pending | running | complete | failed | skipped
+      "status": "complete",          // pending | running | complete | bypassed | failed | skipped
       "completedAt": "...",
       "configUsed": null,
       "cost": null,
@@ -732,6 +736,8 @@ Each log records which stages were attempted, skipped, or re-run; cost and model
 
 A run log records what each stage of that run cost and stops there — no figure for the run as a whole (NFR-2.2).
 
+The `status` of a stage that ran is `complete`, `bypassed` or `failed`. A bypassed stage records `bypassed`, its `configUsed` with `bypass: true`, and no cost (§4.2).
+
 ### 4.7 Pipeline Runner
 
 The runner-facing types — `LectureMatch`, `PipelineRunOptions`, `BatchOptions`, `ReportOptions`, `PipelineStageOutcome`, `PipelineRunSummary`, and `BatchSummary` — are defined in `src/types/pipeline.ts` (single source of truth).
@@ -814,7 +820,7 @@ summariseLectures(args: { lectures: readonly { overallStatus: OverallStatus }[] 
 // batch table folds each module's rows, so the projection is written once. The parameter asks for the status
 // alone rather than a whole PipelineRunSummary, because that is all the rule reads.
 isCompletedEntry(entry: StageEntry | undefined): entry is CompletedStageEntry
-// Whether a *manifest* entry means the stage's output is on disk — `complete` or `skipped` (§4.2). Three
+// Whether a *manifest* entry means the stage's output is on disk — `complete`, `bypassed` or `skipped` (§4.2). Three
 // unrelated callers ask it: the shared `isComplete`, the run classifier, and the cost report's current-pipeline
 // section. A type guard rather than a boolean, so a caller that has checked can read `filesWritten` without a cast.
 ```
@@ -968,10 +974,11 @@ The CLI checks the command line in full before anything runs:
 
 **Flags belong to commands.** They are declared once for the whole CLI, so `parseArgs` will accept any of them anywhere; each command then declares the ones it acts on, and anything else is a usage error naming the flag and what the command does take. So `run --concurrency 4` is refused and says why: `--concurrency` counts lectures running at once, and only `batch` runs more than one.
 
-**Flags that override the config.** `run` and `batch` take three flags. Each flag replaces one config value for this invocation only. The config file does not change. With no flag, the config value applies.
+**Flags that override the config.** `run` and `batch` take four flags. Each flag replaces one config value for this invocation only. The config file does not change. With no flag, the config value applies.
 
 | Flag | Values | Replaces |
 |---|---|---|
+| `--fact-check` | `run` or `bypass` | `stages.check-facts.bypass` |
 | `--fact-correction` | `run` or `bypass` | `stages.correct-factual-errors.bypass` |
 | `--page-views` | a list with commas, such as `notes,transcript`, or `all` | `finalOutput.pageViews` |
 | `--highlight-slide-sentences` | `on` or `off` | `finalOutput.highlightSlideSentences` |
@@ -979,7 +986,8 @@ The CLI checks the command line in full before anything runs:
 - `--page-views` takes the names of `finalOutput.pageViews`, with the same checks (§6). The list must name `notes`. `all` gives the four views, and it cannot be in a list with names.
 - A flag with another value is a usage error. The error names the values that the flag accepts.
 - The CLI applies the flags to the config once, after it reads the config. So each stage reads the value of the flag as a config value, and the run log records that value (§4.5).
-- A flag changes only the stages that run. A complete stage does not run again because of a flag, as with `--concurrency`. To build a page again with other views, the user adds `--from-stage build-notes-page`. To run the fact correction again, the user adds `--from-stage correct-factual-errors`, and the reset question applies as usual.
+- A flag changes only the stages that run. A complete stage does not run again because of a flag, as with `--concurrency`. To build a page again with other views, the user adds `--from-stage build-notes-page`. To run the fact correction again, the user adds `--from-stage correct-factual-errors`, and the reset question applies as usual. To run the fact check again, the user adds `--from-stage check-facts`.
+- A bypass flag changes only its own stage. A bypassed fact check does not bypass the fact correction (CONTEXT.md, "Bypassed stage").
 
 **`run <date>` normalises first.** Before resolving the date it runs `source-normalisation` across the configured modules. This is what lets `run` be the first command for a lecture whose video and slides were only just added: `source-normalisation` creates the workspace and manifest the date then resolves against. `source-normalisation` is idempotent, so this costs nothing when there is nothing new.
 
@@ -1646,11 +1654,13 @@ The reply is a list of errors, each with a subtopic number, a passage, a problem
 - A factual error that only one model reports goes into the file with that model's text, and `foundBy` lists that model.
 - With one model, the stage merges nothing.
 
-The stage writes `Fact checks/factual-errors.json`, with `factCheckPromptVersion`, `checkedBy` and `factualErrors`. `checkedBy` holds the ids of the models that the stage called, the primary model first. `correct-factual-errors` copies it into the file of each subtopic. The list holds each factual error in lecture order of its subtopic, with the fields of a model file's factual error, `foundBy` and `wordsFound`. Within a subtopic, the primary model's factual errors come first, in the order of its reply.
+The stage writes `Fact checks/factual-errors.json`, with `factCheckPromptVersion`, `bypassed`, `checkedBy` and `factualErrors`. `bypassed` is `false` when the stage runs. `checkedBy` holds the ids of the models that the stage called, the primary model first. `correct-factual-errors` copies it into the file of each subtopic. The list holds each factual error in lecture order of its subtopic, with the fields of a model file's factual error, `foundBy` and `wordsFound`. Within a subtopic, the primary model's factual errors come first, in the order of its reply.
 
 **A failed model.** When one model fails each send, the stage fails, and the file of the other model stays on disk. A stage that starts again makes no call for a model with a saved file. So the next run calls only the model with no saved file. A saved file of a model that is now disabled is not used.
 
 **The cost.** The stage's `cost` is the total of its models. The stage entry also holds `costByModel`, a list of `{ modelId, cost }` with one item for each model that the stage called (§4.5). Its `configUsed` holds `models`, the config of each model that the stage used, with its `role` (§4.5). The run summary has one row for each model of the stage, with its calls, tokens and cost (§7).
+
+**The bypass.** The stage's entry has a required `bypass` switch (§6). With `bypass` on, the stage is a bypassed stage (CONTEXT.md, "Bypassed stage"). It makes no call and writes no file of a model. It writes `factual-errors.json` with `bypassed` `true`, an empty `checkedBy` and no factual error. Its result says that it was bypassed, so the runner records the status `bypassed` (§4.2). The `--fact-check` flag replaces the switch for one invocation (§4.7). A bypassed fact check does not bypass the fact correction. The fact correction then finds no factual error, makes no call, and completes as usual.
 
 ### `correct-factual-errors` — the fact correction
 
@@ -1674,6 +1684,7 @@ The file of each subtopic holds these fields:
 |---|---|
 | `subtopicId` | The subtopic |
 | `factCorrectionPromptVersion` | The version of the fact-correction prompt |
+| `bypassed` | `true` when the fact correction was a bypassed stage, and `false` when it ran |
 | `factualErrors` | The merged factual errors of the subtopic, as `Fact checks/factual-errors.json` holds them, with `foundBy` and `wordsFound` |
 | `factCorrectedSubtopic` | The paragraphs of the fact-corrected subtopic, in order |
 | `changes` | Each change of the reply, with four fields. `factualError` is the number of the factual error in `factualErrors`, from 1. `before` and `after` are the words. `note` is the reason when the words did not change |
@@ -1681,11 +1692,19 @@ The file of each subtopic holds these fields:
 | `paragraphCountBefore` | The number of paragraphs of the rewritten subtopic |
 | `paragraphCountAfter` | The number of paragraphs of the fact-corrected subtopic |
 
-**The end of the stage.** When each subtopic has its file, the stage writes `Fact corrections/fact-corrected-subtopics.json`. Its `factCorrectedSubtopics` holds the entry of each subtopic in lecture order, with the fields of the subtopic's file. The entries have no titles. The titles are in the structured transcript.
+**The end of the stage.** When each subtopic has its file, the stage writes `Fact corrections/fact-corrected-subtopics.json`. It holds these fields:
+
+- `correctedBy`: the model id of the fact correction, or `null` when the stage was bypassed.
+- `correctedOn`: the date when the stage ran, as `YYYY-MM-DD`, or `null` when the stage was bypassed.
+- `factCorrectedSubtopics`: the entry of each subtopic in lecture order, with the fields of the subtopic's file. The entries have no titles. The titles are in the structured transcript.
+
+The page and the Notes PDF read `correctedBy` and `correctedOn` for the fact-check line ("After the fact correction").
 
 **The model** is `anthropic/claude-sonnet-5.5`, with `concurrency` 10 and `sendGapSeconds` 0.25, set on the stage's own entry (§6).
 
-**The bypass.** The stage's entry has a required `bypass` switch (§6). With `bypass` on, the stage makes no call. The file of each subtopic holds its rewrite unchanged and no changes. It still holds the factual errors that `check-facts` found, so the page can show them. The stage writes `fact-corrected-subtopics.json` as usual, so the stages after it run unchanged. The `--fact-correction` flag replaces the switch for one invocation (§4.7).
+**The bypass.** The stage's entry has a required `bypass` switch (§6). With `bypass` on, the stage is a bypassed stage and makes no call. The file of each subtopic holds its rewrite unchanged, no changes and `bypassed` `true`. It still holds the factual errors that `check-facts` found, so the page can show them. The stage writes `fact-corrected-subtopics.json` as usual, so the stages after it run unchanged. Its result says that it was bypassed, so the runner records the status `bypassed` (§4.2). The `--fact-correction` flag replaces the switch for one invocation (§4.7).
+
+**Old files.** A file of `Fact checks/` or `Fact corrections/` from before the bypass marks has no `bypassed`. The reader refuses it with its usual named error. To build such a page again, the user runs with `--from-stage correct-factual-errors` or an earlier stage. Pages that are already built do not change.
 
 ---
 
@@ -1725,7 +1744,7 @@ When each subtopic has its file, the stage writes `Slide relocations/slide-reloc
 
 The page follows these rules:
 
-- **Header.** The header shows the lecture title, the date and the switch of the page views. It also shows a list of the topics, with a link to each. A link goes to the topic in the page view that shows. One line explains the page view that shows, such as what the highlight means in the Notes view.
+- **Header.** The header shows the lecture title, the date, the fact-check line and the switch of the page views. The fact-check line is under the title, in the small grey type of the date, without its capitals. It also shows a list of the topics, with a link to each. A link goes to the topic in the page view that shows. One line explains the page view that shows, such as what the highlight means in the Notes view.
 - **References slide.** The references slide floats next to the last paragraph. Its label is "References", not a figure number. Its caption comes from its slide reading. Its sentence has no highlight.
 - **Maths.** Maths is text between two dollar signs. The opening dollar sign has no space after it. The closing dollar sign has no space before it and no digit after it. So "$5 and $10" stays as text. KaTeX writes the maths as MathML, so the page needs no maths fonts.
 - **A lone Greek letter.** Maths that is one Greek letter only, such as `$\beta$`, shows as the plain letter in the text font. A word such as "β-catenin" then stays on one line, and the letter matches the words around it. Longer maths gets the full maths format.
@@ -1736,6 +1755,13 @@ The lecture's folder in `Final output/` is a lecture file, as the video and the 
 
 **When the stage is complete.** The stage is complete when `notes.html` and `notes.pdf` are both in the lecture's folder under the lecture's current base name (§4.2). When either file is missing, the next run builds both again, at no cost. So a notes folder from before the Notes PDF gets its PDF on the next run. To build the notes again, the user deletes `notes.html` and runs the lecture again. `filesWritten` holds the paths of `notes.pdf` and `notes.html`.
 
+**The fact-check line.** The line tells the reader if the facts of the notes were checked and corrected (CONTEXT.md, "Fact-check line"). The stage reads it from `Fact checks/factual-errors.json` and `Fact corrections/fact-corrected-subtopics.json`. It does not read the manifest.
+
+- When both stages ran, the line names each model of `checkedBy` and the prompt version of the fact check. Then it names the model of `correctedBy`, the prompt version of the fact correction and the date of `correctedOn`. An example is "Checked by: gemini-4-argon (prompt f2). Corrected by: gpt-6.1-sol-pro (prompt k3) on 15-10-2026". This also holds when the check found no factual error.
+- A model is named by the part of its id after the provider. The date has the form DD-MM-YYYY.
+- A saved subtopic file can come from an earlier prompt. So the line names each fact-correction prompt version once, in lecture order, such as "(prompt k2, k3)".
+- When the fact check or the fact correction was bypassed, the line is "Uncorrected".
+
 **Slides and subtopics with no entry.** A subtopic with no entry in `slide-relocations.json` stops the stage with `BuildNotesPageError`, which names the subtopic. A placed slide that no subtopic's entry holds does not stop the stage. The page leaves the slide out, and the stage returns a stage notice that names the slide (§10). Two causes exist: the slide has no reading, or `place-slides` gave it a subtopic that is not in the lecture.
 
 **The two switches of the page.** Two values of `finalOutput` shape the page (§6). `pageViews` lists the page views that the page holds, and the switch at the top shows only those views. `highlightSlideSentences` sets whether the Notes view highlights the sentence of each slide. With the highlight off, the line that explains the Notes view does not mention a highlight. The flags `--page-views` and `--highlight-slide-sentences` replace the two values for one invocation (§4.7). The run log records the values that the stage used (§4.5).
@@ -1744,7 +1770,7 @@ The lecture's folder in `Final output/` is a lecture file, as the video and the 
 
 - **What it shows.** The PDF shows the lecture date and the lecture title. Then it shows each topic title and subtopic title, with the text of the Notes view, in lecture order. It shows no other page view, no view switch, no list of topic links and no highlight. `pageViews` and `highlightSlideSentences` have no effect on it.
 - **Slides.** Each slide is at the start of its sentence, as on the page. The paragraph stops there, the slide is in the middle of the column, and the paragraph continues under it. A slide at the end of a paragraph goes after the paragraph. The slide image has its label and its caption under it, as "Figure N. caption" or "References. caption". Slides at one point keep the deck order of `relocate-slides`.
-- **Page.** The page is A4. The page number is at the bottom, in the middle, in the margin. The settings of `finalOutput.pdf` give the text size, the margin, the slide width and the space above and below each slide (§6). The text is justified.
+- **Page.** The page is A4. The page number is at the bottom, in the middle, in the margin. The fact-check line is at the top of each page, in the middle, in the margin, so the text does not move down. Both are in 8 pt grey. Chrome writes a margin line on each page, and cannot write one on the first page only. The settings of `finalOutput.pdf` give the text size, the margin, the slide width and the space above and below each slide (§6). The text is justified.
 - **Page breaks.** A slide never splits across two pages, and a title never splits. A page never ends with a title. A topic title stays with the first subtopic title of the topic. A subtopic title stays with the start of the subtopic. The start is the first 3 lines of the first paragraph, or the whole paragraph when it is shorter. When the subtopic starts with a slide, the start is that slide. When a slide comes after line 1, the start is the lines before it and the slide. A block of text that splits across two pages keeps at least 3 lines on each page.
 - **Failure.** When Chrome cannot print the PDF, the stage fails with `BuildNotesPageError`. The message names the path of `notes.pdf` and the cause. The stage then writes no `notes.html`.
 
@@ -1900,8 +1926,9 @@ A reply that carries the provider's error and an answer as well — a choice who
 
 The other stages keep one `modelId`. A `models` list on any other stage is a `ConfigError` that names the stage.
 
-**The switches of the fact correction and the notes page.** Three keys turn a part of the last stages on or off. Each key is required, so the file says what the pipeline does. The three flags of §4.7 override them for one invocation.
+**The switches of the fact stages and the notes page.** Four keys turn a part of the last stages on or off. Each key is required, so the file says what the pipeline does. The four flags of §4.7 override them for one invocation.
 
+- `stages.check-facts.bypass` is `true` or `false`. `true` makes the stage write no factual error, with no call (§5, `check-facts`).
 - `stages.correct-factual-errors.bypass` is `true` or `false`. `true` makes the stage copy each rewrite with no call (§5, `correct-factual-errors`).
 - `finalOutput.pageViews` lists the page views of the notes page: `notes`, `rewrite`, `corrections` and `transcript`. The list must name `notes`, because the page opens on it. A name that is not a page view, or a name that comes twice, is a `ConfigError`.
 - `finalOutput.highlightSlideSentences` is `true` or `false`. `true` highlights the sentence of each slide in the Notes view (§5, "After the fact correction").
@@ -2015,6 +2042,7 @@ Each prefix is matched literally, so one carrying a pattern character means itse
       "sendGapSeconds": 0.25                      // the least time between two sends of the stage
     },
     "check-facts": {
+      "bypass": false,                            // true: no call and no factual error. --fact-check overrides it
       "models": [                                 // one call for each model that is not disabled, all at once
         { "modelId": "openai/gpt-5.6-sol-pro", "role": "primary", "temperature": null, "maxTokens": null },
         { "modelId": "anthropic/claude-opus-5.5", "role": "secondary", "temperature": null, "maxTokens": null }
@@ -2109,10 +2137,10 @@ The pipeline runner classifies each run automatically by inspecting the manifest
 | Condition | Classification |
 |---|---|
 | Normal run, no `--from-stage` | `normal` |
-| `--from-stage` targets a stage whose output stands — `complete` or `skipped` | `experiment` |
+| `--from-stage` targets a stage whose output stands — `complete`, `bypassed` or `skipped` | `experiment` |
 | `--from-stage` targets a stage in any other state — `failed`, `running`, `pending`, or with no entry at all | `error-recovery` |
 
-The two `--from-stage` rows divide on whether the target's output is already on disk, which is the same `complete`-or-`skipped` reading §4.2 gives stage idempotency. Where it stands, the run produces that output a second time under whatever the configuration now names, and the two figures are there to be compared — an experiment. Where it does not, the output the run is after does not exist yet.
+The two `--from-stage` rows differ in one fact: the target's output is on disk or not. §4.2 reads a completed stage in the same way for idempotency. When the output stands, the run makes it a second time with the configuration of now. Then the two figures can be compared, so the run is an experiment. When the output does not stand, the output that the run is after does not exist yet.
 
 This classification is stored in the run log as `runType` and drives the layout of the cost report.
 
@@ -2172,7 +2200,7 @@ Place slides             gemini-3.8-flash          1       n/a
 ──────────────────────────────────────────────────────────────
 ```
 
-Each stage that names a model and whose output stands on disk, `complete` or `skipped`, has one row. The row comes from that stage's own manifest entry. The cost cell shows `n/a` wherever no figure was resolved. That is a lookup that failed, as for Place slides here, or a stage that recorded no cost at all. A stage that names no model, such as audio extraction or render slides, has no row, because it has no model spend to compare. Nothing is summed beneath (NFR-2.2).
+Each stage that names a model and whose output stands on disk, `complete`, `bypassed` or `skipped`, has one row. The row comes from that stage's own manifest entry. The cost cell shows `n/a` wherever no figure was resolved. That is a lookup that failed, as for Place slides here, or a stage that recorded no cost at all. A stage that names no model, such as audio extraction or render slides, has no row, because it has no model spend to compare. Nothing is summed beneath (NFR-2.2).
 
 **2 — Error recovery cost** (spend from failed runs and retries):
 ```
@@ -2433,6 +2461,7 @@ type PipelineRunEvent =
   | { event: "stage-started"; stageId: StageId }
   | { event: "stage-skipped"; stageId: StageId }
   | { event: "stage-completed"; stageId: StageId; cost: StageCost | null }
+  | { event: "stage-bypassed"; stageId: StageId }
   | { event: "stage-failed"; stageId: StageId }
   | { event: "stage-notice"; stageId: StageId; notice: string }
 type PipelineRunReporter = (event: PipelineRunEvent) => void
@@ -2446,12 +2475,15 @@ Lecture 1: Cell Injury (2025-10-10)
 ✔ Transcription — 1 call, £0.031
 ✔ Render slides — no model call
 − Read slides — output already present, skipping
+↷ Check facts — bypassed, no model call
 ✔ Build notes page — no model call
 ⚠ Build notes page — Slide 7 is placed, but no subtopic's relocation entry has it, so the notes page leaves it out.
 ✖ Relocate slides — failed
 ```
 
 A stage notice is a fact that the stage found and that the user must see. One example is the passage of a factual error that `check-facts` did not find in its subtopic (§5, `check-facts`). Another is a placed slide that the notes page leaves out (§5, "After the fact correction"). The stage returns its notices on `StageResult.notices`. The runner reports each notice after the stage's completed line, as a line that starts with `⚠` and the stage's name. So a stage never writes to the terminal.
+
+A bypassed stage has a line of its own, which starts with `↷`, in place of the line of a completed stage. The line says "bypassed, no model call" (CONTEXT.md, "Bypassed stage").
 
 A completed stage that makes no model call, such as `audio-extraction` or `render-slides`, ends with "no model call". It shows no zero, because a zero would read as a measured cost. It shows no blank, because a blank would read as an unknown cost (§7). A failed stage is marked, but its message is not repeated here. The message and the pointer to the debug log follow the run summary (§8). This line exists so that a stage announced as started is not left open. The lecture's name comes from `lectureHeading` (§7). The end-of-run summary and the cost report name it in the same way, so a batch's notices cannot identify one lecture in two ways.
 

@@ -192,7 +192,7 @@ A stage whose stage entry is `complete`, `skipped` or `bypassed` and whose recor
 _Avoid_: settled, done, cached, finished
 
 **Bypassed stage**:
-A stage that its config or a flag turned off. It does none of its work and makes no model call. It still writes the output that the next stages read. This output holds no result of its work, and a mark says that the stage was bypassed. So the stages after it run as usual.
+A stage that its config or a flag turned off. It does none of its work and makes no model call. It still writes the output that the next stages read. This output holds no result of its work, and a mark says that the stage was bypassed. So the stages after it run as usual. Its stage entry is `bypassed`, and a later run keeps that entry until a reset.
 _Avoid_: skipped (a skipped stage is one that a later run did not run again), disabled (a model role of `check-facts`)
 
 **Orphaned workspace**:

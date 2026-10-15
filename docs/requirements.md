@@ -72,6 +72,10 @@ The configuration shall name the views that the page holds. The notes view shall
 
 **FR-4.5** The configuration shall be able to turn the fact correction off. Then each subtopic of the notes shall be its rewrite, unchanged, and the factual errors that the check found shall stay on disk.
 
+**FR-4.6** The configuration shall be able to turn the fact check off. Then the check shall find no factual error, and the fact correction shall change no subtopic. A fact check that is off shall not turn the fact correction off.
+
+**FR-4.7** The system shall record each stage that the configuration turned off, in the files of that stage and in the record of each run. The notes page and the PDF shall say if the facts of the notes were checked and corrected. When both stages ran, they shall name the models, the prompt versions and the date of the correction. Otherwise they shall say "Uncorrected".
+
 ### FR-5 — Model Configurability
 
 **FR-5.1** The system shall allow a different AI model to be specified independently for each processing stage.
@@ -96,8 +100,9 @@ The configuration shall name the views that the page holds. The notes view shall
 
 **FR-6.7** The system shall provide commands to rename a lecture, delete a lecture, and change a lecture's date. Each command shall keep the lecture's source files, workspace and outputs consistent with one another.
 
-**FR-6.8** The command line shall be able to replace three values of the configuration for one run:
+**FR-6.8** The command line shall be able to replace four values of the configuration for one run:
 
+- the switch of the fact check (FR-4.6)
 - the switch of the fact correction (FR-4.5)
 - the views of the page (FR-3.6)
 - the mark on the sentence of each slide (FR-3.7).
