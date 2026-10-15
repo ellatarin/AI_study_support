@@ -495,6 +495,69 @@ describe("PipelineRunner integration", () => {
 			});
 		});
 
+		describe("a bypassed stage", () => {
+			/**
+			 * An audio-extraction stage that writes its output file, and returns a
+			 * result that says that it was bypassed. It uses the real `isStageComplete`
+			 * check, so a later pipeline run on the same lecture skips it.
+			 *
+			 * @returns The stage.
+			 */
+			function bypassedAudioStage(): PipelineStage<unknown, unknown> {
+				return makeStubStage({
+					stageId: "audio-extraction",
+					isComplete: realIsComplete("audio-extraction"),
+					run: async ({ context }) => ({
+						output: undefined,
+						bypassed: true,
+						filesWritten: [
+							await seedStageOutput({
+								workspaceRoot: context.workspaceRoot,
+								stageId: "audio-extraction",
+							}),
+						],
+					}),
+				});
+			}
+
+			it("should record the status bypassed in the stage entry when the stage result says that the stage was bypassed", async () => {
+				const { stageEntry } = await runAudioStageAndReadEntries(bypassedAudioStage());
+
+				expect(stageEntry?.status).toBe("bypassed");
+			});
+
+			it("should record the status bypassed in the run log when the stage result says that the stage was bypassed", async () => {
+				const { runLogEntry } = await runAudioStageAndReadEntries(bypassedAudioStage());
+
+				expect(runLogEntry).toMatchObject({ action: "ran", status: "bypassed" });
+			});
+
+			it("should not run the stage again, and record skipped in the run log, when a later run finds the stage bypassed", async () => {
+				const stage = bypassedAudioStage();
+				const run = vi.spyOn(stage, "run");
+				const runner = makeRunner([stage]);
+				await runner.runLecture({ workspaceRoot });
+
+				const later = await runner.runLecture({ workspaceRoot });
+
+				expect(run).toHaveBeenCalledTimes(1);
+				expect(later.stageOutcomes).toEqual([
+					outcomeMatching({ stageId: "audio-extraction", action: "skipped" }),
+				]);
+			});
+
+			it("should keep the bypassed stage entry as it is when a later run skips the stage", async () => {
+				const runner = makeRunner([bypassedAudioStage()]);
+				await runner.runLecture({ workspaceRoot });
+				const bypassedEntry = (await readManifest({ workspaceRoot })).stages["audio-extraction"];
+
+				await runner.runLecture({ workspaceRoot });
+
+				const manifest = await readManifest({ workspaceRoot });
+				expect(manifest.stages["audio-extraction"]).toEqual(bypassedEntry);
+			});
+		});
+
 		it("should record a completed stage and its cost when the stage succeeds", async () => {
 			const summary = await makeRunner([audioStageCosting(oneCallCosting(0.5))]).runLecture({
 				workspaceRoot,

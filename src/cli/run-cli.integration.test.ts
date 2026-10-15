@@ -173,6 +173,27 @@ describe("runCli", () => {
 			resetStubbedApi();
 		});
 
+		/**
+		 * Checks that the run log records the stage as bypassed by the flag.
+		 *
+		 * @param args - The lecture and the stage.
+		 * @param args.workspaceRoot - The workspace of the lecture.
+		 * @param args.stageId - The bypassed stage.
+		 * @returns A promise that resolves when the check passes.
+		 */
+		async function expectBypassRecorded({
+			workspaceRoot,
+			stageId,
+		}: {
+			readonly workspaceRoot: string;
+			readonly stageId: StageId;
+		}): Promise<void> {
+			expect((await readOnlyRunLog(workspaceRoot)).stages[stageId]).toMatchObject({
+				status: "bypassed",
+				configUsed: { bypass: true },
+			});
+		}
+
 		it("should keep the rewrite of a subtopic with a factual error, and record the bypass, when the config runs the fact correction and --fact-correction bypass is given", async () => {
 			const stageId = "correct-factual-errors";
 			await writeConfig([moduleRoot], {
@@ -187,10 +208,7 @@ describe("runCli", () => {
 			expect(
 				await readJsonFile(join(workspaceRoot, factCorrectionFile(seededFactualError.subtopicId))),
 			).toMatchObject({ factCorrectedSubtopic: [seededFactualError.passage], changes: [] });
-			expect((await readOnlyRunLog(workspaceRoot)).stages[stageId]).toMatchObject({
-				status: "complete",
-				configUsed: { bypass: true },
-			});
+			await expectBypassRecorded({ workspaceRoot, stageId });
 		});
 
 		it("should write the merged file as bypassed, and record the bypass, when the config runs the fact check and --fact-check bypass is given", async () => {
@@ -214,9 +232,7 @@ describe("runCli", () => {
 			expect(await readJsonFile(join(workspaceRoot, factualErrorsFile))).toMatchObject({
 				bypassed: true,
 			});
-			expect((await readOnlyRunLog(workspaceRoot)).stages[stageId]).toMatchObject({
-				configUsed: { bypass: true },
-			});
+			await expectBypassRecorded({ workspaceRoot, stageId });
 		});
 	});
 

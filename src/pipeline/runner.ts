@@ -103,7 +103,7 @@ export function deriveTimestampId({ instant }: { readonly instant: Date }): stri
  * @param args.options - The pipeline run options. Only `fromStage` is read.
  * @param args.manifest - The manifest, as read before the reset.
  * @returns `normal` when there is no target, `experiment` when the target's
- *   stage entry is `complete` or `skipped`, and `error-recovery` otherwise.
+ *   stage entry is `complete`, `bypassed` or `skipped`, and `error-recovery` otherwise.
  */
 function decideRunType({
 	options,
@@ -292,6 +292,7 @@ function updateManifest({
 // A `skipped` entry keeps the time, settings, cost and files of the earlier
 // completion (technical-design.md §4.5). If the earlier stage entry is not a
 // completed one, the `skipped` entry records this instant and no cost or files.
+// A `bypassed` entry stays as it is, so that the manifest keeps the bypass on record.
 function skippedEntry({
 	context,
 	stageId,
@@ -302,6 +303,9 @@ function skippedEntry({
 	readonly timestamp: string;
 }): StageEntry {
 	const prior = context.manifest.stages[stageId];
+	if (prior?.status === "bypassed") {
+		return prior;
+	}
 	const completed = isCompletedEntry(prior) ? prior : null;
 	return {
 		status: "skipped",
@@ -360,6 +364,16 @@ function costByModelSinceReset({
 		sinceReset.tallyOf(modelId).add(cost);
 	}
 	return sinceReset.costByModel();
+}
+
+/**
+ * Gives the status of a stage that returned, from its result.
+ *
+ * @param result - The result of the stage.
+ * @returns `bypassed` when the result says that the stage was bypassed, and `complete` otherwise.
+ */
+function completedStatus(result: StageResult<unknown>): "complete" | "bypassed" {
+	return result.bypassed === true ? "bypassed" : "complete";
 }
 
 function runLogCost(cost: StageCost | null): RunLogCost {
@@ -477,7 +491,7 @@ function createStageStatusWriter({
 		complete: ({ result, ...spend }) =>
 			write({
 				entry: {
-					status: "complete",
+					status: completedStatus(result),
 					completedAt: timestamp,
 					...spendSinceReset(spend),
 					filesWritten: result.filesWritten,
@@ -530,7 +544,9 @@ async function runStage({
 	const costTallyByModel = createCostTallyByModel();
 	// The outcome of a stage that ran. Its cost is the total of the stage run's cost tally.
 	const ranOutcome = (
-		ending: { readonly status: "complete" } | { readonly status: "failed"; readonly error: string },
+		ending:
+			| { readonly status: "complete" | "bypassed" }
+			| { readonly status: "failed"; readonly error: string },
 	): StageOutcome => ({
 		entry: {
 			action: "ran",
@@ -560,7 +576,7 @@ async function runStage({
 		for (const notice of result.notices ?? []) {
 			reporter({ event: "stage-notice", stageId, notice });
 		}
-		return ranOutcome({ status: "complete" });
+		return ranOutcome({ status: completedStatus(result) });
 	} catch (error: unknown) {
 		const message = errorMessage(error);
 		// The user sees only the message. The stack goes to the debug log, where an

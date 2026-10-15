@@ -15,6 +15,7 @@ import type {
 	FactCheckModel,
 	ModelRole,
 	StageContext,
+	StageResult,
 } from "../../../types/pipeline.js";
 import { NamedError } from "../../../utils/errors.js";
 import { writeJsonAtomic } from "../../../utils/files.js";
@@ -465,11 +466,11 @@ async function writeFactualErrorsFile({
  * run as usual (CONTEXT.md, "Bypassed stage").
  *
  * @param workspaceRoot - The absolute path of the lecture's workspace.
- * @returns The merged file and its `filesWritten` entry.
+ * @returns The result of a bypassed stage: the merged file and its `filesWritten` entry.
  */
 async function writeBypassedFactCheck(
 	workspaceRoot: string,
-): Promise<Pick<FactCheckResult, "output" | "filesWritten">> {
+): Promise<StageResult<FactualErrorsFile>> {
 	const output: FactualErrorsFile = {
 		factCheckPromptVersion: FACT_CHECK_PROMPT_VERSION,
 		bypassed: true,
@@ -477,7 +478,7 @@ async function writeBypassedFactCheck(
 		factualErrors: [],
 	};
 	const mergedPath = await writeFactualErrorsFile({ workspaceRoot, output });
-	return { output, filesWritten: [relative(workspaceRoot, mergedPath)] };
+	return { output, filesWritten: [relative(workspaceRoot, mergedPath)], bypassed: true };
 }
 
 /**

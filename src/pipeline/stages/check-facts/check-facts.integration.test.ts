@@ -497,16 +497,16 @@ describe("createCheckFactsStage", () => {
 		]);
 	});
 
+	const bypassingConfig = makeConfig({
+		stages: {
+			"check-facts": factCheckConfig({ models: [primaryFactCheckModel], bypass: true }),
+		},
+	});
+
 	it("should call no model, and write only the merged file as bypassed with empty lists, when the bypass is on", async () => {
 		const readFile = workspaceJsonReader(() => workspace().workspaceRoot);
 
-		const result = await runStage(
-			makeConfig({
-				stages: {
-					"check-facts": factCheckConfig({ models: [primaryFactCheckModel], bypass: true }),
-				},
-			}),
-		);
+		const result = await runStage(bypassingConfig);
 
 		expect(create()).not.toHaveBeenCalled();
 		expect(result.filesWritten).toStrictEqual([factualErrorsFile]);
@@ -516,6 +516,12 @@ describe("createCheckFactsStage", () => {
 			checkedBy: [],
 			factualErrors: [],
 		});
+	});
+
+	it("should say in its result that the stage was bypassed when the bypass is on", async () => {
+		const result = await runStage(bypassingConfig);
+
+		expect(result.bypassed).toBe(true);
 	});
 
 	it("should fail with CheckFactsError that names the config file, and call no model, when the config has no entry for check-facts", async () => {

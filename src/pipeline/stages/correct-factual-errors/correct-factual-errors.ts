@@ -260,8 +260,8 @@ async function makeFactCorrectionFile(
 	};
 }
 
-/** Builds the `correct-factual-errors` stage from the logger and the OpenAI client of the invocation. */
-export const createCorrectFactualErrorsStage = defineSubtopicAndLectureFileStage({
+/** The factory of the stage, before its result says whether the stage was bypassed. */
+const createFactCorrectionStage = defineSubtopicAndLectureFileStage({
 	stageId: STAGE_ID,
 	getInput: readFactCorrectionInput,
 	subtopicsOf: (input) => input.subtopics,
@@ -272,3 +272,19 @@ export const createCorrectFactualErrorsStage = defineSubtopicAndLectureFileStage
 	lectureFields: factCorrectionRecord,
 	key: "factCorrectedSubtopics",
 });
+
+/**
+ * Builds the `correct-factual-errors` stage from the logger and the OpenAI client
+ * of the invocation. Its result says whether the stage was bypassed, so that the
+ * runner records the status `bypassed` (CONTEXT.md, "Bypassed stage").
+ *
+ * @param dependencies - The logger and the client of the invocation.
+ * @returns The stage.
+ */
+export const createCorrectFactualErrorsStage: typeof createFactCorrectionStage = (dependencies) => {
+	const stage = createFactCorrectionStage(dependencies);
+	return {
+		...stage,
+		run: async (args) => ({ ...(await stage.run(args)), bypassed: isBypassed(args.context) }),
+	};
+};

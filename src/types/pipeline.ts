@@ -64,7 +64,7 @@ export const FIRST_PAGE_VIEW: PageViewId = "notes";
  * If the invocation stops while a stage runs, `running` stays in the manifest.
  * The next pipeline run does the stage again, because it is not a completed stage.
  */
-export type StageStatus = "pending" | "running" | "complete" | "failed" | "skipped";
+export type StageStatus = "pending" | "running" | "complete" | "bypassed" | "failed" | "skipped";
 
 /**
  * The cost of a call, or the reason that the cost is unknown. An unknown cost is
@@ -274,11 +274,14 @@ type StageEntryFailed = {
 
 type StageEntryComplete = { readonly status: "complete" } & CompletedStageData;
 
+/** A stage that did none of its work, because its switch or flag bypassed it (CONTEXT.md, "Bypassed stage"). */
+type StageEntryBypassed = { readonly status: "bypassed" } & CompletedStageData;
+
 /** A completed stage that the runner did not run again. It keeps the data of the earlier entry. */
 type StageEntrySkipped = { readonly status: "skipped" } & CompletedStageData;
 
-/** The entry of a completed stage: `complete` or `skipped` (technical-design.md §4.2, §4.7). */
-export type CompletedStageEntry = StageEntryComplete | StageEntrySkipped;
+/** The entry of a completed stage: `complete`, `bypassed` or `skipped` (technical-design.md §4.2, §4.7). */
+export type CompletedStageEntry = StageEntryComplete | StageEntryBypassed | StageEntrySkipped;
 
 /** The stage entry of a stage (technical-design.md §4.5). */
 export type StageEntry =
@@ -286,7 +289,8 @@ export type StageEntry =
 	| StageEntryRunning
 	| StageEntrySkipped
 	| StageEntryFailed
-	| StageEntryComplete;
+	| StageEntryComplete
+	| StageEntryBypassed;
 
 /** The lecture identity fields that the manifest and the stage context share. */
 type LectureIdentity = {
@@ -347,6 +351,8 @@ export type StageResult<TOutput> = Pick<StageCostAndFiles, "filesWritten"> & {
 	readonly notices?: readonly string[];
 	/** The lecture identity that the stage decided. Absent and `{}` both mean nothing. */
 	readonly identityChanges?: LectureIdentityChanges;
+	/** `true` when the stage was a bypassed stage (CONTEXT.md, "Bypassed stage"). Absent and `false` both mean that the stage did its work. */
+	readonly bypassed?: boolean;
 };
 
 /**
@@ -432,7 +438,7 @@ type RanStageBase = {
 export type RunLogStageEntry =
 	| { readonly action: "skipped" }
 	| { readonly action: "not-reached" }
-	| (RanStageBase & { readonly status: "complete" })
+	| (RanStageBase & { readonly status: "complete" | "bypassed" })
 	| (RanStageBase & { readonly status: "failed"; readonly error: string });
 
 /** The start and the end of a piece of work, both as ISO 8601 times. */

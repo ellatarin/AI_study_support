@@ -219,4 +219,10 @@ describe("createCorrectFactualErrorsStage with the bypass on", () => {
 			factCorrectedSubtopics: [{ bypassed: true }, { bypassed: true }],
 		});
 	});
+
+	it("should say in its result that the stage was bypassed when the stage completes", async () => {
+		const result = await run();
+
+		expect(result.bypassed).toBe(true);
+	});
 });

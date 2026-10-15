@@ -15,18 +15,20 @@ import type {
 } from "../types/pipeline.js";
 
 /**
- * Checks that a stage entry is `complete` or `skipped`. Either status means that the
- * stage's output was made (technical-design.md §4.2).
+ * Checks that a stage entry is `complete`, `bypassed` or `skipped`. Each status
+ * means that the stage's output was made (technical-design.md §4.2).
  *
  * Each pipeline run after the one that made the stage's output writes `skipped`.
  * If only `complete` counted, the second pipeline run would remove the record of
  * that stage run, and the third would pay for the stage again.
  *
  * @param entry - The stage entry, or `undefined` for a stage with no entry.
- * @returns `true` when the entry is `complete` or `skipped`.
+ * @returns `true` when the entry is `complete`, `bypassed` or `skipped`.
  */
 export function isCompletedEntry(entry: StageEntry | undefined): entry is CompletedStageEntry {
-	return entry?.status === "complete" || entry?.status === "skipped";
+	return (
+		entry?.status === "complete" || entry?.status === "bypassed" || entry?.status === "skipped"
+	);
 }
 
 /**
