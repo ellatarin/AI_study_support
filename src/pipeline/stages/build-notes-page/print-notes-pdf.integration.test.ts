@@ -208,14 +208,8 @@ const IMAGE = "image";
  */
 function readingOrder(pages: readonly PdfPageLayout[]): readonly string[] {
 	const order: string[] = [];
-	for (const [index, { lines, images }] of pages.entries()) {
-		const things = [
-			...lines
-				.filter(({ text }) => text !== String(index + 1))
-				.map((line) => ({ top: line.top, label: lineLabel(line.text) })),
-			...images.map(({ top }) => ({ top, label: IMAGE })),
-		].sort((first, second) => first.top - second.top);
-		for (const { label } of things) {
+	for (const [index, page] of pages.entries()) {
+		for (const label of pageThings({ page, pageNumber: index + 1 })) {
 			const continuesCaption =
 				CAPTION_LABEL.test(order.at(-1) ?? "") && !LABELLED_LINE.test(label) && label !== IMAGE;
 			if ((order.at(-1) !== label || label === IMAGE) && !continuesCaption) {
@@ -337,12 +331,104 @@ const severalPagesLecture = makeLongLecture({
  * subtopic does not divide the height of a page, so the slides fall at many
  * heights of the pages, and some fall at a page bottom.
  */
-const manySlidesLecture = makeLongLecture({
-	topicCount: 1,
-	subtopicsPerTopic: 30,
-	paragraphWords: [50],
-	slideAtWord: 25,
+const manySlidesShape = { topicCount: 1, subtopicsPerTopic: 30, paragraphWords: [50] } as const;
+
+const manySlidesLecture = makeLongLecture({ ...manySlidesShape, slideAtWord: 25 });
+
+/**
+ * A lecture of text only, with 10 topics of 3 short subtopics. The titles fall
+ * at many heights of the pages, and some fall at a page bottom.
+ */
+const manyTitlesLecture = makeLongLecture({
+	topicCount: 10,
+	subtopicsPerTopic: 3,
+	paragraphWords: [70, 45],
+	slideAtWord: null,
 });
+
+/** A topic title or a subtopic title of {@link makeLongLecture}. */
+const TITLE = /^(?:Topic \d+|Subtopic \d+\.\d+)$/u;
+
+/** The label of a line of paragraph words, from {@link lineLabel}. */
+const PARAGRAPH_TAG = /^p\d+$/u;
+
+/**
+ * Gives the lines of the text of a page, without the page number.
+ *
+ * @param args - The page, and its number.
+ * @param args.page - The layout of the page.
+ * @param args.pageNumber - The number of the page, from 1.
+ * @returns The lines, from the top of the page down.
+ */
+function textLines({
+	page,
+	pageNumber,
+}: {
+	readonly page: PdfPageLayout;
+	readonly pageNumber: number;
+}): readonly PdfLine[] {
+	return page.lines.filter(({ text }) => text !== String(pageNumber));
+}
+
+/**
+ * Gives what a reader meets on one page, from the top down: the label of each
+ * line of text from {@link lineLabel}, and {@link IMAGE} for each image. The page
+ * number is not in the list.
+ *
+ * @param args - The page, and its number.
+ * @param args.page - The layout of the page.
+ * @param args.pageNumber - The number of the page, from 1.
+ * @returns The labels, from the top of the page down.
+ */
+function pageThings({
+	page,
+	pageNumber,
+}: {
+	readonly page: PdfPageLayout;
+	readonly pageNumber: number;
+}): readonly string[] {
+	return [
+		...textLines({ page, pageNumber }).map(({ top, text }) => ({ top, label: lineLabel(text) })),
+		...page.images.map(({ top }) => ({ top, label: IMAGE })),
+	]
+		.sort((first, second) => first.top - second.top)
+		.map(({ label }) => label);
+}
+
+/** One block of text: a run of lines of one paragraph, with no slide or title between them. */
+type TextBlock = {
+	readonly label: string;
+	/** The number of lines of the block on each page that it is on, in page order. */
+	readonly lineCounts: readonly number[];
+};
+
+/**
+ * Gives each block of paragraph text, with its number of lines on each page.
+ * An image, a caption or a title ends a block.
+ *
+ * @param pages - The layout of each page.
+ * @returns The blocks, in reading order.
+ */
+function textBlocks(pages: readonly PdfPageLayout[]): readonly TextBlock[] {
+	const things = pages.flatMap((page, index) =>
+		pageThings({ page, pageNumber: index + 1 }).map((label) => ({ label, pageNumber: index + 1 })),
+	);
+	const runStarts = things.flatMap(({ label }, index) =>
+		things[index - 1]?.label === label ? [] : [index],
+	);
+	return [...runStarts.entries()]
+		.map(([runIndex, start]) => things.slice(start, runStarts[runIndex + 1]))
+		.filter((run) => PARAGRAPH_TAG.test(run[0]?.label ?? ""))
+		.map((run) => {
+			const pageNumbers = run.map(({ pageNumber }) => pageNumber);
+			return {
+				label: run[0]?.label ?? "",
+				lineCounts: [...new Set(pageNumbers)].map(
+					(pageNumber) => pageNumbers.filter((onPage) => onPage === pageNumber).length,
+				),
+			};
+		});
+}
 
 describe("printNotesPdf", () => {
 	let outputDir: string;
@@ -465,6 +551,87 @@ describe("printNotesPdf", () => {
 					expect(caption.top).toBeGreaterThan(images[index]?.bottom ?? Number.POSITIVE_INFINITY);
 				}
 			}
+		},
+		PRINT_TIMEOUT_MS,
+	);
+
+	it(
+		"should end no page with a topic title or a subtopic title when the lecture runs over several pages",
+		async () => {
+			const pages = await printAndRead({ content: manyTitlesLecture });
+
+			const lastLines = pages.map(
+				(page, index) => textLines({ page, pageNumber: index + 1 }).at(-1)?.text ?? "",
+			);
+			expect(lastLines.filter((text) => TITLE.test(text))).toStrictEqual([]);
+		},
+		PRINT_TIMEOUT_MS,
+	);
+
+	it(
+		"should put each subtopic title and the first 3 lines of its first paragraph on one page when the lecture runs over several pages",
+		async () => {
+			const pages = await printAndRead({ content: manyTitlesLecture });
+
+			const titlesWithShortStart = pages.flatMap((page, index) => {
+				const labels = textLines({ page, pageNumber: index + 1 }).map(({ text }) =>
+					lineLabel(text),
+				);
+				return labels.flatMap((label, lineIndex) => {
+					const start = labels.slice(lineIndex + 1, lineIndex + 4);
+					const isWholeStart =
+						start.length === 3 &&
+						PARAGRAPH_TAG.test(start[0] ?? "") &&
+						start.every((startLabel) => startLabel === start[0]);
+					return label.startsWith("Subtopic") && !isWholeStart ? [label] : [];
+				});
+			});
+			expect(titlesWithShortStart).toStrictEqual([]);
+		},
+		PRINT_TIMEOUT_MS,
+	);
+
+	it.each([
+		{ lecture: "of text only", content: manyTitlesLecture },
+		{ lecture: "with a slide in each paragraph", content: manySlidesLecture },
+	])(
+		"should leave at least 3 lines of a block of text on each page when a block splits across two pages in a lecture $lecture",
+		async ({ content }) => {
+			const pages = await printAndRead({ content });
+
+			const shortParts = textBlocks(pages).flatMap(({ label, lineCounts }) =>
+				lineCounts.length > 1 && lineCounts.some((count) => count < 3)
+					? [`${label}: ${lineCounts.join(" + ")}`]
+					: [],
+			);
+			expect(shortParts).toStrictEqual([]);
+		},
+		PRINT_TIMEOUT_MS,
+	);
+
+	it.each([
+		{ start: "starts with a slide", slideAtWord: 0 },
+		{ start: "has a slide after the first line of its first paragraph", slideAtWord: 3 },
+	])(
+		"should put a subtopic title, the text before its first slide and the whole slide on one page when the subtopic $start",
+		async ({ slideAtWord }) => {
+			const pages = await printAndRead({
+				content: makeLongLecture({ ...manySlidesShape, slideAtWord }),
+			});
+
+			const titlesApartFromSlide = pages.flatMap((page, index) => {
+				const things = pageThings({ page, pageNumber: index + 1 });
+				return things.flatMap((label, thingIndex) => {
+					const after = things.slice(thingIndex + 1);
+					const imageIndex = after.indexOf(IMAGE);
+					const isWholeStart =
+						imageIndex >= 0 &&
+						after.slice(0, imageIndex).every((startLabel) => PARAGRAPH_TAG.test(startLabel)) &&
+						CAPTION_LABEL.test(after[imageIndex + 1] ?? "");
+					return label.startsWith("Subtopic") && !isWholeStart ? [label] : [];
+				});
+			});
+			expect(titlesApartFromSlide).toStrictEqual([]);
 		},
 		PRINT_TIMEOUT_MS,
 	);

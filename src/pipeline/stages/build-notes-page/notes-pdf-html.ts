@@ -94,9 +94,13 @@ function paragraphBlocksHtml({
 	const { opening, parts, slidesAtEnd } = splitParagraphAtSlides(paragraphSlides);
 	const slideHtml = (slide: RelocatedSlide): string =>
 		figureHtml({ slide, readings, slideImageUrl });
+	// A block with no text, such as the text before a slide at the paragraph's
+	// start, would come between a title and the slide, and a page could break there.
+	const textBlockHtml = (text: string): readonly string[] =>
+		text.trim() === "" ? [] : [`<p>${textHtml(text)}</p>`];
 	return [
-		`<p>${textHtml(opening)}</p>`,
-		...parts.flatMap(({ slide, text }) => [slideHtml(slide), `<p>${textHtml(text)}</p>`]),
+		...textBlockHtml(opening),
+		...parts.flatMap(({ slide, text }) => [slideHtml(slide), ...textBlockHtml(text)]),
 		...slidesAtEnd.map(slideHtml),
 	].join("\n");
 }
