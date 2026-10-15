@@ -334,6 +334,10 @@ _Avoid_: correction (alone, since a correction belongs to term correction), erro
 The rewritten subtopic after fact correction.
 _Avoid_: corrected subtopic (it reads as term correction), revised subtopic
 
+**Fact-check line**:
+The line on the notes page and in the Notes PDF that tells the reader if the facts of the notes were checked and corrected. When the fact check and the fact correction both ran, it names their models, their prompt versions and the date of the correction. Otherwise it says "Uncorrected".
+_Avoid_: warning line, fact-check banner, correction notice
+
 ### Dividing a transcript
 
 *Words for the segmentation work, which changes the unit of work from the whole transcript to one part of it at a time. Separate model calls find two levels: the transcript is cut into subtopics, and the subtopics are then grouped into topics.*
