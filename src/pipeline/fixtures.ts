@@ -67,7 +67,11 @@ import { assembleContext } from "./stage-context.js";
 import type { NotesPdfPrinter } from "./stages/build-notes-page/print-notes-pdf.js";
 import { type Subtopic, type SubtopicWithIdAndText, subtopicText } from "./stages/division.js";
 import type { FactCorrectedSubtopics, FactCorrectionRecord } from "./stages/fact-corrections.js";
-import type { FactualError, MergedFactualError } from "./stages/factual-errors.js";
+import type {
+	FactualError,
+	FactualErrorsFile,
+	MergedFactualError,
+} from "./stages/factual-errors.js";
 import { type ModelStageFactory, ResendsExhaustedError } from "./stages/model-stage.js";
 import { SavedRunUnreadableError } from "./stages/panel-runs.js";
 import type { SlidePlacement, SlidePlacements } from "./stages/slide-placements.js";
@@ -2554,6 +2558,14 @@ export const seededFactualError: MergedFactualError = {
 	wordsFound: true,
 };
 
+/** The seeded `factual-errors.json` of a fact check that ran: two models, and {@link seededFactualError}. */
+export const seededFactualErrors: FactualErrorsFile = {
+	factCheckPromptVersion: "f2",
+	bypassed: false,
+	checkedBy: factCheckModelIds,
+	factualErrors: [seededFactualError],
+};
+
 /** The model and the date of a seeded fact correction that ran. */
 export const seededFactCorrectionRecord: FactCorrectionRecord = {
 	correctedBy: openRouterModelId,
@@ -2611,14 +2623,7 @@ const EARLIER_OUTPUT_SEEDS = {
 		file: termCorrectionFile,
 	}),
 	"rewrite-subtopics": seedingSubtopicFiles({ contents: subtopicRewrites, file: rewriteFile }),
-	"check-facts": seedingJsonOutput({
-		stageId: "check-facts",
-		output: {
-			factCheckPromptVersion: "f2",
-			checkedBy: factCheckModelIds,
-			factualErrors: [seededFactualError],
-		},
-	}),
+	"check-facts": seedingJsonOutput({ stageId: "check-facts", output: seededFactualErrors }),
 	"correct-factual-errors": seedingJsonOutput({
 		stageId: "correct-factual-errors",
 		output: factCorrectedSubtopicsOf(

@@ -106,6 +106,7 @@ function isFactualErrorsFile(value: unknown): value is FactualErrorsFile {
 	return (
 		isRecord(value) &&
 		typeof value.factCheckPromptVersion === "string" &&
+		typeof value.bypassed === "boolean" &&
 		isStringList(value.checkedBy) &&
 		Array.isArray(value.factualErrors) &&
 		value.factualErrors.every(isMergedFactualError)

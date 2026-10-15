@@ -99,6 +99,7 @@ export function isFactCorrectionFile(value: unknown): value is FactCorrectionFil
 	return (
 		hasSubtopicId(value) &&
 		typeof value.factCorrectionPromptVersion === "string" &&
+		typeof value.bypassed === "boolean" &&
 		Array.isArray(value.factualErrors) &&
 		value.factualErrors.every(isMergedFactualError) &&
 		isStringList(value.factCorrectedSubtopic) &&
@@ -111,6 +112,16 @@ export function isFactCorrectionFile(value: unknown): value is FactCorrectionFil
 }
 
 /**
+ * Checks that a value is a string or null, as each field of a {@link FactCorrectionRecord} is.
+ *
+ * @param value - The value to test.
+ * @returns `true` when the value is a string or `null`.
+ */
+function isStringOrNull(value: unknown): value is string | null {
+	return typeof value === "string" || value === null;
+}
+
+/**
  * Checks that a parsed file is the file of the whole lecture.
  *
  * @param value - The parsed file.
@@ -119,6 +130,8 @@ export function isFactCorrectionFile(value: unknown): value is FactCorrectionFil
 function isFactCorrectedSubtopics(value: unknown): value is FactCorrectedSubtopics {
 	return (
 		isRecord(value) &&
+		isStringOrNull(value.correctedBy) &&
+		isStringOrNull(value.correctedOn) &&
 		Array.isArray(value.factCorrectedSubtopics) &&
 		value.factCorrectedSubtopics.every(isFactCorrectionFile)
 	);
