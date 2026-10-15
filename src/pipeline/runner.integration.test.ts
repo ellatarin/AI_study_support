@@ -87,6 +87,11 @@ const RUNNER_CONFIG: PipelineConfig = makeConfig({
 		"audio-extraction": { modelId: "openrouter/model-a" },
 		"check-facts": { models: [primaryFactCheckModel, disabledFactCheckModel] },
 	},
+	finalOutput: {
+		...makeConfig().finalOutput,
+		pageViews: ["notes", "transcript"],
+		highlightSlideSentences: false,
+	},
 });
 
 /** A model that a stub stage spends on by model, as a stage with a list of models does. */
@@ -650,6 +655,19 @@ describe("PipelineRunner integration", () => {
 			const runLog = await readRunLog(workspaceRoot, summary.pipelineRunId);
 			expect(runLog.stages["check-facts"]).toMatchObject({ configUsed });
 			expect((await readManifest({ workspaceRoot })).stages["check-facts"]).toMatchObject({
+				configUsed,
+			});
+		});
+
+		it("should record the page views and the highlight switch in the run log and the stage entry when build-notes-page runs", async () => {
+			const building = makeStubStage({ stageId: "build-notes-page" });
+
+			const summary = await makeRunner([building]).runLecture({ workspaceRoot });
+
+			const configUsed = { pageViews: ["notes", "transcript"], highlightSlideSentences: false };
+			const runLog = await readRunLog(workspaceRoot, summary.pipelineRunId);
+			expect(runLog.stages["build-notes-page"]).toMatchObject({ configUsed });
+			expect((await readManifest({ workspaceRoot })).stages["build-notes-page"]).toMatchObject({
 				configUsed,
 			});
 		});

@@ -227,6 +227,10 @@ function resolveStageRunConfig(args: {
 		const models = args.config.stages["check-facts"]?.models ?? [];
 		return { models: models.filter(({ role }) => role !== "disabled") };
 	}
+	if (args.stageId === "build-notes-page") {
+		const { pageViews, highlightSlideSentences } = args.config.finalOutput;
+		return { pageViews, highlightSlideSentences };
+	}
 	const stageConfig = configuredStage({ config: args.config, stageId: args.stageId });
 	return stageConfig === null ? null : { ...stageConfig };
 }

@@ -129,7 +129,9 @@ type StageTuning = {
 export type StageConfigUsed =
 	| ({ readonly modelId: string | null } & StageTuning)
 	/** The config of each model of the list that the stage used: called, or read the saved reply of. */
-	| FactCheckStageConfig;
+	| FactCheckStageConfig
+	/** The page views and the highlight switch that built the notes page. */
+	| Pick<PipelineConfig["finalOutput"], "pageViews" | "highlightSlideSentences">;
 
 /** One stage's configuration in `pipeline-config.json` (technical-design.md §6). */
 export type StageConfig = {
