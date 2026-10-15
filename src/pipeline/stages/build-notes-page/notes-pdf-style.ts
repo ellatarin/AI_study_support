@@ -22,7 +22,13 @@ export function notesPdfStyle(settings: NotesPdfSettings): string {
   margin: ${settings.marginMm}mm;
   @bottom-center { content: counter(page); }
 }
-figure { break-inside: avoid; }
+body { margin: 0; }
+figure {
+  break-inside: avoid;
+  width: ${settings.slideWidthPercent}%;
+  margin: ${settings.slideSpaceBeforeMm}mm auto ${settings.slideSpaceAfterMm}mm;
+}
+figure img { display: block; width: 100%; height: auto; }
 h2, h3 { break-inside: avoid; break-after: avoid; }
 p { orphans: 3; widows: 3; }
 h3 + p:has(+ figure) { break-inside: avoid; break-after: avoid; }

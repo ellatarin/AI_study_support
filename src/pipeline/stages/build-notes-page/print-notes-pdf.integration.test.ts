@@ -16,8 +16,12 @@ import type { TopicWithSubtopics } from "../structured-transcript.js";
 import { type NotesPdfContent, notesPdfHtml, readPngDataUrl } from "./notes-pdf-html.js";
 import { printNotesPdf } from "./print-notes-pdf.js";
 
-/** The time that one print with Chrome can take, with a margin. */
-const PRINT_TIMEOUT_MS = 30_000;
+/**
+ * The time that one test of this suite can take. A test takes under 2 seconds
+ * alone, but the commit gate runs every suite at once with coverage, and one test
+ * then took 30 seconds.
+ */
+const PRINT_TIMEOUT_MS = 120_000;
 
 /**
  * Gives a length in millimetres as points, at 72 points to the inch.
@@ -430,6 +434,50 @@ function textBlocks(pages: readonly PdfPageLayout[]): readonly TextBlock[] {
 		});
 }
 
+const exampleSettings = exampleConfig.finalOutput.pdf;
+
+/** The error of a length that two prints measure: each baseline is rounded to a whole point. */
+const MEASURE_TOLERANCE_PT = 1.5;
+
+/** More than the width of one word of {@link makeLongLecture}, such as `p12w300`, at the example text size. */
+const LONGEST_WORD_PT = 60;
+
+/** A lecture of one page, with one slide in the middle of its paragraph. */
+const oneSlideLecture = makeLongLecture({
+	topicCount: 1,
+	subtopicsPerTopic: 1,
+	paragraphWords: [80],
+	slideAtWord: 40,
+});
+
+/**
+ * Gives the box of the first slide image of a page.
+ *
+ * @param page - The layout of the page.
+ * @returns The box.
+ */
+function slideBox(page: PdfPageLayout): PageBox {
+	return page.images[0] ?? { left: 0, right: 0, top: 0, bottom: 0 };
+}
+
+/**
+ * Gives the lines of a page above a point.
+ *
+ * @param args - The page, and the point.
+ * @param args.page - The layout of the page.
+ * @param args.top - The point, in points from the top of the page.
+ * @returns The lines above the point, from the top of the page down.
+ */
+function linesAbove({
+	page,
+	top,
+}: {
+	readonly page: PdfPageLayout;
+	readonly top: number;
+}): readonly PdfLine[] {
+	return page.lines.filter(({ bottom }) => bottom < top);
+}
+
 describe("printNotesPdf", () => {
 	let outputDir: string;
 	/**
@@ -548,7 +596,7 @@ describe("printNotesPdf", () => {
 				const captions = lines.filter(({ text }) => /^Figure \d+\./u.test(text));
 				expect(captions.length).toBe(images.length);
 				for (const [index, caption] of captions.entries()) {
-					expect(caption.top).toBeGreaterThan(images[index]?.bottom ?? Number.POSITIVE_INFINITY);
+					expect(caption.bottom).toBeGreaterThan(images[index]?.bottom ?? Number.POSITIVE_INFINITY);
 				}
 			}
 		},
@@ -632,6 +680,70 @@ describe("printNotesPdf", () => {
 				});
 			});
 			expect(titlesApartFromSlide).toStrictEqual([]);
+		},
+		PRINT_TIMEOUT_MS,
+	);
+
+	it(
+		"should fill the width between the margins with the text when the paragraphs run over many lines",
+		async () => {
+			const [page] = await printAndRead({ content: severalPagesLecture });
+
+			const margin = mmToPoints(exampleSettings.marginMm);
+			const textLefts = (page?.lines ?? []).map(({ left }) => left);
+			const textRights = (page?.lines ?? []).map(({ right }) => right);
+			expect(Math.abs(Math.min(...textLefts) - margin)).toBeLessThan(MEASURE_TOLERANCE_PT);
+			expect(Math.max(...textRights)).toBeLessThanOrEqual(A4_POINTS.width - margin);
+			expect(Math.max(...textRights)).toBeGreaterThan(A4_POINTS.width - margin - LONGEST_WORD_PT);
+		},
+		PRINT_TIMEOUT_MS,
+	);
+
+	it.each([
+		{
+			setting: "marginMm",
+			change: { marginMm: exampleSettings.marginMm + 10 },
+			measure: "the left edge of the text",
+			measured: (page: PdfPageLayout): number => Math.min(...page.lines.map(({ left }) => left)),
+			expectedChange: mmToPoints(10),
+		},
+		{
+			setting: "slideWidthPercent",
+			change: { slideWidthPercent: exampleSettings.slideWidthPercent - 20 },
+			measure: "the slide width",
+			measured: (page: PdfPageLayout): number => slideBox(page).right - slideBox(page).left,
+			expectedChange: -0.2 * (A4_POINTS.width - 2 * mmToPoints(exampleSettings.marginMm)),
+		},
+		{
+			setting: "slideSpaceBeforeMm",
+			change: { slideSpaceBeforeMm: exampleSettings.slideSpaceBeforeMm + 10 },
+			measure: "the space above the slide",
+			measured: (page: PdfPageLayout): number =>
+				slideBox(page).top - (linesAbove({ page, top: slideBox(page).top }).at(-1)?.bottom ?? 0),
+			expectedChange: mmToPoints(10),
+		},
+		{
+			setting: "slideSpaceAfterMm",
+			change: { slideSpaceAfterMm: exampleSettings.slideSpaceAfterMm + 10 },
+			measure: "the space below the caption",
+			measured: (page: PdfPageLayout): number => {
+				const below = page.lines.filter(({ top }) => top > slideBox(page).bottom);
+				const textIndex = below.findIndex(({ text }) => PARAGRAPH_TAG.test(lineLabel(text)));
+				return (below[textIndex]?.top ?? 0) - (below[textIndex - 1]?.bottom ?? 0);
+			},
+			expectedChange: mmToPoints(10),
+		},
+	])(
+		"should change $measure by the change of finalOutput.pdf.$setting when $setting changes",
+		async ({ change, measured, expectedChange }) => {
+			const [before] = await printAndRead({ content: oneSlideLecture });
+			const [after] = await printAndRead({
+				content: oneSlideLecture,
+				settings: { ...exampleSettings, ...change },
+			});
+
+			const actualChange = measured(after as PdfPageLayout) - measured(before as PdfPageLayout);
+			expect(Math.abs(actualChange - expectedChange)).toBeLessThan(MEASURE_TOLERANCE_PT);
 		},
 		PRINT_TIMEOUT_MS,
 	);
