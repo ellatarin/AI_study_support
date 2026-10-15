@@ -11,8 +11,8 @@ import { parseArgs } from "node:util";
 import { checkPageViews } from "../pipeline/config.js";
 import type { ConfigOverrides, PipelineRunOptions, StageId } from "../types/pipeline.js";
 import {
+	BYPASS_FLAG_WORDS,
 	DEFAULT_PIPELINE_RUN_OPTIONS,
-	FACT_CORRECTION_CHOICES,
 	HIGHLIGHT_CHOICES,
 	PAGE_VIEW_IDS,
 } from "../types/pipeline.js";
@@ -136,12 +136,12 @@ const FLAG_SPECS: Readonly<Record<FlagName, FlagSpec>> = {
 		summary: "Carry on to the next stage when one fails, rather than halting.",
 	},
 	"fact-correction": {
-		form: `--fact-correction <${FACT_CORRECTION_CHOICES.join("|")}>`,
+		form: `--fact-correction <${BYPASS_FLAG_WORDS.join("|")}>`,
 		summary:
 			"Run or bypass the fact correction, overriding stages.correct-factual-errors.bypass in the config.",
 	},
 	"fact-check": {
-		form: `--fact-check <${FACT_CORRECTION_CHOICES.join("|")}>`,
+		form: `--fact-check <${BYPASS_FLAG_WORDS.join("|")}>`,
 		summary: "Run or bypass the fact check, overriding stages.check-facts.bypass in the config.",
 	},
 	"page-views": {
@@ -322,9 +322,9 @@ function toConfigOverrides(flags: ParsedFlags): ConfigOverrides {
 		factCorrection: parseChoiceFlag({
 			flags,
 			name: "fact-correction",
-			choices: FACT_CORRECTION_CHOICES,
+			choices: BYPASS_FLAG_WORDS,
 		}),
-		factCheck: parseChoiceFlag({ flags, name: "fact-check", choices: FACT_CORRECTION_CHOICES }),
+		factCheck: parseChoiceFlag({ flags, name: "fact-check", choices: BYPASS_FLAG_WORDS }),
 		pageViews: parsePageViews(flags["page-views"]),
 		highlightSlideSentences: parseChoiceFlag({
 			flags,

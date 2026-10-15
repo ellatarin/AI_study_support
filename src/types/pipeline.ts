@@ -481,8 +481,8 @@ export type BatchOptions = PipelineRunOptions & {
 	readonly concurrency: number;
 };
 
-/** The words that `--fact-correction` accepts. */
-export const FACT_CORRECTION_CHOICES = ["run", "bypass"] as const;
+/** The words that `--fact-correction` and `--fact-check` accept. */
+export const BYPASS_FLAG_WORDS = ["run", "bypass"] as const;
 
 /** The words that `--highlight-slide-sentences` accepts. */
 export const HIGHLIGHT_CHOICES = ["on", "off"] as const;
@@ -493,9 +493,9 @@ export const HIGHLIGHT_CHOICES = ["on", "off"] as const;
  */
 export type ConfigOverrides = {
 	/** The override of `stages.correct-factual-errors.bypass`, from `--fact-correction`. */
-	readonly factCorrection: (typeof FACT_CORRECTION_CHOICES)[number] | null;
+	readonly factCorrection: (typeof BYPASS_FLAG_WORDS)[number] | null;
 	/** The override of `stages.check-facts.bypass`, from `--fact-check`. */
-	readonly factCheck: (typeof FACT_CORRECTION_CHOICES)[number] | null;
+	readonly factCheck: (typeof BYPASS_FLAG_WORDS)[number] | null;
 	/** The override of `finalOutput.pageViews`, from `--page-views`. */
 	readonly pageViews: readonly PageViewId[] | null;
 	/** The override of `finalOutput.highlightSlideSentences`, from `--highlight-slide-sentences`. */
