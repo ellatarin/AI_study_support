@@ -64,7 +64,7 @@ import {
 } from "./openrouter.js";
 import { createMoneyFormatter, type MoneyFormatter } from "./reports.js";
 import { assembleContext } from "./stage-context.js";
-import type { NotesPdfPrinter } from "./stages/build-notes-page/print-notes-pdf.js";
+import type { NotesPdfPrint, NotesPdfPrinter } from "./stages/build-notes-page/print-notes-pdf.js";
 import { type Subtopic, type SubtopicWithIdAndText, subtopicText } from "./stages/division.js";
 import type { FactCorrectedSubtopics, FactCorrectionRecord } from "./stages/fact-corrections.js";
 import type {
@@ -1452,10 +1452,10 @@ function slideFileStem(slideNumber: number): string {
 /** The text that {@link makeStubNotesPdfPrinter} writes in place of a PDF. */
 export const STUB_NOTES_PDF = "a stub of the Notes PDF";
 
-/** A stub of the printer of the Notes PDF, and the HTML and the path of each print that it got. */
+/** A stub of the printer of the Notes PDF, and each print that it got. */
 export type StubNotesPdfPrinter = {
 	readonly printNotesPdf: NotesPdfPrinter;
-	readonly prints: readonly { readonly html: string; readonly path: string }[];
+	readonly prints: readonly NotesPdfPrint[];
 };
 
 /**
@@ -1465,7 +1465,7 @@ export type StubNotesPdfPrinter = {
  * @returns The stub printer, and its prints.
  */
 export function makeStubNotesPdfPrinter(): StubNotesPdfPrinter {
-	const prints: { readonly html: string; readonly path: string }[] = [];
+	const prints: NotesPdfPrint[] = [];
 	return {
 		printNotesPdf: async (print) => {
 			prints.push(print);

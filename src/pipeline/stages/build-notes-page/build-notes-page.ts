@@ -230,6 +230,7 @@ async function printPdf({ content, context, printNotesPdf }: NotesWriting): Prom
 				settings: context.config.finalOutput.pdf,
 				slideImageUrl: (slideNumber) => imageUrls[slideNumbers.indexOf(slideNumber)] ?? "",
 			}),
+			factCheckLine: content.factCheckLine,
 			path: notesPdf,
 		});
 	} catch (error: unknown) {

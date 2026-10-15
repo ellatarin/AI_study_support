@@ -159,6 +159,12 @@ describe("createBuildNotesPageStage", () => {
 		expect(await readNotesPage()).toContain(seededFactCheckLine);
 	});
 
+	it("should give the printer the fact-check line for the top margin when the stage prints the PDF", async () => {
+		await build();
+
+		expect(printer.prints[0]?.factCheckLine).toBe(seededFactCheckLine);
+	});
+
 	it("should write notes.pdf beside notes.html in the lecture's folder when the inputs are on disk", async () => {
 		await build();
 

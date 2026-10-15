@@ -6,6 +6,7 @@ import {
 	exampleConfig,
 	makeSlidePng,
 	makeTempDir,
+	seededFactCheckLine,
 	slideReadingReply,
 	testLecture,
 } from "../../fixtures.js";
@@ -371,14 +372,17 @@ describe("printNotesPdf", () => {
 	 * @param args - The content, and the page settings.
 	 * @param args.content - The content of the PDF.
 	 * @param args.settings - The page settings. The default is the settings of the example config.
+	 * @param args.factCheckLine - The fact-check line of the top margin. The default is empty, so the margin has no text.
 	 * @returns The layout of each page.
 	 */
 	const printAndRead = async ({
 		content,
 		settings = exampleConfig.finalOutput.pdf,
+		factCheckLine = "",
 	}: {
 		readonly content: NotesPdfContent;
 		readonly settings?: NotesPdfSettings;
+		readonly factCheckLine?: string;
 	}): Promise<readonly PdfPageLayout[]> => {
 		const slideNumbers = content.slideReadings.map(({ slideNumber }) => slideNumber);
 		const urls = new Map(
@@ -397,6 +401,7 @@ describe("printNotesPdf", () => {
 				settings,
 				slideImageUrl: (slideNumber) => urls.get(slideNumber) ?? "",
 			}),
+			factCheckLine,
 			path,
 		});
 		return readPdfLayout(path);
@@ -466,6 +471,24 @@ describe("printNotesPdf", () => {
 				const pageNumber = lines.find(({ text }) => text === String(index + 1));
 				expect(pageNumber?.top).toBeGreaterThan(height - bottomMargin);
 				expect(((pageNumber?.left ?? 0) + (pageNumber?.right ?? 0)) / 2).toBeCloseTo(width / 2, -1);
+			}
+		},
+		PRINT_TIMEOUT_MS,
+	);
+
+	it(
+		"should put the fact-check line in the top margin of each page when the PDF has more than one page",
+		async () => {
+			const pages = await printAndRead({
+				content: severalPagesLecture,
+				factCheckLine: seededFactCheckLine,
+			});
+
+			expect(pages.length).toBeGreaterThan(1);
+			const topMargin = mmToPoints(exampleConfig.finalOutput.pdf.marginMm);
+			for (const { lines } of pages) {
+				const factCheck = lines.find(({ text }) => text === seededFactCheckLine);
+				expect(factCheck?.bottom).toBeLessThan(topMargin);
 			}
 		},
 		PRINT_TIMEOUT_MS,
