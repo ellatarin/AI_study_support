@@ -8,10 +8,17 @@
  */
 
 import { parseArgs } from "node:util";
-import type { PipelineRunOptions, StageId } from "../types/pipeline.js";
-import { DEFAULT_PIPELINE_RUN_OPTIONS } from "../types/pipeline.js";
+import { checkPageViews } from "../pipeline/config.js";
+import type { ConfigOverrides, PipelineRunOptions, StageId } from "../types/pipeline.js";
+import {
+	DEFAULT_PIPELINE_RUN_OPTIONS,
+	FACT_CORRECTION_CHOICES,
+	HIGHLIGHT_CHOICES,
+	PAGE_VIEW_IDS,
+} from "../types/pipeline.js";
 import { isCalendarDate } from "../utils/date.js";
 import { errorMessage, NamedError } from "../utils/errors.js";
+import { isOneOf } from "../utils/record.js";
 import {
 	isStageAfter,
 	isStageId,
@@ -31,12 +38,18 @@ export class CliUsageError extends NamedError {}
  * it takes (technical-design.md §4.7).
  */
 export type CliCommand =
-	| { readonly command: "run"; readonly lectureDate: string; readonly options: PipelineRunOptions }
+	| {
+			readonly command: "run";
+			readonly lectureDate: string;
+			readonly options: PipelineRunOptions;
+			readonly configOverrides: ConfigOverrides;
+	  }
 	| {
 			readonly command: "batch";
 			/** The one module to run, or `null` for every configured module. */
 			readonly moduleRoot: string | null;
 			readonly options: PipelineRunOptions;
+			readonly configOverrides: ConfigOverrides;
 			/** The number of lectures to run at once, from `--concurrency`. `null` means the config's `batch.concurrency`. */
 			readonly concurrency: number | null;
 	  }
@@ -56,12 +69,18 @@ export type CliCommand =
 	  }
 	| { readonly command: "help" };
 
+/** The value of `--page-views` that gives every page view. */
+const ALL_PAGE_VIEWS = "all";
+
 /** Every flag of the CLI, for `parseArgs`. Each command accepts only some of them. */
 const OPTION_SPEC = {
 	"from-stage": { type: "string" },
 	"to-stage": { type: "string" },
 	concurrency: { type: "string" },
 	"continue-on-error": { type: "boolean" },
+	"fact-correction": { type: "string" },
+	"page-views": { type: "string" },
+	"highlight-slide-sentences": { type: "string" },
 	date: { type: "string" },
 	module: { type: "string" },
 	help: { type: "boolean", short: "h" },
@@ -73,6 +92,9 @@ type ParsedFlags = {
 	readonly "to-stage"?: string;
 	readonly concurrency?: string;
 	readonly "continue-on-error"?: boolean;
+	readonly "fact-correction"?: string;
+	readonly "page-views"?: string;
+	readonly "highlight-slide-sentences"?: string;
 	readonly date?: string;
 	readonly module?: string;
 	readonly help?: boolean;
@@ -110,6 +132,20 @@ const FLAG_SPECS: Readonly<Record<FlagName, FlagSpec>> = {
 	"continue-on-error": {
 		form: "--continue-on-error",
 		summary: "Carry on to the next stage when one fails, rather than halting.",
+	},
+	"fact-correction": {
+		form: `--fact-correction <${FACT_CORRECTION_CHOICES.join("|")}>`,
+		summary:
+			"Run or bypass the fact correction, overriding stages.correct-factual-errors.bypass in the config.",
+	},
+	"page-views": {
+		form: `--page-views <views|${ALL_PAGE_VIEWS}>`,
+		summary: `Show these page views (${PAGE_VIEW_IDS.join(",")}), overriding finalOutput.pageViews in the config.`,
+	},
+	"highlight-slide-sentences": {
+		form: `--highlight-slide-sentences <${HIGHLIGHT_CHOICES.join("|")}>`,
+		summary:
+			"Highlight the sentence of each slide in the Notes view, overriding finalOutput.highlightSlideSentences in the config.",
 	},
 	date: {
 		form: "--date <YYYY-MM-DD>",
@@ -269,6 +305,82 @@ function toPipelineRunOptions(flags: ParsedFlags): PipelineRunOptions {
 }
 
 /**
+ * Makes the config overrides from the flags of `run` or `batch`.
+ *
+ * @param flags - The flag values.
+ * @returns The overrides. A flag that was not given gives `null`.
+ * @throws {CliUsageError} When a flag has a value that it does not accept.
+ */
+function toConfigOverrides(flags: ParsedFlags): ConfigOverrides {
+	return {
+		factCorrection: parseChoiceFlag({
+			flags,
+			name: "fact-correction",
+			choices: FACT_CORRECTION_CHOICES,
+		}),
+		pageViews: parsePageViews(flags["page-views"]),
+		highlightSlideSentences: parseChoiceFlag({
+			flags,
+			name: "highlight-slide-sentences",
+			choices: HIGHLIGHT_CHOICES,
+		}),
+	};
+}
+
+/**
+ * Checks a flag that takes one word from a fixed list.
+ *
+ * @param args - The flag values, the flag and its words.
+ * @param args.flags - The flag values.
+ * @param args.name - The flag, without its two dashes.
+ * @param args.choices - The words that the flag accepts.
+ * @returns The word, or `null` when the flag was not given.
+ * @throws {CliUsageError} When the value is not one of the words.
+ * @typeParam TChoice - One word that the flag accepts.
+ */
+function parseChoiceFlag<TChoice extends string>({
+	flags,
+	name,
+	choices,
+}: {
+	readonly flags: ParsedFlags;
+	readonly name: "fact-correction" | "highlight-slide-sentences";
+	readonly choices: readonly TChoice[];
+}): TChoice | null {
+	const value = flags[name];
+	if (value === undefined) {
+		return null;
+	}
+	if (!isOneOf(choices)(value)) {
+		throw new CliUsageError(
+			`--${name} must be ${choices.map((choice) => `"${choice}"`).join(" or ")}, not "${value}"`,
+		);
+	}
+	return value;
+}
+
+/**
+ * Reads `--page-views`: a list of page views with commas, or `all`.
+ *
+ * @param value - The flag's value, or `undefined` when the flag was not given.
+ * @returns The page views, or `null` when the flag was not given.
+ * @throws {CliUsageError} When the list does not pass {@link checkPageViews}.
+ */
+function parsePageViews(value: string | undefined): ConfigOverrides["pageViews"] {
+	if (value === undefined) {
+		return null;
+	}
+	if (value === ALL_PAGE_VIEWS) {
+		return PAGE_VIEW_IDS;
+	}
+	const checked = checkPageViews(value.split(","));
+	if ("problem" in checked) {
+		throw new CliUsageError(`--page-views ${checked.problem}`);
+	}
+	return checked.pageViews;
+}
+
+/**
  * Splits the command line into positional arguments and flags. An error from
  * `parseArgs` becomes a {@link CliUsageError}.
  *
@@ -291,6 +403,13 @@ function splitArgv(argv: readonly string[]): {
 		throw new CliUsageError(errorMessage(error));
 	}
 }
+
+/** The flags that override a config value. `run` and `batch` both accept them. */
+const CONFIG_OVERRIDE_FLAGS: readonly FlagName[] = [
+	"fact-correction",
+	"page-views",
+	"highlight-slide-sentences",
+];
 
 /** The input of a command's `build` function, after the checks against its {@link CommandSpec}. */
 type CommandInput = {
@@ -339,23 +458,25 @@ const COMMAND_SPECS: Readonly<Record<CommandName, CommandSpec>> = {
 	run: {
 		positionals: "<date>",
 		maxPositionals: 1,
-		flags: ["from-stage", "to-stage", "continue-on-error"],
+		flags: ["from-stage", "to-stage", "continue-on-error", ...CONFIG_OVERRIDE_FLAGS],
 		summary: "Run one lecture, identified by its date (YYYY-MM-DD), through the pipeline.",
 		build: (input) => ({
 			command: "run",
 			lectureDate: input.lectureDate(),
 			options: toPipelineRunOptions(input.flags),
+			configOverrides: toConfigOverrides(input.flags),
 		}),
 	},
 	batch: {
 		positionals: "[<moduleRoot>]",
 		maxPositionals: 1,
-		flags: ["concurrency", "from-stage", "to-stage", "continue-on-error"],
+		flags: ["concurrency", "from-stage", "to-stage", "continue-on-error", ...CONFIG_OVERRIDE_FLAGS],
 		summary: "Run every lecture in one module, or in every configured module.",
 		build: (input) => ({
 			command: "batch",
 			moduleRoot: input.positionals[0] ?? null,
 			options: toPipelineRunOptions(input.flags),
+			configOverrides: toConfigOverrides(input.flags),
 			concurrency: parseConcurrency(input.flags.concurrency),
 		}),
 	},

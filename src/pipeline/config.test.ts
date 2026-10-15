@@ -1,7 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { ConfigError, readFactCheckModels } from "./config.js";
+import { NO_CONFIG_OVERRIDES, type PipelineConfig } from "../types/pipeline.js";
+import { applyConfigOverrides, ConfigError, readFactCheckModels } from "./config.js";
 import {
 	disabledFactCheckModel,
+	makeConfig,
+	openRouterStageConfig,
 	primaryFactCheckModel,
 	secondaryFactCheckModel,
 } from "./fixtures.js";
@@ -62,5 +65,90 @@ describe("readFactCheckModels", () => {
 		rule,
 	}) => {
 		expect(() => readFactCheckModels({ value, label: LABEL })).toThrow(new ConfigError(rule));
+	});
+});
+
+describe("applyConfigOverrides", () => {
+	const stageId = "correct-factual-errors";
+
+	function configWithBypass(bypass: boolean): PipelineConfig {
+		return makeConfig({ stages: { [stageId]: { ...openRouterStageConfig({ stageId }), bypass } } });
+	}
+
+	function configWithFinalOutput(fields: Partial<PipelineConfig["finalOutput"]>): PipelineConfig {
+		const config = makeConfig();
+		return { ...config, finalOutput: { ...config.finalOutput, ...fields } };
+	}
+
+	it.each([
+		{ configured: true, factCorrection: "run", bypass: false },
+		{ configured: false, factCorrection: "bypass", bypass: true },
+	] as const)("should set bypass to $bypass when the config has $configured and the fact correction override is $factCorrection", ({
+		configured,
+		factCorrection,
+		bypass,
+	}) => {
+		const config = applyConfigOverrides({
+			config: configWithBypass(configured),
+			overrides: { ...NO_CONFIG_OVERRIDES, factCorrection },
+		});
+
+		expect(config).toStrictEqual(configWithBypass(bypass));
+	});
+
+	it.each([
+		{
+			change: "the page views to notes and transcript",
+			override: { pageViews: ["notes", "transcript"] },
+			configured: { pageViews: ["notes", "rewrite", "corrections", "transcript"] },
+			applied: { pageViews: ["notes", "transcript"] },
+		},
+		{
+			change: "the highlight off",
+			override: { highlightSlideSentences: "off" },
+			configured: { highlightSlideSentences: true },
+			applied: { highlightSlideSentences: false },
+		},
+		{
+			change: "the highlight on",
+			override: { highlightSlideSentences: "on" },
+			configured: { highlightSlideSentences: false },
+			applied: { highlightSlideSentences: true },
+		},
+	] as const)("should set $change in finalOutput when the override differs from the config", ({
+		override,
+		configured,
+		applied,
+	}) => {
+		const config = applyConfigOverrides({
+			config: configWithFinalOutput(configured),
+			overrides: { ...NO_CONFIG_OVERRIDES, ...override },
+		});
+
+		expect(config).toStrictEqual(configWithFinalOutput(applied));
+	});
+
+	it("should add no stage entry when the config has no fact correction entry and the override is run", () => {
+		const config = applyConfigOverrides({
+			config: makeConfig(),
+			overrides: { ...NO_CONFIG_OVERRIDES, factCorrection: "run" },
+		});
+
+		expect(config.stages).toStrictEqual({});
+	});
+
+	it("should keep each config value when there are no overrides", () => {
+		const configured = {
+			...configWithBypass(true),
+			finalOutput: {
+				...makeConfig().finalOutput,
+				pageViews: ["notes"],
+				highlightSlideSentences: false,
+			},
+		} as const;
+
+		const config = applyConfigOverrides({ config: configured, overrides: NO_CONFIG_OVERRIDES });
+
+		expect(config).toStrictEqual(configured);
 	});
 });

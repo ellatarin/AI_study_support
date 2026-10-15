@@ -461,6 +461,32 @@ export type BatchOptions = PipelineRunOptions & {
 	readonly concurrency: number;
 };
 
+/** The words that `--fact-correction` accepts. */
+export const FACT_CORRECTION_CHOICES = ["run", "bypass"] as const;
+
+/** The words that `--highlight-slide-sentences` accepts. */
+export const HIGHLIGHT_CHOICES = ["on", "off"] as const;
+
+/**
+ * The config values that the flags of `run` and `batch` override for one
+ * invocation. Each value holds the flag's word. `null` means that the config value applies.
+ */
+export type ConfigOverrides = {
+	/** The override of `stages.correct-factual-errors.bypass`, from `--fact-correction`. */
+	readonly factCorrection: (typeof FACT_CORRECTION_CHOICES)[number] | null;
+	/** The override of `finalOutput.pageViews`, from `--page-views`. */
+	readonly pageViews: readonly PageViewId[] | null;
+	/** The override of `finalOutput.highlightSlideSentences`, from `--highlight-slide-sentences`. */
+	readonly highlightSlideSentences: (typeof HIGHLIGHT_CHOICES)[number] | null;
+};
+
+/** The overrides of an invocation with none of the override flags. */
+export const NO_CONFIG_OVERRIDES: ConfigOverrides = {
+	factCorrection: null,
+	pageViews: null,
+	highlightSlideSentences: null,
+};
+
 /** The options of a pipeline run when the caller gives none. */
 export const DEFAULT_PIPELINE_RUN_OPTIONS: PipelineRunOptions = { onStageFailure: "halt" };
 

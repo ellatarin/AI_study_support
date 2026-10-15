@@ -2,12 +2,21 @@ import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import {
+	blockNetwork,
 	completedEntry,
 	corruptJson,
+	factCorrectionFile,
+	factCorrectionReadsFrom,
 	makeConfig,
 	makeManifest,
 	makeTempDir,
+	openRouterModelId,
+	openRouterStageConfig,
 	readJsonFile,
+	resetStubbedApi,
+	seedEarlierOutputs,
+	seededFactualError,
+	stubModelList,
 	testLecture,
 	testModuleName,
 } from "../pipeline/fixtures.js";
@@ -18,7 +27,13 @@ import {
 	workspaceRootFor,
 } from "../pipeline/layout.js";
 import { pendingStages, writeManifest } from "../pipeline/manifest.js";
-import { CONFIG_FILENAME, type RunLog, STAGE_IDS } from "../types/pipeline.js";
+import {
+	CONFIG_FILENAME,
+	type PipelineConfig,
+	type RunLog,
+	STAGE_IDS,
+	type StageId,
+} from "../types/pipeline.js";
 import { listFileNames } from "../utils/files.js";
 import { EXIT_FAILURE, EXIT_SUCCESS } from "./commands.js";
 import { runCli } from "./run-cli.js";
@@ -42,11 +57,39 @@ describe("runCli", () => {
 		});
 	}
 
-	async function writeConfig(moduleRoots: readonly string[]): Promise<void> {
+	async function writeConfig(
+		moduleRoots: readonly string[],
+		overrides: Partial<PipelineConfig> = {},
+	): Promise<void> {
 		await writeFile(
 			join(projectRoot, CONFIG_FILENAME),
-			JSON.stringify(makeConfig({ moduleRoots })),
+			JSON.stringify(makeConfig({ moduleRoots, ...overrides })),
 		);
+	}
+
+	/** Writes the source files and the workspace of the test lecture, with each stage of `completeStages` complete. */
+	async function writeTestLecture(completeStages: readonly StageId[]): Promise<string> {
+		const { videoRecording, slideDeck } = moduleDirs({ moduleRoot });
+		await writeFile(join(videoRecording, testLecture.videoRecordingFile), "video");
+		await writeFile(join(slideDeck, testLecture.slideDeckFile), "slides");
+		const workspaceRoot = workspaceRootFor({ moduleRoot, baseName: testLecture.baseName });
+		await mkdir(workspaceRoot, { recursive: true });
+		const complete = Object.fromEntries(
+			completeStages.map((stageId) => [stageId, completedEntry({})]),
+		);
+		await writeManifest({
+			workspaceRoot,
+			manifest: makeManifest({ stages: { ...pendingStages(), ...complete } }),
+		});
+		return workspaceRoot;
+	}
+
+	/** Reads the run log of the one pipeline run of the test lecture. */
+	async function readOnlyRunLog(workspaceRoot: string): Promise<RunLog> {
+		const [runLogName] = await listFileNames(runLogsDirPath({ workspaceRoot }));
+		return (await readJsonFile(
+			join(runLogsDirPath({ workspaceRoot }), String(runLogName)),
+		)) as RunLog;
 	}
 
 	beforeEach(async () => {
@@ -108,27 +151,44 @@ describe("runCli", () => {
 
 	it("should give the runner each lecture stage of the stage list, in order, when a lecture runs", async () => {
 		await writeConfig([moduleRoot]);
-		const { videoRecording, slideDeck } = moduleDirs({ moduleRoot });
-		await writeFile(join(videoRecording, testLecture.videoRecordingFile), "video");
-		await writeFile(join(slideDeck, testLecture.slideDeckFile), "slides");
-		const workspaceRoot = workspaceRootFor({ moduleRoot, baseName: testLecture.baseName });
-		await mkdir(workspaceRoot, { recursive: true });
-		await writeManifest({
-			workspaceRoot,
-			manifest: makeManifest({
-				stages: { ...pendingStages(), "audio-extraction": completedEntry({}) },
-			}),
-		});
+		const workspaceRoot = await writeTestLecture(["audio-extraction"]);
 
 		await invoke(["run", testLecture.date, "--to-stage", "audio-extraction"]);
 
-		const [runLogName] = await listFileNames(runLogsDirPath({ workspaceRoot }));
-		const runLog = (await readJsonFile(
-			join(runLogsDirPath({ workspaceRoot }), String(runLogName)),
-		)) as RunLog;
+		const runLog = await readOnlyRunLog(workspaceRoot);
 		expect(Object.keys(runLog.stages)).toStrictEqual(
 			STAGE_IDS.filter((stageId) => stageId !== "source-normalisation"),
 		);
+	});
+
+	describe("--fact-correction", () => {
+		beforeEach(() => {
+			blockNetwork();
+		});
+
+		afterEach(() => {
+			resetStubbedApi();
+		});
+
+		it("should keep the rewrite of a subtopic with a factual error, and record the bypass, when the config runs the fact correction and --fact-correction bypass is given", async () => {
+			const stageId = "correct-factual-errors";
+			await writeConfig([moduleRoot], {
+				stages: { [stageId]: { ...openRouterStageConfig({ stageId }), bypass: false } },
+			});
+			const workspaceRoot = await writeTestLecture(STAGE_IDS.slice(0, STAGE_IDS.indexOf(stageId)));
+			await seedEarlierOutputs({ workspaceRoot, readsFrom: factCorrectionReadsFrom });
+			stubModelList({ modelIds: [openRouterModelId] });
+
+			await invoke(["run", testLecture.date, "--to-stage", stageId, "--fact-correction", "bypass"]);
+
+			expect(
+				await readJsonFile(join(workspaceRoot, factCorrectionFile(seededFactualError.subtopicId))),
+			).toMatchObject({ factCorrectedSubtopic: [seededFactualError.passage], changes: [] });
+			expect((await readOnlyRunLog(workspaceRoot)).stages[stageId]).toMatchObject({
+				status: "complete",
+				configUsed: { bypass: true },
+			});
+		});
 	});
 
 	it("should normalise the module and report no match when the date names no lecture", async () => {

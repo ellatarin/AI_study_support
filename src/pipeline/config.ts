@@ -2,6 +2,7 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import {
 	CONFIG_FILENAME,
+	type ConfigOverrides,
 	type FactCheckModel,
 	type FactCheckStageConfig,
 	type FactCorrectionStageConfig,
@@ -663,12 +664,13 @@ function requireFinalOutput(value: unknown): PipelineConfig["finalOutput"] {
 /**
  * Checks a list of the page views that the notes page shows. Each one is a view
  * of the page, and none comes twice. The list holds the Notes view, because the
- * page opens on it.
+ * page opens on it. `finalOutput.pageViews` and the `--page-views` flag both use
+ * this check.
  *
  * @param pageViews - The list as written.
  * @returns The checked list, or the problem, written to follow the name of the list.
  */
-function checkPageViews(
+export function checkPageViews(
 	pageViews: readonly string[],
 ): { readonly pageViews: readonly PageViewId[] } | { readonly problem: string } {
 	const views = PAGE_VIEW_IDS.map((view) => `"${view}"`).join(", ");
@@ -863,4 +865,44 @@ export async function loadConfig(options: {
 	const config = parseConfig(await readConfigFile(configPath));
 	await assertModelIdsResolvable(config);
 	return config;
+}
+
+/**
+ * Gives the config with the overrides of the command line in place. A `null`
+ * override keeps the config value. `--fact-correction` changes nothing when the
+ * config has no entry for `correct-factual-errors`.
+ *
+ * @param args - The config and the overrides.
+ * @param args.config - The checked config.
+ * @param args.overrides - The overrides of the command line.
+ * @returns The config for the invocation. The config file does not change.
+ */
+export function applyConfigOverrides({
+	config,
+	overrides,
+}: {
+	readonly config: PipelineConfig;
+	readonly overrides: ConfigOverrides;
+}): PipelineConfig {
+	const factCorrection = config.stages["correct-factual-errors"];
+	return {
+		...config,
+		stages:
+			overrides.factCorrection === null || factCorrection === undefined
+				? config.stages
+				: {
+						...config.stages,
+						"correct-factual-errors": {
+							...factCorrection,
+							bypass: overrides.factCorrection === "bypass",
+						},
+					},
+		finalOutput: {
+			...config.finalOutput,
+			...(overrides.pageViews === null ? {} : { pageViews: overrides.pageViews }),
+			...(overrides.highlightSlideSentences === null
+				? {}
+				: { highlightSlideSentences: overrides.highlightSlideSentences === "on" }),
+		},
+	};
 }

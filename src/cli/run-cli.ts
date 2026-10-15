@@ -8,7 +8,7 @@
  * (technical-design.md §4.7, "CLI Structure", and §8, "The CLI Boundary").
  */
 
-import { loadConfig } from "../pipeline/config.js";
+import { applyConfigOverrides, loadConfig } from "../pipeline/config.js";
 import { debugLogPath } from "../pipeline/layout.js";
 import { createOpenRouterClientProvider } from "../pipeline/openrouter.js";
 import { createMoneyFormatter } from "../pipeline/reports.js";
@@ -33,6 +33,7 @@ import { createRewriteSubtopicsStage } from "../pipeline/stages/rewrite-subtopic
 import { createSourceNormalisationStage } from "../pipeline/stages/source-normalisation/source-normalisation.js";
 import { createStructureTranscriptStage } from "../pipeline/stages/structure-transcript/structure-transcript.js";
 import { createTranscriptionStage } from "../pipeline/stages/transcription/transcription.js";
+import { type ConfigOverrides, NO_CONFIG_OVERRIDES } from "../types/pipeline.js";
 import { errorMessage } from "../utils/errors.js";
 import { createDebugLogger } from "../utils/logger.js";
 import { CliUsageError, parseCliArgs, USAGE } from "./args.js";
@@ -60,20 +61,26 @@ type AssembledDeps = { readonly deps: CliDeps; readonly closeDebugLog: () => Pro
  * Makes the {@link CliDeps} from the configuration: the runner with its stages,
  * the prompts and the output stream.
  *
- * @param args - The project root and the output stream.
+ * @param args - The project root, the output stream and the config overrides.
  * @param args.projectRoot - The folder that holds `pipeline-config.json`.
  * @param args.write - Writes the output that the user reads.
+ * @param args.configOverrides - The config values that the command line overrides.
  * @returns The command dependencies, and the function that closes the debug log.
  * @throws {import("../pipeline/config.js").ConfigError} When the configuration cannot be read or is not valid.
  */
 async function assembleDeps({
 	projectRoot,
 	write,
+	configOverrides,
 }: {
 	readonly projectRoot: string;
 	readonly write: WriteText;
+	readonly configOverrides: ConfigOverrides;
 }): Promise<AssembledDeps> {
-	const config = await loadConfig({ projectRoot });
+	const config = applyConfigOverrides({
+		config: await loadConfig({ projectRoot }),
+		overrides: configOverrides,
+	});
 	const debugLogFile = debugLogPath({
 		projectRoot,
 		invocationId: deriveTimestampId({ instant: new Date() }),
@@ -199,7 +206,11 @@ export async function runCli({
 			write(`${USAGE}\n`);
 			return EXIT_SUCCESS;
 		}
-		const { deps, closeDebugLog } = await assembleDeps({ projectRoot, write });
+		const { deps, closeDebugLog } = await assembleDeps({
+			projectRoot,
+			write,
+			configOverrides: "configOverrides" in command ? command.configOverrides : NO_CONFIG_OVERRIDES,
+		});
 		try {
 			return await executeCommand({ command, deps });
 		} finally {

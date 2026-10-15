@@ -2558,6 +2558,13 @@ const EARLIER_OUTPUT_SEEDS = {
 /** An earlier stage whose output {@link seedEarlierOutputs} can write. */
 type SeededStage = keyof typeof EARLIER_OUTPUT_SEEDS;
 
+/** The earlier stages whose output `correct-factual-errors` reads. */
+export const factCorrectionReadsFrom: readonly SeededStage[] = [
+	"structure-transcript",
+	"rewrite-subtopics",
+	"check-facts",
+];
+
 /**
  * Writes into a workspace the output of each earlier stage that a stage reads.
  * A division is {@link transcriptDivision}, and the topics are

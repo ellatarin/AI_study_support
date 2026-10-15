@@ -7,7 +7,7 @@ import {
 	testModuleRoot,
 	testUserTitle,
 } from "../pipeline/fixtures.js";
-import { DEFAULT_PIPELINE_RUN_OPTIONS } from "../types/pipeline.js";
+import { DEFAULT_PIPELINE_RUN_OPTIONS, NO_CONFIG_OVERRIDES } from "../types/pipeline.js";
 import { type CliCommand, CliUsageError, parseCliArgs, USAGE } from "./args.js";
 import { batchCommand, runCommand } from "./fixtures.js";
 
@@ -57,6 +57,72 @@ describe("parseCliArgs", () => {
 	describe("run", () => {
 		it("should address the lecture on the given date when run is invoked", () => {
 			expect(parse(["run", testLecture.date])).toEqual(runCommand());
+		});
+
+		it.each([
+			{ factCorrection: "run" },
+			{ factCorrection: "bypass" },
+		] as const)("should override the fact correction with $factCorrection when --fact-correction $factCorrection is given", ({
+			factCorrection,
+		}) => {
+			expect(parse(["run", testLecture.date, "--fact-correction", factCorrection])).toEqual(
+				runCommand({ configOverrides: { ...NO_CONFIG_OVERRIDES, factCorrection } }),
+			);
+		});
+
+		it.each([
+			{ flag: "--fact-correction", words: ['"run"', '"bypass"'] },
+			{ flag: "--highlight-slide-sentences", words: ['"on"', '"off"'] },
+		])("should reject the invocation, naming the accepted words, when $flag is given another word", ({
+			flag,
+			words,
+		}) => {
+			const error = usageError(["run", testLecture.date, flag, "skip"]);
+
+			expect(error).toBeInstanceOf(CliUsageError);
+			expect(error.message).toContain(flag);
+			expect(error.message).toContain('"skip"');
+			for (const word of words) {
+				expect(error.message).toContain(word);
+			}
+		});
+
+		it.each([
+			{ value: "notes,transcript", pageViews: ["notes", "transcript"] },
+			{ value: "all", pageViews: ["notes", "rewrite", "corrections", "transcript"] },
+		] as const)("should override the page views with $pageViews when --page-views $value is given", ({
+			value,
+			pageViews,
+		}) => {
+			expect(parse(["run", testLecture.date, "--page-views", value])).toEqual(
+				runCommand({ configOverrides: { ...NO_CONFIG_OVERRIDES, pageViews } }),
+			);
+		});
+
+		it.each([
+			{ scenario: "the list lacks the Notes view", value: "transcript", names: '"notes"' },
+			{ scenario: "a name is not a page view", value: "notes,slides", names: '"slides"' },
+			{ scenario: "a name comes twice", value: "notes,notes", names: "once" },
+			{ scenario: "all is in a list with names", value: "all,notes", names: '"all"' },
+		])("should reject the invocation when $scenario in --page-views", ({ value, names }) => {
+			const error = usageError(["run", testLecture.date, "--page-views", value]);
+
+			expect(error).toBeInstanceOf(CliUsageError);
+			expect(error.message).toContain("--page-views");
+			expect(error.message).toContain(names);
+		});
+
+		it.each([
+			{ highlightSlideSentences: "on" },
+			{ highlightSlideSentences: "off" },
+		] as const)("should override the highlight with $highlightSlideSentences when --highlight-slide-sentences $highlightSlideSentences is given", ({
+			highlightSlideSentences,
+		}) => {
+			expect(
+				parse(["run", testLecture.date, "--highlight-slide-sentences", highlightSlideSentences]),
+			).toEqual(
+				runCommand({ configOverrides: { ...NO_CONFIG_OVERRIDES, highlightSlideSentences } }),
+			);
 		});
 
 		it("should carry every flag run takes when they are all supplied", () => {
@@ -131,6 +197,12 @@ describe("parseCliArgs", () => {
 					"--to-stage",
 					"place-slides",
 					"--continue-on-error",
+					"--fact-correction",
+					"run",
+					"--page-views",
+					"all",
+					"--highlight-slide-sentences",
+					"off",
 				]),
 			).toEqual(
 				batchCommand({
@@ -138,6 +210,11 @@ describe("parseCliArgs", () => {
 						fromStage: "transcription",
 						toStage: "place-slides",
 						onStageFailure: "continue",
+					},
+					configOverrides: {
+						factCorrection: "run",
+						pageViews: ["notes", "rewrite", "corrections", "transcript"],
+						highlightSlideSentences: "off",
 					},
 					concurrency: 3,
 				}),

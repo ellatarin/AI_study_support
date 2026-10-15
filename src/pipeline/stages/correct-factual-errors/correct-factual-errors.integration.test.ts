@@ -4,6 +4,7 @@ import {
 	factCheckModelIds,
 	factCorrectedSubtopicsFile,
 	factCorrectionFile,
+	factCorrectionReadsFrom,
 	itFailsAfterTheThirdUnusableSend,
 	itFailsNamingEachSpoiledFile,
 	itReadsSavedSubtopicFiles,
@@ -53,7 +54,7 @@ function replyBody(reply: unknown): ReturnType<typeof openRouterReplyBody> {
 /** The stage, its earlier stages and its stubbed reply, for each suite of this file. */
 const stageUnderTest = {
 	stageId: STAGE_ID,
-	readsFrom: ["structure-transcript", "rewrite-subtopics", "check-facts"],
+	readsFrom: factCorrectionReadsFrom,
 	factory: createCorrectFactualErrorsStage,
 	reply: JSON.stringify(usableReply),
 } as const;

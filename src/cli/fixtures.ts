@@ -5,7 +5,7 @@
  */
 
 import { testLecture } from "../pipeline/fixtures.js";
-import { DEFAULT_PIPELINE_RUN_OPTIONS } from "../types/pipeline.js";
+import { DEFAULT_PIPELINE_RUN_OPTIONS, NO_CONFIG_OVERRIDES } from "../types/pipeline.js";
 import type { CliCommand } from "./args.js";
 
 type RunCommand = Extract<CliCommand, { readonly command: "run" }>;
@@ -22,6 +22,7 @@ export function runCommand(fields: Partial<RunCommand> = {}): RunCommand {
 		command: "run",
 		lectureDate: testLecture.date,
 		options: DEFAULT_PIPELINE_RUN_OPTIONS,
+		configOverrides: NO_CONFIG_OVERRIDES,
 		...fields,
 	};
 }
@@ -37,6 +38,7 @@ export function batchCommand(fields: Partial<BatchCommand> = {}): BatchCommand {
 		command: "batch",
 		moduleRoot: null,
 		options: DEFAULT_PIPELINE_RUN_OPTIONS,
+		configOverrides: NO_CONFIG_OVERRIDES,
 		concurrency: null,
 		...fields,
 	};
