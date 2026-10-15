@@ -6,6 +6,7 @@ import {
 	DEFAULT_PIPELINE_RUN_OPTIONS,
 	type LectureIdentityChanges,
 	type Manifest,
+	type NotesPdfSettings,
 	type PipelineConfig,
 	type PipelineRunEvent,
 	type PipelineRunSummary,
@@ -81,6 +82,15 @@ const DECIDED_IDENTITY: LectureIdentityChanges = {
 	baseName: RENAMED_BASE_NAME,
 };
 
+/** Notes PDF settings that differ from the example config, so the record cannot come from the example. */
+const RUNNER_NOTES_PDF_SETTINGS: NotesPdfSettings = {
+	fontSizePt: 12,
+	marginMm: 20,
+	slideWidthPercent: 70,
+	slideSpaceBeforeMm: 4,
+	slideSpaceAfterMm: 6,
+};
+
 // Each test uses one configured stage, so its configuration is set here once.
 const RUNNER_CONFIG: PipelineConfig = makeConfig({
 	stages: {
@@ -91,6 +101,7 @@ const RUNNER_CONFIG: PipelineConfig = makeConfig({
 		...makeConfig().finalOutput,
 		pageViews: ["notes", "transcript"],
 		highlightSlideSentences: false,
+		pdf: RUNNER_NOTES_PDF_SETTINGS,
 	},
 });
 
@@ -659,12 +670,16 @@ describe("PipelineRunner integration", () => {
 			});
 		});
 
-		it("should record the page views and the highlight switch in the run log and the stage entry when build-notes-page runs", async () => {
+		it("should record the page views, the highlight switch and the Notes PDF settings in the run log and the stage entry when build-notes-page runs", async () => {
 			const building = makeStubStage({ stageId: "build-notes-page" });
 
 			const summary = await makeRunner([building]).runLecture({ workspaceRoot });
 
-			const configUsed = { pageViews: ["notes", "transcript"], highlightSlideSentences: false };
+			const configUsed = {
+				pageViews: ["notes", "transcript"],
+				highlightSlideSentences: false,
+				pdf: RUNNER_NOTES_PDF_SETTINGS,
+			};
 			const runLog = await readRunLog(workspaceRoot, summary.pipelineRunId);
 			expect(runLog.stages["build-notes-page"]).toMatchObject({ configUsed });
 			expect((await readManifest({ workspaceRoot })).stages["build-notes-page"]).toMatchObject({

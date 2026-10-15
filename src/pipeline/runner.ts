@@ -228,8 +228,8 @@ function resolveStageRunConfig(args: {
 		return { models: models.filter(({ role }) => role !== "disabled") };
 	}
 	if (args.stageId === "build-notes-page") {
-		const { pageViews, highlightSlideSentences } = args.config.finalOutput;
-		return { pageViews, highlightSlideSentences };
+		const { pageViews, highlightSlideSentences, pdf } = args.config.finalOutput;
+		return { pageViews, highlightSlideSentences, pdf };
 	}
 	const stageConfig = configuredStage({ config: args.config, stageId: args.stageId });
 	return stageConfig === null ? null : { ...stageConfig };
