@@ -49,6 +49,9 @@ The fact check has no switch. The fact correction has one (`stages.correct-factu
 - On the notes page, the line is under the lecture title, in the small grey type of the date.
 - In the Notes PDF, the line is in the top margin, so the text does not move down. It is on the first page only if that is as easy as every page. Otherwise it is on every page.
 - The page and the PDF read the files of the two stages. They do not read the manifest.
+- The fact-check models come from `checkedBy` in `factual-errors.json`. `fact-corrected-subtopics.json` gets two top-level fields (names agreed by the user, 2026-10-15):
+  - `correctedBy`: the model id of the correction, or `null` when the correction was bypassed.
+  - `correctedOn`: the date when the correction ran, in ISO form, such as `"2026-10-15"`.
 
 **The terminal**
 
