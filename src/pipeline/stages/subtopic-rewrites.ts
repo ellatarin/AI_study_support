@@ -7,6 +7,7 @@
    readers. So their import blocks are the same line for line. Imports cannot be
    shared, and CLAUDE.md (File Organisation) forbids barrel files. Only the
    imports are exempt. jscpd checks the code below. */
+import { allInOrder } from "../../utils/concurrency.js";
 import { isStringList } from "../../utils/record.js";
 import { type ReadingStage, readStageSubtopics } from "./stage-input.js";
 import { hasSubtopicId, readSubtopicFile, type SubtopicFileFields } from "./subtopic-files.js";
@@ -45,7 +46,7 @@ export type TitledSubtopicRewrite = Pick<SubtopicRewrite, "subtopicId" | "rewrit
  * @param args.purpose - The use that the reading stage makes of the subtopics, such as "check the facts".
  * @param args.fail - Builds the reading stage's own error from a message.
  * @returns The rewrite of each subtopic in lecture order, with its id and title.
- * @throws The error that `fail` builds, if an input file is missing, unreadable or the wrong shape.
+ * @throws The error that `fail` builds, if an input file is missing, unreadable or the wrong shape. Of several bad files, the error names the first in lecture order.
  */
 export async function readTitledRewrites({
 	context,
@@ -53,14 +54,15 @@ export async function readTitledRewrites({
 	fail,
 }: ReadingStage & { readonly purpose: string }): Promise<readonly TitledSubtopicRewrite[]> {
 	const subtopics = await readStageSubtopics({ context, purpose, fail });
-	return Promise.all(
-		subtopics.map(async ({ subtopicId, title }) => ({
+	return allInOrder({
+		items: subtopics,
+		work: async ({ subtopicId, title }) => ({
 			subtopicId,
 			title,
 			rewrittenSubtopic: (await readSubtopicRewrite({ context, subtopicId, fail }))
 				.rewrittenSubtopic,
-		})),
-	);
+		}),
+	});
 }
 
 /**

@@ -2,8 +2,38 @@
  * This module does the same asynchronous work on each item of a list, a few
  * items at a time. The batch runner runs lectures with it. A panel stage makes
  * its splitting runs or grouping runs with it. Deepening makes the calls of one splitting run with it
- * (technical-design.md §4.7, and §5, "Dividing the transcript", Panel runs).
+ * (technical-design.md §4.7, and §5, "Dividing the transcript", Panel runs). A
+ * stage that reads one file for each subtopic reads them all at once with it.
  */
+
+/**
+ * Runs `work` on every item at the same time, and waits for every run. The error
+ * is the error of the first failed run in the order of `items`, not in time
+ * order. So a stage that reads several files at the same time names the same file
+ * on every run.
+ *
+ * @param args - The items, and the work.
+ * @param args.items - The items to run `work` on.
+ * @param args.work - The work for one item.
+ * @returns The result for each item, in the order of `items`.
+ * @throws The error of the first failed run in the order of `items`, after every run finishes.
+ * @typeParam TItem - One entry of `items`.
+ * @typeParam TResult - The value that one run produces.
+ */
+export async function allInOrder<TItem, TResult>({
+	items,
+	work,
+}: {
+	readonly items: readonly TItem[];
+	readonly work: (item: TItem) => Promise<TResult>;
+}): Promise<readonly TResult[]> {
+	const settled = await Promise.allSettled(items.map(work));
+	const failed = settled.find((outcome) => outcome.status === "rejected");
+	if (failed !== undefined) {
+		throw failed.reason;
+	}
+	return settled.flatMap((outcome) => (outcome.status === "fulfilled" ? [outcome.value] : []));
+}
 
 /**
  * Runs `work` once for each item. At most `limit` runs go at the same time. The

@@ -528,11 +528,26 @@ describe("readFactCheckInput", () => {
 		});
 	});
 
-	it("should fail with CheckFactsError that names the file when the rewrite of a subtopic is missing", async () => {
+	it.each([
+		{ state: "the rewrites of both subtopics are missing", seed: async (): Promise<void> => {} },
+		{
+			state: "its rewrite has the wrong shape and the read of subtopic 2 fails first",
+			// A large file of the wrong shape takes longer to fail than the missing file
+			// of subtopic 2, which fails at once.
+			seed: (): Promise<void> =>
+				seedJsonFile({
+					path: join(workspaceRoot(), rewriteFile(1)),
+					contents: { notARewrite: "x".repeat(20_000_000) },
+				}),
+		},
+	])("should fail with CheckFactsError that names the rewrite of subtopic 1 when $state", async ({
+		seed,
+	}) => {
 		await seedEarlierOutputs({
 			workspaceRoot: workspaceRoot(),
 			readsFrom: ["structure-transcript"],
 		});
+		await seed();
 
 		const error = await captureError(readInput());
 
