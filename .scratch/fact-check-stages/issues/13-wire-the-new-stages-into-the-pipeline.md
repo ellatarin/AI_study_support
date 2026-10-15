@@ -18,11 +18,11 @@
 ## The config
 
 - [x] The config loader reads the entries of the four stages. The reader of the fact-check model list exists already.
-- [ ] The example config and the user's config get these entries:
+- [x] The example config and the user's config get these entries:
   - `correct-factual-errors`: `anthropic/claude-sonnet-5.5`, `concurrency` 10, `sendGapSeconds` 0.25.
   - `relocate-slides`: `google/gemini-3.8-flash`, `concurrency` 10, `sendGapSeconds` 0.25.
   - `check-facts`: one model, `anthropic/claude-opus-5.5`, with the role `primary`. The list has no secondary model at first (user, 2026-10-14).
-- [ ] The OpenRouter send takes a model entry from the config. The runner gives this send to each stage that sends to a model.
+- [x] The OpenRouter send takes a model entry from the config. The runner gives this send to each stage that sends to a model.
 
 ## The runner and the terminal
 
@@ -79,3 +79,5 @@ Not done:
 **2026-10-15, box check:** The stage list box is done in 1308c77f. The folder name box is done in 1308c77f. The box of the fact-corrected input of `relocate-slides` is done in 8f040e7b and eb7a5d92. The box of the subtopic stage path is done in da5deb2d and 8f040e7b. The "unlisted" box is done in 5a5dcd48. No file of `src/` or `CONTEXT.md` on `main` holds the word. The input-file type box is done in eb7a5d92. The config loader box is done in dcc00e5c. `build-notes-page` has no stage entry. Its switches are in `finalOutput`, from c2e4da77 and caeb91cc. The box of the cost of each model is done in 2020c872. The stage notice box is done in 45604014. The box of the files of `check-facts` is done in 5a5dcd48. The box of a row for each model is done in 46274db3. The box of a subtopic with no relocation entry is done in 6694633d. The box of the warning for a placed slide is done in 6694633d. The box of the missing input of `relocate-slides` is done in 8f040e7b. The reset box is done in 6694633d. The rename box is done in 11520b83. The delete box is done in 11520b83. The orphaned workspace box is done in 11520b83. The fixture box is done in 11520b83.
 
 **2026-10-15, docs:** The documents box is done in cfc02116. The technical design, the plan (Phase 26) and the requirements (FR-3.6, FR-3.7, FR-4.5) describe the wired pipeline. The suite version went up last, from 1.97-draft to 1.98-draft, in fd137ca7. Two config boxes are still open: the example config entries, and the OpenRouter send that takes a model entry.
+
+**2026-10-15, config boxes:** Both boxes were already done in the code. The example config entries are done in 8f040e7b, with the values above. The user's config has the three stages, with the models that the user chose later. The send box is done in 5a5dcd48. `callModel` takes the model and its tuning as one config entry. Each stage with one model looks up its entry in the config on each call. `check-facts` sends each model of its list with that model's entry. The CLI gives each stage the one client of the invocation. The runner gives each stage run its send gate and its cost tally. The runner records the entry from the same config, after the run flags.
