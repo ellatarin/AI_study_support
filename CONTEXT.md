@@ -51,8 +51,12 @@ The verbatim transcript arranged as the lecture's structure. It holds the lectur
 _Avoid_: divided transcript, lecture file, cleaned transcript, formatted transcript
 
 **Notes**:
-The finished document for one lecture, delivered as one HTML page. The page and its slide images are in one folder, which has the lecture's base name. It is continuous academic prose under the topic and subtopic titles, with each slide at its place. It is the only artefact a student is meant to read.
+The finished document for one lecture, delivered as one HTML page and as a Notes PDF. The page, the Notes PDF and the slide images are in one folder, which has the lecture's base name. It is continuous academic prose under the topic and subtopic titles, with each slide at its place. It is the only artefact a student is meant to read.
 _Avoid_: summary, write-up, output, document
+
+**Notes PDF**:
+The notes as an A4 file to print or to read on a tablet. It holds the Notes page view only, with each slide at its place, and it is in the same folder as the notes page.
+_Avoid_: printout, PDF export, notes file
 
 **Page view**:
 One of the four ways that the notes page shows a lecture: Notes, Rewrite, Corrections and Transcript. A switch at the top chooses the page view.
