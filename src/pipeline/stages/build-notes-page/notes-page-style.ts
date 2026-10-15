@@ -12,18 +12,11 @@ const DARK_COLOURS = `--paper: #1b1615; --ink: #efe5de; --muted: #b1a39b; --rule
   --accent: #dca2cf; --figure-label: #f0a08f; --mark: #40302a;
   --removed-ink: #f2a39a; --removed-bg: #4a2420; --added-ink: #9fdcae; --added-bg: #1f3a27; color-scheme: dark;`;
 
-/** The attribute that holds the note of an element. The page script shows the note in a box. */
-export const NOTE_ATTRIBUTE = "data-note";
-
-const NOTED_ELEMENT = `[${NOTE_ATTRIBUTE}]`;
-
 /**
- * The stylesheet of the notes page. The text column is narrow, as in a textbook.
- * Each slide floats at its sentence, and on a wide screen its caption hangs in the
- * right margin. The fonts are system fonts.
+ * The light colours and the fonts of the notes page, as the CSS rule of `:root`.
+ * The Notes PDF uses the same rule.
  */
-export const NOTES_PAGE_STYLE = `
-:root {
+export const LIGHT_COLOURS_AND_FONTS = `:root {
   --paper: #fbf7f2;
   --ink: #2c2321;
   --muted: #6f625c;
@@ -38,7 +31,20 @@ export const NOTES_PAGE_STYLE = `
   --added-bg: #d9efdc;
   --font-text: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
   --font-ui: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-}
+}`;
+
+/** The attribute that holds the note of an element. The page script shows the note in a box. */
+export const NOTE_ATTRIBUTE = "data-note";
+
+const NOTED_ELEMENT = `[${NOTE_ATTRIBUTE}]`;
+
+/**
+ * The stylesheet of the notes page. The text column is narrow, as in a textbook.
+ * Each slide floats at its sentence, and on a wide screen its caption hangs in the
+ * right margin. The fonts are system fonts.
+ */
+export const NOTES_PAGE_STYLE = `
+${LIGHT_COLOURS_AND_FONTS}
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) { ${DARK_COLOURS} }
 }

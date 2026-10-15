@@ -4,24 +4,28 @@
  * prototype of its layout.
  */
 
-import katex from "katex";
 import { FIRST_PAGE_VIEW, type PageViewId } from "../../../types/pipeline.js";
 import { SENTENCE_END_MARK, splitWords } from "../../../utils/text.js";
 import { notesSlideImageEntry } from "../../layout.js";
 import { type FactCorrectionFile, FIRST_FACTUAL_ERROR_NUMBER } from "../fact-corrections.js";
 import type { SlidePlacement } from "../slide-placements.js";
-import {
-	figureLabel,
-	isRelocatedReferencesSlide,
-	type RelocatedSlide,
-	type SlideRelocation,
-	type TextPoint,
-} from "../slide-relocations.js";
+import type { RelocatedSlide, SlideRelocation, TextPoint } from "../slide-relocations.js";
 import { findSlideReading, type SlideReading } from "../slides.js";
 import type { TopicWithSubtopics } from "../structured-transcript.js";
 import type { SubtopicRewrite } from "../subtopic-rewrites.js";
 import type { TermCorrectionResult } from "../term-corrections.js";
 import { NOTE_ATTRIBUTE, NOTES_PAGE_SCRIPT, NOTES_PAGE_STYLE } from "./notes-page-style.js";
+import {
+	entryOf,
+	escapeHtml,
+	lectureHeadingHtml,
+	paragraphsWithSlides,
+	type Subtopic,
+	slideLabel,
+	splitParagraphAtSlides,
+	textHtml,
+	topicHtml,
+} from "./notes-text-html.js";
 import {
 	type ComparedWord,
 	compareWords,
@@ -163,89 +167,6 @@ function topicAnchor({
 }
 
 /**
- * Escapes the characters that HTML reads as markup.
- *
- * @param text - Plain text.
- * @returns The text, safe in an element and in a quoted attribute.
- */
-function escapeHtml(text: string): string {
-	return text
-		.replace(/&/gu, "&amp;")
-		.replace(/</gu, "&lt;")
-		.replace(/>/gu, "&gt;")
-		.replace(/"/gu, "&quot;");
-}
-
-/**
- * A LaTeX part of a text, in dollar signs, and the word that a hyphen joins to
- * it. The opening dollar sign has no space after it. The closing dollar sign has
- * no space before it and no digit after it. So a price such as "$5 and $10" is
- * not maths.
- */
-const LATEX_PART = /\$(?=\S)(?<latex>[^$]*?\S)\$(?!\d)(?<joined>-[^\s,.;:]+)?/gu;
-
-/** The groups of a match of {@link LATEX_PART}. The pattern always fills `latex`. */
-type LatexPart = { readonly latex: string; readonly joined: string | undefined };
-
-/** The LaTeX of one Greek letter alone, such as `\beta`. */
-const LONE_GREEK_LETTER = /^\\(?<name>[A-Za-z]+)$/u;
-
-/** The Greek letters, by their LaTeX names, as text characters. */
-const GREEK_LETTERS: Readonly<Record<string, string>> = Object.fromEntries(
-	[
-		..."alpha beta gamma delta epsilon zeta eta theta iota kappa lambda mu nu xi omicron pi rho sigma tau upsilon phi chi psi omega"
-			.split(" ")
-			.entries(),
-	].flatMap(([index, name]) => {
-		// Unicode puts the final sigma between rho and sigma. The list skips it.
-		const lower = String.fromCodePoint(0x3b1 + index + (index >= 17 ? 1 : 0));
-		const capital = `${name.charAt(0).toUpperCase()}${name.slice(1)}`;
-		return [
-			[name, lower],
-			[capital, lower.toUpperCase()],
-		];
-	}),
-);
-
-/**
- * Gives the HTML of one LaTeX part. A lone Greek letter shows as the plain letter
- * in the text font. A word that a hyphen joins to the letter stays on its line.
- * KaTeX turns every other part into MathML, which needs no stylesheet and no font.
- *
- * @param args - The LaTeX, and the joined word.
- * @param args.latex - The LaTeX, without its dollar signs.
- * @param args.joined - The hyphen and the word after the part, or `undefined`.
- * @returns The HTML of the part and of the joined word.
- */
-function latexHtml({ latex, joined }: LatexPart): string {
-	const name = LONE_GREEK_LETTER.exec(latex)?.groups?.name;
-	const letter = name === undefined ? undefined : GREEK_LETTERS[name];
-	if (letter === undefined) {
-		return `${katex.renderToString(latex, { output: "mathml", throwOnError: false })}${escapeHtml(joined ?? "")}`;
-	}
-	return joined === undefined
-		? letter
-		: `<span class="nowrap">${letter}${escapeHtml(joined)}</span>`;
-}
-
-/**
- * Escapes a text for HTML, and shows each LaTeX part as maths.
- *
- * @param text - The text, which can hold LaTeX parts.
- * @returns The HTML of the text.
- */
-function textHtml(text: string): string {
-	let html = "";
-	let cursor = 0;
-	for (const match of text.matchAll(LATEX_PART)) {
-		html += escapeHtml(text.slice(cursor, match.index));
-		html += latexHtml(match.groups as LatexPart);
-		cursor = match.index + match[0].length;
-	}
-	return html + escapeHtml(text.slice(cursor));
-}
-
-/**
  * Gives one slide as a small figure, with its figure number and its caption.
  * The figure is made of spans, so the paragraph that holds it stays valid HTML.
  *
@@ -263,7 +184,7 @@ function figureHtml({
 }): string {
 	const reading = findSlideReading({ slideReadings: readings, slideNumber: slide.slideNumber });
 	const image = notesSlideImageEntry(slide.slideNumber);
-	const label = isRelocatedReferencesSlide(slide) ? "References" : figureLabel(slide.figureNumber);
+	const label = slideLabel(slide);
 	return `<span class="figure" role="figure" aria-label="${label}">
 <span class="figure-text"><span class="caption"><span class="figure-label">${label}.</span> ${textHtml(reading?.caption ?? "")}</span></span>
 <button class="figure-image" type="button" aria-label="Show ${label} larger"><img src="${escapeHtml(image)}" alt="${escapeHtml(reading?.title ?? "")}"></button>
@@ -340,28 +261,22 @@ type SlidesInParagraph = {
  * @returns The HTML of the paragraph.
  */
 function paragraphHtml({ paragraph, slides, readings, highlight }: SlidesInParagraph): string {
+	const { opening, parts, slidesAtEnd } = splitParagraphAtSlides({ paragraph, slides });
 	// A slide at the end of the paragraph has no sentence to highlight. The
 	// references slide is one such slide. It floats from the paragraph's start, so
 	// it shows next to the paragraph and not below it.
-	const isAtEnd = (slide: RelocatedSlide): boolean =>
-		paragraph.slice(slide.characterOffset).trim() === "";
-	let html = figuresHtml({ slides: slides.filter(isAtEnd), readings });
-	let cursor = 0;
-	const figures = slides.filter((slide) => !isAtEnd(slide));
-	for (const [index, slide] of figures.entries()) {
-		html += `${textHtml(paragraph.slice(cursor, slide.characterOffset))}${figureHtml({ slide, readings })}`;
-		cursor = slide.characterOffset;
-		if (!highlight) {
-			continue;
-		}
-		const sentenceEnd = Math.min(
-			sentenceEndAfter({ paragraph, offset: slide.characterOffset }),
-			figures[index + 1]?.characterOffset ?? paragraph.length,
-		);
-		html += `<mark>${textHtml(paragraph.slice(cursor, sentenceEnd))}</mark>`;
-		cursor = sentenceEnd;
+	let html = `${figuresHtml({ slides: slidesAtEnd, readings })}${textHtml(opening)}`;
+	for (const { slide, text } of parts) {
+		const sentenceLength = highlight
+			? Math.min(
+					sentenceEndAfter({ paragraph, offset: slide.characterOffset }) - slide.characterOffset,
+					text.length,
+				)
+			: 0;
+		const sentence = highlight ? `<mark>${textHtml(text.slice(0, sentenceLength))}</mark>` : "";
+		html += `${figureHtml({ slide, readings })}${sentence}${textHtml(text.slice(sentenceLength))}`;
 	}
-	return `<p>${html}${textHtml(paragraph.slice(cursor))}</p>`;
+	return `<p>${html}</p>`;
 }
 
 /**
@@ -380,15 +295,8 @@ function paragraphsHtml({
 	readings,
 	highlight,
 }: Omit<SlidesInParagraph, "paragraph"> & { readonly paragraphs: readonly string[] }): string {
-	return [...paragraphs.entries()]
-		.map(([index, paragraph]) =>
-			paragraphHtml({
-				paragraph,
-				slides: slides.filter(({ paragraphIndex }) => paragraphIndex === index),
-				readings,
-				highlight,
-			}),
-		)
+	return paragraphsWithSlides({ paragraphs, slides })
+		.map((paragraphSlides) => paragraphHtml({ ...paragraphSlides, readings, highlight }))
 		.join("\n");
 }
 
@@ -616,25 +524,6 @@ type SubtopicSources = {
 };
 
 /**
- * Finds the entry of a subtopic in a list of entries of the lecture.
- *
- * @param args - The entries, and the subtopic.
- * @param args.entries - The entries, each with its subtopic id.
- * @param args.subtopicId - The subtopic.
- * @returns The entry, or `undefined` when the list has none.
- * @typeParam TEntry - The entry.
- */
-function entryOf<TEntry extends { readonly subtopicId: number }>({
-	entries,
-	subtopicId,
-}: {
-	readonly entries: readonly TEntry[];
-	readonly subtopicId: number;
-}): TEntry | undefined {
-	return entries.find((entry) => entry.subtopicId === subtopicId);
-}
-
-/**
  * Gives the texts and the slides of one subtopic from the content of the page.
  *
  * @param args - The content of the page, and the subtopic.
@@ -647,7 +536,7 @@ function subtopicSources({
 	subtopic,
 }: {
 	readonly content: NotesPageContent;
-	readonly subtopic: TopicWithSubtopics["subtopics"][number];
+	readonly subtopic: Subtopic;
 }): SubtopicSources {
 	const { subtopicId } = subtopic;
 	const relocated = content.slideRelocations.flatMap(({ slides }) => slides);
@@ -670,39 +559,6 @@ function subtopicSources({
 
 /** Gives the HTML of the text of one subtopic in one page view. */
 type SubtopicBody = (sources: SubtopicSources) => string;
-
-/**
- * Gives the section of one topic, with the section of each of its subtopics.
- *
- * @param args - The topic, its section id, and the text of each subtopic.
- * @param args.topic - The topic.
- * @param args.anchor - The id of the topic's section.
- * @param args.subtopicBody - Gives the HTML of the text of a subtopic.
- * @param args.content - The content of the page.
- * @returns The HTML of the topic.
- */
-function topicHtml({
-	topic,
-	anchor,
-	subtopicBody,
-	content,
-}: {
-	readonly topic: TopicWithSubtopics;
-	readonly anchor: string;
-	readonly subtopicBody: SubtopicBody;
-	readonly content: NotesPageContent;
-}): string {
-	const subtopics = topic.subtopics.map(
-		(subtopic) => `<section class="subtopic">
-<h3>${escapeHtml(subtopic.title)}</h3>
-${subtopicBody(subtopicSources({ content, subtopic }))}
-</section>`,
-	);
-	return `<section class="topic" id="${anchor}">
-<h2>${escapeHtml(topic.title)}</h2>
-${subtopics.join("\n")}
-</section>`;
-}
 
 /** The text of a subtopic in each page view. */
 const SUBTOPIC_BODIES: Readonly<Record<PageView, SubtopicBody>> = {
@@ -879,6 +735,32 @@ function transcriptText({
 }
 
 /**
+ * Gives the section of each topic of the lecture, with the ids of one page view.
+ * The Notes PDF uses the ids of the Notes view.
+ *
+ * @param args - The topics, the page view, and the text of each subtopic.
+ * @param args.topics - The topics of the lecture, in lecture order.
+ * @param args.view - The page view whose ids the sections take.
+ * @param args.subtopicBody - Gives the HTML of the text of a subtopic.
+ * @returns The HTML of the sections.
+ */
+export function topicSectionsHtml({
+	topics,
+	view,
+	subtopicBody,
+}: {
+	readonly topics: readonly TopicWithSubtopics[];
+	readonly view: PageView;
+	readonly subtopicBody: (subtopic: Subtopic) => string;
+}): string {
+	return [...topics.entries()]
+		.map(([topicIndex, topic]) =>
+			topicHtml({ topic, anchor: topicAnchor({ view, topicIndex }), subtopicBody }),
+		)
+		.join("\n");
+}
+
+/**
  * Gives one page view: the section of each topic, with the text of the view.
  *
  * @param args - The content of the page, and the view.
@@ -893,16 +775,13 @@ function pageViewHtml({
 	readonly content: NotesPageContent;
 	readonly view: PageView;
 }): string {
-	const sections = [...content.topics.entries()].map(([topicIndex, topic]) =>
-		topicHtml({
-			topic,
-			anchor: topicAnchor({ view, topicIndex }),
-			subtopicBody: SUBTOPIC_BODIES[view],
-			content,
-		}),
-	);
+	const sections = topicSectionsHtml({
+		topics: content.topics,
+		view,
+		subtopicBody: (subtopic) => SUBTOPIC_BODIES[view](subtopicSources({ content, subtopic })),
+	});
 	return `<div class="view" id="${view}-view">
-${sections.join("\n")}
+${sections}
 </div>`;
 }
 
@@ -919,8 +798,7 @@ function headerHtml(content: NotesPageContent): string {
 			`<li><a href="#${topicAnchor({ view: FIRST_VIEW, topicIndex })}">${escapeHtml(topic.title)}</a></li>`,
 	);
 	return `<header>
-<p class="eyebrow">${escapeHtml(content.lectureDate)}</p>
-<h1>${escapeHtml(content.lectureTitle)}</h1>
+${lectureHeadingHtml(content)}
 ${viewSwitchHtml(content)}
 ${shownViews(content)
 	.map(
