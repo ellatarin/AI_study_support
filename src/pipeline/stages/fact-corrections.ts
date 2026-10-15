@@ -40,6 +40,8 @@ type FactCorrectionChange = ChangedWords & {
 export type FactCorrectionFile = {
 	readonly subtopicId: number;
 	readonly factCorrectionPromptVersion: string;
+	/** `true` when the fact correction was a bypassed stage. Then the subtopic keeps its rewrite (CONTEXT.md, "Bypassed stage"). */
+	readonly bypassed: boolean;
 	readonly factualErrors: readonly MergedFactualError[];
 	readonly factCorrectedSubtopic: readonly string[];
 	readonly changes: readonly FactCorrectionChange[];
@@ -49,8 +51,16 @@ export type FactCorrectionFile = {
 };
 
 /** The file of the whole lecture, `fact-corrected-subtopics.json`. */
-export type FactCorrectedSubtopics = {
+export type FactCorrectedSubtopics = FactCorrectionRecord & {
 	readonly factCorrectedSubtopics: readonly FactCorrectionFile[];
+};
+
+/** The model and the date of the fact correction. Both are `null` when the correction was bypassed. */
+export type FactCorrectionRecord = {
+	/** The model id of the fact correction. */
+	readonly correctedBy: string | null;
+	/** The date when the fact correction ran, as `YYYY-MM-DD`. */
+	readonly correctedOn: string | null;
 };
 
 /**

@@ -234,37 +234,44 @@ export async function readOrMakeSubtopicFiles<
 
 /**
  * Writes the file that holds the entry of each subtopic under one key, such as
- * `{ "factCorrectedSubtopics": [...] }`. A stage writes it when each subtopic has
- * its file. Its folder must already exist.
+ * `{ "factCorrectedSubtopics": [...] }`, after the stage's own fields of the whole
+ * lecture. A stage writes it when each subtopic has its file. Its folder must
+ * already exist.
  *
- * @param args - The workspace, the file, the key, and the files of the subtopics.
+ * @param args - The workspace, the file, the fields, the key, and the files of the subtopics.
  * @param args.workspaceRoot - The absolute path of the lecture workspace.
  * @param args.path - The absolute path of the file.
+ * @param args.fields - The stage's own fields of the whole lecture.
  * @param args.key - The field that holds the entries.
  * @param args.contents - The entry of each subtopic, in lecture order.
  * @param args.filesWritten - The `filesWritten` entry of the file of each subtopic.
  * @returns The value of the file, and the `filesWritten` entry of each file, this file last.
+ * @typeParam TFields - The stage's own fields of the whole lecture.
  * @typeParam TKey - The field that holds the entries.
  * @typeParam TEntry - The entry of one subtopic.
  */
-async function writeSubtopicEntriesFile<TKey extends string, TEntry>({
+async function writeSubtopicEntriesFile<TFields extends object, TKey extends string, TEntry>({
 	workspaceRoot,
 	path,
+	fields,
 	key,
 	contents,
 	filesWritten,
 }: {
 	readonly workspaceRoot: string;
 	readonly path: string;
+	readonly fields: TFields;
 	readonly key: TKey;
 	readonly contents: readonly TEntry[];
 	readonly filesWritten: readonly string[];
 }): Promise<{
-	readonly output: { readonly [field in TKey]: readonly TEntry[] };
+	readonly output: TFields & { readonly [field in TKey]: readonly TEntry[] };
 	readonly filesWritten: readonly string[];
 }> {
-	// The cast is safe: the object has one field, `key`, which holds the entries.
-	const output = { [key]: contents } as { readonly [field in TKey]: readonly TEntry[] };
+	// The cast is safe: the object has the fields, and then `key`, which holds the entries.
+	const output = { ...fields, [key]: contents } as TFields & {
+		readonly [field in TKey]: readonly TEntry[];
+	};
 	await writeJsonAtomic({ path, value: output });
 	return { output, filesWritten: [...filesWritten, relative(workspaceRoot, path)] };
 }
@@ -309,36 +316,42 @@ export function defineSubtopicFileStage<
  * output file, which holds the entry of each subtopic under `key`. It gives the
  * factory that the CLI builds the stage with.
  *
- * @param definition - As for {@link defineSubtopicFileStage}, with the key in place of `output`.
+ * @param definition - As for {@link defineSubtopicFileStage}, with the key and the fields in place of `output`.
  * @param definition.getInput - Gets and checks the input of the stage.
+ * @param definition.lectureFields - Gives the stage's own fields of the whole lecture, which come before the entries.
  * @param definition.key - The field of the output file that holds the entries.
  * @returns A factory that takes the logger and the client of the invocation.
  * @throws The error that `fail` builds, if a saved file is unreadable.
  * @typeParam TInput - The input of the stage.
  * @typeParam TSubtopic - The work of one subtopic.
  * @typeParam TContent - The content of the file of one subtopic.
+ * @typeParam TFields - The stage's own fields of the whole lecture.
  * @typeParam TKey - The field that holds the entries.
  */
 export function defineSubtopicAndLectureFileStage<
 	TInput,
 	TSubtopic extends { readonly subtopicId: number },
 	TContent,
+	TFields extends object,
 	TKey extends string,
 >({
 	getInput,
+	lectureFields,
 	key,
 	...work
 }: Omit<SubtopicFileStage<TInput, TSubtopic, TContent, never>, "output" | "stageId"> & {
 	readonly stageId: SingleModelStageId & StageWithOutputFile;
+	readonly lectureFields: (context: StageContext) => TFields;
 	readonly key: TKey;
-}): ModelStageFactory<TInput, { readonly [field in TKey]: readonly TContent[] }> {
+}): ModelStageFactory<TInput, TFields & { readonly [field in TKey]: readonly TContent[] }> {
 	return defineStageOverSubtopicFiles({
 		...work,
 		getInput,
-		finish: ({ made, context: { workspaceRoot } }) =>
+		finish: ({ made, context }) =>
 			writeSubtopicEntriesFile({
-				workspaceRoot,
-				path: stageOutputPath({ workspaceRoot, stageId: work.stageId }),
+				workspaceRoot: context.workspaceRoot,
+				path: stageOutputPath({ workspaceRoot: context.workspaceRoot, stageId: work.stageId }),
+				fields: lectureFields(context),
 				key,
 				...made,
 			}),

@@ -66,7 +66,7 @@ import { createMoneyFormatter, type MoneyFormatter } from "./reports.js";
 import { assembleContext } from "./stage-context.js";
 import type { NotesPdfPrinter } from "./stages/build-notes-page/print-notes-pdf.js";
 import { type Subtopic, type SubtopicWithIdAndText, subtopicText } from "./stages/division.js";
-import type { FactCorrectedSubtopics } from "./stages/fact-corrections.js";
+import type { FactCorrectedSubtopics, FactCorrectionRecord } from "./stages/fact-corrections.js";
 import type { FactualError, MergedFactualError } from "./stages/factual-errors.js";
 import { type ModelStageFactory, ResendsExhaustedError } from "./stages/model-stage.js";
 import { SavedRunUnreadableError } from "./stages/panel-runs.js";
@@ -2554,6 +2554,12 @@ export const seededFactualError: MergedFactualError = {
 	wordsFound: true,
 };
 
+/** The model and the date of a seeded fact correction that ran. */
+export const seededFactCorrectionRecord: FactCorrectionRecord = {
+	correctedBy: openRouterModelId,
+	correctedOn: "2026-10-15",
+};
+
 /**
  * Gives `fact-corrected-subtopics.json` with the given paragraphs of each
  * subtopic, each with no factual error.
@@ -2565,9 +2571,11 @@ export function factCorrectedSubtopicsOf(
 	subtopics: readonly { readonly subtopicId: number; readonly paragraphs: readonly string[] }[],
 ): FactCorrectedSubtopics {
 	return {
+		...seededFactCorrectionRecord,
 		factCorrectedSubtopics: subtopics.map(({ subtopicId, paragraphs }) => ({
 			subtopicId,
 			factCorrectionPromptVersion: "k3",
+			bypassed: false,
 			factualErrors: [],
 			factCorrectedSubtopic: paragraphs,
 			changes: [],

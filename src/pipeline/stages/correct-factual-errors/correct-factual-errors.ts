@@ -9,11 +9,14 @@
    for line. Imports cannot be shared, and CLAUDE.md (File Organisation) forbids
    barrel files. Only the imports are exempt. jscpd checks the code below. */
 import type { StageContext } from "../../../types/pipeline.js";
+import { formatDateISO } from "../../../utils/date.js";
 import { NamedError } from "../../../utils/errors.js";
 import { isRecord, isStringList } from "../../../utils/record.js";
+import { stageConfigFor } from "../../openrouter.js";
 import {
 	type ChangedWords,
 	type FactCorrectionFile,
+	type FactCorrectionRecord,
 	hasChangedWords,
 	isFactCorrectionFile,
 } from "../fact-corrections.js";
@@ -41,6 +44,32 @@ import {
 export class CorrectFactualErrorsError extends NamedError {}
 
 const STAGE_ID = "correct-factual-errors";
+
+/**
+ * Checks that the fact correction is a bypassed stage in this run.
+ *
+ * @param context - The stage context, which holds the config of the stage.
+ * @returns `true` when the stage's `bypass` switch is on.
+ */
+function isBypassed(context: StageContext): boolean {
+	return context.config.stages[STAGE_ID]?.bypass === true;
+}
+
+/**
+ * Gives the model and the date of the fact correction, for the file of the whole lecture.
+ *
+ * @param context - The stage context, which holds the config of the stage.
+ * @returns The model id and today's date, or two `null`s when the stage is bypassed.
+ */
+function factCorrectionRecord(context: StageContext): FactCorrectionRecord {
+	if (isBypassed(context)) {
+		return { correctedBy: null, correctedOn: null };
+	}
+	return {
+		correctedBy: stageConfigFor({ config: context.config, stageId: STAGE_ID }).modelId,
+		correctedOn: formatDateISO(new Date()),
+	};
+}
 
 /** One subtopic of the fact correction: its id, title, paragraphs and merged factual errors, and the models that checked the facts. */
 type CorrectionSubtopic = FactCorrectionMaterial & {
@@ -192,8 +221,7 @@ async function correctSubtopic({
 	context,
 	calls,
 }: SubtopicWork<FactCorrectionInput, CorrectionSubtopic>): Promise<CorrectedParagraphs> {
-	const bypass = context.config.stages[STAGE_ID]?.bypass === true;
-	if (bypass || subtopic.factualErrors.length === 0) {
+	if (isBypassed(context) || subtopic.factualErrors.length === 0) {
 		return { factCorrectedSubtopic: subtopic.rewrittenSubtopic, changes: [] };
 	}
 	const { reply } = await calls.sendJsonWithResends({
@@ -223,6 +251,7 @@ async function makeFactCorrectionFile(
 	return {
 		subtopicId: subtopic.subtopicId,
 		factCorrectionPromptVersion: FACT_CORRECTION_PROMPT_VERSION,
+		bypassed: isBypassed(work.context),
 		factualErrors: subtopic.factualErrors,
 		...corrected,
 		checkedBy: subtopic.checkedBy,
@@ -240,5 +269,6 @@ export const createCorrectFactualErrorsStage = defineSubtopicAndLectureFileStage
 	saved: { content: "fact correction", remake: "correct the factual errors of the subtopic" },
 	fail,
 	make: makeFactCorrectionFile,
+	lectureFields: factCorrectionRecord,
 	key: "factCorrectedSubtopics",
 });

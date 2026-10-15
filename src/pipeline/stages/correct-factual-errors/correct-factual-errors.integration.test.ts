@@ -1,5 +1,5 @@
 import { join } from "node:path";
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import {
 	factCheckModelIds,
 	factCorrectedSubtopicsFile,
@@ -8,6 +8,7 @@ import {
 	itFailsAfterTheThirdUnusableSend,
 	itFailsNamingEachSpoiledFile,
 	itReadsSavedSubtopicFiles,
+	openRouterModelId,
 	openRouterReplyBody,
 	resendPausesTimeoutMs,
 	rewriteInput,
@@ -63,12 +64,17 @@ describe("createCorrectFactualErrorsStage", () => {
 	const { workspaceRoot, create, run, logged } = useStageReadingEarlierOutputs(stageUnderTest);
 	const readFile = workspaceJsonReader(workspaceRoot);
 
+	afterEach(() => {
+		vi.useRealTimers();
+	});
+
 	it("should write the fact-corrected subtopic, the changes with factualError in place of the reply's error, the factual errors, checkedBy and both paragraph counts when a subtopic has factual errors", async () => {
 		await run();
 
 		expect(await readFile(factCorrectionFile(corrected.subtopicId))).toStrictEqual({
 			subtopicId: corrected.subtopicId,
 			factCorrectionPromptVersion: FACT_CORRECTION_PROMPT_VERSION,
+			bypassed: false,
 			factualErrors: [seededFactualError],
 			factCorrectedSubtopic: [seededFactualError.correctStatement],
 			changes: [
@@ -87,6 +93,7 @@ describe("createCorrectFactualErrorsStage", () => {
 		expect(await readFile(factCorrectionFile(unchanged.subtopicId))).toStrictEqual({
 			subtopicId: unchanged.subtopicId,
 			factCorrectionPromptVersion: FACT_CORRECTION_PROMPT_VERSION,
+			bypassed: false,
 			factualErrors: [],
 			factCorrectedSubtopic: [unchanged.rewrite],
 			changes: [],
@@ -111,10 +118,15 @@ describe("createCorrectFactualErrorsStage", () => {
 		expect(logged().entries.filter(({ level }) => level === "warn")).toStrictEqual([]);
 	});
 
-	it("should write fact-corrected-subtopics.json with the entry of each subtopic in lecture order, and record each file, when the stage completes", async () => {
+	it("should write fact-corrected-subtopics.json with the model, the date and the entry of each subtopic in lecture order, and record each file, when the stage completes", async () => {
+		vi.useFakeTimers({ toFake: ["Date"] });
+		vi.setSystemTime(new Date(2026, 9, 15, 12));
+
 		const { output, filesWritten } = await run();
 
 		expect(await readFile(factCorrectedSubtopicsFile)).toStrictEqual({
+			correctedBy: openRouterModelId,
+			correctedOn: "2026-10-15",
 			factCorrectedSubtopics: [
 				await readFile(factCorrectionFile(unchanged.subtopicId)),
 				await readFile(factCorrectionFile(corrected.subtopicId)),
@@ -191,9 +203,20 @@ describe("createCorrectFactualErrorsStage with the bypass on", () => {
 
 		expect(create()).not.toHaveBeenCalled();
 		expect(await readFile(factCorrectionFile(corrected.subtopicId))).toMatchObject({
+			bypassed: true,
 			factualErrors: [seededFactualError],
 			factCorrectedSubtopic: [corrected.rewrite],
 			changes: [],
+		});
+	});
+
+	it("should write fact-corrected-subtopics.json with no model and no date, and each entry bypassed, when the stage completes", async () => {
+		await run();
+
+		expect(await readFile(factCorrectedSubtopicsFile)).toMatchObject({
+			correctedBy: null,
+			correctedOn: null,
+			factCorrectedSubtopics: [{ bypassed: true }, { bypassed: true }],
 		});
 	});
 });

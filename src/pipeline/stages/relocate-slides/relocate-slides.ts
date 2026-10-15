@@ -185,5 +185,6 @@ export const createRelocateSlidesStage = defineSubtopicAndLectureFileStage({
 	saved: { content: "slide relocation", remake: "relocate the slides of the subtopic" },
 	fail,
 	make: relocateSubtopicSlides,
+	lectureFields: () => ({}),
 	key: "slideRelocations",
 });

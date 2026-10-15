@@ -16,6 +16,7 @@ import { type FactCorrectionFile, readFactCorrections } from "./fact-corrections
 const correction: FactCorrectionFile = {
 	subtopicId: tobaccoSubtopic.subtopicId,
 	factCorrectionPromptVersion: "k3",
+	bypassed: false,
 	factualErrors: [],
 	factCorrectedSubtopic: tobaccoSubtopic.rewrittenSubtopic,
 	changes: [],
