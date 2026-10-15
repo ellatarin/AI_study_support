@@ -40,12 +40,23 @@ The fact check has no switch. The fact correction has one (`stages.correct-factu
 - A later run leaves a `bypassed` entry in the manifest as it is. It does not write `skipped` over it. The run log of that later run records `skipped` for the stage, as for any completed stage.
 - `--from-stage` resets a `bypassed` stage as usual.
 
-**The notes page**
+**The fact-check line on the notes page and the Notes PDF** (user, 2026-10-15, in place of the two warning lines agreed first)
 
-- A bypassed fact check puts this line at the top of the page: "The facts in these notes were not checked."
-- A fact check can run while the correction after it is bypassed. The Corrections view then lists the errors found, with no changes. The line at the top of the page is "The facts were checked, but the errors found were not corrected."
-- When both stages are bypassed, the page shows only the line of the bypassed fact check.
-- The page reads the `bypassed` markers of the files. It does not read the manifest.
+- Only when both stages ran do the notes say that they are corrected. The line names each fact-check model and the correction model, with the date of the correction, such as "Checked by: gemini-4-argon. Corrected by: gpt-6.1-sol-pro on 15-10-2026". This also holds when the check found no factual errors.
+- In each other case, the line is "Uncorrected".
+- A model is named by the part of its id after the provider, as it is.
+- The date is the date when the correction ran, in the form DD-MM-YYYY. The fact correction saves it in its file.
+- On the notes page, the line is under the lecture title, in the small grey type of the date.
+- In the Notes PDF, the line is in the top margin, so the text does not move down. It is on the first page only if that is as easy as every page. Otherwise it is on every page.
+- The page and the PDF read the files of the two stages. They do not read the manifest.
+
+**The terminal**
+
+- A bypassed stage has a line of its own in the terminal, not the line of a completed stage (user, 2026-10-15).
+
+**The status**
+
+- The status `bypassed` works as the other statuses do. The stage returns its result, and the result says that the stage was bypassed. The runner writes the status from the result (user, 2026-10-15).
 
 **Old files**
 
@@ -64,7 +75,7 @@ The fact check has no switch. The fact correction has one (`stages.correct-factu
 - [ ] The manifest and the run log record the status `bypassed` for each bypassed stage.
 - [ ] A later run keeps the `bypassed` entry in the manifest, and does not run the stage again.
 - [ ] The readers of both files require `bypassed`.
-- [ ] The notes page shows the line of each case.
+- [ ] The notes page and the Notes PDF show the fact-check line of each case.
 - [ ] The technical design, the requirements and `CONTEXT.md` describe the switch, the flag, the status and the markers.
 - [ ] The user reruns Host-Pathogen Interactions lecture 2 with `--fact-check bypass`, and checks the page.
 
