@@ -28,10 +28,10 @@ The fact check has no switch. The fact correction has one (`stages.correct-factu
 
 **The fact correction after it**
 
-- The correction is bypassed when its own switch is on, or when `factual-errors.json` holds `"bypassed": true`. Each stage keeps its own switch.
+- Each stage is bypassed by its own switch or flag only. A bypassed fact check does not bypass the correction (user, 2026-10-15).
+- After a bypassed fact check, the correction runs as usual. It finds no factual errors and makes no call. Its status is `complete`, and it writes `"bypassed": false`.
 - A bypassed correction makes no model call. Each subtopic keeps its rewrite.
 - Each subtopic file in `Fact corrections/`, and each entry of `fact-corrected-subtopics.json`, holds `"bypassed": true`. A correction that runs writes `"bypassed": false`.
-- A correction that runs, on a lecture with no factual errors, makes no call. Its status is `complete`, and it writes `"bypassed": false`. This is not a bypass.
 
 **The record in the manifest and the run log**
 
@@ -44,6 +44,7 @@ The fact check has no switch. The fact correction has one (`stages.correct-factu
 
 - A bypassed fact check puts this line at the top of the page: "The facts in these notes were not checked."
 - A fact check can run while the correction after it is bypassed. The Corrections view then lists the errors found, with no changes. The line at the top of the page is "The facts were checked, but the errors found were not corrected."
+- When both stages are bypassed, the page shows only the line of the bypassed fact check.
 - The page reads the `bypassed` markers of the files. It does not read the manifest.
 
 **Old files**
@@ -52,7 +53,6 @@ The fact check has no switch. The fact correction has one (`stages.correct-factu
 
 ## To agree before the code
 
-- The glossary entry, through the domain-modeling skill. The proposal: **Bypassed stage**: a stage that its config or a flag turned off. A stage is also bypassed when the stage before it was bypassed, so that it has no input. It makes no model call. It writes its output files, which say that they are bypassed. It is a completed stage. _Avoid_: skipped (a skipped stage is one that a later run did not run again). Change **Completed stage** to name `bypassed` with `complete` and `skipped`.
 - The seams and the test list, through `/tdd`.
 
 ## Boxes
@@ -60,10 +60,14 @@ The fact check has no switch. The fact correction has one (`stages.correct-factu
 - [ ] `stages.check-facts.bypass` is a required config key. The example config has `false`.
 - [ ] `--fact-check run|bypass` overrides it for one run, on `run` and `batch`. The usage text lists it. A bad value is a usage error that names the accepted values.
 - [ ] A bypassed fact check makes no call and writes `factual-errors.json` with `"bypassed": true` and empty lists.
-- [ ] The fact correction is bypassed by its own switch, or by a bypassed fact check. Its files hold `"bypassed": true`.
+- [ ] The fact correction is bypassed by its own switch only. Its files hold `"bypassed": true`. After a bypassed fact check, it runs as usual.
 - [ ] The manifest and the run log record the status `bypassed` for each bypassed stage.
 - [ ] A later run keeps the `bypassed` entry in the manifest, and does not run the stage again.
 - [ ] The readers of both files require `bypassed`.
 - [ ] The notes page shows the line of each case.
 - [ ] The technical design, the requirements and `CONTEXT.md` describe the switch, the flag, the status and the markers.
 - [ ] The user reruns Host-Pathogen Interactions lecture 2 with `--fact-check bypass`, and checks the page.
+
+## Comments
+
+**2026-10-15, glossary:** the term **Bypassed stage** is in `CONTEXT.md`. The user rejected the first entry (e87954cd). A bypassed stage does none of its work, and it does not bypass the stages after it. So the rule that a bypassed fact check also bypasses the correction is removed. The page takes the line "The facts in these notes were not checked." from the marker of the fact check.
