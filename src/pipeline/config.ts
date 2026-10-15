@@ -661,30 +661,43 @@ function requireFinalOutput(value: unknown): PipelineConfig["finalOutput"] {
 }
 
 /**
- * Checks the page views that the notes page shows. Each one is a view of the
- * page, and none comes twice. The list holds the Notes view, because the page
- * opens on it.
+ * Checks a list of the page views that the notes page shows. Each one is a view
+ * of the page, and none comes twice. The list holds the Notes view, because the
+ * page opens on it.
+ *
+ * @param pageViews - The list as written.
+ * @returns The checked list, or the problem, written to follow the name of the list.
+ */
+function checkPageViews(
+	pageViews: readonly string[],
+): { readonly pageViews: readonly PageViewId[] } | { readonly problem: string } {
+	const views = PAGE_VIEW_IDS.map((view) => `"${view}"`).join(", ");
+	const unknown = pageViews.find((view) => !isOneOf(PAGE_VIEW_IDS)(view));
+	if (unknown !== undefined) {
+		return { problem: `names "${unknown}", which is not a page view (${views})` };
+	}
+	if (new Set(pageViews).size !== pageViews.length) {
+		return { problem: "must name each page view no more than once" };
+	}
+	if (!pageViews.includes(FIRST_PAGE_VIEW)) {
+		return { problem: `must name "${FIRST_PAGE_VIEW}", the view that the page opens on` };
+	}
+	return { pageViews: pageViews.filter(isOneOf(PAGE_VIEW_IDS)) };
+}
+
+/**
+ * Checks `finalOutput.pageViews` with {@link checkPageViews}.
  *
  * @param pageViews - The raw list of `finalOutput.pageViews`.
  * @returns The checked list.
  * @throws {ConfigError} If a name is not a page view, a name comes twice, or the list lacks the Notes view.
  */
 function requirePageViews(pageViews: readonly string[]): readonly PageViewId[] {
-	const label = "finalOutput.pageViews";
-	const views = PAGE_VIEW_IDS.map((view) => `"${view}"`).join(", ");
-	const unknown = pageViews.find((view) => !isOneOf(PAGE_VIEW_IDS)(view));
-	if (unknown !== undefined) {
-		throw new ConfigError(`${label} names "${unknown}", which is not a page view (${views})`);
+	const checked = checkPageViews(pageViews);
+	if ("problem" in checked) {
+		throw new ConfigError(`finalOutput.pageViews ${checked.problem}`);
 	}
-	if (new Set(pageViews).size !== pageViews.length) {
-		throw new ConfigError(`${label} must name each page view no more than once`);
-	}
-	if (!pageViews.includes(FIRST_PAGE_VIEW)) {
-		throw new ConfigError(
-			`${label} must name "${FIRST_PAGE_VIEW}", the view that the page opens on`,
-		);
-	}
-	return pageViews.filter(isOneOf(PAGE_VIEW_IDS));
+	return checked.pageViews;
 }
 
 /**
