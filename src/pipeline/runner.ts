@@ -15,6 +15,7 @@ import type {
 	PipelineStage,
 	PipelineStageOutcome,
 	ReportOptions,
+	ReturnedStageStatus,
 	RunLog,
 	RunLogCost,
 	RunLogStageEntry,
@@ -372,7 +373,7 @@ function costByModelSinceReset({
  * @param result - The result of the stage.
  * @returns `bypassed` when the result says that the stage was bypassed, and `complete` otherwise.
  */
-function completedStatus(result: StageResult<unknown>): "complete" | "bypassed" {
+function completedStatus(result: StageResult<unknown>): ReturnedStageStatus {
 	return result.bypassed === true ? "bypassed" : "complete";
 }
 
@@ -545,7 +546,7 @@ async function runStage({
 	// The outcome of a stage that ran. Its cost is the total of the stage run's cost tally.
 	const ranOutcome = (
 		ending:
-			| { readonly status: "complete" | "bypassed" }
+			| { readonly status: ReturnedStageStatus }
 			| { readonly status: "failed"; readonly error: string },
 	): StageOutcome => ({
 		entry: {

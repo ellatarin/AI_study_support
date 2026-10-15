@@ -423,6 +423,9 @@ export type RunLogCost = {
 	readonly callCount: number;
 };
 
+/** The status of a stage whose `run()` returned: `bypassed` when its result says so, and `complete` otherwise (technical-design.md §4.2). */
+export type ReturnedStageStatus = "complete" | "bypassed";
+
 type RanStageBase = {
 	readonly action: "ran";
 	readonly configUsed: StageConfigUsed | null;
@@ -438,7 +441,7 @@ type RanStageBase = {
 export type RunLogStageEntry =
 	| { readonly action: "skipped" }
 	| { readonly action: "not-reached" }
-	| (RanStageBase & { readonly status: "complete" | "bypassed" })
+	| (RanStageBase & { readonly status: ReturnedStageStatus })
 	| (RanStageBase & { readonly status: "failed"; readonly error: string });
 
 /** The start and the end of a piece of work, both as ISO 8601 times. */
