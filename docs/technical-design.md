@@ -1704,7 +1704,7 @@ The page and the Notes PDF read `correctedBy` and `correctedOn` for the fact-che
 
 **The bypass.** The stage's entry has a required `bypass` switch (§6). With `bypass` on, the stage is a bypassed stage and makes no call. The file of each subtopic holds its rewrite unchanged, no changes and `bypassed` `true`. It still holds the factual errors that `check-facts` found, so the page can show them. The stage writes `fact-corrected-subtopics.json` as usual, so the stages after it run unchanged. Its result says that it was bypassed, so the runner records the status `bypassed` (§4.2). The `--fact-correction` flag replaces the switch for one invocation (§4.7).
 
-**Old files.** A file of `Fact checks/` or `Fact corrections/` from before the bypass marks has no `bypassed`. The reader refuses it with its usual named error. To build such a page again, the user runs with `--from-stage correct-factual-errors` or an earlier stage. Pages that are already built do not change.
+**Old files.** A file of `Fact checks/` or `Fact corrections/` from before the bypass marks has no `bypassed`. The reader refuses it with its usual named error. The fact correction reads `factual-errors.json`. So to build such a page again, the user runs with `--from-stage check-facts` or an earlier stage. Pages that are already built do not change.
 
 ---
 
