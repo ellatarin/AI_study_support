@@ -14,6 +14,7 @@ import type {
 } from "../types/pipeline.js";
 import {
 	completedEntry,
+	factCheckConfig,
 	formatTestMoney,
 	GBP_PER_USD,
 	makeManifest,
@@ -301,7 +302,7 @@ function factCheckRunLog({
 }): RunLog {
 	const ranEntry = {
 		action: "ran",
-		configUsed: { models: [primaryFactCheckModel, secondaryFactCheckModel] },
+		configUsed: factCheckConfig({ models: [primaryFactCheckModel, secondaryFactCheckModel] }),
 		cost: { costUsd: 0.3, callCount: 2 },
 		costByModel: [
 			{ modelId: primaryFactCheckModel.modelId, cost: { costUsd: 0.1, callCount: 1 } },
@@ -560,7 +561,9 @@ describe("formatRunSummary", () => {
 				...runSummaryManifest,
 				stages: {
 					"check-facts": completedEntry({
-						configUsed: { models: [primaryFactCheckModel, secondaryFactCheckModel] },
+						configUsed: factCheckConfig({
+							models: [primaryFactCheckModel, secondaryFactCheckModel],
+						}),
 						cost: modelCost(3),
 						costByModel: [
 							{ modelId: primaryFactCheckModel.modelId, cost: modelCost(1) },

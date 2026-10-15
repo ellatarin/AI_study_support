@@ -139,8 +139,11 @@ export type StageConfig = {
 } & StageTuning;
 
 /** The configuration of `correct-factual-errors`: one model, and the switch that turns the correction off. */
-export type FactCorrectionStageConfig = StageConfig & {
-	/** `true` makes the stage copy each rewrite unchanged, with no model call. */
+export type FactCorrectionStageConfig = StageConfig & BypassSwitch;
+
+/** The switch of a stage that can be bypassed. */
+type BypassSwitch = {
+	/** `true` makes the stage a bypassed stage, with no model call (CONTEXT.md, "Bypassed stage"). */
 	readonly bypass: boolean;
 };
 
@@ -157,7 +160,7 @@ export type FactCheckModel = {
 } & Pick<StageTuning, "temperature" | "maxTokens">;
 
 /** The configuration of `check-facts`: a list of models in place of one `modelId` (technical-design.md §6). */
-export type FactCheckStageConfig = { readonly models: readonly FactCheckModel[] };
+export type FactCheckStageConfig = { readonly models: readonly FactCheckModel[] } & BypassSwitch;
 
 /** The stages whose configuration has one `modelId`. Only `check-facts` has a list of models. */
 export type SingleModelStageId = Exclude<StageId, "check-facts">;

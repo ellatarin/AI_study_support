@@ -81,6 +81,7 @@
 			"sendGapSeconds": 0.25
 		},
 		"check-facts": {
+			"bypass": false,
 			"models": [
 				{
 					"modelId": "anthropic/claude-opus-5.5",

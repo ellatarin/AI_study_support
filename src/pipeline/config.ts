@@ -634,7 +634,10 @@ function requireDistinctFactCheckFiles({ models, label }: CheckedFactCheckModels
 function requireFactCheckStageConfig(value: unknown): FactCheckStageConfig {
 	const label = "stages.check-facts";
 	const stage = requireRecord({ value, label });
-	return { models: readFactCheckModels({ value: stage.models, label: `${label}.models` }) };
+	return {
+		models: readFactCheckModels({ value: stage.models, label: `${label}.models` }),
+		bypass: requireSection({ value, label }).boolean("bypass"),
+	};
 }
 
 /**

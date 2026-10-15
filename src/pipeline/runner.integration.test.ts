@@ -26,6 +26,7 @@ import {
 	completedEntry,
 	corruptJson,
 	disabledFactCheckModel,
+	factCheckConfig,
 	failedEntry,
 	loggedAt,
 	makeConfig,
@@ -95,7 +96,7 @@ const RUNNER_NOTES_PDF_SETTINGS: NotesPdfSettings = {
 const RUNNER_CONFIG: PipelineConfig = makeConfig({
 	stages: {
 		"audio-extraction": { modelId: "openrouter/model-a" },
-		"check-facts": { models: [primaryFactCheckModel, disabledFactCheckModel] },
+		"check-facts": factCheckConfig({ models: [primaryFactCheckModel, disabledFactCheckModel] }),
 	},
 	finalOutput: {
 		...makeConfig().finalOutput,

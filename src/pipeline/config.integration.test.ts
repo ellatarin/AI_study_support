@@ -11,6 +11,7 @@ import {
 	disabledFactCheckModel,
 	exampleConfig,
 	exampleStageConfig,
+	factCheckConfig,
 	makeConfig,
 	makeTempDir,
 	openRouterModelId,
@@ -385,10 +386,10 @@ describe("loadConfig Notes PDF settings", () => {
 });
 
 describe("loadConfig check-facts models", () => {
-	it("should give the models list of check-facts when its entry has a models list", async () => {
+	it("should give the models list and the bypass switch of check-facts when its entry has both", async () => {
 		const primary = { ...primaryFactCheckModel, modelId: JUDGE_MODEL_ID };
 		await writeValidConfig((config) => {
-			configuredStages(config)["check-facts"] = { models: [primary] };
+			configuredStages(config)["check-facts"] = factCheckConfig({ models: [primary] });
 		});
 		stubKnownModelList();
 
@@ -396,18 +397,19 @@ describe("loadConfig check-facts models", () => {
 
 		expect(loaded.stages["check-facts"]).toStrictEqual({
 			models: [{ ...primary, temperature: undefined, maxTokens: undefined }],
+			bypass: false,
 		});
 	});
 
 	it("should throw ConfigError naming check-facts and the model when a disabled model of its list is not in the OpenRouter response", async () => {
 		const unknownModelId = "openai/nonexistent-model";
 		await writeValidConfig((config) => {
-			configuredStages(config)["check-facts"] = {
+			configuredStages(config)["check-facts"] = factCheckConfig({
 				models: [
 					{ ...primaryFactCheckModel, modelId: JUDGE_MODEL_ID },
 					{ ...disabledFactCheckModel, modelId: unknownModelId },
 				],
-			};
+			});
 		});
 		stubKnownModelList();
 
@@ -776,16 +778,21 @@ const shapeCases: readonly ShapeCase[] = [
 		}),
 	),
 	...[
-		{ problem: "is missing", bypass: undefined },
-		{ problem: "is not true or false", bypass: "yes" },
-	].map(
-		({ problem, bypass }): ShapeCase => ({
-			name: `stages.correct-factual-errors.bypass ${problem}`,
-			mutate: (config: Record<string, unknown>) => {
-				configuredStages(config)["correct-factual-errors"] = { modelId: JUDGE_MODEL_ID, bypass };
-			},
-			match: /stages\.correct-factual-errors\.bypass/,
-		}),
+		{ stageId: "correct-factual-errors", entry: { modelId: JUDGE_MODEL_ID } },
+		{ stageId: "check-facts", entry: { models: [primaryFactCheckModel] } },
+	].flatMap(({ stageId, entry }) =>
+		[
+			{ problem: "is missing", bypass: undefined },
+			{ problem: "is not true or false", bypass: "yes" },
+		].map(
+			({ problem, bypass }): ShapeCase => ({
+				name: `stages.${stageId}.bypass ${problem}`,
+				mutate: (config: Record<string, unknown>) => {
+					configuredStages(config)[stageId] = { ...entry, bypass };
+				},
+				match: new RegExp(`stages\\.${stageId}\\.bypass`),
+			}),
+		),
 	),
 	missingKeyCase("subtopicSplitting"),
 	...countFieldCases({

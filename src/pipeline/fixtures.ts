@@ -20,6 +20,7 @@ import { afterEach, beforeEach, expect, it, type Mock, vi } from "vitest";
 import type {
 	CostTally,
 	FactCheckModel,
+	FactCheckStageConfig,
 	FactCorrectionStageConfig,
 	Manifest,
 	ModelCost,
@@ -558,6 +559,21 @@ export const disabledFactCheckModel: FactCheckModel = {
 
 /** The ids of the two called models of a `check-facts` models list, the primary model first. */
 export const factCheckModelIds = [primaryFactCheckModel.modelId, secondaryFactCheckModel.modelId];
+
+/**
+ * Builds the config of a `check-facts` stage that runs: a models list, with the bypass off.
+ *
+ * @param args - The models.
+ * @param args.models - The models list of the stage.
+ * @returns The config of the stage.
+ */
+export function factCheckConfig({
+	models,
+}: {
+	readonly models: readonly FactCheckModel[];
+}): FactCheckStageConfig {
+	return { models, bypass: false };
+}
 
 /** Subtopic 1 of the lecture that the fact suites check. It has no factual error. */
 export const openingSubtopic: TitledSubtopicRewrite = {

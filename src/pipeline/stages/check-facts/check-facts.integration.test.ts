@@ -8,6 +8,7 @@ import {
 	captureError,
 	disabledFactCheckModel,
 	driveModelStage,
+	factCheckConfig,
 	factCheckedSubtopics,
 	factCheckModelFile,
 	factCheckModelIds,
@@ -446,7 +447,9 @@ describe("createCheckFactsStage", () => {
 	const logged = useStubLogger();
 	const { client, create } = useStubbedOpenRouter();
 	const config = makeConfig({
-		stages: { "check-facts": { models: [primaryFactCheckModel, disabledFactCheckModel] } },
+		stages: {
+			"check-facts": factCheckConfig({ models: [primaryFactCheckModel, disabledFactCheckModel] }),
+		},
 	});
 
 	beforeEach(async () => {
