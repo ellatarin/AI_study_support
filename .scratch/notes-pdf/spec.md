@@ -86,6 +86,27 @@ blocks of text.
 8. A test does not check §6.5 for a title that wraps onto two lines. The CSS
    rule alone covers it.
 
+### 6.1 The look
+
+The PDF looks like the PDF of the fast version (agreed 2026-10-15). "em" is the
+text size, fontSizePt.
+
+| Part | Look |
+|---|---|
+| Body text | Justified. Line height 1.45 em. Space below a paragraph 0.7 em. |
+| Lecture date | 0.75 em, grey (the muted colour), system font, letter spacing 0.08 em, upper case. |
+| Lecture title | 2 em, weight 600, line height 1.15. |
+| Topic title | 1.45 em, weight 600, line height 1.25. A 2 px line above it in the accent colour, with 0.4 em of space between the line and the title. |
+| Subtopic title | 1.15 em, weight 600, line height 1.3. |
+| Slide | Caption text 0.85 em, line height 1.35. A 1 px border round the image in the rule colour. 1.5 mm between the image and the caption. |
+| Page number | 8 pt, grey, Chrome's footer font, in the middle of the bottom margin. Its baseline is about 6 mm above the bottom edge of the page. |
+
+Tests check the justified text, the line height, the space below a paragraph,
+the sizes of the topic title, the subtopic title and the date, and the size and
+the height of the page number. The user checks the rest by hand: the colours,
+the fonts, the weights, the letter spacing, the line above a topic title, the
+border of a slide and the space above a caption.
+
 ## 7. Config
 
 A new section `finalOutput.pdf` in `pipeline-config.json`. These names are
