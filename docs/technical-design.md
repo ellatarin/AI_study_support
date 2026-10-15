@@ -1128,7 +1128,7 @@ The design was settled in the segmentation prototype (`docs/quality/segmentation
 
 These three stages, `retitle-subtopics`, `group-into-topics` and `judge-lecture-title` (below) run after `transcription` and before `structure-transcript` (§4.1).
 
-**No check step follows them.** Every other stage where a model transforms content is followed by a separate check (README, "All work is verified with separate models"). These four transform nothing: the model says only where the transcript divides and how subtopics group, and the text is sliced by code, so losslessness is guaranteed rather than checked. What remains to judge — whether a cut or a grouping is well placed — is what the panel settles: a cut survives only where enough runs agree, and a grouping is the one most of the panel made. No checker exists for that judgement, and one would have to be designed and calibrated before its verdict could be trusted.
+**No check step follows them.** These four transform nothing. The model says only where the transcript divides and how subtopics group. Code slices the text, so no word can be lost, and no check is needed for that. One question remains: is a cut or a grouping well placed? The panel settles it. A cut stays only where enough runs agree, and the grouping is the one that most of the panel made. No checker exists for this question. A checker would have to be designed and calibrated before its verdict could be trusted.
 
 **Panel runs.** The two splitting stages and `group-into-topics` each make a panel of independent runs, and share one behaviour around the model call:
 
@@ -1541,9 +1541,8 @@ The stage fails without a model call when the structured transcript or a reading
 
 #### Gaps in the slide stages
 
-- No checker compares a reading with its slide, or a placement with the transcript. The design gives a checker to every stage that transforms content (README, "Design philosophy"). For the slide stages, the user's own look at one lecture's placements is the first check.
+- No checker compares a reading with its slide, or a placement with the transcript. The README names this gap ("Not every step has a checker, and each gap is named"). For the slide stages, the user's own look at one lecture's placements is the first check.
 - `place-slides` makes one call. It has no panel.
-- No built stage shows the slides with the text. A test page, which a script outside the pipeline builds, shows them.
 
 ---
 
