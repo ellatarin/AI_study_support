@@ -2,7 +2,7 @@ import { rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import nock from "nock";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import { CONFIG_FILENAME, type StageConfig } from "../types/pipeline.js";
+import { CONFIG_FILENAME, type NotesPdfSettings, type StageConfig } from "../types/pipeline.js";
 import { ConfigError, loadConfig } from "./config.js";
 import {
 	blockNetwork,
@@ -44,6 +44,15 @@ const TUNING_FIELDS = [
 	"sendGapSeconds",
 ] as const satisfies readonly (keyof StageConfig)[];
 
+// Each setting of `finalOutput.pdf`. `satisfies` makes a renamed setting fail to compile here.
+const NOTES_PDF_SETTINGS = [
+	"fontSizePt",
+	"marginMm",
+	"slideWidthPercent",
+	"slideSpaceBeforeMm",
+	"slideSpaceAfterMm",
+] as const satisfies readonly (keyof NotesPdfSettings)[];
+
 /**
  * Makes a new valid config that a test can change. It is copied from the typed
  * fixture, so a new required field in the fixture is also here.
@@ -77,17 +86,20 @@ const gatewayUrls = openRouterUrlsAt(GATEWAY_BASE_URL);
  * Makes a function that gives one section of the valid config with some fields
  * replaced. A value of `undefined` removes the field.
  *
- * @param sectionName - The top-level config key of the section.
+ * @param sectionPath - The config key of the section. A dot names a section inside a section, such as `finalOutput.pdf`.
  * @returns A function that takes the new field values and gives the section.
  */
 function sectionCorrupter(
-	sectionName: string,
+	sectionPath: string,
 ): (overrides: Record<string, unknown>) => Record<string, unknown> {
 	return (overrides) => {
-		const section: Record<string, unknown> = {
-			...(makeValidConfig()[sectionName] as Record<string, unknown>),
-			...overrides,
-		};
+		const validSection = sectionPath
+			.split(".")
+			.reduce<unknown>(
+				(parent, key) => (parent as Record<string, unknown>)[key],
+				makeValidConfig(),
+			) as Record<string, unknown>;
+		const section: Record<string, unknown> = { ...validSection, ...overrides };
 		for (const [key, value] of Object.entries(overrides)) {
 			if (value === undefined) {
 				delete section[key];
@@ -100,6 +112,7 @@ function sectionCorrupter(
 const openRouterSection = sectionCorrupter("openRouter");
 const elevenLabsSection = sectionCorrupter("elevenLabs");
 const finalOutputSection = sectionCorrupter("finalOutput");
+const notesPdfSection = sectionCorrupter("finalOutput.pdf");
 const namingSection = sectionCorrupter("naming");
 
 /**
@@ -351,6 +364,23 @@ describe("loadConfig stage tuning", () => {
 		const loaded = await loadConfig({ projectRoot });
 
 		expect(loaded.stages[stageId]?.sendGapSeconds).toBe(sendGapSeconds);
+	});
+});
+
+describe("loadConfig Notes PDF settings", () => {
+	it("should give the five Notes PDF settings of the example config when the config holds the finalOutput.pdf section", async () => {
+		await writeValidConfig();
+		stubKnownModelList();
+
+		const loaded = await loadConfig({ projectRoot });
+
+		expect(loaded.finalOutput.pdf).toStrictEqual({
+			fontSizePt: 11,
+			marginMm: 18,
+			slideWidthPercent: 60,
+			slideSpaceBeforeMm: 5,
+			slideSpaceAfterMm: 5,
+		});
 	});
 });
 
@@ -715,6 +745,34 @@ const shapeCases: readonly ShapeCase[] = [
 				config.finalOutput = finalOutputSection({ pageViews });
 			},
 			match: /finalOutput\.pageViews/,
+		}),
+	),
+	{
+		name: "finalOutput.pdf is missing",
+		mutate: (config: Record<string, unknown>) => {
+			config.finalOutput = finalOutputSection({ pdf: undefined });
+		},
+		match: /finalOutput\.pdf/,
+	},
+	...[
+		...NOTES_PDF_SETTINGS.flatMap((setting) =>
+			[
+				{ problem: "is missing", value: undefined },
+				{ problem: "is not a number", value: "11" },
+				{ problem: "is 0", value: 0 },
+				{ problem: "is negative", value: -1 },
+			].map((badValue) => ({ setting, ...badValue })),
+		),
+		{ setting: "slideWidthPercent", problem: "is above 100", value: 101 },
+	].map(
+		({ setting, problem, value }): ShapeCase => ({
+			name: `finalOutput.pdf.${setting} ${problem}`,
+			mutate: (config: Record<string, unknown>) => {
+				config.finalOutput = finalOutputSection({
+					pdf: notesPdfSection({ [setting]: value }),
+				});
+			},
+			match: new RegExp(`finalOutput\\.pdf\\.${setting} must be`),
 		}),
 	),
 	...[

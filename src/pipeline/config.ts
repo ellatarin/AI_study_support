@@ -9,6 +9,7 @@ import {
 	FIRST_PAGE_VIEW,
 	MODEL_ROLES,
 	type ModelRole,
+	type NotesPdfSettings,
 	PAGE_VIEW_IDS,
 	type PageViewId,
 	type PanelSettings,
@@ -90,6 +91,42 @@ function requireCount(args: LabelledValue): number {
 		throw configFault({ ...args, expected: "a whole number of at least 1" });
 	}
 	return value;
+}
+
+/**
+ * Reads a size, such as a margin: a number above 0.
+ *
+ * @param args - The raw value and its config key.
+ * @param args.value - The raw value.
+ * @param args.label - The config key.
+ * @returns The size.
+ * @throws {ConfigError} If the value is not a number above 0.
+ */
+function requirePositiveNumber(args: LabelledValue): number {
+	const value = requireNumber(args);
+	if (value <= 0) {
+		throw configFault({ ...args, expected: "a number above 0" });
+	}
+	return value;
+}
+
+const WHOLE_PERCENT = 100;
+
+/**
+ * Reads a percent: a number above 0 and at most 100.
+ *
+ * @param args - The raw value and its config key.
+ * @param args.value - The raw value.
+ * @param args.label - The config key.
+ * @returns The percent.
+ * @throws {ConfigError} If the value is not a number above 0 and at most 100.
+ */
+function requirePercent(args: LabelledValue): number {
+	const percent = requirePositiveNumber(args);
+	if (percent > WHOLE_PERCENT) {
+		throw configFault({ ...args, expected: `a number above 0 and at most ${WHOLE_PERCENT}` });
+	}
+	return percent;
 }
 
 /**
@@ -186,9 +223,13 @@ type ConfigSection = {
 	readonly number: (field: string) => number;
 	readonly boolean: (field: string) => boolean;
 	readonly count: (field: string) => number;
+	readonly positiveNumber: (field: string) => number;
+	readonly percent: (field: string) => number;
 	readonly optionalNumber: (field: string) => number | undefined;
 	readonly url: (field: string) => string;
 	readonly stringArray: (field: string) => readonly string[];
+	/** Gives the readers of a section inside this section, such as `finalOutput.pdf`. */
+	readonly section: (field: string) => ConfigSection;
 };
 
 /**
@@ -223,9 +264,12 @@ function requireSection(args: LabelledValue): ConfigSection {
 		number: (field) => read({ field, require: requireNumber }),
 		boolean: (field) => read({ field, require: requireBoolean }),
 		count: (field) => read({ field, require: requireCount }),
+		positiveNumber: (field) => read({ field, require: requirePositiveNumber }),
+		percent: (field) => read({ field, require: requirePercent }),
 		optionalNumber: (field) => read({ field, require: requireOptionalNumber }),
 		url: (field) => read({ field, require: requireUrl }),
 		stringArray: (field) => read({ field, require: requireStringArray }),
+		section: (field) => read({ field, require: requireSection }),
 	};
 }
 
@@ -637,9 +681,26 @@ function requireStages(value: unknown): PipelineConfig["stages"] {
 }
 
 /**
+ * Reads the `finalOutput.pdf` section: the page settings of the Notes PDF.
+ *
+ * @param pdf - The readers of the section.
+ * @returns The checked settings.
+ * @throws {ConfigError} If a setting is missing, or is not a number above 0. Also if `slideWidthPercent` is above 100.
+ */
+function requireNotesPdfSettings(pdf: ConfigSection): NotesPdfSettings {
+	return {
+		fontSizePt: pdf.positiveNumber("fontSizePt"),
+		marginMm: pdf.positiveNumber("marginMm"),
+		slideWidthPercent: pdf.percent("slideWidthPercent"),
+		slideSpaceBeforeMm: pdf.positiveNumber("slideSpaceBeforeMm"),
+		slideSpaceAfterMm: pdf.positiveNumber("slideSpaceAfterMm"),
+	};
+}
+
+/**
  * Reads the `finalOutput` section: the language of the notes, the page views of
- * the notes page and the highlight switch. A language that has no name for the
- * prompts is refused
+ * the notes page, the highlight switch and the settings of the Notes PDF. A
+ * language that has no name for the prompts is refused
  * (technical-design.md §6, "`finalOutput.language` is a closed set").
  *
  * @param value - The raw `finalOutput` section.
@@ -658,6 +719,7 @@ function requireFinalOutput(value: unknown): PipelineConfig["finalOutput"] {
 		language,
 		pageViews: requirePageViews(finalOutput.stringArray("pageViews")),
 		highlightSlideSentences: finalOutput.boolean("highlightSlideSentences"),
+		pdf: requireNotesPdfSettings(finalOutput.section("pdf")),
 	};
 }
 

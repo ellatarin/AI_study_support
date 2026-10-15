@@ -109,6 +109,13 @@
 	"finalOutput": {
 		"language": "en-GB",
 		"pageViews": ["notes", "rewrite", "corrections", "transcript"],
-		"highlightSlideSentences": true
+		"highlightSlideSentences": true,
+		"pdf": {
+			"fontSizePt": 11,
+			"marginMm": 18,
+			"slideWidthPercent": 60,
+			"slideSpaceBeforeMm": 5,
+			"slideSpaceAfterMm": 5
+		}
 	}
 }

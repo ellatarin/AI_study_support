@@ -169,6 +169,20 @@ export type PanelSettings = {
 	readonly bar: number;
 };
 
+/** The page settings of the Notes PDF, from `finalOutput.pdf` (CONTEXT.md, "Notes PDF"). */
+export type NotesPdfSettings = {
+	/** The text size, in points. */
+	readonly fontSizePt: number;
+	/** The margin on each of the four sides of the page, in millimetres. */
+	readonly marginMm: number;
+	/** The slide width, as a percent of the width of the text column. */
+	readonly slideWidthPercent: number;
+	/** The space above each slide, in millimetres. */
+	readonly slideSpaceBeforeMm: number;
+	/** The space below each slide, under its caption, in millimetres. */
+	readonly slideSpaceAfterMm: number;
+};
+
 /** The contents of `pipeline-config.json`, after the config loader checks them (technical-design.md §6). */
 export type PipelineConfig = {
 	readonly version: string;
@@ -221,6 +235,7 @@ export type PipelineConfig = {
 		readonly pageViews: readonly PageViewId[];
 		/** `true` colours the sentence of each slide in the Notes view. */
 		readonly highlightSlideSentences: boolean;
+		readonly pdf: NotesPdfSettings;
 	};
 };
 
