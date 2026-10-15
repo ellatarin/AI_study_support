@@ -71,10 +71,10 @@ The fact check has no switch. The fact correction has one (`stages.correct-factu
 
 ## Boxes
 
-- [ ] `stages.check-facts.bypass` is a required config key. The example config has `false`.
-- [ ] `--fact-check run|bypass` overrides it for one run, on `run` and `batch`. The usage text lists it. A bad value is a usage error that names the accepted values.
-- [ ] A bypassed fact check makes no call and writes `factual-errors.json` with `"bypassed": true` and empty lists.
-- [ ] The fact correction is bypassed by its own switch only. Its files hold `"bypassed": true`. After a bypassed fact check, it runs as usual.
+- [x] `stages.check-facts.bypass` is a required config key. The example config has `false`.
+- [x] `--fact-check run|bypass` overrides it for one run, on `run` and `batch`. The usage text lists it. A bad value is a usage error that names the accepted values.
+- [x] A bypassed fact check makes no call and writes `factual-errors.json` with `"bypassed": true` and empty lists.
+- [x] The fact correction is bypassed by its own switch only. Its files hold `"bypassed": true`. After a bypassed fact check, it runs as usual.
 - [ ] The manifest and the run log record the status `bypassed` for each bypassed stage.
 - [ ] A later run keeps the `bypassed` entry in the manifest, and does not run the stage again.
 - [ ] The readers of both files require `bypassed`.
@@ -85,3 +85,16 @@ The fact check has no switch. The fact correction has one (`stages.correct-factu
 ## Comments
 
 **2026-10-15, glossary:** the term **Bypassed stage** is in `CONTEXT.md`. The user rejected the first entry (e87954cd). A bypassed stage does none of its work, and it does not bypass the stages after it. So the rule that a bypassed fact check also bypasses the correction is removed. The page takes the line "The facts in these notes were not checked." from the marker of the fact check.
+
+**2026-10-15, build state (TDD paused for a context clear):**
+
+- Done, gate passed on each: config switch ab8d8d59, flag 1c63955d, rename to `BYPASS_FLAG_WORDS` 5c6b9e29, bypassed fact check bb58a39d, fact-correction marks with `correctedBy` and `correctedOn` b2fde5ff.
+- Not agreed: `correctedOn` is `null` when the correction is bypassed. The user agreed `null` for `correctedBy` only. Ask.
+- The CLI test of `--fact-check bypass` never failed first. It was written after the code.
+- The slices so far wrote several failing tests at once. The user asked for one test at a time. From here: one test, then its code, then the next test. The user may ask for a check of the done slices: remove each new line in turn and see that a test fails.
+- Next slices, in order:
+  1. The runner: the stage result says that the stage was bypassed, and the runner writes the status `bypassed` in the manifest and the run log. A later run keeps `bypassed` and records `skipped` in its run log. `--from-stage` resets it. The existing CLI test of `--fact-correction` expects `status: "complete"`. It must change to `bypassed`.
+  2. The terminal: a line of its own for a bypassed stage.
+  3. The readers: `factual-errors.json` and both fact-correction files require `bypassed`, `correctedBy` and `correctedOn`. The seed fixtures of `check-facts` need `bypassed: false`.
+  4. The fact-check line on the notes page and in the Notes PDF.
+  5. The docs: technical design, requirements, `CONTEXT.md`.
