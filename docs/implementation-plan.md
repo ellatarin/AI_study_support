@@ -1,14 +1,14 @@
 # Lecture Notes Generator — Implementation Plan
 
 **Suite version:** 1.97-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
-**Date:** 2026-10-14
+**Date:** 2026-10-15
 **Status:** For review
 
 ---
 
 ## Overview
 
-The pipeline is built in twenty-seven phases. Phases 1–3 make the project scaffold and the shared infrastructure before any stage code is written. Phases 4–7 implement the stages from `source-normalisation` to two stages that rewrote and checked the whole transcript at once. Phase 19 removes those two stages. Phases 8–14 divide the transcript. Two phases make the groundwork. Then the stages split the transcript, choose a division, retitle its subtopics and group them. Phase 15 moves the title judgement to a new stage after grouping. Phases 16–18 build the three slide stages. Phases 19–22 move the pipeline to a rewrite that corrects the terms of each subtopic and rewrites it. Phase 23 removes the transcript check and the rounds. Phase 24 checks and corrects the facts of the rewrite. Phase 25 moves the slides into the notes and writes the notes page. Phase 26 adds the new stages to the pipeline. Phase 27 checks the full pipeline from end to end against a real lecture.
+The pipeline is built in twenty-seven phases. Phases 1–3 make the project scaffold and the shared infrastructure before any stage code is written. Phases 4–7 implement the stages from `source-normalisation` to two stages that rewrote and checked the whole transcript at once. Phase 19 removes those two stages. Phases 8–14 divide the transcript. Two phases make the groundwork. Then the stages split the transcript, choose a division, retitle its subtopics and group them. Phase 15 moves the title judgement to a new stage after grouping. Phases 16–18 build the three slide stages. Phases 19–22 move the pipeline to a rewrite that corrects the terms of each subtopic and rewrites it. Phase 23 removes the transcript check and the rounds. Phase 24 checks and corrects the facts of the rewrite. Phase 25 moves the slides into the notes and writes the notes page. Phase 26 adds the new stages to the pipeline, with the flags that replace three config values for one run. Phase 27 checks the full pipeline from end to end against a real lecture.
 
 Testing is not a final phase — unit tests are written alongside each deliverable per the project conventions. Integration tests are noted explicitly where unit testing alone is insufficient.
 
@@ -1183,7 +1183,27 @@ A transcript check, `check-rewrite-attempts`, and a rewrite loop in the runner w
 
 ## Phase 26 — Wire in the new stages
 
-**Goal:** Add each new stage to `STAGE_IDS`, the config and the runner. A pipeline run then goes from the source files to the notes page. Phases 24 and 25 build each stage without this step, so that the stages can be built at the same time.
+**Goal:** Add each new stage to `STAGE_IDS`, the config and the runner. A pipeline run then goes from the source files to the notes page. Phases 24 and 25 build each stage without this step, so that the stages can be built at the same time. The tickets are `.scratch/fact-check-stages/issues/13` and `.scratch/run-flags/issues/01`.
+
+**Deliverables:**
+1. The four stages in the stage list, after `rewrite-subtopics`, with their entries in the config.
+2. The lecture's folder in `Final output/` as a lecture file: rename, change-date, normalisation, `judge-lecture-title` and delete move it or delete it (TD §4.7).
+3. The three switches of the last stages in the config: `stages.correct-factual-errors.bypass`, `finalOutput.pageViews` and `finalOutput.highlightSlideSentences` (TD §6).
+4. Three flags of `run` and `batch` that replace the three switches for one invocation (TD §4.7, "Flags that override the config").
+
+**Tests:** Each ticket names its tests. Together they cover these behaviours:
+- the run summary has one row for each model of each new stage
+- the terminal shows each stage notice
+- `build-notes-page` fails when a subtopic has no entry in `slide-relocations.json`, and the error names the subtopic
+- a placed slide that no subtopic's entry holds does not stop `build-notes-page`, and a stage notice names the slide
+- a reset of `build-notes-page` deletes only this lecture's folder in `Final output/`
+- rename, change-date and normalisation give the lecture's folder the new base name, with its contents
+- delete, and the delete of an orphaned workspace, delete the lecture's folder
+- the config loader refuses a list of page views without `notes`, with an unknown name or with a name twice
+- each flag replaces its config value for one invocation, and the config file does not change
+- a bad value of each flag is a usage error that names the values that the flag accepts
+- `--page-views all` gives the four views
+- the run log of `build-notes-page` records the page views and the highlight switch that the stage used.
 
 **Acceptance:** A pipeline run on lecture 4 reaches `build-notes-page`.
 

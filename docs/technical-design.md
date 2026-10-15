@@ -1,7 +1,7 @@
 # Lecture Notes Generator — Technical Design
 
 **Suite version:** 1.97-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
-**Date:** 2026-10-14
+**Date:** 2026-10-15
 **Status:** For review
 
 ---
@@ -52,12 +52,14 @@ Biology of Disease/
 │   └── Lecture 1 - Disease Cell Injury and the Immune System - 2025-10-10/
 │       └── (see §3.3)
 └── Final output/
-    └── (one HTML page per lecture)
+    └── Lecture 1 - Disease Cell Injury and the Immune System - 2025-10-10/
+        ├── notes.html
+        └── slides/
 ```
 
 All pipeline artefacts for a lecture live inside a single named workspace folder. Files inside each folder use simple, stage-agnostic names — the folder itself carries the full lecture identity. This means re-numbering a lecture requires renaming only the folder, not any of its contents.
 
-`Final output/` is a direct subfolder of the module root and is the human-facing deliverable. It holds one folder for each lecture, named by the lecture's base name. The folder holds `notes.html` and `slides/`. `build-notes-page` writes the folder (§5, "After the fact correction").
+`Final output/` is a direct subfolder of the module root and is the human-facing deliverable. It holds one folder for each lecture, named by the lecture's base name. The folder holds `notes.html` and `slides/`. `build-notes-page` writes the folder (§5, "After the fact correction"). The folder is a lecture file, as the video and the slide deck are. So the commands that rename or delete a lecture move or delete the folder with everything in it (§4.7).
 
 **Folder-name convention.** Only `moduleRoots[i]` is configurable (see §6). The subfolder names shown above — `Source files/`, `Video recordings/`, `Slide decks/`, `Pipeline processing/`, `Final output/` — are fixed conventions baked into the pipeline. Every module folder that the pipeline manages MUST follow this layout. The tool creates these subfolders on demand; users should not rename them.
 
@@ -240,7 +242,7 @@ Lecture 1 - Disease Cell Injury and the Immune System - 2025-10-10/
     └── slide-relocations.json                 # relocate-slides — the entry of each subtopic, in lecture order
 ```
 
-`build-notes-page` is designed in outline only (§5, "After the fact correction"). It writes into `Final output/`, not into the workspace.
+`build-notes-page` writes into `Final output/`, not into the workspace (§3.1).
 
 #### The layout has one owner
 
@@ -254,8 +256,18 @@ One owner matters here because each of these names is relied on by two parties a
 
 ```typescript
 // src/pipeline/layout.ts
-type ModuleDirs = { video: string; slide: string; processing: string; finalOutput: string }
+type ModuleDirs = { videoRecording: string; slideDeck: string; processing: string; finalOutput: string }
 moduleDirs(args: { moduleRoot: string }): ModuleDirs      // the module layout of §3.1, stated once
+type LectureInModule = { moduleRoot: string; baseName: string }
+NOTES_PAGE_FILE: string                                   // "notes.html"
+NOTES_SLIDES_DIR: string                                  // "slides"
+lectureNotesDirPath(lecture: LectureInModule): string
+// The lecture's folder in `Final output/`, named by the base name. build-notes-page writes it, and a reset
+// of the stage deletes it (§4.7).
+notesPagePath(lecture: LectureInModule): string           // notes.html in that folder
+notesSlideImageEntry(slideNumber: number): string
+// The path of a slide image relative to the notes page, such as `slides/slide-004.png`. The page links to
+// the image by this path, and the stage copies the image to it.
 MANIFEST_FILE: string                                     // "manifest.json"
 RUN_LOGS_DIR: string                                      // "Run logs"
 DEBUG_LOGS_DIR: string                                    // "debug-logs", at the project root
@@ -269,7 +281,7 @@ debugLogPath(args: { projectRoot: string; invocationId: string }): string
 // from (§10).
 savedRunFileName(args: { runNumber: number }): string
 // The file name of one saved run of a panel, such as run-01.json. Two digits keep the files in run order.
-workspaceRootFor(args: { moduleRoot: string; baseName: string }): string
+workspaceRootFor(lecture: LectureInModule): string
 // Where one lecture's workspace sits: a folder named with the lecture's base name, inside the module's processing
 // directory. Every stage, the runner, the CLI and every suite that lays a lecture out asks for it here.
 moduleRootOf(args: { workspaceRoot: string }): string
@@ -279,9 +291,9 @@ moduleName(args: { moduleRoot: string }): string
 // What a module is called when it is shown to the user: its directory leaf, since a module has no name beyond
 // the folder it is. Read by the batch summary's module column and by the CLI's "nothing matched" message.
 sharedLectureFileDirs(args: { dirs: ModuleDirs }): readonly string[]
-// The three directories holding a file of the lecture's own — video, slides, finished page — and so the three a
-// lecture is addressed in by its date (§4.7). `processing` is excluded because a workspace is a folder named
-// after the lecture rather than a file. Walked by `renameLectureFiles`, by `delete`, and by the fixtures.
+// The three directories holding a lecture file — video, slide deck, notes folder — and so the three a
+// lecture is addressed in by its date (§4.7). `processing` is excluded because a workspace is not found
+// by its date in a shared directory. Walked by `renameLectureFiles`, by `delete`, and by the fixtures.
 
 type StageDirectoryName = string & { readonly [declaredInLayout]: true }   // branded; minted only in layout.ts
 // Branded, and the private constructor that mints it rejects a widened `string`, so a value read back from the
@@ -292,18 +304,20 @@ type StageFiles = {
   stageRecord: string | null
 }
 // `directories` are the workspace directories the stage works in. Each holds one lecture's work and nothing
-// else, so a reset takes the whole directory (§4.7). No stage works outside the workspace.
+// else, so a reset takes the whole directory (§4.7). build-notes-page has none, because it writes the
+// lecture's folder in `Final output/` (§4.4, "Stage cleanup boundaries").
 // `stageRecord` is a small JSON file beside `outputFile` saying how the stage reached it — which run a panel chose
 // and why, or which titles changed. choose-division, retitle-subtopics and group-into-topics declare one
 // (§4.5, "How a result was reached is kept beside the result"). It is recorded in `filesWritten` and cleared
 // with the output, so the two cannot come apart.
 STAGE_FILES = { … } satisfies Readonly<Record<StageId, StageFiles>>
 // What each stage owns: the directories its work sits in, and the single file it writes where it writes one.
-// `outputFile` is null for source-normalisation (which writes nothing of its own), and for the stages
+// `outputFile` is null for source-normalisation (which writes nothing of its own), for build-notes-page
+// (which writes outside the workspace), and for the stages
 // producing a set rather than a file (initial-subtopic-splitting and deepen-subtopic-splitting, one file per
 // splitting run; render-slides and read-slides, one file per slide; correct-terms and rewrite-subtopics, one
-// file per subtopic). check-facts and correct-factual-errors write a set of files and also one file for the
-// whole lecture. Their `outputFile` is that lecture file, which the next stage reads. group-into-topics works in two directories, `Grouping runs/`
+// file per subtopic). check-facts, correct-factual-errors and relocate-slides write a set of files and also
+// one file for the whole lecture. Their `outputFile` is that lecture file, which a later stage reads. group-into-topics works in two directories, `Grouping runs/`
 // and `Topics/`, and its file is `Topics/topics.json`.
 // Declared as the literal it is rather than annotated as the map, so the compiler keeps which stages carry a
 // file; `satisfies` still proves every stage appears, so one added to StageId and forgotten here fails to
@@ -372,7 +386,7 @@ Because all other files inside the workspace use simple names, only the four lec
 | `check-facts` | Per-lecture | Find the factual errors in the whole rewrite, with one or two models and no transcript. Merge the factual errors of the two models |
 | `correct-factual-errors` | Per-lecture | Correct the factual errors of each subtopic that has one, and write the fact-corrected subtopic of each subtopic in one file |
 | `relocate-slides` | Per-lecture | Move each placed slide to its point in the fact-corrected subtopic, and give the figure numbers |
-| `build-notes-page` | Per-lecture | Write the lecture's notes as one HTML page, with its slide images, into `Final output/`. Designed in outline only |
+| `build-notes-page` | Per-lecture | Write the lecture's notes as one HTML page, with its slide images, into `Final output/`. No model call |
 
 Each stage runs once. No stage sends work back to an earlier stage (ADR 0003).
 
@@ -384,7 +398,7 @@ A stage's context is assembled before its own entry is marked `running`, so the 
 
 **Authoritative types.** The exact shape of every pipeline contract — `PipelineStage`, `StageId`, `StageContext`, `StageResult`, `StageCost`, `StageConfigUsed`, and the rest — lives in `src/types/pipeline.ts` with per-field documentation. That file is the single source of truth; this section describes intent and the invariants those types encode, not field lists:
 
-- `StageResult.cost` is `null` for stages that make no billable calls (audio-extraction, choose-division, structure-transcript, render-slides).
+- `StageResult.cost` is `null` for stages that make no billable calls (audio-extraction, choose-division, structure-transcript, render-slides, build-notes-page).
 - `StageResult.filesWritten` holds paths relative to `workspaceRoot`. They MUST resolve under `moduleRoot` — enforced by §4.4.
 - `StageCost` is discriminated on `costUsd`. A resolved cost is a `number`. A failed lookup is `null` paired with an `unknownCostReason` (see §7).
 - `StageResult.identityChanges` holds the lecture-identity fields the stage decided — `lectureTitle`, `aiDerivedTitle`, `baseName` — for the runner to write. Absent and `{}` both mean the stage decided nothing. Only `judge-lecture-title` ever decides anything. `baseName` is the lecture's canonical base name recorded in the manifest, not the runner's handle on the workspace — the runner locates that itself (§4.7).
@@ -393,7 +407,7 @@ A stage's context is assembled before its own entry is marked `running`, so the 
 
 `isComplete()` checks two conditions: the manifest marks the stage `'complete'` or `'skipped'`, AND every path in `manifest.stages[stageId].filesWritten` exists on disk. Both must be true. The two statuses count alike because a run that honours this check records `skipped` in place of the `complete` it read, so from the next run's point of view they describe the same disk — the work is done and does not need paying for again. This means a completed stage whose output was manually deleted returns `false` and re-runs automatically. A recorded path that cannot be resolved at all counts as absent rather than as an error, since deleting a stage's output usually removes its containing directory too; a path resolving *outside* `moduleRoot` is a different matter and always throws (§4.4).
 
-That check is the same for every stage. So each stage is built through a shared factory that supplies `isComplete` for the stage id. A stage defines only the two things that differ: how it gets its input, and what it does.
+That check is the same for every stage but one. `build-notes-page` is complete when `notes.html` is in the lecture's folder in `Final output/`, under the lecture's current base name. Its manifest entry does not count. So the next run builds a page again when the user deletes it (§5, "After the fact correction"). Each stage is built through a shared factory that supplies `isComplete` for the stage id. A stage defines only the two things that differ: how it gets its input, and what it does.
 
 The factory carries two further things every stage would otherwise restate. It prepares the stage's output directories before `run` begins (§4.3), and it binds the run's logger to the stage **once, at construction**, so `run` is handed a logger already stamping `{ stage }` (§10). `logger` sits on the factory rather than on `PipelineStage.run`: the runner invokes a stage with the input and the context and nothing else, so the logging capability never travels through the stage contract, and `src/types/pipeline.ts` stays free of any dependency on the logging library.
 
@@ -486,8 +500,8 @@ readDirSafe(dir: string): Promise<readonly Dirent[]>          // `[]` when the d
 pathExists(path: string): Promise<boolean>                    // whatever kind of entry it is
 listFileNames(dir: string): Promise<readonly string[]>        // real files only, dotfiles excluded
 listSubdirectoryNames(dir: string): Promise<readonly string[]>
-// The last is how `Pipeline processing/` is scanned for lectures (§4.7) and `listFileNames` how sources are
-// found by date (§4.7, "Moving a lecture's files").
+// The last is how `Pipeline processing/` is scanned for lectures (§4.7). `listFileNames` is how a stage
+// finds its source file by base name (§5, `audio-extraction`).
 ```
 
 ### 4.4 Path Validation
@@ -527,7 +541,7 @@ filenameSafe(title: string): string   // src/utils/naming.ts; throws when the re
 
 **Stage cleanup boundaries.** `--from-stage <stageId>` MUST NOT drive its cleanup off `filesWritten` from the manifest. Cleanup works from the hard-coded `STAGE_FILES` of each stage (§3.3), such as `Slide readings/` for `read-slides`. So a corrupt manifest cannot cause the deletion of unintended files. The type system enforces "hard-coded". A stage directory name is branded, and the private constructor that makes it refuses a widened `string` (§3.3). A `filesWritten` entry or LLM-supplied name reaching that map is a compile error.
 
-Every stage directory is in the workspace, and each holds one lecture's work and nothing else. So cleanup takes each directory whole. No stage can declare a directory outside the workspace, so a reset cannot reach another lecture's work. The HTML stage will write into the module's `Final output/`, which holds every lecture's page. Its design must add a way to reset one lecture's page there and leave the rest (§5, "After the rewrite").
+Every stage directory is in the workspace, and each holds one lecture's work and nothing else. So cleanup takes each directory whole. No stage can declare a directory outside the workspace, so a reset cannot reach another lecture's work. `build-notes-page` declares no directory. It writes the lecture's folder in `Final output/`, which also holds the folder of each other lecture. A reset of the stage deletes the folder that `lectureNotesDirPath` gives for the lecture's base name, and no other folder (§3.3).
 
 The delete target is anchored at the other end too: `workspaceRoot` is always built by `listWorkspaces` as `join(moduleDirs({ moduleRoot }).processing, <directory listing entry>)`, and the manifest is read only to match a lecture date, never to supply a path. So `moduleRootOf(workspaceRoot)` returns the same `moduleRoot` the caller passed in, and neither root nor name is manifest-derived.
 
@@ -580,7 +594,7 @@ patchManifest(args: { workspaceRoot: string; manifest: Manifest; changes: Partia
 // entry, so the manifest and the entry inside it name one moment.
 ```
 
-Each stage entry records `configUsed`, a `StageConfigUsed`. It holds the model ID and the tuning that the run resolved: temperature, max tokens, concurrency, calls at once and send gap. It is `null` for stages that make no LLM calls. This lets spend be attributed to a specific model and configuration and lets model experiments be compared (NFR-3.2). The run logs (§4.6) record the same `configUsed` per attempt.
+Each stage entry records `configUsed`, a `StageConfigUsed`. It holds the model ID and the tuning that the run resolved: temperature, max tokens, concurrency, calls at once and send gap. It is `null` for stages that make no LLM calls, except `build-notes-page`. That stage records `pageViews` and `highlightSlideSentences`, the two values of `finalOutput` that shape the page (§6). `correct-factual-errors` records `bypass` with its model settings. Each value is the one that the run used, after any flag of the run (§4.7, "Flags that override the config"). This lets spend be attributed to a specific model and configuration and lets model experiments be compared (NFR-3.2). The run logs (§4.6) record the same `configUsed` per attempt.
 
 ```jsonc
 {
@@ -844,7 +858,7 @@ The runner **builds the context again between stages**. It does not build one co
 **`cost-report` command:** Reads the run logs of every lecture across the configured `moduleRoots` and renders one three-section report per lecture, each headed by the lecture it covers — what its outputs on disk cost, what its failures and retries cost, and its model experiments grouped for comparison (see §7). Figures are per stage throughout; nothing is summed across stages, runs, lectures or modules (NFR-2.2). The reports are handed back for the CLI to write (§8). Narrowed by `--date` (via `resolveLecturesByDate`, with the same multi-match prompt) or `--module <moduleRoot>`. Where the scope holds no lecture, the command says so and succeeds.
 
 **Identity-change commands (`rename`, `delete`, `change-date`).** A lecture's identity changes only through these commands, never by an edit of the filesystem. So the manifest and the filesystem stay in step (see `source-normalisation`, §5):
-- `rename <date> "<new title>"` — sets `userTitle` in the manifest, which then wins the title precedence. It renames the video, slide, workspace folder, and any `Final output/` page to match.
+- `rename <date> "<new title>"` — sets `userTitle` in the manifest, which then wins the title precedence. It renames the video, slide, workspace folder, and any notes folder in `Final output/` to match.
 - `delete <date>` — removes the lecture's video, slide, workspace, and outputs, then renumbers the remaining lectures.
 - `change-date <date> <new date>` — moves the lecture (video, slide, workspace, outputs) to the new date, updates its manifest, and renumbers.
 
@@ -854,13 +868,13 @@ Each performs its change and then re-runs `source-normalisation` to return the m
 
 Each identity change leaves the module in a state `source-normalisation` can finish, rather than doing its work itself:
 
-- **`rename`** trims the new title and makes each run of whitespace in it one space. It writes the result as `userTitle` and `lectureTitle` to the manifest and stops there. The `source-normalisation` pass that follows renames the video, slide, workspace and page. It names them from the manifest's current `lectureTitle`, with the code that named them first. So a rename cannot drift from a normalisation.
-- **`delete`** asks for confirmation. Then it removes the video, the slide, the workspace and the `Final output/` page. The sources and the workspace go together, and this keeps the module consistent. The next `source-normalisation` run would stop to ask about a workspace left without sources, because it is an orphaned workspace. Sources left without a workspace would be normalised back into one. `source-normalisation` then renumbers the lectures that follow.
-- **`change-date`** renames the video, slide and page to the base name that `source-normalisation` would give them at the new date. It renames the workspace folder to match, and writes the new `lectureDate` and `baseName` to the manifest. So the `source-normalisation` pass that follows has only renumbering left. That pass renames again if the new date changes the lecture's number. `change-date` refuses when a source file already carries the target date, because a rename would overwrite another lecture. It also refuses when the lecture's own video or slide is missing.
+- **`rename`** trims the new title and makes each run of whitespace in it one space. It writes the result as `userTitle` and `lectureTitle` to the manifest and stops there. The `source-normalisation` pass that follows renames the video, slide, workspace and notes folder. It names them from the manifest's current `lectureTitle`, with the code that named them first. So a rename cannot drift from a normalisation.
+- **`delete`** asks for confirmation. Then it removes the video, the slide, the workspace and the notes folder in `Final output/`. The sources and the workspace go together, and this keeps the module consistent. The next `source-normalisation` run would stop to ask about a workspace left without sources, because it is an orphaned workspace. Sources left without a workspace would be normalised back into one. `source-normalisation` then renumbers the lectures that follow.
+- **`change-date`** renames the video, slide and notes folder to the base name that `source-normalisation` would give them at the new date. It renames the workspace folder to match, and writes the new `lectureDate` and `baseName` to the manifest. So the `source-normalisation` pass that follows has only renumbering left. That pass renames again if the new date changes the lecture's number. `change-date` refuses when a source file already carries the target date, because a rename would overwrite another lecture. It also refuses when the lecture's own video or slide is missing.
 
-**Moving a lecture's files.** `change-date` and `judge-lecture-title` both give the same four things a new base name. These are the source video, the source slide, any `Final output/` page and the workspace folder. So the code that moves them is written once and shared. It is in `src/pipeline/`, not beside the CLI commands that first called it, because a stage must not import from the CLI layer.
+**Moving a lecture's files.** `change-date` and `judge-lecture-title` both give the same four things a new base name. These are the source video, the source slide, any notes folder in `Final output/` and the workspace folder. So the code that moves them is written once and shared. It is in `src/pipeline/`, not beside the CLI commands that first called it, because a stage must not import from the CLI layer.
 
-Removing one lecture's file lives here for the same reason. Every directory a lecture's own files sit in is shared with every other lecture in the module. So `delete` takes one file from each, not the whole directory. It finds the file by the date that the file carries, as everything else here does.
+Removing one lecture's file lives here for the same reason. Every directory a lecture's own files sit in is shared with every other lecture in the module. So `delete` takes one lecture file from each, not the whole directory. It finds the lecture file by the date that its name carries, as everything else here does. A lecture file is a file or a folder. The notes of a lecture are a folder, and `delete` deletes it with everything in it.
 
 ```typescript
 // src/pipeline/lecture-files.ts
@@ -874,19 +888,22 @@ baseNameForLecture(args: { lectureNumber: number; title: string; lectureDate: st
 // the string must be read as *local* midnight, matching how `formatDateISO` writes one, or the base name
 // lands a day early west of Greenwich.
 findLectureFileByDate(args: { dir: string; lectureDate: string }): Promise<string | null>
-// The one file in a directory whose name carries this date. Sources are addressed by date rather than by
-// name because a lecture's name changes with its number and title, while its date is what identifies it (§3.2).
+// The name of the one lecture file in a directory whose name carries this date. A lecture file is a file
+// or a folder, and a dotfile is never one. Lecture files are addressed by date rather than by name because
+// a lecture's name changes with its number and title, while its date is what identifies it (§3.2).
 // The *last* date in the name is the one compared: these directories hold names source-normalisation has normalised, and
 // `lectureBaseName` puts the title before the date, so a title naming a date of its own — a cohort, a study,
 // a historical event — precedes the lecture's own.
 removeLectureFileByDate(args: { dir: string; lectureDate: string }): Promise<void>
-// Removes the one file in a directory carrying this date, where there is one. Used by `delete` across all
-// three of a lecture's directories. It may not sweep a directory: all three hold every lecture in the module.
+// Removes the one lecture file in a directory carrying this date, where there is one, and a folder with
+// everything in it. Used by `delete` across all three of a lecture's directories. It may not sweep a
+// directory: all three hold every lecture in the module.
 renameLectureFiles(args: { dirs: ModuleDirs; workspaceRoot: string; lectureDate: string; baseName: string }): Promise<string>
-// Renames the video, the slide, any Final output/ page, and the workspace folder onto `baseName`, each keeping
-// the extension it carried, and returns the workspace's new path. Anything absent is skipped, so a lecture
-// with no page yet moves cleanly; a caller that requires a file to be present checks for it first, as
-// `change-date` does for the source pair.
+// Renames the video, the slide, any notes folder in Final output/, and the workspace folder onto `baseName`,
+// and returns the workspace's new path. A file keeps its extension. A folder gets the whole base name,
+// because a title such as "Dr. Smith" puts a full stop in a folder name that has no extension. Anything
+// absent is skipped, so a lecture with no notes yet moves cleanly. A caller that requires a file to be
+// present checks for it first, as `change-date` does for the source pair.
 ```
 
 #### CLI Structure
@@ -895,11 +912,14 @@ renameLectureFiles(args: { dirs: ModuleDirs; workspaceRoot: string; lectureDate:
 
 ```typescript
 // src/cli/args.ts — the command line, parsed and validated
-type CliCommand = { command: 'run'; lectureDate; options } | { command: 'batch'; moduleRoot: string | null; options }
+type CliCommand = { command: 'run'; lectureDate; options; configOverrides }
+                | { command: 'batch'; moduleRoot: string | null; options; configOverrides; concurrency }
                 | { command: 'cost-report'; lectureDate: string | null; moduleRoot: string | null }
                 | { command: 'rename'; lectureDate; title } | { command: 'delete'; lectureDate }
                 | { command: 'change-date'; lectureDate; newLectureDate } | { command: 'help' }
-parseCliArgs(args: { argv: readonly string[] }): CliCommand   // throws CliUsageError; USAGE holds the help text
+parseCliArgs(args: { argv: readonly string[] }): CliCommand   // throws CliUsageError. USAGE holds the help text
+// `configOverrides` holds the word of each of the three flags above, or `null` for a flag not given.
+// applyConfigOverrides (src/pipeline/config.ts) lays them over the loaded config in runCli.
 
 // src/cli/prompts.ts — the only code that touches the terminal
 confirmPrompt: ConfirmPrompt                                                  // @inquirer/prompts confirm, defaulting to no
@@ -933,9 +953,29 @@ EXIT_FAILURE: 1
 runCli(args: { argv; projectRoot?; write?; writeError? }): Promise<number>
 ```
 
-Parsing is validated in full before anything runs: the command must exist, its positional arguments must be present and well formed, `<date>` must be a real calendar date (`2025-02-30` is rejected as firmly as `yesterday`), `--from-stage` and `--to-stage` must each name a stage that exists and must not be given out of pipeline order, and `--concurrency` must be a whole number of 1 or more.
+The CLI checks the command line in full before anything runs:
+
+- The command must exist.
+- Its positional arguments must be present and well formed.
+- `<date>` must be a real calendar date. `2025-02-30` is rejected as firmly as `yesterday`.
+- `--from-stage` and `--to-stage` must each name a stage that exists, and must be in pipeline order.
+- `--concurrency` must be a whole number of 1 or more.
+- Each flag that overrides the config must have a value that it accepts.
 
 **Flags belong to commands.** They are declared once for the whole CLI, so `parseArgs` will accept any of them anywhere; each command then declares the ones it acts on, and anything else is a usage error naming the flag and what the command does take. So `run --concurrency 4` is refused and says why: `--concurrency` counts lectures running at once, and only `batch` runs more than one.
+
+**Flags that override the config.** `run` and `batch` take three flags. Each flag replaces one config value for this invocation only. The config file does not change. With no flag, the config value applies.
+
+| Flag | Values | Replaces |
+|---|---|---|
+| `--fact-correction` | `run` or `bypass` | `stages.correct-factual-errors.bypass` |
+| `--page-views` | a list with commas, such as `notes,transcript`, or `all` | `finalOutput.pageViews` |
+| `--highlight-slide-sentences` | `on` or `off` | `finalOutput.highlightSlideSentences` |
+
+- `--page-views` takes the names of `finalOutput.pageViews`, with the same checks (§6). The list must name `notes`. `all` gives the four views, and it cannot be in a list with names.
+- A flag with another value is a usage error. The error names the values that the flag accepts.
+- The CLI applies the flags to the config once, after it reads the config. So each stage reads the value of the flag as a config value, and the run log records that value (§4.5).
+- A flag changes only the stages that run. A complete stage does not run again because of a flag, as with `--concurrency`. To build a page again with other views, the user adds `--from-stage build-notes-page`. To run the fact correction again, the user adds `--from-stage correct-factual-errors`, and the reset question applies as usual.
 
 **`run <date>` normalises first.** Before resolving the date it runs `source-normalisation` across the configured modules. This is what lets `run` be the first command for a lecture whose video and slides were only just added: `source-normalisation` creates the workspace and manifest the date then resolves against. `source-normalisation` is idempotent, so this costs nothing when there is nothing new.
 
@@ -947,7 +987,7 @@ Parsing is validated in full before anything runs: the command must exist, its p
 
 ## 5. Stage Designs
 
-**Where prompts live.** A stage that calls an LLM keeps its prompt in a module of its own, `<stage>.prompt.ts`, in the stage's folder (§9). The module exports the function that builds the messages. Only stages that make LLM calls have one. `source-normalisation`, `audio-extraction`, `transcription`, `choose-division`, `structure-transcript` and `render-slides` do not. A stage that makes more than one kind of call has one prompt module, with one builder for each kind. Two prompts that share a text take it from a module of its own beside the stage folders. The writer's rules R2 to R9 are such a text (`rewrite-subtopics`).
+**Where prompts live.** A stage that calls an LLM keeps its prompt in a module of its own, `<stage>.prompt.ts`, in the stage's folder (§9). The module exports the function that builds the messages. Only stages that make LLM calls have one. `source-normalisation`, `audio-extraction`, `transcription`, `choose-division`, `structure-transcript`, `render-slides` and `build-notes-page` do not. A stage that makes more than one kind of call has one prompt module, with one builder for each kind. Two prompts that share a text take it from a module of its own beside the stage folders. The writer's rules R2 to R9 are such a text (`rewrite-subtopics`).
 
 Each prompt sits beside the one stage that uses it, so a prompt edit touches that stage alone (NFR-5.2). Keeping it out of the stage module puts prompt changes in a file of their own — a prompt is the part iterated on hardest once real lectures run, and its diffs stay legible apart from file renames and manifest writes.
 
@@ -984,15 +1024,15 @@ A prompt module has no test file of its own. Its builder is a pure assembly whos
 
 4. **Title resolution:** For a **new** lecture, extract a provisional title from the video filename (§3.2). Remove the date, day names (Mon–Sun) and a configured module prefix (`naming.modulePrefixes`, §6) where present. Also remove an embedded lecture-number token such as `Lecture 1`, and trailing artefacts (`co`, `copy`, `v2`). Keep the lecturer's capitalisation exactly as typed. A filename with only a date and a lecture number gives an **empty** provisional title, and the lecture gets a bare `Lecture N` name. This step does **not** judge whether the title is meaningful. `judge-lecture-title` does that. For an **existing** lecture, the title comes from its manifest (`lectureTitle`) and is never extracted again. So a CLI `rename` and a `judge-lecture-title` rename both stay.
 
-5. **Base names:** Rename the source video and its matched slide, the workspace folder, and any `Final output/` page to the shared base name `Lecture N - <title> - YYYY-MM-DD`. The base name is a bare `Lecture N - YYYY-MM-DD` when the title is empty. Lecture files already at their target are left untouched.
+5. **Base names:** Rename the source video and its matched slide, the workspace folder, and any notes folder in `Final output/` to the shared base name `Lecture N - <title> - YYYY-MM-DD`. The base name is a bare `Lecture N - YYYY-MM-DD` when the title is empty. Lecture files already at their target are left untouched.
 
 6. **Workspace + manifest:** Create `Pipeline processing/Lecture N - <title> - YYYY-MM-DD/` for any lecture that does not already have one, writing an initial `manifest.json` with `lectureNumber`, `lectureDate`, `provisionalTitle`, `lectureTitle = provisionalTitle`, `userTitle = null`, `aiDerivedTitle = null`, and all stage statuses `pending`. For an existing lecture whose number or folder changed, update `lectureNumber` and `baseName` in its manifest, preserving everything else.
 
-**Collision-safe renaming.** When the sequence changes, all renames of source files, workspace folders and `Final output/` pages are made in two passes. The first pass moves each lecture file to a temporary name. The second moves each temporary name to its target. So shifting lecture numbers never collide during a rename. Lecture files already correct are skipped, so a re-run with no changes touches nothing.
+**Collision-safe renaming.** When the sequence changes, all renames of source files, workspace folders and notes folders in `Final output/` are made in two passes. The first pass moves each lecture file to a temporary name. The second moves each temporary name to its target. So shifting lecture numbers never collide during a rename. Lecture files already correct are skipped, so a re-run with no changes touches nothing.
 
 The temporary suffix sits outside the `.tmp` convention of §4.3, because the two name opposite things: a `.tmp` file is a partial write and is deleted at stage start, while a `source-normalisation` temporary holds a complete lecture file — the only copy of a source video, or a whole lecture workspace — between leaving one name and reaching the next. A run therefore begins by finishing any rename its predecessor was interrupted partway through: every temporary entry across the module's four directories is moved on to its target before anything is read, so an interrupted run costs the next one nothing. Where a target name is occupied, the run stops and names those entries, leaving every one of them where it stands.
 
-**Orphaned workspace handling (direct-deletion guard).** A workspace can have a date with **no source pair present**: both its video and its slide are gone. (A partial loss already breaks a source rule.) Then the sources were deleted directly, not through the CLI, and the pipeline can be inconsistent. `source-normalisation` does not silently delete work, and it does not silently continue. For **each** orphaned workspace, it asks the user whether to delete the workspace and its outputs. The question shows the lecture's number, title and date. It goes through an injected `confirm` callback, which the CLI backs with `@inquirer/prompts`. The question quotes no figure. What a lecture cost is the sum of its stages, and stage costs are not summed (NFR-2.2). The lecture's own cost report shows what was spent on it, and `cost-report` prints it until the workspace goes. A final "are you sure?" question comes only when the user approves **every** orphaned workspace. After a yes, the workspaces and their `Final output/` pages are deleted, with their manifests. The module is renumbered, and each deletion is logged with its prior state. If the user declines **any** orphaned workspace, or the final question, `source-normalisation` stops with an informative error and makes **no changes**. This protects the work when, for example, the whole source folder was moved by mistake.
+**Orphaned workspace handling (direct-deletion guard).** A workspace can have a date with **no source pair present**: both its video and its slide are gone. (A partial loss already breaks a source rule.) Then the sources were deleted directly, not through the CLI, and the pipeline can be inconsistent. `source-normalisation` does not silently delete work, and it does not silently continue. For **each** orphaned workspace, it asks the user whether to delete the workspace and its outputs. The question shows the lecture's number, title and date. It goes through an injected `confirm` callback, which the CLI backs with `@inquirer/prompts`. The question quotes no figure. What a lecture cost is the sum of its stages, and stage costs are not summed (NFR-2.2). The lecture's own cost report shows what was spent on it, and `cost-report` prints it until the workspace goes. A final "are you sure?" question comes only when the user approves **every** orphaned workspace. After a yes, the workspaces and their notes folders in `Final output/` are deleted, with their manifests. The module is renumbered, and each deletion is logged with its prior state. If the user declines **any** orphaned workspace, or the final question, `source-normalisation` stops with an informative error and makes **no changes**. This protects the work when, for example, the whole source folder was moved by mistake.
 
 **Logging:** Every action — files discovered, dates extracted, numbers assigned, matches, each rename, each workspace/manifest write, each renumber, each approved deletion (with its prior number/title/date) — is recorded at `info` on the run's pino logger; broken source rules and orphaned workspace aborts are recorded at `error` before the throw.
 
@@ -1290,7 +1330,7 @@ chooseGrouping(args: { runs: readonly GroupingRun[]; bar: number }): { topics: r
 
 **Input:** `Transcript/transcript.txt`, `Retitled subtopics/subtopics.json`, `Topics/topics.json`, and the provisional title from the stage context
 **Output:** `Title judgement/judgement.json`
-**Conditional side effect:** The stage renames the source video, the source slide, the workspace folder and any `Final output/` page. It does this only when the model judges the provisional title not meaningful and no user title is set.
+**Conditional side effect:** The stage renames the source video, the source slide, the workspace folder and any notes folder in `Final output/`. It does this only when the model judges the provisional title not meaningful and no user title is set.
 
 The stage judges whether the provisional title is meaningful for the lecture's content (CONTEXT.md, "Judging the lecture title"). A title that the lecturer wrote is authoritative. So the model keeps a meaningful title and proposes nothing. The model proposes an AI-derived title only when the provisional title is not meaningful: empty, generic, or in conflict with the content.
 
@@ -1328,7 +1368,7 @@ When the provisional title is meaningful, the stage ignores any `suggestedTitle`
 | Title judgement | `outcome` | Action |
 |---|---|---|
 | Provisional title meaningful | `kept-provisional` | `aiDerivedTitle` becomes `null`. If no user title is set, `lectureTitle` becomes `provisionalTitle`, and `baseName` follows it. The lecture files move only when an earlier run gave the lecture another name. |
-| Not meaningful, and no user title | `adopted-derived` | `aiDerivedTitle` and `lectureTitle` take the proposed title. The source video, the source slide, the workspace folder and any `Final output/` page move to the new base name. `baseName` changes in the manifest. |
+| Not meaningful, and no user title | `adopted-derived` | `aiDerivedTitle` and `lectureTitle` take the proposed title. The source video, the source slide, the workspace folder and any notes folder in `Final output/` move to the new base name. `baseName` changes in the manifest. |
 | Not meaningful, and a user title is set | `kept-user-title` | Only `aiDerivedTitle` takes the proposed title. `lectureTitle` and every name on disk stay. |
 
 **A user title outranks the judgement.** A user title is set through `rename`, and it wins the title precedence (§5, `source-normalisation`). The stage still calls the model and records the AI-derived title. That title is a true record of what the model proposed. It is also the title that the lecture falls back to if the user title is cleared.
@@ -1352,7 +1392,7 @@ The file shows at a glance why a lecture has a new name. The debug log records t
 1. Make the call, check the reply, and resend an unusable reply.
 2. Write `Title judgement/judgement.json` atomically (§4.3).
 3. Decide the identity changes that the stage returns. For `kept-user-title`, there is only `aiDerivedTitle`. For `adopted-derived`, there are `aiDerivedTitle`, `lectureTitle` and `baseName`. For `kept-provisional`, there are only the fields that differ from the provisional title's identity. In most lectures there are none. `lectureBaseName` builds the base name from the title (§5, `source-normalisation`).
-4. When the changes include `baseName`, move the source video, the source slide, any `Final output/` page and the workspace folder with `renameLectureFiles` (§4.7).
+4. When the changes include `baseName`, move the source video, the source slide, any notes folder in `Final output/` and the workspace folder with `renameLectureFiles` (§4.7).
 5. Return the changes on `StageResult.identityChanges`. The runner finds the workspace again by `(moduleRoot, lectureDate)`. Then it writes the changes into the manifest with the stage's `complete` entry (§4.2, §4.7).
 
 The stage writes no manifest of its own (§4.2). From the move in step 4 until the runner's write in step 5, the manifest names the old folder. The stage is marked `running` for that time. So if the launch stops, the next launch runs `judge-lecture-title` again. That run makes a new call, and the new call can propose a different title. `renameLectureFiles` finds the lecture files by their date, so it moves them from wherever the first run left them.
@@ -1481,7 +1521,7 @@ The stage does not repair a reply, because a repair must guess which slide is wr
 
 **What is written.** `Slide placements/placements.json` holds `promptVersion`, the version of the prompt that made the placements. It also holds a list `placements`, with one entry for each placed slide in deck order. Each entry holds `slideNumber`, `subtopicId`, `startWords`, `positionInSubtopic` and `placedBecause`. `positionInSubtopic` is the number of characters from the start of the subtopic's text to the point where the slide goes. A references slide has `startWords` null, the end of the last subtopic as its `positionInSubtopic`, and a fixed `placedBecause`, because the code places it.
 
-**The point does not go through the rewrite.** `rewrite-subtopics` rewrites each subtopic as prose, and a position in the lecturer's words means nothing in the prose. So the slides are placed again after the rewrite, at the figure marks of the writer (§5, "After the rewrite"). `correct-terms` uses the subtopic of each placement. The position stays for the deck-order check, for the test page, and as a possible hint to the placement after the rewrite.
+**The point does not go through the rewrite.** `rewrite-subtopics` rewrites each subtopic as prose, and a position in the lecturer's words means nothing in the prose. So the slides are placed again after the rewrite, at the figure marks of the writer (§5, "After the fact correction"). `correct-terms` uses the subtopic of each placement. The position stays for the deck-order check, for the test page, and as a possible hint to the placement after the rewrite.
 
 The stage fails without a model call when the structured transcript or a reading is missing or unreadable. The error names the file. The stage finds a missing reading from `Slide images/`. Each slide image must have a reading with its slide number. The stage also fails when the third send is unusable.
 
@@ -1641,11 +1681,13 @@ The file of each subtopic holds these fields:
 
 **The model** is `anthropic/claude-sonnet-5.5`, with `concurrency` 10 and `sendGapSeconds` 0.25, set on the stage's own entry (§6).
 
+**The bypass.** The stage's entry has a required `bypass` switch (§6). With `bypass` on, the stage makes no call. The file of each subtopic holds its rewrite unchanged and no changes. It still holds the factual errors that `check-facts` found, so the page can show them. The stage writes `fact-corrected-subtopics.json` as usual, so the stages after it run unchanged. The `--fact-correction` flag replaces the switch for one invocation (§4.7).
+
 ---
 
 ### After the fact correction
 
-Two stages follow `correct-factual-errors`. The prototype of slide relocation on lecture 4 decided the prompt, the model and the shape of the files of `relocate-slides`. The user approved its folder, files and fields on 2026-10-14. `build-notes-page` is designed in outline only.
+Two stages follow `correct-factual-errors`. The prototype of slide relocation on lecture 4 decided the prompt, the model and the shape of the files of `relocate-slides`. The user approved its folder, files and fields on 2026-10-14.
 
 **`relocate-slides` — slide relocation.** `place-slides` puts each slide at a point in the transcript. The notes are prose, so that point is not in them. The stage moves each placed slide to the start of a sentence in its fact-corrected subtopic (CONTEXT.md, "Slide relocation"). It makes one call for each subtopic that has slides, and no call for a subtopic with none. The subtopic of each slide comes from `place-slides`. The call uses prompt `r4` of the prototype, and the model is set in the stage's own config entry (`google/gemini-3.8-flash`). The call gets the paragraphs of the subtopic as a JSON list, with a number on each figure mark. For each slide, it gets the whole slide reading. It gets no transcript words and no reason from `place-slides`. The reply gives the start words of a sentence for each slide, and the slide that each figure mark points at, or no slide.
 
@@ -1684,13 +1726,19 @@ The page follows these rules:
 - **Maths.** Maths is text between two dollar signs. The opening dollar sign has no space after it. The closing dollar sign has no space before it and no digit after it. So "$5 and $10" stays as text. KaTeX writes the maths as MathML, so the page needs no maths fonts.
 - **A lone Greek letter.** Maths that is one Greek letter only, such as `$\beta$`, shows as the plain letter in the text font. A word such as "β-catenin" then stays on one line, and the letter matches the words around it. Longer maths gets the full maths format.
 - **Fonts and colours.** The page uses fonts that come with the computer, so it loads nothing from the internet. The colours are warm: plum for headings and links, and brick red for the figure labels.
-- **A second build.** The stage checks that the image of each slide is on disk before it deletes the earlier build. So a missing image leaves the earlier page in place. Then the stage deletes the lecture's folder and writes it again.
+- **A second build.** The stage checks that the image of each slide is on disk before it deletes the earlier build. So a missing image leaves the earlier page in place. Then the stage deletes the lecture's folder and writes it again. It writes `notes.html` last, so a stage that stops part of the way leaves no page.
 
-The lecture's folder in `Final output/` is a lecture file, as the video and the slide deck are (§3.1). A reset of the stage deletes this lecture's folder and keeps the folders of the other lectures. Rename, change-date, delete and normalisation move or delete the folder.
+The lecture's folder in `Final output/` is a lecture file, as the video and the slide deck are (§3.1). A reset of the stage deletes this lecture's folder and keeps the folders of the other lectures. Every stage comes before `build-notes-page`, so a reset from any stage deletes the folder. Rename, change-date, delete and normalisation move or delete the folder (§4.7).
+
+**When the stage is complete.** The stage is complete when `notes.html` is in the lecture's folder under the lecture's current base name (§4.2). To build the page again at no cost, the user deletes `notes.html` and runs the lecture again.
+
+**Slides and subtopics with no entry.** A subtopic with no entry in `slide-relocations.json` stops the stage with `BuildNotesPageError`, which names the subtopic. A placed slide that no subtopic's entry holds does not stop the stage. The page leaves the slide out, and the stage returns a stage notice that names the slide (§10). Two causes exist: the slide has no reading, or `place-slides` gave it a subtopic that is not in the lecture.
+
+**The two switches of the page.** Two values of `finalOutput` shape the page (§6). `pageViews` lists the page views that the page holds, and the switch at the top shows only those views. `highlightSlideSentences` sets whether the Notes view highlights the sentence of each slide. With the highlight off, the line that explains the Notes view does not mention a highlight. The flags `--page-views` and `--highlight-slide-sentences` replace the two values for one invocation (§4.7). The run log records the values that the stage used (§4.5).
 
 **Input:** `Structured transcript/structured-transcript.json`, `Slide images/`, `Slide readings/`, `Slide placements/placements.json`, `Term corrections/`, `Rewrites/`, `Fact corrections/fact-corrected-subtopics.json` and `Slide relocations/slide-relocations.json`.
 
-**The page views.** One switch at the top of the page chooses the page view (CONTEXT.md, "Page view"). The page opens on the Notes view. The page holds the four views, so it is about four times as large as the notes alone. The stage makes no model call for the views.
+**The page views.** One switch at the top of the page chooses the page view (CONTEXT.md, "Page view"). The page opens on the Notes view. The page holds each view that `finalOutput.pageViews` lists. With the four views, it is about four times as large as the notes alone. The stage makes no model call for the views.
 
 - **Notes.** The page as the rules above describe it.
 - **Rewrite.** The rewritten subtopic of each subtopic under its title, before the fact correction. The view has no highlight and no colour. Each slide is in front of the rewrite word that the word comparison of the Corrections view links to the slide's word in the notes.
@@ -1706,7 +1754,7 @@ The lecture's folder in `Final output/` is a lecture file, as the video and the 
 
 **Slides in the Transcript view.** Each slide is in the subtopic that `place-slides` gave it. The stage counts the words of the subtopic's text before the slide's `positionInSubtopic`. The slide goes in front of the word with that number in the term-corrected text. A correction changes a phrase of one to four words to another phrase of one to four words. So the slide moves by a few words at most. This rough place is enough. The references slide is after the last word.
 
-**The note of a change.** The mouse can rest on a red or green word of the Corrections view. Then a note shows the problem of the factual error that caused the change. A run of red and green words between two unchanged words takes the note of one reported change. That change is the first one whose `before` holds all the red words in order and whose `after` holds all the green words in order. The match ignores case and punctuation. The note is the `problem` of the factual error that the change names in `factualErrors`, counting from 1. A run that no reported change matches has no note.
+**The note of a change.** A red or green word of the Corrections view can have a note. A box shows the note when the mouse rests on the word, or when a tap or the keyboard selects it. The page script draws the box. In Safari, a `title` attribute showed no note (user, 2026-10-14). Esc and a scroll of the page hide the box. A run of red and green words between two unchanged words takes the note of one reported change. That change is the first reported change whose `before` holds all the red words in order. Its `after` must also hold all the green words in order. The match ignores case and punctuation. The note is the `problem` of the factual error that the change names in `factualErrors`, counting from 1. A run that no reported change matches has no note.
 
 ---
 
@@ -1820,7 +1868,7 @@ A reply that carries the provider's error and an answer as well — a choice who
 
 **A tuning parameter can be left unset out loud.** Each optional field of a stage entry can be `null`: `temperature`, `maxTokens`, `concurrency`, `callConcurrency` and `sendGapSeconds`. A `null` means the same as a missing key: the request carries no such parameter. There are two ways to say it, because the choice is worth a record. Under the routing restriction above, the parameters of a request decide which endpoints can serve it. Providers differ in what they accept. The same model takes a `temperature` through one provider and not through another. So the tuning that a stage sets is part of the choice of what can answer it. A `null` records a deliberate omission beside the tuning that is set. A missing key reads as an oversight.
 
-**Three settings say how much runs at once.** `batch.concurrency` is how many lectures a batch runs at once (§4.7). A stage's `concurrency` is how many of its runs, slides, images or subtopics are in flight at once. `callConcurrency` is how many calls one run makes at once. Only `deepen-subtopic-splitting` has one, because it is the only stage whose run makes more than one call on one piece of work (§5). `correct-terms`, `rewrite-subtopics` and `correct-factual-errors` make one call for each subtopic, so their `concurrency` counts their calls. Unset, runs and calls are each made one at a time. On any other stage, nothing would read `callConcurrency`. So the loader raises a `ConfigError` at startup that names the stage.
+**Three settings say how much runs at once.** `batch.concurrency` is how many lectures a batch runs at once (§4.7). A stage's `concurrency` is how many of its runs, slides, images or subtopics are in flight at once. `callConcurrency` is how many calls one run makes at once. Only `deepen-subtopic-splitting` has one, because it is the only stage whose run makes more than one call on one piece of work (§5). `correct-terms`, `rewrite-subtopics`, `correct-factual-errors` and `relocate-slides` make one call for each subtopic, so their `concurrency` counts their calls. Unset, runs and calls are each made one at a time. On any other stage, nothing would read `callConcurrency`. So the loader raises a `ConfigError` at startup that names the stage.
 
 **The send gap is shared by the whole invocation.** `sendGapSeconds` is the least time between the starts of two sends of a stage. Unset, sends are not spaced (§5, "Dividing the transcript", Panel runs). The CLI builds each stage once, and a batch runs every lecture through that one stage. So the gap holds across all the lectures of a batch. It limits the rate of the stage's sends, however many lectures run at once. Without it, two lectures with a `concurrency` of 20 each could start 40 sends at once. The gap spaces sends that run at the same time. So a stage that sets `sendGapSeconds` must also set `concurrency`, or the loader raises a `ConfigError` that names the stage.
 
@@ -1832,6 +1880,12 @@ A reply that carries the provider's error and an answer as well — a choice who
 - two items have the same model id without its provider part, because each model's file is named by that part (§5, `check-facts`).
 
 The other stages keep one `modelId`. A `models` list on any other stage is a `ConfigError` that names the stage.
+
+**The switches of the fact correction and the notes page.** Three keys turn a part of the last stages on or off. Each key is required, so the file says what the pipeline does. The three flags of §4.7 override them for one invocation.
+
+- `stages.correct-factual-errors.bypass` is `true` or `false`. `true` makes the stage copy each rewrite with no call (§5, `correct-factual-errors`).
+- `finalOutput.pageViews` lists the page views of the notes page: `notes`, `rewrite`, `corrections` and `transcript`. The list must name `notes`, because the page opens on it. A name that is not a page view, or a name that comes twice, is a `ConfigError`.
+- `finalOutput.highlightSlideSentences` is `true` or `false`. `true` highlights the sentence of each slide in the Notes view (§5, "After the fact correction").
 
 **A stage key names a stage.** The loader checks each key of the `stages` section against the stage IDs. A key that names no stage is a `ConfigError` at startup, which lists the stages that the key could name. Configuration reaches a stage by its key alone. So with this check, "the stage is configured" and "the config file mentions the stage" mean the same thing.
 
@@ -1941,11 +1995,19 @@ Each prefix is matched literally, so one carrying a pattern character means itse
       ]
     },
     "correct-factual-errors": {
+      "bypass": false,                            // true: no call, each subtopic keeps its rewrite. --fact-correction overrides it
       "modelId": "anthropic/claude-sonnet-5.5",   // one call for each subtopic with a factual error
       "temperature": null,
       "maxTokens": null,
       "concurrency": 10,                          // subtopics corrected at once
       "sendGapSeconds": 0.25                      // the least time between two sends of the stage
+    },
+    "relocate-slides": {
+      "modelId": "google/gemini-3.8-flash",       // one call for each subtopic with a slide
+      "temperature": null,
+      "maxTokens": null,
+      "concurrency": 10,                          // subtopics sent at once
+      "sendGapSeconds": 0.25
     }
   },
   "subtopicSplitting": {
@@ -1966,7 +2028,9 @@ Each prefix is matched literally, so one carrying a pattern character means itse
     "modulePrefixes": ["BOD", "Biology of Disease", "ANA"]
   },
   "finalOutput": {
-    "language": "en-GB"                // language the NOTES are written in (en-GB | en-US); not elevenLabs.languageCode above
+    "language": "en-GB",               // language the NOTES are written in (en-GB | en-US). Not elevenLabs.languageCode above
+    "pageViews": ["notes", "rewrite", "corrections", "transcript"],   // the views of the notes page. The list must name "notes"
+    "highlightSlideSentences": true    // highlight the sentence of each slide in the Notes view
   }
 }
 ```
@@ -2079,12 +2143,14 @@ Each stage that names a model and whose output stands on disk, `complete` or `sk
 
 **2 — Error recovery cost** (spend from failed runs and retries):
 ```
-Run                    Stage                  Status    Cost
-────────────────────────────────────────────────────────────
-2025-10-10T09:00Z      read-slides            failed   £0.016
-2025-10-10T10:30Z      read-slides            retry    £0.025
-────────────────────────────────────────────────────────────
+Run                       Stage                 Model                         Status      Cost
+──────────────────────────────────────────────────────────────────────────────────────────────
+2025-10-10T09:00:00.000Z  read-slides           google/gemini-2.5-flash       failed    £0.016
+2025-10-10T10:30:00.000Z  read-slides           google/gemini-2.5-flash        retry    £0.025
+──────────────────────────────────────────────────────────────────────────────────────────────
 ```
+
+Each row names its model. A stage with a list of models has one row for each model that it called, as in the run summary.
 
 A row is any stage that failed, under whatever classification its run carried, together with every stage of a run started to recover from one. The run that first meets a failure is classified `normal` — as the 09:00 run above is — and the spend that failure cost belongs to this section, which is why a row is selected by what became of the stage as well as by the run's type. The rows stand on their own: what a failure cost is read against the retry underneath it, one stage at a time (NFR-2.2).
 
@@ -2094,6 +2160,8 @@ Stage: place-slides
   Run 2025-10-11T14:00Z    gemini-3.8-flash       £0.055
   Run 2025-10-11T15:30Z    gemini-3.8-flash       £0.086
 ```
+
+A stage with a list of models has one line for each model of each run.
 
 ### Cost and Reporting Modules
 
@@ -2109,7 +2177,7 @@ The split is by kind rather than by size. Rendering reads manifests, run logs an
 accumulateCost(args: { current: StageCost; incoming: StageCost }): StageCost
 // Folds the calls a single stage made into that stage's one StageCost, summing tokens, call counts and cost
 // at full precision (rounding is a display concern). read-slides makes one call for each slide, and
-// correct-terms, rewrite-subtopics and correct-factual-errors one call for each subtopic. Each has a single
+// correct-terms, rewrite-subtopics, correct-factual-errors and relocate-slides one call for each subtopic. Each has a single
 // figure to record — this is how they reach it, and it stays inside one stage. check-facts also folds the
 // calls of each model into that model's own StageCost (§4.5). The merged cost is resolved only when both inputs resolved; if either is null the result
 // is null and the errors are joined, so a stage whose lookup failed for one call reports `n/a` rather than
@@ -2212,7 +2280,8 @@ src/
 │   ├── lecture-identity.ts           # rename/delete/change-date on the filesystem
 │   ├── commands.ts                   # Carrying a parsed command out; exit codes
 │   ├── pipeline-run-reporter.ts               # The wording of the notices a run writes as it goes (§10)
-│   └── run-cli.ts                    # Composition root: config, logger, runner, stages, prompts
+│   ├── run-cli.ts                    # Composition root: config, logger, runner, stages, prompts
+│   └── fixtures.ts                   # The test fixtures of the CLI suites. Production code never imports it
 ├── types/
 │   └── pipeline.ts                   # All shared types: StageId, StageContext, StageResult,
 │                                     # StageCost, Manifest
@@ -2257,7 +2326,12 @@ src/
 │       ├── correct-terms/            # stage module and its prompt module
 │       ├── rewrite-subtopics/        # stage module and its writer prompt module
 │       ├── check-facts/              # stage module, its fact-check prompt module, and the merge
-│       └── correct-factual-errors/   # stage module and its fact-correction prompt module
+│       ├── factual-errors.ts         # The factual errors that check-facts writes, for the stages that write and read them
+│       ├── correct-factual-errors/   # stage module and its fact-correction prompt module
+│       ├── fact-corrections.ts       # The files that correct-factual-errors writes, for the stages that write and read them
+│       ├── relocate-slides/          # stage module, its r4 prompt module, and the checks and text changes (slide-relocation.ts)
+│       ├── slide-relocations.ts      # The files that relocate-slides writes, for the stages that write and read them
+│       └── build-notes-page/         # stage module, the page HTML, its style and script, and the word comparison: no model call, no prompt
 └── utils/
     ├── date.ts                       # Date extraction and normalisation (chrono-node)
     ├── naming.ts                     # Lecture folder and file naming helpers
@@ -2338,10 +2412,12 @@ Lecture 1: Cell Injury (2025-10-10)
 ✔ Transcription — 1 call, £0.031
 ✔ Render slides — no model call
 − Read slides — output already present, skipping
-✖ Synthesis — failed
+✔ Build notes page — no model call
+⚠ Build notes page — Slide 7 is placed, but no subtopic's relocation entry has it, so the notes page leaves it out.
+✖ Relocate slides — failed
 ```
 
-A stage notice is a fact that the stage found and that the user must see. An example is the passage of a factual error that `check-facts` did not find in its subtopic (§5, `check-facts`). The stage returns its notices on `StageResult.notices`. The runner reports each notice after the stage's completed line, so a stage never writes to the terminal.
+A stage notice is a fact that the stage found and that the user must see. One example is the passage of a factual error that `check-facts` did not find in its subtopic (§5, `check-facts`). Another is a placed slide that the notes page leaves out (§5, "After the fact correction"). The stage returns its notices on `StageResult.notices`. The runner reports each notice after the stage's completed line, as a line that starts with `⚠` and the stage's name. So a stage never writes to the terminal.
 
 A completed stage that makes no model call, such as `audio-extraction` or `render-slides`, ends with "no model call". It shows no zero, because a zero would read as a measured cost. It shows no blank, because a blank would read as an unknown cost (§7). A failed stage is marked, but its message is not repeated here. The message and the pointer to the debug log follow the run summary (§8). This line exists so that a stage announced as started is not left open. The lecture's name comes from `lectureHeading` (§7). The end-of-run summary and the cost report name it in the same way, so a batch's notices cannot identify one lecture in two ways.
 

@@ -1,7 +1,7 @@
 # Lecture Notes Generator — Requirements Specification
 
 **Suite version:** 1.97-draft. The requirements, the technical design and the implementation plan share this number. A substantive edit to any of the three raises it in all three
-**Date:** 2026-10-14
+**Date:** 2026-10-15
 **Status:** For review
 
 ---
@@ -48,6 +48,16 @@ The system shall take a set of lecture recordings (video files) and accompanying
 
 **FR-3.5** The system shall produce the notes of each lecture as one HTML page, with the slide images in a folder beside the page. The page shall show the fact-corrected subtopics under their topic and subtopic titles. It shall show each placed slide image, with its figure number and caption, at its place in the text. The page shall load nothing from the internet.
 
+**FR-3.6** The page shall be able to show three other views of the lecture:
+
+- the rewrite, before the fact correction
+- the changes that the fact correction made
+- the transcript, with a mark on each spoken word that the notes do not keep.
+
+The configuration shall name the views that the page holds. The notes view shall always be one of them.
+
+**FR-3.7** The configuration shall set whether the notes view marks the sentence of each slide.
+
 ### FR-4 — Checking Facts
 
 **FR-4.1** The system shall check the whole rewrite of each lecture for factual errors, with one model or two models. The check shall not use the transcript.
@@ -57,6 +67,8 @@ The system shall take a set of lecture recordings (video files) and accompanying
 **FR-4.3** The system shall correct the factual errors of each subtopic that has one, with the smallest change to the text. A subtopic with no factual error shall stay unchanged.
 
 **FR-4.4** The system shall keep each factual error and each change on disk. The user can then read what the check found and what the correction changed.
+
+**FR-4.5** The configuration shall be able to turn the fact correction off. Then each subtopic of the notes shall be its rewrite, unchanged, and the factual errors that the check found shall stay on disk.
 
 ### FR-5 — Model Configurability
 
@@ -80,7 +92,15 @@ The system shall take a set of lecture recordings (video files) and accompanying
 
 **FR-6.6** The system shall identify each lecture by its date, number lectures sequentially in date order within a module, and renumber the affected lectures automatically when a lecture is added or removed.
 
-**FR-6.7** The system shall provide commands to rename a lecture, delete a lecture, and change a lecture's date, keeping its source files, workspace, and outputs consistent with one another.
+**FR-6.7** The system shall provide commands to rename a lecture, delete a lecture, and change a lecture's date. Each command shall keep the lecture's source files, workspace and outputs consistent with one another.
+
+**FR-6.8** The command line shall be able to replace three values of the configuration for one run:
+
+- the switch of the fact correction (FR-4.5)
+- the views of the page (FR-3.6)
+- the mark on the sentence of each slide (FR-3.7).
+
+The configuration file shall not change.
 
 ---
 
