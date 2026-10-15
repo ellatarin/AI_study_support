@@ -29,7 +29,7 @@ The user can then read the lecture as it was given, and see whether the notes dr
 
 A prototype of the comparison exists: the change page of Genomics of Disease Lecture 1 (2026-10-14). It compared the term-corrected text with the rewrite, before the fact check.
 
-- [ ] The technical design describes the switch and the rewrite, corrections and transcript views before the build.
+- [x] The technical design describes the switch and the rewrite, corrections and transcript views before the build.
 - [ ] The switch shows the notes, the rewrite, the corrections or the transcript. The page opens on the notes.
 - [ ] The rewrite view shows the rewrite of each subtopic under its title, with its slides. It has no highlight and no colour.
 - [ ] In the transcript view, each subtopic shows its term-corrected text under its title.
@@ -40,7 +40,8 @@ A prototype of the comparison exists: the change page of Genomics of Disease Lec
 - [ ] Each slide in the corrections view is at the same sentence as in the notes view.
 - [ ] Each slide in the transcript view is in its subtopic, near the words where the lecturer spoke about it.
 - [ ] A red or green word shows the problem of its factual error when the mouse rests on it.
-- [ ] The page still loads nothing from the internet.
+- [x] The page still loads nothing from the internet.
+- [ ] The user checks the note box in Safari, on a page with the Corrections view and the bypass off. The note box replaced the browser's title note in f1cf75ce, because Safari showed the title note late and a touch screen never showed it.
 
 ## Comments
 
@@ -122,3 +123,5 @@ The build is on branch `ticket-12-views`, in the folder `Ella_AI_project-ticket-
 6. The acceptance boxes above are not ticked. The user ticks them after the hand check.
 
 **The exact next step:** the build of ticket 12 is complete. The parent merges the branch into `main` and raises the suite version. Then the user checks the page by hand, as item 3 of the open questions says. Then the user decides items 1 and 2 of the open questions.
+
+**2026-10-15, box check:** The design box is done in 1ef8e11f, before the first build commit cf047b1a. Merge 5502ef5d puts both commits on `main`. The box of the page that loads nothing from the internet is done. The test of this box is from b2d997ee. The test reads the whole page, and the page holds all four views since 1a9c8907. The other boxes of the views stay open for the hand check of the user.

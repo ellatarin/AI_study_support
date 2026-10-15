@@ -6,14 +6,14 @@
 
 **Status:** ready-for-agent
 
-- [ ] The two models are called at the same time.
-- [ ] Two factual errors of different models become one merged factual error under two conditions. They are in the same subtopic, and their passages share a run of three words. The prototype merge uses the same rule.
-- [ ] A merged factual error takes the primary model's text, and `foundBy` lists both model ids.
-- [ ] A factual error that only one model reports goes into the file with that model's text.
-- [ ] A disabled model is not called.
-- [ ] When one model fails each send, the stage fails and keeps the reply of the other model. The next run calls only the model with no saved reply.
-- [ ] A saved reply of a model that is now disabled is not used.
-- [ ] The run summary has one row for each model of the stage, with its calls, tokens and cost.
+- [x] The two models are called at the same time.
+- [x] Two factual errors of different models become one merged factual error under two conditions. They are in the same subtopic, and their passages share a run of three words. The prototype merge uses the same rule.
+- [x] A merged factual error takes the primary model's text, and `foundBy` lists both model ids.
+- [x] A factual error that only one model reports goes into the file with that model's text.
+- [x] A disabled model is not called.
+- [x] When one model fails each send, the stage fails and keeps the reply of the other model. The next run calls only the model with no saved reply.
+- [x] A saved reply of a model that is now disabled is not used.
+- [x] The run summary has one row for each model of the stage, with its calls, tokens and cost.
 - [ ] A live run on lecture 4 by the user, with Sol Pro as primary and Opus 5.5 as secondary.
 
 ## Comments
@@ -28,3 +28,5 @@ Done and tested:
 - each model's cost after a failure (`createCostTallyByModel`).
 
 Waiting for the wiring ticket: the run summary rows, the runner that adds each model's cost to its earlier runs, and the live run.
+
+**2026-10-15, box check:** The box of the calls at the same time is done in 7f21a8c3. The merge rule box is done in 7f21a8c3. The stage ranks a pair by the count of shared runs. The prototype ranks it by a share. The technical design records this difference. The box of the primary model's text is done in 7f21a8c3. The box of an error from one model is done in 7f21a8c3. The box of the disabled model is done in 7f21a8c3. The box of the failed model is done in 7f21a8c3. The box of the saved reply of a disabled model is done in 7f21a8c3. The run summary box is done in 46274db3.
