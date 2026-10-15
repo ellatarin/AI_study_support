@@ -15,6 +15,7 @@ import { createMoneyFormatter } from "../pipeline/reports.js";
 import { deriveTimestampId, PipelineRunner } from "../pipeline/runner.js";
 import { audioExtractionParts } from "../pipeline/stages/audio-extraction/audio-extraction.js";
 import { createBuildNotesPageStage } from "../pipeline/stages/build-notes-page/build-notes-page.js";
+import { printNotesPdf } from "../pipeline/stages/build-notes-page/print-notes-pdf.js";
 import { createCheckFactsStage } from "../pipeline/stages/check-facts/check-facts.js";
 import { createChooseDivisionStage } from "../pipeline/stages/choose-division/choose-division.js";
 import { createCorrectFactualErrorsStage } from "../pipeline/stages/correct-factual-errors/correct-factual-errors.js";
@@ -121,7 +122,7 @@ async function assembleDeps({
 			createCheckFactsStage({ logger, client }),
 			createCorrectFactualErrorsStage({ logger, client }),
 			createRelocateSlidesStage({ logger, client }),
-			createBuildNotesPageStage({ logger }),
+			createBuildNotesPageStage({ logger, printNotesPdf }),
 		],
 		logger,
 		reporter: createPipelineRunReporter({ write, formatMoney }),

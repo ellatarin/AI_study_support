@@ -4,6 +4,7 @@
  */
 
 import type { NotesPdfSettings } from "../../../types/pipeline.js";
+import { LIGHT_COLOURS_AND_FONTS } from "./notes-page-style.js";
 
 /**
  * Gives the stylesheet of the Notes PDF, with the page settings of the config.
@@ -22,7 +23,13 @@ export function notesPdfStyle(settings: NotesPdfSettings): string {
   margin: ${settings.marginMm}mm;
   @bottom-center { content: counter(page); }
 }
-body { margin: 0; }
+${LIGHT_COLOURS_AND_FONTS}
+body { margin: 0; color: var(--ink); font-family: var(--font-text); font-size: ${settings.fontSizePt}pt; }
+.eyebrow { margin: 0; font-family: var(--font-ui); color: var(--muted); }
+h1 { margin-top: 0; }
+h2 { border-top: 1pt solid var(--accent); padding-top: 0.5em; }
+figcaption { font-size: 0.85em; }
+.figure-label { font-family: var(--font-ui); font-weight: 700; color: var(--figure-label); }
 figure {
   break-inside: avoid;
   width: ${settings.slideWidthPercent}%;

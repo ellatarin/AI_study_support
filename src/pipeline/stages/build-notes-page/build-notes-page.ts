@@ -11,14 +11,16 @@ import { join, relative } from "node:path";
    The duplication floor stays where it is for code that can be extracted. */
 import type { Logger } from "pino";
 import type { PipelineStage, StageContext } from "../../../types/pipeline.js";
-import { NamedError } from "../../../utils/errors.js";
 /* jscpd:ignore-end */
+import { allInOrder } from "../../../utils/concurrency.js";
+import { errorMessage, NamedError } from "../../../utils/errors.js";
 import { pathExists, writeFileAtomic } from "../../../utils/files.js";
 import {
 	type LectureInModule,
 	lectureNotesDirPath,
 	NOTES_SLIDES_DIR,
 	notesPagePath,
+	notesPdfPath,
 	notesSlideImageEntry,
 } from "../../layout.js";
 import { readFactCorrections } from "../fact-corrections.js";
@@ -29,10 +31,12 @@ import { readStageSlidePlacements, readStageStructuredTranscript } from "../stag
 import { readSubtopicRewrite } from "../subtopic-rewrites.js";
 import { readTermCorrectionResult } from "../term-corrections.js";
 import { type NotesPageContent, notesPageHtml } from "./notes-page-html.js";
+import { notesPdfHtml, readPngDataUrl } from "./notes-pdf-html.js";
+import type { NotesPdfPrinter } from "./print-notes-pdf.js";
 
 const STAGE_ID = "build-notes-page";
 
-/** The error of the stage when an input file is missing or unreadable. */
+/** The error of the stage when an input file is missing or unreadable, or when the Notes PDF cannot be printed. */
 export class BuildNotesPageError extends NamedError {}
 
 /**
@@ -172,23 +176,82 @@ async function readCheckedPageContent(context: StageContext): Promise<NotesPageC
 }
 
 /**
- * Writes the notes of one lecture into the lecture's folder in the final output
- * folder. The folder holds `notes.html`, and `slides/` holds a copy of each slide
- * image of the notes. The stage first deletes the folder of an earlier build. The
- * page is written last, so a stage that stops part of the way leaves no page.
+ * Gives the path of the copy of a slide image in the lecture's notes folder.
  *
- * @param args - The content of the page and the stage context.
+ * @param args - The lecture, and the slide.
+ * @param args.lecture - The module and the lecture.
+ * @param args.slideNumber - The number of the slide in the deck.
+ * @returns The absolute path of the copy.
+ */
+function slideCopyPath({
+	lecture,
+	slideNumber,
+}: {
+	readonly lecture: LectureInModule;
+	readonly slideNumber: number;
+}): string {
+	return join(lectureNotesDirPath(lecture), notesSlideImageEntry(slideNumber));
+}
+
+/** The content of the notes, the stage context of the lecture, and the printer of the Notes PDF. */
+type NotesWriting = {
+	readonly content: NotesPageContent;
+	readonly context: StageContext;
+	readonly printNotesPdf: NotesPdfPrinter;
+};
+
+/**
+ * Prints the Notes PDF of one lecture beside the notes page. The HTML holds each
+ * slide image as data, read from its copy in the lecture's notes folder.
+ *
+ * @param args - The content of the page, the stage context and the printer of the Notes PDF.
  * @param args.content - The content of the page.
  * @param args.context - The stage context of the lecture.
- * @returns The path of the notes page, relative to the workspace.
+ * @param args.printNotesPdf - Prints the Notes PDF.
+ * @returns The absolute path of the Notes PDF.
+ * @throws {BuildNotesPageError} If the PDF cannot be printed. The error names the path of the PDF and the cause.
+ */
+async function printPdf({ content, context, printNotesPdf }: NotesWriting): Promise<string> {
+	const lecture = lectureOf(context);
+	const slideNumbers = slideNumbersIn(content.slideRelocations);
+	const imageUrls = await allInOrder({
+		items: slideNumbers,
+		work: (slideNumber) => readPngDataUrl(slideCopyPath({ lecture, slideNumber })),
+	});
+	const notesPdf = notesPdfPath(lecture);
+	try {
+		await printNotesPdf({
+			html: notesPdfHtml({
+				content,
+				settings: context.config.finalOutput.pdf,
+				slideImageUrl: (slideNumber) => imageUrls[slideNumbers.indexOf(slideNumber)] ?? "",
+			}),
+			path: notesPdf,
+		});
+	} catch (error: unknown) {
+		throw fail(`The Notes PDF at ${notesPdf} could not be printed (${errorMessage(error)})`);
+	}
+	return notesPdf;
+}
+
+/**
+ * Writes the notes of one lecture into the lecture's folder in the final output
+ * folder. The folder holds `notes.html` and `notes.pdf`, and `slides/` holds a
+ * copy of each slide image of the notes. The stage first deletes the folder of an
+ * earlier build. The page is written last, so a stage that stops part of the way
+ * leaves no page.
+ *
+ * @param args - The content of the page, the stage context and the printer of the Notes PDF.
+ * @param args.content - The content of the page.
+ * @param args.context - The stage context of the lecture.
+ * @param args.printNotesPdf - Prints the Notes PDF.
+ * @returns The paths of the Notes PDF and the notes page, relative to the workspace.
  */
 async function writeNotes({
 	content,
 	context,
-}: {
-	readonly content: NotesPageContent;
-	readonly context: StageContext;
-}): Promise<string> {
+	printNotesPdf,
+}: NotesWriting): Promise<readonly string[]> {
 	const lecture = lectureOf(context);
 	const notesDir = lectureNotesDirPath(lecture);
 	await rm(notesDir, { recursive: true, force: true });
@@ -196,29 +259,34 @@ async function writeNotes({
 	for (const slideNumber of slideNumbersIn(content.slideRelocations)) {
 		await copyFile(
 			slideImagePath({ workspaceRoot: context.workspaceRoot, slideNumber }),
-			join(notesDir, notesSlideImageEntry(slideNumber)),
+			slideCopyPath({ lecture, slideNumber }),
 		);
 	}
+	const notesPdf = await printPdf({ content, context, printNotesPdf });
 	const notesPage = notesPagePath(lecture);
 	await writeFileAtomic({ path: notesPage, content: notesPageHtml(content) });
-	return relative(context.workspaceRoot, notesPage);
+	return [notesPdf, notesPage].map((path) => relative(context.workspaceRoot, path));
 }
 
 /**
  * Builds the `build-notes-page` stage. The stage counts as complete when the
- * notes page is on disk under the lecture's current base name. To build the page
- * again, the user deletes `notes.html` (technical-design.md §5,
+ * notes page and the Notes PDF are both on disk under the lecture's current base
+ * name. When either one is missing, the next pipeline run builds both again. To
+ * build them again, the user deletes `notes.html` (technical-design.md §5,
  * `build-notes-page`).
  *
  * @param args - The dependencies of the stage.
  * @param args.logger - The logger of the invocation.
+ * @param args.printNotesPdf - Prints the Notes PDF. The CLI gives the printer that uses Chrome.
  * @returns The stage.
  */
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- pino's Logger has mutable properties that the rule cannot ignore. This function only gives the logger to the stage.
 export function createBuildNotesPageStage({
 	logger,
+	printNotesPdf,
 }: {
 	readonly logger: Logger;
+	readonly printNotesPdf: NotesPdfPrinter;
 }): PipelineStage<NotesPageContent, null> {
 	return {
 		...createPipelineStage({
@@ -227,10 +295,13 @@ export function createBuildNotesPageStage({
 			getInput: readCheckedPageContent,
 			run: async ({ input, context }) => ({
 				output: null,
-				filesWritten: [await writeNotes({ content: input, context })],
+				filesWritten: await writeNotes({ content: input, context, printNotesPdf }),
 				notices: unrelocatedSlideNotices(input),
 			}),
 		}),
-		isComplete: (context) => pathExists(notesPagePath(lectureOf(context))),
+		isComplete: async (context) => {
+			const lecture = lectureOf(context);
+			return (await pathExists(notesPagePath(lecture))) && pathExists(notesPdfPath(lecture));
+		},
 	};
 }

@@ -25,6 +25,9 @@ export const DEBUG_LOGS_DIR = "debug-logs";
 /** The notes page in a lecture's folder in the final output folder (technical-design.md §3.1). */
 export const NOTES_PAGE_FILE = "notes.html";
 
+/** The Notes PDF beside the notes page (CONTEXT.md, "Notes PDF"). */
+export const NOTES_PDF_FILE = "notes.pdf";
+
 /** The folder beside the notes page that holds the slide images of the notes. */
 export const NOTES_SLIDES_DIR = "slides";
 
@@ -92,7 +95,8 @@ function lectureDirIn({
 
 /**
  * Gives the folder of a lecture's notes, in the final output folder. It holds
- * {@link NOTES_PAGE_FILE} and {@link NOTES_SLIDES_DIR} (technical-design.md §3.1).
+ * {@link NOTES_PAGE_FILE}, {@link NOTES_PDF_FILE} and {@link NOTES_SLIDES_DIR}
+ * (technical-design.md §3.1).
  *
  * @param lecture - The module and the lecture.
  * @returns The absolute path to the folder.
@@ -110,6 +114,17 @@ export function lectureNotesDirPath(lecture: LectureInModule): string {
  */
 export function notesPagePath(lecture: LectureInModule): string {
 	return join(lectureNotesDirPath(lecture), NOTES_PAGE_FILE);
+}
+
+/**
+ * Gives the path of a lecture's Notes PDF, {@link NOTES_PDF_FILE} beside the
+ * notes page.
+ *
+ * @param lecture - The module and the lecture.
+ * @returns The absolute path to the Notes PDF.
+ */
+export function notesPdfPath(lecture: LectureInModule): string {
+	return join(lectureNotesDirPath(lecture), NOTES_PDF_FILE);
 }
 
 /**

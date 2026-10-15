@@ -1,7 +1,8 @@
 /**
  * The stylesheet and the script of the notes page. The page holds both, so it
  * loads nothing from the internet (technical-design.md §5, `build-notes-page`).
- * The user checks the slide window by hand, because no suite runs a browser.
+ * The user checks the slide window by hand, because no suite opens the notes
+ * page in a browser.
  */
 
 /**
