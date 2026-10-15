@@ -101,6 +101,12 @@ describe("createPipelineRunReporter", () => {
 		expect(printed()).toContain("failed");
 	});
 
+	it("should write a bypass line of its own, with no cost, when a stage is bypassed", () => {
+		report({ event: "stage-bypassed", stageId: "check-facts" });
+
+		expect(printed()).toBe("↷ Check facts — bypassed, no model call\n");
+	});
+
 	it("should give the stage and the notice on a line with a warning mark when a stage reports a notice", () => {
 		report({ event: "stage-notice", stageId: "check-facts", notice: "The passage is missing." });
 

@@ -572,11 +572,16 @@ async function runStage({
 			cost,
 			costByModel: costTallyByModel.costByModel(),
 		});
-		reporter({ event: "stage-completed", stageId, cost });
+		const status = completedStatus(result);
+		reporter(
+			status === "bypassed"
+				? { event: "stage-bypassed", stageId }
+				: { event: "stage-completed", stageId, cost },
+		);
 		for (const notice of result.notices ?? []) {
 			reporter({ event: "stage-notice", stageId, notice });
 		}
-		return ranOutcome({ status: completedStatus(result) });
+		return ranOutcome({ status });
 	} catch (error: unknown) {
 		const message = errorMessage(error);
 		// The user sees only the message. The stack goes to the debug log, where an

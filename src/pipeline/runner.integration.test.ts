@@ -532,6 +532,16 @@ describe("PipelineRunner integration", () => {
 				expect(runLogEntry).toMatchObject({ action: "ran", status: "bypassed" });
 			});
 
+			it("should report the stage as bypassed, not as completed, when the stage result says that the stage was bypassed", async () => {
+				await makeRunner([bypassedAudioStage()]).runLecture({ workspaceRoot });
+
+				expect(reported()).toEqual([
+					"lecture-started",
+					"stage-started:audio-extraction",
+					"stage-bypassed:audio-extraction",
+				]);
+			});
+
 			it("should not run the stage again, and record skipped in the run log, when a later run finds the stage bypassed", async () => {
 				const stage = bypassedAudioStage();
 				const run = vi.spyOn(stage, "run");

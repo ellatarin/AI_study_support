@@ -563,6 +563,7 @@ export type PipelineRunEvent =
 			readonly stageId: StageId;
 			readonly cost: StageCost | null;
 	  }
+	| { readonly event: "stage-bypassed"; readonly stageId: StageId }
 	| { readonly event: "stage-failed"; readonly stageId: StageId }
 	| { readonly event: "stage-notice"; readonly stageId: StageId; readonly notice: string };
 

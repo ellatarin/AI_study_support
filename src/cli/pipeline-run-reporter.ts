@@ -18,8 +18,13 @@ const COMPLETED = "✔";
 /** The mark of the notice for a stage that was skipped, because its output already stands. */
 const SKIPPED = "−";
 
+/** The mark of the notice for a bypassed stage (CONTEXT.md, "Bypassed stage"). */
+const BYPASSED = "↷";
+
 /** The mark of the notice for a stage that failed. */
 const FAILED = "✖";
+
+const NO_MODEL_CALL = "no model call";
 
 /** The mark of a fact that a stage found and that the user must see. */
 const WARNING = "⚠";
@@ -42,7 +47,7 @@ function spendTail({
 	readonly formatMoney: MoneyFormatter;
 }): string {
 	if (cost === null) {
-		return " — no model call";
+		return ` — ${NO_MODEL_CALL}`;
 	}
 	return ` — ${pluralise({ count: cost.callCount, noun: "call" })}, ${formatMoney(cost.costUsd)}`;
 }
@@ -76,6 +81,9 @@ function noticeFor({
 	}
 	if (event.event === "stage-completed") {
 		return `${COMPLETED} ${label}${spendTail({ cost: event.cost, formatMoney })}\n`;
+	}
+	if (event.event === "stage-bypassed") {
+		return `${BYPASSED} ${label} — bypassed, ${NO_MODEL_CALL}\n`;
 	}
 	if (event.event === "stage-notice") {
 		return `${WARNING} ${label} — ${event.notice}\n`;
