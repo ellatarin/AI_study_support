@@ -20,3 +20,5 @@
 - [ ] A total over an unknown stage cost says "at least" and names how many stage costs are unknown.
 
 ## Comments
+
+**2026-10-15:** the run log of GD lecture 2 records the cost of the bypassed `correct-factual-errors` as `costUsd: null` with `callCount: 0`. `build-notes-page` records the same. A stage with no calls cost nothing, so the total must count it as zero, not as an unknown cost. Otherwise each bypassed or free stage makes the total say "at least".
