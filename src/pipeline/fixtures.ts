@@ -561,18 +561,21 @@ export const disabledFactCheckModel: FactCheckModel = {
 export const factCheckModelIds = [primaryFactCheckModel.modelId, secondaryFactCheckModel.modelId];
 
 /**
- * Builds the config of a `check-facts` stage that runs: a models list, with the bypass off.
+ * Builds the config of a `check-facts` stage: a models list, and the bypass switch.
  *
- * @param args - The models.
+ * @param args - The models, and the switch.
  * @param args.models - The models list of the stage.
+ * @param args.bypass - The bypass switch. The default is off, so the stage runs.
  * @returns The config of the stage.
  */
 export function factCheckConfig({
 	models,
+	bypass = false,
 }: {
 	readonly models: readonly FactCheckModel[];
+	readonly bypass?: boolean;
 }): FactCheckStageConfig {
-	return { models, bypass: false };
+	return { models, bypass };
 }
 
 /** Subtopic 1 of the lecture that the fact suites check. It has no factual error. */

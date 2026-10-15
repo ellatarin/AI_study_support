@@ -338,14 +338,14 @@ export async function checkFacts(run: FactCheckRun): Promise<FactCheckResult> {
 	});
 	const output: FactualErrorsFile = {
 		factCheckPromptVersion: FACT_CHECK_PROMPT_VERSION,
+		bypassed: false,
 		checkedBy: models.map(({ modelId }) => modelId),
 		factualErrors: merged.map((error) => ({
 			...error,
 			wordsFound: passageFound({ error, subtopics: run.subtopics }),
 		})),
 	};
-	const mergedPath = factualErrorsPath(run.workspaceRoot);
-	await writeJsonAtomic({ path: mergedPath, value: output });
+	const mergedPath = await writeFactualErrorsFile({ workspaceRoot: run.workspaceRoot, output });
 	return {
 		output,
 		filesWritten: [...checks.map(({ path }) => path), mergedPath].map((path) =>
@@ -440,6 +440,47 @@ function wordsNotFoundNotices(factualErrors: readonly MergedFactualError[]): rea
 }
 
 /**
+ * Writes the merged file of the lecture.
+ *
+ * @param args - The workspace, and the file.
+ * @param args.workspaceRoot - The absolute path of the lecture's workspace.
+ * @param args.output - The merged file.
+ * @returns The absolute path of the merged file.
+ */
+async function writeFactualErrorsFile({
+	workspaceRoot,
+	output,
+}: {
+	readonly workspaceRoot: string;
+	readonly output: FactualErrorsFile;
+}): Promise<string> {
+	const mergedPath = factualErrorsPath(workspaceRoot);
+	await writeJsonAtomic({ path: mergedPath, value: output });
+	return mergedPath;
+}
+
+/**
+ * Writes the merged file of a bypassed fact check: no model, and no factual
+ * error. The fact correction then has nothing to correct, and the stages after it
+ * run as usual (CONTEXT.md, "Bypassed stage").
+ *
+ * @param workspaceRoot - The absolute path of the lecture's workspace.
+ * @returns The merged file and its `filesWritten` entry.
+ */
+async function writeBypassedFactCheck(
+	workspaceRoot: string,
+): Promise<Pick<FactCheckResult, "output" | "filesWritten">> {
+	const output: FactualErrorsFile = {
+		factCheckPromptVersion: FACT_CHECK_PROMPT_VERSION,
+		bypassed: true,
+		checkedBy: [],
+		factualErrors: [],
+	};
+	const mergedPath = await writeFactualErrorsFile({ workspaceRoot, output });
+	return { output, filesWritten: [relative(workspaceRoot, mergedPath)] };
+}
+
+/**
  * Builds the `check-facts` stage from the logger and the OpenAI client of the
  * invocation. Each call goes to a model of the stage's `models` list, with that
  * model's settings.
@@ -460,10 +501,14 @@ export const createCheckFactsStage: ModelStageFactory<FactCheckInput, FactualErr
 		logger,
 		getInput: readFactCheckInput,
 		run: async ({ input, context, logger: stageLogger, costTally, costTallyByModel }) => {
-			const models = context.config.stages[STAGE_ID]?.models;
-			if (models === undefined) {
+			const stageConfig = context.config.stages[STAGE_ID];
+			if (stageConfig === undefined) {
 				throw new CheckFactsError(unconfiguredStageMessage({ stageId: STAGE_ID }));
 			}
+			if (stageConfig.bypass) {
+				return writeBypassedFactCheck(context.workspaceRoot);
+			}
+			const { models } = stageConfig;
 			const { output, filesWritten, notices } = await checkFacts({
 				...input,
 				models,

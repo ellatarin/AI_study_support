@@ -35,6 +35,8 @@ export type MergedFactualError = FactualErrorFoundBy & { readonly wordsFound: bo
 /** The merged file of the lecture, `factual-errors.json`. */
 export type FactualErrorsFile = {
 	readonly factCheckPromptVersion: string;
+	/** `true` when the fact check was a bypassed stage. Then both lists are empty (CONTEXT.md, "Bypassed stage"). */
+	readonly bypassed: boolean;
 	/** The ids of the models that `check-facts` called, the primary model first. */
 	readonly checkedBy: readonly string[];
 	readonly factualErrors: readonly MergedFactualError[];

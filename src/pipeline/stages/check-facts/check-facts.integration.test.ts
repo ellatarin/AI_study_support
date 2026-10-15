@@ -186,6 +186,7 @@ describe("checkFacts", () => {
 		});
 		expect(await readFile(factualErrorsFile)).toStrictEqual({
 			factCheckPromptVersion: FACT_CHECK_PROMPT_VERSION,
+			bypassed: false,
 			checkedBy: [primaryFactCheckModel.modelId],
 			factualErrors: [
 				{ ...snuffFactualError, foundBy: [primaryFactCheckModel.modelId], wordsFound: true },
@@ -494,6 +495,27 @@ describe("createCheckFactsStage", () => {
 		expect(result.notices).toStrictEqual([
 			`The passage of a factual error is not in subtopic 2: "${snuffError.passage}"`,
 		]);
+	});
+
+	it("should call no model, and write only the merged file as bypassed with empty lists, when the bypass is on", async () => {
+		const readFile = workspaceJsonReader(() => workspace().workspaceRoot);
+
+		const result = await runStage(
+			makeConfig({
+				stages: {
+					"check-facts": factCheckConfig({ models: [primaryFactCheckModel], bypass: true }),
+				},
+			}),
+		);
+
+		expect(create()).not.toHaveBeenCalled();
+		expect(result.filesWritten).toStrictEqual([factualErrorsFile]);
+		expect(await readFile(factualErrorsFile)).toStrictEqual({
+			factCheckPromptVersion: FACT_CHECK_PROMPT_VERSION,
+			bypassed: true,
+			checkedBy: [],
+			factualErrors: [],
+		});
 	});
 
 	it("should fail with CheckFactsError that names the config file, and call no model, when the config has no entry for check-facts", async () => {

@@ -78,10 +78,7 @@ describe("applyConfigOverrides", () => {
 		return makeConfig({
 			stages: {
 				[stageId]: { ...openRouterStageConfig({ stageId }), bypass: factCorrection },
-				"check-facts": {
-					...factCheckConfig({ models: [primaryFactCheckModel] }),
-					bypass: factCheck,
-				},
+				"check-facts": factCheckConfig({ models: [primaryFactCheckModel], bypass: factCheck }),
 			},
 		});
 	}

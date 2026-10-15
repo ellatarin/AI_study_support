@@ -5,13 +5,16 @@ import {
 	blockNetwork,
 	completedEntry,
 	corruptJson,
+	factCheckConfig,
 	factCorrectionFile,
 	factCorrectionReadsFrom,
+	factualErrorsFile,
 	makeConfig,
 	makeManifest,
 	makeTempDir,
 	openRouterModelId,
 	openRouterStageConfig,
+	primaryFactCheckModel,
 	readJsonFile,
 	resetStubbedApi,
 	seedEarlierOutputs,
@@ -161,7 +164,7 @@ describe("runCli", () => {
 		);
 	});
 
-	describe("--fact-correction", () => {
+	describe("--fact-correction and --fact-check", () => {
 		beforeEach(() => {
 			blockNetwork();
 		});
@@ -186,6 +189,32 @@ describe("runCli", () => {
 			).toMatchObject({ factCorrectedSubtopic: [seededFactualError.passage], changes: [] });
 			expect((await readOnlyRunLog(workspaceRoot)).stages[stageId]).toMatchObject({
 				status: "complete",
+				configUsed: { bypass: true },
+			});
+		});
+
+		it("should write the merged file as bypassed, and record the bypass, when the config runs the fact check and --fact-check bypass is given", async () => {
+			const stageId = "check-facts";
+			await writeConfig([moduleRoot], {
+				stages: {
+					[stageId]: factCheckConfig({
+						models: [{ ...primaryFactCheckModel, modelId: openRouterModelId }],
+					}),
+				},
+			});
+			const workspaceRoot = await writeTestLecture(STAGE_IDS.slice(0, STAGE_IDS.indexOf(stageId)));
+			await seedEarlierOutputs({
+				workspaceRoot,
+				readsFrom: ["structure-transcript", "rewrite-subtopics"],
+			});
+			stubModelList({ modelIds: [openRouterModelId] });
+
+			await invoke(["run", testLecture.date, "--to-stage", stageId, "--fact-check", "bypass"]);
+
+			expect(await readJsonFile(join(workspaceRoot, factualErrorsFile))).toMatchObject({
+				bypassed: true,
+			});
+			expect((await readOnlyRunLog(workspaceRoot)).stages[stageId]).toMatchObject({
 				configUsed: { bypass: true },
 			});
 		});
