@@ -14,6 +14,30 @@ function parse(argv: readonly string[]): CliCommand {
 	return parseCliArgs({ argv });
 }
 
+type RunCommand = Extract<CliCommand, { readonly command: "run" }>;
+type BatchCommand = Extract<CliCommand, { readonly command: "batch" }>;
+
+/** Gives the `run` command of the test lecture with no flags, changed by `fields`. */
+function runCommand(fields: Partial<RunCommand> = {}): RunCommand {
+	return {
+		command: "run",
+		lectureDate: testLecture.date,
+		options: DEFAULT_PIPELINE_RUN_OPTIONS,
+		...fields,
+	};
+}
+
+/** Gives the `batch` command of every configured module with no flags, changed by `fields`. */
+function batchCommand(fields: Partial<BatchCommand> = {}): BatchCommand {
+	return {
+		command: "batch",
+		moduleRoot: null,
+		options: DEFAULT_PIPELINE_RUN_OPTIONS,
+		concurrency: null,
+		...fields,
+	};
+}
+
 /**
  * Returns the error that parsing throws, and fails the test when parsing throws
  * none. `captureError` takes a promise, and parsing is synchronous.
@@ -55,11 +79,7 @@ describe("parseCliArgs", () => {
 
 	describe("run", () => {
 		it("should address the lecture on the given date when run is invoked", () => {
-			expect(parse(["run", testLecture.date])).toEqual({
-				command: "run",
-				lectureDate: testLecture.date,
-				options: DEFAULT_PIPELINE_RUN_OPTIONS,
-			});
+			expect(parse(["run", testLecture.date])).toEqual(runCommand());
 		});
 
 		it("should carry every flag run takes when they are all supplied", () => {
@@ -73,15 +93,15 @@ describe("parseCliArgs", () => {
 					"place-slides",
 					"--continue-on-error",
 				]),
-			).toEqual({
-				command: "run",
-				lectureDate: testLecture.date,
-				options: {
-					fromStage: "transcription",
-					toStage: "place-slides",
-					onStageFailure: "continue",
-				},
-			});
+			).toEqual(
+				runCommand({
+					options: {
+						fromStage: "transcription",
+						toStage: "place-slides",
+						onStageFailure: "continue",
+					},
+				}),
+			);
 		});
 
 		it("should reject the invocation when no date is given", () => {
@@ -114,21 +134,13 @@ describe("parseCliArgs", () => {
 		// With no --concurrency, the `concurrency` field is null. The command later uses
 		// the config's `batch.concurrency`, which the parser cannot read.
 		it("should target every configured module when no module is named", () => {
-			expect(parse(["batch"])).toEqual({
-				command: "batch",
-				moduleRoot: null,
-				options: DEFAULT_PIPELINE_RUN_OPTIONS,
-				concurrency: null,
-			});
+			expect(parse(["batch"])).toEqual(batchCommand());
 		});
 
 		it("should target one module when a module root is named", () => {
-			expect(parse(["batch", testModuleRoot])).toEqual({
-				command: "batch",
-				moduleRoot: testModuleRoot,
-				options: DEFAULT_PIPELINE_RUN_OPTIONS,
-				concurrency: null,
-			});
+			expect(parse(["batch", testModuleRoot])).toEqual(
+				batchCommand({ moduleRoot: testModuleRoot }),
+			);
 		});
 
 		it("should carry every flag batch takes when they are all supplied", () => {
@@ -143,16 +155,16 @@ describe("parseCliArgs", () => {
 					"place-slides",
 					"--continue-on-error",
 				]),
-			).toEqual({
-				command: "batch",
-				moduleRoot: null,
-				options: {
-					fromStage: "transcription",
-					toStage: "place-slides",
-					onStageFailure: "continue",
-				},
-				concurrency: 3,
-			});
+			).toEqual(
+				batchCommand({
+					options: {
+						fromStage: "transcription",
+						toStage: "place-slides",
+						onStageFailure: "continue",
+					},
+					concurrency: 3,
+				}),
+			);
 		});
 	});
 
@@ -282,15 +294,15 @@ describe("parseCliArgs", () => {
 					"--to-stage",
 					"transcription",
 				]),
-			).toEqual({
-				command: "run",
-				lectureDate: testLecture.date,
-				options: {
-					fromStage: "transcription",
-					toStage: "transcription",
-					onStageFailure: DEFAULT_PIPELINE_RUN_OPTIONS.onStageFailure,
-				},
-			});
+			).toEqual(
+				runCommand({
+					options: {
+						fromStage: "transcription",
+						toStage: "transcription",
+						onStageFailure: DEFAULT_PIPELINE_RUN_OPTIONS.onStageFailure,
+					},
+				}),
+			);
 		});
 
 		it.each([
