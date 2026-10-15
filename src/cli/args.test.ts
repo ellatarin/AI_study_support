@@ -59,19 +59,24 @@ describe("parseCliArgs", () => {
 			expect(parse(["run", testLecture.date])).toEqual(runCommand());
 		});
 
-		it.each([
-			{ factCorrection: "run" },
-			{ factCorrection: "bypass" },
-		] as const)("should override the fact correction with $factCorrection when --fact-correction $factCorrection is given", ({
-			factCorrection,
+		it.each(
+			(["run", "bypass"] as const).flatMap((word) => [
+				{ flag: "--fact-correction", word, override: { factCorrection: word } },
+				{ flag: "--fact-check", word, override: { factCheck: word } },
+			]),
+		)("should override the config with $word when $flag $word is given", ({
+			flag,
+			word,
+			override,
 		}) => {
-			expect(parse(["run", testLecture.date, "--fact-correction", factCorrection])).toEqual(
-				runCommand({ configOverrides: { ...NO_CONFIG_OVERRIDES, factCorrection } }),
+			expect(parse(["run", testLecture.date, flag, word])).toEqual(
+				runCommand({ configOverrides: { ...NO_CONFIG_OVERRIDES, ...override } }),
 			);
 		});
 
 		it.each([
 			{ flag: "--fact-correction", words: ['"run"', '"bypass"'] },
+			{ flag: "--fact-check", words: ['"run"', '"bypass"'] },
 			{ flag: "--highlight-slide-sentences", words: ['"on"', '"off"'] },
 		])("should reject the invocation, naming the accepted words, when $flag is given another word", ({
 			flag,
@@ -199,6 +204,8 @@ describe("parseCliArgs", () => {
 					"--continue-on-error",
 					"--fact-correction",
 					"run",
+					"--fact-check",
+					"bypass",
 					"--page-views",
 					"all",
 					"--highlight-slide-sentences",
@@ -213,6 +220,7 @@ describe("parseCliArgs", () => {
 					},
 					configOverrides: {
 						factCorrection: "run",
+						factCheck: "bypass",
 						pageViews: ["notes", "rewrite", "corrections", "transcript"],
 						highlightSlideSentences: "off",
 					},

@@ -79,6 +79,7 @@ const OPTION_SPEC = {
 	concurrency: { type: "string" },
 	"continue-on-error": { type: "boolean" },
 	"fact-correction": { type: "string" },
+	"fact-check": { type: "string" },
 	"page-views": { type: "string" },
 	"highlight-slide-sentences": { type: "string" },
 	date: { type: "string" },
@@ -93,6 +94,7 @@ type ParsedFlags = {
 	readonly concurrency?: string;
 	readonly "continue-on-error"?: boolean;
 	readonly "fact-correction"?: string;
+	readonly "fact-check"?: string;
 	readonly "page-views"?: string;
 	readonly "highlight-slide-sentences"?: string;
 	readonly date?: string;
@@ -137,6 +139,10 @@ const FLAG_SPECS: Readonly<Record<FlagName, FlagSpec>> = {
 		form: `--fact-correction <${FACT_CORRECTION_CHOICES.join("|")}>`,
 		summary:
 			"Run or bypass the fact correction, overriding stages.correct-factual-errors.bypass in the config.",
+	},
+	"fact-check": {
+		form: `--fact-check <${FACT_CORRECTION_CHOICES.join("|")}>`,
+		summary: "Run or bypass the fact check, overriding stages.check-facts.bypass in the config.",
 	},
 	"page-views": {
 		form: `--page-views <views|${ALL_PAGE_VIEWS}>`,
@@ -318,6 +324,7 @@ function toConfigOverrides(flags: ParsedFlags): ConfigOverrides {
 			name: "fact-correction",
 			choices: FACT_CORRECTION_CHOICES,
 		}),
+		factCheck: parseChoiceFlag({ flags, name: "fact-check", choices: FACT_CORRECTION_CHOICES }),
 		pageViews: parsePageViews(flags["page-views"]),
 		highlightSlideSentences: parseChoiceFlag({
 			flags,
@@ -344,7 +351,7 @@ function parseChoiceFlag<TChoice extends string>({
 	choices,
 }: {
 	readonly flags: ParsedFlags;
-	readonly name: "fact-correction" | "highlight-slide-sentences";
+	readonly name: "fact-correction" | "fact-check" | "highlight-slide-sentences";
 	readonly choices: readonly TChoice[];
 }): TChoice | null {
 	const value = flags[name];
@@ -407,6 +414,7 @@ function splitArgv(argv: readonly string[]): {
 /** The flags that override a config value. `run` and `batch` both accept them. */
 const CONFIG_OVERRIDE_FLAGS: readonly FlagName[] = [
 	"fact-correction",
+	"fact-check",
 	"page-views",
 	"highlight-slide-sentences",
 ];

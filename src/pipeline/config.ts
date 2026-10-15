@@ -933,9 +933,33 @@ export async function loadConfig(options: {
 }
 
 /**
+ * Gives a stage entry with its bypass switch set by a flag's word. A `null` word
+ * keeps the entry as it is. The stages section gets no entry that the config does
+ * not have.
+ *
+ * @param args - The entry and the word.
+ * @param args.entry - The stage's entry in the config, or `undefined` when it has none.
+ * @param args.word - The flag's word, or `null` when the flag was not given.
+ * @returns The entry, or `undefined` when the config has none.
+ * @typeParam TEntry - The config of the stage, with its bypass switch.
+ */
+function withBypassWord<TEntry extends { readonly bypass: boolean }>({
+	entry,
+	word,
+}: {
+	readonly entry: TEntry | undefined;
+	readonly word: ConfigOverrides["factCheck"];
+}): TEntry | undefined {
+	if (entry === undefined || word === null) {
+		return entry;
+	}
+	return { ...entry, bypass: word === "bypass" };
+}
+
+/**
  * Gives the config with the overrides of the command line in place. A `null`
- * override keeps the config value. `--fact-correction` changes nothing when the
- * config has no entry for `correct-factual-errors`.
+ * override keeps the config value. `--fact-correction` and `--fact-check` change
+ * nothing when the config has no entry for their stage.
  *
  * @param args - The config and the overrides.
  * @param args.config - The checked config.
@@ -949,19 +973,21 @@ export function applyConfigOverrides({
 	readonly config: PipelineConfig;
 	readonly overrides: ConfigOverrides;
 }): PipelineConfig {
-	const factCorrection = config.stages["correct-factual-errors"];
+	const factCorrection = withBypassWord({
+		entry: config.stages["correct-factual-errors"],
+		word: overrides.factCorrection,
+	});
+	const factCheck = withBypassWord({
+		entry: config.stages["check-facts"],
+		word: overrides.factCheck,
+	});
 	return {
 		...config,
-		stages:
-			overrides.factCorrection === null || factCorrection === undefined
-				? config.stages
-				: {
-						...config.stages,
-						"correct-factual-errors": {
-							...factCorrection,
-							bypass: overrides.factCorrection === "bypass",
-						},
-					},
+		stages: {
+			...config.stages,
+			...(factCorrection === undefined ? {} : { "correct-factual-errors": factCorrection }),
+			...(factCheck === undefined ? {} : { "check-facts": factCheck }),
+		},
 		finalOutput: {
 			...config.finalOutput,
 			...(overrides.pageViews === null ? {} : { pageViews: overrides.pageViews }),

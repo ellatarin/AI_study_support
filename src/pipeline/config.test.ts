@@ -3,6 +3,7 @@ import { NO_CONFIG_OVERRIDES, type PipelineConfig } from "../types/pipeline.js";
 import { applyConfigOverrides, ConfigError, readFactCheckModels } from "./config.js";
 import {
 	disabledFactCheckModel,
+	factCheckConfig,
 	makeConfig,
 	openRouterStageConfig,
 	primaryFactCheckModel,
@@ -69,10 +70,20 @@ describe("readFactCheckModels", () => {
 });
 
 describe("applyConfigOverrides", () => {
-	const stageId = "correct-factual-errors";
+	/** The bypass switches of the fact correction and the fact check. */
+	type Switches = { readonly factCorrection: boolean; readonly factCheck: boolean };
 
-	function configWithBypass(bypass: boolean): PipelineConfig {
-		return makeConfig({ stages: { [stageId]: { ...openRouterStageConfig({ stageId }), bypass } } });
+	function configWithBypass({ factCorrection, factCheck }: Switches): PipelineConfig {
+		const stageId = "correct-factual-errors";
+		return makeConfig({
+			stages: {
+				[stageId]: { ...openRouterStageConfig({ stageId }), bypass: factCorrection },
+				"check-facts": {
+					...factCheckConfig({ models: [primaryFactCheckModel] }),
+					bypass: factCheck,
+				},
+			},
+		});
 	}
 
 	function configWithFinalOutput(fields: Partial<PipelineConfig["finalOutput"]>): PipelineConfig {
@@ -81,19 +92,37 @@ describe("applyConfigOverrides", () => {
 	}
 
 	it.each([
-		{ configured: true, factCorrection: "run", bypass: false },
-		{ configured: false, factCorrection: "bypass", bypass: true },
-	] as const)("should set bypass to $bypass when the config has $configured and the fact correction override is $factCorrection", ({
+		{
+			override: { factCorrection: "run" },
+			configured: { factCorrection: true, factCheck: true },
+			applied: { factCorrection: false, factCheck: true },
+		},
+		{
+			override: { factCorrection: "bypass" },
+			configured: { factCorrection: false, factCheck: false },
+			applied: { factCorrection: true, factCheck: false },
+		},
+		{
+			override: { factCheck: "run" },
+			configured: { factCorrection: true, factCheck: true },
+			applied: { factCorrection: true, factCheck: false },
+		},
+		{
+			override: { factCheck: "bypass" },
+			configured: { factCorrection: false, factCheck: false },
+			applied: { factCorrection: false, factCheck: true },
+		},
+	] as const)("should change only the switch of $override when the config has $configured", ({
+		override,
 		configured,
-		factCorrection,
-		bypass,
+		applied,
 	}) => {
 		const config = applyConfigOverrides({
 			config: configWithBypass(configured),
-			overrides: { ...NO_CONFIG_OVERRIDES, factCorrection },
+			overrides: { ...NO_CONFIG_OVERRIDES, ...override },
 		});
 
-		expect(config).toStrictEqual(configWithBypass(bypass));
+		expect(config).toStrictEqual(configWithBypass(applied));
 	});
 
 	it.each([
@@ -128,10 +157,10 @@ describe("applyConfigOverrides", () => {
 		expect(config).toStrictEqual(configWithFinalOutput(applied));
 	});
 
-	it("should add no stage entry when the config has no fact correction entry and the override is run", () => {
+	it("should add no stage entry when the config has no entry for either fact stage and both overrides are run", () => {
 		const config = applyConfigOverrides({
 			config: makeConfig(),
-			overrides: { ...NO_CONFIG_OVERRIDES, factCorrection: "run" },
+			overrides: { ...NO_CONFIG_OVERRIDES, factCorrection: "run", factCheck: "run" },
 		});
 
 		expect(config.stages).toStrictEqual({});
@@ -139,7 +168,7 @@ describe("applyConfigOverrides", () => {
 
 	it("should keep each config value when there are no overrides", () => {
 		const configured = {
-			...configWithBypass(true),
+			...configWithBypass({ factCorrection: true, factCheck: true }),
 			finalOutput: {
 				...makeConfig().finalOutput,
 				pageViews: ["notes"],

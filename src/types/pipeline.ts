@@ -494,6 +494,8 @@ export const HIGHLIGHT_CHOICES = ["on", "off"] as const;
 export type ConfigOverrides = {
 	/** The override of `stages.correct-factual-errors.bypass`, from `--fact-correction`. */
 	readonly factCorrection: (typeof FACT_CORRECTION_CHOICES)[number] | null;
+	/** The override of `stages.check-facts.bypass`, from `--fact-check`. */
+	readonly factCheck: (typeof FACT_CORRECTION_CHOICES)[number] | null;
 	/** The override of `finalOutput.pageViews`, from `--page-views`. */
 	readonly pageViews: readonly PageViewId[] | null;
 	/** The override of `finalOutput.highlightSlideSentences`, from `--highlight-slide-sentences`. */
@@ -503,6 +505,7 @@ export type ConfigOverrides = {
 /** The overrides of an invocation with none of the override flags. */
 export const NO_CONFIG_OVERRIDES: ConfigOverrides = {
 	factCorrection: null,
+	factCheck: null,
 	pageViews: null,
 	highlightSlideSentences: null,
 };
