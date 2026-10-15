@@ -15,6 +15,7 @@ import { dirname, join } from "node:path";
 import nock from "nock";
 import type OpenAI from "openai";
 import type { Logger } from "pino";
+import sharp from "sharp";
 import { afterEach, beforeEach, expect, it, type Mock, vi } from "vitest";
 import type {
 	CostTally,
@@ -1425,10 +1426,30 @@ function slideFileStem(slideNumber: number): string {
 }
 
 /**
+ * Makes a real PNG image of one slide, at the 4:3 shape of a slide, so that
+ * Chrome can show it. Each slide has its own colour, so a suite can tell the
+ * images apart by their bytes.
+ *
+ * @param slideNumber - The number of the slide in the deck, from 1.
+ * @returns The bytes of the PNG.
+ */
+export function makeSlidePng(slideNumber: number): Promise<Buffer> {
+	return sharp({
+		create: {
+			width: 400,
+			height: 300,
+			channels: 3,
+			background: `rgb(${(slideNumber * 37) % 256}, 128, 200)`,
+		},
+	})
+		.png()
+		.toBuffer();
+}
+
+/**
  * Writes `count` slide images into a workspace, as `render-slides` leaves them.
- * The bytes of each image are its file name, so a suite can tell the images
- * apart. The file names are stated in full here, and not taken from the
- * production code.
+ * Each image is a PNG from {@link makeSlidePng}. The file names are stated in
+ * full here, and not taken from the production code.
  *
  * @param args - The workspace, and the number of slides.
  * @param args.workspaceRoot - The absolute path to the lecture workspace.
@@ -1447,7 +1468,7 @@ export async function seedSlideImages({
 	const images: Buffer[] = [];
 	for (let slideNumber = 1; slideNumber <= count; slideNumber++) {
 		const name = `${slideFileStem(slideNumber)}.png`;
-		const bytes = Buffer.from(name);
+		const bytes = await makeSlidePng(slideNumber);
 		await writeFile(join(directory, name), bytes);
 		images.push(bytes);
 	}
