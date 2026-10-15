@@ -7,6 +7,7 @@ import { FIRST_PAGE_VIEW, type NotesPdfSettings } from "../../../types/pipeline.
 import type { RelocatedSlide } from "../slide-relocations.js";
 import type { SlideReading } from "../slides.js";
 import { type NotesPageContent, topicSectionsHtml } from "./notes-page-html.js";
+import { notesPdfStyle } from "./notes-pdf-style.js";
 import {
 	entryOf,
 	escapeHtml,
@@ -129,6 +130,7 @@ export function notesPdfHtml({
 <head>
 <meta charset="utf-8">
 <title>${escapeHtml(content.lectureTitle)}</title>
+<style>${notesPdfStyle()}</style>
 </head>
 <body>
 <header>
