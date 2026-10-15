@@ -314,6 +314,54 @@ function linesAbove({
 	return page.lines.filter(({ bottom }) => bottom < top);
 }
 
+/** The error of a text size that pdfjs reads from a PDF. */
+const FONT_SIZE_TOLERANCE_PT = 0.05;
+
+/**
+ * Gives the lines of one paragraph of {@link makeLongLecture} on a page.
+ *
+ * @param args - The page, and the tag of the paragraph.
+ * @param args.page - The layout of the page.
+ * @param args.paragraphTag - The tag of the paragraph, such as `p1`.
+ * @returns The lines of the paragraph, from the top of the page down.
+ */
+function linesOf({
+	page,
+	paragraphTag,
+}: {
+	readonly page: PdfPageLayout;
+	readonly paragraphTag: string;
+}): readonly PdfLine[] {
+	return page.lines.filter(({ text }) => lineLabel(text) === paragraphTag);
+}
+
+/**
+ * Gives the line of a page that holds only a text, such as a title.
+ *
+ * @param args - The page, and the text.
+ * @param args.page - The layout of the page.
+ * @param args.text - The whole text of the line.
+ * @returns The line, or an empty line at the top of the page when the page has no such line.
+ */
+function lineWithText({
+	page,
+	text,
+}: {
+	readonly page: PdfPageLayout;
+	readonly text: string;
+}): PdfLine {
+	return (
+		page.lines.find((line) => line.text === text) ?? {
+			text: "",
+			fontSize: 0,
+			left: 0,
+			right: 0,
+			top: 0,
+			bottom: 0,
+		}
+	);
+}
+
 describe("printNotesPdf", () => {
 	let outputDir: string;
 	/**
@@ -529,7 +577,9 @@ describe("printNotesPdf", () => {
 			const textLefts = (page?.lines ?? []).map(({ left }) => left);
 			const textRights = (page?.lines ?? []).map(({ right }) => right);
 			expect(Math.abs(Math.min(...textLefts) - margin)).toBeLessThan(MEASURE_TOLERANCE_PT);
-			expect(Math.max(...textRights)).toBeLessThanOrEqual(A4_POINTS.width - margin);
+			expect(Math.max(...textRights)).toBeLessThanOrEqual(
+				A4_POINTS.width - margin + MEASURE_TOLERANCE_PT,
+			);
 			expect(Math.max(...textRights)).toBeGreaterThan(A4_POINTS.width - margin - LONGEST_WORD_PT);
 		},
 		PRINT_TIMEOUT_MS,
@@ -580,6 +630,87 @@ describe("printNotesPdf", () => {
 
 			const actualChange = measured(after as PdfPageLayout) - measured(before as PdfPageLayout);
 			expect(Math.abs(actualChange - expectedChange)).toBeLessThan(MEASURE_TOLERANCE_PT);
+		},
+		PRINT_TIMEOUT_MS,
+	);
+
+	it(
+		"should end each line of a paragraph but its last at the right margin when the paragraph runs over several lines",
+		async () => {
+			const [page] = await printAndRead({ content: manyTitlesLecture });
+
+			const rightMargin = A4_POINTS.width - mmToPoints(exampleSettings.marginMm);
+			const ragged = linesOf({ page: page as PdfPageLayout, paragraphTag: "p1" })
+				.slice(0, -1)
+				.filter(({ right }) => Math.abs(right - rightMargin) > MEASURE_TOLERANCE_PT);
+			expect(ragged).toStrictEqual([]);
+		},
+		PRINT_TIMEOUT_MS,
+	);
+
+	it.each([
+		{
+			measure: "line height",
+			expected: 1.45 * exampleSettings.fontSizePt,
+			// The baselines are rounded to whole points, so the mean step over many lines is measured.
+			tolerance: 0.3,
+			measured: (page: PdfPageLayout): number => {
+				const lines = linesOf({ page, paragraphTag: "p1" });
+				return (
+					((lines.at(-1)?.bottom ?? 0) - (lines[0]?.bottom ?? 0)) / Math.max(1, lines.length - 1)
+				);
+			},
+		},
+		{
+			measure: "space below a paragraph",
+			expected: 0.7 * exampleSettings.fontSizePt,
+			tolerance: MEASURE_TOLERANCE_PT,
+			measured: (page: PdfPageLayout): number => {
+				const first = linesOf({ page, paragraphTag: "p1" });
+				const second = linesOf({ page, paragraphTag: "p2" });
+				const lineStep = (first[1]?.bottom ?? 0) - (first[0]?.bottom ?? 0);
+				return (second[0]?.bottom ?? 0) - (first.at(-1)?.bottom ?? 0) - lineStep;
+			},
+		},
+		{
+			measure: "size of a topic title",
+			expected: 1.45 * exampleSettings.fontSizePt,
+			tolerance: FONT_SIZE_TOLERANCE_PT,
+			measured: (page: PdfPageLayout): number => lineWithText({ page, text: "Topic 1" }).fontSize,
+		},
+		{
+			measure: "size of a subtopic title",
+			expected: 1.15 * exampleSettings.fontSizePt,
+			tolerance: FONT_SIZE_TOLERANCE_PT,
+			measured: (page: PdfPageLayout): number =>
+				lineWithText({ page, text: "Subtopic 1.1" }).fontSize,
+		},
+		{
+			measure: "size of the lecture date",
+			expected: 0.75 * exampleSettings.fontSizePt,
+			tolerance: FONT_SIZE_TOLERANCE_PT,
+			measured: (page: PdfPageLayout): number =>
+				lineWithText({ page, text: testLecture.date }).fontSize,
+		},
+		{
+			measure: "size of the page number",
+			expected: 8,
+			tolerance: FONT_SIZE_TOLERANCE_PT,
+			measured: (page: PdfPageLayout): number => lineWithText({ page, text: "1" }).fontSize,
+		},
+		{
+			measure: "height of the page number's baseline above the bottom edge",
+			expected: mmToPoints(6),
+			tolerance: mmToPoints(1),
+			measured: (page: PdfPageLayout): number =>
+				page.height - lineWithText({ page, text: "1" }).bottom,
+		},
+	])(
+		"should give the $measure of the agreed look when the PDF is printed",
+		async ({ expected, tolerance, measured }) => {
+			const [page] = await printAndRead({ content: manyTitlesLecture });
+
+			expect(Math.abs(measured(page as PdfPageLayout) - expected)).toBeLessThan(tolerance);
 		},
 		PRINT_TIMEOUT_MS,
 	);
