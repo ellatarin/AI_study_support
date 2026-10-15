@@ -34,6 +34,7 @@ import {
 	type PipelineRunnerFacade,
 	type RunnableCliCommand,
 } from "./commands.js";
+import { batchCommand, runCommand } from "./fixtures.js";
 
 // The pounds figure below is worked out by hand at the fixtures' rate,
 // `GBP_PER_USD` in `fixtures.ts`. That constant gives the reason for the rate.
@@ -248,14 +249,8 @@ describe("executeCommand", () => {
 	});
 
 	describe("run", () => {
-		const runCommand = {
-			command: "run",
-			lectureDate: testLecture.date,
-			options: DEFAULT_PIPELINE_RUN_OPTIONS,
-		} as const;
-
 		it("should normalise every configured module before looking for the lecture when running", async () => {
-			await invoke(runCommand);
+			await invoke(runCommand());
 
 			expect(runner.normaliseSources).toHaveBeenCalledWith({
 				moduleRoots: [moduleRoot, secondModuleRoot()],
@@ -263,7 +258,7 @@ describe("executeCommand", () => {
 		});
 
 		it("should run the lecture without prompting when exactly one matches the date", async () => {
-			const code = await invoke(runCommand);
+			const code = await invoke(runCommand());
 
 			expect(code).toBe(EXIT_SUCCESS);
 			expect(selectMatches).not.toHaveBeenCalled();
@@ -274,7 +269,7 @@ describe("executeCommand", () => {
 		});
 
 		it("should print the pipeline run summary when a pipeline run finishes", async () => {
-			await invoke(runCommand);
+			await invoke(runCommand());
 
 			expect(printed()).toContain("Run summary");
 			expect(printed()).toContain("Transcription");
@@ -287,7 +282,7 @@ describe("executeCommand", () => {
 			// runner gets the options that the command got.
 			const flagged = { fromStage: "transcription", onStageFailure: "continue" } as const;
 
-			await invoke({ ...runCommand, options: flagged });
+			await invoke(runCommand({ options: flagged }));
 
 			expect(runner.runLecture).toHaveBeenCalledWith({ workspaceRoot, options: flagged });
 		});
@@ -297,7 +292,7 @@ describe("executeCommand", () => {
 				runSummaryFor({ workspace: workspaceRoot, overallStatus: "failed" }),
 			);
 
-			const code = await invoke(runCommand);
+			const code = await invoke(runCommand());
 
 			expect(code).toBe(EXIT_FAILURE);
 		});
@@ -320,7 +315,7 @@ describe("executeCommand", () => {
 				],
 			});
 
-			await invoke(runCommand);
+			await invoke(runCommand());
 
 			expect(printed()).toContain("Transcription failed: ELEVENLABS_API_KEY is not set");
 			// The test checks the full path, not only the folder name. The user cannot find the debug
@@ -331,7 +326,7 @@ describe("executeCommand", () => {
 		it("should report that nothing matched when no lecture carries the date", async () => {
 			noLectureCarriesTheDate();
 
-			const code = await invoke(runCommand);
+			const code = await invoke(runCommand());
 
 			expect(code).toBe(EXIT_FAILURE);
 			expect(printed()).toContain(testLecture.date);
@@ -342,7 +337,7 @@ describe("executeCommand", () => {
 		it("should offer to add the lecture's sources when no lecture carries the date", async () => {
 			noLectureCarriesTheDate();
 
-			await invoke(runCommand);
+			await invoke(runCommand());
 
 			expect(printed()).toContain("add its video and slides and run the pipeline again");
 		});
@@ -355,7 +350,7 @@ describe("executeCommand", () => {
 				runSummaryFor({ workspace }),
 			);
 
-			await invoke(runCommand);
+			await invoke(runCommand());
 
 			expect(selectMatches).toHaveBeenCalledWith({ matches: [match, other] });
 			expect(runner.runLecture).toHaveBeenCalledTimes(2);
@@ -365,23 +360,22 @@ describe("executeCommand", () => {
 			runner.resolveLecturesByDate.mockResolvedValue([match, match]);
 			selectMatches.mockResolvedValue([]);
 
-			const code = await invoke(runCommand);
+			const code = await invoke(runCommand());
 
 			expect(code).toBe(EXIT_SUCCESS);
 			expect(runner.runLecture).not.toHaveBeenCalled();
 		});
 
 		it("should ask nothing when the run deletes no earlier work", async () => {
-			await invoke(runCommand);
+			await invoke(runCommand());
 
 			expect(confirm).not.toHaveBeenCalled();
 		});
 
 		describe("--from-stage", () => {
-			const resetCommand = {
-				...runCommand,
+			const resetCommand = runCommand({
 				options: { ...DEFAULT_PIPELINE_RUN_OPTIONS, fromStage: RESET_FROM },
-			} as const;
+			});
 
 			it("should name the stage and how many lectures lose work when asking", async () => {
 				await invoke(resetCommand);
@@ -408,13 +402,6 @@ describe("executeCommand", () => {
 	});
 
 	describe("batch", () => {
-		const batchCommand = {
-			command: "batch",
-			moduleRoot: null,
-			options: DEFAULT_PIPELINE_RUN_OPTIONS,
-			concurrency: null,
-		} as const;
-
 		/** The options that the runner gets from a batch with no flags beyond the one under test. */
 		const configuredBatchOptions = {
 			...DEFAULT_PIPELINE_RUN_OPTIONS,
@@ -434,7 +421,7 @@ describe("executeCommand", () => {
 		});
 
 		it("should batch every configured module when none is named", async () => {
-			const code = await invoke(batchCommand);
+			const code = await invoke(batchCommand());
 
 			expect(code).toBe(EXIT_SUCCESS);
 			expect(runner.runBatch).toHaveBeenCalledWith({
@@ -444,7 +431,7 @@ describe("executeCommand", () => {
 		});
 
 		it("should batch only the named module when one is given", async () => {
-			await invoke({ ...batchCommand, moduleRoot });
+			await invoke(batchCommand({ moduleRoot }));
 
 			expect(runner.runBatch).toHaveBeenCalledWith({
 				moduleRoots: [moduleRoot],
@@ -460,7 +447,7 @@ describe("executeCommand", () => {
 			},
 			{ case: "--concurrency overrides the config", concurrency: 2, expected: 2 },
 		])("should run $expected lectures at once when $case", async ({ concurrency, expected }) => {
-			await invoke({ ...batchCommand, concurrency });
+			await invoke(batchCommand({ concurrency }));
 
 			expect(runner.runBatch).toHaveBeenCalledWith(
 				expect.objectContaining({ options: expect.objectContaining({ concurrency: expected }) }),
@@ -468,7 +455,7 @@ describe("executeCommand", () => {
 		});
 
 		it("should print each lecture's summary and the batch total when the batch ends", async () => {
-			await invoke(batchCommand);
+			await invoke(batchCommand());
 
 			expect(printed()).toContain("Run summary");
 			expect(printed()).toContain("Batch summary");
@@ -478,22 +465,21 @@ describe("executeCommand", () => {
 		it("should report a failure when any lecture in the batch failed", async () => {
 			runner.runBatch.mockResolvedValue(batchSummary("failed"));
 
-			const code = await invoke(batchCommand);
+			const code = await invoke(batchCommand());
 
 			expect(code).toBe(EXIT_FAILURE);
 		});
 
 		it("should ask nothing when the batch deletes no earlier work", async () => {
-			await invoke(batchCommand);
+			await invoke(batchCommand());
 
 			expect(confirm).not.toHaveBeenCalled();
 		});
 
 		describe("--from-stage", () => {
-			const resetCommand = {
-				...batchCommand,
+			const resetCommand = batchCommand({
 				options: { ...DEFAULT_PIPELINE_RUN_OPTIONS, fromStage: RESET_FROM },
-			} as const;
+			});
 
 			beforeEach(() => {
 				runner.countLectures.mockResolvedValue(12);

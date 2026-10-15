@@ -9,33 +9,10 @@ import {
 } from "../pipeline/fixtures.js";
 import { DEFAULT_PIPELINE_RUN_OPTIONS } from "../types/pipeline.js";
 import { type CliCommand, CliUsageError, parseCliArgs, USAGE } from "./args.js";
+import { batchCommand, runCommand } from "./fixtures.js";
 
 function parse(argv: readonly string[]): CliCommand {
 	return parseCliArgs({ argv });
-}
-
-type RunCommand = Extract<CliCommand, { readonly command: "run" }>;
-type BatchCommand = Extract<CliCommand, { readonly command: "batch" }>;
-
-/** Gives the `run` command of the test lecture with no flags, changed by `fields`. */
-function runCommand(fields: Partial<RunCommand> = {}): RunCommand {
-	return {
-		command: "run",
-		lectureDate: testLecture.date,
-		options: DEFAULT_PIPELINE_RUN_OPTIONS,
-		...fields,
-	};
-}
-
-/** Gives the `batch` command of every configured module with no flags, changed by `fields`. */
-function batchCommand(fields: Partial<BatchCommand> = {}): BatchCommand {
-	return {
-		command: "batch",
-		moduleRoot: null,
-		options: DEFAULT_PIPELINE_RUN_OPTIONS,
-		concurrency: null,
-		...fields,
-	};
 }
 
 /**
