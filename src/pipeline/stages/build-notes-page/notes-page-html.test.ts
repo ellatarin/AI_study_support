@@ -110,6 +110,7 @@ const slidePlacements: NotesPageContent["slidePlacements"] = [
 const content: NotesPageContent = {
 	lectureTitle: testLecture.title,
 	lectureDate: testLecture.date,
+	factCheckLine: "Uncorrected",
 	topics,
 	slideRelocations,
 	slideReadings,
@@ -466,6 +467,12 @@ describe("notesPageHtml", () => {
 			expect(header).toContain(`<a href="#topic-${index + 1}">${topic.title}</a>`);
 		}
 		expect(header).toContain("<mark>");
+	});
+
+	it("should show the fact-check line right under the lecture title, in the small grey type, when the page is built", () => {
+		const [header = ""] = innerHtmlOf({ html: notesPageHtml(content), tag: "header" });
+
+		expect(header).toContain(`</h1>\n<p class="fact-check">${content.factCheckLine}</p>`);
 	});
 
 	it("should load nothing from the internet when the page is built", () => {

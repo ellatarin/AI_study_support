@@ -44,6 +44,8 @@ export type NotesPageContent = {
 	readonly lectureTitle: string;
 	/** The `YYYY-MM-DD` lecture date. */
 	readonly lectureDate: string;
+	/** The line that says if the facts of the notes were checked and corrected (CONTEXT.md, "Fact-check line"). */
+	readonly factCheckLine: string;
 	/** The topics of the structured transcript, for the titles. */
 	readonly topics: readonly TopicWithSubtopics[];
 	/** The entry of each subtopic in `slide-relocations.json`, in lecture order. */
@@ -788,8 +790,8 @@ ${sections}
 }
 
 /**
- * Gives the header of the page: the lecture date and title, the meaning of the
- * highlight, and a link to each topic.
+ * Gives the header of the page: the lecture date and title, the fact-check line,
+ * the meaning of the highlight, and a link to each topic.
  *
  * @param content - The content of the page.
  * @returns The HTML of the header.
@@ -801,6 +803,7 @@ function headerHtml(content: NotesPageContent): string {
 	);
 	return `<header>
 ${lectureHeadingHtml(content)}
+<p class="fact-check">${escapeHtml(content.factCheckLine)}</p>
 ${viewSwitchHtml(content)}
 ${shownViews(content)
 	.map(

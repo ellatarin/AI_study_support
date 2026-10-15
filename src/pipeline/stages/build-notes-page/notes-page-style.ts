@@ -53,7 +53,9 @@ ${LIGHT_COLOURS_AND_FONTS}
 body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-text); font-size: 1.0625rem; line-height: 1.65; }
 .page { max-width: 50rem; margin: 0 auto; padding-inline: 16px; padding-block: 2.5rem 5rem; display: grid; gap: 2.5rem; }
 header { display: grid; gap: 1rem; }
-.eyebrow { font-family: var(--font-ui); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 0; }
+.eyebrow, .fact-check { font-family: var(--font-ui); font-size: 0.75rem; color: var(--muted); margin: 0; }
+.eyebrow { letter-spacing: 0.08em; text-transform: uppercase; }
+.fact-check { margin-top: -0.5rem; }
 h1 { font-weight: 600; font-size: 2.25rem; line-height: 1.15; margin: 0; text-wrap: balance; }
 .legend { margin: 0; font-family: var(--font-ui); font-size: 0.85rem; color: var(--muted); }
 .legend mark { padding-inline: 0.2em; }

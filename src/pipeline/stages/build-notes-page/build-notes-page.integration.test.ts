@@ -20,6 +20,7 @@ import {
 	STUB_NOTES_PDF,
 	type StubNotesPdfPrinter,
 	seedEarlierOutputs,
+	seededFactCheckLine,
 	seedJsonFile,
 	seedTextFile,
 	spoilJsonFile,
@@ -134,6 +135,7 @@ describe("createBuildNotesPageStage", () => {
 				"rewrite-subtopics",
 				"correct-terms",
 				"place-slides",
+				"check-facts",
 				"correct-factual-errors",
 			],
 		});
@@ -149,6 +151,12 @@ describe("createBuildNotesPageStage", () => {
 
 		const page = await readNotesPage();
 		expect(page).toContain(rewrittenParagraphs[0]);
+	});
+
+	it("should write the fact-check line of the fact check and the fact correction into the page when both stages ran", async () => {
+		await build();
+
+		expect(await readNotesPage()).toContain(seededFactCheckLine);
 	});
 
 	it("should write notes.pdf beside notes.html in the lecture's folder when the inputs are on disk", async () => {
@@ -229,6 +237,7 @@ describe("createBuildNotesPageStage", () => {
 			rewriteInput(2),
 			termCorrectionInput(2),
 			stageOutputInput({ file: "slide placements file", stageId: "place-slides" }),
+			stageOutputInput({ file: "factual errors file", stageId: "check-facts" }),
 			stageOutputInput({
 				file: "fact-corrected subtopics file",
 				stageId: "correct-factual-errors",

@@ -2566,6 +2566,10 @@ export const seededFactualErrors: FactualErrorsFile = {
 	factualErrors: [seededFactualError],
 };
 
+/** The fact-check line of {@link seededFactualErrors} and a fact correction of {@link seededFactCorrectionRecord} with prompt k3. */
+export const seededFactCheckLine =
+	"Checked by: gpt-5.6-sol-pro, claude-opus-5.5 (prompt f2). Corrected by: gpt-4o (prompt k3) on 15-10-2026";
+
 /** The model and the date of a seeded fact correction that ran. */
 export const seededFactCorrectionRecord: FactCorrectionRecord = {
 	correctedBy: openRouterModelId,

@@ -24,12 +24,14 @@ import {
 	notesSlideImageEntry,
 } from "../../layout.js";
 import { readFactCorrections } from "../fact-corrections.js";
+import { readFactualErrorsFile } from "../factual-errors.js";
 import { createPipelineStage } from "../pipeline-stage.js";
 import { readSlideRelocations, slideRelocationsPath } from "../slide-relocations.js";
 import { checkSlideImagesExist, readSlideReadings, slideImagePath } from "../slides.js";
 import { readStageSlidePlacements, readStageStructuredTranscript } from "../stage-input.js";
 import { readSubtopicRewrite } from "../subtopic-rewrites.js";
 import { readTermCorrectionResult } from "../term-corrections.js";
+import { factCheckLine } from "./fact-check-line.js";
 import { type NotesPageContent, notesPageHtml } from "./notes-page-html.js";
 import { notesPdfHtml, readPngDataUrl } from "./notes-pdf-html.js";
 import type { NotesPdfPrinter } from "./print-notes-pdf.js";
@@ -113,10 +115,11 @@ function unrelocatedSlideNotices(content: NotesPageContent): readonly string[] {
  */
 async function readPageContent(context: StageContext): Promise<NotesPageContent> {
 	const reading = { context, purpose: "build the notes page of", fail };
-	const [{ topics }, { placements }, { factCorrectedSubtopics }, { slideRelocations }] =
+	const [{ topics }, { placements }, factualErrors, factCorrections, { slideRelocations }] =
 		await Promise.all([
 			readStageStructuredTranscript(reading),
 			readStageSlidePlacements(reading),
+			readFactualErrorsFile(reading),
 			readFactCorrections(reading),
 			readSlideRelocations(reading),
 		]);
@@ -134,13 +137,14 @@ async function readPageContent(context: StageContext): Promise<NotesPageContent>
 	return {
 		lectureTitle: context.lectureTitle,
 		lectureDate: context.lectureDate,
+		factCheckLine: factCheckLine({ factualErrors, factCorrections }),
 		topics,
 		slideRelocations,
 		slideReadings,
 		subtopicRewrites,
 		termCorrections,
 		slidePlacements: placements,
-		factCorrections: factCorrectedSubtopics,
+		factCorrections: factCorrections.factCorrectedSubtopics,
 		pageViews: context.config.finalOutput.pageViews,
 		highlightSlideSentences: context.config.finalOutput.highlightSlideSentences,
 	};
