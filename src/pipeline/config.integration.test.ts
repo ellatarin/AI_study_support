@@ -19,6 +19,7 @@ import {
 	openRouterUrlsAt,
 	primaryFactCheckModel,
 	resetStubbedApi,
+	stubModelList,
 	transcriptionModelId,
 } from "./fixtures.js";
 
@@ -27,6 +28,11 @@ import {
 const JUDGE_MODEL_ID = openRouterModelId;
 const SLIDE_MODEL_ID = "google/gemini-2.5-flash";
 const KNOWN_MODEL_IDS = [JUDGE_MODEL_ID, SLIDE_MODEL_ID] as const;
+
+/** Stubs the model list at the default address, with the {@link KNOWN_MODEL_IDS}. */
+function stubKnownModelList(): void {
+	stubModelList({ modelIds: KNOWN_MODEL_IDS });
+}
 
 // Each tuning field of a stage's config. `satisfies` makes a renamed field fail to
 // compile here, so no case tests a key that nothing reads.
@@ -135,12 +141,6 @@ function setJudgeModelId({
 	judgeStage(config).modelId = modelId;
 }
 
-function mockModelsResponse(ids: readonly string[]): void {
-	nock(openRouterUrls.origin)
-		.get(openRouterUrls.models)
-		.reply(200, { data: ids.map((id) => ({ id })) });
-}
-
 let projectRoot: string;
 
 async function writeConfig(config: unknown): Promise<void> {
@@ -206,7 +206,7 @@ describe("loadConfig model-ID resolution check", () => {
 		await writeValidConfig((config) => {
 			configuredStages(config)[stageId] = { modelId };
 		});
-		mockModelsResponse(KNOWN_MODEL_IDS);
+		stubKnownModelList();
 
 		const error = await configRejection();
 
@@ -218,9 +218,7 @@ describe("loadConfig model-ID resolution check", () => {
 
 	it("should fetch the model list from the configured base URL when the check runs", async () => {
 		await writeConfigAtGateway();
-		const scope = nock(gatewayUrls.origin)
-			.get(gatewayUrls.models)
-			.reply(200, { data: KNOWN_MODEL_IDS.map((id) => ({ id })) });
+		const scope = stubModelList({ modelIds: KNOWN_MODEL_IDS, urls: gatewayUrls });
 
 		await loadConfig({ projectRoot });
 
@@ -262,7 +260,7 @@ describe("loadConfig model-ID resolution check", () => {
 		await writeValidConfig((config) => {
 			setJudgeModelId({ config, modelId: "<REASONING_MODEL>" });
 		});
-		mockModelsResponse([SLIDE_MODEL_ID]);
+		stubModelList({ modelIds: [SLIDE_MODEL_ID] });
 
 		const error = await configRejection();
 
@@ -275,7 +273,7 @@ describe("loadConfig model-ID resolution check", () => {
 		await writeValidConfig((config) => {
 			configuredStages(config).transcription = { modelId: transcriptionModelId };
 		});
-		mockModelsResponse(KNOWN_MODEL_IDS);
+		stubKnownModelList();
 
 		const loaded = await loadConfig({ projectRoot });
 
@@ -296,7 +294,7 @@ describe("loadConfig model-ID resolution check", () => {
 
 	it("should accept the config when every stage modelId appears in the OpenRouter response", async () => {
 		await writeValidConfig();
-		mockModelsResponse(KNOWN_MODEL_IDS);
+		stubKnownModelList();
 
 		const config = await loadConfig({ projectRoot });
 
@@ -325,7 +323,7 @@ describe("loadConfig stage tuning", () => {
 		await writeValidConfig((config) => {
 			judgeStage(config)[field] = null;
 		});
-		mockModelsResponse(KNOWN_MODEL_IDS);
+		stubKnownModelList();
 
 		const loaded = await loadConfig({ projectRoot });
 
@@ -348,7 +346,7 @@ describe("loadConfig stage tuning", () => {
 				sendGapSeconds,
 			};
 		});
-		mockModelsResponse(KNOWN_MODEL_IDS);
+		stubKnownModelList();
 
 		const loaded = await loadConfig({ projectRoot });
 
@@ -362,7 +360,7 @@ describe("loadConfig check-facts models", () => {
 		await writeValidConfig((config) => {
 			configuredStages(config)["check-facts"] = { models: [primary] };
 		});
-		mockModelsResponse(KNOWN_MODEL_IDS);
+		stubKnownModelList();
 
 		const loaded = await loadConfig({ projectRoot });
 
@@ -381,7 +379,7 @@ describe("loadConfig check-facts models", () => {
 				],
 			};
 		});
-		mockModelsResponse(KNOWN_MODEL_IDS);
+		stubKnownModelList();
 
 		const error = await configRejection();
 

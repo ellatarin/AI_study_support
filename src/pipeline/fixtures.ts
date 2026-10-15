@@ -413,6 +413,29 @@ export function openRouterUrlsAt(baseUrl: string): {
 /** The OpenRouter addresses of the example configuration, for nock. */
 export const openRouterUrls = openRouterUrlsAt(exampleConfig.openRouter.baseUrl);
 
+/** The key of a model id in the OpenRouter model list. "id" is OpenRouter's word, so the fixture cannot change it. */
+const MODEL_LIST_ID_KEY = "id";
+
+/**
+ * Stubs the OpenRouter model list, which the model-ID check of `loadConfig` gets.
+ *
+ * @param args - The model ids, and the addresses.
+ * @param args.modelIds - The model ids that the list holds.
+ * @param args.urls - The addresses of the list. The default is {@link openRouterUrls}.
+ * @returns The interceptor, so a test can check that the list was requested.
+ */
+export function stubModelList({
+	modelIds,
+	urls = openRouterUrls,
+}: {
+	readonly modelIds: readonly string[];
+	readonly urls?: ReturnType<typeof openRouterUrlsAt>;
+}): nock.Scope {
+	return nock(urls.origin)
+		.get(urls.models)
+		.reply(200, { data: modelIds.map((modelId) => ({ [MODEL_LIST_ID_KEY]: modelId })) });
+}
+
 /**
  * The OpenRouter client provider for a config, made as the CLI makes it.
  *
