@@ -27,11 +27,13 @@ To change one switch for one run, the user must edit the config file and then ed
 
 **To agree before the code:** the keys in the run log of `build-notes-page`. The proposal is `configUsed: { "pageViews": [...], "highlightSlideSentences": true }`, with the names of the config keys.
 
-- [ ] The usage text lists the three flags of `run`.
-- [ ] Each flag overrides its config value for one run, and the config file does not change.
-- [ ] A bad value of each flag is a usage error that names the accepted values.
-- [ ] `--page-views all` gives all four views. A list without `notes` is an error.
-- [ ] The run log of `build-notes-page` records the page views and the highlight switch.
+- [x] The usage text lists the three flags of `run`.
+- [x] Each flag overrides its config value for one run, and the config file does not change.
+- [x] A bad value of each flag is a usage error that names the accepted values.
+- [x] `--page-views all` gives all four views. A list without `notes` is an error.
+- [x] The run log of `build-notes-page` records the page views and the highlight switch.
 - [ ] The technical design and the requirements describe the three flags.
 
 ## Comments
+
+**2026-10-15:** the code is done in 5a0eab4d (the flags, on `run` and `batch`) and 92a71b8b (the run log of `build-notes-page`). Refactors before them: f8546d71, 6d836760, 8f508683, 88be1662. The docs go with the docs of ticket 13 of `fact-check-stages`, before the one bump of the suite version.
