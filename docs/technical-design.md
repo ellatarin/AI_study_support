@@ -948,9 +948,9 @@ changeLectureDate(args: { match: LectureMatch; newLectureDate: string }): Promis
 type PipelineRunnerFacade = { readonly [TOperation in RunnerOperation]: PipelineRunner[TOperation] }
 // The runner as a command sees it: the five operations above, as readonly properties, so a suite stands a
 // stub in without constructing a real runner and its stages.
-type CliDeps = { runner: PipelineRunnerFacade; moduleRoots; batchConcurrency; gbpPerUsd; selectMatches; selectMatch; confirm; write }
-// Two pickers, because the two questions differ: `selectMatches` is the checkbox picker `run` and
-// `cost-report` use, `selectMatch` the single-choice one the identity changes use ("An identity change acts on
+type CliDeps = { runner: PipelineRunnerFacade; moduleRoots; batchConcurrency; gbpPerUsd; pickLectures; pickOneLecture; confirm; write }
+// Two pickers, because the two questions differ: `pickLectures` is the checkbox picker `run` and
+// `cost-report` use, `pickOneLecture` the single-choice one the identity changes use ("An identity change acts on
 // exactly one lecture").
 type RunnableCliCommand = Exclude<CliCommand, { command: 'help' }>
 // `help` is answered before the configuration is read, so it never reaches a command that needs deps.

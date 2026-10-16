@@ -70,10 +70,10 @@ describe("executeCommand", () => {
 		readonly resolveLecturesByDate: ReturnType<typeof vi.fn>;
 		readonly countLectures: ReturnType<typeof vi.fn>;
 	};
-	let selectMatches: Mock<
+	let pickLectures: Mock<
 		(args: { readonly matches: readonly LectureMatch[] }) => Promise<readonly LectureMatch[]>
 	>;
-	let selectMatch: Mock<
+	let pickOneLecture: Mock<
 		(args: { readonly matches: readonly LectureMatch[] }) => Promise<LectureMatch | null>
 	>;
 	let confirm: Mock<(args: { readonly message: string }) => Promise<boolean>>;
@@ -146,8 +146,8 @@ describe("executeCommand", () => {
 			moduleRoots: [moduleRoot, secondModuleRoot()],
 			batchConcurrency: CONFIGURED_BATCH_CONCURRENCY,
 			formatMoney: formatTestMoney,
-			selectMatches,
-			selectMatch,
+			pickLectures,
+			pickOneLecture,
 			confirm,
 			debugLogPath: DEBUG_LOG_PATH,
 			write: (text: string) => {
@@ -239,8 +239,8 @@ describe("executeCommand", () => {
 			resolveLecturesByDate: vi.fn(async () => [match]),
 			countLectures: vi.fn(async () => 1),
 		};
-		selectMatches = vi.fn(async () => [match]);
-		selectMatch = vi.fn(async () => match);
+		pickLectures = vi.fn(async () => [match]);
+		pickOneLecture = vi.fn(async () => match);
 		confirm = vi.fn(async () => true);
 	});
 
@@ -261,7 +261,7 @@ describe("executeCommand", () => {
 			const code = await invoke(runCommand());
 
 			expect(code).toBe(EXIT_SUCCESS);
-			expect(selectMatches).not.toHaveBeenCalled();
+			expect(pickLectures).not.toHaveBeenCalled();
 			expect(runner.runLecture).toHaveBeenCalledWith({
 				workspaceRoot,
 				options: DEFAULT_PIPELINE_RUN_OPTIONS,
@@ -345,20 +345,20 @@ describe("executeCommand", () => {
 		it("should ask which lectures to run when several share the date", async () => {
 			const other = await makeSecondLecture();
 			runner.resolveLecturesByDate.mockResolvedValue([match, other]);
-			selectMatches.mockResolvedValue([match, other]);
+			pickLectures.mockResolvedValue([match, other]);
 			runner.runLecture.mockImplementation(async ({ workspaceRoot: workspace }) =>
 				runSummaryFor({ workspace }),
 			);
 
 			await invoke(runCommand());
 
-			expect(selectMatches).toHaveBeenCalledWith({ matches: [match, other] });
+			expect(pickLectures).toHaveBeenCalledWith({ matches: [match, other] });
 			expect(runner.runLecture).toHaveBeenCalledTimes(2);
 		});
 
 		it("should run nothing when the user cancels the choice", async () => {
 			runner.resolveLecturesByDate.mockResolvedValue([match, match]);
-			selectMatches.mockResolvedValue([]);
+			pickLectures.mockResolvedValue([]);
 
 			const code = await invoke(runCommand());
 
@@ -389,7 +389,7 @@ describe("executeCommand", () => {
 			it("should count every lecture chosen when the date matches several", async () => {
 				const other = await makeSecondLecture();
 				runner.resolveLecturesByDate.mockResolvedValue([match, other]);
-				selectMatches.mockResolvedValue([match, other]);
+				pickLectures.mockResolvedValue([match, other]);
 
 				await invoke(resetCommand);
 
@@ -573,7 +573,7 @@ describe("executeCommand", () => {
 				lectureTitle: sameDateLecture.title,
 			};
 			runner.resolveLecturesByDate.mockResolvedValue([match, other]);
-			selectMatches.mockResolvedValue([other]);
+			pickLectures.mockResolvedValue([other]);
 
 			await invoke(costReport({ lectureDate: testLecture.date, moduleRoot: null }));
 
@@ -616,7 +616,7 @@ describe("executeCommand", () => {
 
 		it("should report on nothing when the user cancels the choice", async () => {
 			runner.resolveLecturesByDate.mockResolvedValue([match, match]);
-			selectMatches.mockResolvedValue([]);
+			pickLectures.mockResolvedValue([]);
 
 			const code = await invoke(costReport({ lectureDate: testLecture.date, moduleRoot: null }));
 
@@ -656,7 +656,7 @@ describe("executeCommand", () => {
 
 		it("should rename nothing when the user cancels the choice", async () => {
 			runner.resolveLecturesByDate.mockResolvedValue([match, match]);
-			selectMatch.mockResolvedValue(null);
+			pickOneLecture.mockResolvedValue(null);
 
 			const code = await invoke(renameCommand);
 
@@ -668,7 +668,7 @@ describe("executeCommand", () => {
 		it("should rename only the lecture chosen when several share the date", async () => {
 			const other = await makeSecondLecture();
 			runner.resolveLecturesByDate.mockResolvedValue([match, other]);
-			selectMatch.mockResolvedValue(other);
+			pickOneLecture.mockResolvedValue(other);
 
 			await invoke(renameCommand);
 
@@ -754,14 +754,14 @@ describe("executeCommand", () => {
 		}) => {
 			const other = await makeSecondLecture();
 			runner.resolveLecturesByDate.mockResolvedValue([match, other]);
-			selectMatch.mockResolvedValue(match);
+			pickOneLecture.mockResolvedValue(match);
 
 			await invoke(command);
 
 			// Each identity change acts on one lecture only (FR-6.7). So the user
 			// chooses one of the lectures with the date.
-			expect(selectMatches).not.toHaveBeenCalled();
-			expect(selectMatch).toHaveBeenCalledWith({ matches: [match, other] });
+			expect(pickLectures).not.toHaveBeenCalled();
+			expect(pickOneLecture).toHaveBeenCalledWith({ matches: [match, other] });
 			expect(runner.normaliseSources).toHaveBeenCalledWith({ moduleRoots: [moduleRoot] });
 		});
 	});

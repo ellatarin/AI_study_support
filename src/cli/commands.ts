@@ -85,9 +85,9 @@ export type CliDeps = {
 	/** Shows a stored dollar figure. The CLI makes one formatter, so all the CLI's output shows money the same way. */
 	readonly formatMoney: MoneyFormatter;
 	/** The picker for `run` and `cost-report`, which can act on several lectures. */
-	readonly selectMatches: LecturePicker;
+	readonly pickLectures: LecturePicker;
 	/** The picker for an identity change, which acts on one lecture only. */
-	readonly selectMatch: SingleLecturePicker;
+	readonly pickOneLecture: SingleLecturePicker;
 	/** Asks the user to approve an action that cannot be undone. */
 	readonly confirm: ConfirmPrompt;
 	/** The path of this invocation's debug log. A failure message gives it to the user. */
@@ -125,7 +125,7 @@ type ChosenLectures = readonly [LectureMatch, ...LectureMatch[]];
  */
 function chooseOneLecture(deps: CliDeps): LecturePicker {
 	return async ({ matches }) => {
-		const chosen = await deps.selectMatch({ matches });
+		const chosen = await deps.pickOneLecture({ matches });
 		return chosen === null ? [] : [chosen];
 	};
 }
@@ -334,7 +334,7 @@ async function runCommand({
 		deps,
 		lectureDate: command.lectureDate,
 		...ACROSS_EVERY_MODULE,
-		choose: deps.selectMatches,
+		choose: deps.pickLectures,
 		act: (matches) => runLectures({ deps, matches, options: command.options }),
 	});
 }
@@ -445,7 +445,7 @@ async function costReportCommand({
 		moduleRoot,
 		alsoTry: NO_SECOND_REMEDY,
 		lectureDate,
-		choose: deps.selectMatches,
+		choose: deps.pickLectures,
 		act: async (matches) => {
 			await reportCosts({
 				deps,
