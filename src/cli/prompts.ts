@@ -67,7 +67,7 @@ export const confirmPrompt: ConfirmPrompt = ({ message }) => confirm({ message, 
  * @param args.matches - The lectures that have the date.
  * @returns The chosen lectures, or an empty list when the user cancels or chooses none.
  */
-export const selectLectureMatches: LecturePicker = async ({ matches }) => {
+export const pickLecturesPrompt: LecturePicker = async ({ matches }) => {
 	const chosen = await checkbox<MultipleChoice>({
 		message: `${SEVERAL_LECTURES} Which do you mean?`,
 		choices: [
@@ -95,7 +95,7 @@ export const selectLectureMatches: LecturePicker = async ({ matches }) => {
  * @param args.matches - The lectures that have the date.
  * @returns The chosen lecture, or `null` when the user cancels.
  */
-export const selectLectureMatch: SingleLecturePicker = async ({ matches }) => {
+export const pickOneLecturePrompt: SingleLecturePicker = async ({ matches }) => {
 	const chosen = await select<SingleChoice>({
 		message: `${SEVERAL_LECTURES} Which one do you mean?`,
 		choices: [...lectureChoices(matches), CANCEL_CHOICE],

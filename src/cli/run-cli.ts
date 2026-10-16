@@ -46,7 +46,7 @@ import {
 	type WriteText,
 } from "./commands.js";
 import { createPipelineRunReporter } from "./pipeline-run-reporter.js";
-import { confirmPrompt, selectLectureMatch, selectLectureMatches } from "./prompts.js";
+import { confirmPrompt, pickLecturesPrompt, pickOneLecturePrompt } from "./prompts.js";
 
 /** The CLI's two output streams. A test gives its own. */
 type CliOutput = {
@@ -133,8 +133,8 @@ async function assembleDeps({
 			moduleRoots: config.moduleRoots,
 			batchConcurrency: config.batch.concurrency,
 			formatMoney,
-			pickLectures: selectLectureMatches,
-			pickOneLecture: selectLectureMatch,
+			pickLectures: pickLecturesPrompt,
+			pickOneLecture: pickOneLecturePrompt,
 			confirm: confirmPrompt,
 			debugLogPath: debugLogFile,
 			write,

@@ -9,7 +9,7 @@ import {
 } from "../pipeline/fixtures.js";
 import { workspaceRootFor } from "../pipeline/layout.js";
 import type { LectureMatch } from "../types/pipeline.js";
-import { confirmPrompt, selectLectureMatch, selectLectureMatches } from "./prompts.js";
+import { confirmPrompt, pickLecturesPrompt, pickOneLecturePrompt } from "./prompts.js";
 
 vi.mock("@inquirer/prompts", () => ({ checkbox: vi.fn(), confirm: vi.fn(), select: vi.fn() }));
 
@@ -95,13 +95,13 @@ describe("confirmPrompt", () => {
 	});
 });
 
-describe("selectLectureMatches", () => {
+describe("pickLecturesPrompt", () => {
 	beforeEach(() => {
 		askCheckbox.mockResolvedValue([]);
 	});
 
 	it("should label every match with its module, number, and title when prompting", async () => {
-		await selectLectureMatches({ matches });
+		await pickLecturesPrompt({ matches });
 
 		const labels = offeredChoices().map((choice) => choice.name);
 		expect(labels).toContain("Biology of Disease — Lecture 1 — Cell Injury");
@@ -109,7 +109,7 @@ describe("selectLectureMatches", () => {
 	});
 
 	it("should offer an all-matches and a cancel choice when prompting", async () => {
-		await selectLectureMatches({ matches });
+		await pickLecturesPrompt({ matches });
 
 		const labels = offeredChoices().map((choice) => choice.name);
 		expect(labels).toContain("All matches");
@@ -119,35 +119,35 @@ describe("selectLectureMatches", () => {
 	it("should return every match when the user chooses all matches", async () => {
 		askCheckbox.mockImplementation(async () => [choiceValueFor("All matches")]);
 
-		expect(await selectLectureMatches({ matches })).toEqual(matches);
+		expect(await pickLecturesPrompt({ matches })).toEqual(matches);
 	});
 
 	it("should return nothing when the user cancels", async () => {
 		askCheckbox.mockImplementation(async () => [choiceValueFor("Cancel"), choiceValueFor("Cell")]);
 
-		expect(await selectLectureMatches({ matches })).toEqual([]);
+		expect(await pickLecturesPrompt({ matches })).toEqual([]);
 	});
 
 	it("should return only the chosen lectures when the user picks some of them", async () => {
 		askCheckbox.mockImplementation(async () => [choiceValueFor("Inflammation")]);
 
-		expect(await selectLectureMatches({ matches })).toEqual([inflammationMatch]);
+		expect(await pickLecturesPrompt({ matches })).toEqual([inflammationMatch]);
 	});
 
 	it("should return nothing when the user chooses no lecture at all", async () => {
 		askCheckbox.mockResolvedValue([]);
 
-		expect(await selectLectureMatches({ matches })).toEqual([]);
+		expect(await pickLecturesPrompt({ matches })).toEqual([]);
 	});
 });
 
-describe("selectLectureMatch", () => {
+describe("pickOneLecturePrompt", () => {
 	beforeEach(() => {
 		askSelect.mockResolvedValue(cellInjuryMatch);
 	});
 
 	it("should label every match with its module, number, and title when prompting", async () => {
-		await selectLectureMatch({ matches });
+		await pickOneLecturePrompt({ matches });
 
 		const labels = offeredChoices(askSelect).map((choice) => choice.name);
 		expect(labels).toEqual([
@@ -158,7 +158,7 @@ describe("selectLectureMatch", () => {
 	});
 
 	it("should offer no all-matches choice when prompting", async () => {
-		await selectLectureMatch({ matches });
+		await pickOneLecturePrompt({ matches });
 
 		// An identity change acts on one lecture only, so this picker takes exactly one.
 		expect(offeredChoices(askSelect).map((choice) => choice.name)).not.toContain("All matches");
@@ -167,12 +167,12 @@ describe("selectLectureMatch", () => {
 	it("should return the single lecture chosen when the user picks one", async () => {
 		askSelect.mockImplementation(async () => choiceValueFor("Inflammation", askSelect));
 
-		expect(await selectLectureMatch({ matches })).toEqual(inflammationMatch);
+		expect(await pickOneLecturePrompt({ matches })).toEqual(inflammationMatch);
 	});
 
 	it("should return nothing when the user cancels", async () => {
 		askSelect.mockImplementation(async () => choiceValueFor("Cancel", askSelect));
 
-		expect(await selectLectureMatch({ matches })).toBeNull();
+		expect(await pickOneLecturePrompt({ matches })).toBeNull();
 	});
 });

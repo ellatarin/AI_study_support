@@ -933,9 +933,9 @@ parseCliArgs(args: { argv: readonly string[] }): CliCommand   // throws CliUsage
 
 // src/cli/prompts.ts — the only code that touches the terminal
 confirmPrompt: ConfirmPrompt                                                  // @inquirer/prompts confirm, defaulting to no
-selectLectureMatches(args: { matches: readonly LectureMatch[] }): Promise<readonly LectureMatch[]>
+pickLecturesPrompt(args: { matches: readonly LectureMatch[] }): Promise<readonly LectureMatch[]>
 // The checkbox picker: several lectures, "All matches", and "Cancel".
-selectLectureMatch(args: { matches: readonly LectureMatch[] }): Promise<LectureMatch | null>
+pickOneLecturePrompt(args: { matches: readonly LectureMatch[] }): Promise<LectureMatch | null>
 // The single-choice picker the identity changes use; `null` when the user cancels.
 
 // src/cli/lecture-identity.ts — the filesystem half of rename/delete/change-date
