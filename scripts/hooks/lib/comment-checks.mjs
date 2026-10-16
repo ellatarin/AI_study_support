@@ -73,7 +73,8 @@ const COMMENT_CHECKS = [
 		scope: "first paragraph on a value",
 		pattern:
 			/^(?!(This|Its|Has|Was|Is|Thus|Plus|Always|Perhaps)\b)[A-Z][a-z]*[^s\W]s (the|a|an|one|each|every|its|all|no|any|some|both|`)/,
-		message: 'Open with the thing, such as "The task of the model", because no function is here.',
+		message:
+			'No function is here, so write a full sentence with a subject that acts, such as "A batch runs this number of lectures at once" (docs/comment-style.md, rule 2.1).',
 	},
 	{
 		rule: "tells-if-opening",
