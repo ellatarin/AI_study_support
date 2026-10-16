@@ -90,6 +90,8 @@ The lint rules in `eslint.config.js` force only part of the comment load:
 - An `@param` line for each argument, and `@returns` and `@throws` lines, in each `/** */` block on a function. This applies to private functions too, when they have a `/** */` block. A `//` comment is not checked.
 - No block on a constant, a field or a private function.
 
+An exported type whose fields explain it still needs a block. Give it one short line that says who uses the type. An example is "The functions that find the output file of a stage take this workspace and stage."
+
 The post-edit hook (`scripts/hooks/post-edit-ste-lint`) runs the STE linter on each comment that an edit writes. It also runs the word-pattern checks in `scripts/hooks/lib/comment-checks.mjs`, such as no history phrases and no question-word openings. The hook catches only part of this guide. Rules 1, 2.1, 2.2 and 2.3 need a human check.
 
 ## 5. Comments are written in STE
