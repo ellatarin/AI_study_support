@@ -31,15 +31,14 @@ export const NOTES_PDF_FILE = "notes.pdf";
 /** The folder beside the notes page that holds the slide images of the notes. */
 export const NOTES_SLIDES_DIR = "slides";
 
-/** The four folders of a module (technical-design.md §3.1). */
+/**
+ * The four folders of a module (technical-design.md §3.1). The processing folder
+ * holds the workspaces. The final output folder holds one folder for each lecture.
+ */
 export type ModuleDirs = {
-	/** The folder that holds the video recordings. */
 	readonly videoRecording: string;
-	/** The folder that holds the slide decks. */
 	readonly slideDeck: string;
-	/** The processing folder, which holds the workspaces. */
 	readonly processing: string;
-	/** The final output folder, which holds the notes of each lecture in a folder of its own. */
 	readonly finalOutput: string;
 };
 
@@ -260,9 +259,8 @@ type StageDirectoryName = string & { readonly [declaredInLayout]: true };
 
 /**
  * The type is `TName` when `TName` is a literal type, and `never` when it is a
- * widened `string`. A
- * value read from the manifest, a model reply or the file system is a widened
- * `string`, so it does not typecheck.
+ * widened `string`. A value read from the manifest, a model reply or the file
+ * system is a widened `string`, so it does not typecheck.
  */
 type LiteralName<TName extends string> = string extends TName ? never : TName;
 
@@ -293,7 +291,6 @@ export type StageFiles = {
  * which stages have an output file.
  */
 type StageFilesWithOutputFile = StageFiles & {
-	/** The output file, relative to the workspace. */
 	readonly outputFile: string;
 };
 
@@ -433,8 +430,7 @@ export const STAGE_FILES = {
 /**
  * The stages that write one output file in the workspace. Only these stages can
  * be asked for the path of their output file. To ask another stage is a compile
- * error. The type is derived
- * from {@link STAGE_FILES} (technical-design.md §3.3).
+ * error. The type is derived from {@link STAGE_FILES} (technical-design.md §3.3).
  */
 export type StageWithOutputFile = {
 	[TStage in StageId]: (typeof STAGE_FILES)[TStage]["outputFile"] extends string ? TStage : never;
@@ -465,14 +461,12 @@ export function stageOutputEntry(stageId: StageWithOutputFile): string {
 
 /** One stage in one workspace. The functions that read, write or clear a stage's work take it. */
 export type StageInWorkspace = {
-	/** The absolute path to the workspace. */
 	readonly workspaceRoot: string;
 	readonly stageId: StageId;
 };
 
 /** One stage that writes one output file, in one workspace. */
 export type StageFileInWorkspace = {
-	/** The absolute path to the workspace. */
 	readonly workspaceRoot: string;
 	readonly stageId: StageWithOutputFile;
 };
