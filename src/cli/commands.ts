@@ -1,12 +1,7 @@
 /**
- * This module does the work of a parsed {@link CliCommand}. It finds the
- * lectures that a lecture date names, and asks the user which lecture to act on.
- * It asks the user to approve a reset or a deletion. It calls the runner and
- * writes the result.
- *
- * The module gets the runner, the prompts and the output stream as {@link CliDeps}. So a
- * test can check a command without a pipeline or a terminal (technical-design.md
- * §4.7, "CLI Structure").
+ * The work of each parsed {@link CliCommand}. A command finds its lectures and
+ * asks the user to choose or approve. Then it calls the runner and writes the
+ * result (technical-design.md §4.7, "CLI Structure").
  */
 
 import { moduleName } from "../pipeline/layout.js";
@@ -30,7 +25,6 @@ import { pluralise } from "../utils/text.js";
 import type { CliCommand } from "./args.js";
 import { changeLectureDate, deleteLecture, renameLecture } from "./lecture-identity.js";
 
-/** The names of the runner methods that the commands call. */
 type RunnerOperation =
 	| "normaliseSources"
 	| "runLecture"
@@ -40,26 +34,21 @@ type RunnerOperation =
 	| "countLectures";
 
 /**
- * The runner methods that the commands call. A test can give a stub of this type
+ * The runner methods that the commands call. A test gives a stub of this type
  * in place of a real {@link PipelineRunner} and its stages.
  *
- * It is a mapped type and not a `Pick`. `Pick` keeps the class's methods, and a
- * type with methods is not deeply readonly. Then the lint rule
- * `prefer-readonly-parameter-types` reports every function that takes
- * {@link CliDeps}. A mapped type gives readonly properties that hold the same
- * functions.
+ * It is a mapped type and not a `Pick`, because `Pick` keeps the class's methods.
+ * A type with methods is not deeply readonly, so the lint rule
+ * `prefer-readonly-parameter-types` would report each function that takes {@link CliDeps}.
  */
 export type PipelineRunnerFacade = {
 	readonly [TOperation in RunnerOperation]: PipelineRunner[TOperation];
 };
 
 /**
- * The input of a picker: the lectures that one lecture date names.
- *
- * It is declared here, not in `prompts.ts`. The module that asks a question
- * declares the type of that question. The terminal module, `prompts.ts`,
- * implements that type. `ConfirmPrompt`
- * follows the same rule.
+ * The input of a picker: the lectures that one lecture date names. It is declared
+ * here and implemented in `prompts.ts`, because the module that asks a question
+ * declares the type of that question.
  */
 export type MatchQuery = { readonly matches: readonly LectureMatch[] };
 
@@ -75,24 +64,22 @@ export type SingleLecturePicker = (args: MatchQuery) => Promise<LectureMatch | n
 /** Writes text that the user reads. The text has its own line ends. */
 export type WriteText = (text: string) => void;
 
-/** Everything that a command uses from outside this module. */
+/**
+ * Everything that a command uses from outside this module. A test gives stubs,
+ * so it can check a command without a pipeline or a terminal.
+ */
 export type CliDeps = {
 	readonly runner: PipelineRunnerFacade;
-	/** Every module in the configuration. A command that names no module uses all of them. */
+	/** A command that names no module acts on each of these modules. */
 	readonly moduleRoots: readonly string[];
 	/** The config's `batch.concurrency`. A batch uses it when `--concurrency` is not given. */
 	readonly batchConcurrency: number;
-	/** Shows a stored dollar figure. The CLI makes one formatter, so all the CLI's output shows money the same way. */
 	readonly formatMoney: MoneyFormatter;
-	/** The picker for `run` and `cost-report`, which can act on several lectures. */
 	readonly pickLectures: LecturePicker;
-	/** The picker for an identity change, which acts on one lecture only. */
 	readonly pickOneLecture: SingleLecturePicker;
-	/** Asks the user to approve an action that cannot be undone. */
 	readonly confirm: ConfirmPrompt;
-	/** The path of this invocation's debug log. A failure message gives it to the user. */
+	/** A failure message gives this path to the user. */
 	readonly debugLogPath: string;
-	/** Writes the output that the user reads. */
 	readonly write: WriteText;
 };
 
@@ -106,7 +93,6 @@ const BLOCK_END = "\n\n";
 
 type CommandArgs<TCommand> = { readonly command: TCommand; readonly deps: CliDeps };
 
-/** The input of {@link printRunSummary} and {@link reportFailures}. */
 type LectureReport = { readonly deps: CliDeps; readonly summary: PipelineRunSummary };
 
 /**
@@ -173,9 +159,8 @@ async function withResolvedLectures({
 		return EXIT_FAILURE;
 	}
 	const chosen = matches.length === 1 ? matches : await choose({ matches });
-	// The code uses a destructure, and not a length test, because only the
-	// destructure narrows the type. `[first, ...rest]` is a non-empty tuple, so an action can take the
-	// first lecture without a second check.
+	// A destructure narrows the type, and a length test does not. So the action
+	// gets a non-empty tuple and needs no second check.
 	const [first, ...rest] = chosen;
 	if (first === undefined) {
 		return EXIT_SUCCESS;
@@ -217,10 +202,7 @@ function searchScope({ moduleRoot }: { readonly moduleRoot: string | null }): st
 
 /**
  * The search settings of every command except `cost-report`. These commands take
- * no `--module`, so they search every configured module. When no lecture has the
- * date, the message tells the user to add the video and slides of the lecture on
- * that date. The next pipeline run
- * then makes the lecture.
+ * no `--module`, so they search every configured module.
  */
 const ACROSS_EVERY_MODULE = {
 	moduleRoot: null,
@@ -378,12 +360,10 @@ async function batchCommand({
 }
 
 /**
- * Gets the cost reports from the runner and writes them, one for each lecture. A
- * blank line follows each report, as it follows each run summary.
- * Both forms of `cost-report`, with and without a lecture date, end here.
- *
- * When there is no lecture to report on, it writes a message that says so
- * (technical-design.md §7, "Cost Report Command").
+ * Gets the cost reports from the runner and writes them, one for each lecture.
+ * Both forms of `cost-report`, with and without a lecture date, end here. When no
+ * lecture has run, it writes a message that says so (technical-design.md §7,
+ * "Cost Report Command").
  *
  * @param args - The modules, the options and the dependencies.
  * @param args.deps - The command dependencies.
