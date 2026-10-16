@@ -1,10 +1,8 @@
 /**
- * The resolver of a path from a manifest (technical-design.md §4.4). A corrupt or
- * hand-edited manifest must not reach a file outside the module tree. So the path
- * is resolved, its symbolic links are followed, and it must be in `moduleRoot`.
- *
- * This module is apart from `src/utils/files.ts`, because a mistake here lets a
- * path escape the module tree (technical-design.md §4.4).
+ * This module resolves each path from a manifest, and refuses a path outside the
+ * module tree (technical-design.md §4.4). A corrupt or hand-edited manifest can
+ * contain such a path. The module is apart from `src/utils/files.ts`, because a
+ * mistake here lets a path escape the module tree.
  */
 
 import { realpath } from "node:fs/promises";
@@ -12,8 +10,9 @@ import { basename, dirname, isAbsolute, join, relative, resolve } from "node:pat
 import { NamedError } from "../utils/errors.js";
 
 /**
- * A path from a manifest resolves outside the module tree. The manifest is corrupt
- * or was edited by hand (technical-design.md §4.4).
+ * {@link resolveManifestPath} throws this error when the resolved path of a
+ * manifest entry is outside the module tree. Then the manifest is corrupt, or a
+ * person edited it by hand (technical-design.md §4.4).
  */
 export class ManifestPathError extends NamedError {}
 
@@ -29,8 +28,8 @@ function isNotFoundError(error: unknown): boolean {
 
 /**
  * Resolves an absolute path with its symbolic links followed, also when the path
- * does not exist yet. For a file that does not exist, the parent folder is
- * resolved and the file name is added again.
+ * does not exist yet. For a file that does not exist, the function resolves the
+ * parent folder and adds the file name again.
  *
  * @param candidate - The absolute path to resolve.
  * @returns The absolute path, with symbolic links followed.
@@ -66,20 +65,23 @@ function isDescendant({
 	return rel === "" || (!rel.startsWith("..") && !isAbsolute(rel));
 }
 
-/** One untrusted path from a manifest, with the roots that limit it (technical-design.md §4.4). */
+/**
+ * {@link resolveManifestPath} takes one untrusted path from a manifest, and the
+ * two roots that limit it (technical-design.md §4.4).
+ */
 export type ManifestPathQuery = {
-	/** The workspace root. The entry is relative to it. */
+	/** The manifest entry is relative to this workspace root. */
 	readonly workspaceRoot: string;
-	/** The module root. The resolved path must be in it. */
+	/** The resolved path must be in this module root. */
 	readonly moduleRoot: string;
-	/** The untrusted `filesWritten` entry. */
+	/** This untrusted path is one entry of the manifest's `filesWritten`. */
 	readonly entry: string;
 };
 
 /**
  * Resolves a path from a manifest to an absolute path, and makes sure that it is
- * in `moduleRoot`. Symbolic links are followed first, so a link that points out
- * of the tree is found (technical-design.md §4.4).
+ * in `moduleRoot`. The function follows symbolic links first, so it also catches
+ * a link to a path outside the tree (technical-design.md §4.4).
  *
  * @param query - The path and the roots that limit it.
  * @returns The absolute path, with symbolic links followed. It is always in `moduleRoot`.

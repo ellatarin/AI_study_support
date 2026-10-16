@@ -1,7 +1,7 @@
 /**
- * The names of the module folders, the workspace folders, the manifest, the run
- * logs and the output files of each stage. A stage, the runner, the next stage and
- * the tests read each name from here.
+ * This module names the module folders, the workspace folders, the manifest, the
+ * run logs and the output files of each stage. The stages, the runner and the
+ * tests read each name from here.
  */
 
 import { basename, dirname, join, posix, resolve } from "node:path";
@@ -13,27 +13,31 @@ const SLIDE_DECKS_DIR = "Slide decks";
 const PROCESSING_DIR = "Pipeline processing";
 const FINAL_OUTPUT_DIR = "Final output";
 
-/** The name of the manifest file in a workspace. */
+/** The manifest of a lecture is in this file in its workspace. */
 export const MANIFEST_FILE = "manifest.json";
 
-/** The folder in a workspace that holds the run logs of the lecture. */
+/** The run logs of a lecture are in this folder in its workspace. */
 export const RUN_LOGS_DIR = "Run logs";
 
-/** The folder at the project root that holds the debug logs, one for each invocation. */
+/** The debug logs are in this folder at the project root, one log for each invocation. */
 export const DEBUG_LOGS_DIR = "debug-logs";
 
-/** The notes page in a lecture's folder in the final output folder (technical-design.md §3.1). */
+/**
+ * The notes page of a lecture is in this file, in the lecture's folder in the
+ * final output folder (technical-design.md §3.1).
+ */
 export const NOTES_PAGE_FILE = "notes.html";
 
-/** The Notes PDF beside the notes page (CONTEXT.md, "Notes PDF"). */
+/** The Notes PDF is in this file, beside the notes page (CONTEXT.md, "Notes PDF"). */
 export const NOTES_PDF_FILE = "notes.pdf";
 
-/** The folder beside the notes page that holds the slide images of the notes. */
+/** The slide images of the notes are in this folder, beside the notes page. */
 export const NOTES_SLIDES_DIR = "slides";
 
 /**
- * The four folders of a module (technical-design.md §3.1). The processing folder
- * holds the workspaces. The final output folder holds one folder for each lecture.
+ * Each module contains these four folders (technical-design.md §3.1). The
+ * processing folder contains the workspaces. The final output folder contains one
+ * folder for each lecture.
  */
 export type ModuleDirs = {
 	readonly videoRecording: string;
@@ -43,7 +47,7 @@ export type ModuleDirs = {
 };
 
 /**
- * Gives the four folders of a module.
+ * Returns the four folders of a module.
  *
  * @param args - The module.
  * @param args.moduleRoot - The absolute path to the module folder.
@@ -59,9 +63,9 @@ export function moduleDirs({ moduleRoot }: { readonly moduleRoot: string }): Mod
 }
 
 /**
- * Gives the module folders that hold one lecture file for each lecture, found by
- * its lecture date. The workspace is not in the list, because it is a folder, not
- * a file in a shared folder (technical-design.md §3.3).
+ * Returns the module folders in which a caller finds a lecture file by its lecture
+ * date. The processing folder is not in the list, because a caller already holds
+ * the path of the lecture's workspace (technical-design.md §3.3).
  *
  * @param args - The module.
  * @param args.dirs - The four folders of the module.
@@ -71,12 +75,12 @@ export function sharedLectureFileDirs({ dirs }: { readonly dirs: ModuleDirs }): 
 	return [dirs.videoRecording, dirs.slideDeck, dirs.finalOutput];
 }
 
-/** A lecture as the layout finds its folders: its module and its base name. */
+/** The layout functions find the folders of a lecture from its module and its base name. */
 export type LectureInModule = { readonly moduleRoot: string; readonly baseName: string };
 
 /**
- * Gives the folder of a lecture in one folder of its module. The lecture's folder
- * has the base name of the lecture.
+ * Returns the folder of a lecture in one folder of its module. The name of the
+ * lecture's folder is the base name of the lecture.
  *
  * @param args - The lecture, and the folder of the module.
  * @param args.moduleRoot - The absolute path to the module folder.
@@ -93,8 +97,8 @@ function lectureDirIn({
 }
 
 /**
- * Gives the folder of a lecture's notes, in the final output folder. It holds
- * {@link NOTES_PAGE_FILE}, {@link NOTES_PDF_FILE} and {@link NOTES_SLIDES_DIR}
+ * Returns the folder of a lecture's notes, in the final output folder. The folder
+ * contains {@link NOTES_PAGE_FILE}, {@link NOTES_PDF_FILE} and {@link NOTES_SLIDES_DIR}
  * (technical-design.md §3.1).
  *
  * @param lecture - The module and the lecture.
@@ -105,7 +109,7 @@ export function lectureNotesDirPath(lecture: LectureInModule): string {
 }
 
 /**
- * Gives the path of a lecture's notes page, {@link NOTES_PAGE_FILE} in the
+ * Returns the path of a lecture's notes page, {@link NOTES_PAGE_FILE} in the
  * lecture's folder in the final output folder.
  *
  * @param lecture - The module and the lecture.
@@ -116,7 +120,7 @@ export function notesPagePath(lecture: LectureInModule): string {
 }
 
 /**
- * Gives the path of a lecture's Notes PDF, {@link NOTES_PDF_FILE} beside the
+ * Returns the path of a lecture's Notes PDF, {@link NOTES_PDF_FILE} beside the
  * notes page.
  *
  * @param lecture - The module and the lecture.
@@ -127,7 +131,7 @@ export function notesPdfPath(lecture: LectureInModule): string {
 }
 
 /**
- * Gives the run logs folder of a workspace (technical-design.md §4.6).
+ * Returns the run logs folder of a workspace (technical-design.md §4.6).
  *
  * @param args - The workspace.
  * @param args.workspaceRoot - The absolute path to the workspace.
@@ -138,8 +142,8 @@ export function runLogsDirPath({ workspaceRoot }: { readonly workspaceRoot: stri
 }
 
 /**
- * Gives the path of the debug log of one invocation, at the project root. The log
- * is not in a workspace, because one invocation can do many lectures
+ * Returns the path of the debug log of one invocation, at the project root. The
+ * debug log is not in a workspace, because one invocation can run many lectures
  * (technical-design.md §10).
  *
  * @param args - The project and the invocation.
@@ -158,8 +162,8 @@ export function debugLogPath({
 }
 
 /**
- * Gives the file name of one saved run of a panel. The number has two digits, so
- * the files list in run order.
+ * Returns the file name of one saved run of a panel. The run number has two
+ * digits, so that a folder listing shows the files in run order.
  *
  * @param args - The run.
  * @param args.runNumber - The number of the run, from 1.
@@ -170,8 +174,9 @@ export function savedRunFileName({ runNumber }: { readonly runNumber: number }):
 }
 
 /**
- * Gives the file name of one slide's image or reading. The number has three
- * digits, so the files list in deck order (technical-design.md §3.3).
+ * Returns the file name of one slide's image or reading. The slide number has
+ * three digits, so that a folder listing shows the files in deck order
+ * (technical-design.md §3.3).
  *
  * @param args - The slide and the file type.
  * @param args.slideNumber - The number of the slide in the deck, from 1.
@@ -189,8 +194,8 @@ export function slideFileName({
 }
 
 /**
- * Gives the file name of one slide image. `render-slides` writes the image with
- * this name, and the notes page keeps the name for its copy.
+ * Returns the file name of one slide image. `render-slides` writes the image with
+ * this name, and `build-notes-page` uses the same name for its copy.
  *
  * @param slideNumber - The number of the slide in the deck, from 1.
  * @returns The file name, such as `slide-004.png`.
@@ -200,9 +205,10 @@ export function slideImageFileName(slideNumber: number): string {
 }
 
 /**
- * Gives the path of the copy of one slide image, relative to the folder of the
- * lecture's notes. The page links to the copy by this path, and the stage writes
- * the copy at it. The separator is `/`, as a link needs.
+ * Returns the path of the copy of one slide image, relative to the folder of the
+ * lecture's notes. `build-notes-page` writes the copy at this path, and puts the
+ * same path in the link on the notes page. The separator is `/`, because a link
+ * needs it.
  *
  * @param slideNumber - The number of the slide in the deck, from 1.
  * @returns The relative path, such as `slides/slide-004.png`.
@@ -212,8 +218,8 @@ export function notesSlideImageEntry(slideNumber: number): string {
 }
 
 /**
- * Gives the workspace of a lecture, in the processing folder. {@link moduleRootOf}
- * does the reverse.
+ * Returns the workspace of a lecture, in the processing folder.
+ * {@link moduleRootOf} is the reverse function.
  *
  * @param lecture - The module and the lecture.
  * @returns The absolute path to the workspace.
@@ -223,9 +229,9 @@ export function workspaceRootFor(lecture: LectureInModule): string {
 }
 
 /**
- * Gives the module that holds a workspace, two levels up
- * (`<module>/Pipeline processing/<workspace>`). {@link workspaceRootFor} does the
- * reverse.
+ * Returns the module that contains a workspace, two levels up
+ * (`<module>/Pipeline processing/<workspace>`). {@link workspaceRootFor} is the
+ * reverse function.
  *
  * @param args - The workspace.
  * @param args.workspaceRoot - The absolute path to the workspace.
@@ -236,8 +242,8 @@ export function moduleRootOf({ workspaceRoot }: { readonly workspaceRoot: string
 }
 
 /**
- * Gives the name of a module that the user sees. A module has no name other than
- * the name of its folder.
+ * Returns the module name that the user sees: the name of the module folder. A
+ * module has no other name.
  *
  * @param args - The module.
  * @param args.moduleRoot - The absolute path to the module folder.
@@ -250,45 +256,46 @@ export function moduleName({ moduleRoot }: { readonly moduleRoot: string }): str
 declare const declaredInLayout: unique symbol;
 
 /**
- * A folder name that is written as a literal in this file. Only
- * {@link declaredName} makes one, and it refuses a widened `string`. So a name
- * from the manifest or a model reply cannot reach a folder that the runner deletes
- * (technical-design.md §4.4, "Stage cleanup boundaries").
+ * This type holds only a folder name that this file writes as a literal. Only
+ * {@link declaredName} makes a value of this type, and it refuses a widened
+ * `string`. So a name from the manifest or a model reply cannot reach a folder
+ * that the runner deletes (technical-design.md §4.4, "Stage cleanup boundaries").
  */
 type StageDirectoryName = string & { readonly [declaredInLayout]: true };
 
 /**
- * The type is `TName` when `TName` is a literal type, and `never` when it is a
- * widened `string`. A value read from the manifest, a model reply or the file
+ * This type resolves to `TName` when `TName` is a literal type, and to `never`
+ * when `TName` is a widened `string`. A value read from the manifest, a model reply or the file
  * system is a widened `string`, so it does not typecheck.
  */
 type LiteralName<TName extends string> = string extends TName ? never : TName;
 
-/** The folders and files of one stage. */
+/** A stage writes its work into these folders and files. */
 export type StageFiles = {
 	/**
-	 * Each folder that the stage owns in the workspace. A folder holds the work of
-	 * one lecture and nothing else. So a reset deletes the folder whole, for this
-	 * stage and for each stage after this stage (technical-design.md §3.3, §4.7).
+	 * The stage owns each of these folders in the workspace. Each folder contains
+	 * the work of one lecture and nothing else. So a reset deletes each folder
+	 * whole, for this stage and for each later stage (technical-design.md §3.3, §4.7).
 	 */
 	readonly directories: readonly StageDirectoryName[];
 	/**
-	 * The one file that the stage writes in the workspace, relative to the workspace.
-	 * The stage entry records it in `filesWritten`. It is `null` for a stage that
+	 * The stage writes this one file, relative to the workspace. The stage entry
+	 * lists the same path in `filesWritten`. The value is `null` for a stage that
 	 * writes nothing of its own or writes a set of files (technical-design.md §3.3).
 	 */
 	readonly outputFile: string | null;
 	/**
-	 * The name of the stage record. Only the name is declared, because the stage
-	 * record is always in the folder of {@link outputFile} (technical-design.md §3.3).
+	 * The stage writes its stage record with this name. Only the name is here,
+	 * because the stage record is always in the folder of {@link outputFile}
+	 * (technical-design.md §3.3).
 	 */
 	readonly stageRecord: string | null;
 };
 
 /**
- * The files of a stage that writes one output file. {@link writesInto} and
- * {@link savesRunsThenWritesInto} return this type, so {@link STAGE_FILES} keeps
- * which stages have an output file.
+ * This type is for a stage that writes one output file. {@link writesInto} and
+ * {@link savesRunsThenWritesInto} return this type, so that the compiler knows
+ * from {@link STAGE_FILES} which stages write an output file.
  */
 type StageFilesWithOutputFile = StageFiles & {
 	readonly outputFile: string;
@@ -303,14 +310,14 @@ type StageFilesWithOutputFile = StageFiles & {
  */
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- a string literal type has nothing to mutate. The rule cannot resolve the LiteralName conditional
 function declaredName<TName extends string>(name: TName & LiteralName<TName>): StageDirectoryName {
-	// The brand goes on a plain string. The signature above refuses a name that
-	// was a widened string at the call.
+	// This function puts the brand on a plain string. The signature above refuses
+	// a name that was a widened string at the call.
 	const declared: string = name;
 	return declared as StageDirectoryName;
 }
 
 /**
- * The folder that a stage owns and the name of the file that it writes there.
+ * A stage owns this folder and writes a file with this name into it.
  *
  * @typeParam TName - The folder name, which must be a literal in this file.
  */
@@ -320,9 +327,9 @@ type WritesIntoArgs<TName extends string> = {
 };
 
 /**
- * Declares a stage that owns one workspace folder and writes one file into it. The
- * output path is built from the folder name, so a reset cannot clear one folder
- * while the stage entry records the output in another.
+ * Declares a stage that owns one workspace folder and writes one file into it.
+ * This function builds the output path from the folder name. So a reset always
+ * clears the folder that contains the recorded output.
  *
  * @param args - The folder and the file.
  * @param args.directory - The folder name, as a literal.
@@ -336,8 +343,8 @@ function writesInto<TName extends string>(args: WritesIntoArgs<TName>): StageFil
 
 /**
  * Declares a stage that owns one workspace folder and writes a set of files into
- * it. Examples are the saved runs of a panel and the images of the slides. The
- * stage has no single output file.
+ * it. The saved runs of a panel and the slide images are two such sets. The stage
+ * writes no single output file.
  *
  * @param args - The folder.
  * @param args.directory - The folder name, as a literal.
@@ -359,8 +366,8 @@ function writesSetInto<TName extends string>(
 
 /**
  * Declares a panel stage that keeps its saved runs in one folder and writes its
- * result into another. The folder of the saved runs is first. A panel keeps its
- * saved runs in the first folder of its stage.
+ * result into another. The folder of the saved runs is first in the list, because
+ * a panel keeps its saved runs in the first folder of its stage.
  *
  * @param args - The two folders and the file.
  * @param args.runsDirectory - The folder of the saved runs, as a literal.
@@ -379,11 +386,12 @@ function savesRunsThenWritesInto<TRunsName extends string, TName extends string>
 }
 
 /**
- * The folders and files of each stage, in pipeline order (technical-design.md §3.3).
- * No stage works outside the workspace.
+ * Each stage writes its work into the folders and files in this table, which is in
+ * pipeline order (technical-design.md §3.3). Only `build-notes-page` writes
+ * outside the workspace.
  *
- * The table has no type annotation, so the compiler keeps which stages have each
- * file. `satisfies` makes sure that each stage is in the table.
+ * There is no type annotation on the table, so the compiler knows which stage
+ * writes which files. The `satisfies` check makes sure that each stage is in the table.
  */
 export const STAGE_FILES = {
 	"source-normalisation": { directories: [], outputFile: null, stageRecord: null },
@@ -423,23 +431,24 @@ export const STAGE_FILES = {
 		file: "fact-corrected-subtopics.json",
 	}),
 	"relocate-slides": writesInto({ directory: "Slide relocations", file: "slide-relocations.json" }),
-	// The stage writes the lecture's folder in `Final output/`, not in the workspace.
+	// This stage writes the lecture's folder in `Final output/`, not in the workspace.
 	"build-notes-page": { directories: [], outputFile: null, stageRecord: null },
 } satisfies Readonly<Record<StageId, StageFiles>>;
 
 /**
- * The stages that write one output file in the workspace. Only these stages can
- * be asked for the path of their output file. To ask another stage is a compile
- * error. The type is derived from {@link STAGE_FILES} (technical-design.md §3.3).
+ * This type includes only the stages that write one output file in the
+ * workspace. A call that asks another stage for the path of its output file is a
+ * compile error. The compiler derives the type from {@link STAGE_FILES}
+ * (technical-design.md §3.3).
  */
 export type StageWithOutputFile = {
 	[TStage in StageId]: (typeof STAGE_FILES)[TStage]["outputFile"] extends string ? TStage : never;
 }[StageId];
 
 /**
- * The stages that keep a stage record. The type is derived from
- * {@link STAGE_FILES}. It holds only stages that write one output file, because
- * the stage record is beside that file.
+ * This type includes only the stages that keep a stage record. Each of these
+ * stages also writes one output file, because the stage record is beside that
+ * file. The compiler derives the type from {@link STAGE_FILES}.
  */
 export type StageWithStageRecord = StageWithOutputFile &
 	{
@@ -449,8 +458,8 @@ export type StageWithStageRecord = StageWithOutputFile &
 	}[StageId];
 
 /**
- * Gives the output file of a stage, relative to the workspace, as `filesWritten`
- * records it (technical-design.md §4.5).
+ * Returns the output file of a stage, relative to the workspace, in the same form
+ * as the stage entry's `filesWritten` (technical-design.md §4.5).
  *
  * @param stageId - A stage that writes one output file.
  * @returns The path relative to the workspace.
@@ -459,20 +468,20 @@ export function stageOutputEntry(stageId: StageWithOutputFile): string {
 	return STAGE_FILES[stageId].outputFile;
 }
 
-/** One stage in one workspace. The functions that read, write or clear a stage's work take it. */
+/** The functions that read, write or clear the work of a stage take this workspace and stage. */
 export type StageInWorkspace = {
 	readonly workspaceRoot: string;
 	readonly stageId: StageId;
 };
 
-/** One stage that writes one output file, in one workspace. */
+/** The functions that find the output file of a stage take this workspace and stage. */
 export type StageFileInWorkspace = {
 	readonly workspaceRoot: string;
 	readonly stageId: StageWithOutputFile;
 };
 
 /**
- * Gives the output file of a stage as an absolute path. A stage calls this
+ * Returns the output file of a stage as an absolute path. A stage calls this
  * function for its own output and for the output of the stage that it reads.
  *
  * @param args - The workspace and the stage.
@@ -485,8 +494,8 @@ export function stageOutputPath({ workspaceRoot, stageId }: StageFileInWorkspace
 }
 
 /**
- * Gives the stage record of a stage, relative to the workspace, as `filesWritten`
- * records it (technical-design.md §3.3).
+ * Returns the stage record of a stage, relative to the workspace, in the same form
+ * as the stage entry's `filesWritten` (technical-design.md §3.3).
  *
  * @param stageId - A stage that keeps a stage record.
  * @returns The path relative to the workspace.
@@ -496,7 +505,7 @@ export function stageRecordEntry(stageId: StageWithStageRecord): string {
 }
 
 /**
- * Gives the stage record of a stage as an absolute path.
+ * Returns the stage record of a stage as an absolute path.
  *
  * @param args - The workspace and the stage.
  * @param args.workspaceRoot - The absolute path to the workspace.
@@ -514,7 +523,7 @@ export function stageRecordPath({
 }
 
 /**
- * Gives each folder that a stage works in, as absolute paths. The stage factory
+ * Returns each folder that a stage works in, as absolute paths. The stage factory
  * makes these folders and clears temporary files from them before the stage runs
  * (technical-design.md §4.3). A reset deletes these folders (§4.7).
  *
@@ -531,8 +540,9 @@ export function stageDirectoryPaths({
 }
 
 /**
- * Gives the folder that a stage writes into: the first folder of
- * {@link stageDirectoryPaths}. It is the workspace when the stage owns no folder.
+ * Returns the folder that a stage writes into: the first folder of
+ * {@link stageDirectoryPaths}. The function returns the workspace when the stage
+ * owns no folder.
  *
  * @param args - The workspace and the stage.
  * @param args.workspaceRoot - The absolute path to the workspace.
