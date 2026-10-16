@@ -16,24 +16,12 @@ import { NamedError } from "../utils/errors.js";
  */
 export class ManifestPathError extends NamedError {}
 
-/**
- * Checks that a file system error has the `ENOENT` (not found) code.
- *
- * @param error - The caught error.
- * @returns `true` when the error is a Node `ENOENT` error.
- */
 function isNotFoundError(error: unknown): boolean {
 	return error instanceof Error && "code" in error && error.code === "ENOENT";
 }
 
-/**
- * Resolves an absolute path with its symbolic links followed, also when the path
- * does not exist yet. For a file that does not exist, the function resolves the
- * parent folder and adds the file name again.
- *
- * @param candidate - The absolute path to resolve.
- * @returns The absolute path, with symbolic links followed.
- */
+// Follows the symbolic links of a path that may not exist yet. For a file that
+// does not exist, it resolves the parent folder and adds the file name again.
 async function realpathResolved(candidate: string): Promise<string> {
 	try {
 		return await realpath(candidate);
@@ -46,14 +34,7 @@ async function realpathResolved(candidate: string): Promise<string> {
 	}
 }
 
-/**
- * Checks that `target` is `ancestor` or is in it.
- *
- * @param args - The two absolute paths.
- * @param args.ancestor - The folder that must hold `target`.
- * @param args.target - The path to test.
- * @returns `true` when `target` is in `ancestor`.
- */
+// Checks that `target` is `ancestor` or is inside it.
 function isDescendant({
 	ancestor,
 	target,

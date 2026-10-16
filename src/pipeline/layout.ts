@@ -13,25 +13,11 @@ const SLIDE_DECKS_DIR = "Slide decks";
 const PROCESSING_DIR = "Pipeline processing";
 const FINAL_OUTPUT_DIR = "Final output";
 
-/** The manifest of a lecture is in this file in its workspace. */
 export const MANIFEST_FILE = "manifest.json";
-
-/** The run logs of a lecture are in this folder in its workspace. */
 export const RUN_LOGS_DIR = "Run logs";
-
-/** The debug logs are in this folder at the project root, one log for each invocation. */
 export const DEBUG_LOGS_DIR = "debug-logs";
-
-/**
- * The notes page of a lecture is in this file, in the lecture's folder in the
- * final output folder (technical-design.md §3.1).
- */
 export const NOTES_PAGE_FILE = "notes.html";
-
-/** The Notes PDF is in this file, beside the notes page (CONTEXT.md, "Notes PDF"). */
 export const NOTES_PDF_FILE = "notes.pdf";
-
-/** The slide images of the notes are in this folder, beside the notes page. */
 export const NOTES_SLIDES_DIR = "slides";
 
 /**
@@ -78,16 +64,6 @@ export function sharedLectureFileDirs({ dirs }: { readonly dirs: ModuleDirs }): 
 /** The layout functions find the folders of a lecture from its module and its base name. */
 export type LectureInModule = { readonly moduleRoot: string; readonly baseName: string };
 
-/**
- * Returns the folder of a lecture in one folder of its module. The name of the
- * lecture's folder is the base name of the lecture.
- *
- * @param args - The lecture, and the folder of the module.
- * @param args.moduleRoot - The absolute path to the module folder.
- * @param args.baseName - The base name of the lecture.
- * @param args.moduleDir - The folder of the module that holds the lecture's folder.
- * @returns The absolute path to the lecture's folder.
- */
 function lectureDirIn({
 	moduleRoot,
 	baseName,
@@ -301,13 +277,6 @@ type StageFilesWithOutputFile = StageFiles & {
 	readonly outputFile: string;
 };
 
-/**
- * Brands a folder name as declared in this file. This is the only function that
- * makes a {@link StageDirectoryName}, and it refuses a widened `string`.
- *
- * @param name - A folder name, written as a literal.
- * @returns The same string, with the brand.
- */
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- a string literal type has nothing to mutate. The rule cannot resolve the LiteralName conditional
 function declaredName<TName extends string>(name: TName & LiteralName<TName>): StageDirectoryName {
 	// This function puts the brand on a plain string. The signature above refuses
@@ -316,40 +285,20 @@ function declaredName<TName extends string>(name: TName & LiteralName<TName>): S
 	return declared as StageDirectoryName;
 }
 
-/**
- * A stage owns this folder and writes a file with this name into it.
- *
- * @typeParam TName - The folder name, which must be a literal in this file.
- */
 type WritesIntoArgs<TName extends string> = {
 	readonly directory: TName & LiteralName<TName>;
 	readonly file: string;
 };
 
-/**
- * Declares a stage that owns one workspace folder and writes one file into it.
- * This function builds the output path from the folder name. So a reset always
- * clears the folder that contains the recorded output.
- *
- * @param args - The folder and the file.
- * @param args.directory - The folder name, as a literal.
- * @param args.file - The file name in that folder.
- * @returns The files of the stage.
- */
+// Builds the output path from the folder name, so that a reset always clears the
+// folder that contains the recorded output.
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- string literal types have nothing to mutate. The rule cannot resolve the LiteralName conditional
 function writesInto<TName extends string>(args: WritesIntoArgs<TName>): StageFilesWithOutputFile {
 	return { ...writesSetInto<TName>(args), outputFile: join(args.directory, args.file) };
 }
 
-/**
- * Declares a stage that owns one workspace folder and writes a set of files into
- * it. The saved runs of a panel and the slide images are two such sets. The stage
- * writes no single output file.
- *
- * @param args - The folder.
- * @param args.directory - The folder name, as a literal.
- * @returns The files of the stage.
- */
+// Declares a stage that writes a set of files into its folder and no single output
+// file, such as the saved runs of a panel.
 function writesSetInto<TName extends string>(
 	// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- string literal types have nothing to mutate. The rule cannot resolve the LiteralName conditional
 	args: Pick<WritesIntoArgs<TName>, "directory">,
@@ -364,17 +313,8 @@ function writesSetInto<TName extends string>(
 	};
 }
 
-/**
- * Declares a panel stage that keeps its saved runs in one folder and writes its
- * result into another. The folder of the saved runs is first in the list, because
- * a panel keeps its saved runs in the first folder of its stage.
- *
- * @param args - The two folders and the file.
- * @param args.runsDirectory - The folder of the saved runs, as a literal.
- * @param args.directory - The folder of the result, as a literal.
- * @param args.file - The file name of the result in that folder.
- * @returns The files of the stage.
- */
+// Puts the folder of the saved runs first, because a panel keeps its saved runs in
+// the first folder of its stage.
 function savesRunsThenWritesInto<TRunsName extends string, TName extends string>(
 	// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types -- string literal types have nothing to mutate. The rule cannot resolve the LiteralName conditional
 	args: WritesIntoArgs<TName> & { readonly runsDirectory: TRunsName & LiteralName<TRunsName> },
@@ -431,7 +371,6 @@ export const STAGE_FILES = {
 		file: "fact-corrected-subtopics.json",
 	}),
 	"relocate-slides": writesInto({ directory: "Slide relocations", file: "slide-relocations.json" }),
-	// This stage writes the lecture's folder in `Final output/`, not in the workspace.
 	"build-notes-page": { directories: [], outputFile: null, stageRecord: null },
 } satisfies Readonly<Record<StageId, StageFiles>>;
 
