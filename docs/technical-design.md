@@ -946,9 +946,9 @@ changeLectureDate(args: { match: LectureMatch; newLectureDate: string }): Promis
 
 // src/cli/commands.ts — carrying a command out
 type PipelineRunnerFacade = { readonly [TOperation in RunnerOperation]: PipelineRunner[TOperation] }
-// The runner as a command sees it: the five operations above, as readonly properties, so a suite stands a
-// stub in without constructing a real runner and its stages.
-type CliDeps = { runner: PipelineRunnerFacade; moduleRoots; batchConcurrency; gbpPerUsd; pickLectures; pickOneLecture; confirm; write }
+// The runner as a command sees it: the six runner operations that the commands call, as readonly properties,
+// so a suite stands a stub in without constructing a real runner and its stages.
+type CliDeps = { runner: PipelineRunnerFacade; moduleRoots; batchConcurrency; formatMoney; pickLectures; pickOneLecture; confirm; debugLogPath; write }
 // Two pickers, because the two questions differ: `pickLectures` is the checkbox picker `run` and
 // `cost-report` use, `pickOneLecture` the single-choice one the identity changes use ("An identity change acts on
 // exactly one lecture").
